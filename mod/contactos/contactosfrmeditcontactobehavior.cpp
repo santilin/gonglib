@@ -550,7 +550,8 @@ dbRecordID FrmEditContactoBehavior::findDupCIFOrName( QWidget *sender,
         // editContactoCIF puede estar vacío si solo queremos validar el código
         if( !bigcond.isEmpty() )
             bigcond += " AND ";
-        bigcond += "NOMBRE=" + DBAPP->getConnection()->toSQL( editContactoNombre->toString() );
+        bigcond += "(NOMBRE=" + DBAPP->getConnection()->toSQL( editContactoNombre->toString() );
+        bigcond += "OR NOMBREALT=" + DBAPP->getConnection()->toSQL( editContactoNombre->toString() + ")");
     }
     if( !cond.isEmpty() )
         bigcond = "(" + bigcond + ")AND(" + cond + ")";

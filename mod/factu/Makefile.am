@@ -106,7 +106,6 @@ dist_factu_informes_DATA = \
 	$(srcdir)/share/informes/balanceclipro_cobros.inc \
 	$(srcdir)/share/informes/balanceclipro_comun.inc \
 	$(srcdir)/share/informes/CLIENTE.rtk \
-	$(srcdir)/share/informes/compras_header.inc \
 	$(srcdir)/share/informes/estadcompraventa.inc \
 	$(srcdir)/share/informes/estadcompraventa_comun.inc \
 	$(srcdir)/share/informes/estadcompraventa_resumido.inc \

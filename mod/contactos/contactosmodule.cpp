@@ -103,7 +103,7 @@ bool ContactosModule::initDatabase(dbDefinition *db)
     pFicContacto->addFieldRecordID();
     pFicContacto->addField<FldCif>("CIF")->setIsCode(false)->setCanBeNull(true);
     pFicContacto->addFieldInt("CODIGO")->setIsCode(true)->setCanBeNull(false)->setUnique(true);
-    pFicContacto->addFieldDesc("NOMBRE", 120)->setCanBeNull( false )->setUnique(true);
+    pFicContacto->addFieldDesc("NOMBRE", 120)->setCanBeNull( false )->setUnique(false);
     pFicContacto->addFieldDesc("NOMBREALT", 120)->setCanBeNull(true)->setIsSecondaryCode(true);
     pFicContacto->addField<FldNamesListTable>( "TRATAMIENTOCONTACTO" )->setInsertAllowed(false);
     pFicContacto->addFieldString( "NOMBRECOMPLETO", 120);
@@ -123,7 +123,9 @@ bool ContactosModule::initDatabase(dbDefinition *db)
     pFicContacto->addFieldString("CLAVE", 100);
     pFicContacto->addFieldAggregateRelation( "CONTACTOIMAGEN_ID", "CONTACTOIMAGEN.ID", true );
     pFicContacto->addFieldNotas();
+    pFicContacto->addMultipleIndex( "contacto_cif_nombre_unico", "CIF,NOMBRE", true );
     pFicContacto->addBehavior( DBAPP->getRecordTimestampBehavior() );
+	
     pMainDatabase->addTable( pFicContacto->getTableDefinition() );
 
     pFicContactoImagen = new contactos::MasterTable( *pMainDatabase, "CONTACTOIMAGEN" );
@@ -131,7 +133,6 @@ bool ContactosModule::initDatabase(dbDefinition *db)
     pFicContactoImagen->addField<dbFieldImage>( "IMAGEN" );
     pFicContactoImagen->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicContactoImagen->getTableDefinition() );
-
 
     return true;
 }

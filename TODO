@@ -1,6 +1,8 @@
 == HECHO ==
 
 == Errores ==
+contactos: Borrar índice NOMBRE y crear índice NOMBRE + CIF
+* Se puede introducir un nombre alternativo, tipo alias, por el cual también se puede buscar el contacto.
 
 == gong-empresa ==
 Añadir pestaña tesorería y poner ahí la cuenta caja.
@@ -93,6 +95,7 @@ Añadir pestaña tesorería y poner ahí la cuenta caja.
 ** Niveles del plan contable
 
 == gong-contactos ==
+* fullAddress: No se usa para nada.
 * Visualizar contacto embebido: readonly botones
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Mostrar nombres parecidos al dar de alta un nombre

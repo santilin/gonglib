@@ -307,6 +307,14 @@ void FrmEditContacto::validateFields(QWidget *sender, bool *isvalid, ValidResult
                                      editemail->toString().c_str() ), "EMAIL" );
         }
     }
+    if( !sender || sender == editNombre ) {
+        if( getRecContacto()->existsAnother(
+                    "NOMBRE=" + getRecContacto()->getConnection()->toSQL( editNombre->toString() ) ) ) {
+            validresult->addWarning( Xtring::printf( _("Ya existe %s con el mismo nombre: %s"),
+                                     DBAPP->getTableDescSingular( "CONTACTO", "una").c_str(),
+                                     editemail->toString().c_str() ), "NOMBRE" );
+        }
+    }
     if (!ir) {
         showValidMessages(isvalid, *validresult, sender);
         delete validresult;

@@ -387,7 +387,7 @@ instala_gestiong() {
 	case $DISTRO in 
 	debian*)
 		case $DISTRO_VER in
-			7|8) instala_programa "GestiONG" build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev gawk libsqlite3-dev
+			7|8) instala_programa "GestiONG" build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev gawk libsqlite3-dev libx11-dev
 			;;
 		esac
 		;;
