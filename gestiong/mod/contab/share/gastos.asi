@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding = "utf-8"?>
+<ASIENTOSTIPO>
+
+<ASIENTOTIPO name="FacturaGastoGeneral" title="Factura de compra/gasto" tag="Gastos generales"
+	description = "Factura general de compra o de gasto">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="base"      type="currency" style="currency" caption="Base" value="0"/>
+        <INPUTFIELD name="iva"       type="currency" style="currency" caption="IVA" value="0"/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="cuenta-iva" type="string" field="CUENTA.CUENTA" caption="Cuenta del IVA" value="472"/>
+        <INPUTFIELD name="cuenta-gasto" type="strinQTabWidget Activate widgetg" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="62"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="4"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.base"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="472."
+            haber="input.iva"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+<ASIENTOTIPO name="g620" title="Investigación y desarrollo" tag="Gastos generales"
+	description = "Gastos de investigación y desarrollo por servicios encargados a otras entidades">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="620"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+
+<ASIENTOTIPO name="g621a" title="Arrendamientos y alquileres" tag="Gastos generales"
+	description ="Gastos devengados por el alquiler de bienes muebles o inmuebles en uso o a disposición de la entidad">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="621"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+<ASIENTOTIPO name="g621b" title="Cánones" tag="Gastos generales"
+	description ="Cantidades fijas o variables que se satisfacen por el derecho al uso o a la concesión de uso de las distintas manifestaciones de la propiedad industrial">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="621"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+
+<ASIENTOTIPO name="g622" title="Reparaciones y conservación" tag="Gastos generales"
+	description = "Los de sostenimiento de los bienes comprendidos en el grupo II: Inmovilizado">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="622"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+
+<ASIENTOTIPO name="g623" title="Profesionales independientes" tag="Gastos generales"
+	description="Honorarios de economistas; abogadas, auditoras, notarios, etc., así como las comisiones de agentes mediadores independientes">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="623"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+<ASIENTOTIPO name="g624" title="Transportes" tag="Gastos generales"
+	description="Transportes a cargo de la entidad realizados por terceros, de compras o de ventas, cuando no proceda incluirlos en el precio de adquisición del inmovilizado o de las existencias">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="624"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+<ASIENTOTIPO name="g625" title="Primas de seguros" tag="Gastos generales"
+	description="Cantidades satisfechas en concepto de primas de seguros, excepto las que se refieren al personal de la entidad">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="625"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+<ASIENTOTIPO name="g626" title="Servicios bancarios, comisiones" tag="Gastos generales"
+	description="Cantidades satisfechas en concepto de servicios bancarios y similares, que no tengan la consideración de gastos financieros">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="626"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+<ASIENTOTIPO name="g627" title="Publicidad, propaganda y relaciones públicas" tag="Gastos generales"
+	description="">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="627"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+<ASIENTOTIPO name="g628" title="Suministros" tag="Gastos generales"
+	description="Electricidad y cualquier otro abastecimiento que no tuviere la cualidad de almacenable">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="628"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+<ASIENTOTIPO name="g629" title="Otros servicios" tag="Gastos generales"
+	description = "Teléfonos. Viajes del personal de la entidad, incluidos los de transporte. Gastos de oficina no incluidos en otras cuentas. ">
+    <INPUT>
+        <INPUTFIELD name="fecha-compra" type="date" style="fecha" caption="Fecha de la factura" value=""/>
+        <INPUTFIELD name="nfactura"  type="string" caption="Nº de factura" value=""/>
+        <INPUTFIELD name="total"      type="currency" style="currency" caption="Total factura" value="0"/>
+        <INPUTFIELD name="cuenta-gasto" type="string" field="CUENTA.CUENTA" caption="Cuenta del gasto" value="629"/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta proveedor" value="41"/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.nfactura"
+        tipodocumento="1">
+        <APUNTE cuenta="input.cuenta-gasto"
+            debe="input.total"
+            contrapartida="input.cuenta-proveedor"/>
+        <APUNTE cuenta="input.cuenta-proveedor"
+            contrapartida="input.cuenta-gasto"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+<ASIENTOTIPO name="pagocheque" title="Pago mediante cheque" tag="Bancos y caja"
+	description = "">
+    <INPUT>
+        <INPUTFIELD name="fecha-pago" type="date" style="fecha" caption="Fecha del pago" value=""/>
+        <INPUTFIELD name="cuenta-proveedor"	type="string" field="CUENTA.CUENTA" caption="Cuenta del proveedor/acreedor" value="41"/>
+        <INPUTFIELD name="cuenta-banco"	type="string" field="CUENTA.CUENTA" caption="Cuenta del banco" value="572"/>
+        <INPUTFIELD name="importe"      type="currency" style="currency" caption="Importe" value="0"/>
+        <INPUTFIELD name="numcheque"  type="string" caption="Nº de cheque" value=""/>
+    </INPUT>
+    <ASIENTO fecha="input.fecha-compra"
+        fechadocumento="input.fecha-compra"
+		numdocumento="input.numcheque"
+        tipodocumento="2">
+        <APUNTE cuenta="input.cuenta-proveedor"
+            debe="input.importe"
+            contrapartida="input.cuenta-banco"/>
+        <APUNTE cuenta="input.cuenta-banco"
+            contrapartida="input.cuenta-proveedor"/>
+    </ASIENTO>
+</ASIENTOTIPO>
+
+
+</ASIENTOSTIPO>

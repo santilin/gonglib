@@ -1,0 +1,10 @@
+0.3.3		16 de marzo de 2008
+
+=== Fallos arreglados ===
+* La vista de los proyectos no incluía PROYECTO.ID por lo que las modificaciones no funcionaban. Ahora, las vistas no necesitan el ID, que es añadido al leerlas del .view
+* Registro->Importar no pedía un fichero, sino que estaba fijo.
+* Dar de alta un contacto al crear la asociación cerraba el programa porque al refrescar los formularios, la ventana principal no estaba creada
+
+=== Cambios a la base de datos ===
+Añado CONTACTO.PAIS
+Cambio RECIBO.PAGADO por RECIBO.ESTADO

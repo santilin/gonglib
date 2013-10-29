@@ -1,0 +1,238 @@
+	INPUT default {
+		driver = mysql;
+
+		INPUTFIELD VT_TIPO {
+			Source = VT.TIPO;
+			Type = string;
+		}
+		INPUTFIELD VT_TIPODOC {
+			Source = VT.TIPODOC;
+			Type = string;
+		}
+		INPUTFIELD VT_NUMERO {
+			Source = VT.NUMERO;
+			Type = string;
+		}
+		INPUTFIELD VT_FECHA {
+			Source = VT.FECHA;
+			Type = date;
+		}
+		INPUTFIELD VT_CANTIDAD {
+			Source = VT.CANTIDAD;
+			Type = double;
+		}
+		INPUTFIELD VT_IMPORTE {
+			Source = VT.IMPORTE;
+			Type = money;
+		}
+		INPUTFIELD VT_IMPORTECONIVA {
+			Source = VT.IMPORTECONIVA;
+			Type = money;
+		}
+		INPUTFIELD VT_PRECIOSINIVA {
+			Source = VT.PRECIOSINIVA;
+			Type = money;
+		}
+		INPUTFIELD VT_PRECIOCONIVA {
+			Source = VT.PRECIOCONIVA;
+			Type = money;
+		}
+		INPUTFIELD VT_DTOP100 {
+			Source = VT.DTOP100;
+			Type = double;
+		}
+		INPUTFIELD VT_TIPOIVA_ID {
+			Source = VT.TIPOIVA_ID;
+			Type = integer;
+		}
+		INPUTFIELD VT_TIPOIVA_CODIGO {
+			Source = VT.TIPOIVA_CODIGO;
+			Type = integer;
+		}
+		INPUTFIELD ARTICULO_ID {
+			Source = A.ID;
+			Type = string;
+		}
+		INPUTFIELD ARTICULO_CODIGO {
+			Source = A.CODIGO;
+			Type = string;
+		}
+		INPUTFIELD ARTICULO_NOMBRE {
+			Source = A.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD RAZONSOCIAL {
+			Source = VT.RAZONSOCIAL;
+			Type = string;
+		}
+		INPUTFIELD RAZONSOCIAL_CODIGO {
+			Source = VT.RAZONSOCIAL_CODIGO;
+			Type = integer;
+		}
+	}
+
+	include = "default_pageheader.inc";
+
+	PAGEHEADER header_captions {
+		style = header;
+		sizey = 1;
+		paddingtop = 0.1;
+		fontweight = "bold";
+		borderbottomstyle = solid;
+		borderbottomwidth = 1;
+		marginbottom = 0.3;
+
+#ifdef AGRUPAR_POR_FECHA_DIARIO
+		OBJECT fecha_caption {
+			value = "= const @DDD.FACTURAVENTA_FECHA_CAPTION;";
+			posx = 0;
+			posy = 0;
+			sizex = 10;
+		}
+#endif
+#ifdef AGRUPAR_POR_ARTICULO
+		OBJECT articulo_codigo {
+			value = "=const @DDD.ARTICULO_CODIGO_CAPTION;";
+			posx = 0;
+			posy = 0;
+			sizex = 20;
+		}
+		OBJECT articulo_nombre {
+			value = "=const @DDD.ARTICULO_NOMBRE_CAPTION;";
+			posx = -1;
+			posy = 0;
+			sizex = 24;
+		}
+#endif
+#ifdef AGRUPAR_POR_RAZONSOCIAL
+		OBJECT articulo_codigo {
+			value = "=const @DDD.CLIENTE_CODIGO_CAPTION;";
+			posx = 0;
+			posy = 0;
+			sizex = 6;
+		}
+		OBJECT articulo_nombre {
+			value = "=const @DDD.CLIENTE_RAZONSOCIAL_CAPTION;";
+			posx = -1;
+			posy = 0;
+			sizex = 48;
+		}
+#endif
+		OBJECT VT_CANTIDAD {
+			value = "= const @DDD.ALBARANVENTADET_CANTIDAD_CAPTION;";
+			posx = 55;
+			sizex = 12;
+			alignment = right;
+		}
+		OBJECT VT_IMPORTE {
+			value = "= const @DDD.ALBARANVENTADET_IMPORTE_CAPTION;";
+			posx = 68;
+			sizex = 12;
+			alignment = right;
+		}
+	}
+
+
+#ifdef AGRUPAR
+	GROUPFOOTER grupo_footer {
+		level = 1;
+		sizey = 1;
+		fontweight = "bold";
+
+#ifdef AGRUPAR_POR_ARTICULO
+		value = "=input.ARTICULO_CODIGO";
+		OBJECT articulo_codigo {
+			value = "=input.ARTICULO_CODIGO";
+			posx = 0;
+			posy = 0;
+			sizex = 20;
+		}
+		OBJECT articulo_nombre {
+			value = "=input.ARTICULO_NOMBRE";
+			posx = -1;
+			posy = 0;
+			sizex = 26;
+			adjustment = grow;
+		}
+#endif // AGRUPAR_POR_ARTICULO
+#ifdef AGRUPAR_POR_RAZONSOCIAL
+		value = "=input.RAZONSOCIAL_CODIGO";
+		OBJECT razonsocial_codigo {
+			value = "=input.RAZONSOCIAL_CODIGO";
+			posx = 0;
+			posy = 0;
+			sizex = 6;
+		}
+		OBJECT razonsocial_nombre {
+			value = "=input.RAZONSOCIAL";
+			posx = -1;
+			posy = 0;
+			sizex = 48;
+		}
+#endif // AGRUPAR_POR_RAZONSOCIAL
+#ifdef AGRUPAR_POR_FECHA_DIARIO
+		value = "=input.VT_FECHA";
+		OBJECT fecha {
+			value = "=input.VT_FECHA";
+			posx = 0;
+			posy = 0;
+			sizex = 50;
+		}
+#endif // AGRUPAR_POR_FECHA_DIARIO
+
+		OBJECT VT_CANTIDAD_grupo {
+			value = "=input.VT_CANTIDAD";
+			aggregate = sum;
+			posx = 55;
+			sizex = 12;
+			alignment = right;
+		}
+		OBJECT VT_IMPORTE_grupo {
+#ifdef PRECIOS_CON_IVA
+			value = "=input.VT_IMPORTECONIVA";
+#endif
+#ifndef PRECIOS_CON_IVA
+			value = "=input.VT_IMPORTE";
+#endif
+			aggregate = sum;
+			posx = 68;
+			sizex = 12;
+			alignment = right;
+		}
+	} // group footer
+#endif // AGRUPAR
+
+
+	REPORTFOOTER report_footer
+	{
+		sizey = 1.2;
+		fontweight = bold;
+		bordertopstyle = solid;
+		margintop = 0.2;
+		paddingtop = 0.6;
+
+		OBJECT articulo_totales {
+			value = "Totales: ";
+			posx = 2;
+			sizex = 8;
+		}
+		OBJECT VT_CANTIDAD_total {
+			value = "=input.VT_CANTIDAD";
+			aggregate = sum;
+			posx = 55;
+			sizex = 12;
+			alignment = right;
+		}
+		OBJECT VT_IMPORTE_total {
+#ifdef PRECIOS_CON_IVA
+			value = "=input.VT_IMPORTECONIVA";
+#endif
+#ifndef PRECIOS_CON_IVA
+			value = "=input.VT_IMPORTE";
+#endif
+			aggregate = sum;
+			posx = 68;
+			sizex = 12;
+			alignment = right;
+		}
+	}

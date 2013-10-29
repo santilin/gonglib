@@ -1,0 +1,9 @@
+default: all
+
+all:
+	libtoolize --force
+	aclocal 
+	autoheader
+	automake --add-missing
+	autoconf
+

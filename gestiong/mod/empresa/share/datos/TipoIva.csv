@@ -1,0 +1,5 @@
+TIPOIVA.NOMBRE,TIPOIVA.CODIGO,TIPOIVA.IVA,TIPOIVA.RECARGO,TIPOIVA.NOTAS
+"Exento","1","0.0","0.0",""
+"General","21","21.0","4.5",""
+"Reducido","10","10.0","0.0",""
+"Superreducido","4","4.0","0.5",""

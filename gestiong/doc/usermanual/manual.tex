@@ -1,0 +1,204 @@
+% This file was converted to LaTeX by Writer2LaTeX ver. 1.0.2
+% see http://writer2latex.sourceforge.net for more info
+\documentclass[a4paper,openany,10pt]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb,amsfonts,textcomp}
+\usepackage{color}
+\usepackage{array}
+\usepackage{hhline}
+\usepackage{hyperref}
+\hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=, pdfauthor=, pdfsubject=, pdfkeywords=}
+\usepackage[pdftex]{graphicx}
+\usepackage{xspace}
+\usepackage{todonotes}
+\usepackage{savetrees}
+\usepackage{tikz}
+
+
+% Text styles
+\newcommand\textstylenombreprograma[1]{\texttt{\textbf{\textsl{#1}}}}
+\newcommand\textstyleGUIELEMENT[1]{\textrm{\textbf{\textit{#1}}}}
+\newcommand\textstyleUserEntry[1]{\texttt{#1}}
+\newcommand\textstylekonsolecomment[1]{\texttt{\textit{#1}}}
+\newcommand\textstyleGUIELEMENTREDUCED[1]{\textrm{\textbf{\textit{#1}}}}
+\newcommand\textstyleMainindexentry[1]{\textbf{#1}}
+\newcommand\textstylePageNumber[1]{#1}
+% Outline numbering
+\setcounter{secnumdepth}{3}
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\arabic{section}.\arabic{subsection}}
+\renewcommand\thesubsubsection{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+% List styles
+\newcounter{saveenum}
+\newcommand\liststyleLi{%
+\renewcommand\labelitemi{{}--}
+\renewcommand\labelitemii{{}--}
+\renewcommand\labelitemiii{{}--}
+\renewcommand\labelitemiv{{}--}
+}
+\newcommand\liststyleLii{%
+\renewcommand\labelitemi{{}--}
+\renewcommand\labelitemii{{}--}
+\renewcommand\labelitemiii{{}--}
+\renewcommand\labelitemiv{{}--}
+}
+\newcommand\liststyleLiii{%
+\renewcommand\labelitemi{{\textbullet}}
+\renewcommand\labelitemii{{\textbullet}}
+\renewcommand\labelitemiii{{\textbullet}}
+\renewcommand\labelitemiv{{\textbullet}}
+}
+\newcommand\liststyleLiv{%
+\renewcommand\theenumi{\alph{enumi}}
+\renewcommand\theenumii{\arabic{enumii}}
+\renewcommand\theenumiii{\arabic{enumiii}}
+\renewcommand\theenumiv{\arabic{enumiv}}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand\labelenumii{\theenumii.}
+\renewcommand\labelenumiii{\theenumiii.}
+\renewcommand\labelenumiv{\theenumiv.}
+}
+\newcommand\liststyleLv{%
+\renewcommand\theenumi{\alph{enumi}}
+\renewcommand\theenumii{\alph{enumii}}
+\renewcommand\theenumiii{\arabic{enumiii}}
+\renewcommand\theenumiv{\arabic{enumiv}}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand\labelenumii{\theenumii)}
+\renewcommand\labelenumiii{\theenumiii.}
+\renewcommand\labelenumiv{\theenumiv.}
+}
+\newcommand\liststyleLvi{%
+\renewcommand\theenumi{\arabic{enumi}}
+\renewcommand\theenumii{\arabic{enumii}}
+\renewcommand\theenumiii{\arabic{enumiii}}
+\renewcommand\theenumiv{\arabic{enumiv}}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand\labelenumii{\theenumii.}
+\renewcommand\labelenumiii{\theenumiii.}
+\renewcommand\labelenumiv{\theenumiv.}
+}
+\newcommand\liststyleLvii{%
+\renewcommand\labelitemi{{}--}
+\renewcommand\labelitemii{{}--}
+\renewcommand\labelitemiii{{}--}
+\renewcommand\labelitemiv{{}--}
+}
+\newcommand\liststyleLviii{%
+\renewcommand\theenumi{\arabic{enumi}}
+\renewcommand\theenumii{\arabic{enumii}}
+\renewcommand\theenumiii{\arabic{enumiii}}
+\renewcommand\theenumiv{\arabic{enumiv}}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand\labelenumii{\theenumii.}
+\renewcommand\labelenumiii{\theenumiii.}
+\renewcommand\labelenumiv{\theenumiv.}
+}
+\newcommand\liststyleLix{%
+\renewcommand\labelitemi{{}--}
+\renewcommand\labelitemii{{}--}
+\renewcommand\labelitemiii{{}--}
+\renewcommand\labelitemiv{{}--}
+}
+\newcommand\liststyleLx{%
+\renewcommand\theenumi{\arabic{enumi}}
+\renewcommand\theenumii{\arabic{enumii}}
+\renewcommand\theenumiii{\arabic{enumiii}}
+\renewcommand\theenumiv{\arabic{enumiv}}
+\renewcommand\labelenumi{\theenumi)}
+\renewcommand\labelenumii{\theenumii.}
+\renewcommand\labelenumiii{\theenumiii.}
+\renewcommand\labelenumiv{\theenumiv.}
+}
+% Page layout (geometry)
+% \setlength\voffset{-1in}
+% \setlength\hoffset{-1in}
+% \setlength\topmargin{2cm}
+% \setlength\oddsidemargin{5cm}
+% \setlength\textheight{24.776667cm}
+% \setlength\textwidth{16.999cm}
+\setlength\footskip{26.144882pt}
+% \setlength\headheight{3cm}
+\setlength\headsep{0.5cm}
+
+\setlrmarginsandblock{2.5cm}{5cm}{*}
+\setulmarginsandblock{2.5cm}{2.5cm}{*}
+\checkandfixthelayout
+
+% Footnote rule
+\setlength{\skip\footins}{0.119cm}
+\renewcommand\footnoterule{\vspace*{-0.018cm}\setlength\leftskip{0pt}\setlength\rightskip{0pt plus 1fil}\noindent\textcolor{black}{\rule{0.25\columnwidth}{0.018cm}}\vspace*{0.101cm}}
+% Pages styles
+\makeatletter
+\newcommand\ps@Standard{
+  \renewcommand\@oddfoot{}
+  \renewcommand\@oddhead{\hspace{-3cm}\textstylePageNumber{\ }\textstylePageNumber{v\appversion, 16-oct-2013\hfill Manual de la usuaria de \appname\hfill Página }\thepage{}}
+  \renewcommand\@evenhead{\@oddhead}
+  \renewcommand\@evenfoot{\@oddfoot}
+  \renewcommand\thepage{\arabic{page}}
+}
+\newcommand\ps@FirstPage{
+  \renewcommand\@oddhead{}
+  \renewcommand\@evenhead{}
+  \renewcommand\@oddfoot{}
+  \renewcommand\@evenfoot{}
+  \renewcommand\thepage{\arabic{page}}
+}
+\newcommand\ps@Primeraprimerapagina{
+  \renewcommand\@oddhead{}
+  \renewcommand\@evenhead{}
+  \renewcommand\@oddfoot{}
+  \renewcommand\@evenfoot{}
+  \renewcommand\thepage{\arabic{page}}
+}
+\makeatother
+\pagestyle{Standard}
+% Non-floating captions
+\makeatletter
+\newcommand\captionof[1]{\def\@captype{#1}\caption}
+\makeatother
+\title{}
+\author{}
+\date{2008-12-08}
+
+\newcommand{\menu}[1]{\textbf{#1}}
+\newcommand{\directorio}[1]{\textbf{#1}}
+\newcommand{\filename}[1]{\texttt{#1}}
+\newcommand{\commercialname}[1]{\textsc{#1}}
+\newcommand{\hint}[1]{\textit{#1}\par}
+\newcommand{\recuadro}[2]{#1\par#2\par}
+\newcommand{\notamargen}[1]{\marginpar{\color{green}\backgroundcolor{blue}#1}}
+\newcommand{\truco}[1]{\colorbox{gray!20!white}{\begin{minipage}{\textwidth}#1\end{minipage}}}
+
+\let\oldmarginpar\marginpar
+% renew the \marginpar command to draw 
+% a node; it has a default setting which 
+% can be overwritten
+\renewcommand{\marginpar}[2][rectangle,draw,fill=orange,rounded corners, text width= 4cm]{%
+        \oldmarginpar{%
+        \tikz \node at (0,0) [#1]{#2};}%
+        }
+
+\begin{document}
+
+% \tableofcontents
+
+%\input{lospajaros_commands.tex}
+%\input{gestiong_commands.tex}
+% \input{ferias_commands.tex}
+\input{ecotiendag_commands.tex}
+
+
+%\input{general.tex}
+%\input{instalacion.tex}
+%\input{puestaenmarcha.tex}
+%\input{primerospasos_lospajaros.tex}
+% \input{modulo_empresa.tex}
+\input{modulo_factu.tex}
+%\input{modulo_contactos.tex}
+%\input{modulo_socias.tex}
+
+\end{document}

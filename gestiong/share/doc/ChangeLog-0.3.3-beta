@@ -1,0 +1,189 @@
+
+2008-03-16	rev 129		scapel@users.sourceforge.net
+	gestiong-gui-qt3
+		FrmSQLSelect por defecto busca en cualquier campo
+	gestiong-lib:
+		addField, desdoblado en addFieldString para evitar ambigüedades
+		Mejoras en la internacionalización		
+	gestiong-rtk:
+		Mejoras en outputps
+
+2008-03-16	rev 128		scapel@users.sourceforge.net
+		Añado la tabla PARTIDAPROYECTO
+		Añado los formularios frmeditpartidaproyecto y frmeditsociasapunte
+		Añado los registros recpartidaproyecto y recsociasapunte
+
+2008-03-16 rev 127 		scapel@users.sourceforge.net
+	debian
+		Añadido dir para crear el paquete .deb
+	
+2008-03-12	rev 125		scapel@users.sourceforge.net
+	gestiong-lib:
+		Añado RegConfig::setLanguage
+		Añado FileInfo::execProcess
+	gestiong-gui-qt3
+		Añado FrmBase::msgOkLarge
+		Refrescar los formularios al grabar
+	Informes:
+		Retoque de todos los informes para usar fórmulas en vez
+			de expresiones simples
+		Añado la condición del where de los informes a systemreports
+		Añado rtkoutputpstopdf
+	gestiong-contactos:
+		Muevo el campo email más arriba en contactos para acabar antes
+			la edición
+	gestiong-contable
+		Paso getDigitosTrabajo a contaplugin
+
+
+2008-03-06	rev 124		scapel@users.sourceforge.net
+	Limpieza y mensajes más explicativos en español e
+		acinclude.m4
+	Arreglado problema acentos en FrmEditRecMaestro::menuExportar
+	Creado rpm para mandriva, pequeños ajustes
+        Añadido ca.po
+
+2008-03-05	rev 123		scapel@users.sourceforge.net
+	Añado salida de informes a PDF
+	Preparo gestiong.spec para crear RPM
+	Arreglo acentos en informes a PS
+	Normalizo los nombres de los encondings en IConv
+	Añado ficheros en.po y fr.po
+	Arreglo RegConfig para solucionar el problema con el locale
+		es_ES con respecto a la escritura de cantidades monetarias
+
+2008-03-04	rev 122		scapel@users.sourceforge.net
+	Cambios en la base de datos:
+		PROYECTO.DESCRIPCION - Tamaño 150
+		CONTACTO.JURIDICA bool  Nuevo campo
+		CONTACTO.NOMBRECOMPLETO descripcion Nuevo campo 
+
+	gestiong-socias:
+		Lógica de los pagos
+		c19 .- No agregar miembros de baja
+	gestiong-contactos:
+		Añadidos dos campos. JURIDICA y NOMBRECOMPLETO. Se usan en RecContacto::save
+	gestiong-system:
+		Arreglados problemas al importar tablas relacionadas
+		Login: Preparado para las traducciones
+	gestiong-gui-qt3:
+		Revisión general de frmEditRecMaestro, algunos errores corregidos
+			pero quedan otros {0.3.4}
+		Limpieza de wizardlogin (había una tercera página de contabilidad)
+		{qt} para los bugs y TODO relacionados con Qt
+	gestiong-lib:
+		bugfix: fldbool y null values
+		bugfix: findMatchingRecord:
+			MySQL no hace lo esperado en: WHERE CIF LIKE '%' si CIF es null
+
+
+2008-03-03 	rev 121		scapel@users.sourceforge.net
+	gestiong-gui-qt3:
+		Añado funciones toQt(Xtring) y fromQt(QString)
+		Aparto código página de contabilidad no visible del wizardlogin
+	gestiong-lib:
+		Añado LOCALEDIR a Makefile.am
+		Intento controlar errores en setLocale, pero aun no está bien
+	gestiong-system:
+		login: preparación para la traducción
+
+2008-03-01  rev 120		 <bug-gnu-gettext@gnu.org>
+	gettextize:
+		* Makefile.am (SUBDIRS): Add po.
+		(ACLOCAL_AMFLAGS): New variable.
+		(EXTRA_DIST): New variable.
+		* configure.in (AC_OUTPUT): Add po/Makefile.in.
+		Añado directorios po y m4
+
+2008-02-29	rev	118		scapel@users.sourceforge.net
+gestiong-socias:
+	Cambiado el layout del formulario
+gestiong-contable:
+	Añado el informe de extractos de cuentas
+	Avisar si se quiere guardar un asiento sin apuntes
+gestiong-gui-qt3:
+	Posibilidad de pasar una lista de tablas, un registro o 
+		una lista de tabledefinitions
+gestiong-rtk:
+	order by y form recogidos y pasados al informe
+gestiong-lib:
+	dbConnection: Añado static extractSqlTables(select)
+gestiong-system:
+	crear usuarios en la bd con prefijo _gong + codigo asociacion
+	crear la usuaria en la tabla USUARIA
+
+	
+
+
+2008-02-28	rev 110		scapel@users.sourceforge.net
+	gestiong-gui-qt3:
+		Mejoras en la navegacion en validSeekCode, y en el refresco de los
+			formularios de detalles
+		bugfix: Impresión de registros desde FrmEditRecMaestro no funcionaba
+		Titulo de los formularios más explicativo (TOSTRING_USER)
+	gestiong-lib:
+		Añado a toString TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS
+		DATADIR y PACKAGE ahora la paso como parametro a guiapplication y esta a gonglibrary
+	gestiong-contable:
+		Revisado formulario de asientos tipo
+		bugfix: Extracto en FrmEditCuenta no funcionaba
+	gestiong-system:
+		Relajación de las reglas de validación de los CIF
+
+2008-02-26	rev 108		scapel@users.sourceforge.net
+	Elimino el mensaje de que no hay asociación creada
+	Añado salida a ficheros en FrmReports. El refactoring afecta también
+			a frmeditrecmaestro
+	Unifico DATADIR tanto en modo debug como optimized como normal
+
+2008-02-25	rev 106		scapel@users.sourceforge.net
+	Dos errores graves arreglados:
+		dbConnection::exec: No fallar si un drop index falla
+		FrmEditRecMaestro: Refrescar el formulario cuando se ha cancelado después de añadir
+
+
+2008-02-24	rev 100		scapel@users.sourceforge.net
+	gestiong-lib:
+		dbRecord::INSERT y UPDATE:
+			Arreglado error que no guardaba los datos cuando el campo 
+			podía ser null
+		dbRecord::read
+			Si falla, hacer setNew(true) para marcarlo como nuevo
+		Formatter::masknum_mask
+			Descubiertos posibles errores si el simbolo decimal o de
+			separador de miles es nulo. Necesita más comprobación
+	gestiong-socias:
+		FrmEditAsociacion:
+			Arreglados problemas con el formato de la moneda
+			Añadidos ejemplos de números
+	gestiong-rk:
+		Salida b�ásica OpenDocument, faltan estilos
+	general:
+		Cambiado DATADIR para que incluya el nombre del package
+		Movidos informes, database, etc. a share/gestiong/informes, etc.
+
+
+2008-02-22	rev 99		scapel@users.sourceforge.net
+	gestiong-socias: Arreglada adición de recibos a remesas
+	gestiong-gui-qt3: Mejorada la importación de registros
+	gestiong-lib: Añadido sufijo _gong_ a los índices creados por el programa
+              Arreglado error con los valores null en dbRecord::INSERT y UPDATE
+              Posibilidad de borrar todos los índices en dbDefinition::removeIndexes
+	gestiong-system: Preparado para futura opción 'Reindexar'
+		Si ha habido un error grave al hacer login y la aplicación ha terminado
+		    no hacer autologin la próxima vez
+	gestiong-contable: 
+		dbFieldCuentaBanco, validar dígitos de control solo si no está vacío
+
+
+	Cambios en la base de datos:
+		version: 2
+			MIEMBRO.PROYECTO_ID can not be null 
+			MIEMBRO.FORMAPAGO_ID can be null
+			REMESAPROYECTO.CUENTABANCO can be null
+			RECIBOPROYECTO.NUMERO not unique
+			   Creado un índice único con NUMERO y REMESAPROYECTO_ID
+
+===============================================================================
+Los cambios anteriores a la release gestiong-0.3.3-beta del 16/03/2008
+	está en el fichero ChangeLog-0.3.3-alfa

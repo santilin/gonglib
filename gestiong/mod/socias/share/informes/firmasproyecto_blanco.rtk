@@ -1,0 +1,166 @@
+REPORT firmasproyectos
+{
+	title = "Hoja de firmas en blanco";
+	tag = "Hojas de firmas";
+	units = chars;
+	sizex = 80;
+	sizey = 60;
+
+	PARAMETER asociacion {
+		type = text;
+		value = "Nombre de la asociación";
+	}
+
+	STYLE title { fontfamily = "Verdana"; fontsize = "20"; }
+	STYLE header { fontfamily = "Courier"; fontsize = "12"; fontweight = "black"; }
+	STYLE text { fontfamily = "Courier"; fontsize = "12"; fontweight = "black"; }
+	STYLE medium_text { fontfamily = "Courier"; fontsize = "10"; fontweight = "light"; }
+	STYLE small_text { fontfamily = "Courier"; fontsize = "8"; fontweight = "black"; }
+
+
+	INPUT default {
+		driver = mysql;
+		from = "PROYECTO";
+		orderby = "PROYECTO.CODIGO";
+
+		INPUTFIELD proyecto {
+			source = PROYECTO.DESCRIPCION;
+			type = text;
+		}
+	}
+
+	PAGEHEADER page_header {
+		sizey = 6;
+		style = pageheader;
+		backgroundimage = logo;
+
+		OBJECT asociacion {
+			style = footer ;
+			halignment = left;
+			value="###asociacion###" ;
+			fontweight = bold;
+			sizey = 1;
+			sizex = 56;
+		}
+		OBJECT reportdate {
+			style = pagenumber;
+			value="= const @report.Date";
+			format="%d/%m/%Y %H:%M";
+			sizey = 1;
+			posx = -1 ;
+			sizex = 14;
+		}
+		OBJECT npagina_text  {
+			style = pagenumber ;
+			halignment = right ;
+			value="Pág." ;
+			sizey = 1;
+			posx = -1;
+			sizex = 4 ;
+		}
+		OBJECT npagina {
+			style = pagenumber ;
+			sizey = 1;
+			posx = -1 ;
+			halignment = right ;
+			value="= @report.PageNumber" ;
+			format = "0000" ;
+			sizex = 3;
+		}
+
+		OBJECT titulo {
+			style = title;
+			value= "=INPUT.PROYECTO"; 
+			posy = 1;
+			sizey = 2;
+			halignment = center;
+			fontsize = 14;
+			fontweight = bold;
+		}
+		OBJECT hoja_firmas { posy="3"; halignment="center"; fontsize="16"; sizey="2"; 
+			value = 'Hoja de firmas';  }
+	}
+
+	PAGEHEADER pageheader { visible="true"; sizey="1.5"; borderstyle="solid"; 
+		OBJECT firma_header { value = "Firma";  posx = "0"; sizex="19"; style="header"; halignment="center"; }
+		OBJECT header_nombre { value = "Nombre";  posx = "20";  style="header"; }
+		OBJECT header_cif { value = "CIF";        posx = "68"; 	sizex = "4";  style="header"; }
+	}
+
+	PAGEHEADER linea_1 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_2 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_3 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_4 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_5 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_6 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_7 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_8 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_9 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_10 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_11 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_12 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_13 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+	PAGEHEADER linea_14 { level = "0"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value="";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT email_text { value = "email/tlf:";  posx = "20"; posy="1.2"; sizex ="10"; sizey="1"; style="small_text"; }
+	}
+
+	PAGEFOOTER standard_pagefooter { sizey="1"; style="footer"; valignment="bottom";
+		OBJECT instrucciones { sizey="1"; fontsize="10"; halignment="center";
+			value="Revise sus datos y rectifique cualquier error en su DNI o NOMBRE"; }
+	}
+
+}

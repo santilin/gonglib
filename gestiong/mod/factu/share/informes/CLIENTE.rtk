@@ -1,0 +1,200 @@
+REPORT CLIENTE
+{
+	Title = "Clientes por código";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
+
+	INPUT default {
+		driver = mysql;
+		from = "CLIENTE INNER JOIN CONTACTO ON CLIENTE.CONTACTO_ID = CONTACTO.ID LEFT JOIN FORMAPAGO ON CLIENTE.FORMAPAGO_ID = FORMAPAGO.ID";
+		orderby = "2";
+		where = "";
+
+		INPUTFIELD CLIENTE_CODIGO_dummy {
+			Source = CLIENTE.CODIGO;
+			Type = int;
+		}
+		INPUTFIELD CLIENTE_CODIGO {
+			Source = CLIENTE.CODIGO;
+			Type = int;
+		}
+		INPUTFIELD CLIENTE_RAZONSOCIAL {
+			Source = CLIENTE.RAZONSOCIAL;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_TELEFONO {
+			Source = CONTACTO.TELEFONO;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_ACTIVO {
+			Source = CLIENTE.ACTIVO;
+			Type = bool;
+		}
+		INPUTFIELD CLIENTE_DTOP100 {
+			Source = CLIENTE.DTOP100;
+			Type = double;
+		}
+		INPUTFIELD CLIENTE_IVADETALLADO {
+			Source = CLIENTE.IVADETALLADO;
+			Type = int;
+		}
+		INPUTFIELD FORMAPAGO_NOMBRE {
+			Source = FORMAPAGO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_NOTAS {
+			Source = CLIENTE.NOTAS;
+			Type = string;
+		}
+	}
+
+	include = "default_pageheader.inc";
+
+	PAGEHEADER header_captions {
+		sizey=1.2;
+		fontweight = bold;
+		borderbottomstyle = solid;
+		borderbottomcolor = black;
+		borderbottomwidth = 2;
+
+		OBJECT header_CLIENTE_CODIGO {
+			value = "Código";
+			posx = 0;
+			sizex = 7;
+		}
+		OBJECT header_CLIENTE_RAZONSOCIAL {
+			value = "Razón social";
+			posx = 8;
+			sizex = 29;
+		}
+		OBJECT header_CONTACTO_TELEFONO {
+			value = "Teléfonos";
+			posx = 38;
+			sizex = 11;
+		}
+		OBJECT header_CLIENTE_ACTIVO {
+			value = "Activo";
+			posx = 50;
+			sizex = 3;
+		}
+		OBJECT header_CLIENTE_DTOP100 {
+			value = "% Dto. facturas";
+			posx = 54;
+			sizex = 5;
+		}
+		OBJECT header_CLIENTE_IVADETALLADO {
+			value = "IVA detallado";
+			posx = 60;
+			sizex = 7;
+		}
+		OBJECT header_FORMAPAGO_NOMBRE {
+			value = "F.Pago";
+			posx = 68;
+			sizex = 11;
+		}
+		OBJECT header_CLIENTE_NOTAS {
+			value = "Notas";
+			posx = 80;
+			sizex = 23;
+		}
+
+	}
+
+#ifndef RESUMIDO
+	DETAILS details {
+		posx = 0;
+		level = 0;
+		style = detail;
+		sizey = 1;
+
+
+		OBJECT CLIENTE_CODIGO {
+			value = "=input.CLIENTE_CODIGO";
+			halignment = "right";
+			posx = 0;
+			sizex = 7;
+		}
+		OBJECT CLIENTE_RAZONSOCIAL {
+			value = "=input.CLIENTE_RAZONSOCIAL";
+			halignment = "left";
+			posx = 8;
+			sizex = 29;
+		}
+		OBJECT CONTACTO_TELEFONO {
+			value = "=input.CONTACTO_TELEFONO";
+			halignment = "left";
+			posx = 38;
+			sizex = 11;
+		}
+		OBJECT CLIENTE_ACTIVO {
+			value = "=input.CLIENTE_ACTIVO";
+			halignment = "center";
+			posx = 50;
+			sizex = 3;
+			format = "No|Sí";
+		}
+		OBJECT CLIENTE_DTOP100 {
+			value = "=input.CLIENTE_DTOP100";
+			halignment = "right";
+			posx = 54;
+			sizex = 5;
+		}
+		OBJECT CLIENTE_IVADETALLADO {
+			value = "=input.CLIENTE_IVADETALLADO";
+			halignment = "right";
+			posx = 60;
+			sizex = 7;
+		}
+		OBJECT FORMAPAGO_NOMBRE {
+			value = "=input.FORMAPAGO_NOMBRE";
+			halignment = "left";
+			posx = 68;
+			sizex = 11;
+		}
+		OBJECT CLIENTE_NOTAS {
+			value = "=input.CLIENTE_NOTAS";
+			halignment = "left";
+			posx = 80;
+			sizex = 23;
+		}
+
+	}
+#endif
+
+	REPORTFOOTER page_footer {
+		sizey = 1;
+		style = pagefooter;
+
+		OBJECT suma_CLIENTE_CODIGO {
+			value = "=input.CLIENTE_CODIGO";
+			halignment = "right";
+			posx = 0;
+			sizex = 7;
+			aggregate = sum;
+		}
+		OBJECT suma_CLIENTE_ACTIVO {
+			value = "=input.CLIENTE_ACTIVO";
+			halignment = "center";
+			posx = 50;
+			sizex = 3;
+			aggregate = sum;
+		}
+		OBJECT suma_CLIENTE_DTOP100 {
+			value = "=input.CLIENTE_DTOP100";
+			halignment = "right";
+			posx = 54;
+			sizex = 5;
+			aggregate = sum;
+		}
+		OBJECT suma_CLIENTE_IVADETALLADO {
+			value = "=input.CLIENTE_IVADETALLADO";
+			halignment = "right";
+			posx = 60;
+			sizex = 7;
+			aggregate = sum;
+		}
+	}
+
+}
+

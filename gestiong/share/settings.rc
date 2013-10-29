@@ -1,0 +1,27 @@
+DBDEF.STYLE.INTEGER(string)="w:8|m:#######0|a:right";
+DBDEF.STYLE.MONEY(string)="w:12|m:###,###,##0.00|f:%$|a:right";
+DBDEF.STYLE.MONEY_BLANKIFZERO(string)="w:12|m:###,###,##0.00|f:%$%b|a:right";
+DBDEF.STYLE.DECIMAL(string)="w:12|a:right";
+DBDEF.STYLE.DATE(string)="m:dd/mm/yy|f:%x|a:left";
+DBDEF.STYLE.LONGDATE(string)="m:dd/mm/yyyy|f:%d/%m/%Y|a:left";
+DBDEF.STYLE.TIME(string)="w:8|m:HH:MM:SS|f:%X|a:left";
+DBDEF.STYLE.DATETIME(string)="m:dd/mm/yy HH:MM:SS|f:%x %X|a:left";
+DBDEF.STYLE.PERCENT(string)="w:7|m:###0.99|f:%v%%|a:right";
+DBDEF.STYLE.CODE(string)="w:8|m:9999990|a:right";
+DBDEF.STYLE.BOOL(string)="w:2|f:No~Sí|a:center";
+DBDEF.STYLE.BOOL_ONLYYES(string)="f:~Sí";
+DBDEF.STYLE.BOOL_ONLYNO(string)="f:No~";
+RTK.OUTPUT.SCREEN.MARGINLEFT(int) = "20";
+RTK.OUTPUT.SCREEN.MARGINRIGHT(int) = "20";
+RTK.OUTPUT.SCREEN.MARGINTOP(int) = "20";
+RTK.OUTPUT.SCREEN.MARGINBOTTOM(int) = "20";
+RTK.LANDSCAPE(bool)="false";
+GUI.STYLESHEET(string)="";
+SYSTEM.DBBACKUP.INTERVAL(int) = "0";
+SYSTEM.DBBACKUP.PATH(string) = "";
+SYSTEM.DBBACKUP.LAST_BACKUP(string) = "";
+SYSTEM.DBBACKUP.COMMAND(string) = "";
+SYSTEM.DBBACKUP.RESTORE_COMMAND(string) = "";
+SYSTEM.FTP.GETCOMMAND(string) = "ncftpput {config} {dest} {sources}";
+SYSTEM.FTP.PUTCOMMAND(string) = "ncftpget {config} {dest} {sources}";
+

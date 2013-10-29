@@ -1,0 +1,10 @@
+0.3.3-beta		16 de marzo de 2008
+
+El estreno de GestiONG 0.3.3-beta supone la primera versión totalmente lista para la puesta en marcha en cualquier asociación. Contiene los módulos de gestión de socias, gestión de proyectos y contabilidad.
+
+La distribución proporciona paquetes para ser instalada en Debian, K/Ubuntu y derivados, así como Mandriva, RedHat, Fedora y derivados.
+
+También acompaña a esta distribución un manual completo y detallado para la puesta en marcha que se puede descargar desde el mismo lugar que la distribución.
+
+Un informe más detallado de cambios se puede leer en el fichero ChangeLog
+

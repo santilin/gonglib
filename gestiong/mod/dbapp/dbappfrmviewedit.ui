@@ -1,0 +1,196 @@
+//Added by qt3to4:
+#include <Q3Frame>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>this_2</class>
+ <widget class="QWidget" name="this_2">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>638</width>
+    <height>517</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QVBoxLayout" name="mainLayout">
+     <item>
+      <layout class="QVBoxLayout" name="mainLayout_2">
+       <item>
+        <layout class="QVBoxLayout" name="layViewName">
+         <item>
+          <widget class="QLabel" name="lblViewName">
+           <property name="text">
+            <string>Nombre de la vista</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="txtViewName"/>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="fieldsLayout">
+           <item>
+            <layout class="QVBoxLayout" name="layFields">
+             <item>
+              <widget class="QLabel" name="lblFields">
+               <property name="text">
+                <string>Campos</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QListWidget" name="lstFields"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QFrame" name="frmFieldProps">
+             <property name="frameShape">
+              <enum>Q3Frame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>Q3Frame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QVBoxLayout" name="layProps">
+                <item>
+                 <layout class="QVBoxLayout" name="layHeader">
+                  <item>
+                   <widget class="QLabel" name="lblHeader">
+                    <property name="text">
+                     <string>Encabezado</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="txtHeader"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="layWidth">
+                  <item>
+                   <widget class="QLabel" name="lblWidth">
+                    <property name="text">
+                     <string>Ancho</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="txtWidth"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="layStyle">
+                  <item>
+                   <widget class="QLabel" name="lblStyle">
+                    <property name="text">
+                     <string>Estilo</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="cmbStyle"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="chkOrder">
+                  <property name="text">
+                   <string>Ordenar</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="spProps">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QCheckBox" name="chkIncludeFilter">
+         <property name="text">
+          <string>Incluir el filtro actual del fichero</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="buttonsLayout">
+       <item>
+        <spacer name="sbButtons">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushCancel">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushAccept">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

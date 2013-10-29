@@ -1,0 +1,842 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR www.gestiong.org
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: santi@kernelpanic.hacklabs.org\n"
+"POT-Creation-Date: 2011-07-24 17:21+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: gong-lib/guifrmeditrec.cpp:67
+msgid "&Registro"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:69
+msgid "&Fichero"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:91 gong-lib/guifrmeditrec.cpp:244
+#: gong-lib/guifrmeditrec.cpp:249 gong-lib/guifrmeditrec.cpp:261
+#: gong-lib/guifrmeditrecmaestro.cpp:265
+msgid "&Grabar"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:197 gong-lib/guifrmeditrec.cpp:374
+#: gong-lib/guifrmeditrecmaestro.cpp:585
+msgid "Error "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:198
+#, c-format
+msgid ""
+"No se ha podido %1s %2s.\n"
+"%3s"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:199
+msgid "borrar"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:199
+msgid "grabar"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:222
+msgid "Editando"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:223 gong-lib/guifrmeditrecmaestro.cpp:565
+msgid ""
+"¿Estás segura de cancelar la edición de este registro?\n"
+"\n"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:242
+msgid "Añadiendo "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:247
+msgid "Modificando "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:252
+msgid "Borrando "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:256
+msgid "Visualizando "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:260
+msgid "Duplicando "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:265
+msgid "Buscando "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:269
+msgid "Filtrando "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:346
+#, c-format
+msgid "Error borrando %s"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:349
+msgid " está en uso en el fichero de "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:392
+msgid ""
+"\n"
+"¿Estás segura de grabar este registro?"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:393 gong-lib/guifrmeditrec.cpp:396
+msgid "Aviso "
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:728 gong-lib/guifrmeditrec.cpp:751
+#, c-format
+msgid "Ya existe %s con el valor '%s' para '%s'"
+msgstr ""
+
+#: gong-lib/guifrmeditrec.cpp:737 gong-lib/guifrmeditrec.cpp:759
+#: gong-lib/gongdbfielddefinition.cpp:139
+#, c-format
+msgid "'%s' no puede estar vacío."
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:163
+msgid "Selección de filtros"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:164
+msgid "Campo de la condición"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:165
+msgid "Comparación"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:167
+msgid "= \"es igual que\""
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:168
+msgid "< \"es menor que\""
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:169
+msgid "> \"es mayor que\""
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:170
+msgid "<= \"es menor o igual que\""
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:171
+msgid ">= \"es mayor o igual que\""
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:172
+msgid "!= \"es distinto a\""
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:173
+msgid "Contiene"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:174
+msgid "No Contiene"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:175
+msgid "Comienza por"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:176
+msgid "No comienza por"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:177
+msgid "Está vacío"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:178
+msgid "No está vacío"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:179
+msgid "es cierto"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:180
+msgid "es falso"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:182
+msgid "Valor con el que se compara"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:183
+msgid "Campo con el que se compara"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:184
+msgid "Texto completo de la condición"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:185
+msgid "Eliminar filtro"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:186
+msgid "Añadir condición"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:187
+msgid "Condición alternativa"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:188
+msgid "Elegir valores"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:230 gong-lib/guifrmsqlselect.cpp:237
+#: gong-lib/guifrmsqlselect.cpp:280 gong-lib/guifrmsqlselect.cpp:426
+#: gong-lib/guimainwindow.cpp:641 gong-lib/guifrmeditrecmaestro.cpp:933
+#: gong-lib/guifrmeditrecmaestro.cpp:1018
+#: gong-lib/guifrmeditrecmaestro.cpp:1207
+#: gong-lib/guifrmeditrecmaestro.cpp:1287
+#: gong-lib/guifrmeditrecmaestro.cpp:1363
+msgid "Error"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:230 gong-lib/guifrmsqlselect.cpp:426
+msgid "Elige un campo para la condición"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:237
+msgid "Elige un operador de comparación"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:280
+msgid "Elija un campo o escriba un texto para la comparación"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:527
+msgid "Cualquier campo"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:640 gong-lib/guifrmeditrecmaestro.cpp:1213
+#: gong-lib/guifrmeditrecmaestro.cpp:1217
+#: gong-lib/guifrmeditrecmaestro.cpp:1236
+#: gong-lib/guifrmeditrecmaestro.cpp:1271
+msgid "Atención"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:658
+msgid "Elige un valor"
+msgstr ""
+
+#: gong-lib/guifrmsqlselect.cpp:659
+#, c-format
+msgid "Elige un valor para el campo %s del fichero de %s"
+msgstr ""
+
+#: gong-lib/guifrmeditrecdetalle.cpp:168 gong-lib/guifrmeditrecmaestro.cpp:810
+#: gong-lib/guifrmeditrecmaestro.cpp:883
+#, c-format
+msgid "Borrando %s"
+msgstr ""
+
+#: gong-lib/guifrmeditrecdetalle.cpp:170
+#, c-format
+msgid "¿Estás seguro/a de borrar %s?\n"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:106
+msgid "Termina el programa"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:107
+msgid "&Terminar"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:224
+msgid "Cortar"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:225
+msgid "Corta la sección seleccionada y la coloca en el portapapeles"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:231
+msgid "Copiar"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:232
+msgid "Copia la sección seleccionada al portapapeles"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:238
+msgid "Pegar"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:239
+msgid "Pega el contenido del portapapeles a la posición actual"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:245
+msgid "Deshacer"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:246
+msgid "Deshace la última acción de edición"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:252
+msgid "Barra de herramientas"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:253
+msgid "Muestra/Oculta la barra de herramientas"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:259
+msgid "Línea de estado"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:260
+msgid "Muestra/Oculta la línea de estado"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:266
+msgid "Siguiente"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:267
+msgid "Activa la siguiente ventana"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:273
+msgid "Anterior"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:274
+msgid "Activa la ventana anterior"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:280
+msgid "Cascada"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:281
+msgid "Muestra todas las ventanas en cascada"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:287
+msgid "Alicatar"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:288
+msgid "Alicatar la aplicación con las ventanas"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:294
+msgid "Cerrar"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:295
+msgid "Cerrar la ventana activa"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:301
+msgid "Refrescar"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:302
+msgid "Refresca la ventana activa"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:314
+msgid "Acerca de..."
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:315
+msgid "Acerca de GestiONG"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:331
+msgid "&Sistema"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:365
+msgid "&Qué es esto?"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:367
+msgid "&Edición"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:368 gong-lib/guifrmeditrecmaestro.cpp:255
+#: gong-lib/guifrmeditrecmaestro.cpp:1092
+msgid "&Ver"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:369
+msgid "Ve&ntanas"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:370
+msgid "A&yuda"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:403
+msgid "Ready."
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:431
+msgid "Saliendo de GestiONG"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:432
+msgid ""
+"Algunos formularios está  siendo editados.\n"
+"¿Realmente quieres salir de GestiONG?\n"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:641 gong-lib/guifrmeditrecmaestro.cpp:1363
+msgid ""
+"\n"
+"\n"
+"¿Quieres salir de GestiONG?"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:751 gong-lib/guimainwindow.cpp:773
+msgid "Borrar ejercicio"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:752
+msgid ""
+"Estás a punto de borrar el ejercicio %1\n"
+"¿Estás segura?"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:761
+msgid ""
+"No es por incordiar, pero el ejercicio %1 tiene:\n"
+"\t%2 cuentas,\n"
+"\t%3 asientos y\n"
+"\t%4 apuntes\n"
+"Aún quieres borrarlo?"
+msgstr ""
+
+#: gong-lib/guimainwindow.cpp:773
+msgid "El ejercicio ha sido borrado."
+msgstr ""
+
+#: gong-lib/guidatatable.cpp:478 gong-lib/guifrmeditrecmaestro.cpp:237
+#: gong-lib/guifrmeditrecmaestro.cpp:251
+#: gong-lib/guifrmeditrecmaestro.cpp:1064
+msgid "&Añadir"
+msgstr ""
+
+#: gong-lib/guidatatable.cpp:479 gong-lib/guifrmeditrecmaestro.cpp:247
+#: gong-lib/guifrmeditrecmaestro.cpp:1078
+msgid "&Modificar"
+msgstr ""
+
+#: gong-lib/guidatatable.cpp:480 gong-lib/guifrmeditrecmaestro.cpp:1071
+msgid "&Eliminar"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:102
+msgid "Error en la vista del formulario"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:122
+msgid "Error en la vista de la tabla"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:143
+msgid "Error en la vista por defecto de la tabla"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:215
+msgid "Hojeando "
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:219 gong-lib/guifrmeditrecmaestro.cpp:221
+msgid "' no existe. "
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:222
+msgid "Eligiendo "
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:232
+msgid " [Filtrado]"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:239
+msgid "&Elegir"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:240 gong-lib/guifrmeditrecmaestro.cpp:244
+#: gong-lib/guifrmeditrecmaestro.cpp:263
+msgid "&Cerrar"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:266 gong-lib/guifrmbase.cpp:49
+#: gong-lib/guifrmbase.cpp:517
+msgid "&Cancelar"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:510
+#, c-format
+msgid "Error %s %s"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:511
+msgid "borrando"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:511
+msgid "grabando"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:812 gong-lib/guifrmeditrecmaestro.cpp:884
+#, c-format
+msgid "¿Estás segura de borrar %s?\n"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:986
+#, c-format
+msgid ""
+"Imposible encontrar el informe %s.rtk para la tabla de %s.\n"
+"Buscando en %s"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:995
+#, c-format
+msgid ""
+"Imprimiendo el informe %s.rtk para la tabla de %s.\n"
+"%s"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1002
+msgid "GestiONG no ha sido compilado con la posibilidad de hacer informes"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1067
+msgid "Añade un registro al fichero"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1074
+#: gong-lib/guifrmeditrecmaestro.cpp:1081
+msgid "Borra el registro seleccionado"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1085
+msgid "&Imprimir"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1088
+msgid "Imprime el registro seleccionado"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1095
+msgid "Muestra el registro seleccionado"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1099
+msgid "&Duplicar"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1102
+msgid "Duplica el registro seleccionado"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1106
+#: gong-lib/guifrmeditrecmaestro.cpp:1164
+msgid "&Información"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1109
+msgid "Muestra información sobre el registro"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1113
+msgid "Rea&brir"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1116
+msgid "Abre una nueva ventana de este fichero"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1122
+msgid "&Reordenar"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1125
+msgid "Cambia el orden de los registros"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1129
+msgid "&Filtrar"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1132
+msgid "Filtra los registros de este fichero"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1136
+msgid "&Quitar filtro"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1139
+msgid "Elimina el filtro de este fichero"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1143
+msgid "&Importar"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1146
+msgid "Importa registros a este fichero"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1150
+msgid "&Exportar"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1153
+msgid "Exporta los registros de este fichero"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1157
+msgid "&Refrescar"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1160
+msgid "Refresca la tabla"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1167
+msgid "Muestra información sobre la tabla"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1195
+msgid "Ficheros CSV (*.csv)"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1208
+#, c-format
+msgid ""
+"Error en el fichero %s\n"
+"%s"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1214
+#, c-format
+msgid "El fichero %s no contiene registros."
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1218
+#, c-format
+msgid "Se importarán %d registros. ¿Quieres continuar?"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1237
+#, c-format
+msgid ""
+"Las columnas\n"
+"%s\n"
+" no existen en la tabla de %s. ¿Quieres continuar?"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1272
+msgid ""
+"Has anulado la importación de este registro.\n"
+"¿Qieres continuar con los siguientes?"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1287
+msgid "No se ha podido crear el formulario para la importación"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1294
+msgid "Aviso"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1294
+#, c-format
+msgid "Se han importado %d registros"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1319
+msgid "Exportando datos de la tabla"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1320
+msgid ""
+"Puedes copiar y pegar este texto directamente a una hoja de cálculo. La "
+"codificación del los caracteres es ISO-8859-1 (LATIN1) y el separador es la "
+"coma (,)."
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1343
+msgid "Información del registro"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1351
+msgid "Información del fichero"
+msgstr ""
+
+#: gong-lib/guifrmbase.cpp:47 gong-lib/guifrmbase.cpp:397
+#: gong-lib/guifrmbase.cpp:515
+msgid "&Aceptar"
+msgstr ""
+
+#: gong-lib/guifrmbase.cpp:463
+msgid "&Sí"
+msgstr ""
+
+#: gong-lib/guifrmbase.cpp:465
+msgid "&No"
+msgstr ""
+
+#: gong-lib/guifrmbase.cpp:577
+#, c-format
+msgid "No se ha encontrado %1s con código %2s"
+msgstr ""
+
+#: gong-lib/guifrmbase.cpp:590
+#, c-format
+msgid "No se ha encontrado %1s '%2s'"
+msgstr ""
+
+#: gong-lib/gongxmlparser.cpp:132
+#, c-format
+msgid "The chosen file '%s' is a directory"
+msgstr ""
+
+#: gong-lib/gongxmlparser.cpp:137
+#, c-format
+msgid "Error reading file %s: %s"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:404
+msgid "la"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:404
+msgid "el"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:405
+msgid "La"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:405
+msgid "El"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:406
+msgid "una"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:406
+msgid "un"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:407
+msgid "Una"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:407
+msgid "Un"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:408
+msgid "esta"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:408
+msgid "este"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:409
+msgid "Esta"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:409
+msgid "Este"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:410
+msgid "esa"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:410
+msgid "ese"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:411
+msgid "Esa"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:411
+msgid "Ese"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:412
+msgid "de la"
+msgstr ""
+
+#: gong-lib/gongdbtabledefinition.cpp:412
+msgid "del"
+msgstr ""
+
+#: gong-lib/gongdbrecordext.cpp:213
+msgid "Existing records can't have ID=0"
+msgstr ""
+
+#: gong-lib/gongxtring.cpp:362
+msgid "false"
+msgstr ""
+
+#: gong-lib/gongxtring.cpp:363
+msgid "no"
+msgstr ""
+
+#: gong-lib/gonglibrary.cpp:180
+#, c-format
+msgid ""
+"GestiONG Library options\n"
+"  -v, --version\t\tPrints the version of the "
+msgstr ""
+
+#: gong-lib/gongdbfieldreferenceid.cpp:38
+#, c-format
+msgid "La referencia '%s' no puede estar vacía"
+msgstr ""
+
+#: gong-lib/gongdbfielddefinition.cpp:149
+#, c-format
+msgid "La longitud de '%s' no puede ser mayor de %d letras"
+msgstr ""

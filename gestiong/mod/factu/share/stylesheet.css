@@ -1,0 +1,50 @@
+#PRESUPUESTOVENTA_BASEIMPONIBLE { color: blue; font-size: 14px; font-weight: bold; }
+#label_PRESUPUESTOVENTA_BASEIMPONIBLE { color: blue; font-size: 16px; font-weight: bold; }
+#PRESUPUESTOVENTA_IVA { color: blue; font-size: 14px; font-weight: bold; }
+#label_PRESUPUESTOVENTA_IVA { color: blue; font-size: 16px; font-weight: bold; }
+#PRESUPUESTOVENTA_TOTAL { color: blue; font-size: 14px; font-weight: bold; }
+#label_PRESUPUESTOVENTA_TOTAL { color: blue; font-size: 16px; font-weight: bold; }
+
+#PEDIDOVENTA_BASEIMPONIBLE { color: blue; font-size: 14px; font-weight: bold; }
+#label_PEDIDOVENTA_BASEIMPONIBLE { color: blue; font-size: 16px; font-weight: bold; }
+#PEDIDOVENTA_IVA { color: blue; font-size: 14px; font-weight: bold; }
+#label_PEDIDOVENTA_IVA { color: blue; font-size: 16px; font-weight: bold; }
+#PEDIDOVENTA_TOTAL { color: blue; font-size: 14px; font-weight: bold; }
+#label_PEDIDOVENTA_TOTAL { color: blue; font-size: 16px; font-weight: bold; }
+
+#ALBARANVENTA_BASEIMPONIBLE { color: blue; font-size: 14px; font-weight: bold; }
+#label_ALBARANVENTA_BASEIMPONIBLE { color: blue; font-size: 16px; font-weight: bold; }
+#ALBARANVENTA_IVA { color: blue; font-size: 14px; font-weight: bold; }
+#label_ALBARANVENTA_IVA { color: blue; font-size: 16px; font-weight: bold; }
+#ALBARANVENTA_TOTAL { color: blue; font-size: 14px; font-weight: bold; }
+#label_ALBARANVENTA_TOTAL { color: blue; font-size: 16px; font-weight: bold; }
+
+#FACTURAVENTA_BASEIMPONIBLE { color: blue; font-size: 14px; font-weight: bold; }
+#label_FACTURAVENTA_BASEIMPONIBLE { color: blue; font-size: 16px; font-weight: bold; }
+#FACTURAVENTA_IVA { color: blue; font-size: 14px; font-weight: bold; }
+#label_FACTURAVENTA_IVA { color: blue; font-size: 16px; font-weight: bold; }
+#FACTURAVENTA_TOTAL { color: blue; font-size: 14px; font-weight: bold; }
+#label_FACTURAVENTA_TOTAL { color: blue; font-size: 16px; font-weight: bold; }
+
+#PEDIDOCOMPRA_BASEIMPONIBLE { color: blue; font-size: 14px; font-weight: bold; }
+#label_PEDIDOCOMPRA_BASEIMPONIBLE { color: blue; font-size: 16px; font-weight: bold; }
+#PEDIDOCOMPRA_IVA { color: blue; font-size: 14px; font-weight: bold; }
+#label_PEDIDOCOMPRA_IVA { color: blue; font-size: 16px; font-weight: bold; }
+#PEDIDOCOMPRA_TOTAL { color: blue; font-size: 14px; font-weight: bold; }
+#label_PEDIDOCOMPRA_TOTAL { color: blue; font-size: 16px; font-weight: bold; }
+
+#ALBARANCOMPRA_BASEIMPONIBLE { color: blue; font-size: 14px; font-weight: bold; }
+#label_ALBARANCOMPRA_BASEIMPONIBLE { color: blue; font-size: 16px; font-weight: bold; }
+#ALBARANCOMPRA_IVA { color: blue; font-size: 14px; font-weight: bold; }
+#label_ALBARANCOMPRA_IVA { color: blue; font-size: 16px; font-weight: bold; }
+#ALBARANCOMPRA_TOTAL { color: blue; font-size: 14px; font-weight: bold; }
+#label_ALBARANCOMPRA_TOTAL { color: blue; font-size: 16px; font-weight: bold; }
+
+#FACTURACOMPRA_BASEIMPONIBLE { color: blue; font-size: 14px; font-weight: bold; }
+#label_FACTURACOMPRA_BASEIMPONIBLE { color: blue; font-size: 16px; font-weight: bold; }
+#FACTURACOMPRA_IVA { color: blue; font-size: 14px; font-weight: bold; }
+#label_FACTURACOMPRA_IVA { color: blue; font-size: 16px; font-weight: bold; }
+#FACTURACOMPRA_TOTAL { color: blue; font-size: 14px; font-weight: bold; }
+#label_FACTURACOMPRA_TOTAL { color: blue; font-size: 16px; font-weight: bold; }
+
+

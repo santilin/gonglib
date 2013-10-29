@@ -1,0 +1,133 @@
+REPORT firmasproyectos
+{
+	title = "Hoja de firmas";
+	tag = "Hojas de firmas";
+	units = chars;
+	sizex = 80;
+	sizey = 60;
+
+	PARAMETER asociacion {
+		type = text;
+		value = "Nombre de la asociación";
+	}
+
+	STYLE title { fontfamily = "Verdana"; fontsize = "20"; }
+	STYLE header { fontfamily = "Courier"; fontsize = "12"; fontweight = "black"; }
+	STYLE text { fontfamily = "Courier"; fontsize = "12"; fontweight = "black"; }
+	STYLE medium_text { fontfamily = "Courier"; fontsize = "10"; fontweight = "light"; }
+	STYLE small_text { fontfamily = "Courier"; fontsize = "8"; fontweight = "black"; }
+
+
+	INPUT default {
+		driver = mysql;
+		from = "MIEMBRO INNER JOIN CONTACTO ON MIEMBRO.CONTACTO_ID = CONTACTO.ID INNER JOIN PROYECTO ON PROYECTO.ID = MIEMBRO.PROYECTO_ID";
+		orderby = "PROYECTO.CODIGO, CONTACTO.NOMBRE";
+
+		INPUTFIELD proyecto_codigo {
+			source = PROYECTO.CODIGO;
+			type = int;
+		}
+		INPUTFIELD proyecto {
+			source = PROYECTO.DESCRIPCION;
+			type = text;
+		}
+		INPUTFIELD nombre {
+			source = CONTACTO.NOMBRE;
+			type = text;
+		}
+		INPUTFIELD cif {
+			source = CONTACTO.CIF;
+			type = text;
+		}
+		INPUTFIELD telefono {
+			source = CONTACTO.TELEFONO;
+			type = text;
+		}
+		INPUTFIELD email {
+			source = CONTACTO.EMAIL;
+			type = text;
+		}
+		INPUTFIELD direccion {
+			source = CONTACTO.DIRECCION;
+			type = text;
+		}
+	}
+
+	PAGEHEADER page_header {
+		sizey = 6;
+		style = pageheader;
+		backgroundimage = logo;
+
+		OBJECT asociacion {
+			style = footer ;
+			halignment = left;
+			value="###asociacion###" ;
+			fontweight = bold;
+			sizey = 1;
+			sizex = 56;
+		}
+		OBJECT reportdate {
+			style = pagenumber;
+			value="= const @report.Date";
+			format="%d/%m/%Y %H:%M";
+			sizey = 1;
+			posx = -1 ;
+			sizex = 14;
+		}
+		OBJECT npagina_text  {
+			style = pagenumber ;
+			halignment = right ;
+			value="Pág." ;
+			sizey = 1;
+			posx = -1;
+			sizex = 4 ;
+		}
+		OBJECT npagina {
+			style = pagenumber ;
+			sizey = 1;
+			posx = -1 ;
+			halignment = right ;
+			value="= @report.PageNumber" ;
+			format = "0000" ;
+			sizex = 3;
+		}
+
+		OBJECT titulo {
+			style = title;
+			value= "=INPUT.PROYECTO"; 
+			posy = 1;
+			sizey = 2;
+			halignment = center;
+			fontsize = 14;
+			fontweight = bold;
+		}
+		OBJECT hoja_firmas { posy="3"; halignment="center"; fontsize="16"; sizey="2"; 
+			value = 'Hoja de firmas';  }
+	}
+
+	PAGEHEADER pageheader { visible="true"; sizey="1.5"; borderstyle="solid"; 
+		OBJECT firma_header { value = "Firma";  posx = "0"; sizex="19"; style="header"; halignment="center"; }
+		OBJECT header_nombre { value = "Nombre";  posx = "20";  style="header"; }
+		OBJECT header_cif { value = "CIF";        posx = "68"; 	sizex = "4";  style="header"; }
+	}
+
+	GROUPHEADER grupo { sizey = "1"; level = "1"; value = "=INPUT.PROYECTO_CODIGO"; pagebefore = "true"; }
+
+	DETAILS details { level = "1"; style = "detail"; sizey = "3.5";
+			borderwidth="1"; borderstyle="solid"; bordercolor="black";
+		OBJECT firma_box { value=" ";  posy="0"; posx="0"; sizex="19"; sizey="3.5"; borderrightstyle ="solid"; }
+		OBJECT nombre { value = "=INPUT.NOMBRE";  posx = "20"; posy="0.3"; sizey="1"; style="text"; }
+		OBJECT cif    { value = "=INPUT.CIF";    posx = "68"; posy="0.3"; sizex = "12"; sizey="1"; style="text"; }
+		OBJECT telefono_text { value = "teléfono:";  posx = "20"; posy="1.4"; sizex ="7"; sizey="1"; style="small_text"; }
+		OBJECT email { value = "=INPUT.EMAIL";  posx = "28"; posy="1.4"; sizex ="0"; sizey="1"; style="medium_text"; }
+		OBJECT email_text { value = "email:";  posx = "20"; posy="2.4"; sizex ="7"; sizey="1"; style="small_text"; }
+		OBJECT telefono { value = "= return strreplace(@INPUT.TELEFONO,\"\n\",\"/\");"; posx = "28"; posy="2.4"; sizex = "0"; sizey="1"; style="medium_text"; }
+	}
+
+	PAGEFOOTER standard_pagefooter { sizey="1"; style="footer"; valignment="bottom";
+		OBJECT instrucciones { sizey="1"; fontsize="10"; halignment="center";
+			value="Revise sus datos y rectifique cualquier error en su DNI o NOMBRE"; }
+	}
+
+	include = "passwords.inc";
+}

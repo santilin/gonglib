@@ -1,0 +1,487 @@
+//<<<<<COPYLEFT
+// @file recibosdemiembros.rtk Recibos de los miembros
+// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+*
+* This library is free software;
+you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public
+* License as published by the Free Software Foundation;
+either
+* version 2 of the License, or (at your option) any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY;
+without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public
+* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+//>>>>>COPYLEFT
+
+//<<<<<MODULE_INFO
+// COPYLEFT Recibos de los miembros
+// FIELD RECIBOPROYECTO.DESCRIPCION|Recibo|text|20
+// FIELD RECIBOPROYECTO.FECHAEMISION||date|8
+// FIELD RECIBOPROYECTO.IMPORTE||money|10
+// FIELD RECIBOPROYECTO.RESTO||money|10
+// FIELD RECIBOPROYECTO.FECHAPAGO||date|8
+// FIELD RECIBOPROYECTO.DOCUMENTOPAGO||text|12
+// FIELD CONTACTO.ID||int|0|l1
+// FIELD CONTACTO.NOMBRE||text|40|l1
+// FIELD CONTACTO.CIF||text|9|l1
+// FIELD PROYECTO.ID||int|0|l2
+// FIELD PROYECTO.DESCRIPCION|Proyecto|text|30|l2
+// FIELD MIEMBRO.NUMEROSOCIA|N.Socia|int|6|l2
+// FIELD MIEMBRO.ESTADO||text|4|l2
+// FIELD MIEMBRO.FECHAALTA||date|6|l2
+// FIELD TIPOSOCIA.DESCRIPCION|Tipo de socia|text|15|l2
+// TYPE SimpleReport
+//>>>>>MODULE_INFO
+
+//<<<<<REPORT_DEFINITION
+Title = "Recibos de los miembros";
+Units = chars;
+SizeX = 100;
+SizeY = 60;
+//>>>>>REPORT_DEFINITION
+tag = Asociación;
+
+INPUT default {
+driver = mysql;
+from = "RECIBOPROYECTO INNER JOIN MIEMBRO ON MIEMBRO.ID=RECIBOPROYECTO.MIEMBRO_ID INNER JOIN PROYECTO ON PROYECTO.ID=MIEMBRO.PROYECTO_ID INNER JOIN CONTACTO ON CONTACTO.ID=MIEMBRO.CONTACTO_ID INNER JOIN TIPOSOCIA ON TIPOSOCIA.ID=MIEMBRO.TIPOSOCIA_ID";
+orderby = "CONTACTO.NOMBRE, CONTACTO.ID, PROYECTO.ID, RECIBOPROYECTO.FECHAEMISION";
+//		where = "CONTACTO.ID<2";
+
+//<<<<<INPUT_DEFAULT
+INPUTFIELD RECIBOPROYECTO_DESCRIPCION {
+    Source = RECIBOPROYECTO.DESCRIPCION;
+    Type = text;
+}
+INPUTFIELD RECIBOPROYECTO_FECHAEMISION {
+    Source = RECIBOPROYECTO.FECHAEMISION;
+    Type = date;
+}
+INPUTFIELD RECIBOPROYECTO_IMPORTE {
+    Source = RECIBOPROYECTO.IMPORTE;
+    Type = money;
+}
+INPUTFIELD RECIBOPROYECTO_RESTO {
+    Source = RECIBOPROYECTO.RESTO;
+    Type = money;
+}
+INPUTFIELD RECIBOPROYECTO_FECHAPAGO {
+    Source = RECIBOPROYECTO.FECHAPAGO;
+    Type = date;
+}
+INPUTFIELD RECIBOPROYECTO_DOCUMENTOPAGO {
+    Source = RECIBOPROYECTO.DOCUMENTOPAGO;
+    Type = text;
+}
+INPUTFIELD CONTACTO_ID {
+    Source = CONTACTO.ID;
+    Type = int;
+}
+INPUTFIELD CONTACTO_NOMBRE {
+    Source = CONTACTO.NOMBRE;
+    Type = text;
+}
+INPUTFIELD CONTACTO_CIF {
+    Source = CONTACTO.CIF;
+    Type = text;
+}
+INPUTFIELD PROYECTO_ID {
+    Source = PROYECTO.ID;
+    Type = int;
+}
+INPUTFIELD PROYECTO_DESCRIPCION {
+    Source = PROYECTO.DESCRIPCION;
+    Type = text;
+}
+INPUTFIELD MIEMBRO_NUMEROSOCIA {
+    Source = MIEMBRO.NUMEROSOCIA;
+    Type = int;
+}
+INPUTFIELD MIEMBRO_ESTADO {
+    Source = MIEMBRO.ESTADO;
+    Type = text;
+}
+INPUTFIELD MIEMBRO_FECHAALTA {
+    Source = MIEMBRO.FECHAALTA;
+    Type = date;
+}
+INPUTFIELD TIPOSOCIA_DESCRIPCION {
+    Source = TIPOSOCIA.DESCRIPCION;
+    Type = text;
+}
+//>>>>>INPUT_DEFAULT
+INPUTFIELD RECIBOPROYECTO_PAGO {
+    Source = "RECIBOPROYECTO.IMPORTE - RECIBOPROYECTO.RESTO";
+    Type = money;
+}
+}
+
+//<<<<<PAGE_HEADER
+Include = "default_pageheader.inc";
+//>>>>>PAGE_HEADER
+}
+
+
+//<<<<<GROUP_HEADER_CAPTIONS_1
+GROUPHEADER group_header_captions_1 {
+posx = 2;
+sizey=1;
+fontweight = bold;
+borderbottomstyle = solid ;
+borderbottomcolor = black ;
+borderbottomwidth = 2;
+
+value= "=input.CONTACTO_ID;";
+level=1;
+OBJECT header_CONTACTO_ID {
+    value = "= const @DDD.CONTACTO_ID_CAPTION;";
+    posx = 0.0;
+    sizex = 0.0;
+}
+OBJECT header_CONTACTO_NOMBRE {
+    value = "= const @DDD.CONTACTO_NOMBRE_CAPTION;";
+    posx = 1.0;
+    sizex = 40.0;
+}
+OBJECT header_CONTACTO_CIF {
+    value = "= const @DDD.CONTACTO_CIF_CAPTION;";
+    posx = 42.0;
+    sizex = 9.0;
+}
+//>>>>>GROUP_HEADER_CAPTIONS_1
+OBJECT header_CONTACTO_ID {
+    visible = false;
+}
+supressed = true;
+posx = 4;
+}
+
+//<<<<<GROUP_DETAILS_1
+GROUPHEADER group_details_1 {
+style = detail;
+sizey = 1;
+posx = 2;
+
+value= "=input.CONTACTO_ID;";
+level=1;
+OBJECT CONTACTO_ID {
+    halignment = "right";
+    value = "=input.CONTACTO_ID;";
+    posx = 0.0;
+    sizex = 0.0;
+}
+OBJECT CONTACTO_NOMBRE {
+    value = "=input.CONTACTO_NOMBRE;";
+    posx = 1.0;
+    sizex = 40.0;
+}
+OBJECT CONTACTO_CIF {
+    value = "=input.CONTACTO_CIF;";
+    posx = 42.0;
+    sizex = 9.0;
+}
+//>>>>>GROUP_DETAILS_1
+margintop = 0.5;
+OBJECT CONTACTO_ID {
+    visible = false;
+}
+posx = 4;
+pagebefore = no;
+fontsize = 14;
+marginbottom = 1;
+}
+
+
+GROUPFOOTER group_footer_captions_1 {
+sizey = 2;
+level = 2;
+posx = 0;
+margintop = .5;
+OBJECT TOTALES_FOOTER_1 {
+    value = "Totales:";
+    posx = 20;
+    sizex = 10;
+}
+OBJECT SUMA_RECIBOPROYECTO_IMPORTE {
+    halignment = "right";
+    value = "=input.RECIBOPROYECTO_IMPORTE;";
+    posx = 30.0;
+    sizex = 10.0;
+    aggregate = sum;
+    bordertopstyle = solid;
+}
+OBJECT SUMA_RECIBOPROYECTO_RESTO {
+    halignment = "right";
+    value = "=input.RECIBOPROYECTO_RESTO;";
+    posx = 41.0;
+    sizex = 10.0;
+    aggregate = sum;
+    bordertopstyle = solid;
+}
+}
+
+//<<<<<GROUP_HEADER_CAPTIONS_2
+GROUPHEADER group_header_captions_2 {
+posx = 0;
+sizey=1;
+fontweight = bold;
+borderbottomstyle = solid ;
+borderbottomcolor = black ;
+borderbottomwidth = 2;
+
+value= "=input.PROYECTO_ID;";
+level=2;
+OBJECT header_PROYECTO_ID {
+    value = "= const @DDD.PROYECTO_ID_CAPTION;";
+    posx = 0.0;
+    sizex = 0.0;
+}
+OBJECT header_PROYECTO_DESCRIPCION {
+    value = "Proyecto";
+    posx = 1.0;
+    sizex = 30.0;
+}
+OBJECT header_MIEMBRO_NUMEROSOCIA {
+    value = "N.Socia";
+    posx = 32.0;
+    sizex = 6.0;
+}
+OBJECT header_MIEMBRO_ESTADO {
+    value = "= const @DDD.MIEMBRO_ESTADO_CAPTION;";
+    posx = 39.0;
+    sizex = 4.0;
+}
+OBJECT header_MIEMBRO_FECHAALTA {
+    value = "= const @DDD.MIEMBRO_FECHAALTA_CAPTION;";
+    posx = 44.0;
+    sizex = 6.0;
+}
+OBJECT header_TIPOSOCIA_DESCRIPCION {
+    value = "Tipo de socia";
+    posx = 51.0;
+    sizex = 15.0;
+}
+//>>>>>GROUP_HEADER_CAPTIONS_2
+OBJECT header_PROYECTO_ID {
+    visible = false;
+}
+posx = 2;
+}
+
+//<<<<<GROUP_DETAILS_2
+GROUPHEADER group_details_2 {
+style = detail;
+sizey = 1;
+posx = 0;
+
+value= "=input.PROYECTO_ID;";
+level=2;
+OBJECT PROYECTO_ID {
+    halignment = "right";
+    value = "=input.PROYECTO_ID;";
+    posx = 0.0;
+    sizex = 0.0;
+}
+OBJECT PROYECTO_DESCRIPCION {
+    value = "=input.PROYECTO_DESCRIPCION;";
+    posx = 1.0;
+    sizex = 30.0;
+}
+OBJECT MIEMBRO_NUMEROSOCIA {
+    halignment = "right";
+    value = "=input.MIEMBRO_NUMEROSOCIA;";
+    posx = 32.0;
+    sizex = 6.0;
+}
+OBJECT MIEMBRO_ESTADO {
+    value = "=input.MIEMBRO_ESTADO;";
+    posx = 39.0;
+    sizex = 4.0;
+}
+OBJECT MIEMBRO_FECHAALTA {
+    value = "=input.MIEMBRO_FECHAALTA;";
+    posx = 44.0;
+    sizex = 6.0;
+}
+OBJECT TIPOSOCIA_DESCRIPCION {
+    value = "=input.TIPOSOCIA_DESCRIPCION;";
+    posx = 51.0;
+    sizex = 15.0;
+}
+//>>>>>GROUP_DETAILS_2
+OBJECT PROYECTO_ID {
+    visible = false;
+}
+OBJECT MIEMBRO_ESTADO {
+//                     formulabefore = "= if (@input.MIEMBRO_ESTADO == 1) @this.value=\"Pagado\" else @this.value=\"Pendiente\"; return 0;";
+}
+posx = 2;
+marginbottom = .5;
+}
+
+
+
+//<<<<<DETAILS_0
+DETAILS details {
+posx = 4;
+level = 0;
+style = detail;
+sizey = 1;
+
+OBJECT RECIBOPROYECTO_DESCRIPCION {
+    value = "=input.RECIBOPROYECTO_DESCRIPCION;";
+    posx = 0.0;
+    sizex = 20.0;
+}
+OBJECT RECIBOPROYECTO_FECHAEMISION {
+    value = "=input.RECIBOPROYECTO_FECHAEMISION;";
+    posx = 21.0;
+    sizex = 8.0;
+}
+OBJECT RECIBOPROYECTO_IMPORTE {
+    halignment = "right";
+    value = "=input.RECIBOPROYECTO_IMPORTE;";
+    posx = 30.0;
+    sizex = 10.0;
+}
+OBJECT RECIBOPROYECTO_RESTO {
+    halignment = "right";
+    value = "=input.RECIBOPROYECTO_RESTO;";
+    posx = 41.0;
+    sizex = 10.0;
+}
+OBJECT RECIBOPROYECTO_FECHAPAGO {
+    value = "=input.RECIBOPROYECTO_FECHAPAGO;";
+    posx = 52.0;
+    sizex = 8.0;
+}
+OBJECT RECIBOPROYECTO_DOCUMENTOPAGO {
+    value = "=input.RECIBOPROYECTO_DOCUMENTOPAGO;";
+    posx = 61.0;
+    sizex = 12.0;
+}
+//>>>>>DETAILS_0
+posx = 0;
+}
+
+
+include = 'passwords.inc';
+
+//<<<<<GROUP_HEADER_CAPTIONS_0
+GROUPHEADER group_header_captions_0 {
+posx = 4;
+sizey=1;
+fontweight = bold;
+borderbottomstyle = solid ;
+borderbottomcolor = black ;
+borderbottomwidth = 2;
+level = 1;
+OBJECT header_RECIBOPROYECTO_DESCRIPCION {
+    value = "Recibo";
+    posx = 0.0;
+    sizex = 20.0;
+}
+OBJECT header_RECIBOPROYECTO_FECHAEMISION {
+    value = "= const @DDD.RECIBOPROYECTO_FECHAEMISION_CAPTION;";
+    posx = 21.0;
+    sizex = 8.0;
+}
+OBJECT header_RECIBOPROYECTO_IMPORTE {
+    halignment = "right";
+    value = "= const @DDD.RECIBOPROYECTO_IMPORTE_CAPTION;";
+    posx = 30.0;
+    sizex = 10.0;
+}
+OBJECT header_RECIBOPROYECTO_RESTO {
+    halignment = "right";
+    value = "= const @DDD.RECIBOPROYECTO_RESTO_CAPTION;";
+    posx = 41.0;
+    sizex = 10.0;
+}
+OBJECT header_RECIBOPROYECTO_FECHAPAGO {
+    value = "= const @DDD.RECIBOPROYECTO_FECHAPAGO_CAPTION;";
+    posx = 52.0;
+    sizex = 8.0;
+}
+OBJECT header_RECIBOPROYECTO_DOCUMENTOPAGO {
+    value = "= const @DDD.RECIBOPROYECTO_DOCUMENTOPAGO_CAPTION;";
+    posx = 61.0;
+    sizex = 12.0;
+}
+//>>>>>GROUP_HEADER_CAPTIONS_0
+posx = 0;
+level = 2;
+}
+
+REPORTFOOTER report_footer {
+pagebefore = true;
+sizey = 20;
+posx = 0;
+OBJECT TOTALES_FOOTER_1 {
+    value = "Resumen informe de recibos de los miembros";
+    sizey = 1;
+    posy = 2;
+    posx = 10;
+    fontsize = 14;
+}
+OBJECT TITULO_SUMA_RECIBOPROYECTO_IMPORTE {
+    value = "Importe total de los recibos:";
+    sizey = 1;
+    posx = 10.0;
+    posy = 6;
+}
+OBJECT SUMA_RECIBOPROYECTO_IMPORTE {
+    halignment = "right";
+    value = "=input.RECIBOPROYECTO_IMPORTE;";
+    sizey = 1;
+    posx = 40.0;
+    posy = 6;
+    sizex = 10.0;
+    aggregate = sum;
+}
+OBJECT TITULO_SUMA_RECIBOPROYECTO_PAGO {
+    sizey = 1;
+    value = "Total pagos de los recibos:";
+    posx = 10.0;
+    posy = 8;
+}
+OBJECT SUMA_RECIBOPROYECTO_PAGO {
+    halignment = "right";
+    value = "=input.RECIBOPROYECTO_PAGO;";
+    sizey = 1;
+    posx = 40.0;
+    posy = 8;
+    sizex = 10.0;
+    aggregate = sum;
+}
+OBJECT TITULO_SUMA_RECIBOPROYECTO_RESTO {
+    sizey = 1;
+    value = "Resto total de los recibos:";
+    posx = 10.0;
+    posy = 10;
+}
+OBJECT SUMA_RECIBOPROYECTO_RESTO {
+    halignment = "right";
+    value = "=input.RECIBOPROYECTO_RESTO;";
+    sizey = 1;
+    posx = 40.0;
+    posy = 10;
+    sizex = 10.0;
+    aggregate = sum;
+}
+}
+
+}
+//<<<<<PAGE_FOOTER
+PAGEFOOTER page_footer {
+sizey = 1;
+style = pagefooter;
+
+
+//>>>>>PAGE_FOOTER
+}

@@ -1,0 +1,8 @@
+FORMAPAGO.CODIGO,FORMAPAGO.NOMBRE,FORMAPAGO.TIPOFORMAPAGO,FORMAPAGO.NUMPLAZOS,FORMAPAGO.DIASENTREPLAZOS,FORMAPAGO.DIASPRIMERPLAZO,FORMAPAGO.DTOENFACTURA,FORMAPAGO.NOTAS
+"1","Contado","1","0","0","0","0.0",""
+"2","A reposición","2","1","0","0","0.0",""
+"3","Domiciliación","2","1","0","0","0.0",""
+"4","Pago anticipado","1","0","0","0","0.0",""
+"5","Pendiente","3","0","0","0","0.0",""
+"6","Euros + oseles","2","1","0","0","0.0",""
+"7","Se ignora","4","0","0","0","0.0",""

@@ -1,0 +1,213 @@
+//<<<<<COPYLEFT
+// @file sumasaldos.rtk Balance de sumas y saldos
+// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+*
+* This library is free software;
+you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public
+* License as published by the Free Software Foundation;
+either
+* version 2 of the License, or (at your option) any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY;
+without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public
+* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+//>>>>>COPYLEFT
+
+// \todo borderwidth deberia bastar para que salga el borde, no borderstyle
+
+//<<<<<MODULE_INFO
+// COPYLEFT Balance de sumas y saldos
+// FIELD CUENTA.CUENTA||text|12
+// FIELD CUENTA.DESCRIPCION||text|50
+// FIELD APUNTE.DEBE||Money|12
+// FIELD APUNTE.HABER||Money|12
+// FIELD APUNTE.SALDO||Money|12
+// TYPE SimpleReport
+//>>>>>MODULE_INFO
+
+//<<<<<REPORT_DEFINITION
+Title = "Balance de sumas y saldos";
+Units = chars;
+SizeX = 100;
+SizeY = 60;
+//>>>>>REPORT_DEFINITION
+
+PARAMETER nivel {
+caption = "Nivel de las cuentas";
+type = int;
+value = "3";
+}
+Tag = "Contabilidad";
+SizeX = 100;
+
+INPUT default {
+driver = mysql;
+from = "ASIENTO INNER JOIN APUNTE ON ASIENTO.ID = APUNTE.ASIENTO_ID INNER JOIN CUENTA ON CUENTA.ID = APUNTE.CUENTA_ID";
+groupby = "1";
+
+//<<<<<INPUT_DEFAULT
+INPUTFIELD CUENTA_CUENTA {
+    Source = CUENTA.CUENTA;
+    Type = text;
+}
+INPUTFIELD CUENTA_DESCRIPCION {
+    Source = CUENTA.DESCRIPCION;
+    Type = text;
+}
+INPUTFIELD APUNTE_DEBE {
+    Source = APUNTE.DEBE;
+    Type = Money;
+}
+INPUTFIELD APUNTE_HABER {
+    Source = APUNTE.HABER;
+    Type = Money;
+}
+INPUTFIELD APUNTE_SALDO {
+    Source = APUNTE.SALDO;
+    Type = Money;
+}
+//>>>>>INPUT_DEFAULT
+INPUTFIELD CUENTA_CUENTA {
+    Source = LEFT(CUENTA.CUENTA,###nivel###);
+    }
+    INPUTFIELD CUENTA_DESCRIPCION {
+        Source = CUENTA.DESCRIPCION;
+    }
+    INPUTFIELD APUNTE_DEBE {
+        Source = "SUM(IF(APUNTE.DEBE IS NULL, 0, APUNTE.DEBE))";
+    }
+    INPUTFIELD APUNTE_HABER {
+        Source = "SUM(IF(APUNTE.HABER IS NULL, 0, APUNTE.HABER))";
+    }
+    INPUTFIELD APUNTE_SALDO {
+        Source = "SUM(IF(APUNTE.DEBE IS NULL, 0, APUNTE.DEBE)) - SUM(IF(APUNTE.HABER IS NULL, 0, APUNTE.HABER))";
+    }
+}
+
+
+//<<<<<PAGE_HEADER
+Include = "default_pageheader.inc";
+//>>>>>PAGE_HEADER
+}
+
+//<<<<<DETAILS
+DETAILS details {
+    style = detail;
+    sizey = 1;
+
+    OBJECT CUENTA_CUENTA {
+        value = "=input.CUENTA_CUENTA;";
+        posx = 0.0;
+        sizex = 12.0;
+    }
+    OBJECT CUENTA_DESCRIPCION {
+        value = "=input.CUENTA_DESCRIPCION;";
+        posx = 13.0;
+        sizex = 50.0;
+    }
+    OBJECT APUNTE_DEBE {
+        halignment = "right";
+        value = "=input.APUNTE_DEBE;";
+        posx = 64.0;
+        sizex = 12.0;
+    }
+    OBJECT APUNTE_HABER {
+        halignment = "right";
+        value = "=input.APUNTE_HABER;";
+        posx = 77.0;
+        sizex = 12.0;
+    }
+    OBJECT APUNTE_SALDO {
+        halignment = "right";
+        value = "=input.APUNTE_SALDO;";
+        posx = 90.0;
+        sizex = 12.0;
+    }
+//>>>>>DETAILS
+}
+
+REPORTFOOTER reportfooter {
+    style = footer;
+    margintop = 1;
+    bordertopwidth = 1;
+    bordertopstyle = "solid";
+    sizey = 1;
+
+    OBJECT totales {
+        value = "TOTALES .... ";
+        posx = 0;
+        sizex = 12;
+    }
+    OBJECT SUMA_APUNTE_DEBE {
+        value = "=input.APUNTE_DEBE";
+        aggregate = "sum";
+        posx = 64;
+        sizex = 12;
+    }
+    OBJECT SUMA_APUNTE_HABER {
+        value = "=input.APUNTE_HABER";
+        aggregate = "sum";
+        posx = 77;
+        sizex = 12;
+    }
+    OBJECT SUMA_APUNTE_SALDO {
+        value = "=input.APUNTE_SALDO";
+        aggregate = "sum";
+        posx = 90;
+        sizex = 12;
+    }
+}
+
+}
+//<<<<<PAGE_HEADER_0
+PAGEHEADER page_header_0 {
+    sizey=1;
+    fontweight = bold;
+    borderbottomstyle = solid ;
+    borderbottomcolor = black ;
+    borderbottomwidth = 2;
+    OBJECT header_CUENTA_CUENTA {
+        value = "= const @DDD.CUENTA_CUENTA_CAPTION;";
+        posx = 0.0;
+        sizex = 12.0;
+    }
+    OBJECT header_CUENTA_DESCRIPCION {
+        value = "= const @DDD.CUENTA_DESCRIPCION_CAPTION;";
+        posx = 13.0;
+        sizex = 50.0;
+    }
+    OBJECT header_APUNTE_DEBE {
+        halignment = "right";
+        value = "= const @DDD.APUNTE_DEBE_CAPTION;";
+        posx = 64.0;
+        sizex = 12.0;
+    }
+    OBJECT header_APUNTE_HABER {
+        halignment = "right";
+        value = "= const @DDD.APUNTE_HABER_CAPTION;";
+        posx = 77.0;
+        sizex = 12.0;
+    }
+    OBJECT header_APUNTE_SALDO {
+        halignment = "right";
+        value = "= const @DDD.APUNTE_SALDO_CAPTION;";
+        posx = 90.0;
+        sizex = 12.0;
+    }
+//>>>>>PAGE_HEADER_0
+}
+
+//<<<<<PAGE_FOOTER
+PAGEFOOTER page_footer {
+    sizey = 1;
+    style = pagefooter;
+
+
+//>>>>>PAGE_FOOTER
+}

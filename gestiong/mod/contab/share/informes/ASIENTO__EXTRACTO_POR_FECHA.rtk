@@ -1,0 +1,202 @@
+REPORT ASIENTO__EXTRACTO_POR_FECHA
+{
+	Title = "Asientos  extracto por fecha";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
+
+	INPUT default {
+		driver = mysql;
+		from = "ASIENTO LEFT JOIN APUNTE ON ASIENTO.ID=APUNTE.ASIENTO_ID LEFT JOIN CUENTA ON APUNTE.CUENTA_ID=CUENTA.ID";
+		orderby = "ASIENTO.FECHA, ASIENTO.NUMASIENTO, APUNTE.NUMAPUNTE";
+
+		INPUTFIELD ASIENTO_FECHA_dummy {
+			Source = ASIENTO.FECHA;
+			Type = date;
+		}
+		INPUTFIELD ASIENTO_FECHA {
+			Source = ASIENTO.FECHA;
+			Type = date;
+		}
+		INPUTFIELD ASIENTO_NUMASIENTO {
+			Source = ASIENTO.NUMASIENTO;
+			Type = int;
+		}
+		INPUTFIELD ASIENTO_DESCRIPCION {
+			Source = ASIENTO.DESCRIPCION;
+			Type = string;
+		}
+		INPUTFIELD APUNTE_NUMAPUNTE {
+			Source = APUNTE.NUMAPUNTE;
+			Type = int;
+		}
+		INPUTFIELD APUNTE_CONCEPTO {
+			Source = APUNTE.CONCEPTO;
+			Type = string;
+		}
+		INPUTFIELD APUNTE_DEBE {
+			Source = APUNTE.DEBE;
+			Type = money;
+		}
+		INPUTFIELD APUNTE_HABER {
+			Source = APUNTE.HABER;
+			Type = money;
+		}
+		INPUTFIELD ASIENTO_TIPOASIENTO {
+			Source = ASIENTO.TIPOASIENTO;
+			Type = int;
+		}
+
+	}
+
+	Include = "default_pageheader.inc";
+
+	PAGEHEADER header_captions {
+		sizey=1;
+		fontweight = bold;
+		borderbottomstyle = solid;
+		borderbottomcolor = black;
+		borderbottomwidth = 1;
+
+		OBJECT header_ASIENTO_FECHA {
+			value = "Fecha";
+			posx = 0;
+			sizex = 5;
+		}
+		OBJECT header_ASIENTO_NUMASIENTO {
+			value = "nAsiento";
+			posx = 6;
+			sizex = 9;
+		}
+		OBJECT header_ASIENTO_DESCRIPCION {
+			value = "Descripción";
+			posx = 16;
+			sizex = 29;
+		}
+		OBJECT header_APUNTE_NUMAPUNTE {
+			value = "nApunte";
+			posx = 46;
+			sizex = 9;
+		}
+		OBJECT header_APUNTE_CONCEPTO {
+			value = "Concepto";
+			posx = 56;
+			sizex = 17;
+		}
+		OBJECT header_APUNTE_DEBE {
+			value = "Debe";
+			posx = 74;
+			sizex = 13;
+		}
+		OBJECT header_APUNTE_HABER {
+			value = "Haber";
+			posx = 88;
+			sizex = 13;
+		}
+		OBJECT header_ASIENTO_TIPOASIENTO {
+			value = "Tipo de asiento";
+			posx = 102;
+			sizex = 1;
+		}
+
+	}
+	DETAILS details {
+		posx = 0;
+		level = 0;
+		style = detail;
+		sizey = 1;
+		backcolor = "gray&white";
+
+#ifndef RESUMIDO
+
+		OBJECT ASIENTO_FECHA {
+			value = "=input.ASIENTO_FECHA";
+			halignment = "left";
+			posx = 0;
+			sizex = 5;
+		}
+		OBJECT ASIENTO_NUMASIENTO {
+			value = "=input.ASIENTO_NUMASIENTO";
+			halignment = "right";
+			posx = 6;
+			sizex = 9;
+		}
+		OBJECT ASIENTO_DESCRIPCION {
+			value = "=input.ASIENTO_DESCRIPCION";
+			halignment = "left";
+			posx = 16;
+			sizex = 29;
+		}
+		OBJECT APUNTE_NUMAPUNTE {
+			value = "=input.APUNTE_NUMAPUNTE";
+			halignment = "right";
+			posx = 46;
+			sizex = 9;
+		}
+		OBJECT APUNTE_CONCEPTO {
+			value = "=input.APUNTE_CONCEPTO";
+			halignment = "left";
+			posx = 56;
+			sizex = 17;
+		}
+		OBJECT APUNTE_DEBE {
+			value = "=input.APUNTE_DEBE";
+			halignment = "right";
+			posx = 74;
+			sizex = 13;
+		}
+		OBJECT APUNTE_HABER {
+			value = "=input.APUNTE_HABER";
+			halignment = "right";
+			posx = 88;
+			sizex = 13;
+		}
+		OBJECT ASIENTO_TIPOASIENTO {
+			value = "=input.ASIENTO_TIPOASIENTO";
+			halignment = "right";
+			posx = 102;
+			sizex = 1;
+		}
+
+#endif
+	}
+	REPORTFOOTER page_footer {
+		sizey = 1.4;
+		bordertopstyle = solid;
+		paddingtop = 0.4;
+		style = pagefooter;
+
+
+		OBJECT suma_APUNTE_NUMAPUNTE {
+			value = "=input.APUNTE_NUMAPUNTE";
+			halignment = "right";
+			posx = 46;
+			sizex = 9;
+			aggregate = sum;
+		}
+		OBJECT suma_APUNTE_DEBE {
+			value = "=input.APUNTE_DEBE";
+			halignment = "right";
+			posx = 74;
+			sizex = 13;
+			aggregate = sum;
+		}
+		OBJECT suma_APUNTE_HABER {
+			value = "=input.APUNTE_HABER";
+			halignment = "right";
+			posx = 88;
+			sizex = 13;
+			aggregate = sum;
+		}
+		OBJECT suma_ASIENTO_TIPOASIENTO {
+			value = "=input.ASIENTO_TIPOASIENTO";
+			halignment = "right";
+			posx = 102;
+			sizex = 1;
+			aggregate = sum;
+		}
+
+	}
+
+	pageorientation = landscape;
+}

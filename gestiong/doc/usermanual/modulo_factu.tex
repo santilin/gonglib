@@ -1,0 +1,108 @@
+\chapter{Módulo de facturación}
+
+% Facturas: Lo que se va a declarar a Hacienda (lleva IVA, etc.).
+% Albaranes: Todo lo demás.
+% 
+% Tipo de documento: Normal: Todo lo que se va a presentar en Hacienda, al asesor, etc.
+%   Serie B: Todo lo demás.
+% 
+% Número de albarán: Si no tenemos el número, debemos inventarnos uno, la fecha o una brevísima descripción.
+
+El módulo de facturación permite el control del almacén, de las compras y de las ventas de vuestra \organizacion.
+
+\section{Planificando el almacén}
+
+% \marginpar{\small Antes de comenzar asegúrate de que has rellenado todos los datos de tu \organizacion como se detalla en el capítulo \ref{chap:gestionorganizacion}, \titleref{chap:gestionorganizacion} y especialmente los tipos de IVA.}
+
+Los pasos preliminares para facilitar la gestión de la facturación son:
+
+\begin{description}
+ \item [Estructurar tu almacén en familias de artículos relacionados.]
+Por ejemplo: materias primas, productos de artesanía, alimentación, libros, bebidas, etc. De esta manera, además de tener el almacén mejor organizado, podrás activar o desactivar familias para que aparezcan en el TPV o en Internet; podrás realizar operaciones selectivamente sobre los artículos de una determinada familia, etc. 
+ \item [Decidir cómo codificar los artículos.]
+Cada artículo debe tener un código único, no demasiado largo pero descriptivo. 
+
+\begin{enumerate}
+\item {Si los artículos tienen código de barras, utilízalos directamente.}
+\item {Para libros o revistas, utiliza el código ISBN, que suele coincidir con el código de barras.}
+\item {Para el resto, utiliza el código o referencia propio de la proveedora. Como es muy probable que se repitan los códigos de diversas proveedoras, antepón a cada código las dos o tres primeras letras del nombre de la proveedora. Esto se puede hacer fácilmente desde la plantilla de carga masiva de artículos (ver más adelante)}.
+\item {Para artículos que no tienen ningún tipo de código, puedes crear tú tus propios códigos. \appname permite definir una serie de criterios para cada proveedora para crear los códigos de sus artículos de forma automática.}
+\end{enumerate}
+
+\end{description}
+
+\section{Carga masiva de datos de artículos}
+
+Aunque \appname está diseñado para que la introducción de datos sea lo más rápida y sencilla posible, la carga inicial de cientos o miles de artículos es un proceso muy costoso que se puede aligerar utilizando una plantilla de importación de artículos que viene con \appname \footnote{La plantilla se encuentra en \filename{\tiny /usr/share/gonglib/gong-factu/plantillas/import/ARTICULO.xls}}.
+
+Esta plantilla se debe rellenar con datos que se pueden conseguir de diversas formas:
+
+\marginpar{\small Conviene llamar por teléfono a tus proveedoras para insistir en la necesidad y urgencia de recibir el fichero de artículos.}
+
+\begin{enumerate}
+ \item {\textbf{Solicita a tus proveedoras un fichero con los datos de sus artículos}. Los datos a pedir son, como mínimo:
+ \begin{itemize}
+  \item Referencia del producto (Código de barras, ISBN, código interno, etc. )
+  \item Nombre 
+  \item Coste
+  \item Tipo de IVA
+  \item Familia o categoría
+  \item Fabricante
+ \end{itemize}
+ }
+ \item {Busca en la página web de la proveedora las referencias en un formato de tabla como una hoja de cálculo o una tabla que se pueda copiar o pegar (no vale .PDF).}
+ \item {Algunas proveedoras proporcionan hojas de pedido con sus productos.}
+ \item {Recopila albaranes o facturas de compra recientes}.
+ \item {Rellena a mano la plantilla de artículos}.
+\end{enumerate}
+
+Una vez que hayas conseguido estos datos, ve copiando las columnas a la plantilla. Las columnas de la plantilla que hay que rellenar obligatoriamente son:
+
+\begin{description}
+ \item [ARTICULO.CODIGO] {El código del artículo. \par 
+ \truco{
+ Puedes anteponer varias letras del nombre de la proveedora a los códigos de los artículos, puedes hacerlo de la siguiente manera:
+ \begin{enumerate}
+  \item Crea una nueva columna junto a la de ARTICULO.CODIGO, que será la columna \textbf{B}.
+  \item Copia en esa nueva columna los códigos de los artículos
+  \item Si quieres anteponer, por ejemplo, el texto \textit{ABC}, crea la fórmula \filename{=``ABC'' \& B2} en la casilla A2.
+  \item Arrastra esa fórmula en la columna A hasta completar todos los códigos
+\end{enumerate}
+ } %truco
+ }
+ \item [ARTICULO.NOMBRE] {El nombre del artículo.\par
+ Algunos artículos de proveedoras distintas pueden tener nombres idénticos. Aunque no es un problema para \appname puesto que al buscar un artículo nos aparecerá una lista donde elegir si hay varios repetidos, sí que es conveniente no tener duplicado el nombre para evitar elegir un artículo de otra proveedora. Se puede utilizar el procedimiento anterior para añadir el nombre de la proveedora o cualquier otro texto al nombre del producto.
+ }
+ \item [ARTICULO.FAMILIA\_ID] {El código de la familia del artículo.}
+ \item [ARTICULO.TIPOIVA\_ID] {El código del tipo de IVA. Normalmente el código coincide con el porcentaje del IVA.}
+ \item [ARTICULO.PROVEEDORA\_ID] {El código de la proveedora.}
+\end{description}
+
+El resto de columnas no es obligatorio rellenarlas:
+
+\begin{description}
+ \item [ARTICULO.CODIGOINTERNO]
+ \item [ARTICULO.FABRICANTE] {Fabricante u origen del artículo.}
+ \item [ARTICULO.COSTESINIVA, ARTICULO.COSTE] {}
+ \item [ARTICULO.MARGENCOMERCIAL] {}
+ \item [ARTICULO.PVPSINIVA, ARTICULO.PVP] {}
+ \item [ARTICULO.DTOCOMERCIAL] {}
+ \item []  {\par No es necesario rellenar todos los precios. Si se rellena el coste o PVP sin IVA, el programa calculará el coste o PVP con IVA. Si se rellena el coste y el margen comercial, se calculará el PVP. Si se rellena el PVP y el descuento comercial, se calculará el coste.}
+ \item [ARTICULO.STOCKINICIAL] {Las existencias del artículo en el momento de poner en marcha \appname. Hay que llevar cuidado con no incluir aquí existencias si luego vamos a introducir los albaranes de compra o venta de estos artículos, puesto que se sumaría o restaría otra vez la cantidad en el albarán.}
+ \item [ARTICULO.CONTROLAREXISTENCIAS] {Escribe un 1 si quieres que se controlen las existencias de este artículo, o un 0 si no.}
+ \item [ARTICULO.STOCKMINIMO, ARTICULO.STOCKMAXIMO] {Las existencias mínimas y máximas deseadas de ese artículo.}
+ \item [ARTICULO.NOTAS] {Cualquier comentario adicional sobre el artículo.}
+ \item [ARTICULO.PARATPV] {Escribe un 1 si quieres que aparezca en la pantalla del TPV, o un 0 si no.}
+\end{description}
+
+% \subsection{Familias de artículos}
+% 
+% Se accede al fichero de mantenimiento de familias desde el menú \menu{Facturación => Familias}. Los datos a rellenar son:
+% 
+% \section{Tipos de documentos}
+% 
+% \appname maneja los cuatro documentos típicos del ciclo de facturación, tanto para compras como para ventas: presupuestos (sólo para ventas), pedidos, albaranes y facturas. 
+% 
+% 
+
+

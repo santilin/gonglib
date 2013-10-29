@@ -1,0 +1,343 @@
+== Los pájaros ==
+UPDATE MIEMBRO INNER JOIN CLIENTE ON CLIENTE.ID=MIEMBRO.CLIENTE_ID SET MIEMBRO.CONTACTO_ID = CLIENTE.CONTACTO_ID;
+
+== Lanzamiento ==
+Versión en mc, la que funcionan bien las ventanas: 1323
+* Si no existe el contacto de la empresa, no hace inner join al imprimir albaranes de venta
+
+== Comprobar ==
+* Hago un pedido de cliente y en las lineas añado muchos lineas de texto en la descripción, si lo imprimo sale correcto pero si lo paso a pedido a proveedor me aparece la descripción del articulo en vez de lo que he escrito a mano que siempre es el acabado..... no se si me explico....
+2 Al elegir un articulo pongo luna y no me filtra, existiendo artículos que en su nombre si tienen la palabra luna, y luego pasa algo raro con los artículos se queda la pantalla por detrás de una en blanco.
+3 Si al elegir un articulo este no existe y desde hay le doy de alta  el código se va al nombre del articulo  entonces tengo que cortar y pegar. para seguir dando de alta.
+* COMPROBAR: Cuando se paga menos y se divide el recibo, el número agrupado no se queda igual, se genera nuevo
+
+== Hacer ==
+* TPV: Config: Mostrar nombres en mayúsculas
+* TPV: Grabar, no borra el total
+* TPV: Config global tiene preferencia sobre config usuaria
+* TPV: Algunas veces se queda sin seleccionar el artículo introducido
+* Mostrar la ventana de mesas maximizada siempre
+* Hacer tpvscreen una mainwindow
+* Poder meter rondas en vez de suma y sigue. ( 3 quintos, 1 agua, 2 quintos )
+* Configuración: Tamaños diferentes familias y artículos.
+* Poner la mesa más visible.
+
+= PRESCINDIBLE =
+
+== gong-socias ==
+* Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
+* Al añadir o duplicar socia, deshabilitar fecha y motivo baja
+* Elegir remesa en generar recibos, elegir solo las no cerradas
+* Tipo de partida: nameslisttable
+* Socias: ¿Están al corriente del pago? Avisar si no lo están.
+
+== gong-factu ==
+* Si la empresa no tiene recargo y se reciben facturas de compra con recargo, avisar
+* Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
+* Genera pagos de albaranes y luego en la factura, al facturarlo, también
+* Albaranes, facturas, etc. Añadir Cantidad asignada al proyecto
+* FrmEstadCompraVenta: Filtrar por agentes y por familias y por forma de pago
+** Revisar la reducción de la fuente número de documento en el informe
+* Artículos: Iva de compra e iva de venta
+* Crear clientes múltiples ya no es posible (si lo vuelvo a hacer, también para proveedoras)
+* Generar códigos de los artículos:
+** Funciona solo el caso de un prefijo e incremento, falta probar los otros
+* Añadir a clientes y proveedoras: dia(s) de pago, mes no pago. Al generar los pagos, tenerlo en cuenta.
+* Buscador de documentos por número
+* Cambios masivos de precios: Sumar una cantidad fija
+* Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
+
+== gong-tpv ==
+* Al limpiar la mesa, lee registros
+* TPV: Z: Sumar la entrega, no el total del ticket
+* TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
+* TPV: Imprimir en el ticket el número de socia
+* TPV: hay mucho espacio en el ticket después de los datos del cliente
+* La primera vez que se abre el tpv, no salen letras grandes
+* saveEstado intenta grabar siempre, ver la diferencia
+* Tarifas por el tipo de mesa.
+* Problema: Maximizar TPV, guardar y cerrar, cancelar, minimizar tpv, guardar y cerrar, esta ventana sale maximizada.
+* Opción optimizar imagen para el tpv
+* Limpiar: Borrar el cliente y el agente y elegir el agente otra vez
+* A pantalla completa. Seguir probando, no va muy bien.
+
+== gong-deposit ==
+* Liquidación de depósitos de venta, marcar la liquidación, igual que los de compra.
+* Si no hay coste de artículo, que la liquidación lo avise.
+* browse de liqventa, mostrar número.
+* Poner el tipo de documento al generar la liquidación de venta.
+* Hago informe depósitos, creo una liquidación y vuelvo a hacer el informe y sale vacío
+* Liquidar depósitos de venta, tecleo código del tipo de documento y pulso tab y no avanza
+* Duplicar albarán de venta: no borra el check Liquidada
+* ¿Qué pasa si al meter una liquidación de un cliente los precios de los artículos han cambiado?
+
+== cobros ==
+* setTabOrder en completa
+* Pagos: Que pagar o anular sea el botón por defecto
+* Aplicar la tasa de cambio de la moneda en el pago/cobro
+* Agrupar, desagrupar, asociar a factura, disociar de factura, etc.
+* ¿Cómo regenerar los asientos de los pagos/cobros agrupados?
+** Regenerar asientos de pagos: si no hay cuenta origen, dar error y no generarlo
+** Añadir IAsentable a pagos y cobros para regenerar los pagos y cobros
+* Si un pago es mayor que el total, y no hay más facturas, entonces ¿hay que crear un nuevo pago por el resto?
+
+== gong-contab ==
+* Comprobar el asiento cuando el tipo de forma de pago es ignorar el resto.
+* Asiento compuesto, poner en el concepto el código del artículo cuando es un solo artículo
+* Añadir campos: cuenta clientes, cuenta anticipos, cuenta proveedores, etc. a empresa y eliminar settings MODULE.CONTAB.CUENTA_CLIENTE, etc.
+* Crea asiento, supervisar, si está modificándolo, que ponga modificando asiento en el título
+* Asientos automáticos:
+** Pedir la fecha y otros campos que se pueden modificar
+** Pensar mejor lo del rescateValues
+* Crear un ContabFrmCustom que valide bien las cuentas y utilizarlo en asitipoform
+** o bien usar el código en asitipoform del frmpagarrecibo
+* ¿Qué hacer si se cancela un asiento generado automáticamente?
+* Importar datos de empresas. FP(40)
+** Opciones empresa: CP(82)
+** Niveles del plan contable
+
+== gong-contactos ==
+* Comprobar que apellidos, nombre no duplica nombre, apellidos
+* Utilizar campo alternativo para buscar clientes, proveedoras y contactos
+
+== gong-empresa ==
+* Cuando se modifica la base de datos, en el login dice que no exite la empresa y acaba el programa
+* 	struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
+
+== gong-dbapp ==
+* QWidgetTab->strongFocus
+* qt_tabwidget_tabbar toma el foco cuando pasamos con el tabulador
+* Tras "Asistente de acceso" no añade nombre empresa a título ventana principal
+* Importar: que no refresque el formulario maestro en cada registro
+* El refrescar del frmeditrecmaster desde el menú principal debería refrescar solo en modo browsing
+* Formulario de gestión de módulos en dbapp
+* Elegir registro cuando hay un filtro, añades y si no coincide con el filtro, no aparece
+** Comprobarlo y mostrar mensaje diciendo que el registro no se verá
+* SQLSELECT. Elegir valores múltiples de campos
+* No busca la Ñ el browse:
+** El problema es:     else if( ke->text()[ 0 ].isPrint() )
+* FrmEditRecMaster: Exportar como fugit
+* FrmImport no se cierra al darle a cerrar porque no es un FrmBase
+* FrmAdvancedPrint:
+** Pedir el ancho del informe
+** Pedir salida
+** El logo no sale
+* Teclas cursor en la visualización de los informes
+* Altura de los lineedit no es fija
+* FrmEditRecMaster::Show, cuando es simpleEdition, no llama al beginEdit, con lo cual no se comprueban los permisos
+* No funciona f5 en frmeditrecdetail
+* FrmImport::addMessage no salen los acentos
+* Crear y borrar la usuaria en la base de datos
+* Al grabar un registro, refrescar los formularios de las relaciones
+* FrmDatabasetools, al pulsar un botón, comprobar que no hay otras ventanas
+* Crear estilos para edición y otros para vistas? (VIEW:INTEGER e INTEGER)
+* FrmEditRecDetail->Toma el foco el datatable siempre
+* No funciona duplicar detalles
+* Recordar tamaño y posición de la ventana principal
+* FrmEditRec: Al dar un error en un campo con tabs y poner el foco en ese campo, activar el tab correspondiente
+
+== ventasweb ==
+* Subir por ftp, el mensaje de error no está vacío cuando no hay error
+
+== gong-sinpapeles ==
+* No muestra los documentos
+* FrmEditRecMaster: Añadir acceso directo para ver el documento archivado
+* La longitud del documento archivado no puede ser mayor de ...
+* Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
+
+== gong-rtk ==
+* El borderbottom no funciona salvo que la siguiente sección tenga un margen top
+* Al hacer un informe apaisado, el alto de línea es demasiado pequeño
+* Añadir propiedad fontsizeincrement
+* Cerrar informes con el escape
+* Peta si se añade al inicio de xxxx_comun.inc:
+#ifndef AGRUPAR
+	SizeX = 120;
+* pagesperfolio=2, no imprime el pie de página de la primera página
+=== Error en RTK ===
+* Esto falla miserablemente:
+		INPUTFIELD NOMBRE {
+			Source = T.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD IVA {
+* Comprobar los esti/*<<<<<COPYRIGHT*/
+/** @file rtkoutputtext.cpp RTK standard text output object */
+/*
+ * RTK The report toolkit
+ * Copyright (C) 2003 Francisco Santiago Capel Torres
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+/*>>>>>COPYRIGHT*/
+los de los campos de los informes, que se usen los de gonglib
+* Si en un pageheader se pone un objeto con un sizey que va al final y luego hay otros objetos que van al principio, el del final no sale
+* rtk: startpage.drawImages no cubre todo el painter
+
+== gong-qt4 ==
+* Checkboxes, que el ENTER no cambie el valor, sólo el espacio
+* El enter de los textboxes es confuso, mejor añadirlo pero si se pulsa otra vez, saltar y borrarlo?
+* No sale en español el Qt el mensaje de overwrite a file
+* ImageBox: Recibir un parámetro: convert_path
+* Cuando un editline da error, el cursor se vuelve un caracter a la izda.
+* Falta propiedad justEdited a ImageBox y RichTextBox
+* Añadir propiedad edited a richtextedit
+* Tamaño de los listboxes ajustado al máximo del listbox
+* En campos deshabilitados no funciona ctrl+c
+
+== gonglib ==
+* TIPOCLIENTE, SOCIASESTADO, etc. tienen índices duplicados
+* editar fechas de nacimiento, si el año es mayor de 2100 y es multiplo de 100, es un 19xx
+* dbSettings::removeSetting no está acabado
+* Problema con campos Text e Image: Aunque se definen como medium_text y medium_blog respectivamente,
+** al leerlos con selectfromrow el tipo de cada uno en dbRow es el mismo y a partir de ahí se consideran binarios
+* Al inicio, da muchos errores de locale, intenta leer el locale en_US
+* 2002:Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'
+* stringInc: Cuando solo son letras, incrementa por la izquierda!
+* LineEdit::setText( DateTime::currentDate() ) => "dd/mm/yyyy 01:00:00";
+* reconectar mysql, no hace el SET NAMES utf8
+* dbFieldReferenceID: aggregate relations null
+	/// \todo {check} Esto se hacía solo para que los apuntes pudieran tener algunos datos incompletos
+* Locale ca falla porque está instalado el ca_ES.
+* En settings, si una línea termina así, no da error pero no sigue leyendo ";";
+* En settings, no funciona .~Por_proveedora
+* Un setting DFDFDF(string)= debe devolverlo con el valor invalid
+* Settings::getNextValue: No maneja bien los \\
+* dbRecord: save fields right trimmed
+
+== autotools, capel y gong.sh ==
+* Informe CUENTA.rtk: alignment de header debe y haber no funciona
+** capel no genera el objeto ASIENTO.DESCRIPCION en el header del grupo
+* {configure} libboost si no está instalado, cambiar el mensaje para que diga utilizar --without-boost
+
+== Para más tarde ==
+* MsgYesNoDontAskAgain: aplicar a main.cpp, language
+* FrmEditRec Cuando está seleccionado el botón cancelar, si pulsamos ENTER no hace nada
+
+== Refactoring ==
+* Eliminar enablesearchboxes
+* dbRecordList no permitir push_back
+* FrmCustom: Utilizar un QTabWidget, showTabs
+* Refactor: ImagesGallery::addPixmap e ImageBox::setImageData
+* GuiApplication::loadImage(filename), GuiApplication::saveImage(filename)
+* Quitar el getConnection del dbapp en cada módulo, tomarlo de cada módulo
+* Convertir en behavior:
+** editorial::frmeditarticulo, contab::frmeditempresa, socias::frmeditapunte, mc:frmproveedora, mc:articulo
+
+== Dudo que lo haga
+* Lineedit con mask ###,###,### al suprimir desde la izquierda, la posición del cursor falla
+* Pegar fechas con año completo en mascaras sin año completo, tomar los dos digitos ultimos del año
+* detalles-> set focus cuando se edita el nombre del artículo, que se vaya al código del artículo
+** Hay que redefinir los formularios de detalles, lo cual es mucho trabajo, no merece la pena.
+
+== Bugs ==
+* Si se copia un presupuestoventadet a un pedido peta
+* Si añadimos a un formulario un combo<xtring> cuando está definido como combo<int>, peta
+* Si a un lineedit de tipo date le pasas un datetime en el settext, sale mal el formato y luego la máscara
+
+
+== mc ==
+http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-the-reliable-way/
+
+== CONTABILIDAD ==
+* Proveedoras: Es mejor no separar las cuentas.
+** En algunos casos, sí que se pueden separar en proveedoras nacionales, comunitarios, extranjeros
+* IVA: Siempre va a gestión.
+** IVA de la UE: Se hacen dos asientos, uno al soportado y otro al repercutido
+** Subcuentas soportado (deducible): 472.
+** Subcuentas repercutido (devengado): 477.
+* Crear tipo de documento ticket sin factura posterior
+** No se puede declarar el IVA
+** Genera un asiento como si fuera una factura
+** Añade a tipodocumento un campo SINFACTURAPOSTERIOR
+
+* Productos terminados y materias primas:
+** Materias primas (compras) 601.
+** Productos terminados (ventas ) 701.
+** Si solo hubiera una empresa, sería genial, pero en los pájaros hay varios problemas:
+*** Si se compra arroz, unas veces va a la 600 y otras a la 601.
+*** Se necesita que el mismo artículo unas veces vaya a la 600 y otras a la 601.
+*** Cuando compra la cantina a la tienda, tiene que hacerse un asiento en la tienda y otro en la cantina, y la cuenta (600 o 601)
+	depende de la familia de modo que no hay manera de distinguir
+** 628.- Agua, luz y gas
+** 629.- todo lo demás
+
+
+== gonglib 0.6.0 ==
+=== dbRecord ===
+* Crear un objeto Query con métodos para formar una query
+* Añadir: List<IntegrityResult> mErrors, mWarnings;
+* isValid( context ) => rellena el array de IntegrityResult
+* Añadir validErrors y un saveNoValidate()
+* Al guardar un registro, que el resto de registros de las relaciones se pongan mIsRead = false, esto implica tener una lista de registros en memoria
+=== gui ===
+* FrmBase => FrmCustom (con tabs) => FrmEditRec
+* MdiArea:
+* Interface GuiControl
+* Añadir setVisible a TextBox, EditBox, etc.
+* IControl: isSettingProgrammatically: Probar a desconectar las señales/slots
+* IWindow: addControls, layouts, etc.
+** FrmBase: public QMdiSubWindow, IWindow
+** DialogBase: public QDialog, IWindow
+* Separar ComboXtring y ComboInt
+** Constructor que reciba las listas por referencia y otro por valor
+** Nameslisttable, que guarde la lista de valores, no los campos
+* Q3Table -> Qt4 (http://www.informit.com/articles/article.aspx?p=1750226&seqNum=3)
+** Hover sobre q3table, mostrar el texto completo de la celda
+** Ctrl+click selecciona pero no deselecciona
+** Si no está seleccionado el primer registro, al pulsar ctrl+l selecciona también el primero
+** Al ir añadiendo detalles, la última línea no se ve
+** Al mover la barra de detalles, no se redibuja bien
+** Ajustar el alto de fila a la fuente
+** ContextMenu de la pDataTable: Usar el menu del frmeditrecmaster
+=== dbapp ===
+* canBeginEdit( EditMode &newmode )
+* Definición de las vistas: +SELECT BLA,BLA FROM INNER JOIN
+* Añadir a herramientas de la base de datos información sobre la conexión como etiquetas en el propio formulario
+* Separar mod303, quitar fechaiva de facturas de factu
+* Eliminar el setting USEWORKINGDATE, usar bloqueo de campos
+* Formulario de edición de la configuración:
+** Añadir botón "Buscar clave" y "Añadir clave"
+** Crear editor específico para los valores.
+* Shortcuts para los menus en la configuración
+* AppReport::fromViewDefinition: Estrechar más los campos más largos (difícil)
+* Opción en FrmEditRecMaster para mostrar/ocultar los ids
+* FrmEditRec: Posibilidad de añadir controles dinámicamente a partir de una lista de campos,
+  así se evitaría tener que crear behaviors para campos muy sencillos.
+* Quitar última fecha y añadir a frmeditrec la posibilidad de bloquear cualquier campo
+* Crear un FrmCondicionesInformes: public FrmCustom.
+** Esto es una barbaridad Xtring FrmCustom::readRTK( const Xtring &_template )
+* dbModule::readSettings( local/global ) y en dbapplication::readSettings, llamar primero al global,
+	luego leer las globales de la aplicación y luego llamar al local y luego las locales de la aplicación, igual con los reportspath
+=== gonglib ===
+* Hacer Xtring shared
+* Configuración: para qué conjunto de settings vale cada setting
+* dbRecordBehavior se tiene que añadir a los registros, no a la tabledefinition
+* Añadir dbRecord::mOrigFieldValues
+== optimizaciones ==
+* CreateRecord: hacerlo en el readrelations
+* mysql: no guardar el resultset completo, utilizar el cursor
+
+
+* SENDBUG: Que msgxtringlist cierre con el intro
+* SENDBUG: ContactosBehavior, problema con los layouts.
+* SENDBUG: No poder maximizar la ventana inactiva.
+* SENDBUG: el ctrl+e de un lineedit, no retoma el foco cuando se cierra la ventana (depurar con dos monitores)
+* SENDBUG: A pesar de poner un stylesheet con font-size:10px, los editlines salen muy grandes (fontinfo?)
+
+
+== .deb ==
+https://wiki.debian.org/IntroDebianPackaging
+
+../gong.sh make_tar gestiong
+dh_make --native -c lgpl -e gestiong@programacionsocial.net -s
+debuild -us -uc

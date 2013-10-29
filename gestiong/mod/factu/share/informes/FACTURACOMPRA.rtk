@@ -1,0 +1,513 @@
+//<<<<<COPYLEFT
+// @file FACTURACOMPRA.rtk Factura de venta
+// GongLib project. (L) Santiago Capel Torres, 2003-2011
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//>>>>>COPYLEFT
+
+
+REPORT FacturaCompra
+{
+    Title = "Factura de compra";
+    Units = chars;
+    SizeY = 60;
+    Tag = "Facturación";
+    SizeX = 100;
+
+
+INPUT default {
+        driver = mysql;
+        from = "FACTURACOMPRA INNER JOIN EMPRESA ON FACTURACOMPRA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN PROVEEDORA ON PROVEEDORA.ID = FACTURACOMPRA.PROVEEDORA_ID INNER JOIN CONTACTO PROVEEDORA_CONTACTO ON PROVEEDORA_CONTACTO.ID = PROVEEDORA.CONTACTO_ID INNER JOIN FACTURACOMPRADET ON FACTURACOMPRA.ID = FACTURACOMPRADET.FACTURACOMPRA_ID INNER JOIN ARTICULO ON ARTICULO.ID = FACTURACOMPRADET.ARTICULO_ID";
+        orderby = "FACTURACOMPRADET.NLINEA";
+
+        INPUTFIELD EMPRESA_NOMBRE {
+            Source = EMPRESA.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CUENTABANCO {
+            Source = EMPRESA.CUENTABANCO;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_NOMBRE {
+            Source = EMPRESA_CONTACTO.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_CIF {
+            Source = EMPRESA_CONTACTO.CIF;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_DIRECCION {
+            Source = EMPRESA_CONTACTO.DIRECCION;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_CP {
+            Source = EMPRESA_CONTACTO.CP;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_LOCALIDAD {
+            Source = EMPRESA_CONTACTO.LOCALIDAD;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_PROVINCIA {
+            Source = EMPRESA_CONTACTO.PROVINCIA;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_TELEFONO {
+            Source = EMPRESA_CONTACTO.TELEFONO;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_EMAIL {
+            Source = EMPRESA_CONTACTO.EMAIL;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_LOGO {
+            Source = EMPRESA.LOGO;
+            Type = image;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_NOMBRE {
+            Source = PROVEEDORA_CONTACTO.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_CIF {
+            Source = PROVEEDORA_CONTACTO.CIF;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_DIRECCION {
+            Source = PROVEEDORA_CONTACTO.DIRECCION;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_CP {
+            Source = PROVEEDORA_CONTACTO.CP;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_LOCALIDAD {
+            Source = PROVEEDORA_CONTACTO.LOCALIDAD;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_PROVINCIA {
+            Source = PROVEEDORA_CONTACTO.PROVINCIA;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_TELEFONO {
+            Source = PROVEEDORA_CONTACTO.TELEFONO;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_FAX {
+            Source = PROVEEDORA_CONTACTO.FAX;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_EMAIL {
+            Source = PROVEEDORA_CONTACTO.EMAIL;
+            Type = string;
+        }
+        INPUTFIELD FACTURACOMPRADET_CANTIDAD {
+            Source = FACTURACOMPRADET.CANTIDAD;
+            Type = double;
+        }
+        INPUTFIELD ARTICULO_CODIGO {
+            Source = ARTICULO.CODIGO;
+            Type = string;
+        }
+        INPUTFIELD ARTICULO_NOMBRE {
+            Source = ARTICULO.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD FACTURACOMPRADET_COSTESINIVA {
+            Source = FACTURACOMPRADET.COSTESINIVA;
+            Type = Money;
+        }
+        INPUTFIELD FACTURACOMPRADET_DTOP100 {
+            Source = FACTURACOMPRADET.DTOP100;
+            Type = double;
+        }
+        INPUTFIELD FACTURACOMPRADET_IMPORTE {
+            Source = FACTURACOMPRADET.IMPORTE;
+            Type = Money;
+        }
+        INPUTFIELD FACTURACOMPRA_FECHA {
+            Source = FACTURACOMPRA.FECHA;
+            Type = date;
+        }
+        INPUTFIELD FACTURACOMPRA_NUMERO {
+            Source = FACTURACOMPRA.NUMERO;
+            Type = string;
+        }
+        INPUTFIELD FACTURACOMPRA_NOTAS {
+            Source = FACTURACOMPRA.NOTAS;
+            Type = string;
+        }
+        INPUTFIELD FACTURACOMPRA_SUMAIMPORTES {
+            Source = FACTURACOMPRA.SUMAIMPORTES;
+            Type = Money;
+        }
+        INPUTFIELD FACTURACOMPRA_DESCUENTO {
+            Source = FACTURACOMPRA.DESCUENTO;
+            Type = Money;
+        }
+        INPUTFIELD FACTURACOMPRA_DTOP100 {
+            Source = FACTURACOMPRA.DTOP100;
+            Type = double;
+        }
+        INPUTFIELD FACTURACOMPRA_BASEIMPONIBLE {
+            Source = FACTURACOMPRA.BASEIMPONIBLE;
+            Type = Money;
+        }
+        INPUTFIELD FACTURACOMPRA_IVA {
+            Source = FACTURACOMPRA.IVA;
+            Type = Money;
+        }
+        INPUTFIELD FACTURACOMPRA_RECARGOEQUIVALENCIA {
+            Source = FACTURACOMPRA.RECARGOEQUIVALENCIA;
+            Type = Money;
+        }
+        INPUTFIELD FACTURACOMPRA_TOTAL {
+            Source = FACTURACOMPRA.TOTAL;
+            Type = Money;
+        }
+        INPUTFIELD ARTICULO_DESCRIPCION {
+            Source = FACTURACOMPRADET.DESCRIPCION;
+            Type = Text;
+        }
+        INPUTFIELD IVADETALLADO {
+            Source = FACTURACOMPRA.IVADETALLADO;
+            Type = integer;
+        }
+        INPUTFIELD DESGLOSEIVA {
+            Source = FACTURACOMPRA.DESGLOSEIVA;
+            Type = string;
+        }
+//>>>>>INPUT_DEFAULT
+    }
+
+    include = "compras_header.inc";
+
+    PAGEHEADER page_header_numero {
+        sizey = 2;
+        style = pageheader;
+
+        OBJECT pageheader_FACTURACOMPRA_NUMERO_CAPTION {
+            fontsize = 14.0;
+            value = "=const @DDD.FACTURACOMPRA_DESCSINGULAR;";
+            posx = 0;
+            posy = 0.2;
+            fontweight = bold;
+        }
+        OBJECT pageheader_FACTURACOMPRA_NUMERO {
+            fontsize = 14.0;
+            halignment = right;
+            value = "=input.FACTURACOMPRA_NUMERO;";
+            posy = 0.2;
+            sizex = 12.0;
+            posx= 30.0;
+            fontweight = bold;
+        }
+        OBJECT pageheader_FACTURACOMPRA_FECHA_CAPTION {
+            fontsize = 14.0;
+            value = "=const @DDD.FACTURACOMPRA_FECHA_CAPTION + \":\";";
+            posy = 0.2;
+            sizex = 8.0;
+            posx = 50.0;
+            fontweight = bold;
+        }
+        OBJECT pageheader_FACTURACOMPRA_FECHA {
+            fontsize = 14.0;
+            value = "=input.FACTURACOMPRA_FECHA;";
+            posy = 0.2;
+            posx = 60.0;
+            format = "%d de %B de %Y";
+            fontweight = bold;
+        }
+        borderbottomwidth = 2;
+        borderbottomstyle = solid;
+    }
+
+
+    PAGEHEADER details_header {
+        posx = 0;
+        level = 0;
+        style = detail;
+        sizey = 1;
+        fontweight = bold;
+        margintop = 0.2;
+        marginbottom = 0.3;
+        borderbottomstyle = solid ;
+        borderbottomcolor = black ;
+        borderbottomwidth = 2;
+
+
+        OBJECT header_FACTURACOMPRADET_CANTIDAD {
+            halignment = "right";
+            value = "= const @DDD.FACTURACOMPRADET_CANTIDAD_CAPTION;";
+            posx = 0.0;
+            sizex = 8.0;
+        }
+        OBJECT header_ARTICULO_CODIGO {
+            value = "= const @DDD.ARTICULO_CODIGO_CAPTION;";
+            posx = 9.0;
+            sizex = 15.0;
+        }
+        OBJECT header_ARTICULO_NOMBRE {
+            value = "= const @DDD.ARTICULO_NOMBRE_CAPTION;";
+            posx = 25.0;
+            sizex = 43.0;
+        }
+        OBJECT header_FACTURACOMPRADET_COSTE {
+            halignment = "right";
+            value = "= const @DDD.FACTURACOMPRADET_COSTESINIVA_CAPTION;";
+            posx = 69.0;
+            sizex = 12.0;
+        }
+        OBJECT header_FACTURACOMPRADET_DTOP100 {
+            halignment = "right";
+            value = "= const @DDD.FACTURACOMPRADET_DTOP100_CAPTION;";
+            posx = 82.0;
+            sizex = 6.0;
+        }
+        OBJECT header_FACTURACOMPRADET_IMPORTE {
+            halignment = "right";
+            value = "= const @DDD.FACTURACOMPRADET_IMPORTE_CAPTION;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+    }
+
+//<<<<<DETAILS_0
+    DETAILS details {
+        posx = 2;
+        level = 0;
+        style = detail;
+        sizey = 1;
+
+        OBJECT FACTURACOMPRADET_CANTIDAD {
+            halignment = "right";
+            value = "=input.FACTURACOMPRADET_CANTIDAD;";
+            posx = 0.0;
+            sizex = 8.0;
+        }
+        OBJECT ARTICULO_CODIGO {
+            value = "=input.ARTICULO_CODIGO;";
+            posx = 9.0;
+            sizex = 15.0;
+        }
+        OBJECT ARTICULO_NOMBRE {
+            value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
+            posx = 25.0;
+            sizex = 43.0;
+        }
+        OBJECT FACTURACOMPRADET_COSTESINIVA {
+            halignment = "right";
+            value = "=input.FACTURACOMPRADET_COSTESINIVA;";
+            posx = 69.0;
+            sizex = 11.0;
+        }
+        OBJECT FACTURACOMPRADET_DTOP100 {
+            halignment = "right";
+            value = "=input.FACTURACOMPRADET_DTOP100;";
+            format = "%b";
+            mask = "999.99";
+            posx = 82.0;
+            sizex = 6.0;
+        }
+        OBJECT FACTURACOMPRADET_IMPORTE {
+            halignment = "right";
+            value = "=input.FACTURACOMPRADET_IMPORTE;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+//>>>>>DETAILS_0
+        posx = 0;
+//		formulabefore = "= if( @input.FACTURACOMPRADET_HABER != 0 ) { @ARTICULO_ARTICULO.visible = 0; @ARTICULO_ARTICULO2.visible = 1; @ARTICULO_DESCRIPCION.visible = 0; @ARTICULO_DESCRIPCION2.visible = 1;} else { @ARTICULO_ARTICULO.visible = 1; @ARTICULO_ARTICULO2.visible = 0; @ARTICULO_DESCRIPCION.visible = 1; @ARTICULO_DESCRIPCION2.visible = 0;} return 0; ";
+    }
+
+    PAGEFOOTER page_footer_notas {
+        sizey = 2;
+        style = pagefooter;
+
+        OBJECT pagefooter_FACTURACOMPRA_NOTAS {
+            value = "= input.FACTURACOMPRA_NOTAS;";
+            posy = 0;
+            posx = 0.0;
+            sizey = 2;
+        }
+    }
+
+//<<<<<PAGE_FOOTER
+    PAGEFOOTER page_footer_captions {
+        sizey = 1;
+        style = pagefooter;
+
+        OBJECT pagefooter_FACTURACOMPRA_SUMAIMPORTES {
+            value = "= const @DDD.FACTURACOMPRA_SUMAIMPORTES_CAPTION;";
+            posx = 0.0;
+            sizex = 16.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_FACTURACOMPRA_DESCUENTO {
+            value = "= const @DDD.FACTURACOMPRA_DESCUENTO_CAPTION;";
+            posx = 17.0;
+            sizex = 16.0;
+            halignment = "right";
+        }
+        // Sin recargo de equivalencia
+        OBJECT pagefooter_FACTURACOMPRA_BASEIMPONIBLE_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.FACTURACOMPRA_BASEIMPONIBLE_CAPTION;";
+            posx = 55.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_FACTURACOMPRA_IVA_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.FACTURACOMPRA_IVA_CAPTION;";
+            posx = 70;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        // Con recargo de equivalencia
+        OBJECT pagefooter_FACTURACOMPRA_BASEIMPONIBLE_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.FACTURACOMPRA_BASEIMPONIBLE_CAPTION;";
+            posx = 40.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_FACTURACOMPRA_IVA_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.FACTURACOMPRA_IVA_CAPTION;";
+            posx = 55;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_FACTURACOMPRA_RECARGOEQUIVALENCIA {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.FACTURACOMPRA_RECARGOEQUIVALENCIA_CAPTION;";
+            posx = 70.0;
+            sizex = 12.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_FACTURACOMPRA_TOTAL {
+            value = "= const @DDD.FACTURACOMPRA_TOTAL_CAPTION;";
+            posx = 85.0;
+            sizex = 15.0;
+            halignment = "right";
+        }
+
+//>>>>>PAGE_FOOTER
+        bordertopstyle = solid ;
+        bordertopcolor = black ;
+        bordertopwidth = 2;
+        borderbottomstyle = solid ;
+        borderbottomcolor = black ;
+        borderbottomwidth = 2;
+        fontweight = bold;
+        marginbottom = 0.3;
+        sizey = 1.2;
+        posy = -0.2;
+    }
+
+    PAGEFOOTER page_footer_values {
+        sizey = 1.5;
+        style = pagefooter;
+
+        OBJECT pagefooter_values_FACTURACOMPRA_SUMAIMPORTES {
+            value = "= input.FACTURACOMPRA_SUMAIMPORTES;";
+            posx = 0.0;
+            sizex = 16.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_FACTURACOMPRA_DTOP100_ABRE {
+            formulabefore = "= if( @input.FACTURACOMPRA_DTOP100 == 0.0 ) {@this.visible = false;} else { @this.visible = true;} return true;";
+            value = "(";
+            posx = 19.0;
+            sizex = 2.0;
+        }
+        OBJECT pagefooter_values_FACTURACOMPRA_DTOP100 {
+            value = "= input.FACTURACOMPRA_DTOP100;";
+            format = "%b";
+            mask = "999.99";
+            posx = 20.0;
+            sizex = 5.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_FACTURACOMPRA_DTOP100_CIERRA {
+            formulabefore = "= if( @input.FACTURACOMPRA_DTOP100 == 0.0 ) {@this.visible = false;} else { @this.visible = true;} return true;";
+            value = "%)";
+            posx = 25.0;
+            sizex = 4.0;
+        }
+        OBJECT pagefooter_values_FACTURACOMPRA_DESCUENTO {
+            value = "= input.FACTURACOMPRA_DESCUENTO;";
+            format = "%b";
+            mask = "999.99";
+            posx = 28.0;
+            sizex = 10.0;
+            halignment = "left";
+        }
+        // Sin recargo de equivalencia
+        OBJECT pagefooter_values_FACTURACOMPRA_BASEIMPONIBLE_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.FACTURACOMPRA_BASEIMPONIBLE;";
+            posx = 55.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_FACTURACOMPRA_IVA_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.FACTURACOMPRA_IVA;";
+            posx = 70.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        // Con recargo de equivalencia
+        OBJECT pagefooter_values_FACTURACOMPRA_BASEIMPONIBLE_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.FACTURACOMPRA_BASEIMPONIBLE;";
+            posx = 40.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_FACTURACOMPRA_IVA_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.FACTURACOMPRA_IVA;";
+            posx = 55.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_FACTURACOMPRA_RECARGOEQUIVALENCIA {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.FACTURACOMPRA_RECARGOEQUIVALENCIA;";
+            posx = 70.0;
+            sizex = 12.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_FACTURACOMPRA_TOTAL {
+            value = "= input.FACTURACOMPRA_TOTAL;";
+            posx = 85.0;
+            sizex = 15.0;
+            halignment = "right";
+            fontweight = "bold";
+        }
+    }
+
+    PAGEFOOTER page_footer_desgloseiva {
+        sizey = 1;
+        style = pagefooter;
+        supifblank = true;
+        formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+
+        OBJECT pagefooter_DESGLOSEIVA {
+            value = "= input.DESGLOSEIVA;";
+            posy = 0;
+            posx = 0.0;
+        }
+    }
+
+}

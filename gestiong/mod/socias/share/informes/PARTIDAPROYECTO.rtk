@@ -1,0 +1,269 @@
+//<<<<<COPYLEFT
+// @file PARTIDAPROYECTO.rtk Partidas de proyectos
+// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+*
+* This library is free software;
+you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public
+* License as published by the Free Software Foundation;
+either
+* version 2 of the License, or (at your option) any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY;
+without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public
+* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+//>>>>>COPYLEFT
+
+//<<<<<MODULE_INFO
+// COPYLEFT Partidas de proyectos
+// FIELD PARTIDAPROYECTO.TIPO||text|1
+// FIELD PARTIDAPROYECTO.CODIGO||text|7
+// FIELD PARTIDAPROYECTO.DESCRIPCION||text|30
+// FIELD PARTIDAPROYECTO.PRESUPUESTO||money|10
+// FIELD PARTIDAPROYECTO.IMPORTE||money|10
+// FIELD PROYECTO.CODIGO||int|4|l1
+// FIELD PROYECTO.DESCRIPCION||text|40|l1
+// FIELD PROYECTO.ESTADO||text|10|l1
+// FIELD PROYECTO.FECHAINICIO||date|8|l1
+// FIELD PROYECTO.FECHAFIN||date|8|l1
+// TYPE SimpleReport
+//>>>>>MODULE_INFO
+
+//<<<<<REPORT_DEFINITION
+Title = "Partidas de proyectos";
+Units = chars;
+SizeX = 100;
+SizeY = 60;
+//>>>>>REPORT_DEFINITION
+Tag = "Asociación";
+
+
+INPUT default {
+driver = mysql;
+from = "PARTIDAPROYECTO INNER JOIN PROYECTO ON PARTIDAPROYECTO.PROYECTO_ID = PROYECTO.ID";
+orderby = "PROYECTO.CODIGO, PARTIDAPROYECTO.ORDEN, PARTIDAPROYECTO.CODIGO";
+
+//<<<<<INPUT_DEFAULT
+INPUTFIELD PARTIDAPROYECTO_TIPO {
+    Source = PARTIDAPROYECTO.TIPO;
+    Type = text;
+}
+INPUTFIELD PARTIDAPROYECTO_CODIGO {
+    Source = PARTIDAPROYECTO.CODIGO;
+    Type = text;
+}
+INPUTFIELD PARTIDAPROYECTO_DESCRIPCION {
+    Source = PARTIDAPROYECTO.DESCRIPCION;
+    Type = text;
+}
+INPUTFIELD PARTIDAPROYECTO_PRESUPUESTO {
+    Source = PARTIDAPROYECTO.PRESUPUESTO;
+    Type = money;
+}
+INPUTFIELD PARTIDAPROYECTO_IMPORTE {
+    Source = PARTIDAPROYECTO.IMPORTE;
+    Type = money;
+}
+INPUTFIELD PROYECTO_CODIGO {
+    Source = PROYECTO.CODIGO;
+    Type = int;
+}
+INPUTFIELD PROYECTO_DESCRIPCION {
+    Source = PROYECTO.DESCRIPCION;
+    Type = text;
+}
+INPUTFIELD PROYECTO_ESTADO {
+    Source = PROYECTO.ESTADO;
+    Type = text;
+}
+INPUTFIELD PROYECTO_FECHAINICIO {
+    Source = PROYECTO.FECHAINICIO;
+    Type = date;
+}
+INPUTFIELD PROYECTO_FECHAFIN {
+    Source = PROYECTO.FECHAFIN;
+    Type = date;
+}
+//>>>>>INPUT_DEFAULT
+}
+
+//<<<<<PAGE_HEADER
+Include = "default_pageheader.inc";
+//>>>>>PAGE_HEADER
+}
+
+//<<<<<GROUP_HEADER_CAPTIONS_1
+GROUPHEADER group_header_captions_1 {
+posx = 0;
+sizey=1;
+fontweight = bold;
+borderbottomstyle = solid ;
+borderbottomcolor = black ;
+borderbottomwidth = 2;
+
+value= "=input.PROYECTO_CODIGO;";
+level=1;
+OBJECT header_PROYECTO_CODIGO {
+    value = "= const @DDD.PROYECTO_CODIGO_CAPTION;";
+    posx = 0.0;
+    sizex = 4.0;
+}
+OBJECT header_PROYECTO_DESCRIPCION {
+    value = "= const @DDD.PROYECTO_DESCRIPCION_CAPTION;";
+    posx = 5.0;
+    sizex = 40.0;
+}
+OBJECT header_PROYECTO_ESTADO {
+    value = "= const @DDD.PROYECTO_ESTADO_CAPTION;";
+    posx = 46.0;
+    sizex = 10.0;
+}
+OBJECT header_PROYECTO_FECHAINICIO {
+    value = "= const @DDD.PROYECTO_FECHAINICIO_CAPTION;";
+    posx = 57.0;
+    sizex = 8.0;
+}
+OBJECT header_PROYECTO_FECHAFIN {
+    value = "= const @DDD.PROYECTO_FECHAFIN_CAPTION;";
+    posx = 66.0;
+    sizex = 8.0;
+}
+//>>>>>GROUP_HEADER_CAPTIONS_1
+}
+
+//<<<<<GROUP_DETAILS_1
+GROUPHEADER group_details_1 {
+style = detail;
+sizey = 1;
+posx = 0;
+
+value= "=input.PROYECTO_CODIGO;";
+level=1;
+OBJECT PROYECTO_CODIGO {
+    halignment = "right";
+    value = "=input.PROYECTO_CODIGO;";
+    posx = 0.0;
+    sizex = 4.0;
+}
+OBJECT PROYECTO_DESCRIPCION {
+    value = "=input.PROYECTO_DESCRIPCION;";
+    posx = 5.0;
+    sizex = 40.0;
+}
+OBJECT PROYECTO_ESTADO {
+    value = "=input.PROYECTO_ESTADO;";
+    posx = 46.0;
+    sizex = 10.0;
+}
+OBJECT PROYECTO_FECHAINICIO {
+    value = "=input.PROYECTO_FECHAINICIO;";
+    posx = 57.0;
+    sizex = 8.0;
+}
+OBJECT PROYECTO_FECHAFIN {
+    value = "=input.PROYECTO_FECHAFIN;";
+    posx = 66.0;
+    sizex = 8.0;
+}
+//>>>>>GROUP_DETAILS_1
+OBJECT PROYECTO_DESCRIPCION {
+    adjustment = "grow";
+}
+}
+
+//<<<<<GROUP_HEADER_CAPTIONS_0
+GROUPHEADER group_header_captions_0 {
+posx = 2;
+sizey=1;
+fontweight = bold;
+borderbottomstyle = solid ;
+borderbottomcolor = black ;
+borderbottomwidth = 2;
+level = 1;
+OBJECT header_PARTIDAPROYECTO_TIPO {
+    value = "= const @DDD.PARTIDAPROYECTO_TIPO_CAPTION;";
+    posx = 0.0;
+    sizex = 1.0;
+}
+OBJECT header_PARTIDAPROYECTO_CODIGO {
+    value = "= const @DDD.PARTIDAPROYECTO_CODIGO_CAPTION;";
+    posx = 2.0;
+    sizex = 7.0;
+}
+OBJECT header_PARTIDAPROYECTO_DESCRIPCION {
+    value = "= const @DDD.PARTIDAPROYECTO_DESCRIPCION_CAPTION;";
+    posx = 10.0;
+    sizex = 30.0;
+}
+OBJECT header_PARTIDAPROYECTO_PRESUPUESTO {
+    halignment = "right";
+    value = "= const @DDD.PARTIDAPROYECTO_PRESUPUESTO_CAPTION;";
+    posx = 41.0;
+    sizex = 10.0;
+}
+OBJECT header_PARTIDAPROYECTO_IMPORTE {
+    halignment = "right";
+    value = "= const @DDD.PARTIDAPROYECTO_IMPORTE_CAPTION;";
+    posx = 52.0;
+    sizex = 10.0;
+}
+//>>>>>GROUP_HEADER_CAPTIONS_0
+}
+
+//<<<<<DETAILS_0
+DETAILS details {
+posx = 2;
+level = 0;
+style = detail;
+sizey = 1;
+
+OBJECT PARTIDAPROYECTO_TIPO {
+    value = "=input.PARTIDAPROYECTO_TIPO;";
+    posx = 0.0;
+    sizex = 1.0;
+}
+OBJECT PARTIDAPROYECTO_CODIGO {
+    value = "=input.PARTIDAPROYECTO_CODIGO;";
+    posx = 2.0;
+    sizex = 7.0;
+}
+OBJECT PARTIDAPROYECTO_DESCRIPCION {
+    value = "=input.PARTIDAPROYECTO_DESCRIPCION;";
+    posx = 10.0;
+    sizex = 30.0;
+}
+OBJECT PARTIDAPROYECTO_PRESUPUESTO {
+    halignment = "right";
+    value = "=input.PARTIDAPROYECTO_PRESUPUESTO;";
+    posx = 41.0;
+    sizex = 10.0;
+}
+OBJECT PARTIDAPROYECTO_IMPORTE {
+    halignment = "right";
+    value = "=input.PARTIDAPROYECTO_IMPORTE;";
+    posx = 52.0;
+    sizex = 10.0;
+}
+//>>>>>DETAILS_0
+}
+
+GROUPFOOTER group_footer_0 {
+sizey=1;
+level=1;
+}
+
+Include = "passwords.inc";
+}
+//<<<<<PAGE_FOOTER
+PAGEFOOTER page_footer {
+sizey = 1;
+style = pagefooter;
+
+
+//>>>>>PAGE_FOOTER
+}

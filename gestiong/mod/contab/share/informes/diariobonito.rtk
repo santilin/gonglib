@@ -1,0 +1,249 @@
+//<<<<<COPYLEFT
+// @file diariobonito.rtk Libro diario
+// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+*
+* This library is free software;
+you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public
+* License as published by the Free Software Foundation;
+either
+* version 2 of the License, or (at your option) any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY;
+without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public
+* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+//>>>>>COPYLEFT
+
+//<<<<<MODULE_INFO
+// COPYLEFT Libro diario
+// FIELD ASIENTO.NUMASIENTO||int|5
+// FIELD APUNTE.DEBE||Money|12
+// FIELD CUENTA.CUENTA||text|10
+// FIELD CUENTA.DESCRIPCION||text|48
+// FIELD APUNTE.HABER||Money|12
+// FIELD ASIENTO.FECHA||date|10|l1
+// TYPE SimpleReport
+//>>>>>MODULE_INFO
+
+//<<<<<REPORT_DEFINITION
+Title = "Libro diario";
+Units = chars;
+SizeX = 100;
+SizeY = 60;
+//>>>>>REPORT_DEFINITION
+Tag = "Contabilidad";
+SizeX = 100;
+
+
+INPUT default {
+driver = mysql;
+from = "ASIENTO INNER JOIN APUNTE ON ASIENTO.ID = APUNTE.ASIENTO_ID INNER JOIN CUENTA ON CUENTA.ID = APUNTE.CUENTA_ID";
+orderby = "ASIENTO.FECHA, ASIENTO.ID, APUNTE.NUMAPUNTE";
+
+//<<<<<INPUT_DEFAULT
+INPUTFIELD ASIENTO_NUMASIENTO {
+    Source = ASIENTO.NUMASIENTO;
+    Type = int;
+}
+INPUTFIELD APUNTE_DEBE {
+    Source = APUNTE.DEBE;
+    Type = Money;
+}
+INPUTFIELD CUENTA_CUENTA {
+    Source = CUENTA.CUENTA;
+    Type = text;
+}
+INPUTFIELD CUENTA_DESCRIPCION {
+    Source = CUENTA.DESCRIPCION;
+    Type = text;
+}
+INPUTFIELD APUNTE_HABER {
+    Source = APUNTE.HABER;
+    Type = Money;
+}
+INPUTFIELD ASIENTO_FECHA {
+    Source = ASIENTO.FECHA;
+    Type = date;
+}
+//>>>>>INPUT_DEFAULT
+}
+
+//<<<<<PAGE_HEADER
+Include = "default_pageheader.inc";
+//>>>>>PAGE_HEADER
+OBJECT asociacion {
+sizex = 72;
+}
+
+marginbottom = 0.2;
+}
+
+
+//<<<<<GROUP_HEADER_CAPTIONS_1
+GROUPHEADER group_header_captions_1 {
+posx = 0;
+sizey=1;
+fontweight = bold;
+borderbottomstyle = solid ;
+borderbottomcolor = black ;
+borderbottomwidth = 2;
+
+value= "=input.ASIENTO_FECHA;";
+level=1;
+OBJECT header_ASIENTO_FECHA {
+    value = "= const @DDD.ASIENTO_FECHA_CAPTION;";
+    posx = 0.0;
+    sizex = 10.0;
+}
+//>>>>>GROUP_HEADER_CAPTIONS_1
+visible = false;
+}
+
+//<<<<<GROUP_DETAILS_1
+GROUPHEADER group_details_1 {
+style = detail;
+sizey = 1;
+posx = 0;
+
+value= "=input.ASIENTO_FECHA;";
+level=1;
+OBJECT ASIENTO_FECHA {
+    value = "=input.ASIENTO_FECHA;";
+    posx = 0.0;
+    sizex = 10.0;
+}
+//>>>>>GROUP_DETAILS_1
+OBJECT ASIENTO_FECHA {
+    posx = 10;
+    sizex = 80;
+    alignment = "center";
+    borderbottomstyle = solid;
+    borderbottomwidth = 1;
+    format = "%A, %d de %B de %Y";
+}
+margintop = 0.3;
+marginbottom = 0.3;
+}
+
+//<<<<<GROUP_HEADER_CAPTIONS_0
+GROUPHEADER group_header_captions_0 {
+posx = 2;
+sizey=1;
+fontweight = bold;
+borderbottomstyle = solid ;
+borderbottomcolor = black ;
+borderbottomwidth = 2;
+level = 1;
+OBJECT header_ASIENTO_NUMASIENTO {
+    value = "= const @DDD.ASIENTO_NUMASIENTO_CAPTION;";
+    posx = 0.0;
+    sizex = 5.0;
+}
+OBJECT header_APUNTE_DEBE {
+    halignment = "right";
+    value = "= const @DDD.APUNTE_DEBE_CAPTION;";
+    posx = 6.0;
+    sizex = 12.0;
+}
+OBJECT header_CUENTA_CUENTA {
+    value = "= const @DDD.CUENTA_CUENTA_CAPTION;";
+    posx = 19.0;
+    sizex = 10.0;
+}
+OBJECT header_CUENTA_DESCRIPCION {
+    value = "= const @DDD.CUENTA_DESCRIPCION_CAPTION;";
+    posx = 30.0;
+    sizex = 48.0;
+}
+OBJECT header_APUNTE_HABER {
+    halignment = "right";
+    value = "= const @DDD.APUNTE_HABER_CAPTION;";
+    posx = 79.0;
+    sizex = 12.0;
+}
+//>>>>>GROUP_HEADER_CAPTIONS_0
+supressed = true;
+}
+
+
+//<<<<<DETAILS_0
+DETAILS details {
+posx = 2;
+level = 0;
+style = detail;
+sizey = 1;
+
+OBJECT ASIENTO_NUMASIENTO {
+    halignment = "right";
+    value = "=input.ASIENTO_NUMASIENTO;";
+    posx = 0.0;
+    sizex = 5.0;
+}
+OBJECT APUNTE_DEBE {
+    halignment = "right";
+    value = "=input.APUNTE_DEBE;";
+    posx = 6.0;
+    sizex = 12.0;
+}
+OBJECT CUENTA_CUENTA {
+    value = "=input.CUENTA_CUENTA;";
+    posx = 19.0;
+    sizex = 10.0;
+}
+OBJECT CUENTA_DESCRIPCION {
+    value = "=input.CUENTA_DESCRIPCION;";
+    posx = 30.0;
+    sizex = 48.0;
+}
+OBJECT APUNTE_HABER {
+    halignment = "right";
+    value = "=input.APUNTE_HABER;";
+    posx = 79.0;
+    sizex = 12.0;
+}
+//>>>>>DETAILS_0
+OBJECT ASIENTO_NUMASIENTO {
+    supressdup = true;
+}
+OBJECT CUENTA_DESCRIPCION {
+    fontweight = "bold";
+}
+OBJECT CUENTA_DESCRIPCION2 {
+    value = "=input.CUENTA_DESCRIPCION;";
+    posx = 30.0;
+    sizex = 48.0;
+    alignment = "right";
+    fontweight = "bold";
+}
+OBJECT CUENTA_CUENTA2 {
+    value = "=input.CUENTA_CUENTA;";
+    posx = 79.0;
+    sizex = 10.0;
+}
+OBJECT APUNTE_DEBE {
+    format = "B";
+}
+OBJECT APUNTE_HABER {
+    posx = 90.0;
+    format = "B";
+}
+formulabefore = "= if( @input.APUNTE_HABER != 0 ) { @CUENTA_CUENTA.visible = 0; @CUENTA_CUENTA2.visible = 1; @CUENTA_DESCRIPCION.visible = 0; @CUENTA_DESCRIPCION2.visible = 1;} else { @CUENTA_CUENTA.visible = 1; @CUENTA_CUENTA2.visible = 0; @CUENTA_DESCRIPCION.visible = 1; @CUENTA_DESCRIPCION2.visible = 0;} return 0; ";
+posx = 0;
+}
+
+Include = "passwords.inc";
+
+}
+//<<<<<PAGE_FOOTER
+PAGEFOOTER page_footer {
+sizey = 1;
+style = pagefooter;
+
+
+//>>>>>PAGE_FOOTER
+}

@@ -1,0 +1,78 @@
+Format: http://dep.debian.net/deps/dep5
+Upstream-Name: gestiong
+Source: <url://http://programacionsocial.net>
+
+Files:  gong-contab/*
+		gong-contactos/*
+		gong-dbapp/*
+		gong-empresa/*
+		gong-factu/*
+		gong-pagos/*
+		gong-qt4/*
+		gong-reccolor/*
+		gong-sinpapeles/*
+		gong-socias/*
+		gonglib/*
+		share/*
+		src/*
+		debian/*
+
+Copyright: 2013 santilín <gestiong@programacionsocial.net>
+
+License: GPL-2+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+
+Files: gonglib/gongdbcalculator.*
+	   gonglib/gonghttpclient.*
+
+	Modified files from a Boost Software License, version 1.0
+
+Files:  gong-rtk/rtkcompiler.*
+		gong-rtk/rtkcompiler_save.cpp
+		gong-rtk/rtkcontext.*
+		gong-rtk/rtkdscript.h
+		gong-rtk/rtkfloattable.*
+		gong-rtk/rtkstringtable.*
+		gong-rtk/rtkfunctions.*
+		gong-rtk/rtkinstruction.h
+		gong-rtk/rtkopcodes.*
+		gong-rtk/rtkstdlib.*
+		gong-rtk/rtkvalue.*
+		gong-rtk/rtkvmachine.*
+
+	DScript Scripting Language
+	Copyright (C) 2003 Bryan "daerid" Ross
+	Permission to copy, use, modify, sell and distribute this software is
+	granted provided this copyright notice appears in all copies. This
+	software is provided "as is" without express or implied warranty, and
+	with no claim as to its suitability for any purpose.
+
+Files: 	dbapp/dbappreportqtpagedisplay.*
+
+	Kugar page display widget
+    begin     : Sun Aug 15 1999
+    copyright : (C) 1999 by Mutiny Bay Software
+    email     : info@mutinybaysoftware.com
+
+Files:	dbapp/dbappreportqtviewer.*
+
+	Kugar QT report viewer widget
+    begin     : Fri Aug 13 1999
+    copyright : (C) 1999 by Mutiny Bay Software
+    email     : info@mutinybaysoftware.com
+    copyright : (C) 2002 Alexander Dymo
+    email     : cloudtemple@mksat.net

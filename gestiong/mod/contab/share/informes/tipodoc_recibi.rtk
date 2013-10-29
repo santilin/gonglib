@@ -1,0 +1,240 @@
+//<<<<<COPYLEFT
+// @file recibi.rtk Recibí
+// Proyecto GestiONG. (C) Santiago Capel Torres, 2003-2007
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//>>>>>COPYLEFT
+
+
+//<<<<<REPORT_DEFINITION
+REPORT SimpleReport
+{
+    Title = "Recibí";
+    Units = chars;
+    SizeX = 80;
+    SizeY = 60;
+    PARAMETER asociacion {
+        type = text;
+        value = "Nombre de la asociación";
+    }
+//>>>>>REPORT_DEFINITION
+    Tag = "Contabilidad";
+
+
+INPUT default {
+        driver = mysql;
+        from = "ASIENTO INNER JOIN APUNTE ON ASIENTO.ID = APUNTE.ASIENTO_ID INNER JOIN CUENTA ON CUENTA.ID = APUNTE.CUENTA_ID LEFT JOIN CONTACTO ON CONTACTO.ID=CUENTA.CONTACTO_ID";
+        orderby = "ASIENTO.NUMASIENTO, ASIENTO.ID, APUNTE.NUMAPUNTE DESC";
+
+//<<<<<INPUT_DEFAULT
+        INPUTFIELD ASIENTO_NUMASIENTO {
+            Source = ASIENTO.NUMASIENTO;
+            Type = int;
+        }
+        INPUTFIELD ASIENTO_FECHA {
+            Source = ASIENTO.FECHA;
+            Type = date;
+        }
+        INPUTFIELD CUENTA_CUENTA {
+            Source = CUENTA.CUENTA;
+            Type = text;
+        }
+        INPUTFIELD CUENTA_DESCRIPCION {
+            Source = CUENTA.DESCRIPCION;
+            Type = text;
+        }
+        INPUTFIELD CONTACTO_NOMBRE {
+            Source = CONTACTO.NOMBRE;
+            Type = text;
+        }
+        INPUTFIELD NUMAPUNTE {
+            Source = APUNTE.NUMAPUNTE;
+            Type = Money;
+        }
+        INPUTFIELD APUNTE_DEBE {
+            Source = APUNTE.DEBE;
+            Type = Money;
+        }
+        INPUTFIELD APUNTE_HABER {
+            Source = APUNTE.HABER;
+            Type = Money;
+        }
+        INPUTFIELD IMPORTE_TOTAL {
+            Source = APUNTE.HABER;
+            Type = Money;
+        }
+        INPUTFIELD APUNTE_CONCEPTO {
+            Source = APUNTE.CONCEPTO;
+            Type = Text;
+        }
+
+//>>>>>INPUT_DEFAULT
+    }
+
+//<<<<<PAGE_HEADER
+    PAGEHEADER page_header {
+        sizey = 4;
+        style = pageheader;
+        backgroundimage = logo;
+
+        OBJECT asociacion {
+            style = footer ;
+            halignment = left;
+            value="###asociacion###" ;
+            fontweight = bold;
+            sizey = 1;
+            sizex = 56;
+        }
+        OBJECT reportdate {
+            style = pagenumber;
+            value="= const @report.Date";
+            format="%d/%m/%Y %H:%M";
+            sizey = 1;
+            posx = -1 ;
+            sizex = 16;
+        }
+        OBJECT npagina_text  {
+            style = pagenumber ;
+            halignment = right ;
+            value="Pág." ;
+            sizey = 1;
+            posx = -1;
+            sizex = 4 ;
+        }
+        OBJECT npagina {
+            style = pagenumber ;
+            sizey = 1;
+            posx = -1 ;
+            halignment = right ;
+            value="= @report.PageNumber" ;
+            format = "0000" ;
+            sizex = 3;
+        }
+
+        OBJECT titulo {
+            style = title;
+            value = "= const @report.Title";
+            posy = 1;
+            sizey = 2;
+            halignment = center;
+            fontsize = 16;
+            fontweight = bold;
+        }
+        OBJECT seleccion {
+            fontsize = 8;
+            halignment = right;
+            adjustment = grow;
+            value="= const @report.Filter";
+            posy = 3;
+            sizey = 1;
+        }
+//>>>>>PAGE_HEADER
+    }
+
+    DETAILS details_contacto {
+        style = detail;
+        sizey = 8;
+        formulabefore = "= if( @input.CONTACTO_NOMBRE != \"\" ) @this.visible = 1; else @this.visible = 0; return 0;";
+        fontweight = "bold";
+        fontsize = 14;
+
+        OBJECT recibi_de_text {
+            value = "Recibí de:";
+            posx = 0;
+            posy = 0;
+            sizey = 1;
+        }
+
+        OBJECT recibi_de {
+            value = "= @input.CONTACTO_NOMBRE";
+            posx = 18;
+            posy = 0;
+            sizey = 1;
+        }
+
+        OBJECT eldia_text {
+            value = "El día:";
+            posx = 0;
+            posy = 2;
+            sizey = 1;
+        }
+
+        OBJECT eldia {
+            value = "=input.ASIENTO_FECHA";
+            posx = 18;
+            posy = 2;
+            sizey = 1;
+            format = "%x";
+        }
+
+        OBJECT importe_text {
+            value = "Un importe de:";
+            posx = 0;
+            posy = 4;
+            sizey = 1;
+        }
+
+        OBJECT importe {
+            value = "=input.IMPORTE_TOTAL";
+            posx = 18;
+            sizex = 10;
+            posy = 4;
+            sizey = 1;
+        }
+
+        OBJECT concepto_text {
+            value = "En concepto de:";
+            posx = 0;
+            posy = 6;
+            sizey = 1;
+        }
+
+    }
+
+    DETAILS details_cuentapago {
+        style = detail;
+        sizey = 1;
+        formulabefore = "= if( @input.CONTACTO_NOMBRE == \"\" ) @this.visible = 1; else @this.visible = 0; return 0;";
+        fontsize = "11";
+
+        OBJECT APUNTE_DEBE {
+            halignment = "right";
+            value = "=input.APUNTE_DEBE;";
+            posx = 0;
+            sizex = 10;
+        }
+        OBJECT APUNTE_CONCEPTO {
+            value = "=input.APUNTE_CONCEPTO;";
+            posx = -1;
+            sizex = 45;
+        }
+        OBJECT pagado_a_text {
+            value = " pagado a la cuenta ";
+            posx = -1;
+            sizex = 13;
+        }
+        OBJECT CUENTA_CUENTA {
+            value = "=input.CUENTA_CUENTA;";
+            posx = -1;
+            sizex = 12;
+        }
+        OBJECT CUENTA_DESCRIPCION {
+            value = "=input.CUENTA_DESCRIPCION;";
+            posx = -1;
+            sizex = 48;
+            visible = false;
+        }
+    }
+
+    Include = "passwords.inc";
+
+
+}

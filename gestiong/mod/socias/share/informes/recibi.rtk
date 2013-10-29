@@ -1,0 +1,227 @@
+//<<<<<COPYLEFT
+// @file recibi.rtk Recibí
+// Proyecto GestiONG. (C) Santiago Capel Torres, 2003-2007
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//>>>>>COPYLEFT
+
+
+//<<<<<REPORT_DEFINITION
+REPORT SimpleReport
+{
+    Title = "Recibí";
+    Units = chars;
+    SizeX = 80;
+    SizeY = 60;
+    PARAMETER asociacion {
+        type = text;
+        value = "Nombre de la asociación";
+    }
+//>>>>>REPORT_DEFINITION
+    Tag = "Asociación";
+
+
+INPUT default {
+        driver = mysql;
+        from = "RECIBOPROYECTO INNER JOIN MIEMBRO ON RECIBOPROYECTO.MIEMBRO_ID = MIEMBRO.ID INNER JOIN CONTACTO ON CONTACTO.ID=MIEMBRO.CONTACTO_ID LEFT JOIN CUENTA ON CUENTA.ID = RECIBOPROYECTO.CUENTAPAGO_ID ";
+        orderby = "RECIBOPROYECTO.NUMERO";
+
+//<<<<<INPUT_DEFAULT
+        INPUTFIELD RECIBO_FECHAPAGO {
+            Source = RECIBOPROYECTO.FECHAPAGO;
+            Type = date;
+        }
+        INPUTFIELD CUENTA_CUENTA {
+            Source = CUENTA.CUENTA;
+            Type = text;
+        }
+        INPUTFIELD CUENTA_DESCRIPCION {
+            Source = CUENTA.DESCRIPCION;
+            Type = text;
+        }
+        INPUTFIELD CONTACTO_NOMBRE {
+            Source = CONTACTO.NOMBRE;
+            Type = text;
+        }
+        INPUTFIELD IMPORTE {
+            Source = RECIBOPROYECTO.IMPORTE;
+            Type = Money;
+        }
+        INPUTFIELD RECIBO_DESCRIPCION {
+            Source = RECIBOPROYECTO.DESCRIPCION;
+            Type = Text;
+        }
+        INPUTFIELD CONTACTO_ID {
+            Source = MIEMBRO.CONTACTO_ID;
+            Type = Text;
+        }
+
+
+//>>>>>INPUT_DEFAULT
+    }
+
+//<<<<<PAGE_HEADER
+    PAGEHEADER page_header {
+        sizey = 4;
+        style = pageheader;
+        backgroundimage = logo;
+
+        OBJECT asociacion {
+            style = footer ;
+            halignment = left;
+            value="###asociacion###" ;
+            fontweight = bold;
+            sizey = 1;
+            sizex = 56;
+        }
+        OBJECT reportdate {
+            style = pagenumber;
+            value="= const @report.Date";
+            format="%d/%m/%Y %H:%M";
+            sizey = 1;
+            posx = -1 ;
+            sizex = 16;
+        }
+        OBJECT npagina_text  {
+            style = pagenumber ;
+            halignment = right ;
+            value="Pág." ;
+            sizey = 1;
+            posx = -1;
+            sizex = 4 ;
+        }
+        OBJECT npagina {
+            style = pagenumber ;
+            sizey = 1;
+            posx = -1 ;
+            halignment = right ;
+            value="= @report.PageNumber" ;
+            format = "0000" ;
+            sizex = 3;
+        }
+        OBJECT titulo {
+            style = title;
+            value = "= const @report.Title";
+            posy = 1;
+            sizey = 2;
+            halignment = center;
+            fontsize = 16;
+            fontweight = bold;
+        }
+//>>>>>PAGE_HEADER
+    }
+
+    GROUPHEADER contacto_header {
+        sizey = 6;
+        fontweight = "bold";
+        fontsize = 14;
+        level = 1;
+        value = "=input.CONTACTO_ID";
+
+        OBJECT recibi_de_text {
+            value = "Recibí de:";
+            posx = 0;
+            posy = 0;
+            sizey = 1;
+        }
+
+        OBJECT recibi_de {
+            value = "= @input.CONTACTO_NOMBRE";
+            posx = 18;
+            posy = 0;
+            sizey = 1;
+        }
+
+        OBJECT eldia_text {
+            value = "El día:";
+            posx = 0;
+            posy = 2;
+            sizey = 1;
+        }
+
+        OBJECT eldia {
+            value = "=input.RECIBO_FECHAPAGO";
+            posx = 18;
+            posy = 2;
+            sizey = 1;
+            format = "%x";
+        }
+
+        OBJECT concepto_text {
+            value = "En concepto de:";
+            posx = 0;
+            posy = 4;
+            sizey = 1;
+        }
+
+    }
+
+    DETAILS details_cuentapago {
+        style = detail;
+        sizey = 1;
+        fontsize = "11";
+
+        OBJECT APUNTE_DEBE {
+            halignment = "right";
+            value = "=input.IMPORTE;";
+            posx = 0;
+            sizex = 10;
+        }
+        OBJECT RECIBO_DESCRIPCION {
+            value = "= \"Recibo \" + @input.RECIBO_DESCRIPCION;";
+            posx = -1;
+            sizex = 44;
+        }
+        OBJECT pagado_a_text {
+            value = " pagado a la cuenta ";
+            posx = -1;
+            sizex = 13;
+        }
+        OBJECT CUENTA_CUENTA {
+            value = "=input.CUENTA_CUENTA;";
+            posx = -1;
+            sizex = 12;
+        }
+        OBJECT CUENTA_DESCRIPCION {
+            value = "=input.CUENTA_DESCRIPCION;";
+            posx = -1;
+            sizex = 48;
+            visible = false;
+        }
+    }
+
+    GROUPFOOTER contacto_footer {
+        fontweight = "bold";
+        fontsize = 14;
+        sizey = 1;
+        margintop = 1;
+        marginbottom = 2;
+        level = 1;
+
+        OBJECT total_text {
+            value = "Por un total de:";
+            posx = 0;
+            sizex = 20;
+        }
+
+        OBJECT total {
+            value = "=input.IMPORTE";
+            posx = 20;
+            sizex = 12;
+            aggregate = "sum";
+        }
+    }
+
+
+    Include = "passwords.inc";
+
+
+}

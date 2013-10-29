@@ -1,0 +1,15 @@
+2008-02-13	Santiago Capel		<scapel@users.sourceforge.net>
+Revision 87:
+		Changed 'vistas' dir into 'database' dir
+
+
+2008-02-12	Santiago Capel		<scapel@users.sourceforge.net>
+Revisión 85:
+		Moved capel from branches/0.4 to trunk
+		Copied part of this ChangeLog to trunk
+
+2008-02-11	Santiago Capel		<scapel@users.sourceforge.net>
+Revisión 83:
+	Rearranged the whole project as a standard svn repository with trunk
+		and branches.
+

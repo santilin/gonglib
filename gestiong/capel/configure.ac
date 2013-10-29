@@ -1,0 +1,11 @@
+AC_INIT(configure.ac)
+
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(capel, 0.2)
+
+AC_LANG_CPLUSPLUS
+AC_PROG_CXX
+AM_PROG_LIBTOOL
+AC_CONFIG_MACRO_DIR([m4])
+
+AC_OUTPUT(Makefile src/Makefile)

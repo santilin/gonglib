@@ -1,0 +1,1720 @@
+# Galician translations for GestiONG package.
+# Copyright (C) 2008 www.gestiong.org
+# This file is distributed under the same license as the GestiONG package.
+#  <scapel@users.sourceforge.net>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GestiONG 0.3.3\n"
+"Report-Msgid-Bugs-To: santi@kernelpanic.hacklabs.org\n"
+"POT-Creation-Date: 2011-07-23 18:40+0200\n"
+"PO-Revision-Date: 2008-11-20 08:40+0100\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
+"Language-Team: GALPon MiniNo <minino@galpon.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Galician\n"
+"X-Poedit-Country: SPAIN\n"
+
+#: gong-lib/guifrmeditrec.cpp:67
+msgid "&Registro"
+msgstr "&Rexistro"
+
+#: gong-lib/guifrmeditrec.cpp:69
+msgid "&Fichero"
+msgstr "&Ficheiro"
+
+#: gong-lib/guifrmeditrec.cpp:91 gong-lib/guifrmeditrec.cpp:244
+#: gong-lib/guifrmeditrec.cpp:249 gong-lib/guifrmeditrec.cpp:261
+#: gong-lib/guifrmeditrecmaestro.cpp:265
+msgid "&Grabar"
+msgstr "&Gravar"
+
+#: gong-lib/guifrmeditrec.cpp:197 gong-lib/guifrmeditrec.cpp:374
+#: gong-lib/guifrmeditrecmaestro.cpp:585
+msgid "Error "
+msgstr "Erro"
+
+#: gong-lib/guifrmeditrec.cpp:198
+#, c-format
+msgid ""
+"No se ha podido %1s %2s.\n"
+"%3s"
+msgstr ""
+"Non se puido %1s %2s.\n"
+"%3s"
+
+#: gong-lib/guifrmeditrec.cpp:199
+msgid "borrar"
+msgstr "borrar"
+
+#: gong-lib/guifrmeditrec.cpp:199
+msgid "grabar"
+msgstr "gravar"
+
+#: gong-lib/guifrmeditrec.cpp:222
+msgid "Editando"
+msgstr "Editando"
+
+#: gong-lib/guifrmeditrec.cpp:223 gong-lib/guifrmeditrecmaestro.cpp:565
+msgid ""
+"¿Estás segura de cancelar la edición de este registro?\n"
+"\n"
+msgstr ""
+"¿Estás segura de cancelar a edición de este rexistro?\n"
+"\n"
+
+#: gong-lib/guifrmeditrec.cpp:242
+msgid "Añadiendo "
+msgstr "Engadindo"
+
+#: gong-lib/guifrmeditrec.cpp:247
+msgid "Modificando "
+msgstr "Modificando "
+
+#: gong-lib/guifrmeditrec.cpp:252
+msgid "Borrando "
+msgstr "Borrando "
+
+#: gong-lib/guifrmeditrec.cpp:256
+msgid "Visualizando "
+msgstr "Visualizando "
+
+#: gong-lib/guifrmeditrec.cpp:260
+msgid "Duplicando "
+msgstr "Duplicando "
+
+#: gong-lib/guifrmeditrec.cpp:265
+msgid "Buscando "
+msgstr "Buscando "
+
+#: gong-lib/guifrmeditrec.cpp:269
+msgid "Filtrando "
+msgstr "Filtrando "
+
+#: gong-lib/guifrmeditrec.cpp:346
+#, c-format
+msgid "Error borrando %s"
+msgstr "Erro borrando %s"
+
+#: gong-lib/guifrmeditrec.cpp:349
+msgid " está en uso en el fichero de "
+msgstr " está en uso no ficheiro de "
+
+#: gong-lib/guifrmeditrec.cpp:392
+msgid ""
+"\n"
+"¿Estás segura de grabar este registro?"
+msgstr ""
+"\n"
+"¿Estás segura de gravar este rexistro?"
+
+#: gong-lib/guifrmeditrec.cpp:393 gong-lib/guifrmeditrec.cpp:396
+msgid "Aviso "
+msgstr "Aviso "
+
+#: gong-lib/guifrmeditrec.cpp:728 gong-lib/guifrmeditrec.cpp:751
+#, c-format
+msgid "Ya existe %s con el valor '%s' para '%s'"
+msgstr "Xa existe %s co valor «%s» para «%s»"
+
+#: gong-lib/guifrmeditrec.cpp:737 gong-lib/guifrmeditrec.cpp:759
+#: gong-lib/gongdbfielddefinition.cpp:139
+#, c-format
+msgid "'%s' no puede estar vacío."
+msgstr "«%s» non pode estar baleiro."
+
+#: gong-lib/guifrmsqlselect.cpp:163
+msgid "Selección de filtros"
+msgstr "Selección de filtros"
+
+#: gong-lib/guifrmsqlselect.cpp:164
+msgid "Campo de la condición"
+msgstr "Campo da condición"
+
+#: gong-lib/guifrmsqlselect.cpp:165
+msgid "Comparación"
+msgstr "Comparación"
+
+#: gong-lib/guifrmsqlselect.cpp:167
+msgid "= \"es igual que\""
+msgstr "= \"é igual que\""
+
+#: gong-lib/guifrmsqlselect.cpp:168
+msgid "< \"es menor que\""
+msgstr "< \"é menor que\""
+
+#: gong-lib/guifrmsqlselect.cpp:169
+msgid "> \"es mayor que\""
+msgstr "> \"é maior que\""
+
+#: gong-lib/guifrmsqlselect.cpp:170
+msgid "<= \"es menor o igual que\""
+msgstr "<= \"é menor ou igual que\""
+
+#: gong-lib/guifrmsqlselect.cpp:171
+msgid ">= \"es mayor o igual que\""
+msgstr ">= \"é maior ou igual que\""
+
+#: gong-lib/guifrmsqlselect.cpp:172
+msgid "!= \"es distinto a\""
+msgstr "!= \"é distinto a\""
+
+#: gong-lib/guifrmsqlselect.cpp:173
+msgid "Contiene"
+msgstr "Conten"
+
+#: gong-lib/guifrmsqlselect.cpp:174
+msgid "No Contiene"
+msgstr "Non conten"
+
+#: gong-lib/guifrmsqlselect.cpp:175
+msgid "Comienza por"
+msgstr "Comeza por"
+
+#: gong-lib/guifrmsqlselect.cpp:176
+msgid "No comienza por"
+msgstr "Non comeza por"
+
+#: gong-lib/guifrmsqlselect.cpp:177
+msgid "Está vacío"
+msgstr "Está baleiro"
+
+#: gong-lib/guifrmsqlselect.cpp:178
+msgid "No está vacío"
+msgstr "Non está baleiro"
+
+#: gong-lib/guifrmsqlselect.cpp:179
+msgid "es cierto"
+msgstr "é certo"
+
+#: gong-lib/guifrmsqlselect.cpp:180
+msgid "es falso"
+msgstr "é falso"
+
+#: gong-lib/guifrmsqlselect.cpp:182
+msgid "Valor con el que se compara"
+msgstr "Valor co que se compara"
+
+#: gong-lib/guifrmsqlselect.cpp:183
+msgid "Campo con el que se compara"
+msgstr "Campo co que se compara"
+
+#: gong-lib/guifrmsqlselect.cpp:184
+msgid "Texto completo de la condición"
+msgstr "Texto completo da condición"
+
+#: gong-lib/guifrmsqlselect.cpp:185
+msgid "Eliminar filtro"
+msgstr "Eliminar filtro"
+
+#: gong-lib/guifrmsqlselect.cpp:186
+msgid "Añadir condición"
+msgstr "Engadir condición"
+
+#: gong-lib/guifrmsqlselect.cpp:187
+msgid "Condición alternativa"
+msgstr "Condición alternativa"
+
+#: gong-lib/guifrmsqlselect.cpp:188
+msgid "Elegir valores"
+msgstr "Elixir valores"
+
+#: gong-lib/guifrmsqlselect.cpp:230 gong-lib/guifrmsqlselect.cpp:237
+#: gong-lib/guifrmsqlselect.cpp:280 gong-lib/guifrmsqlselect.cpp:426
+#: gong-lib/guimainwindow.cpp:641 gong-lib/guifrmeditrecmaestro.cpp:933
+#: gong-lib/guifrmeditrecmaestro.cpp:1018
+#: gong-lib/guifrmeditrecmaestro.cpp:1207
+#: gong-lib/guifrmeditrecmaestro.cpp:1287
+#: gong-lib/guifrmeditrecmaestro.cpp:1363
+msgid "Error"
+msgstr "Erro"
+
+#: gong-lib/guifrmsqlselect.cpp:230 gong-lib/guifrmsqlselect.cpp:426
+msgid "Elige un campo para la condición"
+msgstr "Elixe un campo para a condición"
+
+#: gong-lib/guifrmsqlselect.cpp:237
+msgid "Elige un operador de comparación"
+msgstr "Elixe un operador de comparación"
+
+#: gong-lib/guifrmsqlselect.cpp:280
+msgid "Elija un campo o escriba un texto para la comparación"
+msgstr "Elixa un campo ou escriba un texto para a comparación"
+
+#: gong-lib/guifrmsqlselect.cpp:527
+msgid "Cualquier campo"
+msgstr "Calquer campo"
+
+#: gong-lib/guifrmsqlselect.cpp:640 gong-lib/guifrmeditrecmaestro.cpp:1213
+#: gong-lib/guifrmeditrecmaestro.cpp:1217
+#: gong-lib/guifrmeditrecmaestro.cpp:1236
+#: gong-lib/guifrmeditrecmaestro.cpp:1271
+msgid "Atención"
+msgstr "Atención"
+
+#: gong-lib/guifrmsqlselect.cpp:658
+msgid "Elige un valor"
+msgstr "Elixe un valor"
+
+#: gong-lib/guifrmsqlselect.cpp:659
+#, c-format
+msgid "Elige un valor para el campo %s del fichero de %s"
+msgstr "Elixe un valor para o campo %s do ficheiro de %s"
+
+#: gong-lib/guifrmeditrecdetalle.cpp:168 gong-lib/guifrmeditrecmaestro.cpp:810
+#: gong-lib/guifrmeditrecmaestro.cpp:883
+#, c-format
+msgid "Borrando %s"
+msgstr "Borrando %s"
+
+#: gong-lib/guifrmeditrecdetalle.cpp:170
+#, c-format
+msgid "¿Estás seguro/a de borrar %s?\n"
+msgstr "¿Estás seguro/a de borrar %s?\n"
+
+#: gong-lib/guimainwindow.cpp:106
+msgid "Termina el programa"
+msgstr "Rematar o programa"
+
+#: gong-lib/guimainwindow.cpp:107
+msgid "&Terminar"
+msgstr "&Rematar"
+
+#: gong-lib/guimainwindow.cpp:224
+msgid "Cortar"
+msgstr "Cortar"
+
+#: gong-lib/guimainwindow.cpp:225
+msgid "Corta la sección seleccionada y la coloca en el portapapeles"
+msgstr "Corta a sección seleccionada e colocaa no portapapeis"
+
+#: gong-lib/guimainwindow.cpp:231
+msgid "Copiar"
+msgstr "Copiar"
+
+#: gong-lib/guimainwindow.cpp:232
+msgid "Copia la sección seleccionada al portapapeles"
+msgstr "Copia a sección seleccionada e colocaa no portapapeis"
+
+#: gong-lib/guimainwindow.cpp:238
+msgid "Pegar"
+msgstr "Pegar"
+
+#: gong-lib/guimainwindow.cpp:239
+msgid "Pega el contenido del portapapeles a la posición actual"
+msgstr "Pega o contido do portapapeis na posición actual"
+
+#: gong-lib/guimainwindow.cpp:245
+msgid "Deshacer"
+msgstr "Desfacer"
+
+#: gong-lib/guimainwindow.cpp:246
+msgid "Deshace la última acción de edición"
+msgstr "Desfai a última acción de edición"
+
+#: gong-lib/guimainwindow.cpp:252
+msgid "Barra de herramientas"
+msgstr "Barra de ferramentas"
+
+#: gong-lib/guimainwindow.cpp:253
+msgid "Muestra/Oculta la barra de herramientas"
+msgstr "Amosa/Agocha a barra de ferramentas"
+
+#: gong-lib/guimainwindow.cpp:259
+msgid "Línea de estado"
+msgstr "Liña de estado"
+
+#: gong-lib/guimainwindow.cpp:260
+msgid "Muestra/Oculta la línea de estado"
+msgstr "Amosa/Agocha a liña de estado"
+
+#: gong-lib/guimainwindow.cpp:266
+msgid "Siguiente"
+msgstr "Seguinte"
+
+#: gong-lib/guimainwindow.cpp:267
+msgid "Activa la siguiente ventana"
+msgstr "Activa a seguinte ventá"
+
+#: gong-lib/guimainwindow.cpp:273
+msgid "Anterior"
+msgstr "Anterior"
+
+#: gong-lib/guimainwindow.cpp:274
+msgid "Activa la ventana anterior"
+msgstr "Activa a ventá anterior"
+
+#: gong-lib/guimainwindow.cpp:280
+msgid "Cascada"
+msgstr "Fervenza"
+
+#: gong-lib/guimainwindow.cpp:281
+msgid "Muestra todas las ventanas en cascada"
+msgstr "Amosa todalas ventás en fervenza"
+
+#: gong-lib/guimainwindow.cpp:287
+msgid "Alicatar"
+msgstr "Mosaico"
+
+#: gong-lib/guimainwindow.cpp:288
+msgid "Alicatar la aplicación con las ventanas"
+msgstr "Amosar as ventás como un mosaico"
+
+#: gong-lib/guimainwindow.cpp:294
+msgid "Cerrar"
+msgstr "Pechar"
+
+#: gong-lib/guimainwindow.cpp:295
+msgid "Cerrar la ventana activa"
+msgstr "Pechar a ventá activa"
+
+#: gong-lib/guimainwindow.cpp:301
+msgid "Refrescar"
+msgstr "Actualizar"
+
+#: gong-lib/guimainwindow.cpp:302
+msgid "Refresca la ventana activa"
+msgstr "Actualiza a ventá activa"
+
+#: gong-lib/guimainwindow.cpp:314
+msgid "Acerca de..."
+msgstr "Acerca de..."
+
+#: gong-lib/guimainwindow.cpp:315
+msgid "Acerca de GestiONG"
+msgstr "Acerca de GestiONG"
+
+#: gong-lib/guimainwindow.cpp:331
+msgid "&Sistema"
+msgstr "&Sistema"
+
+#: gong-lib/guimainwindow.cpp:365
+msgid "&Qué es esto?"
+msgstr "&Qué é isto?"
+
+#: gong-lib/guimainwindow.cpp:367
+msgid "&Edición"
+msgstr "&Edición"
+
+#: gong-lib/guimainwindow.cpp:368 gong-lib/guifrmeditrecmaestro.cpp:255
+#: gong-lib/guifrmeditrecmaestro.cpp:1092
+msgid "&Ver"
+msgstr "&Ver"
+
+#: gong-lib/guimainwindow.cpp:369
+msgid "Ve&ntanas"
+msgstr "Ve&ntás"
+
+#: gong-lib/guimainwindow.cpp:370
+msgid "A&yuda"
+msgstr "A&xuda"
+
+#: gong-lib/guimainwindow.cpp:403
+msgid "Ready."
+msgstr "Feito."
+
+#: gong-lib/guimainwindow.cpp:431
+msgid "Saliendo de GestiONG"
+msgstr "Salíndo de GestiONG"
+
+#: gong-lib/guimainwindow.cpp:432
+msgid ""
+"Algunos formularios está  siendo editados.\n"
+"¿Realmente quieres salir de GestiONG?\n"
+msgstr ""
+"Algúns formularios están a ser editados.\n"
+"¿Realmente queres saír de GestiONG?\n"
+
+#: gong-lib/guimainwindow.cpp:641 gong-lib/guifrmeditrecmaestro.cpp:1363
+msgid ""
+"\n"
+"\n"
+"¿Quieres salir de GestiONG?"
+msgstr ""
+"\n"
+"\n"
+"¿Queres saír de GestiONG?"
+
+#: gong-lib/guimainwindow.cpp:751 gong-lib/guimainwindow.cpp:773
+msgid "Borrar ejercicio"
+msgstr "Borrar exercicio"
+
+#: gong-lib/guimainwindow.cpp:752
+msgid ""
+"Estás a punto de borrar el ejercicio %1\n"
+"¿Estás segura?"
+msgstr ""
+"Estás a piques de borrar o exercicio %1\n"
+"¿Estás segura?"
+
+#: gong-lib/guimainwindow.cpp:761
+msgid ""
+"No es por incordiar, pero el ejercicio %1 tiene:\n"
+"\t%2 cuentas,\n"
+"\t%3 asientos y\n"
+"\t%4 apuntes\n"
+"Aún quieres borrarlo?"
+msgstr ""
+"Non é por incordiar, pero o exercicio %1 ten:\n"
+"\t%2 contas,\n"
+"\t%3 asentos y\n"
+"\t%4 apuntes\n"
+"Ainda así queres borralo?"
+
+#: gong-lib/guimainwindow.cpp:773
+msgid "El ejercicio ha sido borrado."
+msgstr "O exercicio foi borrado"
+
+#: gong-lib/guidatatable.cpp:478 gong-lib/guifrmeditrecmaestro.cpp:237
+#: gong-lib/guifrmeditrecmaestro.cpp:251
+#: gong-lib/guifrmeditrecmaestro.cpp:1064
+msgid "&Añadir"
+msgstr "Eng&adir"
+
+#: gong-lib/guidatatable.cpp:479 gong-lib/guifrmeditrecmaestro.cpp:247
+#: gong-lib/guifrmeditrecmaestro.cpp:1078
+msgid "&Modificar"
+msgstr "&Modificar"
+
+#: gong-lib/guidatatable.cpp:480 gong-lib/guifrmeditrecmaestro.cpp:1071
+msgid "&Eliminar"
+msgstr "&Eliminar"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:102
+msgid "Error en la vista del formulario"
+msgstr "Erro na vista do formulario"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:122
+msgid "Error en la vista de la tabla"
+msgstr "Erro na vista da táboa"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:143
+msgid "Error en la vista por defecto de la tabla"
+msgstr "Erro na vista predeterminada da táboa"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:215
+msgid "Hojeando "
+msgstr "Folleando"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:219 gong-lib/guifrmeditrecmaestro.cpp:221
+msgid "' no existe. "
+msgstr "' non existe."
+
+#: gong-lib/guifrmeditrecmaestro.cpp:222
+msgid "Eligiendo "
+msgstr "Elixindo"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:232
+msgid " [Filtrado]"
+msgstr " [Filtrado]"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:239
+msgid "&Elegir"
+msgstr "&Elixir"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:240 gong-lib/guifrmeditrecmaestro.cpp:244
+#: gong-lib/guifrmeditrecmaestro.cpp:263
+msgid "&Cerrar"
+msgstr "&Pechar"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:266 gong-lib/guifrmbase.cpp:49
+#: gong-lib/guifrmbase.cpp:517
+msgid "&Cancelar"
+msgstr "&Cancelar"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:510
+#, c-format
+msgid "Error %s %s"
+msgstr "Erro %s %s"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:511
+msgid "borrando"
+msgstr "borrando"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:511
+msgid "grabando"
+msgstr "gravando"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:812 gong-lib/guifrmeditrecmaestro.cpp:884
+#, c-format
+msgid "¿Estás segura de borrar %s?\n"
+msgstr "¿Estás segura de borrar %s?\n"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:986
+#, fuzzy, c-format
+msgid ""
+"Imposible encontrar el informe %s.rtk para la tabla de %s.\n"
+"Buscando en %s"
+msgstr ""
+"Non se pode atopar o informe %s.rtk para a táboa de %s.\n"
+"Buscando en %s\n"
+"%s"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:995
+#, c-format
+msgid ""
+"Imprimiendo el informe %s.rtk para la tabla de %s.\n"
+"%s"
+msgstr ""
+"Imprimindo o informe %s.rtk para a táboa de %s.\n"
+"%s"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1002
+msgid "GestiONG no ha sido compilado con la posibilidad de hacer informes"
+msgstr "GestiONG non foi compilado coa posibilidade de facer informes"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1067
+msgid "Añade un registro al fichero"
+msgstr "Engade un rexistro ao ficheiro"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1074
+#: gong-lib/guifrmeditrecmaestro.cpp:1081
+msgid "Borra el registro seleccionado"
+msgstr "Borra o rexistro seleccionado"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1085
+msgid "&Imprimir"
+msgstr "&Imprimir"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1088
+msgid "Imprime el registro seleccionado"
+msgstr "Imprime o rexistro seleccionado"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1095
+msgid "Muestra el registro seleccionado"
+msgstr "Amosa o rexistro seleccionado"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1099
+msgid "&Duplicar"
+msgstr "&Duplicar"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1102
+msgid "Duplica el registro seleccionado"
+msgstr "Duplica o rexistro seleccionado"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1106
+#: gong-lib/guifrmeditrecmaestro.cpp:1164
+#, fuzzy
+msgid "&Información"
+msgstr "&Configuración"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1109
+#, fuzzy
+msgid "Muestra información sobre el registro"
+msgstr "Orixe do rexistro"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1113
+msgid "Rea&brir"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1116
+#, fuzzy
+msgid "Abre una nueva ventana de este fichero"
+msgstr "Elimina o filtro de este ficheiro"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1122
+msgid "&Reordenar"
+msgstr "&Reordenar"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1125
+msgid "Cambia el orden de los registros"
+msgstr "Cambia a orde dos rexistros"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1129
+msgid "&Filtrar"
+msgstr "&Filtrar"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1132
+msgid "Filtra los registros de este fichero"
+msgstr "Filtra os rexistros de este ficheiro"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1136
+msgid "&Quitar filtro"
+msgstr "&Quitar filtro"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1139
+msgid "Elimina el filtro de este fichero"
+msgstr "Elimina o filtro de este ficheiro"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1143
+msgid "&Importar"
+msgstr "&Importar"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1146
+msgid "Importa registros a este fichero"
+msgstr "Importa rexistros a este ficheiro"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1150
+msgid "&Exportar"
+msgstr "&Exportar"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1153
+msgid "Exporta los registros de este fichero"
+msgstr "Exporta os rexistros de este ficheiro"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1157
+msgid "&Refrescar"
+msgstr "&Actualizar"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1160
+msgid "Refresca la tabla"
+msgstr "Actualiza a táboa"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1167
+msgid "Muestra información sobre la tabla"
+msgstr ""
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1195
+msgid "Ficheros CSV (*.csv)"
+msgstr "Ficheiros CSV (*.csv)"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1208
+#, c-format
+msgid ""
+"Error en el fichero %s\n"
+"%s"
+msgstr ""
+"Erro no ficheiro %s\n"
+"%s"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1214
+#, c-format
+msgid "El fichero %s no contiene registros."
+msgstr "O ficheiro %s non conten rexistros."
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1218
+#, c-format
+msgid "Se importarán %d registros. ¿Quieres continuar?"
+msgstr "Importaranse %d rexistros. ¿Queres continuar?"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1237
+#, c-format
+msgid ""
+"Las columnas\n"
+"%s\n"
+" no existen en la tabla de %s. ¿Quieres continuar?"
+msgstr ""
+"As columnas\n"
+"%s\n"
+" non existen na táboa de %s. ¿Queres continuar?"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1272
+msgid ""
+"Has anulado la importación de este registro.\n"
+"¿Qieres continuar con los siguientes?"
+msgstr ""
+"Anulaches a importación de este rexistro.\n"
+"¿Qieres continuar cos seguintes?"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1287
+msgid "No se ha podido crear el formulario para la importación"
+msgstr "Non se puido crear o formulario para a importación"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1294
+msgid "Aviso"
+msgstr "Aviso"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1294
+#, c-format
+msgid "Se han importado %d registros"
+msgstr "Importaronse %d rexistros"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1319
+msgid "Exportando datos de la tabla"
+msgstr "Exportando datos da táboa"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1320
+msgid ""
+"Puedes copiar y pegar este texto directamente a una hoja de cálculo. La "
+"codificación del los caracteres es ISO-8859-1 (LATIN1) y el separador es la "
+"coma (,)."
+msgstr ""
+"Podes copiar e pegar este texto directamente a unha folla de cálculo. A "
+"codificación dos caracteres é ISO-8859-1 (LATIN1) e o separador é a coma (,)."
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1343
+#, fuzzy
+msgid "Información del registro"
+msgstr "Orixe do rexistro"
+
+#: gong-lib/guifrmeditrecmaestro.cpp:1351
+#, fuzzy
+msgid "Información del fichero"
+msgstr "Renumeración do diario"
+
+#: gong-lib/guifrmbase.cpp:47 gong-lib/guifrmbase.cpp:397
+#: gong-lib/guifrmbase.cpp:515
+msgid "&Aceptar"
+msgstr "&Aceptar"
+
+#: gong-lib/guifrmbase.cpp:463
+msgid "&Sí"
+msgstr "&Sí"
+
+#: gong-lib/guifrmbase.cpp:465
+msgid "&No"
+msgstr "&Non"
+
+#: gong-lib/guifrmbase.cpp:577
+#, c-format
+msgid "No se ha encontrado %1s con código %2s"
+msgstr "Non se atopou %1s con código %2s"
+
+#: gong-lib/guifrmbase.cpp:590
+#, c-format
+msgid "No se ha encontrado %1s '%2s'"
+msgstr "Non se atopou %1s «%2s»"
+
+#: gong-lib/gongxmlparser.cpp:132
+#, c-format
+msgid "The chosen file '%s' is a directory"
+msgstr "O ficheiro elixido «%s» é un directorio"
+
+#: gong-lib/gongxmlparser.cpp:137
+#, c-format
+msgid "Error reading file %s: %s"
+msgstr "Erro lendo o ficheiro %s: %s"
+
+#: gong-lib/gongdbtabledefinition.cpp:404
+msgid "la"
+msgstr "a"
+
+#: gong-lib/gongdbtabledefinition.cpp:404
+msgid "el"
+msgstr "o"
+
+#: gong-lib/gongdbtabledefinition.cpp:405
+msgid "La"
+msgstr "A"
+
+#: gong-lib/gongdbtabledefinition.cpp:405
+msgid "El"
+msgstr "O"
+
+#: gong-lib/gongdbtabledefinition.cpp:406
+msgid "una"
+msgstr "unha"
+
+#: gong-lib/gongdbtabledefinition.cpp:406
+msgid "un"
+msgstr "un"
+
+#: gong-lib/gongdbtabledefinition.cpp:407
+msgid "Una"
+msgstr "Unha"
+
+#: gong-lib/gongdbtabledefinition.cpp:407
+msgid "Un"
+msgstr "Un"
+
+#: gong-lib/gongdbtabledefinition.cpp:408
+msgid "esta"
+msgstr "esta"
+
+#: gong-lib/gongdbtabledefinition.cpp:408
+msgid "este"
+msgstr "este"
+
+#: gong-lib/gongdbtabledefinition.cpp:409
+msgid "Esta"
+msgstr "Esta"
+
+#: gong-lib/gongdbtabledefinition.cpp:409
+msgid "Este"
+msgstr "Este"
+
+#: gong-lib/gongdbtabledefinition.cpp:410
+msgid "esa"
+msgstr "esa"
+
+#: gong-lib/gongdbtabledefinition.cpp:410
+msgid "ese"
+msgstr "ese"
+
+#: gong-lib/gongdbtabledefinition.cpp:411
+msgid "Esa"
+msgstr "Esa"
+
+#: gong-lib/gongdbtabledefinition.cpp:411
+msgid "Ese"
+msgstr "Ese"
+
+#: gong-lib/gongdbtabledefinition.cpp:412
+msgid "de la"
+msgstr "da"
+
+#: gong-lib/gongdbtabledefinition.cpp:412
+msgid "del"
+msgstr "do"
+
+#: gong-lib/gongdbrecordext.cpp:213
+msgid "Existing records can't have ID=0"
+msgstr "Os rexistros existentes non poder ter o ID=0"
+
+#: gong-lib/gongxtring.cpp:362
+msgid "false"
+msgstr "falso"
+
+#: gong-lib/gongxtring.cpp:363
+msgid "no"
+msgstr "non"
+
+#: gong-lib/gonglibrary.cpp:180
+#, c-format
+msgid ""
+"GestiONG Library options\n"
+"  -v, --version\t\tPrints the version of the "
+msgstr ""
+"GestiONG Biblioteca de opcións\n"
+"  -v, --versión\t\tImprime a versión de "
+
+#: gong-lib/gongdbfieldreferenceid.cpp:38
+#, c-format
+msgid "La referencia '%s' no puede estar vacía"
+msgstr "A referencia «%s» non pode estar baleira"
+
+#: gong-lib/gongdbfielddefinition.cpp:149
+#, c-format
+msgid "La longitud de '%s' no puede ser mayor de %d letras"
+msgstr "A lonxitude de «%s» non pode ser maior de %d letras"
+
+#~ msgid "Fichero de GestiONG"
+#~ msgstr "Ficheiro de GestiONG"
+
+#~ msgid "Importación de datos a GestiONG"
+#~ msgstr "Importación de datos a GestiONG"
+
+#~ msgid "Fichero de origen"
+#~ msgstr "Ficheiro de orixe"
+
+#~ msgid "Descripción de la importación"
+#~ msgstr "Descrición da importación"
+
+#~ msgid "Examinar..."
+#~ msgstr "Examinar..."
+
+#~ msgid ""
+#~ "Seleccione los ficheros de GestiONG a los que desea importar los datos"
+#~ msgstr ""
+#~ "Seleccione os ficheiros de GestiONG aos que desexa importar os datos"
+
+#~ msgid "Origen y destino de los datos"
+#~ msgstr "Orixe e destino dos datos"
+
+#~ msgid "Si los datos a importar ya existen en GestiONG"
+#~ msgstr "Se os datos a importar xa existen en GestiONG"
+
+#~ msgid "Cancelar la importación"
+#~ msgstr "Cancelar a importación"
+
+#~ msgid "Actualizar GestiONG"
+#~ msgstr "Actualizar GestiONG"
+
+#~ msgid "Ignorar los datos"
+#~ msgstr "Ignorar os datos"
+
+#~ msgid "Preguntar en cada caso"
+#~ msgstr "Preguntar en cada caso"
+
+#~ msgid "Si los datos no pertenecen a este ejercicio"
+#~ msgstr "Se os datos non perteñecen a este exercicio"
+
+#~ msgid "Importarlos a este ejercicio"
+#~ msgstr "Importalos a este exercicio"
+
+#~ msgid "Ignorarlos"
+#~ msgstr "Ignoralos"
+
+#~ msgid "Opciones de la importación"
+#~ msgstr "Opcións da importación"
+
+#~ msgid "Resumen de la importación"
+#~ msgstr "Resumo da importación"
+
+#~ msgid "Ficheros FUGIT (*.fugit)"
+#~ msgstr "Ficheiros FUGIT (*.fugit)"
+
+#~ msgid "Ficheros"
+#~ msgstr "Ficheiros"
+
+#~ msgid "Exportación de datos de GestiONG"
+#~ msgstr "Exportación de datos de GestiONG"
+
+#~ msgid "Resumen de la exportación"
+#~ msgstr "Resumo da exportación"
+
+#~ msgid "Destino:"
+#~ msgstr "Destino:"
+
+#~ msgid "Fugit files (*.fugit);;All files (*)"
+#~ msgstr "Ficheiros Fugit (*.fugit);;Todos os ficheiros (*)"
+
+#~ msgid "Elige el fichero de destino"
+#~ msgstr "Elixe o ficheiro de destino"
+
+#~ msgid "Asistente de acceso a GestiONG"
+#~ msgstr "Asistente de acceso a GestiONG"
+
+#~ msgid "Acceso a GestiONG"
+#~ msgstr "Acceso a GestiONG"
+
+#~ msgid "Usuaria"
+#~ msgstr "Usuaria"
+
+#~ msgid "Contraseña"
+#~ msgstr "Contrasinal"
+
+#~ msgid "Nº de asociación"
+#~ msgstr "Nº de asociación"
+
+#~ msgid "Ejercicio"
+#~ msgstr "Exercicio"
+
+#~ msgid "Guardar contraseña"
+#~ msgstr "Gardar o contrasinal"
+
+#~ msgid "Conectar sin preguntar"
+#~ msgstr "Conectar sen preguntar"
+
+#~ msgid "Localización de la base de datos"
+#~ msgstr "Localización da base de datos"
+
+#~ msgid "Tipo de base de datos"
+#~ msgstr "Tipo de base de datos"
+
+#, fuzzy
+#~ msgid "Nombre de la base de datos"
+#~ msgstr "C&rear a base de datos"
+
+#~ msgid "Dirección del servidor"
+#~ msgstr "Enderezo do servidor"
+
+#~ msgid "Puerto"
+#~ msgstr "Porto"
+
+#~ msgid "C&rear la base de datos"
+#~ msgstr "C&rear a base de datos"
+
+#~ msgid "Conexión con la base de datos"
+#~ msgstr "Conexión coa base de datos"
+
+#~ msgid "Acceso a la base de datos"
+#~ msgstr "Acceso á base de datos"
+
+#~ msgid "Tipo"
+#~ msgstr "Tipo"
+
+#~ msgid "Nombre de la superusuaria"
+#~ msgstr "Nome da superusuaria"
+
+#~ msgid "Contraseña de la superusuaria"
+#~ msgstr "Contrasinal da superusuaria"
+
+#~ msgid "Creación de la base de datos"
+#~ msgstr "Creación da base de datos"
+
+#~ msgid "Crear asiento"
+#~ msgstr "Crear asento"
+
+#~ msgid "Asientos tipo GestiONG"
+#~ msgstr "Asentos tipo GestiONG"
+
+#~ msgid "Descripción"
+#~ msgstr "Descrición"
+
+#~ msgid "Localización"
+#~ msgstr "Localización"
+
+#~ msgid "Imprimir"
+#~ msgstr "Imprimir"
+
+#~ msgid "Informes de GestiONG"
+#~ msgstr "Informes de GestiONG"
+
+#~ msgid "Salida"
+#~ msgstr "Saída"
+
+#~ msgid "Pantalla"
+#~ msgstr "Pantalla"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"
+
+#~ msgid "OpenOffice Calc"
+#~ msgstr "OpenOffice Calc"
+
+#~ msgid "Postscript"
+#~ msgstr "Postscript"
+
+#~ msgid "Fichero de texto"
+#~ msgstr "Ficheiro de texto"
+
+#~ msgid "Filtro..."
+#~ msgstr "Filtro..."
+
+#~ msgid "Orden..."
+#~ msgstr "Orde..."
+
+#~ msgid "Título"
+#~ msgstr "Título"
+
+#~ msgid "Resumido"
+#~ msgstr "Resumido"
+
+#~ msgid "Preguntar parámetros adicionales"
+#~ msgstr "Preguntar parámetros adicionis"
+
+#~ msgid "Alternar colores en las líneas"
+#~ msgstr "Alternar cores nas liñas"
+
+#~ msgid "Estilo"
+#~ msgstr "Estilo"
+
+#~ msgid "Apaisado"
+#~ msgstr "Apaisado"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgid "&Contabilidad"
+#~ msgstr "&Contabilidade"
+
+#~ msgid "Extractos de cuentas"
+#~ msgstr "Extractos de contas"
+
+#~ msgid "&Extractos..."
+#~ msgstr "&Extractos..."
+
+#~ msgid "Muestra extractos de cuentas"
+#~ msgstr "Amosa extractos de contas"
+
+#~ msgid "Renumeración del diario"
+#~ msgstr "Renumeración do diario"
+
+#~ msgid "&Renumerar diario..."
+#~ msgstr "&Renumerar diario..."
+
+#~ msgid "Apertura y cierrre"
+#~ msgstr "Apertura e peche"
+
+#~ msgid "Crea un nuevo ejercicio"
+#~ msgstr "Crea un novo exercicio"
+
+#~ msgid "&Nuevo ejercicio..."
+#~ msgstr "&Novo exercicio..."
+
+#~ msgid "Crea el asiento de apertura"
+#~ msgstr "Crea o asento de apertura"
+
+#~ msgid "&Asiento de apertura..."
+#~ msgstr "&Asento de apertura..."
+
+#~ msgid "Crea el asiento de regularizacion"
+#~ msgstr "Crea o asento de regularización"
+
+#~ msgid "&Regularizar ejercicio..."
+#~ msgstr "&Regularizar exercicio..."
+
+#~ msgid "Crea el asiento de cierre"
+#~ msgstr "Crea o asento de peche"
+
+#~ msgid "&Cerrar ejercicio..."
+#~ msgstr "&Cerrar exercicio..."
+
+#~ msgid "Fichero de "
+#~ msgstr "Ficheiro de "
+
+#~ msgid "Abre el fichero de "
+#~ msgstr "Abre o ficheiro de destino"
+
+#~ msgid "&Diario"
+#~ msgstr "&Diario"
+
+#~ msgid "Recalcula los saldos de todas las cuentas"
+#~ msgstr "Recalcula os saldos de todas as contas"
+
+#~ msgid "Recalcular saldos"
+#~ msgstr "Recalcular saldos"
+
+#~ msgid "Asientos tipo"
+#~ msgstr "Asentos tipo"
+
+#~ msgid "Asientos tipo..."
+#~ msgstr "Asentos tipo..."
+
+#~ msgid "Permite la edición de asientos a partir de asiento tipo"
+#~ msgstr "Permite a edición de asentos a partir de asento tipo"
+
+#~ msgid "Recalculando saldos del ejercicio %1..."
+#~ msgstr "Recalculando saldos do exercicio %1..."
+
+#~ msgid "La cuenta no puede estar vacía"
+#~ msgstr "A conta non pode estar baleira"
+
+#~ msgid "Cuenta '%1s' no válida, carácter '%2c' no válido"
+#~ msgstr "Conta «%1s» non válida, carácter «%2c» non válido"
+
+#~ msgid "La longitud de la cuenta '%1s' no puede ser mayor de %2d dígitos"
+#~ msgstr "A lonxitude da conta «%1s» non pode ser maior de %2d díxitos"
+
+#~ msgid "La cuenta '%1s' no se ajusta a ningún nivel"
+#~ msgstr "A conta «%1s» non se axusta a ningún nivel"
+
+#~ msgid "No hay asociaciones dadas de alta. GestiONG terminará ahora"
+#~ msgstr "Non hai asociacións dadas de alta. GestiONG rematará agora"
+
+#~ msgid "Inactivo"
+#~ msgstr "Inactivo"
+
+#~ msgid "Activo"
+#~ msgstr "Activo"
+
+#~ msgid "PUNTUAL"
+#~ msgstr "PUNTUAL"
+
+#~ msgid "DIARIA"
+#~ msgstr "DIARIA"
+
+#~ msgid "SEMANAL"
+#~ msgstr "SEMANAL"
+
+#~ msgid "QUINCENAL"
+#~ msgstr "QUINCENAL"
+
+#~ msgid "MENSUAL"
+#~ msgstr "MENSUAL"
+
+#~ msgid "BIMENSUAL"
+#~ msgstr "BIMENSUAL"
+
+#~ msgid "TRIMESTRAL"
+#~ msgstr "TRIMESTRAL"
+
+#~ msgid "CUATRIMESTRAL"
+#~ msgstr "CUADRIMESTRAL"
+
+#~ msgid "SEMESTRAL"
+#~ msgstr "SEMESTRAL"
+
+#~ msgid "ANUAL"
+#~ msgstr "ANUAL"
+
+#~ msgid "BIANUAL"
+#~ msgstr "BIANUAL"
+
+#~ msgid "Pendiente"
+#~ msgstr "Pendente"
+
+#~ msgid "Pagado"
+#~ msgstr "Pagado"
+
+#~ msgid "Devuelto"
+#~ msgstr "Devolto"
+
+#~ msgid "Cancelado"
+#~ msgstr "Cancelado"
+
+#~ msgid "As&ociación"
+#~ msgstr "As&ociación"
+
+#, fuzzy
+#~ msgid "Generar recibos..."
+#~ msgstr "Xerar recibos"
+
+#~ msgid "Informes de GestiONG - "
+#~ msgstr "Informes de GestiONG - "
+
+#~ msgid "Origen del registro"
+#~ msgstr "Orixe do rexistro"
+
+#~ msgid ""
+#~ "Introduce los datos para conectarte a la base de datos de GestiONG.\n"
+#~ "\n"
+#~ "   Si la base de datos ya existe, introduce los datos necesarios para "
+#~ "encontrarla, es decir, el USUARIO/A, la CONTRASEÑA, el NÚMERO DE "
+#~ "ASOCIACIÓN, el EJERCICIO y en qué ordenador (SERVIDOR) se encuentra:\n"
+#~ "   * Si la base de datos está en este ordenador, pulsa el botón "
+#~ "'SIGUIENTE'.\n"
+#~ "   * Si está en otro ordenador, escribe el nombre o dirección IP del otro "
+#~ "ordenador en el campo SERVIDOR y opcionalmente el PUERTO y pulsa el botón "
+#~ "SIGUIENTE.\n"
+#~ "   * Si la base de datos no existe, pulsa el botón CREAR BASE DE DATOS.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Introduce os datos para conectarte á base de datos de GestiONG.\n"
+#~ "\n"
+#~ "   Se a base de datos xa existe, introduce os datos necesarios para "
+#~ "atopala, é  decir, o USUARIO/A, o CONTRASINAL, o NÚMERO DE ASOCIACIÓN, o "
+#~ "EXERCICIO e en que computadora (SERVIDOR) se atopa:\n"
+#~ "   * Se a base de datos está nesa computadora, preme o botón «SEGUINTE».\n"
+#~ "   * Se está noutra computadora, escribe o nome ou enderezo IP da outra "
+#~ "computadora no campo SERVIDOR e opcionalmente o PORTO e preme o botón "
+#~ "«SEGUINTE».\n"
+#~ "   * Se a base de datos non existe, preme no botón «CREAR BASE DE "
+#~ "DATOS».\n"
+#~ "\n"
+
+#~ msgid "Bienvenida a "
+#~ msgstr "Benvida a"
+
+#~ msgid "GestiONG - Imposible encontrar drivers SQL"
+#~ msgstr "GestiONG - Non se atopan controladores SQL"
+
+#~ msgid ""
+#~ "No se han encontrado drivers en este ordenador para la conexión de "
+#~ "GestiONG a la base de datos SQL.\n"
+#~ "El programa GestiONG finalizará ahora."
+#~ msgstr ""
+#~ "No se atoparon controladores nesta computadora para a conexión de "
+#~ "GestiONG á base de datos SQL.\n"
+#~ "O programa GestiONG rematará agora."
+
+#~ msgid "Intentando conectar automáticamente..."
+#~ msgstr "Tentando conectar automáticamente..."
+
+#~ msgid "Creando la base de datos de "
+#~ msgstr "Creando a base de datos de "
+
+#~ msgid ""
+#~ "   Para crear la base de datos de GestiONG tienes que tener privilegios "
+#~ "de SUPERUSUARIA en el servidor que hayas elegido. Rellena los datos del "
+#~ "cuadro 'Localización de la base de datos':\n"
+#~ "   * TIPO DE SERVIDOR: MySQL\n"
+#~ "   * PUERTO: 0 (normalmente)\n"
+#~ "   * SERVIDOR: Dirección IP o nombre del servidor. Vacío si el servidor "
+#~ "es este ordenador\n"
+#~ "   * SUPERUSUARIA: Nombre de la usuaria con privilegios para crear bases "
+#~ "de datos (root)\n"
+#~ "   * CONTRASEÑA de la superusuaria.\n"
+#~ "\n"
+#~ "   Si no lo has hecho ya, rellena también el cuadro de la izquierda con "
+#~ "el nombre de usuaria y contraseña de la usuaria que accederá usualmente a "
+#~ "la base de datos que será creada, así como el número de asociación y el "
+#~ "ejercicio"
+#~ msgstr ""
+#~ "   Para crear a base de datos de GestiONG tes que ter privilexios de "
+#~ "SUPERUSUARIA no servidor que teñas elixido. Enche os datos do cadro "
+#~ "«Localización da base de datos»:\n"
+#~ "   * TIPO DE SERVIDOR: MySQL\n"
+#~ "   * PORTO: 0 (normalmente)\n"
+#~ "   * SERVIDOR: Enderezo IP ou nome do servidor. Baleiro se o servidor é "
+#~ "esta computadora\n"
+#~ "   * SUPERUSUARIA: Nome da usuaria con privilexios para crear bases de "
+#~ "datos (root)\n"
+#~ "   * CONTRASINAL da superusuaria.\n"
+#~ "\n"
+#~ "   Se non o fixeches xa, enche tamén o cadro da esquerda co nome de "
+#~ "usuaria e contrasinal da usuaria que accederá usualmente á base de datos "
+#~ "que será creada, así como o número de asociación e o  exercicio"
+
+#~ msgid "Creando la base de datos %s ..."
+#~ msgstr "Creando a base de datos %s ..."
+
+#~ msgid "Creando las tablas..."
+#~ msgstr "Creando as táboas..."
+
+#~ msgid "Creando usuario/a..."
+#~ msgstr "Creando usuario/a..."
+
+#~ msgid "Datos incompletos"
+#~ msgstr "Datos incompletos"
+
+#~ msgid "Introduce un nombre de usuaria"
+#~ msgstr "Introduce un nome de usuaria"
+
+#, fuzzy
+#~ msgid "Introduce un código de asociación entre 1 y 99999"
+#~ msgstr "Introduce un código de asociación entre 1 e 999"
+
+#~ msgid "Introduce un número de ejercicio razonable"
+#~ msgstr "Introduce un número de exercicio razoable"
+
+#~ msgid "Conectando..."
+#~ msgstr "Conectando..."
+
+#~ msgid "Introduce un nombre de usuaria para crear la base de datos"
+#~ msgstr "Introduce un nome de usuaria para crear a base de datos"
+
+#~ msgid "Introduce un nombre de usuaria para conectar con la base de datos"
+#~ msgstr "Introduce un nome de usuaria para conectar coa base de datos"
+
+#~ msgid ""
+#~ "La contraseña de usuaria está vacía.\n"
+#~ "Es recomendable introducir una por razones de seguridad.\n"
+#~ "\n"
+#~ "¿Quieres continuar con la contraseña vacía?"
+#~ msgstr ""
+#~ "O contrasinal de usuaria está baleiro.\n"
+#~ "É recomendable introducir un por razóns de seguridade.\n"
+#~ "\n"
+#~ "¿Queres continuar co contrasinal baleiro?"
+
+#~ msgid "Conexión satisfactoria."
+#~ msgstr "Conexión satisfactoria."
+
+#~ msgid "Comprobando la base de datos %s ..."
+#~ msgstr "Comprobando a base de datos %s ..."
+
+#~ msgid "La base de datos de GestiONG v%s no está actualizada\n"
+#~ msgstr "A base de datos de GestiONG v%s non está actualizada\n"
+
+#~ msgid "Actualización de la base de datos"
+#~ msgstr "Actualización da base de datos"
+
+#~ msgid ""
+#~ "La base de datos de GestiONG v%1s ('%2s') no está actualizada.\n"
+#~ "¿Quieres actualizarla ahora?"
+#~ msgstr ""
+#~ "A base de datos de GestiONG v%1s («%2s») non está actualizada.\n"
+#~ "¿Queres actualizala agora?"
+
+#~ msgid ""
+#~ "El usuario/a '%1s@%2s' no ha podido conectar con la base de datos '%3s' "
+#~ "en %4s. Esto puede deberse a que la contraseña es errónea o bien a que la "
+#~ "base de datos no existe.\n"
+#~ "Comprueba el nombre de USUARIO/A y la CONTRASEÑA.\n"
+#~ msgstr ""
+#~ "O usuario/a «%1s@%2s» non puido conectar coa base de datos «%3s» en %4s. "
+#~ "Isto pode deberse a que o contrasinal é  erróneo ou ben a que a base de "
+#~ "datos non existe.\n"
+#~ "Comproba o nome de USUARIO/A e o CONTRASINAL.\n"
+
+#~ msgid "este ordenador"
+#~ msgstr "esta computadora"
+
+#~ msgid "el servidor seleccionado"
+#~ msgstr "o servidor seleccionado"
+
+#~ msgid ""
+#~ "El servidor de bases de datos '%1s' no está instalado o funcionando en "
+#~ "este ordenador.\n"
+#~ "Prueba a iniciar el servidor de la base de datos o elige un servidor "
+#~ "diferente y después pulsa de nuevo el botón 'Siguiente'.\n"
+#~ msgstr ""
+#~ "O servidor de bases de datos «%1s» non está instalado ou funcionando "
+#~ "nesta computadora.\n"
+#~ "Proba a iniciar o servidor da base de datos ou elixe un servidor "
+#~ "diferente e despois preme de novo o botón «Seguinte».\n"
+
+#~ msgid ""
+#~ "El servidor de bases de datos '%1s' no está instalado o funcionando en el "
+#~ "servidor '%2s'.\n"
+#~ "Inicia el servidor de la base de datos o elige un servidor diferente y "
+#~ "después pulsa de nuevo el botón 'Siguiente'.\n"
+#~ msgstr ""
+#~ "O servidor de bases de datos «%1s» non está instalado ou funcionando no "
+#~ "servidor «%2s».\n"
+#~ "Inicia o servidor da base de datos ou elixe un servidor diferente e "
+#~ "despois preme de novo no botón «Seguinte».\n"
+
+#~ msgid ""
+#~ "No se ha podido acceder al servidor de bases de datos.\n"
+#~ "O bien el ordenador '%1s' es inaccesible o el servidor de bases de datos "
+#~ "'%2s' no está funcionando en ese ordenador.\n"
+#~ "Verifica que el ordenador '%3s' es accesible y que el servidor de la base "
+#~ "de datos %4s está funcionando y después pulsa de nuevo el botón "
+#~ "'Siguiente'."
+#~ msgstr ""
+#~ "Non se puido acceder ao servidor de bases de datos.\n"
+#~ "Ou ben a computadora «%1s» non é accesible ou o servidor de bases de "
+#~ "datos «%2s» non está funcionando nesa computadora.\n"
+#~ "Verifica que a computadora «%3s» é accesible e que o servidor da base de "
+#~ "datos %4s está funcionando e despois preme de novo o botón «Seguinte»."
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "Error del servidor SQL:\n"
+#~ "%1d: %2s\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "Erro do servidor SQL:\n"
+#~ "%1d: %2s\n"
+
+#~ msgid "Error de conexión con la base de datos de GestiONG\n"
+#~ msgstr "Erro de conexión coa base de datos de GestiONG\n"
+
+#~ msgid ""
+#~ "Si la base de datos no está creada, pulsa el botón 'CREAR BASE DE DATOS'"
+#~ msgstr ""
+#~ "Se a base de datos non está creada, preme no  botón «CREAR BASE DE DATOS»"
+
+#~ msgid "Error creando la base de datos"
+#~ msgstr "Atopouse un erro creando a base de datos"
+
+#~ msgid ""
+#~ "Los datos para la creación de la base de datos no son correctos.\n"
+#~ "Revisa el nombre de SUPERUSUARIA, la CONTRASEÑA y el nombre y tipo del "
+#~ "servidor de la base de datos.\n"
+#~ "Recuerda que si la base de datos no está en este ordenador, debes "
+#~ "rellenar el nombre del servidor. Si la base de datos está en este "
+#~ "ordenador, deja el nombre en blanco.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Os datos para a creación da base de datos non son correctos.\n"
+#~ "Revise o nome de SUPERUSUARIA, o CONTRASINAL e o nome e tipo do servidor "
+#~ "da base de datos.\n"
+#~ "Recorde que se a base de datos non está nesta computadora, debe encher o "
+#~ "nome do servidor. Se a base de datos está nista computadora, deixe o nome "
+#~ "en branco.\n"
+#~ "\n"
+
+#~ msgid "El fichero %s ya existe. ¿Desea sobreescribirlo?"
+#~ msgstr "O ficheiro %s xa existe. ¿Desexa sobreescribilo?"
+
+#~ msgid "La exportación ha finalizado correctamente"
+#~ msgstr "A exportación rematou de xeito satisfactorio"
+
+#~ msgid "Seleccionar asociación"
+#~ msgstr "Seleccionar asociación"
+
+#~ msgid "Debes cerrar todas las ventanas antes de cambiar de asociación"
+#~ msgstr "Debes pechar todas as ventás antes de cambiar de asociación"
+
+#~ msgid "Tabla de "
+#~ msgstr "Táboa de"
+
+#~ msgid "La columna %s contendrá el valor \""
+#~ msgstr "A columna %s conterá o valor \""
+
+#~ msgid "Diccionario de datos"
+#~ msgstr "Dicionario de datos"
+
+#~ msgid ""
+#~ "Muestra el asistente de conexión a la base de datos para cambiar de "
+#~ "asociación"
+#~ msgstr ""
+#~ "Amosa o asistente de conexión á base de datos para cambiar de asociación"
+
+#~ msgid "&Asistente de acceso..."
+#~ msgstr "&Asistente de acceso..."
+
+#~ msgid "Todos los informes"
+#~ msgstr "Todos os informes"
+
+#~ msgid "&Informes..."
+#~ msgstr "&Informes..."
+
+#~ msgid "Asistente de exportación de datos"
+#~ msgstr "Asistente de exportación de datos"
+
+#~ msgid "&Exportar datos..."
+#~ msgstr "&Exportar datos..."
+
+#~ msgid "Asistente de importación de datos"
+#~ msgstr "Asistente de importación de datos"
+
+#~ msgid "Importar datos..."
+#~ msgstr "Importar datos..."
+
+#~ msgid "&Configuración"
+#~ msgstr "&Configuración"
+
+#~ msgid "Configuración del sistema"
+#~ msgstr "Configuración do sistema"
+
+#~ msgid "&Diccionario de datos"
+#~ msgstr "&Dicionario de datos"
+
+#~ msgid "Comprueba la integridad del sistema"
+#~ msgstr "Comproba a integridade do sistema"
+
+#~ msgid "Integridad..."
+#~ msgstr "Integridade..."
+
+#~ msgid "Borra un ejercicio de esta asociación"
+#~ msgstr "Borra un exercicio de esta asociación"
+
+#~ msgid "Borra una asociación con todos sus datos"
+#~ msgstr "Borra unha asociación con todos os seus datos"
+
+#~ msgid "Borrar asociación"
+#~ msgstr "Borrar asociación"
+
+#, fuzzy
+#~ msgid "Comprueba la base de datos"
+#~ msgstr "C&rear a base de datos"
+
+#, fuzzy
+#~ msgid "Comprobar base de datos"
+#~ msgstr "C&rear a base de datos"
+
+#~ msgid ""
+#~ "Tienes que acceder a GestiONG como superusuaria para eliminar una "
+#~ "asociaciőn"
+#~ msgstr ""
+#~ "Tes que acceder a GestiONG como superusuaria para eliminar unha asociaciőn"
+
+#~ msgid ""
+#~ "Estás a punto de borrar la asociación número %1d, %2s\n"
+#~ "¿Estás segura?"
+#~ msgstr ""
+#~ "Estás a piques de borrar a asociación número %1d, %2s\n"
+#~ "¿Estás segura?"
+
+#~ msgid ""
+#~ "No es por incordiar, pero, entre otras cosas, la asociación\n"
+#~ "%1s\n"
+#~ "tiene %2d contactos, %3d proyectos y %4d miembros en total,\n"
+#~ "¿Aún quieres borrarla?"
+#~ msgstr ""
+#~ "Non é por incordiar, pero, entre outras cousas, a asociación\n"
+#~ "%1s\n"
+#~ "ten %2d contactos, %3d proxectos e %4d membros en total,\n"
+#~ "¿Aida así queres borrala?"
+
+#~ msgid "La asociación ha sido borrada."
+#~ msgstr "A asociación foi borrada."
+
+#~ msgid "Error borrando asociación"
+#~ msgstr "Erro borrando asociación"
+
+#, fuzzy
+#~ msgid "Comprobando la base de datos"
+#~ msgstr "Comprobando a base de datos %s ..."
+
+#~ msgid ""
+#~ "La dirección de correo electrónico debería contener al menos una '@' y un "
+#~ "'.'"
+#~ msgstr ""
+#~ "O enderezo de correo electrónico debería conter alomenos unha «@» e un «.»"
+
+#, fuzzy
+#~ msgid "Inicio de la comprobación"
+#~ msgstr "Inicio da importación"
+
+#, fuzzy
+#~ msgid "Inicio de la importación"
+#~ msgstr "Inicio da importación"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "====== Importando "
+#~ msgstr "Importando %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ ">>>>>  Saltando fichero: "
+#~ msgstr ""
+#~ "\n"
+#~ "+++++++  Saltando "
+
+#~ msgid "'%s' no puede estar dentro de otro FICHERO-"
+#~ msgstr "«%s» non pode estar dentro de outro FICHEIRO-"
+
+#~ msgid "%s: La tabla %s no existe"
+#~ msgstr "%s: A táboa %s non existe"
+
+#~ msgid "TAG '%s' debe comenzar con FICHERO- o REGISTRO-"
+#~ msgstr "TAG «%s» debe comezar con FICHEIRO- ou REXISTRO-"
+
+#~ msgid "Campo '%s' desconocido para el fichero '%s'"
+#~ msgstr "Campo «%s» descoñecido para o ficheiro «%s»"
+
+#~ msgid "Etiqueta inesperada '%s' a nivel %d"
+#~ msgstr "Etiqueta inesperada «%s» a nivel %d"
+
+#~ msgid "Atención: Se ignora por pertenecer al ejercicio %d"
+#~ msgstr "Atención: Ignorase por pertencer ao exercicio %d"
+
+#~ msgid "Atención: Se importa a este ejercicio aunque era del ejercicio %d"
+#~ msgstr "Atención: Importase a este exercicio ainda que era do exercicio %d"
+
+#~ msgid "Se cancela la importación por pertenecer al ejercicio %d"
+#~ msgstr "Cancelase a importación por pertencer ao exercicio %d"
+
+#~ msgid "Error: "
+#~ msgstr "Erro: "
+
+#~ msgid "Atención: "
+#~ msgstr "Atención: "
+
+#~ msgid "Importando %s"
+#~ msgstr "Importando %s"
+
+#~ msgid ""
+#~ "El registro:\n"
+#~ "%s\n"
+#~ " ya existe. Quieres actualizarlo?"
+#~ msgstr ""
+#~ "O rexistro:\n"
+#~ "%s\n"
+#~ " xa existe. Queres actualizalo?"
+
+#~ msgid "El registro ya existe. Ignorado por el usuario\n"
+#~ msgstr "O rexistro xa existe. Ignorado polo usuario\n"
+
+#~ msgid "El registro ya existe. Importación cancelada por el usuario\n"
+#~ msgstr "O rexistro xa existe. Importación cancelada polo usuario\n"
+
+#~ msgid "El registro ya existe. Importación cancelada\n"
+#~ msgstr "O rexistro xa existe. Importación cancelada polo usuario\n"
+
+#, fuzzy
+#~ msgid " añadida."
+#~ msgstr "<<<< Engadido"
+
+#, fuzzy
+#~ msgid " añadido"
+#~ msgstr "<<<< Engadido"
+
+#, fuzzy
+#~ msgid " modificada."
+#~ msgstr "Modificando "
+
+#, fuzzy
+#~ msgid " modificado"
+#~ msgstr "Modificando "
+
+#~ msgid "Error al grabar: "
+#~ msgstr "Erro ao gravar: "
+
+#~ msgid "No se ha importado la tabla %s relacionada con esta tabla: %s"
+#~ msgstr "Non se importou a táboa %s relacionada con esta táboa: %s"
+
+#~ msgid "Todos los campos"
+#~ msgstr "Todos os campos"
+
+#~ msgid "Por favor, elija el fichero FUGIT que contiene los datos a importar"
+#~ msgstr "Por favor, elixa o ficheiro FUGIT que conten os datos a importar"
+
+#~ msgid "Importación cancelada"
+#~ msgstr "Importación cancelada"
+
+#~ msgid "Lea los mensajes para ver el error"
+#~ msgstr "Lea as mensaxes para ver o erro"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "=== Comprobación finalizada. Pulse el botón 'Terminar' para realizar la "
+#~ "importación definitivamente\n"
+#~ msgstr ""
+#~ "\n"
+#~ "+++++++++ Comprobación finalizada. Prema o botón «Finalizar» para "
+#~ "realizar a importación definitivamente\n"
+
+#~ msgid "Enhorabuena"
+#~ msgstr "Parabéns"
+
+#~ msgid "El proceso de importación ha terminado correctamente"
+#~ msgstr "O proceso de importación rematou correctamente"
+
+#~ msgid "Fichero no encontrado"
+#~ msgstr "Ficheiro non atopado"
+
+#~ msgid ""
+#~ "\n"
+#~ "+++++++  Importando "
+#~ msgstr ""
+#~ "\n"
+#~ "+++++++  Importando "
+
+#~ msgid "<<<< Modificado"
+#~ msgstr "<<<< Modificado"

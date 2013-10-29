@@ -1,0 +1,125 @@
+\chapter{Personalización}
+\section{Idioma de la aplicación}
+\appname está preparado para mostrar sus mensajes en el idioma que
+elija la usuaria. Los idiomas disponibles hasta ahora son: español,
+catalán, gallego y euskera, aunque no todos están completos.
+
+El idioma viene predeterminado normalmente en la configuración del
+escritorio que utilizas. Si quieres cambiarlo:
+
+a) Si usas KDE, ve a \textstyleGUIELEMENT{Menú K
+}\textstyleGUIELEMENT{$\rightarrow $}\textstyleGUIELEMENT{ Centro de
+control }\textstyleGUIELEMENT{$\rightarrow $}\textstyleGUIELEMENT{
+Regional y accesibilidad }\textstyleGUIELEMENT{$\rightarrow
+$}\textstyleGUIELEMENT{ País/Región e idioma}.
+
+\section{Ficheros de configuración globales y locales}
+\section{Diccionario de datos: nombres de ficheros y campos }
+\appname posee un diccionario de datos con información sobre los
+distintos elementos de la base de datos, por ejemplo, los títulos de
+las tablas, los tipos y descripciones de los campos, su tamaño, su
+estilo, su valor por defecto, etc.
+
+Algunos de los elementos del diccionario de datos se pueden personalizar
+modificando unos ficheros de texto con extensión .ddd (Diccionario De
+Datos) que se leen al iniciar la aplicación y que se encuentran en el
+subdirectorio \textstylenombreprograma{database} del directorio de
+configuración general o local. Al modificar esta información, los
+cambios se verán reflejados en los menús, formularios e informes de
+la aplicación.
+
+Suele haber un fichero por cada módulo de \appname. Así, para el
+módulo de socias, el fichero se llama socias.ddd, para el de
+contabilidad, conta.ddd y así sucesivamente. Además, se pueden
+crear ficheros .ddd para cada idioma que se desee. Basta con anteponer
+el código del lenguaje entre guiones bajos al nombre del fichero: por
+ejemplo, \_es\_socias.ddd, \_ca\_conta.ddd, etc.
+
+El contenido de esos ficheros es como sigue:
+
+
+
+\begin{center}
+\begin{minipage}{16.249cm}
+\textstyleUserEntry{ASOCIACION.DESC\_SINGULAR=Asociación}
+
+\textstyleUserEntry{ASOCIACION.DESC\_PLURAL=Asociaciones}
+
+\textstyleUserEntry{ASOCIACION.FEMENINA=true}
+
+
+\bigskip
+
+\textstyleUserEntry{ASOCIACION.CODIGO.CAPTION=Código}
+
+\textstyleUserEntry{ASOCIACION.CODIGO.DESCRIPTION=Código}
+
+\textstyleUserEntry{ASOCIACION.CODIGO.STYLE=CODE}
+
+\textstyleUserEntry{ASOCIACION.CODIGO.WIDTH=0}
+
+\textstyleUserEntry{ASOCIACION.CODIGO.DEFAULTVALUE=}
+
+\textstyleUserEntry{ASOCIACION.NOMBRE.CAPTION=Nombre abreviado
+asociación}
+\end{minipage}
+\end{center}
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+Las primeras tres líneas definen la tabla de asociaciones, que en la
+base de datos se llama
+{\textquotedblleft}ASOCIACION{\textquotedblright}. El nombre en
+singular de la tabla que aparecerá en \appname será
+{\textquotedblleft}Asociación{\textquotedblright}, en plural
+{\textquotedblleft}Asociaciones{\textquotedblright} y se declara que el
+nombre es femenino. Se podría cambiar
+{\textquotedblleft}Asociación{\textquotedblright} por
+{\textquotedblleft}Organización{\textquotedblright} y el cambio se
+vería reflejado en los menús, formularios e informes.
+
+Las siguientes líneas definen los campos de la tabla de asociaciones.
+El campo CODIGO llevará por título
+{\textquotedblleft}Código{\textquotedblright}, su descripción
+será también {\textquotedblleft}Código{\textquotedblright}, su
+estilo {\textquotedblleft}Code{\textquotedblright} y la longitud y el
+valor por defecto se dejan sin tocar. A continuación se define el
+campo NOMBRE, y así sucesivamente. Un valor muy útil del
+diccionario de datos es \textstyleUserEntry{DEFAULTVALUE}, que es el
+valor que tomará un campo al ser creado, evitando de este modo tener
+que introducirlo cada vez que se da de alta un registro. Por ejemplo,
+si ponemos \textstyleUserEntry{CONTACTO.PAIS.DEFAULTVALUE=España},
+cada vez que demos de alta un contacto, su país será España.
+
+Inicialmente, \appname instala en el directorio de configuración
+global los diccionarios de datos por defecto para diversos lenguajes.
+Estos ficheros solo puede modificarlos la superusuaria, por lo que para
+cambiarlos, tienes que crear una copia en tu directorio de
+configuración local.

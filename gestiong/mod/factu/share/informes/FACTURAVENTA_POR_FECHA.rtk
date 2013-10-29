@@ -1,0 +1,239 @@
+REPORT FACTURAVENTA_POR_FECHA
+{
+	Title = "Facturas de venta por fecha";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
+
+	INPUT default {
+		driver = mysql;
+		from = "FACTURAVENTA INNER JOIN CLIENTE ON FACTURAVENTA.CLIENTE_ID = CLIENTE.ID INNER JOIN TIPODOC ON FACTURAVENTA.TIPODOC_ID = TIPODOC.ID";
+		orderby = "2,3,4";
+
+		INPUTFIELD FACTURAVENTA_FECHA_dummy {
+			Source = FACTURAVENTA.FECHA;
+			Type = date;
+		}
+		INPUTFIELD FACTURAVENTA_FECHA {
+			Source = FACTURAVENTA.FECHA;
+			Type = date;
+		}
+		INPUTFIELD FACTURAVENTA_NUMERO {
+			Source = FACTURAVENTA.NUMERO;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_RAZONSOCIAL {
+			Source = CLIENTE.RAZONSOCIAL;
+			Type = string;
+		}
+		INPUTFIELD TIPODOC_NOMBRE {
+			Source = TIPODOC.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD FACTURAVENTA_BASEIMPONIBLE {
+			Source = FACTURAVENTA.BASEIMPONIBLE;
+			Type = money;
+		}
+		INPUTFIELD FACTURAVENTA_IVA {
+			Source = FACTURAVENTA.IVA;
+			Type = money;
+		}
+		INPUTFIELD FACTURAVENTA_TOTAL {
+			Source = FACTURAVENTA.TOTAL;
+			Type = money;
+		}
+		INPUTFIELD FACTURAVENTA_RESTO {
+			Source = FACTURAVENTA.RESTO;
+			Type = money;
+		}
+		INPUTFIELD FACTURAVENTA_ENTREGA {
+			Source = FACTURAVENTA.ENTREGA;
+			Type = money;
+		}
+		INPUTFIELD FACTURAVENTA_NOTAS {
+			Source = FACTURAVENTA.NOTAS;
+			Type = string;
+		}
+	}
+
+	Include = "default_pageheader.inc";
+
+	PAGEHEADER header_captions {
+		sizey=1;
+		fontweight = bold;
+		borderbottomstyle = solid;
+		borderbottomcolor = black;
+		borderbottomwidth = 1;
+
+		OBJECT header_FACTURAVENTA_FECHA {
+			value = "Fecha";
+			posx = 0;
+			sizex = 5;
+		}
+		OBJECT header_FACTURAVENTA_NUMERO {
+			value = "Número";
+			posx = -1;
+			sizex = 6;
+		}
+		OBJECT header_CLIENTE_RAZONSOCIAL {
+			value = "Cliente";
+			posx = -1;
+			sizex = 14;
+		}
+		OBJECT header_TIPODOC_NOMBRE {
+			value = "Tipo";
+			posx = -1;
+			sizex = 4;
+		}
+		OBJECT header_FACTURAVENTA_BASEIMPONIBLE {
+			value = "Base imponible";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT header_FACTURAVENTA_IVA {
+			value = "IVA";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT header_FACTURAVENTA_TOTAL {
+			value = "Total";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT header_FACTURAVENTA_RESTO {
+			value = "Resto";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT header_FACTURAVENTA_ENTREGA {
+			value = "Anticipo";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT header_FACTURAVENTA_NOTAS {
+			value = "Notas";
+			posx = -1;
+			sizex = 33;
+		}
+
+	}
+	DETAILS details {
+		posx = 0;
+		level = 0;
+		style = detail;
+		sizey = 1;
+		backcolor = "gray&white";
+
+#ifndef RESUMIDO
+
+		OBJECT FACTURAVENTA_FECHA {
+			value = "=input.FACTURAVENTA_FECHA";
+			halignment = "left";
+			posx = 0;
+			sizex = 5;
+		}
+		OBJECT FACTURAVENTA_NUMERO {
+			value = "=input.FACTURAVENTA_NUMERO";
+			halignment = "left";
+			posx = -1;
+			sizex = 6;
+		}
+		OBJECT CLIENTE_RAZONSOCIAL {
+			value = "=input.CLIENTE_RAZONSOCIAL";
+			halignment = "left";
+			posx = -1;
+			sizex = 14;
+		}
+		OBJECT TIPODOC_NOMBRE {
+			value = "=input.TIPODOC_NOMBRE";
+			halignment = "left";
+			posx = -1;
+			sizex = 4;
+		}
+		OBJECT FACTURAVENTA_BASEIMPONIBLE {
+			value = "=input.FACTURAVENTA_BASEIMPONIBLE";
+			halignment = "right";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT FACTURAVENTA_IVA {
+			value = "=input.FACTURAVENTA_IVA";
+			halignment = "right";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT FACTURAVENTA_TOTAL {
+			value = "=input.FACTURAVENTA_TOTAL";
+			halignment = "right";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT FACTURAVENTA_RESTO {
+			value = "=input.FACTURAVENTA_RESTO";
+			halignment = "right";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT FACTURAVENTA_ENTREGA {
+			value = "=input.FACTURAVENTA_ENTREGA";
+			halignment = "right";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT FACTURAVENTA_NOTAS {
+			value = "=input.FACTURAVENTA_NOTAS";
+			halignment = "left";
+			posx = -1;
+			sizex = 33;
+		}
+
+#endif
+	}
+	REPORTFOOTER page_footer {
+		sizey = 1.4;
+		bordertopstyle = solid;
+		paddingtop = 0.4;
+		style = pagefooter;
+		fontweight = "bold";
+
+
+		OBJECT suma_FACTURAVENTA_BASEIMPONIBLE {
+			value = "=input.FACTURAVENTA_BASEIMPONIBLE";
+			halignment = "right";
+			posx = 33;
+			sizex = 8;
+			aggregate = sum;
+		}
+		OBJECT suma_FACTURAVENTA_IVA {
+			value = "=input.FACTURAVENTA_IVA";
+			halignment = "right";
+			posx = 42;
+			sizex = 8;
+			aggregate = sum;
+		}
+		OBJECT suma_FACTURAVENTA_TOTAL {
+			value = "=input.FACTURAVENTA_TOTAL";
+			halignment = "right";
+			posx = 51;
+			sizex = 8;
+			aggregate = sum;
+		}
+		OBJECT suma_FACTURAVENTA_RESTO {
+			value = "=input.FACTURAVENTA_RESTO";
+			halignment = "right";
+			posx = 60;
+			sizex = 8;
+			aggregate = sum;
+		}
+		OBJECT suma_FACTURAVENTA_ENTREGA {
+			value = "=input.FACTURAVENTA_ENTREGA";
+			halignment = "right";
+			posx = 69;
+			sizex = 8;
+			aggregate = sum;
+		}
+
+	}
+
+	pageorientation = landscape;
+}

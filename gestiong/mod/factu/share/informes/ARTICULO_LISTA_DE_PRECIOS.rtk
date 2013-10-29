@@ -1,0 +1,103 @@
+REPORT newview
+{
+	Title = "Lista de precios";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
+	FontSize = "12";
+
+	INPUT default {
+		driver = mysql;
+		from = "ARTICULO";
+		orderby = "2,3";
+
+		INPUTFIELD ARTICULO_CODIGO_dummy {
+			Source = ARTICULO.CODIGO;
+			Type = string;
+		}
+		INPUTFIELD ARTICULO_CODIGO {
+			Source = ARTICULO.CODIGO;
+			Type = string;
+		}
+		INPUTFIELD ARTICULO_NOMBRE {
+			Source = ARTICULO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD ARTICULO_PVP {
+			Source = ARTICULO.PVP;
+			Type = money;
+		}
+	}
+
+	Include = "default_pageheader.inc";
+
+	PAGEHEADER header_captions {
+		sizey=1;
+		fontweight = bold;
+		borderbottomstyle = solid;
+		borderbottomcolor = black;
+		borderbottomwidth = 1;
+
+		OBJECT header_ARTICULO_CODIGO {
+			value = "Código";
+			posx = 0;
+			sizex = 14;
+		}
+		OBJECT header_ARTICULO_NOMBRE {
+			value = "Nombre";
+			posx = 15;
+			sizex = 57;
+		}
+		OBJECT header_ARTICULO_PVP {
+			value = "PVP";
+			posx = 73;
+			sizex = 11;
+		}
+		OBJECT header_VENTAS {
+			value = "Ventas";
+			posx = 85;
+			sizex = 17;
+		}
+
+	}
+	DETAILS details {
+		posx = 0;
+		level = 0;
+		style = detail;
+		sizey = 1;
+		backcolor = "gray&white";
+
+#ifndef RESUMIDO
+
+		OBJECT ARTICULO_CODIGO {
+			value = "=input.ARTICULO_CODIGO";
+			halignment = "left";
+			posx = 0;
+			sizex = 14;
+		}
+		OBJECT ARTICULO_NOMBRE {
+			value = "=input.ARTICULO_NOMBRE";
+			halignment = "left";
+			posx = 15;
+			sizex = 57;
+		}
+		OBJECT ARTICULO_PVP {
+			value = "=input.ARTICULO_PVP";
+			halignment = "right";
+			posx = 73;
+			sizex = 11;
+		}
+		OBJECT ARTICULO_VENTAS {
+			margintop = "-0.2";
+			borderstyle = "solid";
+			borderwidth = "1";
+			bordercolor = "black";
+			value = "";
+			halignment = "right";
+			posx = 85;
+			sizex = 17;
+		}
+
+#endif
+	}
+}

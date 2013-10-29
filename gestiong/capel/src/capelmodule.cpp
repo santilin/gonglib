@@ -1,0 +1,388 @@
+
+#include <fstream>
+#include "gonglib_inc.h"
+#include "capelmodule.h"
+
+#define DEBUG_CAPELMODULE 3
+
+
+namespace capel {
+
+CapelModule::CapelModule(const Xtring &lfilename, const Xtring &lbegin_keyword, 
+						 const Xtring &lend_keyword,
+						 const Xtring &lbegin_comment, const Xtring &lend_comment)
+{
+    init(lfilename, lbegin_keyword, lend_keyword, lbegin_comment, lend_comment);
+}
+
+void CapelModule::init(const Xtring &lfilename, const Xtring &lbegin_keyword, 
+					   const Xtring &lend_keyword,
+					   const Xtring &lbegin_comment, const Xtring &lend_comment)
+{
+    mBeginKeyword = lbegin_keyword;
+    mBeginComment = lbegin_comment;
+    mEndKeyword = lend_keyword;
+    mEndComment = lend_comment;
+	mFilename = lfilename;
+	std::ifstream pFile(mFilename.c_str());
+    if( !pFile ) {
+		perror(mFilename.c_str());
+		mBuffer.clear();
+	} else {
+		_GONG_DEBUG_PRINT(1, Xtring("capel: opening ") + mFilename );
+		pFile.seekg(0, std::ios::end);
+		size_t filelen = pFile.tellg();
+		pFile.seekg(0, std::ios::beg);
+		char *buf = new char[filelen+1];
+		pFile.read(buf, filelen);
+        buf[filelen]='\0';
+        mBuffer = Xtring(buf);
+        delete buf;
+		pFile.close();
+	}
+    mCurrentExtrusion="DEFAULT";
+}
+
+size_t CapelModule::write()
+{
+    size_t ret = 0;
+
+	std::ofstream pFile(mFilename.c_str());
+    if( !pFile ) {
+		perror(mFilename.c_str());
+	} else {
+		_GONG_DEBUG_PRINT(0, Xtring::printf( "capel: file: %s,  %d bytes", 
+			mFilename.c_str(), mBuffer.length() ) );
+        pFile.write(mBuffer.c_str(), mBuffer.length());
+		if( pFile.bad()  )
+			_GONG_DEBUG_WARNING(Xtring::printf( "capel: file: %s, error writing %d bytes",
+				mFilename.c_str(), mBuffer.length() ) );
+		pFile.close();
+	}
+    return ret;
+}
+
+size_t CapelModule::writeIfModified()
+{
+    size_t ret = 0;
+
+	std::fstream pFile(mFilename.c_str());
+	if( !pFile ) {
+		// Maybe the file does not exists
+		ret = write();
+	} else {
+		bool modified = true;
+		_GONG_DEBUG_PRINT(2, "reopening " + mFilename );
+		pFile.seekg(0, std::ios::end);
+		size_t filelen = pFile.tellg();
+		pFile.seekg(0, std::ios::beg);
+		char *buf = new char[filelen+1];
+		pFile.read(buf, filelen);
+        buf[filelen]='\0';
+		modified = (filelen != mBuffer.size()) || (mBuffer.compare(buf) != 0);
+#if DEBUG_CAPELMODULE > 5
+		fprintf(stderr, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>OLD>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		fprintf(stderr, buf);
+		fprintf(stderr, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>NEW>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		fprintf(stderr, mBuffer.c_str());
+#endif
+        delete buf;
+		pFile.close();
+		if( modified ) {
+			ret = write(); // Write reopens the file for writing
+		} else {
+			_GONG_DEBUG_PRINT(2, "capel: Not modified: " + mFilename );
+		}
+    }
+    return ret;
+}
+
+
+Xtring CapelModule::fill_begin_extrusion(const Xtring &extrusion_name)
+{
+    return mBeginComment + mBeginKeyword + extrusion_name;
+}
+
+Xtring CapelModule::fill_end_extrusion(const Xtring &extrusion_name)
+{
+    return mBeginComment + mEndKeyword + extrusion_name;
+}
+
+/**
+   Firstly, look up for the extrusion + end comment, and if not found
+   look for the extrusion name only.
+   This avoids substring errors in extrusion names like:
+   {<<<<FORM_EDIT}
+   and
+   {<<<<FORM_EDITED}
+*/  
+Xtring::size_type CapelModule::lookup_extrusion_begin(const Xtring &extrusion_name)
+{
+	_GONG_DEBUG_PRINT(0, mBuffer);
+	Xtring fullname = fill_begin_extrusion(extrusion_name);
+	Xtring::size_type pos = mBuffer.find(fullname + mEndComment);
+	if( pos == Xtring::npos )
+		pos = mBuffer.find(fullname + " ");
+	if( pos == Xtring::npos )
+		pos = mBuffer.find(fullname + "\n");
+	return pos;  
+}
+
+Xtring::size_type CapelModule::lookup_extrusion_code(const Xtring &extrusion_name)
+{
+	int begin;
+	if( (begin=lookup_extrusion_begin(extrusion_name)) == -1 )
+		return -1;
+	else {
+		while( begin<(int)mBuffer.length() && mBuffer[begin] != '\n' )
+			begin++;
+	}
+	return begin;
+}
+
+Xtring::size_type CapelModule::lookup_extrusion_end(const Xtring &extrusion_name)
+{
+	Xtring fullname = fill_end_extrusion(extrusion_name);
+	Xtring::size_type pos = mBuffer.find(fullname + mEndComment);
+	if( pos == Xtring::npos )
+		pos = mBuffer.find(fullname + " ");
+	if( pos == Xtring::npos )
+		pos = mBuffer.find(fullname + "\n");
+	if( pos == Xtring::npos ) { // EOF?
+		pos = mBuffer.find(fullname);
+		if( pos != Xtring::npos ) {
+			if( pos + fullname.length() != mBuffer.length() )
+				pos = Xtring::npos;
+			else
+				mBuffer += "\n";
+		}
+	}
+	return pos;
+}
+
+
+Xtring CapelModule::get_extrusion_text(const Xtring &extrusion_name)
+{
+	Xtring result;
+  
+	Xtring::size_type begin = lookup_extrusion_code(extrusion_name);
+	if( begin != Xtring::npos ) {
+		int end = lookup_extrusion_end(extrusion_name);
+		if( end != Xtring::npos ) {
+			result = mBuffer.substr(begin+1, end-begin-1);
+		}
+	}
+	return result;
+}
+
+int CapelModule::delete_extrusion(const Xtring &extrusion_name)
+{
+	int begin, end;
+
+	begin = lookup_extrusion_begin(extrusion_name);
+	end = lookup_extrusion_end(extrusion_name);
+	if( (end==-1) && (begin==-1) )
+		return -1;
+	else if( (begin!=-1) && (end==-1) ) {
+		/* If there is no end, assume end to be the line following begin */
+		end = begin;
+	} else if( (begin==-1) && (end!=-1) ) {
+		/* If there is no begin, assume begin=end and end=the line following begin */
+		begin = end;
+	}
+	if( end < begin ) {
+		_GONG_DEBUG_WARNING( "Start of section " + extrusion_name + " is after end" );
+	}
+	while( end<(int)mBuffer.length() && mBuffer[end] != '\n' )
+		end++;
+	if( end != (int)mBuffer.length() )
+		end++;
+	mBuffer.erase(begin, end-begin);
+	return begin;
+}
+
+Xtring::size_type CapelModule::insert_text(int begin, const Xtring &text, bool addnewline)
+{
+    int textlen = text.length();
+
+    if( addnewline && !text.endsWith('\n') ) {
+        mBuffer.insert(begin, text + "\n");
+        return begin + textlen + 1;
+    } else {
+        mBuffer.insert(begin, text);
+        return begin + textlen;
+    }
+}
+
+int CapelModule::insert_extrusion_at(int begin,
+									 const Xtring &extrusion_name, const Xtring &text, 
+									 const Xtring &default_following_text, 
+									 const Xtring &default_preceding_text, bool addnewline)
+{
+    int exists = 1;
+    int begextr;
+    mCurrentExtrusion=extrusion_name;
+    begextr = delete_extrusion(extrusion_name);
+    // If the extrusion exists, ignore begin
+    if( begextr != -1 ) 
+        begin = begextr;
+    else
+        exists = 0;
+	if( begin == -1 )
+		begin = 0; // Insert at the begining
+    if( begin == -2 ) {
+      	/* The extrusion doesn't exist and begin not supplied */
+      	begin = mBuffer.length();
+		if( begin > 0 && mBuffer[begin - 1] != '\n' )
+			mBuffer.insert(begin++, "\n");
+      	exists = 0;
+    }
+    if( !exists && default_preceding_text.size() ) {
+    	begin = insert_text(begin, default_preceding_text);
+    }
+    begin = insert_text(begin, fill_begin_extrusion(extrusion_name) + mEndComment);
+    begin = insert_text(begin, text, addnewline);
+    begin = insert_text(begin, fill_end_extrusion(extrusion_name) + mEndComment);
+    if( !exists && default_following_text.size() ) {
+    	begin = insert_text(begin, default_following_text);
+    }
+    return begin;
+}
+
+
+int CapelModule::append_text_to_extrusion(const Xtring &extrusion_name, const Xtring &text, bool addnewline)
+{
+	int begin;
+
+	begin = lookup_extrusion_end(extrusion_name);
+	if( begin == -1 ) {
+		/* The extrusion doesn't exist */
+		begin = insert_extrusion(extrusion_name, text, Xtring(), Xtring(), addnewline);
+	} else {
+		begin = insert_text(begin, text, addnewline);
+		mCurrentExtrusion=extrusion_name;
+	}
+	return begin;
+}
+
+/* El parametro newline lo he tenido que anadir despues para que sucesivas inserciones con << no
+   anadieran finales de linea. Por defecto para las otras funciones es true */
+CapelModule &CapelModule::operator<<(const Xtring &text)
+{
+    append_text_to_extrusion(mCurrentExtrusion, text, /*addnewline=*/false);
+    return *this;
+}
+
+
+CapelModule &CapelModule::operator<<(int val)
+{
+	append_text_to_extrusion(mCurrentExtrusion, Xtring::number(val), /*addnewline=*/false);
+    return *this;
+}
+
+
+
+int CapelModule::empty_extrusion(const Xtring &extrusion_name)
+{
+	int begin, end;
+
+	mCurrentExtrusion=extrusion_name;
+	begin = lookup_extrusion_begin(extrusion_name);
+	end = lookup_extrusion_end(extrusion_name);
+	if( (end==-1) || (begin==-1) )
+		return -1;
+	while( begin<(int)mBuffer.length() && mBuffer[begin] != '\n' )
+		begin++;
+	begin++;
+	mBuffer.erase(begin, end-begin);
+	return begin;
+}
+
+
+int CapelModule::position_before_extrusion(const Xtring &extrusion_name)
+{
+	_GONG_DEBUG_PRINT(0, extrusion_name );
+	int begin = lookup_extrusion_begin(extrusion_name);
+	if( begin != - 1 )
+		begin--;
+	return begin;
+}
+
+int CapelModule::position_after_extrusion(const Xtring &extrusion_name)
+{
+	uint end = lookup_extrusion_end(extrusion_name);
+	if( end != Xtring::npos ) {
+		while( end<mBuffer.length() && mBuffer[end] != '\n' ) {
+			end++;
+		}
+		if( end < mBuffer.length() )
+			end++;
+	}
+	return end;
+}
+
+int CapelModule::position_before_text(const Xtring &text)
+{
+	int begin=mBuffer.find(text);
+	if( begin != - 1 )
+		begin--;
+	return begin;
+}
+
+
+int CapelModule::position_after_text(const Xtring &text)
+{
+	int begin;
+
+	if( (begin=mBuffer.find(text)) == -1 )
+		return -1;
+	else {
+		while( begin<(int)mBuffer.length() && mBuffer[begin] != '\n' )
+			begin++;
+		if( begin != (int)mBuffer.length() )
+			begin++;
+	}
+	return begin;
+}
+
+Xtring &CapelModule::replace_global(const Xtring &search, const Xtring &repl)
+{
+	int searchlen = search.length();
+	int repllen = repl.length();
+	int match = mBuffer.find(search);
+	while( match != -1 ) {
+		mBuffer.erase(match, searchlen);
+		mBuffer.insert(match, repl);
+		match = mBuffer.find(search, match + repllen);
+	}
+	return mBuffer;
+}
+
+Xtring &CapelModule::replace_in_extrusion(const Xtring &extrusion_name, 
+										   const Xtring &search, 
+										   const Xtring &repl ) 
+{
+	int begin = lookup_extrusion_begin(extrusion_name);
+	int end = lookup_extrusion_end(extrusion_name);
+	if( begin == -1 || end == -1 )
+		return mBuffer;
+	int searchlen = search.length();
+	int repllen = repl.length();
+	int match = mBuffer.find(search, begin);
+	while( match != -1 && match < end ) {
+		mBuffer.erase(match, searchlen);
+		mBuffer.insert(match, repl);
+		match = mBuffer.find(search, match + repllen);
+		end += repllen - searchlen;
+	}
+	return mBuffer;
+}
+
+
+Xtring::size_type CapelModule::find_global(const Xtring &search)
+{
+	return mBuffer.find(search);
+}
+
+
+}
