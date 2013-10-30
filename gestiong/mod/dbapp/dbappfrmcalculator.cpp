@@ -53,10 +53,10 @@ FrmCalculator::FrmCalculator(bool simple, bool embedded, QWidget *parent)
     CalcButton *clearAllButton = createButton(_("Pone a 0"), SLOT(clearAll()));
     CalcButton *clearMemoryButton, *readMemoryButton, *setMemoryButton, *addToMemoryButton;
     if( !simple ) {
-        CalcButton *clearMemoryButton = createButton(_("MC"), SLOT(clearMemory()));
-        CalcButton *readMemoryButton = createButton(_("MR"), SLOT(readMemory()));
-        CalcButton *setMemoryButton = createButton(_("MS"), SLOT(setMemory()));
-        CalcButton *addToMemoryButton = createButton(_("M+"), SLOT(addToMemory()));
+        clearMemoryButton = createButton(_("MC"), SLOT(clearMemory()));
+        readMemoryButton = createButton(_("MR"), SLOT(readMemory()));
+        setMemoryButton = createButton(_("MS"), SLOT(setMemory()));
+        addToMemoryButton = createButton(_("M+"), SLOT(addToMemory()));
     }
 
     CalcButton *divisionButton = createButton(_("\xc3\xb7"), SLOT(multiplicativeOperatorClicked()));

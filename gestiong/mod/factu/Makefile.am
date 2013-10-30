@@ -93,44 +93,44 @@ libgongfactu_la_HEADERS += factufrmregenasientos.h
 moc_%.cpp: %.h
 	moc $< -o $@
 
-factu_sharedir = $(srcdir)/gestiong/gong-factu
-factu_share_DATA = $(top_srcdir)/gong-factu/share/factu.ddd \
-	$(top_srcdir)/gong-factu/share/stylesheet.css
+factu_sharedir = $(srcdir)/gestiong/factu
+factu_share_DATA = $(top_srcdir)/factu/share/factu.ddd \
+	$(top_srcdir)/factu/share/stylesheet.css
 # act_stocks.sql
 
-factu_informesdir = $(srcdir)/gestiong/gong-factu/informes
-factu_informes_DATA = $(top_srcdir)/gong-factu/share/informes/ALBARANCOMPRA.rtk \
-	$(top_srcdir)/gong-factu/share/informes/ALBARANVENTA.rtk \
-	$(top_srcdir)/gong-factu/share/informes/ALBARANVENTA_IVAINCLUIDO.rtk \
-	$(top_srcdir)/gong-factu/share/informes/ALBARANVENTA_SINIVA.rtk \
-	$(top_srcdir)/gong-factu/share/informes/ARTICULO_ETIQUETAS.rtk \
-	$(top_srcdir)/gong-factu/share/informes/ARTICULO_LISTA_DE_PRECIOS.rtk \
-	$(top_srcdir)/gong-factu/share/informes/balanceclipro.inc \
-	$(top_srcdir)/gong-factu/share/informes/balanceclipro_cobros.inc \
-	$(top_srcdir)/gong-factu/share/informes/balanceclipro_comun.inc \
-	$(top_srcdir)/gong-factu/share/informes/CLIENTE.rtk \
-	$(top_srcdir)/gong-factu/share/informes/compras_header.inc \
-	$(top_srcdir)/gong-factu/share/informes/estadcompraventa.inc \
-	$(top_srcdir)/gong-factu/share/informes/estadcompraventa_comun.inc \
-	$(top_srcdir)/gong-factu/share/informes/estadcompraventa_resumido.inc \
-	$(top_srcdir)/gong-factu/share/informes/estadcompraventa_resumido_comun.inc \
-	$(top_srcdir)/gong-factu/share/informes/FACTURACOMPRA.rtk \
-	$(top_srcdir)/gong-factu/share/informes/FACTURAVENTA.rtk \
-	$(top_srcdir)/gong-factu/share/informes/FACTURAVENTA_IVAINCLUIDO.rtk \
-	$(top_srcdir)/gong-factu/share/informes/FACTURAVENTA_SINIVA.rtk \
-	$(top_srcdir)/gong-factu/share/informes/PEDIDOCOMPRA.rtk \
-	$(top_srcdir)/gong-factu/share/informes/PEDIDOVENTA.rtk \
-	$(top_srcdir)/gong-factu/share/informes/PEDIDOVENTA_IVAINCLUIDO.rtk \
-	$(top_srcdir)/gong-factu/share/informes/PRESUPUESTOVENTA.rtk \
-	$(top_srcdir)/gong-factu/share/informes/ventas_header.inc
+factu_informesdir = $(srcdir)/gestiong/factu/informes
+factu_informes_DATA = $(top_srcdir)/factu/share/informes/ALBARANCOMPRA.rtk \
+	$(top_srcdir)/factu/share/informes/ALBARANVENTA.rtk \
+	$(top_srcdir)/factu/share/informes/ALBARANVENTA_IVAINCLUIDO.rtk \
+	$(top_srcdir)/factu/share/informes/ALBARANVENTA_SINIVA.rtk \
+	$(top_srcdir)/factu/share/informes/ARTICULO_ETIQUETAS.rtk \
+	$(top_srcdir)/factu/share/informes/ARTICULO_LISTA_DE_PRECIOS.rtk \
+	$(top_srcdir)/factu/share/informes/balanceclipro.inc \
+	$(top_srcdir)/factu/share/informes/balanceclipro_cobros.inc \
+	$(top_srcdir)/factu/share/informes/balanceclipro_comun.inc \
+	$(top_srcdir)/factu/share/informes/CLIENTE.rtk \
+	$(top_srcdir)/factu/share/informes/compras_header.inc \
+	$(top_srcdir)/factu/share/informes/estadcompraventa.inc \
+	$(top_srcdir)/factu/share/informes/estadcompraventa_comun.inc \
+	$(top_srcdir)/factu/share/informes/estadcompraventa_resumido.inc \
+	$(top_srcdir)/factu/share/informes/estadcompraventa_resumido_comun.inc \
+	$(top_srcdir)/factu/share/informes/FACTURACOMPRA.rtk \
+	$(top_srcdir)/factu/share/informes/FACTURAVENTA.rtk \
+	$(top_srcdir)/factu/share/informes/FACTURAVENTA_IVAINCLUIDO.rtk \
+	$(top_srcdir)/factu/share/informes/FACTURAVENTA_SINIVA.rtk \
+	$(top_srcdir)/factu/share/informes/PEDIDOCOMPRA.rtk \
+	$(top_srcdir)/factu/share/informes/PEDIDOVENTA.rtk \
+	$(top_srcdir)/factu/share/informes/PEDIDOVENTA_IVAINCLUIDO.rtk \
+	$(top_srcdir)/factu/share/informes/PRESUPUESTOVENTA.rtk \
+	$(top_srcdir)/factu/share/informes/ventas_header.inc
 
-# 	$(top_srcdir)/gong-factu/share/informes/FACTURAVENTA_POR_FECHA.rtk
-#	$(top_srcdir)/gong-factu/share/informes/ALBARANVENTA_DEPOSITO_IVAINCLUIDO.rtk
+# 	$(top_srcdir)/factu/share/informes/FACTURAVENTA_POR_FECHA.rtk
+#	$(top_srcdir)/factu/share/informes/ALBARANVENTA_DEPOSITO_IVAINCLUIDO.rtk
 
-factu_plantillasdir = $(srcdir)/gestiong/gong-factu/plantillas/import
-factu_plantillas_DATA = $(top_srcdir)/gong-factu/share/plantillas/import/ARTICULO.ods \
-	$(top_srcdir)/gong-factu/share/plantillas/import/CLIENTE.ods \
-	$(top_srcdir)/gong-factu/share/plantillas/import/CONTACTO.ods \
-	$(top_srcdir)/gong-factu/share/plantillas/import/FAMILIA.ods \
-	$(top_srcdir)/gong-factu/share/plantillas/import/PROVEEDORA.ods
+factu_plantillasdir = $(srcdir)/gestiong/factu/plantillas/import
+factu_plantillas_DATA = $(top_srcdir)/factu/share/plantillas/import/ARTICULO.ods \
+	$(top_srcdir)/factu/share/plantillas/import/CLIENTE.ods \
+	$(top_srcdir)/factu/share/plantillas/import/CONTACTO.ods \
+	$(top_srcdir)/factu/share/plantillas/import/FAMILIA.ods \
+	$(top_srcdir)/factu/share/plantillas/import/PROVEEDORA.ods
 

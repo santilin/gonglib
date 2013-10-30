@@ -34,20 +34,20 @@ nodist_libgongsocias_la_SOURCES += moc_sociasfrmeditapunte.cpp
 moc_%.cpp: %.h
 	moc $< -o $@
 
-socias_sharedir = $(datadir)/gestiong/gong-socias
-socias_share_DATA = $(top_srcdir)/gong-socias/share/socias.ddd \
-	$(top_srcdir)/gong-socias/share/ca_socias.ddd
+socias_sharedir = $(datadir)/gestiong/socias
+socias_share_DATA = $(top_srcdir)/socias/share/socias.ddd \
+	$(top_srcdir)/socias/share/ca_socias.ddd
 
-socias_informesdir = $(datadir)/gestiong/gong-socias/informes
-socias_informes_DATA = $(top_srcdir)/gong-socias/share/informes/ASIENTO.rtk \
-	$(top_srcdir)/gong-socias/share/informes/firmasproyecto.rtk \
-	$(top_srcdir)/gong-socias/share/informes/firmasproyecto_al.rtk \
-	$(top_srcdir)/gong-socias/share/informes/firmasproyecto_blanco.rtk \
-	$(top_srcdir)/gong-socias/share/informes/firmasproyecto_mz.rtk \
-	$(top_srcdir)/gong-socias/share/informes/MIEMBRO.rtk \
-	$(top_srcdir)/gong-socias/share/informes/PARTIDAPROYECTO.rtk \
-	$(top_srcdir)/gong-socias/share/informes/PROYECTO.rtk \
-	$(top_srcdir)/gong-socias/share/informes/proyectosdemiembros.rtk \
-	$(top_srcdir)/gong-socias/share/informes/recibi.rtk \
-	$(top_srcdir)/gong-socias/share/informes/recibosdemiembros.rtk \
-	$(top_srcdir)/gong-socias/share/informes/recibosproyectocompleto.rtk
+socias_informesdir = $(datadir)/gestiong/socias/informes
+socias_informes_DATA = $(top_srcdir)/socias/share/informes/ASIENTO.rtk \
+	$(top_srcdir)/socias/share/informes/firmasproyecto.rtk \
+	$(top_srcdir)/socias/share/informes/firmasproyecto_al.rtk \
+	$(top_srcdir)/socias/share/informes/firmasproyecto_blanco.rtk \
+	$(top_srcdir)/socias/share/informes/firmasproyecto_mz.rtk \
+	$(top_srcdir)/socias/share/informes/MIEMBRO.rtk \
+	$(top_srcdir)/socias/share/informes/PARTIDAPROYECTO.rtk \
+	$(top_srcdir)/socias/share/informes/PROYECTO.rtk \
+	$(top_srcdir)/socias/share/informes/proyectosdemiembros.rtk \
+	$(top_srcdir)/socias/share/informes/recibi.rtk \
+	$(top_srcdir)/socias/share/informes/recibosdemiembros.rtk \
+	$(top_srcdir)/socias/share/informes/recibosproyectocompleto.rtk

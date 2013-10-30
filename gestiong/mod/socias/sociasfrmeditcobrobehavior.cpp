@@ -35,8 +35,6 @@ namespace socias {
 void FrmEditCobroBehavior::initGUI()
 {
     /*<<<<<FRMEDITCOBROBEHAVIOR_INITGUI*/
-    QWidget *pControlsFrame = getControlsFrame();
-    QVBoxLayout* pControlsLayout = getControlsLayout();
     /*>>>>>FRMEDITCOBROBEHAVIOR_INITGUI*/
 }
 

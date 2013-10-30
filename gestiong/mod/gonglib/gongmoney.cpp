@@ -118,8 +118,6 @@ Money &Money::operator-=( const Money& other)
     if( u.s.mDecimals == other.u.s.mDecimals)
         u.s.mAmount -= other.u.s.mAmount;
     else {
-        double a1 = toDouble();
-        double a2 = other.toDouble();
         *this = Money(toDouble() - other.toDouble(), u.s.mDecimals);
     }
     return *this;

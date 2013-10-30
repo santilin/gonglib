@@ -1038,6 +1038,7 @@ void Report::calcAggregateValues( uint level )
                 }
                 break;
             case AggNone:
+			default: /// TODO
                 break;
             }
         }

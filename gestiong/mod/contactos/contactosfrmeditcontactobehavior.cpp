@@ -59,9 +59,7 @@ void FrmEditContactoBehavior::initGUI()
     // {capel} añadir a addSearchField
     // static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
     QHBoxLayout *pushLayout = new QHBoxLayout();
-    /*<<<<<FRMEDITCONTACTOBEHAVIOR_INITGUI*/
-    QWidget *pControlsFrame = getControlsFrame();
-    QVBoxLayout* pControlsLayout = getControlsLayout();
+/*<<<<<FRMEDITCONTACTOBEHAVIOR_INITGUI*/
     QWidget *tabContacto = getOrCreateTab( "tabContacto" );
     QVBoxLayout *tabContactoLayout = static_cast<QVBoxLayout *>( tabContacto->layout() );
     QHBoxLayout *contactoLayout = new QHBoxLayout(0, 0, 6, "contactoLayout");
@@ -349,8 +347,12 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
                                        Xtring::printf( _("'%s' no puede estar vacío. ¿Quieres crear un valor provisional?"),
                                                        cifdef->getCaption().c_str() ) ) ) {
                     editContactoCIF->setText( cifdef->customDefaultValue() );
-                }
-                *isvalid = false;
+					*isvalid = true;
+                } else {
+					*isvalid = false;
+					validresult->addError( Xtring::printf( _("'%s' no puede estar vacío."),
+													cifdef->getCaption().c_str() ), "CIF" );
+				}
                 return;
             }
         }

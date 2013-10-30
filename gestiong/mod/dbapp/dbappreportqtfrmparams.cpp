@@ -58,6 +58,7 @@ ReportQtFrmParams::ReportQtFrmParams(Report &r, QWidget *parent, const char *nam
         Parameter *p = r.getParameter( i );
         switch( p->type() ) {
         case Variant::tString:
+		default: /// TODO
             Q3HBoxLayout *playout = new Q3HBoxLayout( 0, 5, 6, (Xtring(p->name()) + "_layout").c_str() );
             QLabel *lbl = new QLabel(
                 QString::fromLocal8Bit(strempty(p->caption()) ? p->name():p->caption()), this );
@@ -90,6 +91,7 @@ void ReportQtFrmParams::accept()
         Parameter *p = mReport.getParameter( i );
         switch( p->type() ) {
         case Variant::tString:
+		default: /// TODO
             QLineEdit *edit = static_cast<QLineEdit *>(mControls[i]);
             p->setValue( edit->text().local8Bit() );
             break;

@@ -27,7 +27,7 @@ QMdiSubWindow *MainWindow::createClient(QWidget *widget, bool force )
     DBAPP->waitCursor(true);
     try {
         removeUnusedSubWindows();
-        if( ret = findClient( widget ) ) {
+        if( (ret = findClient( widget )) ) {
             DBAPP->resetCursor();
             if( !force ) {
                 widget->setFocus();

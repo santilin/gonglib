@@ -501,7 +501,6 @@ void FrmEditRecMaster::tableCurrentChanged( int /*row*/, int /*col*/ )
   */
 void FrmEditRecMaster::accept()
 {
-    bool isvalid = true;
     if ( mChoosing && ( mEditMode == DataTable::choosing ) ) {
         if ( pDataTable->numRows() > 0 ) {
             // Si estamos eligiendo, leer el registro seleccionado si hace falta y cerrar
@@ -518,6 +517,7 @@ void FrmEditRecMaster::accept()
     } else {
         DBAPP->waitCursor( true );
         try {
+			bool isvalid = true;
             mEditStatus = not_saved;
             switch ( mEditMode ) {
             case DataTable::inserting:

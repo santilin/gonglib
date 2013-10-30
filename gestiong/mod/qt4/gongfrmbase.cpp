@@ -45,6 +45,25 @@ FrmBase::~FrmBase()
     _GONG_DEBUG_PRINT(1, Xtring("Destroying ") + name() );
 }
 
+void FrmBase::focusInEvent(QFocusEvent* e)
+{
+    QWidget::focusInEvent(e);
+// 	restoreFocusWidget();
+}
+
+void FrmBase::focusOutEvent(QFocusEvent* e)
+{
+    QWidget::focusOutEvent(e);
+// 	saveFocusWidget();
+}
+
+void FrmBase::changeEvent(QEvent* event)
+{
+    QWidget::changeEvent( event );
+}
+
+
+#if 0
 QWidget* FrmBase::restoreFocusWidget()
 {
     if( theGuiApp->focusWidget() ) _GONG_DEBUG_PRINT(0, Xtring("FW de la aplicacion:") + theGuiApp->focusWidget()->name() );
@@ -65,18 +84,6 @@ QWidget* FrmBase::saveFocusWidget()
     pSavedFocusWidget = focusWidget();
     if( pSavedFocusWidget )
         _GONG_DEBUG_PRINT(0, pSavedFocusWidget->name() );
-}
-
-void FrmBase::focusInEvent(QFocusEvent* e)
-{
-    QWidget::focusInEvent(e);
-// 	restoreFocusWidget();
-}
-
-void FrmBase::focusOutEvent(QFocusEvent* e)
-{
-    QWidget::focusOutEvent(e);
-// 	saveFocusWidget();
 }
 
 
@@ -101,6 +108,7 @@ void FrmBase::changeEvent(QEvent* event)
         break;
     }
 }
+#endif
 
 
 /*

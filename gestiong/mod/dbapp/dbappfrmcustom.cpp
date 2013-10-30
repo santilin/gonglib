@@ -485,7 +485,6 @@ void FrmCustom::validate_input( QWidget *sender, bool *is_valid )
 
 void FrmCustom::combo_activated( int )
 {
-    bool validate = false;
     if( ComboBox<int> *cbi = dynamic_cast<ComboBox<int> *>( sender() ) ) {
         if( !cbi->isSettingProgrammatically() ) {
             cbi->setEdited( true );

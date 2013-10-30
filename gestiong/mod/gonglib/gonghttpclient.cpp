@@ -155,7 +155,7 @@ int read_http_file(XtringList &theResponse, char **theContent,
         while (std::getline(response_stream, header) && header != "\r")
             theResponse << header.trim();
         unsigned long long request_length = 0L;
-        unsigned int timeout = 0;
+//         unsigned int _timeout = 0;
         // Get the length of the content
         for( XtringList::const_iterator resp_it = theResponse.begin();
                 resp_it != theResponse.end();
@@ -165,7 +165,7 @@ int read_http_file(XtringList &theResponse, char **theContent,
                 break;
             }
             if( resp_it->startsWith( "Timeout:" ) ) {
-                timeout = resp_it->mid( 8 ).toInt();
+//                 _timeout = resp_it->mid( 8 ).toInt();
                 break;
             }
         }

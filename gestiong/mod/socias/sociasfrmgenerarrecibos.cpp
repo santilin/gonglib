@@ -240,8 +240,7 @@ void FrmGenerarRecibos::accept()
         informe += Xtring::printf( _("CONDICIONES: %s\n"), editCondiciones->toString().c_str() );
     bool nocontinuar = false;
     dbRecordID proyecto_id = 0;
-    dbRecordID remesa_id = 0;
-    bool saltar_proyecto = false, saltar_remesa = false;
+    bool saltar_proyecto = false;
     /* Recorrer los miembros, agrupándolos por proyecto y remesa */
     RecProyecto *proyecto = static_cast<RecProyecto *>( DBAPP->createRecord( "PROYECTO" ) );
     RecMiembro *miembro = static_cast<RecMiembro *>( DBAPP->createRecord( "MIEMBRO" ) );

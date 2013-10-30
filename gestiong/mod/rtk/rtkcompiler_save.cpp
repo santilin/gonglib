@@ -236,6 +236,8 @@ void save_codeblock(const string& filename,const codeblock_t& code)
             write_elem(file,&_i);
         }
         break;
+		default:
+			break;
         }
     }
     // codestream is written

@@ -105,6 +105,8 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
         }
         break;
         case dbModuleSetting::None:
+        case dbModuleSetting::StringList:
+        case dbModuleSetting::Image: /// TODO
             break;
         }
         mControls.push_back( scinfo );

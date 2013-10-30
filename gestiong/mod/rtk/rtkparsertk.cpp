@@ -336,10 +336,7 @@ bool ReportDefParser::parseReport( const char *wholetext, const char *defaultinp
 {
     const char *initialtext = wholetext;
     const char **text = &initialtext;
-    Section *pSection = 0;
-    Style *pStyle = 0;
     Parameter *pParameter = 0;
-    Image *pImage = 0;
     Input *pInput = 0;
     bool bufferExpanded = false;
 
@@ -525,19 +522,19 @@ bool ReportDefParser::parseReport( const char *wholetext, const char *defaultinp
                 }
 
                 if ( strcaseequal( token, "reportheader" ) ) {
-                    pSection = parseSection( Section::ReportHeader, name.c_str(), text );
+                    parseSection( Section::ReportHeader, name.c_str(), text );
                 } else if ( strcaseequal( token, "reportfooter" ) ) {
-                    pSection = parseSection( Section::ReportFooter, name.c_str(), text );
+                    parseSection( Section::ReportFooter, name.c_str(), text );
                 } else if ( strcaseequal( token, "pageheader" ) ) {
-                    pSection = parseSection( Section::PageHeader, name.c_str(), text );
+                    parseSection( Section::PageHeader, name.c_str(), text );
                 } else if ( strcaseequal( token, "pagefooter" ) ) {
-                    pSection = parseSection( Section::PageFooter, name.c_str(), text );
+                    parseSection( Section::PageFooter, name.c_str(), text );
                 } else if ( strcaseequal( token, "groupheader" ) ) {
-                    pSection = parseSection( Section::GroupHeader, name.c_str(), text );
+                    parseSection( Section::GroupHeader, name.c_str(), text );
                 } else if ( strcaseequal( token, "groupfooter" ) ) {
-                    pSection = parseSection( Section::GroupFooter, name.c_str(), text );
+                    parseSection( Section::GroupFooter, name.c_str(), text );
                 } else if ( strcaseequal( token, "details" ) ) {
-                    pSection = parseSection( Section::Details, name.c_str(), text );
+                    parseSection( Section::Details, name.c_str(), text );
                 } else if ( strcaseequal( token, "input" ) ) {
                     if ( strcaseequal( name, defaultinput )
                             || ( strcaseequal( defaultinput, "default" ) && name.isEmpty() )
@@ -549,9 +546,9 @@ bool ReportDefParser::parseReport( const char *wholetext, const char *defaultinp
                     if ( pInput )
                         pReport->setDefaultInput( usethisinput = pInput );
                 } else if ( strcaseequal( token, "style" ) || strcaseequal( token, "styledef" ) ) {
-                    pStyle = parseStyle( name.c_str(), text );
+                    parseStyle( name.c_str(), text );
                 } else if ( strcaseequal( token, "image" ) ) {
-                    pImage = parseImage( name.c_str(), text );
+                    parseImage( name.c_str(), text );
                 } else if ( strcaseequal( token, "parameter" ) ) {
                     pParameter = parseParameter( name.c_str(), text );
                     if( pParameter )

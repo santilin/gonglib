@@ -96,9 +96,9 @@ unsigned int RecAsiento::numeraApuntes()
 
 unsigned int RecAsiento::fixConceptos()
 {
-    unsigned int i;
+    unsigned int i = 0;
     for( i=0; i< getApuntes()->size(); i++ ) {
-        RecApunte *apunte = static_cast<RecApunte *>(getApuntes()->at(i));
+//         RecApunte *apunte = static_cast<RecApunte *>(getApuntes()->at(i));
     }
     return i;
 }

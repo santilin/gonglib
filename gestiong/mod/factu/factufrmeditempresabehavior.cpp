@@ -33,15 +33,13 @@ namespace factu {
 
 void FrmEditEmpresaBehavior::initGUI()
 {
-    /*<<<<<FRMEDITEMPRESABEHAVIOR_INITGUI*/
-    QWidget *pControlsFrame = getControlsFrame();
-    QVBoxLayout* pControlsLayout = getControlsLayout();
+/*<<<<<FRMEDITEMPRESABEHAVIOR_INITGUI*/
     QWidget *tabFactu = getOrCreateTab( "tabFactu" );
     QVBoxLayout *tabFactuLayout = static_cast<QVBoxLayout *>( tabFactu->layout() );
     QHBoxLayout *recargoequivalenciaLayout = new QHBoxLayout(0, 0, 6, "recargoequivalenciaLayout");
     checkRecargoEquivalencia = pTheForm->addCheckField( tabFactu, "EMPRESA", "RECARGOEQUIVALENCIA", recargoequivalenciaLayout );
     tabFactuLayout->addLayout( recargoequivalenciaLayout );
-    /*>>>>>FRMEDITEMPRESABEHAVIOR_INITGUI*/
+/*>>>>>FRMEDITEMPRESABEHAVIOR_INITGUI*/
     pTheForm->setTabTitle( tabFactu, _("Facturación") );
 }
 

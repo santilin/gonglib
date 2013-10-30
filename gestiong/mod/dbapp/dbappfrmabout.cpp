@@ -50,9 +50,9 @@ void FrmAbout::button_clicked()
 {
     QPushButton *button = static_cast<QPushButton *>(sender() );
     if( button == pushDirLocalSettings ) {
-        int ret = system( ("xdg-open "  + DBAPP->getLocalDataDir()).c_str() );
+        (void)system( ("xdg-open "  + DBAPP->getLocalDataDir()).c_str() );
     } else if( button == pushDirGlobalSettings) {
-        int ret = system( ("xdg-open "  + DBAPP->getGlobalDataDir()).c_str() );
+        (void)system( ("xdg-open "  + DBAPP->getGlobalDataDir()).c_str() );
     }
 }
 

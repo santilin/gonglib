@@ -41,7 +41,7 @@ void dbFieldValue::setValue(const Variant &value)
 #ifdef _GONG_DEBUG
     if( mValue != value ) {
         _GONG_DEBUG_WARNING( Xtring::printf("'%s' != '%s'", mValue.toString().c_str(), value.toString().c_str() ) );
-        bool check_again = (mValue != value );
+//         bool check_again = (mValue != value );
     }
 #endif
 }

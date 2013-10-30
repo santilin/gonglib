@@ -30,7 +30,7 @@ namespace gong {
 */
 
 dbResultSet::dbResultSet(dbConnection *dbconn, MYSQL_RES *result)
-    : pConnection( dbconn ), mRowCount( 0 ), mRowNumber( 0 ), mPosition( atBeforeStart )
+    : pConnection( dbconn ), mRowNumber( 0 ), mRowCount( 0 ),  mPosition( atBeforeStart )
 {
     _data.mysql.pResult = result;
     _data.mysql.pFieldDefs = ::mysql_fetch_fields( result );
@@ -41,7 +41,7 @@ dbResultSet::dbResultSet(dbConnection *dbconn, MYSQL_RES *result)
 #ifdef HAVE_SQLITE3
 
 dbResultSet::dbResultSet(dbConnection* dbconn, sqlite3_stmt *result)
-    : pConnection( dbconn ), mRowCount( 0 ), mRowNumber( 0 ), mPosition( atBeforeStart )
+    : pConnection( dbconn ), mRowNumber( 0 ), mRowCount( 0 ), mPosition( atBeforeStart )
 {
     _data.sqlite3.pResult = result;
     _data.sqlite3.pRows = new std::vector<Variant>();
@@ -61,6 +61,7 @@ dbResultSet::~dbResultSet()
         sqlite3_finalize( _data.sqlite3.pResult );
         delete _data.sqlite3.pRows;
 #endif
+	case dbConnection::DRIVER_POSTGRESQL:
         break;
     };
 }
@@ -69,6 +70,7 @@ dbResultSet::size_type dbResultSet::getRowCount()
 {
     switch( pConnection->getSqlDriver() ) {
     case dbConnection::DRIVER_MYSQL:
+		/// TODO The same than sqlite3, do not store resultsets
         return mRowCount;
     case dbConnection::DRIVER_SQLITE3:
 #ifdef HAVE_SQLITE3
@@ -77,7 +79,9 @@ dbResultSet::size_type dbResultSet::getRowCount()
         }
         return mRowCount;
 #endif
-        break;
+	case dbConnection::DRIVER_POSTGRESQL:
+	default:
+		return 0; /// TODO
     }
 }
 
@@ -136,7 +140,9 @@ Xtring dbResultSet::toString(unsigned colnum) const
         ret = (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].toString();
         break;
 #endif
-    }
+	case dbConnection::DRIVER_POSTGRESQL:
+		break;
+	}
     if( pConnection->getIConvSelectPtr() )
         ret = pConnection->getIConvSelectPtr()->convert(ret);
     return ret;
@@ -153,6 +159,8 @@ Variant dbResultSet::toBinary(unsigned colnum) const
     case dbConnection::DRIVER_SQLITE3:
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum];
 #endif
+	case dbConnection::DRIVER_POSTGRESQL:
+		break;
     }
     throw new std::runtime_error( "Feature unsupported" );
 }
@@ -183,7 +191,9 @@ double dbResultSet::toDouble(unsigned colnum) const
         return _data.sqlite3.pRows[mRowNumber][colnum].toString().toDoubleLocIndep();
         break;
 #endif
-    }
+	case dbConnection::DRIVER_POSTGRESQL:
+		break;
+	}
     throw new std::runtime_error( "Feature unsupported" );
 }
 
@@ -206,7 +216,9 @@ Money dbResultSet::toMoney(unsigned colnum) const
     case dbConnection::DRIVER_SQLITE3:
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].toMoney();
 #endif
-    }
+	case dbConnection::DRIVER_POSTGRESQL:
+		break;
+	}
     throw new std::runtime_error( "Feature unsupported" );
 }
 
@@ -244,7 +256,9 @@ bool dbResultSet::isNull(unsigned colnum) const
     case dbConnection::DRIVER_SQLITE3:
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].type() == Variant::tInvalid;
 #endif
-    }
+	case dbConnection::DRIVER_POSTGRESQL:
+		break;
+	}
     throw new std::runtime_error( "Feature unsupported" );
 }
 
@@ -301,7 +315,7 @@ bool dbResultSet::next()
         switch(res) {
         case SQLITE_ROW:
         {
-            for (int i = 0; i < mColumnCount; ++i) {
+            for (uint i = 0; i < mColumnCount; ++i) {
                 switch (sqlite3_column_type(_data.sqlite3.pResult, i)) {
                 case SQLITE_BLOB:
                     _data.sqlite3.pRows->push_back(
@@ -360,6 +374,9 @@ bool dbResultSet::next()
         }
     }
 #endif
+	case dbConnection::DRIVER_POSTGRESQL:
+	default:
+		return false; /// TODO
     }
 }
 
@@ -373,10 +390,9 @@ const char *dbResultSet::getColumnName(unsigned int colnum) const
         return _data.mysql.pFieldDefs[colnum].name;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
-        break;
 #endif
     default:
-        return "";
+        return ""; /// TODO
     }
 }
 
@@ -392,10 +408,11 @@ SqlColumnType dbResultSet::getColumnType( unsigned int colnum ) const
     }
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
+		return SQLSTRING; /// TODO
         break;
 #endif
     default:
-        return SQLSTRING;
+        return SQLSTRING; /// TODO
     }
 }
 
@@ -408,6 +425,7 @@ unsigned int dbResultSet::getColumnWidth( unsigned int colnum ) const
         return _data.mysql.pFieldDefs[colnum].length;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
+		return 0; /// TODO
         break;
 #endif
     default:
@@ -424,10 +442,11 @@ unsigned int dbResultSet::getColumnDecimals( unsigned int colnum ) const
         return _data.mysql.pFieldDefs[colnum].decimals;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
+		return 2; /// TODO
         break;
 #endif
     default:
-        return SQLSTRING;
+        return 2; /// TODO
     }
 }
 

@@ -127,7 +127,7 @@ FrmEditRemesaCobro::FrmEditRemesaCobro(FrmEditRec *parentfrm, dbRecord *master, 
 
 bool FrmEditRemesaCobro::usarProyecto() const
 {
-    ModuleInstance->getRecProyectoPadre( this ) || empresa::ModuleInstance->usaProyectos();
+    return (ModuleInstance->getRecProyectoPadre( this ) || empresa::ModuleInstance->usaProyectos());
 }
 
 void FrmEditRemesaCobro::scatterFields()

@@ -45,9 +45,8 @@ namespace gong {
 dbTableDefinition::dbTableDefinition( dbDefinition &db, const Xtring& name,
                                       const Xtring& from, const Xtring& where,
                                       const Xtring& orderby, const Xtring& groupby )
-    : mdbDefinition( db ), mName( name ), mFemenina( true ),
-      mFrom( from ), mWhere( where ), mOrderBy( orderby ), mGroupBy( groupby ),
-      mTemporary( false )
+    : mdbDefinition( db ), mName( name ), mFemenina( true ), mTemporary( false ),
+    mFrom( from ), mWhere( where ), mOrderBy( orderby ), mGroupBy( groupby )
 {
     if ( mDescSingular.isEmpty() )
         mDescSingular = name.proper();

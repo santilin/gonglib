@@ -302,7 +302,7 @@ bool BaseImage::readJPEG(const string& filename, int )
 void PNGReadData(png_structp png_ptr, png_bytep data, png_size_t length)
 {
     FILE* fp = (FILE*) png_get_io_ptr(png_ptr);
-    size_t s = fread((void*) data, 1, length, fp);
+    fread((void*) data, 1, length, fp);
 }
 #endif
 

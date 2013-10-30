@@ -65,12 +65,14 @@ int FldNamesListTable::findCode(const Xtring& name) const
 bool FldNamesListTable::isValid( dbRecord *r, dbFieldValue *value,
                                  ValidResult::Context context, ValidResult *integres) const
 {
+	/// TODO: check that the field values contains value
     bool ret = dbFieldDefinition::isValid(r, value, context, integres);
     if( context == ValidResult::fixing ) {
         if( value->toVariant().type() == Variant::tString ) {
             value->setValue( findCode( value->toVariant().toString() ) );
         }
     }
+    return ret;
 }
 
 RecNamesListTable::RecNamesListTable(const Xtring& tablename, dbConnection* conn, dbRecordID recid, dbUser* user)

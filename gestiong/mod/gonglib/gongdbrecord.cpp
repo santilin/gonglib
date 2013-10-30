@@ -1091,7 +1091,6 @@ bool dbRecord::isNullOrigValue(const Xtring& fullfldname) const
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
     if ( tablename.isEmpty() || tablename == getTableName() ) {
-        const dbFieldDefinition *flddef = findFieldDefinition( fldname );
         if ( mOrigFieldValues.find ( fldname ) != mOrigFieldValues.end() ) {
             return mOrigFieldValues[fldname]->isNull();
         }
@@ -1138,7 +1137,6 @@ Variant dbRecord::getOrigValue(const Xtring& fullfldname) const
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
     if ( tablename.isEmpty() || tablename == getTableName() ) {
-        const dbFieldDefinition *flddef = findFieldDefinition( fldname );
         if ( mOrigFieldValues.find ( fldname ) != mOrigFieldValues.end() ) {
             return mOrigFieldValues[fldname]->toVariant();
         }

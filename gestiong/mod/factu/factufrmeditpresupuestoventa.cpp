@@ -46,7 +46,6 @@
 /*>>>>>FRMEDITPRESUPUESTOVENTA_INCLUDES*/
 #include "factumodule.h"
 #include "factufldivadetallado.h"
-#include "../gong-qt4/gongguicontrols.h"
 
 namespace gong
 {
