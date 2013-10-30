@@ -1,9 +1,0 @@
-default: all
-
-all:
-	aclocal -I m4
-	autoheader
-	libtoolize --force -c
-	automake --add-missing
-	autoconf
-

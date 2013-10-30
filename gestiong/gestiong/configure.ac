@@ -68,7 +68,7 @@ AC_ARG_ENABLE(debug,
                AC_SUBST(AM_CXXFLAGS)
 				;;
 			  no)
-				AM_CXXFLAGS="$AM_CXXFLAGS -Werror -O2"
+				AM_CXXFLAGS="$AM_CXXFLAGS -Wall -Werror -O2"
                AC_SUBST(AM_CXXFLAGS)
 				;;
 			  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
@@ -94,8 +94,8 @@ if test "$ac_cv_use_gong_rtk" = yes ; then
 	GONG_CHECK_RTK
 
 	AC_DEFINE( [HAVE_RTKMODULE], [1], [Define to 1 if you have the rtk module.] )
-	GONGRTK_CPPFLAGS="-I../../gong-rtk"
-	GONGRTK_LIBS="-L../gong-rtk -lgongrtk -ljpeg -lpng $BDB_LDADD"
+	GONGRTK_CPPFLAGS="-I../../rtk"
+	GONGRTK_LIBS="-L../rtk -lgongrtk -ljpeg -lpng $BDB_LDADD"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGRTK_CPPFLAGS"
 	GONGLIB_LIBS="$GONGRTK_LIBS $GONGLIB_LIBS"
 else
@@ -115,8 +115,8 @@ if test "$ac_cv_use_gong_qt4" = yes ; then
 	GONG_CHECK_QT4
 
 	AC_DEFINE( [HAVE_QT4MODULE], [1], [Define to 1 if you have the qt4 module.] )
-	GONGQT4_CPPFLAGS="-I../../gong-qt4 $QT_CXXFLAGS"
-	GONGQT4_LIBS="-L../gong-qt4 -lgongqt4 $QT_LDADD -lQt3Support"
+	GONGQT4_CPPFLAGS="-I../../qt4 $QT_CXXFLAGS"
+	GONGQT4_LIBS="-L../qt4 -lgongqt4 $QT_LDADD -lQt3Support"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGQT4_CPPFLAGS"
 	GONGLIB_LIBS="$GONGQT4_LIBS $GONGLIB_LIBS"
 else
@@ -133,8 +133,8 @@ AS_HELP_STRING([--with-gong-dbapp], [Support for the gong dbapp module (default 
 AM_CONDITIONAL( [COMPILE_WITH_GONG_DBAPP], [ test "$ac_cv_use_gong_dbapp" = yes ])
 if test "$ac_cv_use_gong_dbapp" = yes ; then
 	AC_DEFINE( [HAVE_DBAPPMODULE], [1], [Define to 1 if you have the dbapp module.] )
-	GONGDBAPP_CPPFLAGS="-I../../gong-dbapp"
-	GONGDBAPP_LIBS="-L../gong-dbapp -lgongdbapp"
+	GONGDBAPP_CPPFLAGS="-I../../dbapp"
+	GONGDBAPP_LIBS="-L../dbapp -lgongdbapp"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGDBAPP_CPPFLAGS"
 	GONGLIB_LIBS="$GONGDBAPP_LIBS $GONGLIB_LIBS"
 else
@@ -151,8 +151,8 @@ AS_HELP_STRING([--with-gong-contactos], [Support for the gong contactos module (
 AM_CONDITIONAL( [COMPILE_WITH_GONG_CONTACTOS], [ test "$ac_cv_use_gong_contactos" = yes ])
 if test "$ac_cv_use_gong_contactos" = yes ; then
 	AC_DEFINE( [HAVE_CONTACTOSMODULE], [1], [Define to 1 if you have the Contactos module.] )
-	GONGCONTACTOS_CPPFLAGS="-I../../gong-contactos"
-	GONGCONTACTOS_LIBS="-L../gong-contactos -lgongcontactos"
+	GONGCONTACTOS_CPPFLAGS="-I../../contactos"
+	GONGCONTACTOS_LIBS="-L../contactos -lgongcontactos"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGCONTACTOS_CPPFLAGS"
 	GONGLIB_LIBS="$GONGCONTACTOS_LIBS $GONGLIB_LIBS"
 else
@@ -169,8 +169,8 @@ AS_HELP_STRING([--with-gong-empresa], [Support for the gong empresa module (defa
 AM_CONDITIONAL( [COMPILE_WITH_GONG_EMPRESA], [ test "$ac_cv_use_gong_empresa" = yes ])
 if test "$ac_cv_use_gong_empresa" = yes ; then
 	AC_DEFINE( [HAVE_EMPRESAMODULE], [1], [Define to 1 if you have the Empresa module.] )
-	GONGEMPRESA_CPPFLAGS="-I../../gong-empresa"
-	GONGEMPRESA_LIBS="-L../gong-empresa -lgongempresa"
+	GONGEMPRESA_CPPFLAGS="-I../../empresa"
+	GONGEMPRESA_LIBS="-L../empresa -lgongempresa"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGEMPRESA_CPPFLAGS"
 	GONGLIB_LIBS="$GONGEMPRESA_LIBS $GONGLIB_LIBS"
 else
@@ -187,8 +187,8 @@ AS_HELP_STRING([--with-gong-contab], [Support for the gong contab module (defaul
 AM_CONDITIONAL( [COMPILE_WITH_GONG_CONTAB], [ test "$ac_cv_use_gong_contab" = yes ])
 if test "$ac_cv_use_gong_contab" = yes ; then
 	AC_DEFINE( [HAVE_CONTABMODULE], [1], [Define to 1 if you have the Contab module.] )
-	GONGCONTAB_CPPFLAGS="-I../../gong-contab"
-	GONGCONTAB_LIBS="-L../gong-contab -lgongcontab"
+	GONGCONTAB_CPPFLAGS="-I../../contab"
+	GONGCONTAB_LIBS="-L../contab -lgongcontab"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGCONTAB_CPPFLAGS"
 	GONGLIB_LIBS="$GONGCONTAB_LIBS $GONGLIB_LIBS"
 else
@@ -205,8 +205,8 @@ AS_HELP_STRING([--with-gong-pagos], [Support for the gong pagos module (default 
 AM_CONDITIONAL( [COMPILE_WITH_GONG_PAGOS], [ test "$ac_cv_use_gong_pagos" = yes ])
 if test "$ac_cv_use_gong_pagos" = yes ; then
 	AC_DEFINE( [HAVE_PAGOSMODULE], [1], [Define to 1 if you have the Pagos module.] )
-	GONGPAGOS_CPPFLAGS="-I../../gong-pagos"
-	GONGPAGOS_LIBS="-L../gong-pagos -lgongpagos"
+	GONGPAGOS_CPPFLAGS="-I../../pagos"
+	GONGPAGOS_LIBS="-L../pagos -lgongpagos"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGPAGOS_CPPFLAGS"
 	GONGLIB_LIBS="$GONGPAGOS_LIBS $GONGLIB_LIBS"
 else
@@ -223,8 +223,8 @@ AS_HELP_STRING([--with-gong-factu], [Support for the gong factu module (default 
 AM_CONDITIONAL( [COMPILE_WITH_GONG_FACTU], [ test "$ac_cv_use_gong_factu" = yes ])
 if test "$ac_cv_use_gong_factu" = yes ; then
 	AC_DEFINE( [HAVE_FACTUMODULE], [1], [Define to 1 if you have the Factu module.] )
-	GONGFACTU_CPPFLAGS="-I../../gong-factu"
-	GONGFACTU_LIBS="-L../gong-factu -lgongfactu"
+	GONGFACTU_CPPFLAGS="-I../../factu"
+	GONGFACTU_LIBS="-L../factu -lgongfactu"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGFACTU_CPPFLAGS"
 	GONGLIB_LIBS="$GONGFACTU_LIBS $GONGLIB_LIBS"
 else
@@ -241,8 +241,8 @@ AS_HELP_STRING([--with-gong-socias], [Support for the gong socias module (defaul
 AM_CONDITIONAL( [COMPILE_WITH_GONG_SOCIAS], [ test "$ac_cv_use_gong_socias" = yes ])
 if test "$ac_cv_use_gong_socias" = yes ; then
 	AC_DEFINE( [HAVE_SOCIASMODULE], [1], [Define to 1 if you have the Socias module.] )
-	GONGSOCIAS_CPPFLAGS="-I../../gong-socias"
-	GONGSOCIAS_LIBS="-L../gong-socias -lgongsocias"
+	GONGSOCIAS_CPPFLAGS="-I../../socias"
+	GONGSOCIAS_LIBS="-L../socias -lgongsocias"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGSOCIAS_CPPFLAGS"
 	GONGLIB_LIBS="$GONGSOCIAS_LIBS $GONGLIB_LIBS"
 else
@@ -259,8 +259,8 @@ AS_HELP_STRING([--with-gong-sinpapeles], [Support for the gong sinpapeles module
 AM_CONDITIONAL( [COMPILE_WITH_GONG_SINPAPELES], [ test "$ac_cv_use_gong_sinpapeles" = yes ])
 if test "$ac_cv_use_gong_sinpapeles" = yes ; then
 	AC_DEFINE( [HAVE_SINPAPELESMODULE], [1], [Define to 1 if you have the SinPapeles module.] )
-	GONGSINPAPELES_CPPFLAGS="-I../../gong-sinpapeles"
-	GONGSINPAPELES_LIBS="-L../gong-sinpapeles -lgongsinpapeles"
+	GONGSINPAPELES_CPPFLAGS="-I../../sinpapeles"
+	GONGSINPAPELES_LIBS="-L../sinpapeles -lgongsinpapeles"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGSINPAPELES_CPPFLAGS"
 	GONGLIB_LIBS="$GONGSINPAPELES_LIBS $GONGLIB_LIBS"
 else
@@ -277,8 +277,8 @@ AS_HELP_STRING([--with-gong-reccolor], [Support for the gong reccolor module (de
 AM_CONDITIONAL( [COMPILE_WITH_GONG_RECCOLOR], [ test "$ac_cv_use_gong_reccolor" = yes ])
 if test "$ac_cv_use_gong_reccolor" = yes ; then
 	AC_DEFINE( [HAVE_RECCOLORMODULE], [1], [Define to 1 if you have the RecColor module.] )
-	GONGRECCOLOR_CPPFLAGS="-I../../gong-reccolor"
-	GONGRECCOLOR_LIBS="-L../gong-reccolor -lgongreccolor"
+	GONGRECCOLOR_CPPFLAGS="-I../../reccolor"
+	GONGRECCOLOR_LIBS="-L../reccolor -lgongreccolor"
 	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGRECCOLOR_CPPFLAGS"
 	GONGLIB_LIBS="$GONGRECCOLOR_LIBS $GONGLIB_LIBS"
 else
@@ -295,6 +295,6 @@ AC_SUBST(GONGLIB_CPPFLAGS)
 AC_SUBST(GONGLIB_LIBS)
 
 
-AC_CONFIG_FILES( Makefile gonglib/Makefile gong-rtk/Makefile gong-qt4/Makefile gong-dbapp/Makefile gong-contactos/Makefile gong-empresa/Makefile gong-contab/Makefile gong-pagos/Makefile gong-factu/Makefile gong-socias/Makefile gong-sinpapeles/Makefile gong-reccolor/Makefile \
+AC_CONFIG_FILES( Makefile gonglib/Makefile rtk/Makefile qt4/Makefile dbapp/Makefile contactos/Makefile empresa/Makefile contab/Makefile pagos/Makefile factu/Makefile socias/Makefile sinpapeles/Makefile reccolor/Makefile \
 	src/Makefile )
 AC_OUTPUT

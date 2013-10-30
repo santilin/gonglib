@@ -121,10 +121,12 @@ do_init()
 create_links()
 {
 	PWD_SAVE=`pwd`
+	echo $PWD_SAVE
+	echo $GONGDIR
 	rm acinclude.m4
 	ln -s $GONGDIR/acinclude.m4 .
 	rm gonglib
-	ln -s $GONGDIR/gonglib gonglib
+	ln -s $GONGDIR/mod/gonglib gonglib
 	mkdir share 2>/dev/null
 	cd share
 	ln -s $GONGDIR/share/ gestiong
@@ -132,22 +134,9 @@ create_links()
 	MODULES=$(grep -i "dnl module " configure.ac | cut -d " " -f 3)
 	for mod in $MODULES; do
 		m=`echo $mod | tr '[:upper:]' '[:lower:]'`
-		echo "Creating link gong-$m as $GONGDIR/gong-$m"
-		rm gong-$m
-		ln -s $GONGDIR/gong-$m gong-$m
-		case $m in
-		rtk)
-			;;
-		qt4)
-			;;
-		dbapp)
-			;;
-		*)
-			echo "Creating link share/gestiong/$m as ../gong-$m/share"
-			rm share/$m
-			ln -s -T ../gong-$m/share share/gestiong/$m
-		;;
-		esac
+		echo "Creating link $m as $GONGDIR/mod/$m"
+		rm $m
+		ln -s $GONGDIR/mod/$m $m
 	done
 	cd $PWD_SAVE
 }
@@ -159,8 +148,8 @@ update_subdirs()
 	AC_CONFIG_FILES="Makefile gonglib/Makefile"
 	for mod in $MODULES; do
 		m=`echo $mod | tr '[:upper:]' '[:lower:]'`
-		SUBDIRS="$SUBDIRS gong-$m"
-		AC_CONFIG_FILES="$AC_CONFIG_FILES gong-$m/Makefile"
+		SUBDIRS="$SUBDIRS $m"
+		AC_CONFIG_FILES="$AC_CONFIG_FILES $m/Makefile"
 	done
 	echo "Updating AC_CONFIG_FILES in configure.ac"
 	sed -e "syAC_CONFIG_FILES\s*(.*yAC_CONFIG_FILES( $AC_CONFIG_FILES \\\\y" -i configure.ac
@@ -185,10 +174,7 @@ create_app)
 	MODULE=$2
 	if test "x$MODULE" == "x"; then
 		echo "Faltan los módulos a incluir. Estos son los módulos disponibles:"
-		GONG_MODULES=$(find $GONGDIR -maxdepth 1 -name "gong-*" -a -type d -printf "%f\n"| sort )
-		for module in $GONG_MODULES; do
-			echo $module | sed -e "s/gong-//"
-		done
+		find $GONGDIR/mod -maxdepth 1 -a -type d -printf "%f\n"| sort
 		exit 1;
 	fi
 	if check_in_project $PROYECTO ; then :
@@ -231,11 +217,11 @@ create_module)
 	fi
 	LOWER_MODULE=`echo $MODULE | tr '[:upper:]' '[:lower:]'`
 	UPPER_MODULE=`echo $MODULE | tr '[:lower:]' '[:upper:]'`
-	if check_in_project gong-$LOWER_MODULE ; then :
+	if check_in_project $LOWER_MODULE ; then :
 	else
-		echo "Creando directorio gong-$LOWER_MODULE"
-		mkdir gong-$LOWER_MODULE
-		cd gong-$LOWER_MODULE
+		echo "Creando directorio $LOWER_MODULE"
+		mkdir $LOWER_MODULE
+		cd $LOWER_MODULE
 	fi
 	if test -f Makefile.am; then
 		echo "Makefile.am ya existe"
@@ -272,8 +258,8 @@ create_module)
 		echo "// TYPE GongModule ${LOWER_MODULE}::${MODULE}Module" >> ${LOWER_MODULE}module.cpp
 		echo "/*>>>>>MODULE_INFO*/" >> ${LOWER_MODULE}module.cpp
 
-		echo "Añada registros al módulo con ./gong.sh add_record ${LOWER_MODULE} RecordName gong-${LOWER_MODULE}"
-		echo "Ejecute ./gong.sh capel gong-${LOWER_MODULE} para generar código para el módulo"
+		echo "Añada registros al módulo con ./gong.sh add_record ${LOWER_MODULE} RecordName ${LOWER_MODULE}"
+		echo "Ejecute ./gong.sh capel ${LOWER_MODULE} para generar código para el módulo"
 		echo "Añada dnl // Module ${LOWER_MODULE} a la extrusión MODULE_INFO del configure.ac principal de la aplicación para usar este módulo"
 	fi
 ;;
@@ -485,15 +471,15 @@ make_tar)
 	rm -rf $PROJECTNAME-$VERSION
 	mkdir $PROJECTNAME-$VERSION
 	cd $PROJECTNAME-$VERSION
-	svn export svn://santilinx/gonglib/gonglib gonglib
-	svn export svn://santilinx/gonglib/m4 m4
-	svn export svn://santilinx/gonglib/share share
+	svn export svn://santilinx/gestiong/gonglib gonglib
+	svn export svn://santilinx/gestiong/m4 m4
+	svn export svn://santilinx/gestiong/share share
 	for m in $MODULES; do
 		mod=`echo $m | tr '[:upper:]' '[:lower:]'`
-		svn export svn://santilinx/gonglib/gong-$mod gong-$mod
+		svn export svn://santilinx/gestiong/mod/$mod/ $mod
 	done
 	if test "x$PROJECTNAME" == "xgestiong"; then
-		svn export svn://santilinx/gonglib/$PROJECTNAME . --force
+		svn export svn://santilinx/gestiong/gestiong . --force
 	else
 		svn export svn://santilinx/gongapps/$PROJECTNAME . --force
 	fi
