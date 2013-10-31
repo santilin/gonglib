@@ -1,5 +1,5 @@
 == Los pájaros ==
-UPDATE MIEMBRO INNER JOIN CLIENTE ON CLIENTE.ID=MIEMBRO.CLIENTE_ID SET MIEMBRO.CONTACTO_ID = CLIENTE.CONTACTO_ID;
+* Algunas veces los albaranes del tpv no formatean el número
 
 == Lanzamiento ==
 Versión en mc, la que funcionan bien las ventanas: 1323
@@ -32,6 +32,7 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-factu ==
+* Modificar un detalle, se selecciona la última línea siempre
 * Si la empresa no tiene recargo y se reciben facturas de compra con recargo, avisar
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 * Genera pagos de albaranes y luego en la factura, al facturarlo, también

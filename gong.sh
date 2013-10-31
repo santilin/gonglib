@@ -129,6 +129,7 @@ create_links()
 	ln -s $GONGDIR/mod/gonglib gonglib
 	mkdir share 2>/dev/null
 	cd share
+	rm gestiong
 	ln -s $GONGDIR/share/ gestiong
 	cd ..
 	MODULES=$(grep -i "dnl module " configure.ac | cut -d " " -f 3)
@@ -396,7 +397,7 @@ init_project)
 			mkdir Release
 			cd Release
 			autoreconf -i --force ..
-			../configure --disable-debug --disable-shared --prefix $PWD/.. CFLAGS= CXXFLAGS= || exit $?
+			../configure --disable-debug --prefix $PWD/.. CFLAGS= CXXFLAGS= || exit $?
 		fi
 		make || exit $?
 		cd ..
