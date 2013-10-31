@@ -68,7 +68,7 @@ AC_ARG_ENABLE(debug,
                AC_SUBST(AM_CXXFLAGS)
 				;;
 			  no)
-				AM_CXXFLAGS="$AM_CXXFLAGS -Wall -Werror -O2"
+				AM_CXXFLAGS="$AM_CXXFLAGS -Wall -Werror"
                AC_SUBST(AM_CXXFLAGS)
 				;;
 			  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;

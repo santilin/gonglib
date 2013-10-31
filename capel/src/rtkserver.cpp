@@ -23,7 +23,7 @@ namespace capel {
 const char *RTKProject = "RTK The report toolkit. Copyright (C) 2003-2013 Francisco Santiago Capel Torres";
 
 #define DEVELPATH "/home/santilin/devel/"
-#define RTKLIBPATH DEVELPATH "gonglib/gong-rtk/"
+#define RTKLIBPATH DEVELPATH "gestiong/mod/rtk/"
 #define RTKCONVERTPATH DEVELPATH "reports/trunk/rtkconvert/"
 #define RTKVIEWPATH DEVELPATH "reports/trunk/rtkview/"
 #define RTKTESTSPATH DEVELPATH "reports/trunk/tests/"

@@ -1,10 +1,10 @@
-#include "../../gonglib/gongxtring.cpp"
+#include "../../mod/gonglib/gongxtring.cpp"
 namespace gong {
 	typedef unsigned int dbRecordID;
 }
-#include "../../gonglib/gongfileutils.cpp"
-#include "../../gonglib/gongdebug.cpp"
-#include "../../gonglib/gonglibrary.cpp"
+#include "../../mod/gonglib/gongfileutils.cpp"
+#include "../../mod/gonglib/gongdebug.cpp"
+#include "../../mod/gonglib/gonglibrary.cpp"
 
 namespace gong {
 

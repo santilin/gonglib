@@ -264,7 +264,7 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 "               AC_SUBST(AM_CXXFLAGS)\n"
 "				;;\n"
 "			  no)\n"
-"				AM_CXXFLAGS=\"$AM_CXXFLAGS -Werror -O2\"\n"
+"				AM_CXXFLAGS=\"$AM_CXXFLAGS -Wall -Werror\"\n"
 "               AC_SUBST(AM_CXXFLAGS)\n"
 "				;;\n"
 "			  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;\n"
@@ -310,11 +310,11 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 			module_substs += "\n\t" + module_extra_check + "\n\n";
 		module_substs +=
 			"\tAC_DEFINE( [HAVE_" + modulename.upper() + "MODULE], [1], [Define to 1 if you have the " + modulename + " module.] )\n"
-			"\tGONG" + modulename.upper() + "_CPPFLAGS=\"-I" + ac_inc_path + "/gong-" + modulename.lower();
+			"\tGONG" + modulename.upper() + "_CPPFLAGS=\"-I" + ac_inc_path + "/" + modulename.lower();
 		if( modulename.upper() == "QT4" )
 			module_substs += " $QT_CXXFLAGS";
 		module_substs += "\"\n"
-			"\tGONG" + modulename.upper() + "_LIBS=\"-L" + ac_lib_path + "/gong-" + modulename.lower() + " -lgong" + modulename.lower();
+			"\tGONG" + modulename.upper() + "_LIBS=\"-L" + ac_lib_path + "/" + modulename.lower() + " -lgong" + modulename.lower();
 		if( modulename.upper() == "RTK" )
 			module_substs += " -ljpeg -lpng $BDB_LDADD";
 		if( modulename.upper() == "QT4" )
@@ -329,7 +329,7 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 			"fi\n"
 			"AC_SUBST(GONG" + modulename.upper() + "_CPPFLAGS)\n"
 			"AC_SUBST(GONG" + modulename.upper() + "_LIBS)\n";
-		ac_outputs += " gong-" + modulename.lower() + "/Makefile";
+		ac_outputs += " " + modulename.lower() + "/Makefile";
 	}
 	if( isproject ) {
 		cpm->insert_extrusion( ext_prefix + "_MODULES", module_substs +

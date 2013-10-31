@@ -203,6 +203,8 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
         break;
     }
 #endif
+	default:
+		break;
     }
     return 0;
 }
@@ -275,6 +277,8 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
         break;
     }
 #endif
+	default:
+		break;
     }
     return ret;
 }
@@ -787,6 +791,8 @@ bool dbConnection::dropDatabase( const Xtring &dbname, bool ignoreerrors )
             // unlink( sqlite3_db_filename( pSqLite, "main" ) );
             break;
 #endif
+		default:
+			break;
         }
     } catch ( dbError e ) {
         if ( !ignoreerrors )
@@ -896,6 +902,8 @@ bool dbConnection::beginTransaction()
         exec( "BEGIN" );
         break;
 #endif
+	default:
+		break;
     }
     return (mLastError.getNumber() == 0);
 }

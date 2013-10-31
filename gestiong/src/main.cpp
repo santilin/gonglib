@@ -73,30 +73,30 @@ int main( int argc, char *argv[] )
         DBAPP->init();
         /*<<<<<LOAD_MODULES*/
 #ifdef HAVE_CONTACTOSMODULE
-        DBAPP->addModule( new contactos::ContactosModule() );
+		DBAPP->addModule( new contactos::ContactosModule() );
 #endif
 #ifdef HAVE_EMPRESAMODULE
-        DBAPP->addModule( new empresa::EmpresaModule() );
+		DBAPP->addModule( new empresa::EmpresaModule() );
 #endif
 #ifdef HAVE_CONTABMODULE
-        DBAPP->addModule( new contab::ContabModule() );
+		DBAPP->addModule( new contab::ContabModule() );
 #endif
 #ifdef HAVE_PAGOSMODULE
-        DBAPP->addModule( new pagos::PagosModule() );
+		DBAPP->addModule( new pagos::PagosModule() );
 #endif
 #ifdef HAVE_FACTUMODULE
-        DBAPP->addModule( new factu::FactuModule() );
+		DBAPP->addModule( new factu::FactuModule() );
 #endif
 #ifdef HAVE_SOCIASMODULE
-        DBAPP->addModule( new socias::SociasModule() );
+		DBAPP->addModule( new socias::SociasModule() );
 #endif
 #ifdef HAVE_SINPAPELESMODULE
-        DBAPP->addModule( new sinpapeles::SinPapelesModule() );
+		DBAPP->addModule( new sinpapeles::SinPapelesModule() );
 #endif
 #ifdef HAVE_RECCOLORMODULE
-        DBAPP->addModule( new reccolor::RecColorModule() );
+		DBAPP->addModule( new reccolor::RecColorModule() );
 #endif
-        /*>>>>>LOAD_MODULES*/
+/*>>>>>LOAD_MODULES*/
         DBAPP->addModule( new gestiong::GestiongModule() );
         DBAPP->readSettings();
         DBAPP->initDatabases();

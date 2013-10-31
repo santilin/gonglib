@@ -51,7 +51,7 @@ void SinPapelesFrmEditRecBehavior::slot_fnbox_clicked()
             Xtring path = ModuleInstance->getModuleSetting( "PATH" ).toString();
             if( command.find("{filename}") != Xtring::npos ) {
                 command.replace("{filename}", path + "/" + fnbox->getEditFileName()->toString() );
-                int ret = system( command.c_str() );
+                (void)system( command.c_str() );
             }
         }
     }

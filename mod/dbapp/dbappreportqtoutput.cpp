@@ -128,9 +128,11 @@ void ReportQtOutput::drawGraphics( const Object &object, int x0, int y0, int wid
 // 	y0 += sizeY() * (mCurrentPageInFolio - 1);
     // Draw the border and the background color
     QColor bc = toQColor(object.backColor());
+#ifdef _GONG_DEBUG
     QColor painterbc = mPainter.brush().color();
     _GONG_DEBUG_PRINT(10, Xtring::printf("Color de fondo del objeto: %s", bc.name().latin1() ) );
-    _GONG_DEBUG_PRINT(10, Xtring::printf("Color de fondo del painter: %s", painterbc.name().latin1() ) );
+	_GONG_DEBUG_PRINT(10, Xtring::printf("Color de fondo del painter: %s", painterbc.name().latin1() ) );
+#endif
     if( bc != mPainter.brush().color() ) {
         QPen linePen( bc, 0, Qt::NoPen);
         mPainter.setPen( linePen );
