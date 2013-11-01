@@ -17,7 +17,8 @@
  */
 /*>>>>>COPYLEFT*/
 /*<<<<<MODULE_INFO*/
-// COPYLEFT Registro de
+// COPYLEFT Registro de gastos e ingresos
+// MEMBER init
 // TYPE dbRecord gastos::Gasto
 /*>>>>>MODULE_INFO*/
 
@@ -31,3 +32,9 @@ namespace gastos {
 
 } // namespace gastos
 } // namespace gong
+/*<<<<<GASTO_INIT*/
+void RecGasto::init()
+{
+/*>>>>>GASTO_INIT*/
+
+}

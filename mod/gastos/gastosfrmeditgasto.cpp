@@ -17,8 +17,18 @@
  */
 /*>>>>>COPYLEFT*/
 /*<<<<<MODULE_INFO*/
-// COPYLEFT Fichero de edición de
-// FIELD Tipo comboint
+// COPYLEFT Fichero de edición de gastos e ingresos
+// FIELD TipoGasto comboint
+// FIELD CategoriaGasto comboint
+// FIELD Numero int
+// FIELD Fecha date
+// FIELD Importe money
+// FIELD Descripcion string
+// FIELD CuentaPago string
+// FIELD DocumentoPago string
+// FIELD GenAlbaran bool
+// FIELD NumeroAlbaran string
+// FIELD Notas text
 // TYPE FrmEditRecMaster gastos::Gasto
 /*>>>>>MODULE_INFO*/
 
@@ -41,25 +51,75 @@ FrmEditGasto::FrmEditGasto(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	    setName( "FrmEditGasto" );
 /*>>>>>FRMEDITGASTO_CONSTRUCTOR*/
 /*<<<<<FRMEDITGASTO_INIT_CONTROLS*/
-	QHBoxLayout *tipoLayout = new QHBoxLayout(0, 0, 6, "tipoLayout");
-	comboTipo = addComboField<int>( pControlsFrame, "GASTO", "TIPO", tipoLayout );
-	pControlsLayout->addLayout( tipoLayout );
+	QHBoxLayout *tipogastoLayout = new QHBoxLayout(0, 0, 6, "tipogastoLayout");
+	QHBoxLayout *categoriagastoLayout = new QHBoxLayout(0, 0, 6, "categoriagastoLayout");
+	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
+	QHBoxLayout *fechaLayout = new QHBoxLayout(0, 0, 6, "fechaLayout");
+	QHBoxLayout *importeLayout = new QHBoxLayout(0, 0, 6, "importeLayout");
+	QHBoxLayout *descripcionLayout = new QHBoxLayout(0, 0, 6, "descripcionLayout");
+	QHBoxLayout *cuentapagoLayout = new QHBoxLayout(0, 0, 6, "cuentapagoLayout");
+	QHBoxLayout *documentopagoLayout = new QHBoxLayout(0, 0, 6, "documentopagoLayout");
+	QHBoxLayout *genalbaranLayout = new QHBoxLayout(0, 0, 6, "genalbaranLayout");
+	QHBoxLayout *numeroalbaranLayout = new QHBoxLayout(0, 0, 6, "numeroalbaranLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	comboTipoGasto = addComboField<int>( pControlsFrame, "GASTO", "TIPOGASTO", tipogastoLayout );
+	comboCategoriaGasto = addComboField<int>( pControlsFrame, "GASTO", "CATEGORIAGASTO", categoriagastoLayout );
+	editNumero = addEditField( pControlsFrame, "GASTO", "NUMERO", numeroLayout );
+	editFecha = addEditField( pControlsFrame, "GASTO", "FECHA", fechaLayout );
+	editImporte = addEditField( pControlsFrame, "GASTO", "IMPORTE", importeLayout );
+	editDescripcion = addEditField( pControlsFrame, "GASTO", "DESCRIPCION", descripcionLayout );
+	editCuentaPago = addEditField( pControlsFrame, "GASTO", "CUENTAPAGO", cuentapagoLayout );
+	editDocumentoPago = addEditField( pControlsFrame, "GASTO", "DOCUMENTOPAGO", documentopagoLayout );
+	checkGenAlbaran = addCheckField( pControlsFrame, "GASTO", "GENALBARAN", genalbaranLayout );
+	editNumeroAlbaran = addEditField( pControlsFrame, "GASTO", "NUMEROALBARAN", numeroalbaranLayout );
+	editNotas = addTextField( pControlsFrame, "GASTO", "NOTAS", notasLayout );
+	pControlsLayout->addLayout( tipogastoLayout );
+	pControlsLayout->addLayout( categoriagastoLayout );
+	pControlsLayout->addLayout( numeroLayout );
+	pControlsLayout->addLayout( fechaLayout );
+	pControlsLayout->addLayout( importeLayout );
+	pControlsLayout->addLayout( descripcionLayout );
+	pControlsLayout->addLayout( cuentapagoLayout );
+	pControlsLayout->addLayout( documentopagoLayout );
+	pControlsLayout->addLayout( genalbaranLayout );
+	pControlsLayout->addLayout( numeroalbaranLayout );
+	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITGASTO_INIT_CONTROLS*/
 }
 
 void FrmEditGasto::scatterFields()
 {
 /*<<<<<FRMEDITGASTO_SCATTER*/
-	comboTipo->setCurrentItemByValue(getRecGasto()->getValue("TIPO").toInt());
+	comboTipoGasto->setCurrentItemByValue(getRecGasto()->getValue("TIPOGASTO").toInt());
 	if( isEditing() && (pFocusWidget == 0) )
-		pFocusWidget = comboTipo;
+		pFocusWidget = comboTipoGasto;
+	comboCategoriaGasto->setCurrentItemByValue(getRecGasto()->getValue("CATEGORIAGASTO").toInt());
+	editNumero->setText(getRecGasto()->getValue("NUMERO").toInt());
+	editFecha->setText(getRecGasto()->getValue("FECHA").toDate());
+	editImporte->setText(getRecGasto()->getValue("IMPORTE").toMoney());
+	editDescripcion->setText(getRecGasto()->getValue("DESCRIPCION").toString());
+	editCuentaPago->setText(getRecGasto()->getValue("CUENTAPAGO").toString());
+	editDocumentoPago->setText(getRecGasto()->getValue("DOCUMENTOPAGO").toString());
+	checkGenAlbaran->setChecked(getRecGasto()->getValue("GENALBARAN").toBool());
+	editNumeroAlbaran->setText(getRecGasto()->getValue("NUMEROALBARAN").toString());
+	editNotas->setText(getRecGasto()->getValue("NOTAS").toString());
 /*>>>>>FRMEDITGASTO_SCATTER*/
 }
 
 void FrmEditGasto::gatherFields()
 {
 /*<<<<<FRMEDITGASTO_GATHER*/
-	getRecGasto()->setValue( "TIPO", comboTipo->getCurrentItemValue());
+	getRecGasto()->setValue( "TIPOGASTO", comboTipoGasto->getCurrentItemValue());
+	getRecGasto()->setValue( "CATEGORIAGASTO", comboCategoriaGasto->getCurrentItemValue());
+	getRecGasto()->setValue( "NUMERO", editNumero->toInt());
+	getRecGasto()->setValue( "FECHA", editFecha->toDate());
+	getRecGasto()->setValue( "IMPORTE", editImporte->toMoney());
+	getRecGasto()->setValue( "DESCRIPCION", editDescripcion->toString());
+	getRecGasto()->setValue( "CUENTAPAGO", editCuentaPago->toString());
+	getRecGasto()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
+	getRecGasto()->setValue( "GENALBARAN", checkGenAlbaran->isChecked());
+	getRecGasto()->setValue( "NUMEROALBARAN", editNumeroAlbaran->toString());
+	getRecGasto()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITGASTO_GATHER*/
 }
 

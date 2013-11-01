@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file gastosmodule.h Module gastos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * The GestiONG project. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

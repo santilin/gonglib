@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
-/** @file gastosrecgasto.h Registro de
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+/** @file gastosrecgasto.h Registro de gastos e ingresos
+ * The GestiONG project. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -39,3 +39,8 @@ public:
 #endif // GASTOS_GASTOSRECGASTO_H
 /*>>>>>GASTO_POSTAMBLE*/
 
+/*<<<<<GASTO_MEMBERS*/
+	void init();
+/*>>>>>GASTO_MEMBERS*/
+
+}; // class

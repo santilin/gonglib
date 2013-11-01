@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
-/** @file gastosfrmeditgasto.h Fichero de edición de
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+/** @file gastosfrmeditgasto.h Fichero de edición de gastos e ingresos
+ * The GestiONG project. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -42,7 +42,17 @@ protected:
 /*>>>>>FRMEDITGASTO_VIRTUALS_FROM_FRMEDITREC*/
 /*<<<<<FRMEDITGASTO_CONTROLS*/
 protected:
-	gong::ComboBox<int> *comboTipo;
+	gong::ComboBox<int> *comboTipoGasto;
+	gong::ComboBox<int> *comboCategoriaGasto;
+	gong::EditBox *editNumero;
+	gong::EditBox *editFecha;
+	gong::EditBox *editImporte;
+	gong::EditBox *editDescripcion;
+	gong::EditBox *editCuentaPago;
+	gong::EditBox *editDocumentoPago;
+	gong::CheckBox *checkGenAlbaran;
+	gong::EditBox *editNumeroAlbaran;
+	gong::TextBox *editNotas;
 /*>>>>>FRMEDITGASTO_CONTROLS*/
 };
 /*<<<<<FRMEDITGASTO_POSTAMBLE*/
