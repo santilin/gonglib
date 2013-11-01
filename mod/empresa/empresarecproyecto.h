@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file empresarecproyecto.h Registro de proyectos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -27,8 +27,8 @@ namespace empresa {
 class RecProyecto: public dbRecord
 {
 public:
-    RecProyecto(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PROYECTO"), recid, user)
+	RecProyecto(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PROYECTO"), recid, user)
 /*>>>>>PROYECTO_CONSTRUCTOR*/
     {};
 }; // end class

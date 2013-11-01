@@ -46,14 +46,14 @@ FldEmpresaID::FldEmpresaID(const Xtring& tablename, const Xtring& name,
 /*<<<<<DBFIELD_EMPRESAID_ISVALID*/
 bool FldEmpresaID::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
-    /*>>>>>DBFIELD_EMPRESAID_ISVALID*/
+/*>>>>>DBFIELD_EMPRESAID_ISVALID*/
     return true;
 }
 
 /*<<<<<DBFIELD_EMPRESAID_CUSTOMDEFAULTVALUE*/
 Variant FldEmpresaID::customDefaultValue() const
 {
-    /*>>>>>DBFIELD_EMPRESAID_CUSTOMDEFAULTVALUE*/
+/*>>>>>DBFIELD_EMPRESAID_CUSTOMDEFAULTVALUE*/
     return ModuleInstance->getEmpresaID();
 }
 

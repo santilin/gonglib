@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file empresamodule.h Módulo de empresas comerciales de GongLib
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -37,27 +37,27 @@ namespace empresa {
 /*<<<<<EMPRESAMODULE_CLASS_DEFINITION*/
 class EmpresaModule: public QObject, public dbModule
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    EmpresaModule();
-    virtual ~EmpresaModule();
-    virtual bool initMainWindow(class MainWindow *win);
-    virtual bool initDatabase(dbDefinition *dbdef);
-    virtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
-    virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
-    virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
-                                       FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
-                                       dbApplication::EditFlags editflags = dbApplication::editNone,
-                                       QWidget *parent = 0, const char* name = 0,
-                                       WidgetFlags fl = WidgetFlags(0) );
-    virtual FrmEditRecDetail *createEditDetailForm(
-        FrmEditRecMaster *frmmaster, int ndetail,
-        dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm = 0,
-        FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
-        dbApplication::EditFlags editflags = dbApplication::editNone,
-        QWidget *parent = 0, const char* name = 0,
-        WidgetFlags fl = WidgetFlags(0) );
-    /*>>>>>EMPRESAMODULE_CLASS_DEFINITION*/
+	EmpresaModule();
+	virtual ~EmpresaModule();
+	virtual bool initMainWindow(class MainWindow *win);
+	virtual bool initDatabase(dbDefinition *dbdef);
+	virtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
+	virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
+	virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
+		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
+		dbApplication::EditFlags editflags = dbApplication::editNone,
+		QWidget *parent = 0, const char* name = 0,
+		WidgetFlags fl = WidgetFlags(0) );
+	virtual FrmEditRecDetail *createEditDetailForm(
+		FrmEditRecMaster *frmmaster, int ndetail,
+		dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm = 0,
+		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
+		dbApplication::EditFlags editflags = dbApplication::editNone,
+		QWidget *parent = 0, const char* name = 0,
+		WidgetFlags fl = WidgetFlags(0) );
+/*>>>>>EMPRESAMODULE_CLASS_DEFINITION*/
     QMenu *getMenuEmpresa() const {
         return pMenuEmpresa;
     }
@@ -91,43 +91,33 @@ private:
 
     /*<<<<<EMPRESAMODULE_RECORD_DEFINITIONS*/
 public:
-    empresa::MasterTable *getFicEmpresa() const {
-        return pFicEmpresa;
-    }
-    empresa::MasterTable *getFicDepartamento() const {
-        return pFicDepartamento;
-    }
-    empresa::MasterTable *getFicMoneda() const {
-        return pFicMoneda;
-    }
-    empresa::MasterTable *getFicTipoIVA() const {
-        return pFicTipoIVA;
-    }
-    empresa::MasterTable *getFicProyecto() const {
-        return pFicProyecto;
-    }
+	empresa::MasterTable *getFicEmpresa() const { return pFicEmpresa; }
+	empresa::MasterTable *getFicDepartamento() const { return pFicDepartamento; }
+	empresa::MasterTable *getFicMoneda() const { return pFicMoneda; }
+	empresa::MasterTable *getFicTipoIVA() const { return pFicTipoIVA; }
+	empresa::MasterTable *getFicProyecto() const { return pFicProyecto; }
 
 private:
-    empresa::MasterTable *pFicEmpresa;
-    empresa::MasterTable *pFicDepartamento;
-    empresa::MasterTable *pFicMoneda;
-    empresa::MasterTable *pFicTipoIVA;
-    empresa::MasterTable *pFicProyecto;
-    /*>>>>>EMPRESAMODULE_RECORD_DEFINITIONS*/
+	empresa::MasterTable *pFicEmpresa;
+	empresa::MasterTable *pFicDepartamento;
+	empresa::MasterTable *pFicMoneda;
+	empresa::MasterTable *pFicTipoIVA;
+	empresa::MasterTable *pFicProyecto;
+/*>>>>>EMPRESAMODULE_RECORD_DEFINITIONS*/
     /*<<<<<EMPRESAMODULE_MENU_DEFINITIONS*/
 private slots:
-    void slotMenuEmpresaEmpresa();
-    void slotMenuEmpresaDepartamento();
-    void slotMenuEmpresaMoneda();
-    void slotMenuEmpresaTipoIVA();
-    void slotMenuEmpresaProyecto();
+	void slotMenuEmpresaEmpresa();
+	void slotMenuEmpresaDepartamento();
+	void slotMenuEmpresaMoneda();
+	void slotMenuEmpresaTipoIVA();
+	void slotMenuEmpresaProyecto();
 protected:
-    QAction *pMenuEmpresaEmpresa;
-    QAction *pMenuEmpresaDepartamento;
-    QAction *pMenuEmpresaMoneda;
-    QAction *pMenuEmpresaTipoIVA;
-    QAction *pMenuEmpresaProyecto;
-    /*>>>>>EMPRESAMODULE_MENU_DEFINITIONS*/
+	QAction *pMenuEmpresaEmpresa;
+	QAction *pMenuEmpresaDepartamento;
+	QAction *pMenuEmpresaMoneda;
+	QAction *pMenuEmpresaTipoIVA;
+	QAction *pMenuEmpresaProyecto;
+/*>>>>>EMPRESAMODULE_MENU_DEFINITIONS*/
     QMenu *pMenuEmpresa;
     QAction *pMenuEmpresaCambiarEjercicio;
 
@@ -136,12 +126,10 @@ private slots:
 
     /*<<<<<EMPRESAMODULE_REQUIRES*/
 public:
-    contactos::ContactosModule *getContactosModule() const {
-        return pContactosModule;
-    }
+	contactos::ContactosModule *getContactosModule() const { return pContactosModule; }
 private:
-    contactos::ContactosModule *pContactosModule;
-    /*>>>>>EMPRESAMODULE_REQUIRES*/
+	contactos::ContactosModule *pContactosModule;
+/*>>>>>EMPRESAMODULE_REQUIRES*/
 };
 
 extern EmpresaModule *ModuleInstance;

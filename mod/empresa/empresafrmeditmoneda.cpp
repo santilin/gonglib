@@ -42,31 +42,31 @@ namespace empresa {
 
 /*<<<<<FRMEDITMONEDA_CONSTRUCTOR*/
 FrmEditMoneda::FrmEditMoneda(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
-                             EditMode editmode, dbApplication::EditFlags editflags,
-                             QWidget *parent, const char* name, WidgetFlags fl )
-    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
+	                               EditMode editmode, dbApplication::EditFlags editflags,
+	                               QWidget *parent, const char* name, WidgetFlags fl )
+	    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditMoneda" );
-    /*>>>>>FRMEDITMONEDA_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditMoneda" );
+/*>>>>>FRMEDITMONEDA_CONSTRUCTOR*/
     /*<<<<<FRMEDITMONEDA_INIT_CONTROLS*/
-    QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
-    QHBoxLayout *simboloLayout = new QHBoxLayout(0, 0, 6, "simboloLayout");
-    QHBoxLayout *puntoLayout = new QHBoxLayout(0, 0, 6, "puntoLayout");
-    QHBoxLayout *tasaLayout = new QHBoxLayout(0, 0, 6, "tasaLayout");
-    editCodigo = addEditField( pControlsFrame, "MONEDA", "CODIGO", codigoLayout );
-    editNombre = addEditField( pControlsFrame, "MONEDA", "NOMBRE", codigoLayout );
-    editSimbolo = addEditField( pControlsFrame, "MONEDA", "SIMBOLO", simboloLayout );
-    editDecimales = addEditField( pControlsFrame, "MONEDA", "DECIMALES", simboloLayout );
-    editPuntoDecimal = addEditField( pControlsFrame, "MONEDA", "PUNTODECIMAL", puntoLayout );
-    editSeparadorMiles = addEditField( pControlsFrame, "MONEDA", "SEPARADORMILES", puntoLayout );
-    editActualizacion = addEditField( pControlsFrame, "MONEDA", "ACTUALIZACION", tasaLayout );
-    editTasaCambio = addEditField( pControlsFrame, "MONEDA", "TASACAMBIO", tasaLayout );
-    pControlsLayout->addLayout( codigoLayout );
-    pControlsLayout->addLayout( simboloLayout );
-    pControlsLayout->addLayout( puntoLayout );
-    pControlsLayout->addLayout( tasaLayout );
-    /*>>>>>FRMEDITMONEDA_INIT_CONTROLS*/
+	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
+	QHBoxLayout *simboloLayout = new QHBoxLayout(0, 0, 6, "simboloLayout");
+	QHBoxLayout *puntoLayout = new QHBoxLayout(0, 0, 6, "puntoLayout");
+	QHBoxLayout *tasaLayout = new QHBoxLayout(0, 0, 6, "tasaLayout");
+	editCodigo = addEditField( pControlsFrame, "MONEDA", "CODIGO", codigoLayout );
+	editNombre = addEditField( pControlsFrame, "MONEDA", "NOMBRE", codigoLayout );
+	editSimbolo = addEditField( pControlsFrame, "MONEDA", "SIMBOLO", simboloLayout );
+	editDecimales = addEditField( pControlsFrame, "MONEDA", "DECIMALES", simboloLayout );
+	editPuntoDecimal = addEditField( pControlsFrame, "MONEDA", "PUNTODECIMAL", puntoLayout );
+	editSeparadorMiles = addEditField( pControlsFrame, "MONEDA", "SEPARADORMILES", puntoLayout );
+	editActualizacion = addEditField( pControlsFrame, "MONEDA", "ACTUALIZACION", tasaLayout );
+	editTasaCambio = addEditField( pControlsFrame, "MONEDA", "TASACAMBIO", tasaLayout );
+	pControlsLayout->addLayout( codigoLayout );
+	pControlsLayout->addLayout( simboloLayout );
+	pControlsLayout->addLayout( puntoLayout );
+	pControlsLayout->addLayout( tasaLayout );
+/*>>>>>FRMEDITMONEDA_INIT_CONTROLS*/
     Q3HBoxLayout *ejemploMonedaLayout = new Q3HBoxLayout( 0, 0, 6, "ejemploMonedaLayout" );
     lblEjemplosMoneda = new QLabel( pControlsFrame, "lblPositiva" );
     ejemploMonedaLayout->addWidget( lblEjemplosMoneda );
@@ -76,29 +76,29 @@ FrmEditMoneda::FrmEditMoneda(FrmEditRec *parentfrm, dbRecord *master, dbRecordDa
 void FrmEditMoneda::scatterFields()
 {
     /*<<<<<FRMEDITMONEDA_SCATTER*/
-    editCodigo->setText(getRecMoneda()->getValue("CODIGO").toInt());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editCodigo;
-    editNombre->setText(getRecMoneda()->getValue("NOMBRE").toString());
-    editSimbolo->setText(getRecMoneda()->getValue("SIMBOLO").toString());
-    editDecimales->setText(getRecMoneda()->getValue("DECIMALES").toInt());
-    editPuntoDecimal->setText(getRecMoneda()->getValue("PUNTODECIMAL").toString());
-    editSeparadorMiles->setText(getRecMoneda()->getValue("SEPARADORMILES").toString());
-    editActualizacion->setText(getRecMoneda()->getValue("ACTUALIZACION").toDate());
-    editTasaCambio->setText(getRecMoneda()->getValue("TASACAMBIO").toDouble());
-    if( isInserting() && editCodigo->toInt() == 0 ) {
-        editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
-    }
-    if( isInserting() && !isDuplicating() && !DBAPP->codeNotFound().isEmpty() ) {
-        if( DBAPP->codeNotFound().toInt() != 0 ) {
-            editCodigo->setText( DBAPP->codeNotFound() );
-            editCodigo->setJustEdited( true );
-        } else {
-            editNombre->setText( DBAPP->codeNotFound() );
-            editNombre->setJustEdited( true );
-        }
-    }
-    /*>>>>>FRMEDITMONEDA_SCATTER*/
+	editCodigo->setText(getRecMoneda()->getValue("CODIGO").toInt());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editCodigo;
+	editNombre->setText(getRecMoneda()->getValue("NOMBRE").toString());
+	editSimbolo->setText(getRecMoneda()->getValue("SIMBOLO").toString());
+	editDecimales->setText(getRecMoneda()->getValue("DECIMALES").toInt());
+	editPuntoDecimal->setText(getRecMoneda()->getValue("PUNTODECIMAL").toString());
+	editSeparadorMiles->setText(getRecMoneda()->getValue("SEPARADORMILES").toString());
+	editActualizacion->setText(getRecMoneda()->getValue("ACTUALIZACION").toDate());
+	editTasaCambio->setText(getRecMoneda()->getValue("TASACAMBIO").toDouble());
+	if( isInserting() && editCodigo->toInt() == 0 ) {
+		editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
+	}
+	if( isInserting() && !isDuplicating() && !DBAPP->codeNotFound().isEmpty() ) {
+		if( DBAPP->codeNotFound().toInt() != 0 ) {
+			editCodigo->setText( DBAPP->codeNotFound() );
+			editCodigo->setJustEdited( true );
+		} else {
+		editNombre->setText( DBAPP->codeNotFound() );
+		editNombre->setJustEdited( true );
+		}
+	}
+/*>>>>>FRMEDITMONEDA_SCATTER*/
     if ( isInserting() ) {
         editSimbolo->setText( DBAPP->getRegConfig()->getCurrencySymbol() );
         editDecimales->setText( DBAPP->getRegConfig()->getCurrencyFracDigits() );
@@ -111,30 +111,30 @@ void FrmEditMoneda::scatterFields()
 void FrmEditMoneda::gatherFields()
 {
     /*<<<<<FRMEDITMONEDA_GATHER*/
-    getRecMoneda()->setValue( "CODIGO", editCodigo->toInt());
-    getRecMoneda()->setValue( "NOMBRE", editNombre->toString());
-    getRecMoneda()->setValue( "SIMBOLO", editSimbolo->toString());
-    getRecMoneda()->setValue( "DECIMALES", editDecimales->toInt());
-    getRecMoneda()->setValue( "PUNTODECIMAL", editPuntoDecimal->toString());
-    getRecMoneda()->setValue( "SEPARADORMILES", editSeparadorMiles->toString());
-    getRecMoneda()->setValue( "ACTUALIZACION", editActualizacion->toDate());
-    getRecMoneda()->setValue( "TASACAMBIO", editTasaCambio->toDouble());
-    /*>>>>>FRMEDITMONEDA_GATHER*/
+	getRecMoneda()->setValue( "CODIGO", editCodigo->toInt());
+	getRecMoneda()->setValue( "NOMBRE", editNombre->toString());
+	getRecMoneda()->setValue( "SIMBOLO", editSimbolo->toString());
+	getRecMoneda()->setValue( "DECIMALES", editDecimales->toInt());
+	getRecMoneda()->setValue( "PUNTODECIMAL", editPuntoDecimal->toString());
+	getRecMoneda()->setValue( "SEPARADORMILES", editSeparadorMiles->toString());
+	getRecMoneda()->setValue( "ACTUALIZACION", editActualizacion->toDate());
+	getRecMoneda()->setValue( "TASACAMBIO", editTasaCambio->toDouble());
+/*>>>>>FRMEDITMONEDA_GATHER*/
 }
 
 void FrmEditMoneda::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
     /*<<<<<FRMEDITMONEDA_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
-        if( !sender )
-            *isvalid = false;
-    /*>>>>>FRMEDITMONEDA_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
+		if( !sender )
+			*isvalid = false;
+/*>>>>>FRMEDITMONEDA_VALIDATE*/
     if ( sender == editPuntoDecimal || sender == editDecimales
             || sender == editSeparadorMiles || sender == editSimbolo ) {
         RegConfig regconfig;

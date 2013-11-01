@@ -117,6 +117,7 @@ FrmEditCliente::FrmEditCliente(FrmEditRec *parentfrm, dbRecord *master, dbRecord
     pEditContactoBehavior = new contactos::FrmEditContactoBehavior( this, pFrameContactos, editRazonSocial );
     addBehavior( pEditContactoBehavior );
     pTabWidget->insertTab( tabExtra, toGUI( _( "&Extra" ) ) );
+	setMinimumHeight( 600 );
 }
 
 void FrmEditCliente::scatterFields()

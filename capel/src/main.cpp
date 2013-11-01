@@ -15,7 +15,7 @@ using namespace gong;
 void genCppClass( CapelModule *cppm, CapelModule *hm, const Xtring &classname, const Xtring &members )
 {}
 
-#define GONGLIB_COPYRIGHT "The GestiONG project. (C) 2003-2013, Francisco Santiago Capel Torres"
+#define GONGLIB_COPYRIGHT "Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres"
 
 void test()
 {

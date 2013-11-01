@@ -18,8 +18,8 @@
 /*>>>>>COPYLEFT*/
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Module gastos
-// RECORD Gasto FrmEditRecMaster
-// MODULE_REQUIRED Empresa
+// RECORD Gasto FrmEditRecMaster Gastos
+// MODULE_REQUIRED Gastos
 // MODULE_OPTIONAL Pagos
 // MODULE_OPTIONAL Contab
 // MODULE_OPTIONAL Factu
@@ -44,16 +44,33 @@ namespace gastos {
 
 GastosModule *ModuleInstance = 0;
 
+static dbModuleSetting _settings[] = {
+    {
+        dbModuleSetting::String,
+        "TIPODOC.GASTO",
+        _("Tipo de documento de los gastos"),
+        "0"
+    },
+    {
+        dbModuleSetting::String,
+        "TIPODOC.INGRESO",
+        _("Tipo de documento de los ingresos"),
+        "0"
+    },
+    {dbModuleSetting::None}
+};
+
+
 GastosModule::GastosModule()
 	: dbModule("gastos")
 {
 	ModuleInstance = this;
     _GONG_DEBUG_TRACE(1);
 /*<<<<<GASTOSMODULE_PUBLIC_INFO*/
-	mModuleRequires << "empresa";
+	mModuleRequires << "gastos";
 	mMasterTables << "GASTO" << "TIPOGASTO" << "CATEGORIAGASTO";
 //	mDetailTables
-	pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
+	pGastosModule = static_cast< gastos::GastosModule * >(DBAPP->findModule( "Gastos" ));
 #ifdef HAVE_PAGOSMODULE
 	pPagosModule = static_cast< pagos::PagosModule * >(DBAPP->findModule( "Pagos" ));
 #endif
@@ -180,13 +197,45 @@ FrmEditRecDetail *GastosModule::createEditDetailForm(
 	return 0;
 }
 
+/*<<<<<GASTOSMODULE_SLOT_GASTOSGASTO*/
+void GastosModule::slotMenuGastosGasto()
+{
+	pMainWindow->slotMenuEditRecMaestro( "GASTO" );
+}
+/*>>>>>GASTOSMODULE_SLOT_GASTOSGASTO*/
+
+
 bool GastosModule::initMainWindow(MainWindow *mainwin)
 {
 	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
 	_GONG_DEBUG_ASSERT(mainwin);
 	pMainWindow = mainwin;
-/*<<<<<GASTOSMODULE_INITMAINWINDOW_MENUS*/
 
+	pMenuGastos = 0;
+#ifdef HAVE_FACTUMODULE
+	if( getFactuModule() )
+		pMenuGastos = pMainWindow->findMenu( "MenuFacturacion" );
+#elif defined( HAVE_CONTABMODULE )
+	if( getContabModule() )
+		pMenuGastos = pMainWindow->findMenu( "MenuContabilidad" );
+#endif
+	if( !pMenuGastos ) {
+		pMenuGastos = new QMenu( pMainWindow );
+		pMenuGastos->setObjectName( "MenuGastos" );
+		pMainWindow->menuBar()->insertItem( "&" + toGUI( DBAPP->getTableDescSingular("GASTOS", "").c_str() ),
+												pMenuGastos );
+	}
+
+/*<<<<<GASTOSMODULE_INITMAINWINDOW_MENUS*/
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("GASTO")->getDescPlural();
+		pMenuGastosGasto = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuGastosGasto->setObjectName( "MenuGastosGasto" );
+		pMenuGastosGasto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuGastosGasto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuGastosGasto, SIGNAL(activated()), this, SLOT(slotMenuGastosGasto()));
+		pMenuGastosGasto->addTo(pMenuGastos);
+	}
 /*>>>>>GASTOSMODULE_INITMAINWINDOW_MENUS*/
 	return true;
 }

@@ -33,7 +33,7 @@ protected:
     LineEdit *pValor;
     GroupBox *pRango;
     CheckBox *pSupervisar;
-    ComboBox<int> *pComboField;
+    ComboBoxInt *pComboField;
 
 private:
     FrmEditRecMaster *pTheForm;

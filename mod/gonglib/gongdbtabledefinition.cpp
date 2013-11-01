@@ -60,10 +60,18 @@ dbTableDefinition::dbTableDefinition( const dbTableDefinition &other )
       mGroupBy( other.mGroupBy ), mFldIDName( other.mFldIDName )
 {
     // We use the integer iterator because we don't want them in alpha order
-    for ( std::size_t i = 0; i < other.mFieldDefinitions.size(); i++ ) {
-        dbFieldDefinition *flddef = new dbFieldDefinition( *other.mFieldDefinitions[i] );
-        mFieldDefinitions.insert( other.mFieldDefinitions.getKey( i ), flddef );
+    for( std::size_t f = 0; f < other.mFieldDefinitions.size(); f++ ) {
+        dbFieldDefinition *flddef = new dbFieldDefinition( *other.mFieldDefinitions[f] );
+        mFieldDefinitions.insert( other.mFieldDefinitions.getKey( f ), flddef );
     }
+    for( std::size_t i = 0; i < other.mIndexDefinitions.size(); i++ ) {
+        dbIndexDefinition *idxdef = new dbIndexDefinition( *other.mIndexDefinitions[i] );
+        mIndexDefinitions.push_back( idxdef );
+    }
+    for( std::size_t r = 0; r < other.mRelationDefinitions.size(); r++ ) {
+		dbRelationDefinition *reldef = new dbRelationDefinition( *other.mRelationDefinitions[r] );
+		mRelationDefinitions.insert( other.mRelationDefinitions.getKey(r), reldef );
+	}
 }
 
 dbTableDefinition::~dbTableDefinition()

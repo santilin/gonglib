@@ -143,8 +143,9 @@ public:
                                   const Xtring &fldname, QBoxLayout *layout = 0, bool horizontal = false );
     CheckBox *addCheckField(QWidget *parent, const Xtring &tablename,
                             const Xtring &fldname, QBoxLayout *layout = 0);
-    template<class ValueT>
-    ComboBox<ValueT> *addComboField(QWidget *parent, const Xtring &tablename,
+    ComboBoxInt *addComboIntField(QWidget *parent, const Xtring &tablename,
+                                    const Xtring &fldname, QBoxLayout *layout = 0, bool horizontal = true);
+    ComboBoxXtring *addComboXtringField(QWidget *parent, const Xtring &tablename,
                                     const Xtring &fldname, QBoxLayout *layout = 0, bool horizontal = true);
     SearchBox *addSearchField(QWidget *parent, const Xtring &fullfldname,
                               const Xtring &reftablename, const Xtring &fldnamecodigo,

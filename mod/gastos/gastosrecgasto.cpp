@@ -22,19 +22,20 @@
 // TYPE dbRecord gastos::Gasto
 /*>>>>>MODULE_INFO*/
 
+#include <empresamodule.h>
 /*<<<<<GASTO_INCLUDES*/
 #include "gastosrecgasto.h"
 /*>>>>>GASTO_INCLUDES*/
-
 namespace gong {
 namespace gastos {
 
-
-} // namespace gastos
-} // namespace gong
 /*<<<<<GASTO_INIT*/
 void RecGasto::init()
 {
 /*>>>>>GASTO_INIT*/
-
+    addStructuralFilter( "GASTO.EMPRESA_ID=" + getConnection()->toSQL( empresa::ModuleInstance->getEmpresaID() ) );
+    addStructuralFilter( "GASTO.EJERCICIO=" + getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
 }
+
+} // namespace gastos
+} // namespace gong

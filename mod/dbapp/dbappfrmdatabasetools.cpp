@@ -332,9 +332,10 @@ void FrmDatabaseTools::unlockDatabase()
 void FrmDatabaseTools::upgradeDatabase()
 {
     DBAPP->waitCursor( true );
-    Xtring diff = DBAPP->upgradeDatabase( DBAPP->getDatabase(), DBAPP->getDatabase()->getName(), true /*purging*/ );
+    Xtring diff = DBAPP->upgradeDatabase( DBAPP->getConnection(), DBAPP->getDatabase(),
+										  DBAPP->getDatabase()->getName(), true /*purging*/ );
     if( diff.isEmpty() )
-        FrmBase::msgWarning(this, _( "Se han regenerado los índices de la base de datos" ) );
+        FrmBase::msgWarning(this, _( "Se ha actualizado la base de datos" ) );
     DBAPP->resetCursor();
 }
 

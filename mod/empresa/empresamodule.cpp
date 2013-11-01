@@ -78,11 +78,11 @@ EmpresaModule::EmpresaModule()
     _GONG_DEBUG_ASSERT( pContactosModule );
     mDescription = "Módulo de definición de la organización";
     /*<<<<<EMPRESAMODULE_PUBLIC_INFO*/
-    mModuleRequires << "contactos";
-    mMasterTables << "EMPRESA" << "DEPARTAMENTO" << "MONEDA" << "TIPOIVA" << "PROYECTO";
+	mModuleRequires << "contactos";
+	mMasterTables << "EMPRESA" << "DEPARTAMENTO" << "MONEDA" << "TIPOIVA" << "PROYECTO";
 //	mDetailTables
-    pContactosModule = static_cast< contactos::ContactosModule * >(DBAPP->findModule( "Contactos" ));
-    /*>>>>>EMPRESAMODULE_PUBLIC_INFO*/
+	pContactosModule = static_cast< contactos::ContactosModule * >(DBAPP->findModule( "Contactos" ));
+/*>>>>>EMPRESAMODULE_PUBLIC_INFO*/
 }
 
 
@@ -339,17 +339,17 @@ dbRecord *EmpresaModule::createRecord( const Xtring &tablename, dbRecordID recid
 {
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     /*<<<<<EMPRESAMODULE_CREATE_RECORD*/
-    if( tablename.upper() == "EMPRESA" )
-        return new RecEmpresa(getConnection(), recid, user);
-    if( tablename.upper() == "DEPARTAMENTO" )
-        return new RecDepartamento(getConnection(), recid, user);
-    if( tablename.upper() == "MONEDA" )
-        return new RecMoneda(getConnection(), recid, user);
-    if( tablename.upper() == "TIPOIVA" )
-        return new RecTipoIVA(getConnection(), recid, user);
-    if( tablename.upper() == "PROYECTO" )
-        return new RecProyecto(getConnection(), recid, user);
-    /*>>>>>EMPRESAMODULE_CREATE_RECORD*/
+	if( tablename.upper() == "EMPRESA" )
+		return new RecEmpresa(getConnection(), recid, user);
+	if( tablename.upper() == "DEPARTAMENTO" )
+		return new RecDepartamento(getConnection(), recid, user);
+	if( tablename.upper() == "MONEDA" )
+		return new RecMoneda(getConnection(), recid, user);
+	if( tablename.upper() == "TIPOIVA" )
+		return new RecTipoIVA(getConnection(), recid, user);
+	if( tablename.upper() == "PROYECTO" )
+		return new RecProyecto(getConnection(), recid, user);
+/*>>>>>EMPRESAMODULE_CREATE_RECORD*/
     return 0;
 }
 
@@ -361,17 +361,17 @@ FrmEditRec *EmpresaModule::createEditForm( FrmEditRec *parentfrm, dbRecord *rec,
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     Xtring tablename = rec->getTableName();
     /*<<<<<EMPRESAMODULE_CREATE_EDITFORM*/
-    if( tablename.upper() == "EMPRESA" )
-        return new FrmEditEmpresa(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "DEPARTAMENTO" )
-        return new FrmEditDepartamento(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "MONEDA" )
-        return new FrmEditMoneda(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "TIPOIVA" )
-        return new FrmEditTipoIVA(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PROYECTO" )
-        return new FrmEditProyecto(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    /*>>>>>EMPRESAMODULE_CREATE_EDITFORM*/
+	if( tablename.upper() == "EMPRESA" )
+		return new FrmEditEmpresa(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "DEPARTAMENTO" )
+		return new FrmEditDepartamento(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "MONEDA" )
+		return new FrmEditMoneda(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "TIPOIVA" )
+		return new FrmEditTipoIVA(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PROYECTO" )
+		return new FrmEditProyecto(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+/*>>>>>EMPRESAMODULE_CREATE_EDITFORM*/
     return 0;
 }
 
@@ -385,38 +385,38 @@ FrmEditRecDetail *EmpresaModule::createEditDetailForm(
     Xtring tablename = rec->getTableName();
     /*<<<<<EMPRESAMODULE_CREATE_EDITFORM_DETAIL*/
 
-    /*>>>>>EMPRESAMODULE_CREATE_EDITFORM_DETAIL*/
+/*>>>>>EMPRESAMODULE_CREATE_EDITFORM_DETAIL*/
     return 0;
 }
 
 /*<<<<<EMPRESAMODULE_SLOT_EMPRESATIPOIVA*/
 void EmpresaModule::slotMenuEmpresaTipoIVA()
 {
-    pMainWindow->slotMenuEditRecMaestro( "TIPOIVA" );
+	pMainWindow->slotMenuEditRecMaestro( "TIPOIVA" );
 }
 /*>>>>>EMPRESAMODULE_SLOT_EMPRESATIPOIVA*/
 /*<<<<<EMPRESAMODULE_SLOT_EMPRESAEMPRESA*/
 void EmpresaModule::slotMenuEmpresaEmpresa()
 {
-    pMainWindow->slotMenuEditRecMaestro( "EMPRESA" );
+	pMainWindow->slotMenuEditRecMaestro( "EMPRESA" );
 }
 /*>>>>>EMPRESAMODULE_SLOT_EMPRESAEMPRESA*/
 /*<<<<<EMPRESAMODULE_SLOT_EMPRESADEPARTAMENTO*/
 void EmpresaModule::slotMenuEmpresaDepartamento()
 {
-    pMainWindow->slotMenuEditRecMaestro( "DEPARTAMENTO" );
+	pMainWindow->slotMenuEditRecMaestro( "DEPARTAMENTO" );
 }
 /*>>>>>EMPRESAMODULE_SLOT_EMPRESADEPARTAMENTO*/
 /*<<<<<EMPRESAMODULE_SLOT_EMPRESAMONEDA*/
 void EmpresaModule::slotMenuEmpresaMoneda()
 {
-    pMainWindow->slotMenuEditRecMaestro( "MONEDA" );
+	pMainWindow->slotMenuEditRecMaestro( "MONEDA" );
 }
 /*>>>>>EMPRESAMODULE_SLOT_EMPRESAMONEDA*/
 /*<<<<<EMPRESAMODULE_SLOT_EMPRESAPROYECTO*/
 void EmpresaModule::slotMenuEmpresaProyecto()
 {
-    pMainWindow->slotMenuEditRecMaestro( "PROYECTO" );
+	pMainWindow->slotMenuEditRecMaestro( "PROYECTO" );
 }
 /*>>>>>EMPRESAMODULE_SLOT_EMPRESAPROYECTO*/
 
@@ -446,52 +446,52 @@ bool EmpresaModule::initMainWindow( MainWindow *mainwin )
         pMenuEmpresaCambiarEjercicio->addTo(pMenuEmpresa);
     }
     /*<<<<<EMPRESAMODULE_INITMAINWINDOW_MENUS*/
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("EMPRESA")->getDescPlural();
-        pMenuEmpresaEmpresa = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuEmpresaEmpresa->setObjectName( "MenuEmpresaEmpresa" );
-        pMenuEmpresaEmpresa->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuEmpresaEmpresa->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuEmpresaEmpresa, SIGNAL(activated()), this, SLOT(slotMenuEmpresaEmpresa()));
-        pMenuEmpresaEmpresa->addTo(pMenuEmpresa);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("DEPARTAMENTO")->getDescPlural();
-        pMenuEmpresaDepartamento = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuEmpresaDepartamento->setObjectName( "MenuEmpresaDepartamento" );
-        pMenuEmpresaDepartamento->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuEmpresaDepartamento->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuEmpresaDepartamento, SIGNAL(activated()), this, SLOT(slotMenuEmpresaDepartamento()));
-        pMenuEmpresaDepartamento->addTo(pMenuEmpresa);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("MONEDA")->getDescPlural();
-        pMenuEmpresaMoneda = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuEmpresaMoneda->setObjectName( "MenuEmpresaMoneda" );
-        pMenuEmpresaMoneda->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuEmpresaMoneda->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuEmpresaMoneda, SIGNAL(activated()), this, SLOT(slotMenuEmpresaMoneda()));
-        pMenuEmpresaMoneda->addTo(pMenuEmpresa);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("TIPOIVA")->getDescPlural();
-        pMenuEmpresaTipoIVA = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuEmpresaTipoIVA->setObjectName( "MenuEmpresaTipoIVA" );
-        pMenuEmpresaTipoIVA->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuEmpresaTipoIVA->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuEmpresaTipoIVA, SIGNAL(activated()), this, SLOT(slotMenuEmpresaTipoIVA()));
-        pMenuEmpresaTipoIVA->addTo(pMenuEmpresa);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("PROYECTO")->getDescPlural();
-        pMenuEmpresaProyecto = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuEmpresaProyecto->setObjectName( "MenuEmpresaProyecto" );
-        pMenuEmpresaProyecto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuEmpresaProyecto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuEmpresaProyecto, SIGNAL(activated()), this, SLOT(slotMenuEmpresaProyecto()));
-        pMenuEmpresaProyecto->addTo(pMenuEmpresa);
-    }
-    /*>>>>>EMPRESAMODULE_INITMAINWINDOW_MENUS*/
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("EMPRESA")->getDescPlural();
+		pMenuEmpresaEmpresa = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuEmpresaEmpresa->setObjectName( "MenuEmpresaEmpresa" );
+		pMenuEmpresaEmpresa->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuEmpresaEmpresa->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuEmpresaEmpresa, SIGNAL(activated()), this, SLOT(slotMenuEmpresaEmpresa()));
+		pMenuEmpresaEmpresa->addTo(pMenuEmpresa);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("DEPARTAMENTO")->getDescPlural();
+		pMenuEmpresaDepartamento = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuEmpresaDepartamento->setObjectName( "MenuEmpresaDepartamento" );
+		pMenuEmpresaDepartamento->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuEmpresaDepartamento->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuEmpresaDepartamento, SIGNAL(activated()), this, SLOT(slotMenuEmpresaDepartamento()));
+		pMenuEmpresaDepartamento->addTo(pMenuEmpresa);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("MONEDA")->getDescPlural();
+		pMenuEmpresaMoneda = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuEmpresaMoneda->setObjectName( "MenuEmpresaMoneda" );
+		pMenuEmpresaMoneda->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuEmpresaMoneda->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuEmpresaMoneda, SIGNAL(activated()), this, SLOT(slotMenuEmpresaMoneda()));
+		pMenuEmpresaMoneda->addTo(pMenuEmpresa);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("TIPOIVA")->getDescPlural();
+		pMenuEmpresaTipoIVA = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuEmpresaTipoIVA->setObjectName( "MenuEmpresaTipoIVA" );
+		pMenuEmpresaTipoIVA->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuEmpresaTipoIVA->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuEmpresaTipoIVA, SIGNAL(activated()), this, SLOT(slotMenuEmpresaTipoIVA()));
+		pMenuEmpresaTipoIVA->addTo(pMenuEmpresa);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("PROYECTO")->getDescPlural();
+		pMenuEmpresaProyecto = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuEmpresaProyecto->setObjectName( "MenuEmpresaProyecto" );
+		pMenuEmpresaProyecto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuEmpresaProyecto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuEmpresaProyecto, SIGNAL(activated()), this, SLOT(slotMenuEmpresaProyecto()));
+		pMenuEmpresaProyecto->addTo(pMenuEmpresa);
+	}
+/*>>>>>EMPRESAMODULE_INITMAINWINDOW_MENUS*/
     pContactosModule->getMenuContactos()->addTo( pMenuEmpresa );
     QAction *menucontactosmailing = DBAPP->getMainWindow()->findAction( "MenuContactosMailing" );
     if( menucontactosmailing )

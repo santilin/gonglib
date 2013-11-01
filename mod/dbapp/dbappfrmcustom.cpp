@@ -237,14 +237,14 @@ void FrmCustom::button_clicked()
     validate_input( static_cast<QWidget *>(sender()), &is_valid );
 }
 
-ComboBox< Xtring >* FrmCustom::addComboBox(QWidget* parent, const Xtring& caption,
+ComboBoxXtring *FrmCustom::addComboBoxXtring(QWidget* parent, const Xtring& caption,
         XtringList& captions, XtringList& values,
         const Xtring& empty, const char *_name, QBoxLayout* layout)
 {
     Xtring name = _name;
     if( name.isEmpty() )
         name = "combo_" + Xtring(caption).replace(" ", "_");
-    ComboBox<Xtring> *combo = new ComboBox<Xtring>(
+    ComboBoxXtring *combo = new ComboBoxXtring(
         captions, values, parent ? parent : pFrameEdit, name.c_str(), caption );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, "", 0 );
@@ -263,22 +263,19 @@ ComboBox< Xtring >* FrmCustom::addComboBox(QWidget* parent, const Xtring& captio
 }
 
 
-ComboBox<Xtring> *FrmCustom::addComboBox( QWidget *parent, const Xtring &caption,
+ComboBoxXtring *FrmCustom::addComboBoxXtring( QWidget *parent, const Xtring &caption,
         XtringList &captions_values, const Xtring &empty,
         const char *name, QBoxLayout* layout )
 {
-    return addComboBox( parent, caption, captions_values, captions_values, empty, name, layout );
+    return addComboBoxXtring( parent, caption, captions_values, captions_values, empty, name, layout );
 }
 
 
-ComboBox<int> *FrmCustom::addComboBox( QWidget *parent, const Xtring &caption,
-                                       XtringList &captions, IntList &values,
-                                       const Xtring &empty,
-                                       const char *name, QBoxLayout * layout )
+ComboBoxInt *FrmCustom::addComboBoxInt( QWidget *parent, const Xtring &caption,
+	const XtringList &captions, const IntList &values, const Xtring &empty,
+	const char *name, QBoxLayout * layout )
 {
-    ComboBox<int> *combo = new ComboBox<int>(
-        captions, values, parent ? parent : pFrameEdit,
-        name, caption );
+    ComboBoxInt *combo = new ComboBoxInt( captions, values, parent ? parent : pFrameEdit, name, caption );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, -1, 0 );
         combo->setCurrentIndex( 0 );
@@ -382,8 +379,7 @@ CheckBox* FrmCustom::addCheckField(QWidget *parent, const Xtring& caption,
     return addCheckBox(parent, caption, value, name, layout);
 }
 
-template<>
-ComboBox<int>* FrmCustom::addComboField(QWidget* parent, const Xtring& _caption,
+ComboBoxInt *FrmCustom::addComboIntField(QWidget* parent, const Xtring& _caption,
                                         const Xtring& tablename, const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
                                         const Xtring& empty, const char* _name, QBoxLayout* layout)
 {
@@ -393,8 +389,8 @@ ComboBox<int>* FrmCustom::addComboField(QWidget* parent, const Xtring& _caption,
     if( name.isEmpty() )
         name = "combo_" + tablename + "_" + fldnamevalues;
     if( flddef ) {
-        ComboBox<int> *combo = addComboBox( parent, caption, *flddef->getListOfCaptions(),
-                                            *flddef->getListOfValues(), empty, name.c_str(), layout );
+        ComboBoxInt *combo = addComboBoxInt( parent, caption, flddef->getListOfCaptions(),
+                                            flddef->getListOfValues(), empty, name.c_str(), layout );
         FrmEditRec::applyFieldStyle( combo, flddef );
         FrmEditRec::applyFieldStyle( combo->getLabel(), flddef );
         if( !caption.isEmpty() )
@@ -403,7 +399,7 @@ ComboBox<int>* FrmCustom::addComboField(QWidget* parent, const Xtring& _caption,
     } else {
         XtringList lc;
         IntList li;
-        return addComboBox( parent, caption, lc, li, empty, name.c_str(), layout );
+        return addComboBoxInt( parent, caption, lc, li, empty, name.c_str(), layout );
     }
 }
 
@@ -485,13 +481,13 @@ void FrmCustom::validate_input( QWidget *sender, bool *is_valid )
 
 void FrmCustom::combo_activated( int )
 {
-    if( ComboBox<int> *cbi = dynamic_cast<ComboBox<int> *>( sender() ) ) {
+    if( ComboBoxInt *cbi = dynamic_cast<ComboBoxInt *>( sender() ) ) {
         if( !cbi->isSettingProgrammatically() ) {
             cbi->setEdited( true );
             cbi->setJustEdited( true );
             validate_input( static_cast<QWidget *>(cbi), 0 );
         }
-    } else if( ComboBox<Xtring> *cbs = dynamic_cast<ComboBox<Xtring> *>( sender() ) ) {
+    } else if( ComboBoxXtring *cbs = dynamic_cast<ComboBoxXtring *>( sender() ) ) {
         if( !cbs->isSettingProgrammatically() ) {
             cbs->setEdited( true );
             cbs->setJustEdited( true );

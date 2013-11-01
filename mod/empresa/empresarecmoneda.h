@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file empresarecmoneda.h Registro de monedas
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -27,8 +27,8 @@ namespace empresa {
 class RecMoneda: public dbRecord
 {
 public:
-    RecMoneda(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("MONEDA"), recid, user)
+	RecMoneda(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("MONEDA"), recid, user)
 /*>>>>>MONEDA_CONSTRUCTOR*/
     {};
     void setValuesFromRegConfig( const RegConfig &regconfig );

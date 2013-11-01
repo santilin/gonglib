@@ -112,6 +112,8 @@ public:
     dbFieldDefinition *addFieldAggregateRelation( const Xtring &name,
             const Xtring &referredField, bool canbenull = true );
     template<class T> dbFieldDefinition *addFieldListOfValues( bool insertallowed,
+            const XtringList &captions, const List<T> &values, const Xtring &name );
+    template<class T> dbFieldDefinition *addFieldListOfValues( bool insertallowed,
             XtringList &captions, List<T> &values, const Xtring &name );
 
     // Fields with special meanings

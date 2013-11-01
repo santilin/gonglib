@@ -18,7 +18,7 @@ namespace gong {
 
 class dbError;
 
-class FrmLogin : public GuiWizardLogin
+class FrmLogin : public GuiFrmLogin
 {
     Q_OBJECT
 
@@ -36,150 +36,38 @@ public:
     void addMessage(const Xtring &message);
 
 public:
-    Xtring getDriver() const
-    {
-        return mDriver;
-    };
-    void setDriver(const Xtring &driver)
-    {
-        mDriver = driver;
-    };
-    int getPort() const
-    {
-        return mPort;
-    };
-    void setPort(int port)
-    {
-        mPort = port;
-    };
-    Xtring getHost() const
-    {
-        return mHost;
-    };
-    void setHost(const Xtring &host)
-    {
-        mHost = host;
-    };
-    Xtring getUser() const
-    {
-        return mUser;
-    };
-    void setUser(const Xtring &user)
-    {
-        mUser = user;
-    };
-    Xtring getPassword() const
-    {
-        return mPassword;
-    };
-    void setPassword(const Xtring &password)
-    {
-        mPassword = password;
-    };
-    Xtring getDBName() const
-    {
-        return mDBName;
-    };
-    void setDBName(const Xtring &name)
-    {
-        mDBName = name;
-    };
-    bool isAutoLogin() const
-    {
-        return mAutoLogin;
-    };
-    void setAutoLogin(bool autologin)
-    {
-        mAutoLogin = autologin;
-    };
-    bool isSavePassword() const
-    {
-        return mSavePassword;
-    };
-    void setSavePassword(bool savepassword)
-    {
-        mSavePassword = savepassword;
-    };
-    Xtring getCreateDBDriver() const
-    {
-        return mCreateDBDriver;
-    };
-    void setCreateDBDriver(const Xtring &createdbdriver)
-    {
-        mCreateDBDriver = createdbdriver;
-    };
-    int getCreateDBPort() const
-    {
-        return mCreateDBPort;
-    };
-    void setCreateDBPort(int createdbport)
-    {
-        mCreateDBPort = createdbport;
-    };
-    Xtring getCreateDBHost() const
-    {
-        return mCreateDBHost;
-    };
-    void setCreateDBHost(const Xtring &createdbhost)
-    {
-        mCreateDBHost = createdbhost;
-    };
-    Xtring getCreateDBUser() const
-    {
-        return mCreateDBUser;
-    };
-    void setCreateDBUser(const Xtring &createdbuser)
-    {
-        mCreateDBUser = createdbuser;
-    };
-    Xtring getCreateDBPassword() const
-    {
-        return mCreateDBPassword;
-    };
-    void setCreateDBPassword(const Xtring &createdbpassword)
-    {
-        mCreateDBPassword = createdbpassword;
-    };
-    Xtring getCreateDBName() const
-    {
-        return mCreateDBName;
-    };
-    void setCreateDBName(const Xtring &createdbname)
-    {
-        mCreateDBName = createdbname;
-    };
-    Xtring getCreateUserUser() const
-    {
-        return mCreateUserUser;
-    };
-    void setCreateUserUser(const Xtring &createuseruser)
-    {
-        mCreateUserUser = createuseruser;
-    };
-    Xtring getCreateUserPassword() const
-    {
-        return mCreateUserPassword;
-    };
-    void setCreateUserPassword(const Xtring &createuserpassword)
-    {
-        mCreateUserPassword = createuserpassword;
-    };
-    Xtring getCreateAsocUser() const
-    {
-        return mCreateAsocUser;
-    };
-    void setCreateAsocUser(const Xtring &createasocuser)
-    {
-        mCreateAsocUser = createasocuser;
-    };
-    Xtring getCreateAsocPassword() const
-    {
-        return mCreateAsocPassword;
-    };
-    void setCreateAsocPassword(const Xtring &createasocpassword)
-    {
-        mCreateAsocPassword = createasocpassword;
-    };
+    Xtring getDriver() const { return mDriver; }
+    void setDriver(const Xtring &driver) { mDriver = driver; }
+    int getPort() const { return mPort; }
+    void setPort(int port) { mPort = port; }
+    Xtring getHost() const { return mHost; }
+    void setHost(const Xtring &host) { mHost = host; }
+    Xtring getUser() const { return mUser; }
+    void setUser(const Xtring &user) { mUser = user; }
+    Xtring getPassword() const { return mPassword; }
+    void setPassword(const Xtring &password) { mPassword = password; }
+    Xtring getDBName() const { return mDBName; }
+    void setDBName(const Xtring &name) { mDBName = name; }
+    bool isAutoLogin() const { return mAutoLogin; }
+    void setAutoLogin(bool autologin) { mAutoLogin = autologin; }
+    bool isSavePassword() const { return mSavePassword; }
+    void setSavePassword(bool savepassword) { mSavePassword = savepassword; }
+    Xtring getCreateDBDriver() const { return mCreateDBDriver; }
+    void setCreateDBDriver(const Xtring &createdbdriver) { mCreateDBDriver = createdbdriver; }
+    int getCreateDBPort() const { return mCreateDBPort; }
+    void setCreateDBPort(int createdbport) { mCreateDBPort = createdbport; }
+    Xtring getCreateDBHost() const { return mCreateDBHost; }
+    void setCreateDBHost(const Xtring &createdbhost) { mCreateDBHost = createdbhost; }
+    Xtring getCreateDBUser() const { return mCreateDBUser; }
+    void setCreateDBUser(const Xtring &createdbuser) { mCreateDBUser = createdbuser; }
+    Xtring getCreateDBPassword() const { return mCreateDBPassword; }
+    void setCreateDBPassword(const Xtring &createdbpassword) { mCreateDBPassword = createdbpassword; }
+    Xtring getCreateDBName() const { return mCreateDBName; }
+    void setCreateDBName(const Xtring &createdbname) { mCreateDBName = createdbname; }
+    Xtring getCreateUserUser() const { return mCreateUserUser; }
+    void setCreateUserUser(const Xtring &createuseruser) { mCreateUserUser = createuseruser; }
+    Xtring getCreateUserPassword() const { return mCreateUserPassword; }
+    void setCreateUserPassword(const Xtring &createuserpassword) { mCreateUserPassword = createuserpassword; }
 protected:
     Xtring mDriver;
     int mPort;
@@ -201,7 +89,7 @@ protected:
     Xtring mLoginWelcome;
 
 protected slots:
-    virtual void next();
+    virtual void accept();
     void slotCreateDatabase();
 
 private:

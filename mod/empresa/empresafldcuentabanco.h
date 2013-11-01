@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file empresafldcuentabanco.h dbFieldDefinition que representa una cuenta bancaria
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -31,9 +31,9 @@ public:
                     const Xtring &defaultvalue = Xtring::null )
         : dbFieldDefinition( tablename, name, SQLSTRING, 20, 0, flags, defaultvalue ) {}
     /*<<<<<DBFIELD_CUENTABANCO_MEMBERS*/
-    virtual bool isValid( dbRecord *r, dbFieldValue *value,
-                          ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
-    /*>>>>>DBFIELD_CUENTABANCO_MEMBERS*/
+	virtual bool isValid( dbRecord *r, dbFieldValue *value,
+		ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
+/*>>>>>DBFIELD_CUENTABANCO_MEMBERS*/
 private:
     static int modulo11( const Xtring &digitos );
     static int calcDigitosControl( const Xtring &cuenta );

@@ -68,8 +68,8 @@ public:
     Xtring getdbVersion() const {
         return mdbVersion;
     }
-    Xtring upgradeDatabase( dbDefinition *programdb, const Xtring &sqldbname,
-                            bool purging = false );
+    Xtring upgradeDatabase( dbConnection *conn, dbDefinition *programdb, const Xtring &sqldbname,
+                            bool purging = false, bool silent = false );
     void setDatabaseChanged(bool changed = true) {
         mDatabaseChanged = changed;
     }

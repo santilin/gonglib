@@ -5,7 +5,7 @@
 
 /*<<<<<COPYLEFT*/
 /** @file contactosreccontacto.h Registro de Contactos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -33,8 +33,8 @@ namespace contactos {
 class RecContacto: public dbRecord
 {
 public:
-    RecContacto(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("CONTACTO"), recid, user)
+	RecContacto(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("CONTACTO"), recid, user)
 /*>>>>>CONTACTO_CONSTRUCTOR*/
     {}
     enum Tratamiento { TratamientoNo = 0, TratamientoDona = 1, TratamientoDon,
@@ -53,14 +53,14 @@ public:
                                      LineEdit *editLocalidad, LineEdit *editProvincia );
 
     /*<<<<<CONTACTO_MEMBERS*/
-    virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
-    Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
-    virtual bool findMatchingRecord(dbRecordID *matchingid) const; // from dbRecord
-    virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
-    /*>>>>>CONTACTO_MEMBERS*/
+	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
+	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+	virtual bool findMatchingRecord(dbRecordID *matchingid) const; // from dbRecord
+	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+/*>>>>>CONTACTO_MEMBERS*/
     /*<<<<<CONTACTO_RELATIONS*/
-    RecContactoImagen *getRecContactoImagen() const;
-    /*>>>>>CONTACTO_RELATIONS*/
+	RecContactoImagen *getRecContactoImagen() const;
+/*>>>>>CONTACTO_RELATIONS*/
     static Xtring creaCIFProvisional( dbConnection *conn );
 private:
     static bool loadLocalidades();

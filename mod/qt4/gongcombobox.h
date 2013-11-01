@@ -22,154 +22,92 @@
 
 namespace gong {
 
-template<class ValueT>
-class ComboBox: public QComboBox
+class ComboBoxInt: public QComboBox
 {
-private:
-    QLabel *pLabel;
-    QBoxLayout *pLayout;
-    bool mHorizontal, mMustBeReadOnly, mEdited;
 public:
-    ComboBox( XtringList &captions, List<ValueT> &values,
+    ComboBoxInt( const XtringList &captions, const IntList &values,
+              QWidget *parent, const Xtring &name, const Xtring &caption,
+              bool horizontal = true );
+    ComboBoxInt( XtringList &captions, IntList &values,
               QWidget *parent, const Xtring &name, const Xtring &caption,
               bool horizontal = true );
     void setVisible( bool visible );
     void setText(const Xtring &caption);
-    void setCurrentItemByValue(const ValueT &value);
-    const ValueT &getCurrentItemValue() const {
-        return getItemValue( currentItem() );
-    }
-    const ValueT &getItemValue(int i) const {
-        if( i != -1 && i<(int)mValues.size()) return mValues[ i ];
-        else return mNullValue;
-    }
-    bool isEdited() const {
-        return mEdited;
-    }
-    void setEdited(bool edited) {
-        mEdited=edited;
-    }
-    bool isJustEdited() const {
-        return mJustEdited;
-    }
-    void setJustEdited( bool justedited = true ) {
-        mJustEdited = justedited;
-    }
-    bool insertItems() {
-        bool oneempty = false;
-        for (XtringList::const_iterator itcaptions = mCaptions.begin();
-                itcaptions != mCaptions.end(); itcaptions++ ) {
-            QComboBox::insertItem( toGUI( *itcaptions ) );
-            if( (*itcaptions).isEmpty() )
-                oneempty = true;
-        }
-        return oneempty;
-    }
-    void insertItem(const Xtring &caption, const ValueT &value, int index = -1) {
-        if( index == -1 || (uint)index >= mValues.size() ) {
-            mCaptions << caption;
-            mValues << value;
-        }
-        else {
-            mCaptions.insert( mCaptions.begin() + index, caption );
-            mValues.insert( mValues.begin() + index, value);
-        }
-        QComboBox::insertItem( QString::fromUtf8((caption).c_str()), index );
-    }
-    QBoxLayout *getLayout() const {
-        return pLayout;
-    }
-    QLabel *getLabel() const {
-        return pLabel;
-    }
-    bool mustBeReadOnly() const {
-        return mMustBeReadOnly;
-    }
-    void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
-    }
-    bool isSettingProgrammatically() const {
-        return mSettingProgrammatically;
-    }
-    Xtring toString() const {
-        return fromGUI(currentText());
-    }
-    bool isNewItem() const {
-        if( currentText() == text( currentItem() ) )
-            return false;
-        else {
-            for( int index=0; index < count(); index ++ ) {
-                if( text( index ) == currentText() )
-                    return false;
-            }
-        }
-        return true;
-    }
+    void setCurrentItemByValue(int value);
+    int getCurrentItemValue() const { return getItemValue( currentItem() ); }
+    int getItemValue(int i) const;
+	bool isEdited() const { return mEdited; }
+    void setEdited(bool edited) { mEdited = edited; }
+    bool isJustEdited() const { return mJustEdited; }
+    void setJustEdited( bool justedited = true ) { mJustEdited = justedited; }
+    bool insertItems();
+	void insertItem(const Xtring &caption, int value, int index = -1);
+	QBoxLayout *getLayout() const { return pLayout; }
+    QLabel *getLabel() const { return pLabel; }
+    bool mustBeReadOnly() const { return mMustBeReadOnly; }
+    void setMustBeReadOnly(bool must) { mMustBeReadOnly = must; }
+    bool isSettingProgrammatically() const { return mSettingProgrammatically; }
+    Xtring toString() const { return fromGUI(currentText()); }
+    bool isNewItem() const;
     // Overloaded
-    Xtring currentString() const {
-        return fromGUI( currentText() );
-    }
+    Xtring currentString() const { return fromGUI( currentText() ); }
 
 protected:
     virtual void keyPressEvent( QKeyEvent *e ); // from QWidget
 
 private:
+    const XtringList &mConstCaptions;
+    const IntList &mConstValues;
     XtringList mCaptions;
-    List<ValueT> mValues;
-    ValueT mNullValue;
-    bool mJustEdited, mSettingProgrammatically;
+    IntList mValues;
+    QLabel *pLabel;
+    QBoxLayout *pLayout;
+    bool mHorizontal, mMustBeReadOnly, mEdited;
+    bool mJustEdited, mSettingProgrammatically, mIsConst;
 };
 
 
-template<class ValueT>
-ComboBox<ValueT>::ComboBox( XtringList &captions, List<ValueT> &values,
-                            QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
-    : QComboBox(parent, name.c_str()), mHorizontal(horizontal), mMustBeReadOnly(false),
-      mEdited(false), mCaptions(captions), mValues(values), mNullValue( ValueT() ),
-      mJustEdited( false ), mSettingProgrammatically( false )
+class ComboBoxXtring: public QComboBox
 {
-    setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
-    insertItems();
-    if( mHorizontal )
-        pLayout = (QBoxLayout *)new QHBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
-    else
-        pLayout = (QBoxLayout *)new QVBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
-    pLabel = new QLabel( parent, ("label_" + name).c_str() );
-    pLabel->setText( toGUI(caption) );
-    pLayout->addWidget( pLabel );
-    pLayout->addWidget( this );
-}
+public:
+    ComboBoxXtring( const XtringList &captions, const XtringList &values,
+              QWidget *parent, const Xtring &name, const Xtring &caption,
+              bool horizontal = true );
+    ComboBoxXtring( XtringList &captions, XtringList &values,
+              QWidget *parent, const Xtring &name, const Xtring &caption,
+              bool horizontal = true );
+    void setVisible( bool visible );
+    void setText(const Xtring &caption);
+    void setCurrentItemByValue(const Xtring &value);
+    const Xtring &getCurrentItemValue() const { return getItemValue( currentItem() ); }
+    const Xtring &getItemValue(int i) const;
+	bool isEdited() const { return mEdited; }
+    void setEdited(bool edited) { mEdited = edited; }
+    bool isJustEdited() const { return mJustEdited; }
+    void setJustEdited( bool justedited = true ) { mJustEdited = justedited; }
+    bool insertItems();
+	void insertItem(const Xtring &caption, const Xtring &value, int index = -1);
+	QBoxLayout *getLayout() const { return pLayout; }
+    QLabel *getLabel() const { return pLabel; }
+    bool mustBeReadOnly() const { return mMustBeReadOnly; }
+    void setMustBeReadOnly(bool must) { mMustBeReadOnly = must; }
+    bool isSettingProgrammatically() const { return mSettingProgrammatically; }
+    Xtring toString() const { return fromGUI(currentText()); }
+    bool isNewItem() const;
+    // Overloaded
+    Xtring currentString() const { return fromGUI( currentText() ); }
 
-template<class ValueT>
-void ComboBox<ValueT>::setCurrentItemByValue(const ValueT &value)
-{
-    mSettingProgrammatically = true;
-    for( unsigned int i=0; i<mValues.size(); i++ )
-        if( mValues[i] == value ) {
-            setCurrentItem( i );
-            mSettingProgrammatically = false;
-            return;
-        }
-    setCurrentItem(-1);
-    mSettingProgrammatically = false;
-}
+protected:
+    virtual void keyPressEvent( QKeyEvent *e ); // from QWidget
 
-template<>
-inline bool ComboBox<int>::insertItems()
-{
-    bool oneempty = false;
-    int i = 0;
-    for (XtringList::const_iterator itcaptions = mCaptions.begin();
-            itcaptions != mCaptions.end(); itcaptions++ ) {
-        QComboBox::insertItem( toGUI( *itcaptions ) );
-        if( (*itcaptions).isEmpty() )
-            oneempty = true;
-        if( mValues.size() <= (uint)i )
-            mValues.push_back( i );
-        i++;
-    }
-    return oneempty;
-}
+private:
+    const XtringList &mConstCaptions, &mConstValues;
+    XtringList mCaptions, mValues;
+    QLabel *pLabel;
+    QBoxLayout *pLayout;
+    bool mHorizontal, mMustBeReadOnly, mEdited;
+    bool mJustEdited, mSettingProgrammatically, mIsConst;
+};
 
 } // namespace gong
 

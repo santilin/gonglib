@@ -67,14 +67,14 @@ public:
                               const char *name, QBoxLayout *layout = 0 );
     CheckBox *addCheckBox( QWidget *parent, const Xtring &caption,
                            bool value, const char *name = 0, QBoxLayout *layout = 0 );
-    ComboBox<Xtring> *addComboBox( QWidget *parent, const Xtring &caption,
+    ComboBoxXtring *addComboBoxXtring( QWidget *parent, const Xtring &caption,
                                    XtringList &captions, XtringList &values, const Xtring &empty = Xtring::null,
                                    const char *name = 0, QBoxLayout * layout = 0 );
-    ComboBox<Xtring> *addComboBox( QWidget *parent, const Xtring &caption,
+    ComboBoxXtring *addComboBoxXtring( QWidget *parent, const Xtring &caption,
                                    XtringList &captions_values, const Xtring &empty = Xtring::null,
                                    const char *name = 0, QBoxLayout * layout = 0 );
-    ComboBox<int> *addComboBox( QWidget *parent, const Xtring &caption,
-                                XtringList &captions, IntList &values, const Xtring &empty = Xtring::null,
+    ComboBoxInt *addComboBoxInt( QWidget *parent, const Xtring &caption,
+                                const XtringList &captions, const IntList &values, const Xtring &empty = Xtring::null,
                                 const char *name = 0, QBoxLayout * layout = 0 );
     GroupBox *addGroupBox( QWidget *parent, XtringList &options, const Xtring &caption,
                            int selected, bool horiz = true, QBoxLayout *layout = 0 );
@@ -97,8 +97,11 @@ public:
     CheckBox *addCheckField ( QWidget *parent, const Xtring &caption,
                               const Xtring &tablename, const Xtring &fldname, bool value,
                               const char *name = 0, QBoxLayout *layout = 0  );
-    template<class ValueT>
-    ComboBox<ValueT> *addComboField( QWidget *parent, const Xtring &caption, const Xtring &tablename,
+    ComboBoxInt *addComboIntField( QWidget *parent, const Xtring &caption, const Xtring &tablename,
+                                     const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
+                                     const Xtring &empty = Xtring::null,
+                                     const char *name = 0, QBoxLayout * layout = 0 );
+    ComboBoxXtring *addComboXtringField( QWidget *parent, const Xtring &caption, const Xtring &tablename,
                                      const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
                                      const Xtring &empty = Xtring::null,
                                      const char *name = 0, QBoxLayout * layout = 0 );

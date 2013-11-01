@@ -54,7 +54,7 @@ FrmAdvancedPrint::FrmAdvancedPrint(FrmEditRecMaster *theform,
     }
 #endif
 
-    pComboTemplates = addComboBox(0, _("Elige un informe:"), templates_captions );
+    pComboTemplates = addComboBoxXtring(0, _("Elige un informe:"), templates_captions );
 
     pReportFileName = addFileNameBox(0, _("Buscar otro informe") );
     pReportFileName->setFileName( theform->getRecord()->getTableName() + ".rtk" );

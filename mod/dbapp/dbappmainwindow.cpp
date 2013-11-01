@@ -1,6 +1,5 @@
 #include <iostream>
 #include <sstream>
-#include <qt4/QtCore/qstring.h>
 
 #include <QAction>
 #include <QMenu>

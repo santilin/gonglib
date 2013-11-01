@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file empresarectipoiva.h Registro de tipos de IVA
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -28,8 +28,8 @@ namespace empresa {
 class RecTipoIVA: public dbRecord
 {
 public:
-    RecTipoIVA(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("TIPOIVA"), recid, user)
+	RecTipoIVA(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("TIPOIVA"), recid, user)
 /*>>>>>TIPOIVA_CONSTRUCTOR*/
     {};
     Money calcIVA(Money cantidad) const;

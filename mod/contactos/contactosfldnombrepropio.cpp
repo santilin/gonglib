@@ -13,7 +13,7 @@ namespace contactos {
 /*<<<<<DBFIELD_NOMBREPROPIO_ISVALID*/
 bool FldNombrePropio::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
-    /*>>>>>DBFIELD_NOMBREPROPIO_ISVALID*/
+/*>>>>>DBFIELD_NOMBREPROPIO_ISVALID*/
     return true;
 }
 

@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
-/** @file empresarecempresa.h
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+/** @file empresarecempresa.h 
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -30,18 +30,18 @@ namespace empresa {
 class RecEmpresa: public dbRecord
 {
 public:
-    RecEmpresa(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("EMPRESA"), recid, user)
+	RecEmpresa(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("EMPRESA"), recid, user)
 /*>>>>>EMPRESA_CONSTRUCTOR*/
     {};
 
     /*<<<<<EMPRESA_RELATIONS*/
-    contactos::RecContacto *getRecContacto() const;
-    RecMoneda *getRecMoneda() const;
-    /*>>>>>EMPRESA_RELATIONS*/
+	contactos::RecContacto *getRecContacto() const;
+	RecMoneda *getRecMoneda() const;
+/*>>>>>EMPRESA_RELATIONS*/
     /*<<<<<EMPRESA_MEMBERS*/
-    virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
-    /*>>>>>EMPRESA_MEMBERS*/
+	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+/*>>>>>EMPRESA_MEMBERS*/
 }; // class
 
 /*<<<<<EMPRESA_POSTAMBLE*/

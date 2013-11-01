@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file empresafldempresaid.h dbFieldDefinition que representa el id de la empresa en curso
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -30,10 +30,10 @@ public:
                   dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
                   const Xtring &reference = "EMPRESA_ID" );
     /*<<<<<DBFIELD_EMPRESAID_MEMBERS*/
-    virtual bool isValid( dbRecord *r, dbFieldValue *value,
-                          ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
-    virtual Variant customDefaultValue() const; // from dbFieldDefinition
-    /*>>>>>DBFIELD_EMPRESAID_MEMBERS*/
+	virtual bool isValid( dbRecord *r, dbFieldValue *value,
+		ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
+	virtual Variant customDefaultValue() const; // from dbFieldDefinition 
+/*>>>>>DBFIELD_EMPRESAID_MEMBERS*/
 
 }; // class
 

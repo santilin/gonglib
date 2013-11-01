@@ -4,7 +4,7 @@
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_PREAMBLE*/
 /*<<<<<COPYLEFT*/
 /** @file contactosfrmeditcontactobehavior.h Behavior para añadir edición de contactos a otros formularios
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -28,11 +28,11 @@ namespace contactos {
 /*<<<<<FRMEDITCONTACTOBEHAVIOR_CLASS*/
 class FrmEditContactoBehavior: public FrmEditRecBehavior
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    virtual void initGUI();
-    FrmEditContactoBehavior( FrmEditRec *theform )
-        : FrmEditRecBehavior( theform )
+	virtual void initGUI();
+	FrmEditContactoBehavior( FrmEditRec *theform )
+		: FrmEditRecBehavior( theform )
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_CLASS*/
         , pFrameContactos(0), editRazonSocial(0)
         , mSetContactoIDNoNullAgain(false), mCreating(true), mSearching(0) {}
@@ -60,49 +60,49 @@ protected slots:
 
     /*<<<<<FRMEDITCONTACTOBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
 protected:
-    virtual void scatterFields( bool is_pre );
-    virtual void gatherFields();
-    virtual void validateFields( bool is_pre,
-                                 QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    virtual void specialControlKeyPressed(QWidget *sender, char key);
-    /*>>>>>FRMEDITCONTACTOBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
+	virtual void scatterFields( bool is_pre );
+	virtual void gatherFields();
+	virtual void validateFields( bool is_pre,
+		QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+	virtual void specialControlKeyPressed(QWidget *sender, char key);
+/*>>>>>FRMEDITCONTACTOBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
     dbRecordID findDupCIFOrName( QWidget *sender,
                                  bool codecanbenull, const Xtring &cond = Xtring::null );
     virtual bool save();
     bool mUsarTratamiento;
     /*<<<<<FRMEDITCONTACTOBEHAVIOR_SCATTERS_AND_SLOTS*/
 protected:
-    void scatterContacto();
+	void scatterContacto();
 
 private slots:
-    void pushContactoCIF_clicked();
+	void pushContactoCIF_clicked();
 
 public:
-    /*>>>>>FRMEDITCONTACTOBEHAVIOR_SCATTERS_AND_SLOTS*/
+/*>>>>>FRMEDITCONTACTOBEHAVIOR_SCATTERS_AND_SLOTS*/
 
     /*<<<<<FRMEDITCONTACTOBEHAVIOR_CONTROLS*/
 protected:
-    gong::SearchBox *searchContactoCIF;
-    QPushButton *pushContactoCIF;
-    gong::LineEdit *editContactoCIF;
-    gong::LineEdit *editContactoNombre;
-    gong::ComboBox<int> *comboContacto_TratamientoContacto;
-    gong::EditBox *editContacto_Direccion;
-    gong::EditBox *editContacto_CP;
-    gong::EditBox *editContacto_Barrio;
-    gong::EditBox *editContacto_Localidad;
-    gong::EditBox *editContacto_Provincia;
-    gong::EditBox *editContacto_email;
-    gong::TextBox *editContacto_Telefono;
-    gong::EditBox *editContacto_Codigo;
-    gong::EditBox *editContacto_Nacionalidad;
-    gong::EditBox *editContacto_FechaNacimiento;
-    gong::EditBox *editContacto_NombreAlt;
-    gong::EditBox *editContacto_Pais;
-    gong::EditBox *editContacto_ApdoCorreos;
-    gong::EditBox *editContacto_Fax;
-    gong::EditBox *editContacto_web;
-    /*>>>>>FRMEDITCONTACTOBEHAVIOR_CONTROLS*/
+	gong::SearchBox *searchContactoCIF;
+	QPushButton *pushContactoCIF;
+	gong::LineEdit *editContactoCIF;
+	gong::LineEdit *editContactoNombre;
+	gong::ComboBoxInt *comboContacto_TratamientoContacto;
+	gong::EditBox *editContacto_Direccion;
+	gong::EditBox *editContacto_CP;
+	gong::EditBox *editContacto_Barrio;
+	gong::EditBox *editContacto_Localidad;
+	gong::EditBox *editContacto_Provincia;
+	gong::EditBox *editContacto_email;
+	gong::TextBox *editContacto_Telefono;
+	gong::EditBox *editContacto_Codigo;
+	gong::EditBox *editContacto_Nacionalidad;
+	gong::EditBox *editContacto_FechaNacimiento;
+	gong::EditBox *editContacto_NombreAlt;
+	gong::EditBox *editContacto_Pais;
+	gong::EditBox *editContacto_ApdoCorreos;
+	gong::EditBox *editContacto_Fax;
+	gong::EditBox *editContacto_web;
+/*>>>>>FRMEDITCONTACTOBEHAVIOR_CONTROLS*/
     QTabWidget *pFrameContactos;
     gong::LineEdit *editRazonSocial;
     QPushButton *pushLimpiaDatos, *pushSearchCP, *pushARazonSocial, *pushEditFull;

@@ -25,7 +25,7 @@ FrmMultiUpdate::FrmMultiUpdate(FrmEditRecMaster *theform,
             fld_pos.push_back( i );
         }
     }
-    pComboField = addComboBox(0, _("Campo a modificar"), fld_captions, fld_pos);
+    pComboField = addComboBoxInt(0, _("Campo a modificar"), fld_captions, fld_pos);
     pValor = addInput(0, _("Nuevo valor"), "", "STRING");
     XtringList rangeoptions;
     rangeoptions << _("Registro actual") << _("Registros seleccionados")

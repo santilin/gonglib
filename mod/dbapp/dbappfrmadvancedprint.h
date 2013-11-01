@@ -34,7 +34,7 @@ protected:
     LineEdit *pTitle;
     CheckBox *pSummary, *pIncFilterInHeader, *pIncLogo, *pLandscape, *pShowTemplate,
              *pIncTotals, *pOneByOne;
-    ComboBox<Xtring> *pComboTemplates;
+    ComboBoxXtring *pComboTemplates;
 
 private:
     FrmEditRecMaster *pTheForm;

@@ -42,8 +42,8 @@ protected:
 /*>>>>>FRMEDITGASTO_VIRTUALS_FROM_FRMEDITREC*/
 /*<<<<<FRMEDITGASTO_CONTROLS*/
 protected:
-	gong::ComboBox<int> *comboTipoGasto;
-	gong::ComboBox<int> *comboCategoriaGasto;
+	gong::ComboBoxInt *comboTipoGasto;
+	gong::ComboBoxInt *comboCategoriaGasto;
 	gong::EditBox *editNumero;
 	gong::EditBox *editFecha;
 	gong::EditBox *editImporte;

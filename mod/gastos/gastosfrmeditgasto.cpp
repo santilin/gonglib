@@ -62,8 +62,8 @@ FrmEditGasto::FrmEditGasto(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	QHBoxLayout *genalbaranLayout = new QHBoxLayout(0, 0, 6, "genalbaranLayout");
 	QHBoxLayout *numeroalbaranLayout = new QHBoxLayout(0, 0, 6, "numeroalbaranLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-	comboTipoGasto = addComboField<int>( pControlsFrame, "GASTO", "TIPOGASTO", tipogastoLayout );
-	comboCategoriaGasto = addComboField<int>( pControlsFrame, "GASTO", "CATEGORIAGASTO", categoriagastoLayout );
+	comboTipoGasto = addComboIntField( pControlsFrame, "GASTO", "TIPOGASTO", tipogastoLayout );
+	comboCategoriaGasto = addComboIntField( pControlsFrame, "GASTO", "CATEGORIAGASTO", categoriagastoLayout );
 	editNumero = addEditField( pControlsFrame, "GASTO", "NUMERO", numeroLayout );
 	editFecha = addEditField( pControlsFrame, "GASTO", "FECHA", fechaLayout );
 	editImporte = addEditField( pControlsFrame, "GASTO", "IMPORTE", importeLayout );

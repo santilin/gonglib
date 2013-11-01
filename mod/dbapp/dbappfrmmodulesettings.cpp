@@ -48,7 +48,7 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
                 XtringList captions;
                 Xtring(pms->values).tokenize( captions, "|" );
                 IntList il;
-                ComboBox<int> *cb = addComboBox( this, pms->description, captions, il, Xtring::null, 0, layout );
+                ComboBoxInt *cb = addComboBoxInt( this, pms->description, captions, il, Xtring::null, 0, layout );
                 cb->setCurrentItemByValue( value.toInt() );
                 scinfo.w = cb;
             } else {
@@ -65,7 +65,7 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
             if( pms->values ) {
                 XtringList captions;
                 Xtring(pms->values).tokenize( captions, "|" );
-                ComboBox<Xtring> *cb = addComboBox( this, pms->description, captions, captions, Xtring::null, 0, layout );
+                ComboBoxXtring *cb = addComboBoxXtring( this, pms->description, captions, captions, Xtring::null, 0, layout );
                 cb->setCurrentItemByValue( value.toString() );
                 scinfo.w = cb;
             } else {
@@ -157,9 +157,9 @@ void FrmModuleSettings::gather()
             new_value = search->getEditCode()->toString();
         } else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
             new_value = check->isChecked();
-        } else if ( ComboBox<int> *combo = dynamic_cast<ComboBox<int> *>( control ) ) {
+        } else if ( ComboBoxInt *combo = dynamic_cast<ComboBoxInt *>( control ) ) {
             new_value = combo->getCurrentItemValue();
-        } else if ( ComboBox<Xtring> *combo = dynamic_cast<ComboBox<Xtring> *>( control ) ) {
+        } else if ( ComboBoxXtring *combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
             new_value = combo->getCurrentItemValue();
         } else if ( ImageBox *image = dynamic_cast<ImageBox *>( control ) ) {
             new_value = image->toData();
@@ -193,10 +193,10 @@ void FrmModuleSettings::validate_input(QWidget *control , bool* )
     } else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
         if ( check->isEdited() )
             edited = true;
-    } else if ( ComboBox<int> *combo = dynamic_cast<ComboBox<int> *>( control ) ) {
+    } else if ( ComboBoxInt *combo = dynamic_cast<ComboBoxInt *>( control ) ) {
         if ( combo->isEdited() )
             edited = true;
-    } else if ( ComboBox<Xtring> *combo = dynamic_cast<ComboBox<Xtring> *>( control ) ) {
+    } else if ( ComboBoxXtring *combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
         if ( combo->isEdited() )
             edited = true;
     } else if ( ImageBox *image = dynamic_cast<ImageBox *>( control ) ) {

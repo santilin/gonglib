@@ -25,7 +25,7 @@ class MainWindow;
 
 struct dbModuleSetting {
     enum Type { None, Bool, Int, Long, Double, String, Text, Date, Time, DateTime, Money, Image,
-                StringList, FileName, DirName, Password
+                StringList, FileName, DirName, Password, dbRecordID
               };
     Type type;
     const char *key;

@@ -25,10 +25,10 @@ class QAction;
 class QMenu;
 
 class NamesListTable;
-#ifdef HAVE_EMPRESAMODULE
-#include <empresamodule.h>
+#ifdef HAVE_GASTOSMODULE
+#include <gastosmodule.h>
 #else
-#error El módulo 'gastos::GastosModule' requiere el módulo 'Empresa'
+#error El módulo 'gastos::GastosModule' requiere el módulo 'Gastos'
 #endif
 #ifdef HAVE_PAGOSMODULE
 #include <pagosmodule.h>
@@ -77,9 +77,16 @@ public:
 private:
 	gastos::MasterTable *pFicGasto;
 /*>>>>>GASTOSMODULE_RECORD_DEFINITIONS*/
+/*<<<<<GASTOSMODULE_MENU_DEFINITIONS*/
+private slots:
+	void slotMenuGastosGasto();
+protected:
+	QAction *pMenuGastosGasto;
+/*>>>>>GASTOSMODULE_MENU_DEFINITIONS*/
+	QMenu *pMenuGastos;
 /*<<<<<GASTOSMODULE_REQUIRES*/
 public:
-	empresa::EmpresaModule *getEmpresaModule() const { return pEmpresaModule; }
+	gastos::GastosModule *getGastosModule() const { return pGastosModule; }
 #ifdef HAVE_PAGOSMODULE
 	pagos::PagosModule *getPagosModule() const { return pPagosModule; }
 #endif
@@ -90,7 +97,7 @@ public:
 	factu::FactuModule *getFactuModule() const { return pFactuModule; }
 #endif
 private:
-	empresa::EmpresaModule *pEmpresaModule;
+	gastos::GastosModule *pGastosModule;
 #ifdef HAVE_PAGOSMODULE
 	pagos::PagosModule *pPagosModule;
 #endif

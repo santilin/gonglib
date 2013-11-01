@@ -31,6 +31,9 @@ public:
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("GASTO"), recid, user)
 /*>>>>>GASTO_CONSTRUCTOR*/
 	{};
+/*<<<<<GASTO_MEMBERS*/
+	void init();
+/*>>>>>GASTO_MEMBERS*/
 }; // end class
 
 /*<<<<<GASTO_POSTAMBLE*/
@@ -38,9 +41,3 @@ public:
 } // namespace gong
 #endif // GASTOS_GASTOSRECGASTO_H
 /*>>>>>GASTO_POSTAMBLE*/
-
-/*<<<<<GASTO_MEMBERS*/
-	void init();
-/*>>>>>GASTO_MEMBERS*/
-
-}; // class

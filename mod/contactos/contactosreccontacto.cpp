@@ -49,7 +49,7 @@ Xtring normalizaPalabra(const Xtring &palabra, int npalabra)
 /*<<<<<CONTACTO_RELATIONS*/
 RecContactoImagen *RecContacto::getRecContactoImagen() const
 {
-    return static_cast<RecContactoImagen*>(findRelatedRecord("CONTACTO.CONTACTOIMAGEN_ID"));
+	return static_cast<RecContactoImagen*>(findRelatedRecord("CONTACTO.CONTACTOIMAGEN_ID"));
 }
 
 /*>>>>>CONTACTO_RELATIONS*/
@@ -57,8 +57,8 @@ RecContactoImagen *RecContacto::getRecContactoImagen() const
 /*<<<<<CONTACTO_ISVALID*/
 bool RecContacto::isValid(ValidResult::Context context, ValidResult *result )
 {
-    bool ret = dbRecord::isValid(context, result);
-    /*>>>>>CONTACTO_ISVALID*/
+	bool ret = dbRecord::isValid(context, result);
+/*>>>>>CONTACTO_ISVALID*/
     if( context == ValidResult::editing || context == ValidResult::fixing ) {
         // Las funciones normaliza actúan según la configuración
         if( getValue("TRATAMIENTOCONTACTO").toInt() == RecContacto::TratamientoDona
@@ -75,8 +75,8 @@ bool RecContacto::isValid(ValidResult::Context context, ValidResult *result )
 /*<<<<<CONTACTO_TOSTRING*/
 Xtring RecContacto::toString(int format, const RegExp &includedFields) const
 {
-    Xtring result;
-    /*>>>>>CONTACTO_TOSTRING*/
+	Xtring result;
+/*>>>>>CONTACTO_TOSTRING*/
     if( format == TOSTRING_USER ) {
         result = "(id=" + Xtring::number ( getRecordID() ) + "), ";
         if( !getValue("CIF").toString().isEmpty() )
@@ -90,8 +90,8 @@ Xtring RecContacto::toString(int format, const RegExp &includedFields) const
 /*<<<<<CONTACTO_FINDMATCHINGRECORD*/
 bool RecContacto::findMatchingRecord(dbRecordID *matchingid) const
 {
-    bool found;
-    /*>>>>>CONTACTO_FINDMATCHINGRECORD*/
+	bool found;
+/*>>>>>CONTACTO_FINDMATCHINGRECORD*/
     found = dbRecord::findMatchingRecord(matchingid);
     if( !found ) {
         Xtring nombre = getValue("NOMBRE").toString();
@@ -113,7 +113,7 @@ bool RecContacto::findMatchingRecord(dbRecordID *matchingid) const
 /*<<<<<CONTACTO_SAVE*/
 bool RecContacto::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>CONTACTO_SAVE*/
+/*>>>>>CONTACTO_SAVE*/
     switch( getValue( "TRATAMIENTOCONTACTO" ).toInt() ) {
     case RecContacto::TratamientoDona:
     case RecContacto::TratamientoDon:

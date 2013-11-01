@@ -33,7 +33,7 @@ namespace empresa {
 /*<<<<<DBFIELD_CUENTABANCO_ISVALID*/
 bool FldCuentaBanco::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
-    /*>>>>>DBFIELD_CUENTABANCO_ISVALID*/
+/*>>>>>DBFIELD_CUENTABANCO_ISVALID*/
     if ( !dbFieldDefinition::isValid( r, value, context, integres ) )
         return false;
     Xtring cuenta = value->toString().trim();

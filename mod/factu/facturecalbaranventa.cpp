@@ -52,7 +52,7 @@ namespace factu {
 /*<<<<<ALBARANVENTA_INIT*/
 void RecAlbaranVenta::init()
 {
-    /*>>>>>ALBARANVENTA_INIT*/
+/*>>>>>ALBARANVENTA_INIT*/
     addStructuralFilter( "ALBARANVENTA.EMPRESA_ID=" + getConnection()->toSQL( empresa::ModuleInstance->getEmpresaID() ) );
     addStructuralFilter( "ALBARANVENTA.EJERCICIO=" + getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
 }

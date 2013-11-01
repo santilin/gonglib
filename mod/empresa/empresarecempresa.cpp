@@ -36,12 +36,12 @@ namespace empresa {
 /*<<<<<EMPRESA_RELATIONS*/
 contactos::RecContacto *RecEmpresa::getRecContacto() const
 {
-    return static_cast<contactos::RecContacto*>(findRelatedRecord("EMPRESA.CONTACTO_ID"));
+	return static_cast<contactos::RecContacto*>(findRelatedRecord("EMPRESA.CONTACTO_ID"));
 }
 
 RecMoneda *RecEmpresa::getRecMoneda() const
 {
-    return static_cast<RecMoneda*>(findRelatedRecord("EMPRESA.MONEDA_ID"));
+	return static_cast<RecMoneda*>(findRelatedRecord("EMPRESA.MONEDA_ID"));
 }
 
 /*>>>>>EMPRESA_RELATIONS*/
@@ -49,7 +49,7 @@ RecMoneda *RecEmpresa::getRecMoneda() const
 /*<<<<<EMPRESA_SAVE*/
 bool RecEmpresa::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>EMPRESA_SAVE*/
+/*>>>>>EMPRESA_SAVE*/
     // Si se modifica la empresa actual, actualizar la referencia en este módulo a la empresa actual
     bool ret = dbRecord::save(saverelated);
     if( ret && getRecordID() == ModuleInstance->getRecEmpresa()->getRecordID() )

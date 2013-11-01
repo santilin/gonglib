@@ -637,16 +637,15 @@ CheckBox *FrmEditRec::addCheckField( QWidget * parent, const Xtring & tablename,
     return check;
 }
 
-template<>
-ComboBox<Xtring> *FrmEditRec::addComboField( QWidget * parent, const Xtring & tablename,
+ComboBoxXtring *FrmEditRec::addComboXtringField( QWidget * parent, const Xtring & tablename,
         const Xtring & fldname, QBoxLayout * layout, bool horizontal )
 {
-    ComboBox<Xtring> *combo = 0;
+    ComboBoxXtring *combo = 0;
     dbFieldListOfValues<Xtring> *flddef = static_cast<dbFieldListOfValues<Xtring> *>
                                           (DBAPP->getDatabase()->findFieldDefinition( tablename, fldname ) );
     if( flddef ) {
-        combo = new ComboBox<Xtring>(
-            *flddef->getListOfCaptions(), *flddef->getListOfValues(),
+        combo = new ComboBoxXtring(
+            flddef->getListOfCaptions(), flddef->getListOfValues(),
             parent ? parent : pControlsFrame, tablename + "_" + fldname, Xtring(), horizontal );
         applyFieldStyle( combo, flddef );
         applyFieldStyle( combo->getLabel(), flddef );
@@ -675,16 +674,15 @@ ComboBox<Xtring> *FrmEditRec::addComboField( QWidget * parent, const Xtring & ta
     return combo;
 }
 
-template<>
-ComboBox<int> *FrmEditRec::addComboField( QWidget * parent, const Xtring & tablename,
+ComboBoxInt *FrmEditRec::addComboIntField( QWidget * parent, const Xtring & tablename,
         const Xtring & fldname, QBoxLayout * layout, bool horizontal )
 {
-    ComboBox<int> *combo = 0;
+    ComboBoxInt *combo = 0;
     dbFieldListOfValues<int> *flddef = static_cast<dbFieldListOfValues<int> *>
                                        (DBAPP->getDatabase()->findFieldDefinition( tablename, fldname ) );
     if( flddef ) {
-        combo = new ComboBox<int>(
-            *flddef->getListOfCaptions(), *flddef->getListOfValues(),
+        combo = new ComboBoxInt(
+            flddef->getListOfCaptions(), flddef->getListOfValues(),
             parent ? parent : pControlsFrame, tablename + "_" + fldname, Xtring(), horizontal );
         applyFieldStyle( combo, flddef );
         applyFieldStyle( combo->getLabel(), flddef );
@@ -819,9 +817,9 @@ Variant FrmEditRec::getControlValue(const Xtring& fieldname) const
             return search->getEditCode()->toString();
         } else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
             return check->isChecked();
-        } else if ( ComboBox<int> *combo = dynamic_cast<ComboBox<int> *>( control ) ) {
+        } else if ( ComboBoxInt *combo = dynamic_cast<ComboBoxInt *>( control ) ) {
             return combo->getCurrentItemValue();
-        } else if ( ComboBox<Xtring> *combo = dynamic_cast<ComboBox<Xtring> *>( control ) ) {
+        } else if ( ComboBoxXtring *combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
             return combo->getCurrentItemValue();
         } else if ( ImageBox *image = dynamic_cast<ImageBox *>( control ) ) {
             return image->toData();
@@ -853,9 +851,9 @@ bool FrmEditRec::setControlValue(const Xtring& fieldname, const Variant &value )
             search->getEditCode()->setText( value );
         } else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
             check->setChecked( value.toBool() );
-        } else if ( ComboBox<int> *combo = dynamic_cast<ComboBox<int> *>( control ) ) {
+        } else if ( ComboBoxInt *combo = dynamic_cast<ComboBoxInt *>( control ) ) {
             combo->setCurrentItemByValue( value.toInt() );
-        } else if ( ComboBox<Xtring> *combo = dynamic_cast<ComboBox<Xtring> *>( control ) ) {
+        } else if ( ComboBoxXtring *combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
             combo->setCurrentItemByValue( value.toString() );
         } else if ( ImageBox *image = dynamic_cast<ImageBox *>( control ) ) {
             image->setImageData( value.toString() );
@@ -928,10 +926,10 @@ bool FrmEditRec::edited() const
         } else if ( CheckBox * check = dynamic_cast<CheckBox *>( *it ) ) {
             if ( check->isEdited() )
                 return true;
-        } else if ( ComboBox<int> *combo = dynamic_cast<ComboBox<int> *>( *it ) ) {
+        } else if ( ComboBoxInt *combo = dynamic_cast<ComboBoxInt *>( *it ) ) {
             if ( combo->isEdited() )
                 return true;
-        } else if ( ComboBox<Xtring> *combo = dynamic_cast<ComboBox<Xtring> *>( *it ) ) {
+        } else if ( ComboBoxXtring *combo = dynamic_cast<ComboBoxXtring *>( *it ) ) {
             if ( combo->isEdited() )
                 return true;
         } else if ( ImageBox *image = dynamic_cast<ImageBox *>( *it ) ) {
@@ -969,9 +967,9 @@ void FrmEditRec::setEdited( bool edited )
             search->getEditDesc()->setEdited( edited );
         } else if ( CheckBox * check = dynamic_cast<CheckBox *>( *it ) ) {
             check->setEdited( edited );
-        } else if ( ComboBox<int> * combo = dynamic_cast<ComboBox<int> *>( *it ) ) {
+        } else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( *it ) ) {
             combo->setEdited( edited );
-        } else if ( ComboBox<Xtring> * combo = dynamic_cast<ComboBox<Xtring> *>( *it ) ) {
+        } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( *it ) ) {
             combo->setEdited( edited );
         } else if ( ImageBox *image = dynamic_cast<ImageBox *>( *it ) ) {
             image->setEdited( edited );
@@ -1022,12 +1020,12 @@ void FrmEditRec::enableEditControls( bool enabled )
                 check->setEnabled( false );
             else
                 check->setEnabled( true );
-        } else if ( ComboBox<int> * combo = dynamic_cast<ComboBox<int> *>( *it ) ) {
+        } else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( *it ) ) {
             if ( !enabled || combo->mustBeReadOnly() )
                 combo->setEnabled( false );
             else
                 combo->setEnabled( true );
-        } else if ( ComboBox<Xtring> * combo = dynamic_cast<ComboBox<Xtring> *>( *it ) ) {
+        } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( *it ) ) {
             if ( !enabled || combo->mustBeReadOnly() )
                 combo->setEnabled( false );
             else
@@ -1108,12 +1106,12 @@ bool FrmEditRec::validateControls(bool justedited)
                 cb->setJustEdited( true );
             if( cb->isJustEdited() )
                 validate( *it, &isvalid );
-        } else if ( ComboBox<int> * combo = dynamic_cast<ComboBox<int> *>( *it ) ) {
+        } else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( *it ) ) {
             if( !justedited )
                 combo->setJustEdited(true);
             if( combo->isJustEdited() )
                 validate( *it, &isvalid );
-        } else if ( ComboBox<Xtring> * combo = dynamic_cast<ComboBox<Xtring> *>( *it ) ) {
+        } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( *it ) ) {
             if( !justedited )
                 combo->setJustEdited(true);
             if( combo->isJustEdited() )
@@ -1168,14 +1166,14 @@ bool FrmEditRec::removeControl( QWidget *control )
                 mEditControls.erase( it );
                 return true;
             }
-        } else if ( ComboBox<int> * combo = dynamic_cast<ComboBox<int> *>( *it ) ) {
-            if( dynamic_cast<ComboBox<int>*>(control) && *it == control) {
+        } else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( *it ) ) {
+            if( dynamic_cast<ComboBoxInt*>(control) && *it == control) {
                 delete combo;
                 mEditControls.erase( it );
                 return true;
             }
-        } else if ( ComboBox<Xtring> * combo = dynamic_cast<ComboBox<Xtring> *>( *it ) ) {
-            if( dynamic_cast<ComboBox<Xtring>*>(control) && *it == control) {
+        } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( *it ) ) {
+            if( dynamic_cast<ComboBoxXtring*>(control) && *it == control) {
                 delete combo;
                 mEditControls.erase( it );
                 return true;
@@ -1290,7 +1288,7 @@ void FrmEditRec::validateComboOrCheck( int activated )
             validate( check, &isvalid );
         }
     } else {
-        ComboBox<int> *comboint = dynamic_cast<ComboBox<int> *>( sender() );
+        ComboBoxInt *comboint = dynamic_cast<ComboBoxInt *>( sender() );
         if( comboint ) {
             if( !comboint->isSettingProgrammatically() ) {
                 comboint->setEdited( true );
@@ -1298,7 +1296,7 @@ void FrmEditRec::validateComboOrCheck( int activated )
                 validate( comboint, &isvalid );
             }
         } else {
-            ComboBox<Xtring> *comboxtr = dynamic_cast<ComboBox<Xtring> *>( sender() );
+            ComboBoxXtring *comboxtr = dynamic_cast<ComboBoxXtring *>( sender() );
             if( comboxtr ) {
                 if( !comboxtr->isSettingProgrammatically() ) {
                     comboxtr->setEdited( true );

@@ -67,9 +67,9 @@ ContactosModule::ContactosModule()
     mImportTables << "CONTACTO" << "TRATAMIENTOCONTACTO";
     /*<<<<<CONTACTOSMODULE_PUBLIC_INFO*/
 //	mModuleRequires
-    mMasterTables << "CONTACTO" << "TRATAMIENTOCONTACTO";
+	mMasterTables << "CONTACTO" << "TRATAMIENTOCONTACTO";
 //	mDetailTables
-    /*>>>>>CONTACTOSMODULE_PUBLIC_INFO*/
+/*>>>>>CONTACTOSMODULE_PUBLIC_INFO*/
     mMasterTables << "CONTACTOIMAGEN";
 }
 
@@ -87,10 +87,10 @@ bool ContactosModule::login(FrmLogin *frmlogin, const Xtring &version,
 void ContactosModule::afterLoad()
 {
     FldNamesListTable *fldtrat = static_cast<FldNamesListTable *>(
-                                     DBAPP->getDatabase()->findFieldDefinition("CONTACTO.TRATAMIENTOCONTACTO") );
+		DBAPP->getDatabase()->findFieldDefinition("CONTACTO.TRATAMIENTOCONTACTO") );
     if( fldtrat )
         fldtrat->fill( *getConnection() );
-    if( fldtrat->getListOfValues()->size() == 0 ) {
+    if( fldtrat->getListOfValues().size() == 0 ) {
         getConnection()->exec( "INSERT INTO TRATAMIENTOCONTACTO (CODIGO,NOMBRE) VALUES "
                                "(" + getConnection()->toSQL( RecContacto::TratamientoDona ) + ", 'Doña'),("
                                + getConnection()->toSQL( RecContacto::TratamientoDon ) + ", 'Don'), ("
@@ -110,9 +110,9 @@ bool ContactosModule::initDatabase(dbDefinition *db)
     pMainDatabase = db;
 
     /*<<<<<CONTACTOSMODULE_INIT_DATABASE*/
-    pFicTratamientoContacto = new NamesListTable( *pMainDatabase, "TRATAMIENTOCONTACTO" );
-    pMainDatabase->addTable( pFicTratamientoContacto->getTableDefinition() );
-    /*>>>>>CONTACTOSMODULE_INIT_DATABASE*/
+	pFicTratamientoContacto = new NamesListTable( *pMainDatabase, "TRATAMIENTOCONTACTO" );
+	pMainDatabase->addTable( pFicTratamientoContacto->getTableDefinition() );
+/*>>>>>CONTACTOSMODULE_INIT_DATABASE*/
 
     pFicContacto = new MasterTable( *pMainDatabase, "CONTACTO");
     pFicContacto->addFieldRecordID();
@@ -155,7 +155,7 @@ bool ContactosModule::initDatabase(dbDefinition *db)
 /*<<<<<CONTACTOSMODULE_SLOT_CONTACTOSCONTACTO*/
 void ContactosModule::slotMenuContactosContacto()
 {
-    pMainWindow->slotMenuEditRecMaestro( "CONTACTO" );
+	pMainWindow->slotMenuEditRecMaestro( "CONTACTO" );
 }
 /*>>>>>CONTACTOSMODULE_SLOT_CONTACTOSCONTACTO*/
 
@@ -170,11 +170,11 @@ dbRecord *ContactosModule::createRecord(const Xtring &tablename, dbRecordID reci
 {
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     /*<<<<<CONTACTOSMODULE_CREATE_RECORD*/
-    if( tablename.upper() == "CONTACTO" )
-        return new RecContacto(getConnection(), recid, user);
-    if( tablename.upper() == "TRATAMIENTOCONTACTO" )
-        return new RecNamesListTable("TRATAMIENTOCONTACTO", getConnection(), recid, user);
-    /*>>>>>CONTACTOSMODULE_CREATE_RECORD*/
+	if( tablename.upper() == "CONTACTO" )
+		return new RecContacto(getConnection(), recid, user);
+	if( tablename.upper() == "TRATAMIENTOCONTACTO" )
+		return new RecNamesListTable("TRATAMIENTOCONTACTO", getConnection(), recid, user);
+/*>>>>>CONTACTOSMODULE_CREATE_RECORD*/
     if( tablename.upper() == "CONTACTOIMAGEN" )
         return new RecContactoImagen(getConnection(), recid, user);
     return 0;
@@ -187,11 +187,11 @@ FrmEditRec *ContactosModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     Xtring tablename = rec->getTableName();
     /*<<<<<CONTACTOSMODULE_CREATE_EDITFORM*/
-    if( tablename.upper() == "CONTACTO" )
-        return new FrmEditContacto(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "TRATAMIENTOCONTACTO" )
-        return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    /*>>>>>CONTACTOSMODULE_CREATE_EDITFORM*/
+	if( tablename.upper() == "CONTACTO" )
+		return new FrmEditContacto(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "TRATAMIENTOCONTACTO" )
+		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+/*>>>>>CONTACTOSMODULE_CREATE_EDITFORM*/
     return 0;
 }
 
@@ -205,7 +205,7 @@ FrmEditRecDetail *ContactosModule::createEditDetailForm(
     Xtring tablename = rec->getTableName();
     /*<<<<<CONTACTOSMODULE_CREATE_EDITFORM_DETAIL*/
 
-    /*>>>>>CONTACTOSMODULE_CREATE_EDITFORM_DETAIL*/
+/*>>>>>CONTACTOSMODULE_CREATE_EDITFORM_DETAIL*/
     return 0;
 }
 
@@ -217,15 +217,15 @@ bool ContactosModule::initMainWindow(MainWindow *mainwin)
 //	QMenu *pMenuSystem = mainwin->getMenuSystem();
 
     /*<<<<<CONTACTOSMODULE_INITMAINWINDOW_MENUS*/
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("CONTACTO")->getDescPlural();
-        pMenuContactosContacto = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuContactosContacto->setObjectName( "MenuContactosContacto" );
-        pMenuContactosContacto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuContactosContacto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuContactosContacto, SIGNAL(activated()), this, SLOT(slotMenuContactosContacto()));
-    }
-    /*>>>>>CONTACTOSMODULE_INITMAINWINDOW_MENUS*/
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("CONTACTO")->getDescPlural();
+		pMenuContactosContacto = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuContactosContacto->setObjectName( "MenuContactosContacto" );
+		pMenuContactosContacto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuContactosContacto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuContactosContacto, SIGNAL(activated()), this, SLOT(slotMenuContactosContacto()));
+	}
+/*>>>>>CONTACTOSMODULE_INITMAINWINDOW_MENUS*/
     pMenuContactosMailing = new QAction( toGUI(_("Envío de emails")), 0, pMainWindow, 0 );
     pMenuContactosMailing->setObjectName( "MenuContactosMailing" );
     pMainWindow->connect(pMenuContactosMailing, SIGNAL(activated()), this, SLOT(slotMenuContactosMailing()) );

@@ -11,8 +11,6 @@
 #include "dbappdbmodule.h"
 #include "dbappfrmdatabasetools.h"
 #include "dbapprecmetadbdata.h"
-#include "../gonglib/gongxtring.h"
-#include <qt4/QtCore/qstring.h>
 
 namespace gong {
 
@@ -328,7 +326,8 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         pFrmLogin->addMessage( Xtring::printf(_("Comprobando la base de datos %s ..."),
                                               pFrmLogin->getDBName().c_str() ) );
         DBAPP->processEvents();
-        Xtring diff = upgradeDatabase( getDatabase(), pFrmLogin->getDBName(), false /*not purging*/ );
+        Xtring diff = upgradeDatabase( getConnection(), getDatabase(),
+									   pFrmLogin->getDBName(), false /*not purging*/ );
         if( !diff.isEmpty() ) {
             pFrmLogin->addMessage( Xtring::printf( _("La base de datos de %s no está actualizada\n"),
                                                    getPackageString().c_str() ) );
@@ -1338,36 +1337,39 @@ int dbApplication::setViewsFromConfig(dbDefinition *dbdef)
  * @param purging ...
  * @return Xtring
  **/
-Xtring dbApplication::upgradeDatabase(dbDefinition* programdb, const gong::Xtring& sqldbname,
-                                      bool purging)
+Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* programdb,
+									   const gong::Xtring& sqldbname, bool purging, bool silent)
 {
     waitCursor( true );
-    dbDefinition *oldschema = dbDefinition::fromSQLSchema( getConnection(), sqldbname);
-    Xtring diff = programdb->sameSQLSchema( oldschema, getConnection(), purging );
+    dbDefinition *oldschema = dbDefinition::fromSQLSchema( conn, sqldbname);
+    Xtring diff = programdb->sameSQLSchema( oldschema, conn, purging );
     try {
         if( !diff.isEmpty() ) {
             _GONG_DEBUG_PRINT(3, diff );
             XtringList querys;
             diff.tokenize( querys, ";\n" );
-            if( FrmBase::msgYesNoLarge( _("Actualización de la base de datos"),
+			bool doit = true;
+			if( !silent )
+				doit = FrmBase::msgYesNoLarge( _("Actualización de la base de datos"),
                                         Xtring::printf( _("La base de datos de %1s ('%2s') no está actualizada.\n¿Quieres actualizarla ahora?"),
                                                 getPackageName(), sqldbname.c_str() ),
-                                        diff ) ) {
+                                        diff );
+			if( doit ) {
                 purging = false; // Do not create the indexes again later
-                programdb->dropIndexes(getConnection(), false, true);
-                getConnection()->exec( querys );
-                programdb->createIndexes(getConnection(), true);
+                programdb->dropIndexes(conn, false, true);
+                conn->exec( querys );
+                programdb->createIndexes(conn, true);
                 // Las líneas que comienzan con # son comentarios
                 if( diff.find("# CREATE TABLE " ) != Xtring::npos ) {
                     // Creates new tables, the existing ones are not touched
-                    programdb->createTables( getConnection(), Xtring(), true );
+                    programdb->createTables( conn, Xtring(), true );
                 }
             }
         }
         if( purging ) {
             DBAPP->showOSD( _("Limpiando base de datos"), _("Regenerando los índices") );
-            programdb->dropIndexes(getConnection(), false, true);
-            programdb->createIndexes(getConnection(), true);
+            programdb->dropIndexes(conn, false, true);
+            programdb->createIndexes(conn, true);
         }
     } catch( dbError e ) {
         FrmBase::msgError( getPackageString(), e.what() );

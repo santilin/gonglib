@@ -35,14 +35,14 @@ namespace empresa {
 /*<<<<<DBFIELD_EJERCICIO_ISVALID*/
 bool FldEjercicio::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
-    /*>>>>>DBFIELD_EJERCICIO_ISVALID*/
+/*>>>>>DBFIELD_EJERCICIO_ISVALID*/
     return true;
 }
 
 /*<<<<<DBFIELD_EJERCICIO_CUSTOMDEFAULTVALUE*/
 Variant FldEjercicio::customDefaultValue() const
 {
-    /*>>>>>DBFIELD_EJERCICIO_CUSTOMDEFAULTVALUE*/
+/*>>>>>DBFIELD_EJERCICIO_CUSTOMDEFAULTVALUE*/
     return ModuleInstance->getEjercicio();
 }
 

@@ -201,7 +201,7 @@ Xtring Cif::validate( RecContacto::Tratamiento tratamiento, bool fixme )
 /*<<<<<DBFIELD_CIF_ISVALID*/
 bool FldCif::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
-    /*>>>>>DBFIELD_CIF_ISVALID*/
+/*>>>>>DBFIELD_CIF_ISVALID*/
     return  FldStringAutoInc::isValid( r, value, context, integres );
 #if 0
     Cif cif = value->toString().trim();

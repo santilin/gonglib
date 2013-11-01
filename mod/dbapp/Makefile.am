@@ -5,11 +5,12 @@ AM_CXXFLAGS = @AM_CXXFLAGS@
 lib_LTLIBRARIES = libgongdbapp.la
 libgongdbapp_ladir = $(includedir)/gonglib
 
-libgongdbapp_la_SOURCES = dbappdbapplication.cpp dbappdbmodule.cpp \
+libgongdbapp_la_SOURCES = dbappfrmlogin_gui.cpp dbappfrmlogin.cpp \
+	dbappdbapplication.cpp dbappdbmodule.cpp \
 	dbappfrmcustom.cpp dbappfrmeditrecmaster.cpp dbappfrmimport.cpp \
 	dbappfugitimporter.cpp dbappfrmimport_gui.cpp dbappsearchbox.cpp \
-	dbappfrmeditrec.cpp dbappfrmexport.cpp dbappfrmlogin.cpp \
-	dbappfrmeditrecdetail.cpp dbappfrmexport_gui.cpp dbappfrmlogin_gui.cpp \
+	dbappfrmeditrec.cpp dbappfrmexport.cpp \
+	dbappfrmeditrecdetail.cpp dbappfrmexport_gui.cpp \
 	dbappfrmsqlselect.cpp dbappfrmviewedit.cpp dbappmainwindow.cpp \
 	dbappfldstringautoinc.cpp dbappsettingstree.cpp dbappfrmsettingsedit.cpp \
 	dbappfrmdatabasetools.cpp dbappfrmintegrity.cpp dbappfrmeditrecbehavior.cpp \

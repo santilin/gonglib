@@ -36,9 +36,6 @@ public:
     void fill( dbConnection &conn );
     void fill( XtringList &mCaptions, List<int> &mValues );
     int findCode( const Xtring &name ) const;
-protected:
-    XtringList mCaptions;
-    List<int> mValues;
 };
 
 class RecNamesListTable: public dbRecord

@@ -1383,7 +1383,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
             IntList mOpcionesExisteValues;
             mOpcionesExisteCaptions << "Actualizar el registro" << "Ignorar el registro" << "Cancelar la importación";
             mOpcionesExisteValues << 0 << 1 << 2;
-            comboExiste = addComboBox( 0, _("Si el registro ya existe..."),
+            comboExiste = addComboBoxInt( 0, _("Si el registro ya existe..."),
                                        mOpcionesExisteCaptions, mOpcionesExisteValues );
             checkRevisar = addCheckBox( 0, _("Revisar los registros uno por uno"), true );
         }
@@ -1394,7 +1394,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
             return comboExiste->currentIndex();
         }
     private:
-        ComboBox<int> *comboExiste;
+        ComboBoxInt *comboExiste;
         CheckBox *checkRevisar;
     };
 

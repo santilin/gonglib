@@ -13,7 +13,6 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 
 == Hacer ==
 * TPV: Config: Mostrar nombres en mayúsculas
-* TPV: Grabar, no borra el total
 * TPV: Config global tiene preferencia sobre config usuaria
 * TPV: Algunas veces se queda sin seleccionar el artículo introducido
 * Mostrar la ventana de mesas maximizada siempre
@@ -162,25 +161,7 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 			Type = string;
 		}
 		INPUTFIELD IVA {
-* Comprobar los esti/*<<<<<COPYRIGHT*/
-/** @file rtkoutputtext.cpp RTK standard text output object */
-/*
- * RTK The report toolkit
- * Copyright (C) 2003 Francisco Santiago Capel Torres
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- */
-/*>>>>>COPYRIGHT*/
-los de los campos de los informes, que se usen los de gonglib
+* Comprobar los estilos de los campos de los informes, que se usen los de gonglib
 * Si en un pageheader se pone un objeto con un sizey que va al final y luego hay otros objetos que van al principio, el del final no sale
 * rtk: startpage.drawImages no cubre todo el painter
 
@@ -216,6 +197,7 @@ los de los campos de los informes, que se usen los de gonglib
 * dbRecord: save fields right trimmed
 
 == autotools, capel y gong.sh ==
+* AM_PROG_LIBTOOL, en anjuta sale como si fuera un error
 * Informe CUENTA.rtk: alignment de header debe y haber no funciona
 ** capel no genera el objeto ASIENTO.DESCRIPCION en el header del grupo
 * {configure} libboost si no está instalado, cambiar el mensaje para que diga utilizar --without-boost

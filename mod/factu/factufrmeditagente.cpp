@@ -60,6 +60,7 @@ FrmEditAgente::FrmEditAgente(FrmEditRec *parentfrm, dbRecord *master, dbRecordDa
 //	pControlsLayout->addWidget( pFrameContactos );
     pEditContactoBehavior = new contactos::FrmEditContactoBehavior( this, pFrameContactos, editRazonSocial );
     addBehavior( pEditContactoBehavior );
+	setMinimumHeight( 600 );
 }
 
 void FrmEditAgente::scatterFields()

@@ -4,7 +4,7 @@
 /*>>>>>NOMBREPROPIO_PREAMBLE*/
 /*<<<<<COPYLEFT*/
 /** @file contactosfldnombrepropio.h dbFieldDefinition que representa un nombre pripio, de persona o asociación
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -26,17 +26,17 @@ class FldNombrePropio: public dbFieldDefinition
 {
 public:
     /*<<<<<DBFIELD_NOMBREPROPIO_CONSTRUCTOR*/
-    FldNombrePropio(const Xtring &tablename, const Xtring &name,
-                    dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
-                    const Xtring &defaultvalue = Xtring::null)
-    /*>>>>>DBFIELD_NOMBREPROPIO_CONSTRUCTOR*/
+	FldNombrePropio(const Xtring &tablename, const Xtring &name,
+		dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
+		const Xtring &defaultvalue = Xtring::null)
+/*>>>>>DBFIELD_NOMBREPROPIO_CONSTRUCTOR*/
         : dbFieldDefinition(tablename, name, SQLSTRING, 100, 0, flags, defaultvalue)
     {}
 
     /*<<<<<DBFIELD_NOMBREPROPIO_MEMBERS*/
-    virtual bool isValid( dbRecord *r, dbFieldValue *value,
-                          ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
-    /*>>>>>DBFIELD_NOMBREPROPIO_MEMBERS*/
+	virtual bool isValid( dbRecord *r, dbFieldValue *value,
+		ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
+/*>>>>>DBFIELD_NOMBREPROPIO_MEMBERS*/
 
 }; // class
 

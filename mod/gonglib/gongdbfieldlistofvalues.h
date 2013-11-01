@@ -22,30 +22,31 @@
 namespace gong {
 
 template<class T>
-/**
- * @brief ...
- **/
 class dbFieldListOfValues: public dbFieldDefinition
 {
 public:
     typedef List<T> ValueListType;
     dbFieldListOfValues(bool insertallowed,
-                        XtringList *captions, ValueListType *values, const Xtring& tablename, const Xtring& name,
+                        const XtringList &captions, const ValueListType &values, const Xtring& tablename, const Xtring& name,
                         SqlColumnType sqltype, unsigned short int width, unsigned short int decimals = 0,
                         dbFieldDefinition::Flags flags = NONE, const Xtring& defaultvalue = Xtring::null)
         : dbFieldDefinition(tablename, name, sqltype, width, decimals, flags, defaultvalue),
-          mInsertAllowed(insertallowed), pListOfCaptions(captions), pListOfValues(values)
+          mConstListOfCaptions(captions), mConstListOfValues(values),
+          mInsertAllowed(insertallowed), mIsConst( true )
+    {}
+    dbFieldListOfValues(bool insertallowed,
+                        XtringList &captions, ValueListType &values, const Xtring& tablename, const Xtring& name,
+                        SqlColumnType sqltype, unsigned short int width, unsigned short int decimals = 0,
+                        dbFieldDefinition::Flags flags = NONE, const Xtring& defaultvalue = Xtring::null)
+        : dbFieldDefinition(tablename, name, sqltype, width, decimals, flags, defaultvalue),
+          mConstListOfCaptions(mListOfCaptions), mConstListOfValues(mListOfValues),
+          mListOfCaptions(captions), mListOfValues(values),
+          mInsertAllowed(insertallowed), mIsConst( false )
     {}
 
-    virtual dbFieldListOfValues *clone() const {
-        return new dbFieldListOfValues( *this );
-    }
-    ValueListType *getListOfValues() const {
-        return pListOfValues;
-    }
-    XtringList *getListOfCaptions() const {
-        return pListOfCaptions;
-    }
+    virtual dbFieldListOfValues *clone() const { return new dbFieldListOfValues( *this ); }
+    const ValueListType &getListOfValues() const { return mConstListOfValues; }
+    const XtringList &getListOfCaptions() const { return mConstListOfCaptions; }
     virtual bool isValid( dbRecord *r, dbFieldValue *value,
                           ValidResult::Context context, ValidResult *integres) const; // from dbFieldDefinition
     virtual Xtring getDisplayValue(const Variant &value) const; // From dbFieldDefinition
@@ -58,29 +59,16 @@ public:
         return this;
     }
 protected:
-    bool mInsertAllowed;
     /**
      * @brief Must be references as they are shared by all the field definitions in the database
      **/
-    XtringList *pListOfCaptions;
-    ValueListType *pListOfValues;
+    const XtringList &mConstListOfCaptions;
+    const ValueListType &mConstListOfValues;
+    XtringList mListOfCaptions;
+    ValueListType mListOfValues;
+	bool mIsConst;
+    bool mInsertAllowed;
 };
-
-template<> inline
-dbFieldListOfValues<int>::dbFieldListOfValues(bool insertallowed,
-        XtringList *captions, List<int> *values, const Xtring& tablename, const Xtring& name,
-        SqlColumnType sqltype, unsigned short int width, unsigned short int decimals,
-        dbFieldDefinition::Flags flags, const Xtring& defaultvalue)
-    : dbFieldDefinition(tablename, name, sqltype, width, decimals, flags, defaultvalue),
-      mInsertAllowed(insertallowed), pListOfCaptions(captions), pListOfValues(values)
-{
-    // Add int values if none of them are specified
-    if( values && captions ) {
-        for( uint i = values->size(); i < captions->size(); ++ i ) {
-            values->push_back( i + 1 );
-        }
-    }
-}
 
 }; // namespace gong
 #endif // GONG_GONGDBFIELDLISTOFVALUES_H

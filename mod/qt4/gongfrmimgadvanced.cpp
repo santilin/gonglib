@@ -42,7 +42,7 @@ FrmImgAdvanced::FrmImgAdvanced( ImageBox *imgbox, const Xtring &convert_path,
     IntList values;
     effects << _("Elige un efecto...") << _("Burbuja") << _("Redondear esquinas")
             << _("Difuminar y redondear esquinas");
-    comboEffects = new ComboBox<int>( effects, values, this, Xtring::null, Xtring::null );
+    comboEffects = new ComboBoxInt( effects, values, this, Xtring::null, Xtring::null );
     connect( comboEffects, SIGNAL( activated( int ) ), this, SLOT( slot_combo_activated( int ) ) );
     buttonsLayout->addWidget( comboEffects );
     pushCrop = new QPushButton( this );

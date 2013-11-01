@@ -83,7 +83,7 @@ private:
     QLabel *pInfoLabel;
     ResizableImageLabel *pImageLabel;
     QPushButton *pushResize, *pushCrop, *pushReset;
-    ComboBox<int> *comboEffects;
+    ComboBoxInt *comboEffects;
     ImageBox *pImageBox;
     Xtring mConvertPath;
 };

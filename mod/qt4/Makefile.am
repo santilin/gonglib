@@ -5,8 +5,8 @@ INCLUDES = @GONGLIB_CPPFLAGS@
 lib_LTLIBRARIES = libgongqt4.la
 libgongqt4_ladir = $(includedir)/gonglib
 libgongqt4_la_LDFLAGS = -version-info 0:5:0
-libgongqt4_la_SOURCES = gongguiapplication.cpp gongguimainwindow.cpp \
-	gongcombobox.cpp gongguicontrols.cpp gongdatatable.cpp gongfrmbase.cpp \
+libgongqt4_la_SOURCES = gongcombobox.cpp gongguiapplication.cpp gongguimainwindow.cpp \
+	gongguicontrols.cpp gongdatatable.cpp gongfrmbase.cpp \
 	gonglineedit.cpp gongosdwidget.cpp gongguimultiplelistbox.cpp \
 	gongtextedit.cpp gongrichtextedit.cpp gongcheckbox.cpp \
 	gongpushbutton.cpp gongimagebox.cpp gongfrmimgadvanced.cpp

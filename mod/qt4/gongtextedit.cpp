@@ -1,6 +1,5 @@
 #include "gongguiapplication.h"
 #include "gongtextedit.h"
-#include <qt4/QtCore/qnamespace.h>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QFocusEvent>

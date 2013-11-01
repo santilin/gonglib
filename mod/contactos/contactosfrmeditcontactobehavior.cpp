@@ -44,7 +44,6 @@
 #include "contactosfrmeditcontactobehavior.h"
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_INCLUDES*/
 #include "contactosmodule.h"
-#include <qt4/QtCore/qstring.h>
 
 namespace gong {
 namespace contactos {
@@ -59,59 +58,62 @@ void FrmEditContactoBehavior::initGUI()
     // {capel} añadir a addSearchField
     // static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
     QHBoxLayout *pushLayout = new QHBoxLayout();
-/*<<<<<FRMEDITCONTACTOBEHAVIOR_INITGUI*/
-    QWidget *tabContacto = getOrCreateTab( "tabContacto" );
-    QVBoxLayout *tabContactoLayout = static_cast<QVBoxLayout *>( tabContacto->layout() );
-    QHBoxLayout *contactoLayout = new QHBoxLayout(0, 0, 6, "contactoLayout");
-    QHBoxLayout *dirLayout = new QHBoxLayout(0, 0, 6, "dirLayout");
-    QHBoxLayout *locLayout = new QHBoxLayout(0, 0, 6, "locLayout");
-    QHBoxLayout *emailLayout = new QHBoxLayout(0, 0, 6, "emailLayout");
-    QHBoxLayout *horiztelLayout = new QHBoxLayout(0, 0, 6, "horiztelLayout");
-    QWidget *tabContactoMore = getOrCreateTab( "tabContactoMore" );
-    QVBoxLayout *tabContactoMoreLayout = static_cast<QVBoxLayout *>( tabContactoMore->layout() );
-    QHBoxLayout *codLayout = new QHBoxLayout(0, 0, 6, "codLayout");
-    QHBoxLayout *altLayout = new QHBoxLayout(0, 0, 6, "altLayout");
-    QHBoxLayout *paisLayout = new QHBoxLayout(0, 0, 6, "paisLayout");
-    QHBoxLayout *faxLayout = new QHBoxLayout(0, 0, 6, "faxLayout");
-    QHBoxLayout *webLayout = new QHBoxLayout(0, 0, 6, "webLayout");
-    QHBoxLayout *nonameLayout = new QHBoxLayout(0, 0, 6, "nonameLayout");
 
-    searchContactoCIF = pTheForm->addSearchField( tabContacto, "CONTACTO_ID", "CONTACTO", "CIF", "NOMBRE", contactoLayout,
-                        static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
-    pushContactoCIF = searchContactoCIF->getButton();
-    connect( pushContactoCIF, SIGNAL( clicked() ), this, SLOT( pushContactoCIF_clicked() ) );
-    editContactoCIF = searchContactoCIF->getEditCode();
-    editContactoNombre = searchContactoCIF->getEditDesc();
-    comboContacto_TratamientoContacto = pTheForm->addComboField<int>( tabContacto, "CONTACTO", "TRATAMIENTOCONTACTO", dirLayout );
-    editContacto_Direccion = pTheForm->addEditField( tabContacto, "CONTACTO", "DIRECCION", dirLayout );
-    editContacto_CP = pTheForm->addEditField( tabContacto, "CONTACTO", "CP", dirLayout );
-    editContacto_Barrio = pTheForm->addEditField( tabContacto, "CONTACTO", "BARRIO", locLayout );
-    editContacto_Localidad = pTheForm->addEditField( tabContacto, "CONTACTO", "LOCALIDAD", locLayout );
-    editContacto_Provincia = pTheForm->addEditField( tabContacto, "CONTACTO", "PROVINCIA", emailLayout );
-    editContacto_email = pTheForm->addEditField( tabContacto, "CONTACTO", "EMAIL", emailLayout );
-    editContacto_Telefono = pTheForm->addTextField( tabContacto, "CONTACTO", "TELEFONO", horiztelLayout, true  );
-    editContacto_Codigo = pTheForm->addEditField( tabContactoMore, "CONTACTO", "CODIGO", codLayout );
-    editContacto_Nacionalidad = pTheForm->addEditField( tabContactoMore, "CONTACTO", "NACIONALIDAD", codLayout );
-    editContacto_FechaNacimiento = pTheForm->addEditField( tabContactoMore, "CONTACTO", "FECHANACIMIENTO", codLayout );
-    editContacto_NombreAlt = pTheForm->addEditField( tabContactoMore, "CONTACTO", "NOMBREALT", altLayout );
-    editContacto_Pais = pTheForm->addEditField( tabContactoMore, "CONTACTO", "PAIS", paisLayout );
-    editContacto_ApdoCorreos = pTheForm->addEditField( tabContactoMore, "CONTACTO", "APDOCORREOS", paisLayout );
-    editContacto_Fax = pTheForm->addEditField( tabContactoMore, "CONTACTO", "FAX", faxLayout );
-    editContacto_web = pTheForm->addEditField( tabContactoMore, "CONTACTO", "WEB", webLayout );
-    QSpacerItem* noname = new QSpacerItem ( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
-    nonameLayout->addItem ( noname);
-    tabContactoLayout->addLayout( contactoLayout );
-    tabContactoLayout->addLayout( dirLayout );
-    tabContactoLayout->addLayout( locLayout );
-    tabContactoLayout->addLayout( emailLayout );
-    tabContactoLayout->addLayout( horiztelLayout );
-    tabContactoMoreLayout->addLayout( codLayout );
-    tabContactoMoreLayout->addLayout( altLayout );
-    tabContactoMoreLayout->addLayout( paisLayout );
-    tabContactoMoreLayout->addLayout( faxLayout );
-    tabContactoMoreLayout->addLayout( webLayout );
-    tabContactoMoreLayout->addLayout( nonameLayout );
-    /*>>>>>FRMEDITCONTACTOBEHAVIOR_INITGUI*/
+/*<<<<<FRMEDITCONTACTOBEHAVIOR_INITGUI*/
+	QWidget *pControlsFrame = getControlsFrame();
+	QVBoxLayout* pControlsLayout = getControlsLayout();
+	QWidget *tabContacto = getOrCreateTab( "tabContacto" );
+	QVBoxLayout *tabContactoLayout = static_cast<QVBoxLayout *>( tabContacto->layout() );
+	QHBoxLayout *contactoLayout = new QHBoxLayout(0, 0, 6, "contactoLayout");
+	QHBoxLayout *dirLayout = new QHBoxLayout(0, 0, 6, "dirLayout");
+	QHBoxLayout *locLayout = new QHBoxLayout(0, 0, 6, "locLayout");
+	QHBoxLayout *emailLayout = new QHBoxLayout(0, 0, 6, "emailLayout");
+	QHBoxLayout *horiztelLayout = new QHBoxLayout(0, 0, 6, "horiztelLayout");
+	QWidget *tabContactoMore = getOrCreateTab( "tabContactoMore" );
+	QVBoxLayout *tabContactoMoreLayout = static_cast<QVBoxLayout *>( tabContactoMore->layout() );
+	QHBoxLayout *codLayout = new QHBoxLayout(0, 0, 6, "codLayout");
+	QHBoxLayout *altLayout = new QHBoxLayout(0, 0, 6, "altLayout");
+	QHBoxLayout *paisLayout = new QHBoxLayout(0, 0, 6, "paisLayout");
+	QHBoxLayout *faxLayout = new QHBoxLayout(0, 0, 6, "faxLayout");
+	QHBoxLayout *webLayout = new QHBoxLayout(0, 0, 6, "webLayout");
+	QHBoxLayout *nonameLayout = new QHBoxLayout(0, 0, 6, "nonameLayout");
+
+	searchContactoCIF = pTheForm->addSearchField( tabContacto, "CONTACTO_ID", "CONTACTO", "CIF", "NOMBRE", contactoLayout,
+		static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
+	pushContactoCIF = searchContactoCIF->getButton();
+	connect( pushContactoCIF, SIGNAL( clicked() ), this, SLOT( pushContactoCIF_clicked() ) );
+	editContactoCIF = searchContactoCIF->getEditCode();
+	editContactoNombre = searchContactoCIF->getEditDesc();
+	comboContacto_TratamientoContacto = pTheForm->addComboIntField( tabContacto, "CONTACTO", "TRATAMIENTOCONTACTO", dirLayout );
+	editContacto_Direccion = pTheForm->addEditField( tabContacto, "CONTACTO", "DIRECCION", dirLayout );
+	editContacto_CP = pTheForm->addEditField( tabContacto, "CONTACTO", "CP", dirLayout );
+	editContacto_Barrio = pTheForm->addEditField( tabContacto, "CONTACTO", "BARRIO", locLayout );
+	editContacto_Localidad = pTheForm->addEditField( tabContacto, "CONTACTO", "LOCALIDAD", locLayout );
+	editContacto_Provincia = pTheForm->addEditField( tabContacto, "CONTACTO", "PROVINCIA", emailLayout );
+	editContacto_email = pTheForm->addEditField( tabContacto, "CONTACTO", "EMAIL", emailLayout );
+	editContacto_Telefono = pTheForm->addTextField( tabContacto, "CONTACTO", "TELEFONO", horiztelLayout, true  );
+	editContacto_Codigo = pTheForm->addEditField( tabContactoMore, "CONTACTO", "CODIGO", codLayout );
+	editContacto_Nacionalidad = pTheForm->addEditField( tabContactoMore, "CONTACTO", "NACIONALIDAD", codLayout );
+	editContacto_FechaNacimiento = pTheForm->addEditField( tabContactoMore, "CONTACTO", "FECHANACIMIENTO", codLayout );
+	editContacto_NombreAlt = pTheForm->addEditField( tabContactoMore, "CONTACTO", "NOMBREALT", altLayout );
+	editContacto_Pais = pTheForm->addEditField( tabContactoMore, "CONTACTO", "PAIS", paisLayout );
+	editContacto_ApdoCorreos = pTheForm->addEditField( tabContactoMore, "CONTACTO", "APDOCORREOS", paisLayout );
+	editContacto_Fax = pTheForm->addEditField( tabContactoMore, "CONTACTO", "FAX", faxLayout );
+	editContacto_web = pTheForm->addEditField( tabContactoMore, "CONTACTO", "WEB", webLayout );
+	QSpacerItem* noname = new QSpacerItem ( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+	nonameLayout->addItem ( noname);
+	tabContactoLayout->addLayout( contactoLayout );
+	tabContactoLayout->addLayout( dirLayout );
+	tabContactoLayout->addLayout( locLayout );
+	tabContactoLayout->addLayout( emailLayout );
+	tabContactoLayout->addLayout( horiztelLayout );
+	tabContactoMoreLayout->addLayout( codLayout );
+	tabContactoMoreLayout->addLayout( altLayout );
+	tabContactoMoreLayout->addLayout( paisLayout );
+	tabContactoMoreLayout->addLayout( faxLayout );
+	tabContactoMoreLayout->addLayout( webLayout );
+	tabContactoMoreLayout->addLayout( nonameLayout );
+/*>>>>>FRMEDITCONTACTOBEHAVIOR_INITGUI*/
     editContacto_Telefono->setHeightInLines(2);
     editContacto_Provincia->setWidthInChars(20);
     pFrameContactos->insertTab( tabContacto, toGUI( _( "&Contacto" ) ) );
@@ -132,6 +134,7 @@ void FrmEditContactoBehavior::initGUI()
     pushARazonSocial = new QPushButton( pFrameContactos );
     pushARazonSocial->setText( toGUI(_("A razón social")) );
     pushARazonSocial->setFocusPolicy( Qt::ClickFocus );
+    pushARazonSocial->setIcon( QIcon::fromTheme("go-up", QIcon(":/go-up.png")) );
     connect( pushARazonSocial, SIGNAL( clicked() ), this, SLOT( slotARazonSocial_clicked() ) );
     pushEditFull = new QPushButton( pFrameContactos );
     pushEditFull->setText( toGUI(_("Editar")) );
@@ -166,78 +169,78 @@ void FrmEditContactoBehavior::setTabOrders(QWidget* pre, QWidget* post)
 void FrmEditContactoBehavior::scatterContacto()
 {
     /*<<<<<FRMEDITCONTACTOBEHAVIOR_SCATTER_CONTACTO*/
-    editContactoCIF->setText( getRecContacto()->getValue("CIF") );
-    editContactoNombre->setText( getRecContacto()->getValue("NOMBRE") );
-    /*>>>>>FRMEDITCONTACTOBEHAVIOR_SCATTER_CONTACTO*/
+	editContactoCIF->setText( getRecContacto()->getValue("CIF") );
+	editContactoNombre->setText( getRecContacto()->getValue("NOMBRE") );
+/*>>>>>FRMEDITCONTACTOBEHAVIOR_SCATTER_CONTACTO*/
     scatterFields( false ); // Mucho ojo, solo el resto de campos, evitar recursividad
 }
 
 void FrmEditContactoBehavior::pushContactoCIF_clicked()
 {
     /*<<<<<FRMEDITCONTACTOBEHAVIOR_PUSH_CONTACTO_CIF_CLICKED*/
-    char action = getControlKeyPressed();
-    if( !pTheForm->isEditing() || searchContactoCIF->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editContactoCIF->setJustEdited( false );
-        editContactoCIF->setCancelling();
-        if( DBAPP->choose(pTheForm, getRecContacto(), 0, dbApplication::editNone, pTheForm ) ) {
-            pTheForm->setEdited(true);
-            scatterContacto();
-            editContactoCIF->setJustEdited( true );
-            editContactoCIF->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecContacto()->getRecordID() ) {
-            editContactoCIF->setJustEdited( false );
-            if( DBAPP->editRecord(pTheForm,
-                                  getRecContacto(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, pTheForm ) ) {
-                editContactoCIF->setJustEdited( true );
-                scatterContacto();
-            }
-            editContactoCIF->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        editContactoCIF->setJustEdited( false );
-        DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(static_cast<FrmEditRecMaster *>(pTheForm),
-                                              getRecContacto(), 0, DataTable::selecting,
-                                              dbApplication::simpleEdition, pTheForm ) );
-    }
-    break;
-    case 'A':
-    {
-        contactos::RecContacto *tmprec = static_cast<contactos::RecContacto *>(DBAPP->createRecord( "Contacto" ));
-        editContactoCIF->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editContactoCIF->toString() );
-        if( DBAPP->editRecord(pTheForm, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, pTheForm ) ) {
-            editContactoCIF->setJustEdited( true );
-            getRecContacto()->copyRecord( tmprec );
-            scatterContacto();
-        }
-        editContactoCIF->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITCONTACTOBEHAVIOR_PUSH_CONTACTO_CIF_CLICKED*/
+	char action = getControlKeyPressed();
+	if( !pTheForm->isEditing() || searchContactoCIF->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editContactoCIF->setJustEdited( false );
+			editContactoCIF->setCancelling();
+			if( DBAPP->choose(pTheForm, getRecContacto(), 0, dbApplication::editNone, pTheForm ) ) {
+				pTheForm->setEdited(true);
+				scatterContacto();
+				editContactoCIF->setJustEdited( true );
+				editContactoCIF->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecContacto()->getRecordID() ) {
+					editContactoCIF->setJustEdited( false );
+					if( DBAPP->editRecord(pTheForm,
+							getRecContacto(), 0, DataTable::updating,
+								dbApplication::simpleEdition, pTheForm ) ) {
+						editContactoCIF->setJustEdited( true );
+						scatterContacto();
+					}
+					editContactoCIF->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				editContactoCIF->setJustEdited( false );
+				DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(static_cast<FrmEditRecMaster *>(pTheForm),
+					getRecContacto(), 0, DataTable::selecting,
+				dbApplication::simpleEdition, pTheForm ) );
+			}
+			break;
+		case 'A':
+			{
+				contactos::RecContacto *tmprec = static_cast<contactos::RecContacto *>(DBAPP->createRecord( "Contacto" ));
+				editContactoCIF->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editContactoCIF->toString() );
+				if( DBAPP->editRecord(pTheForm, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, pTheForm ) ) {
+					editContactoCIF->setJustEdited( true );
+					getRecContacto()->copyRecord( tmprec );
+					scatterContacto();
+				}
+				editContactoCIF->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITCONTACTOBEHAVIOR_PUSH_CONTACTO_CIF_CLICKED*/
 }
 
 void FrmEditContactoBehavior::specialControlKeyPressed(QWidget *sender, char key)
 {
     /*<<<<<FRMEDITCONTACTOBEHAVIOR_SPECIALACTION*/
-    if( sender == editContactoCIF )
-        pushContactoCIF_clicked();
-    /*>>>>>FRMEDITCONTACTOBEHAVIOR_SPECIALACTION*/
+	if( sender == editContactoCIF )
+		pushContactoCIF_clicked();
+/*>>>>>FRMEDITCONTACTOBEHAVIOR_SPECIALACTION*/
 }
 
 void FrmEditContactoBehavior::scatterFields( bool is_pre )
@@ -247,24 +250,24 @@ void FrmEditContactoBehavior::scatterFields( bool is_pre )
     }
     if( is_pre ) // Solo hacer scatterContacto si is_pre, porque cuando no, es para el resto de campos
         /*<<<<<FRMEDITCONTACTOBEHAVIOR_SCATTER*/
-        scatterContacto();
-    comboContacto_TratamientoContacto->setCurrentItemByValue( pTheForm->getRecord()->getValue("CONTACTO.TRATAMIENTOCONTACTO").toInt());
-    editContacto_Direccion->setText( pTheForm->getRecord()->getValue("CONTACTO.DIRECCION").toString());
-    editContacto_CP->setText( pTheForm->getRecord()->getValue("CONTACTO.CP").toString());
-    editContacto_Barrio->setText( pTheForm->getRecord()->getValue("CONTACTO.BARRIO").toString());
-    editContacto_Localidad->setText( pTheForm->getRecord()->getValue("CONTACTO.LOCALIDAD").toString());
-    editContacto_Provincia->setText( pTheForm->getRecord()->getValue("CONTACTO.PROVINCIA").toString());
-    editContacto_email->setText( pTheForm->getRecord()->getValue("CONTACTO.EMAIL").toString());
-    editContacto_Telefono->setText( pTheForm->getRecord()->getValue("CONTACTO.TELEFONO").toString());
-    editContacto_Codigo->setText( pTheForm->getRecord()->getValue("CONTACTO.CODIGO").toInt());
-    editContacto_Nacionalidad->setText( pTheForm->getRecord()->getValue("CONTACTO.NACIONALIDAD").toString());
-    editContacto_FechaNacimiento->setText( pTheForm->getRecord()->getValue("CONTACTO.FECHANACIMIENTO").toDate());
-    editContacto_NombreAlt->setText( pTheForm->getRecord()->getValue("CONTACTO.NOMBREALT").toString());
-    editContacto_Pais->setText( pTheForm->getRecord()->getValue("CONTACTO.PAIS").toString());
-    editContacto_ApdoCorreos->setText( pTheForm->getRecord()->getValue("CONTACTO.APDOCORREOS").toString());
-    editContacto_Fax->setText( pTheForm->getRecord()->getValue("CONTACTO.FAX").toString());
-    editContacto_web->setText( pTheForm->getRecord()->getValue("CONTACTO.WEB").toString());
-    /*>>>>>FRMEDITCONTACTOBEHAVIOR_SCATTER*/
+	scatterContacto();
+	comboContacto_TratamientoContacto->setCurrentItemByValue( pTheForm->getRecord()->getValue("CONTACTO.TRATAMIENTOCONTACTO").toInt());
+	editContacto_Direccion->setText( pTheForm->getRecord()->getValue("CONTACTO.DIRECCION").toString());
+	editContacto_CP->setText( pTheForm->getRecord()->getValue("CONTACTO.CP").toString());
+	editContacto_Barrio->setText( pTheForm->getRecord()->getValue("CONTACTO.BARRIO").toString());
+	editContacto_Localidad->setText( pTheForm->getRecord()->getValue("CONTACTO.LOCALIDAD").toString());
+	editContacto_Provincia->setText( pTheForm->getRecord()->getValue("CONTACTO.PROVINCIA").toString());
+	editContacto_email->setText( pTheForm->getRecord()->getValue("CONTACTO.EMAIL").toString());
+	editContacto_Telefono->setText( pTheForm->getRecord()->getValue("CONTACTO.TELEFONO").toString());
+	editContacto_Codigo->setText( pTheForm->getRecord()->getValue("CONTACTO.CODIGO").toInt());
+	editContacto_Nacionalidad->setText( pTheForm->getRecord()->getValue("CONTACTO.NACIONALIDAD").toString());
+	editContacto_FechaNacimiento->setText( pTheForm->getRecord()->getValue("CONTACTO.FECHANACIMIENTO").toDate());
+	editContacto_NombreAlt->setText( pTheForm->getRecord()->getValue("CONTACTO.NOMBREALT").toString());
+	editContacto_Pais->setText( pTheForm->getRecord()->getValue("CONTACTO.PAIS").toString());
+	editContacto_ApdoCorreos->setText( pTheForm->getRecord()->getValue("CONTACTO.APDOCORREOS").toString());
+	editContacto_Fax->setText( pTheForm->getRecord()->getValue("CONTACTO.FAX").toString());
+	editContacto_web->setText( pTheForm->getRecord()->getValue("CONTACTO.WEB").toString());
+/*>>>>>FRMEDITCONTACTOBEHAVIOR_SCATTER*/
     if( pTheForm->isInserting() && editContacto_Codigo->toInt() == 0 )
         editContacto_Codigo->setText( getRecContacto()->selectNextInt("CODIGO", Xtring::null, true ) );
 }
@@ -272,24 +275,24 @@ void FrmEditContactoBehavior::scatterFields( bool is_pre )
 void FrmEditContactoBehavior::gatherFields()
 {
     /*<<<<<FRMEDITCONTACTOBEHAVIOR_GATHER*/
-    pTheForm->getRecord()->setValue( "CONTACTO_ID", getRecContacto()->getRecordID() );
-    pTheForm->getRecord()->setValue( "CONTACTO.TRATAMIENTOCONTACTO", comboContacto_TratamientoContacto->getCurrentItemValue());
-    pTheForm->getRecord()->setValue( "CONTACTO.DIRECCION", editContacto_Direccion->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.CP", editContacto_CP->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.BARRIO", editContacto_Barrio->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.LOCALIDAD", editContacto_Localidad->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.PROVINCIA", editContacto_Provincia->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.EMAIL", editContacto_email->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.TELEFONO", editContacto_Telefono->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.CODIGO", editContacto_Codigo->toInt());
-    pTheForm->getRecord()->setValue( "CONTACTO.NACIONALIDAD", editContacto_Nacionalidad->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.FECHANACIMIENTO", editContacto_FechaNacimiento->toDate());
-    pTheForm->getRecord()->setValue( "CONTACTO.NOMBREALT", editContacto_NombreAlt->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.PAIS", editContacto_Pais->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.APDOCORREOS", editContacto_ApdoCorreos->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.FAX", editContacto_Fax->toString());
-    pTheForm->getRecord()->setValue( "CONTACTO.WEB", editContacto_web->toString());
-    /*>>>>>FRMEDITCONTACTOBEHAVIOR_GATHER*/
+	pTheForm->getRecord()->setValue( "CONTACTO_ID", getRecContacto()->getRecordID() );
+	pTheForm->getRecord()->setValue( "CONTACTO.TRATAMIENTOCONTACTO", comboContacto_TratamientoContacto->getCurrentItemValue());
+	pTheForm->getRecord()->setValue( "CONTACTO.DIRECCION", editContacto_Direccion->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.CP", editContacto_CP->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.BARRIO", editContacto_Barrio->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.LOCALIDAD", editContacto_Localidad->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.PROVINCIA", editContacto_Provincia->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.EMAIL", editContacto_email->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.TELEFONO", editContacto_Telefono->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.CODIGO", editContacto_Codigo->toInt());
+	pTheForm->getRecord()->setValue( "CONTACTO.NACIONALIDAD", editContacto_Nacionalidad->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.FECHANACIMIENTO", editContacto_FechaNacimiento->toDate());
+	pTheForm->getRecord()->setValue( "CONTACTO.NOMBREALT", editContacto_NombreAlt->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.PAIS", editContacto_Pais->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.APDOCORREOS", editContacto_ApdoCorreos->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.FAX", editContacto_Fax->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.WEB", editContacto_web->toString());
+/*>>>>>FRMEDITCONTACTOBEHAVIOR_GATHER*/
     pTheForm->getRecord()->setValue( "CONTACTO.CIF", editContactoCIF->toString() );
     pTheForm->getRecord()->setValue( "CONTACTO.NOMBRE", editContactoNombre->toString() );
     if( getRecContacto()->getValue( "CODIGO" ).toInt() == 0 )
@@ -644,13 +647,13 @@ void FrmEditContactoBehavior::slotEditFull_clicked()
 
 #if 0
 /*<<<<<FRMEDITCONTACTOBEHAVIOR_VALIDATE*/
-bool v=true;
-if( !isvalid )
-    isvalid = &v;
-ValidResult *validresult = ( ir ? ir : new ValidResult() );
-if( pTheForm->focusWidget() != pushContactoCIF) // To avoid triggering the validating if the button is pressed
-    if( pTheForm->validSeekCode( sender, isvalid, *validresult, editContactoCIF, editContactoNombre,
-                                 getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::dbApplication::AllowNotFound )) )
-        scatterContacto();
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( pTheForm->focusWidget() != pushContactoCIF) // To avoid triggering the validating if the button is pressed
+	if( pTheForm->validSeekCode( sender, isvalid, *validresult, editContactoCIF, editContactoNombre,
+		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::dbApplication::AllowNotFound )) )
+		scatterContacto();
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_VALIDATE*/
 #endif

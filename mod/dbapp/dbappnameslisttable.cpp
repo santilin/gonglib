@@ -12,6 +12,9 @@ NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
     addBehavior( DBAPP->getRecordTimestampBehavior() );
 }
 
+static XtringList sNullXtringList;
+static IntList sNullIntList;
+
 /**
  * @brief We can not pass the FldNamesListTable mCaptions and mValues to the constructor of
  *        dbFieldListOfValues<int> as the former ones are not created yet and the latter
@@ -24,36 +27,36 @@ NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
  **/
 FldNamesListTable::FldNamesListTable(const Xtring& tablename, const Xtring& fldname,
                                      dbFieldDefinition::Flags flags, const Xtring& defaultvalue)
-    : dbFieldListOfValues<int>( false, 0, 0, tablename, fldname,
+    : dbFieldListOfValues<int>( false, sNullXtringList, sNullIntList, tablename, fldname,
                                 SQLINTEGER, 5, 0, flags, defaultvalue )
 {
-    dbFieldListOfValues<int>::pListOfCaptions = &mCaptions;
-    dbFieldListOfValues<int>::pListOfValues = &mValues;
 }
 
 void FldNamesListTable::fill( dbConnection &conn )
 {
-    mCaptions.clear();
-    mValues.clear();
-    Xtring sql = "SELECT CODIGO, NOMBRE FROM "
-                 + conn.nameToSQL( getName() );
+	_GONG_DEBUG_ASSERT( !mIsConst );
+    mListOfCaptions.clear();
+    mListOfValues.clear();
+    Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn.nameToSQL( getName() );
     dbResultSet *rs = conn.select( sql );
     while( rs->next() ) {
-        mCaptions.push_back( rs->toString(1) );
-        mValues.push_back( rs->toInt(0) );
+        mListOfCaptions.push_back( rs->toString(1) );
+        mListOfValues.push_back( rs->toInt(0) );
     }
 }
 
-void FldNamesListTable::fill(XtringList& mCaptions, gong::List< int >& mValues)
+void FldNamesListTable::fill(XtringList &captions, List< int > &values)
 {
-
+	_GONG_DEBUG_ASSERT( !mIsConst );
+	mListOfCaptions = captions;
+	mListOfValues = values;
 }
 
 int FldNamesListTable::findCode(const Xtring& name) const
 {
     int nv = 0;
-    for( XtringList::const_iterator capit = getListOfCaptions()->begin();
-            capit != getListOfCaptions()->end(); ++capit ) {
+    for( XtringList::const_iterator capit = getListOfCaptions().begin();
+            capit != getListOfCaptions().end(); ++capit ) {
         if( Xtring(*capit).upper() == name.upper() )
             return nv;
         ++nv;

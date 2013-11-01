@@ -40,13 +40,13 @@ namespace contactos {
 
 /*<<<<<FRMEDITCONTACTO_CONSTRUCTOR*/
 FrmEditContacto::FrmEditContacto(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
-                                 EditMode editmode, dbApplication::EditFlags editflags,
-                                 QWidget *parent, const char* name, WidgetFlags fl )
-    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
+	                               EditMode editmode, dbApplication::EditFlags editflags,
+	                               QWidget *parent, const char* name, WidgetFlags fl )
+	    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditContacto" );
-    /*>>>>>FRMEDITCONTACTO_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditContacto" );
+/*>>>>>FRMEDITCONTACTO_CONSTRUCTOR*/
 
     pFrameContactos = new QFrame( this );
     pFrameContactos->setObjectName( "pFrameContactos" );
@@ -61,60 +61,60 @@ FrmEditContacto::FrmEditContacto(FrmEditRec *parentfrm, dbRecord *master, dbReco
     pFrameResto->setObjectName( "pFrameResto" );
     pControlsLayout->addWidget( pFrameResto );
     /*<<<<<FRMEDITCONTACTO_INIT_CONTROLS*/
-    QVBoxLayout *pFrameContactosLayout = new QVBoxLayout(pFrameContactos, 11, 6, "pFrameContactosLayout");
-    QHBoxLayout *preLayout = new QHBoxLayout(0, 0, 6, "preLayout");
-    QVBoxLayout *pFrameRestoLayout = new QVBoxLayout(pFrameResto, 11, 6, "pFrameRestoLayout");
-    QHBoxLayout *nombreLayout = new QHBoxLayout(0, 0, 6, "nombreLayout");
-    QHBoxLayout *altLayout = new QHBoxLayout(0, 0, 6, "altLayout");
-    QHBoxLayout *emailLayout = new QHBoxLayout(0, 0, 6, "emailLayout");
-    QVBoxLayout *pFrameDirLayout = new QVBoxLayout(pFrameDir, 11, 6, "pFrameDirLayout");
-    QHBoxLayout *dirLayout = new QHBoxLayout(0, 0, 6, "dirLayout");
-    QHBoxLayout *cpLayout = new QHBoxLayout(0, 0, 6, "cpLayout");
-    QHBoxLayout *provLayout = new QHBoxLayout(0, 0, 6, "provLayout");
-    QHBoxLayout *telLayout = new QHBoxLayout(0, 0, 6, "telLayout");
-    QHBoxLayout *faxLayout = new QHBoxLayout(0, 0, 6, "faxLayout");
-    QHBoxLayout *webLayout = new QHBoxLayout(0, 0, 6, "webLayout");
-    QHBoxLayout *claveLayout = new QHBoxLayout(0, 0, 6, "claveLayout");
-    QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-    showTabs(true);
-    QWidget *tabImagen = new QWidget( pTabWidget, "tabImagen" );
-    QVBoxLayout *tabImagenLayout = new QVBoxLayout(tabImagen, 11, 6, "tabImagenLayout");
-    QHBoxLayout *imagenLayout = new QHBoxLayout(0, 0, 6, "imagenLayout");
-    editCodigo = addEditField( pFrameContactos, "CONTACTO", "CODIGO", preLayout );
-    editNacionalidad = addEditField( pFrameResto, "CONTACTO", "NACIONALIDAD", preLayout );
-    editFechaNacimiento = addEditField( pFrameResto, "CONTACTO", "FECHANACIMIENTO", preLayout );
-    editCIF = addEditField( pFrameContactos, "CONTACTO", "CIF", nombreLayout );
-    comboTratamientoContacto = addComboField<int>( pFrameContactos, "CONTACTO", "TRATAMIENTOCONTACTO", nombreLayout );
-    editNombre = addEditField( pFrameContactos, "CONTACTO", "NOMBRE", nombreLayout );
-    editNombreAlt = addEditField( pFrameContactos, "CONTACTO", "NOMBREALT", altLayout );
-    editemail = addEditField( pFrameContactos, "CONTACTO", "EMAIL", emailLayout );
-    editDireccion = addEditField( pFrameDir, "CONTACTO", "DIRECCION", dirLayout );
-    editApdoCorreos = addEditField( pFrameDir, "CONTACTO", "APDOCORREOS", dirLayout );
-    editCP = addEditField( pFrameDir, "CONTACTO", "CP", cpLayout );
-    editLocalidad = addEditField( pFrameDir, "CONTACTO", "LOCALIDAD", cpLayout );
-    editBarrio = addEditField( pFrameDir, "CONTACTO", "BARRIO", provLayout );
-    editProvincia = addEditField( pFrameDir, "CONTACTO", "PROVINCIA", provLayout );
-    editPais = addEditField( pFrameContactos, "CONTACTO", "PAIS", provLayout );
-    editTelefono = addTextField( pFrameResto, "CONTACTO", "TELEFONO", telLayout );
-    editFax = addEditField( pFrameResto, "CONTACTO", "FAX", faxLayout );
-    editweb = addEditField( pFrameResto, "CONTACTO", "WEB", webLayout );
-    editClave = addEditField( pFrameResto, "CONTACTO", "CLAVE", claveLayout );
-    editNotas = addTextField( pFrameResto, "CONTACTO", "NOTAS", notasLayout );
-    editContactoImagen_Imagen = addImageField( tabImagen, "CONTACTOIMAGEN", "IMAGEN", imagenLayout );
-    pFrameContactosLayout->addLayout( preLayout );
-    pFrameContactosLayout->addLayout( nombreLayout );
-    pFrameContactosLayout->addLayout( altLayout );
-    pFrameContactosLayout->addLayout( emailLayout );
-    pFrameDirLayout->addLayout( dirLayout );
-    pFrameDirLayout->addLayout( cpLayout );
-    pFrameDirLayout->addLayout( provLayout );
-    pFrameRestoLayout->addLayout( telLayout );
-    pFrameRestoLayout->addLayout( faxLayout );
-    pFrameRestoLayout->addLayout( webLayout );
-    pFrameRestoLayout->addLayout( claveLayout );
-    pFrameRestoLayout->addLayout( notasLayout );
-    tabImagenLayout->addLayout( imagenLayout );
-    /*>>>>>FRMEDITCONTACTO_INIT_CONTROLS*/
+	QVBoxLayout *pFrameContactosLayout = new QVBoxLayout(pFrameContactos, 11, 6, "pFrameContactosLayout");
+	QHBoxLayout *preLayout = new QHBoxLayout(0, 0, 6, "preLayout");
+	QVBoxLayout *pFrameRestoLayout = new QVBoxLayout(pFrameResto, 11, 6, "pFrameRestoLayout");
+	QHBoxLayout *nombreLayout = new QHBoxLayout(0, 0, 6, "nombreLayout");
+	QHBoxLayout *altLayout = new QHBoxLayout(0, 0, 6, "altLayout");
+	QHBoxLayout *emailLayout = new QHBoxLayout(0, 0, 6, "emailLayout");
+	QVBoxLayout *pFrameDirLayout = new QVBoxLayout(pFrameDir, 11, 6, "pFrameDirLayout");
+	QHBoxLayout *dirLayout = new QHBoxLayout(0, 0, 6, "dirLayout");
+	QHBoxLayout *cpLayout = new QHBoxLayout(0, 0, 6, "cpLayout");
+	QHBoxLayout *provLayout = new QHBoxLayout(0, 0, 6, "provLayout");
+	QHBoxLayout *telLayout = new QHBoxLayout(0, 0, 6, "telLayout");
+	QHBoxLayout *faxLayout = new QHBoxLayout(0, 0, 6, "faxLayout");
+	QHBoxLayout *webLayout = new QHBoxLayout(0, 0, 6, "webLayout");
+	QHBoxLayout *claveLayout = new QHBoxLayout(0, 0, 6, "claveLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	showTabs(true);
+	QWidget *tabImagen = new QWidget( pTabWidget, "tabImagen" );
+	QVBoxLayout *tabImagenLayout = new QVBoxLayout(tabImagen, 11, 6, "tabImagenLayout");
+	QHBoxLayout *imagenLayout = new QHBoxLayout(0, 0, 6, "imagenLayout");
+	editCodigo = addEditField( pFrameContactos, "CONTACTO", "CODIGO", preLayout );
+	editNacionalidad = addEditField( pFrameResto, "CONTACTO", "NACIONALIDAD", preLayout );
+	editFechaNacimiento = addEditField( pFrameResto, "CONTACTO", "FECHANACIMIENTO", preLayout );
+	editCIF = addEditField( pFrameContactos, "CONTACTO", "CIF", nombreLayout );
+	comboTratamientoContacto = addComboIntField( pFrameContactos, "CONTACTO", "TRATAMIENTOCONTACTO", nombreLayout );
+	editNombre = addEditField( pFrameContactos, "CONTACTO", "NOMBRE", nombreLayout );
+	editNombreAlt = addEditField( pFrameContactos, "CONTACTO", "NOMBREALT", altLayout );
+	editemail = addEditField( pFrameContactos, "CONTACTO", "EMAIL", emailLayout );
+	editDireccion = addEditField( pFrameDir, "CONTACTO", "DIRECCION", dirLayout );
+	editApdoCorreos = addEditField( pFrameDir, "CONTACTO", "APDOCORREOS", dirLayout );
+	editCP = addEditField( pFrameDir, "CONTACTO", "CP", cpLayout );
+	editLocalidad = addEditField( pFrameDir, "CONTACTO", "LOCALIDAD", cpLayout );
+	editBarrio = addEditField( pFrameDir, "CONTACTO", "BARRIO", provLayout );
+	editProvincia = addEditField( pFrameDir, "CONTACTO", "PROVINCIA", provLayout );
+	editPais = addEditField( pFrameContactos, "CONTACTO", "PAIS", provLayout );
+	editTelefono = addTextField( pFrameResto, "CONTACTO", "TELEFONO", telLayout );
+	editFax = addEditField( pFrameResto, "CONTACTO", "FAX", faxLayout );
+	editweb = addEditField( pFrameResto, "CONTACTO", "WEB", webLayout );
+	editClave = addEditField( pFrameResto, "CONTACTO", "CLAVE", claveLayout );
+	editNotas = addTextField( pFrameResto, "CONTACTO", "NOTAS", notasLayout );
+	editContactoImagen_Imagen = addImageField( tabImagen, "CONTACTOIMAGEN", "IMAGEN", imagenLayout );
+	pFrameContactosLayout->addLayout( preLayout );
+	pFrameContactosLayout->addLayout( nombreLayout );
+	pFrameContactosLayout->addLayout( altLayout );
+	pFrameContactosLayout->addLayout( emailLayout );
+	pFrameDirLayout->addLayout( dirLayout );
+	pFrameDirLayout->addLayout( cpLayout );
+	pFrameDirLayout->addLayout( provLayout );
+	pFrameRestoLayout->addLayout( telLayout );
+	pFrameRestoLayout->addLayout( faxLayout );
+	pFrameRestoLayout->addLayout( webLayout );
+	pFrameRestoLayout->addLayout( claveLayout );
+	pFrameRestoLayout->addLayout( notasLayout );
+	tabImagenLayout->addLayout( imagenLayout );
+/*>>>>>FRMEDITCONTACTO_INIT_CONTROLS*/
     connect( editContactoImagen_Imagen, SIGNAL( clicked() ), this, SLOT( editContactoImagen_clicked() ) );
     pTabWidget->insertTab( tabImagen, toGUI( _( "&Imagen" ) ) );
     pSearchCP = new QToolButton( pFrameDir );
@@ -128,30 +128,30 @@ FrmEditContacto::FrmEditContacto(FrmEditRec *parentfrm, dbRecord *master, dbReco
 void FrmEditContacto::scatterFields()
 {
     /*<<<<<FRMEDITCONTACTO_SCATTER*/
-    editCodigo->setText(getRecContacto()->getValue("CODIGO").toInt());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editCodigo;
-    editNacionalidad->setText(getRecContacto()->getValue("NACIONALIDAD").toString());
-    editFechaNacimiento->setText(getRecContacto()->getValue("FECHANACIMIENTO").toDate());
-    editCIF->setText(getRecContacto()->getValue("CIF").toString());
-    comboTratamientoContacto->setCurrentItemByValue(getRecContacto()->getValue("TRATAMIENTOCONTACTO").toInt());
-    editNombre->setText(getRecContacto()->getValue("NOMBRE").toString());
-    editNombreAlt->setText(getRecContacto()->getValue("NOMBREALT").toString());
-    editemail->setText(getRecContacto()->getValue("EMAIL").toString());
-    editDireccion->setText(getRecContacto()->getValue("DIRECCION").toString());
-    editApdoCorreos->setText(getRecContacto()->getValue("APDOCORREOS").toString());
-    editCP->setText(getRecContacto()->getValue("CP").toString());
-    editLocalidad->setText(getRecContacto()->getValue("LOCALIDAD").toString());
-    editBarrio->setText(getRecContacto()->getValue("BARRIO").toString());
-    editProvincia->setText(getRecContacto()->getValue("PROVINCIA").toString());
-    editPais->setText(getRecContacto()->getValue("PAIS").toString());
-    editTelefono->setText(getRecContacto()->getValue("TELEFONO").toString());
-    editFax->setText(getRecContacto()->getValue("FAX").toString());
-    editweb->setText(getRecContacto()->getValue("WEB").toString());
-    editClave->setText(getRecContacto()->getValue("CLAVE").toString());
-    editNotas->setText(getRecContacto()->getValue("NOTAS").toString());
-    editContactoImagen_Imagen->setImageData(getRecContacto()->getValue("CONTACTOIMAGEN.IMAGEN"));
-    /*>>>>>FRMEDITCONTACTO_SCATTER*/
+	editCodigo->setText(getRecContacto()->getValue("CODIGO").toInt());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editCodigo;
+	editNacionalidad->setText(getRecContacto()->getValue("NACIONALIDAD").toString());
+	editFechaNacimiento->setText(getRecContacto()->getValue("FECHANACIMIENTO").toDate());
+	editCIF->setText(getRecContacto()->getValue("CIF").toString());
+	comboTratamientoContacto->setCurrentItemByValue(getRecContacto()->getValue("TRATAMIENTOCONTACTO").toInt());
+	editNombre->setText(getRecContacto()->getValue("NOMBRE").toString());
+	editNombreAlt->setText(getRecContacto()->getValue("NOMBREALT").toString());
+	editemail->setText(getRecContacto()->getValue("EMAIL").toString());
+	editDireccion->setText(getRecContacto()->getValue("DIRECCION").toString());
+	editApdoCorreos->setText(getRecContacto()->getValue("APDOCORREOS").toString());
+	editCP->setText(getRecContacto()->getValue("CP").toString());
+	editLocalidad->setText(getRecContacto()->getValue("LOCALIDAD").toString());
+	editBarrio->setText(getRecContacto()->getValue("BARRIO").toString());
+	editProvincia->setText(getRecContacto()->getValue("PROVINCIA").toString());
+	editPais->setText(getRecContacto()->getValue("PAIS").toString());
+	editTelefono->setText(getRecContacto()->getValue("TELEFONO").toString());
+	editFax->setText(getRecContacto()->getValue("FAX").toString());
+	editweb->setText(getRecContacto()->getValue("WEB").toString());
+	editClave->setText(getRecContacto()->getValue("CLAVE").toString());
+	editNotas->setText(getRecContacto()->getValue("NOTAS").toString());
+	editContactoImagen_Imagen->setImageData(getRecContacto()->getValue("CONTACTOIMAGEN.IMAGEN"));
+/*>>>>>FRMEDITCONTACTO_SCATTER*/
     if( isInserting() ) {
         if( !DBAPP->codeNotFound().isEmpty() ) {
             if( DBAPP->codeNotFound().toInt() != 0 )
@@ -167,43 +167,43 @@ void FrmEditContacto::scatterFields()
 void FrmEditContacto::gatherFields()
 {
     /*<<<<<FRMEDITCONTACTO_GATHER*/
-    getRecContacto()->setValue( "CODIGO", editCodigo->toInt());
-    getRecContacto()->setValue( "NACIONALIDAD", editNacionalidad->toString());
-    getRecContacto()->setValue( "FECHANACIMIENTO", editFechaNacimiento->toDate());
-    getRecContacto()->setValue( "CIF", editCIF->toString());
-    getRecContacto()->setValue( "TRATAMIENTOCONTACTO", comboTratamientoContacto->getCurrentItemValue());
-    getRecContacto()->setValue( "NOMBRE", editNombre->toString());
-    getRecContacto()->setValue( "NOMBREALT", editNombreAlt->toString());
-    getRecContacto()->setValue( "EMAIL", editemail->toString());
-    getRecContacto()->setValue( "DIRECCION", editDireccion->toString());
-    getRecContacto()->setValue( "APDOCORREOS", editApdoCorreos->toString());
-    getRecContacto()->setValue( "CP", editCP->toString());
-    getRecContacto()->setValue( "LOCALIDAD", editLocalidad->toString());
-    getRecContacto()->setValue( "BARRIO", editBarrio->toString());
-    getRecContacto()->setValue( "PROVINCIA", editProvincia->toString());
-    getRecContacto()->setValue( "PAIS", editPais->toString());
-    getRecContacto()->setValue( "TELEFONO", editTelefono->toString());
-    getRecContacto()->setValue( "FAX", editFax->toString());
-    getRecContacto()->setValue( "WEB", editweb->toString());
-    getRecContacto()->setValue( "CLAVE", editClave->toString());
-    getRecContacto()->setValue( "NOTAS", editNotas->toString());
-    getRecContacto()->setValue( "CONTACTOIMAGEN.IMAGEN", editContactoImagen_Imagen->toData());
-    /*>>>>>FRMEDITCONTACTO_GATHER*/
+	getRecContacto()->setValue( "CODIGO", editCodigo->toInt());
+	getRecContacto()->setValue( "NACIONALIDAD", editNacionalidad->toString());
+	getRecContacto()->setValue( "FECHANACIMIENTO", editFechaNacimiento->toDate());
+	getRecContacto()->setValue( "CIF", editCIF->toString());
+	getRecContacto()->setValue( "TRATAMIENTOCONTACTO", comboTratamientoContacto->getCurrentItemValue());
+	getRecContacto()->setValue( "NOMBRE", editNombre->toString());
+	getRecContacto()->setValue( "NOMBREALT", editNombreAlt->toString());
+	getRecContacto()->setValue( "EMAIL", editemail->toString());
+	getRecContacto()->setValue( "DIRECCION", editDireccion->toString());
+	getRecContacto()->setValue( "APDOCORREOS", editApdoCorreos->toString());
+	getRecContacto()->setValue( "CP", editCP->toString());
+	getRecContacto()->setValue( "LOCALIDAD", editLocalidad->toString());
+	getRecContacto()->setValue( "BARRIO", editBarrio->toString());
+	getRecContacto()->setValue( "PROVINCIA", editProvincia->toString());
+	getRecContacto()->setValue( "PAIS", editPais->toString());
+	getRecContacto()->setValue( "TELEFONO", editTelefono->toString());
+	getRecContacto()->setValue( "FAX", editFax->toString());
+	getRecContacto()->setValue( "WEB", editweb->toString());
+	getRecContacto()->setValue( "CLAVE", editClave->toString());
+	getRecContacto()->setValue( "NOTAS", editNotas->toString());
+	getRecContacto()->setValue( "CONTACTOIMAGEN.IMAGEN", editContactoImagen_Imagen->toData());
+/*>>>>>FRMEDITCONTACTO_GATHER*/
 }
 
 void FrmEditContacto::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
     /*<<<<<FRMEDITCONTACTO_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    if( !validCodeAndDesc( sender, *validresult, editCodigo, 0, "codigo", "" ) )
-        if( !sender )
-            *isvalid = false;
-    /*>>>>>FRMEDITCONTACTO_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( !validCodeAndDesc( sender, *validresult, editCodigo, 0, "codigo", "" ) )
+		if( !sender )
+			*isvalid = false;
+/*>>>>>FRMEDITCONTACTO_VALIDATE*/
     bool pais_espana = editPais->toString().isEmpty() || editPais->toString().upper() == _("ESPAÑA");
     bool nac_espana = editNacionalidad->toString().isEmpty() || editNacionalidad->toString().upper() == _("ESPAÑOLA");
     dbFieldDefinition *cifdef = DBAPP->getDatabase()->findFieldDefinition("CONTACTO.CIF");
