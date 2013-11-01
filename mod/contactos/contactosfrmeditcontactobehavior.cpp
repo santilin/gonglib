@@ -55,6 +55,18 @@ RecContacto* FrmEditContactoBehavior::getRecContacto() const
 
 void FrmEditContactoBehavior::initGUI()
 {
+}
+
+/**
+ * @brief Esta función se llama desde el constructor del formulario maestro.
+ * Si los controles se añaden desde initGUI no funciona bien porque el initGUI se llama después de
+ * haberse creado el formulario maestro y los layouts no se redibujan bien
+ *
+ * @return void
+ **/
+
+void FrmEditContactoBehavior::_initGUI()
+{
     // {capel} añadir a addSearchField
     // static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
     QHBoxLayout *pushLayout = new QHBoxLayout();

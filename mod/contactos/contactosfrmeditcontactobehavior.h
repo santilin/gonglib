@@ -36,6 +36,7 @@ public:
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_CLASS*/
         , pFrameContactos(0), editRazonSocial(0)
         , mSetContactoIDNoNullAgain(false), mCreating(true), mSearching(0) {}
+	virtual void _initGUI();
     RecContacto *getRecContacto() const;
     FrmEditContactoBehavior( FrmEditRec *theform, QTabWidget *holder, gong::LineEdit *razonsocial ):
         FrmEditRecBehavior( theform ), pFrameContactos( holder ), editRazonSocial( razonsocial ),

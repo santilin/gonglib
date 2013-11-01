@@ -89,9 +89,10 @@ FrmEditEmpresa::FrmEditEmpresa(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 /*>>>>>FRMEDITEMPRESA_INIT_CONTROLS*/
 // {capel} Añadir detrás de codigolayout
 //	pControlsLayout->addWidget( pFrameContactos );
-	setMinimumHeight( 600 );
+// 	setMinimumHeight( 600 );
     pEditContactoBehavior = new contactos::FrmEditContactoBehavior( this, pFrameContactos, editNombre );
     addBehavior( pEditContactoBehavior );
+	pEditContactoBehavior->_initGUI();
 
     connect( editLogo, SIGNAL( clicked() ), this, SLOT( editLogo_clicked() ) );
     pTabWidget->insertTab( tabLogo, toGUI( _( "&Logo" ) ) );
@@ -99,7 +100,7 @@ FrmEditEmpresa::FrmEditEmpresa(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 
 void FrmEditEmpresa::scatterFields()
 {
-//     pEditContactoBehavior->setTabOrders( editNombre, searchMonedaCodigo );
+    pEditContactoBehavior->setTabOrders( editNombre, searchMonedaCodigo );
 /*<<<<<FRMEDITEMPRESA_SCATTER*/
 	editCodigo->setText(getRecEmpresa()->getValue("CODIGO").toInt());
 	if( isEditing() && (pFocusWidget == 0) )
