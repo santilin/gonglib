@@ -28,6 +28,7 @@ gestiong/rtk
 gestiong/share/
 gestiong/sinpapeles
 gestiong/socias
+gestiong/gastos
 mod/deposit
 mod/editorial
 mod/ofertas
@@ -43,3 +44,7 @@ share/reccolor
 share/share
 share/sinpapeles
 share/socias
+share/ofertas
+share/produccion
+share/tpv
+share/ventasweb
