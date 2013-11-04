@@ -43,17 +43,17 @@ void RecAsiento::init()
 /*<<<<<ASIENTO_RELATIONS*/
 empresa::RecProyecto *RecAsiento::getRecProyecto() const
 {
-    return static_cast<empresa::RecProyecto*>(findRelatedRecord("ASIENTO.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("ASIENTO.PROYECTO_ID"));
 }
 
 RecApunte *RecAsiento::getRecApunte( int apunte ) const
 {
-    return static_cast<RecApunte*>(findRelationByRelatedTable("APUNTE" )->getRelatedRecord( apunte));
+	return static_cast<RecApunte*>(findRelationByRelatedTable("APUNTE" )->getRelatedRecord( apunte));
 }
 
 dbRecordList *RecAsiento::getListApunte() const
 {
-    return findRelationByRelatedTable( "APUNTE" )->getRelatedRecordList();
+	return findRelationByRelatedTable( "APUNTE" )->getRelatedRecordList();
 }
 /*>>>>>ASIENTO_RELATIONS*/
 
@@ -136,8 +136,8 @@ void RecAsiento::addApunte(const RecApunte *apunte, int pos)
 /*<<<<<ASIENTO_ISVALID*/
 bool RecAsiento::isValid(ValidResult::Context context, ValidResult *result )
 {
-    bool ret = dbRecord::isValid(context, result);
-    /*>>>>>ASIENTO_ISVALID*/
+	bool ret = dbRecord::isValid(context, result);
+/*>>>>>ASIENTO_ISVALID*/
     if( getValue("FECHA").toDate().getYear() != empresa::ModuleInstance->getEjercicio() ) {
         result->addError( Xtring::printf("La fecha no es del ejercicio actual: %d",
                                          empresa::ModuleInstance->getEjercicio() ), "FECHA" );
@@ -159,8 +159,8 @@ bool RecAsiento::isValid(ValidResult::Context context, ValidResult *result )
 /*<<<<<ASIENTO_TOSTRING*/
 Xtring RecAsiento::toString(int format, const RegExp &includedFields) const
 {
-    Xtring result;
-    /*>>>>>ASIENTO_TOSTRING*/
+	Xtring result;
+/*>>>>>ASIENTO_TOSTRING*/
     if( format == TOSTRING_USER )
         result = Xtring::printf( "%d, %s", getValue("NUMASIENTO").toInt(), getValue("FECHA").toString().c_str() );
     else

@@ -16,7 +16,7 @@ public:
     virtual void accept(); // from FrmBase
 
 private:
-    ComboBox<Xtring> *pComboOpciones, *pComboTrimestre;
+    ComboBoxXtring *pComboOpciones, *pComboTrimestre;
     CheckBox *pCheckSepararIvas;
     SearchBox *pSearchTipoDoc;
 };

@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file factufldivadetallado.h dbFieldDefinition que representa el modo de detallar el iva en las facturas, etc.
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -27,11 +27,12 @@ class FldIVADetallado: public dbFieldListOfValues<int>
 public:
     enum IvaDetallado { desglosado = 1, con_recargo, sin_iva, incluido };
     /*<<<<<DBFIELD_IVADETALLADO_CONSTRUCTOR*/
-    FldIVADetallado(const Xtring &tablename, const Xtring &name,
-                    dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
-                    const Xtring &defaultvalue = Xtring::null)
-    /*>>>>>DBFIELD_IVADETALLADO_CONSTRUCTOR*/
-        : dbFieldListOfValues<int>( false, &mCaptions, &mValues, tablename, name,
+	FldIVADetallado(const Xtring &tablename, const Xtring &name,
+		dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
+		const Xtring &defaultvalue = Xtring::null)
+/*>>>>>DBFIELD_IVADETALLADO_CONSTRUCTOR*/
+        : dbFieldListOfValues<int>( false, const_cast<const XtringList &>(sCaptions),
+                                   const_cast<const List<int> &>(sValues), tablename, name,
                                     SQLINTEGER, 4, 0, flags, defaultvalue )
     {
         setStyle( "TIPODOCUMENTO" );
@@ -39,9 +40,9 @@ public:
 
     /*<<<<<DBFIELD_IVADETALLADO_VALUES*/
 public:
-    static List<int> mValues;
-    /*>>>>>DBFIELD_IVADETALLADO_VALUES*/
-    static List<Xtring> mCaptions;
+	static List<int> sValues;
+/*>>>>>DBFIELD_IVADETALLADO_VALUES*/
+    static List<Xtring> sCaptions;
     static bool isPreciosConIVA( int ivadetallado );
 };
 

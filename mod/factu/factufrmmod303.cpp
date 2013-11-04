@@ -19,10 +19,10 @@ FrmMod303::FrmMod303(QWidget * parent, const char * name,
     setTitle( titulo );
     XtringList opciones;
     opciones << "Iva devengado (repercutido)" << "IVA Deducible (soportado)";
-    pComboOpciones = addComboBox( 0, "Opción", opciones );
+    pComboOpciones = addComboBoxXtring( 0, "Opción", opciones );
     XtringList trimestres;
     trimestres << "1er. Trimestre" << "2º Trimestre" << "3er Trimestre" << "4º Trimestre";
-    pComboTrimestre = addComboBox( 0, "Trimestre", trimestres );
+    pComboTrimestre = addComboBoxXtring( 0, "Trimestre", trimestres );
     pSearchTipoDoc = addMultipleSearchField( 0, "TIPODOC", "CODIGO", "NOMBRE" );
     pCheckSepararIvas = addCheckBox( 0, "Separar los tipos de IVA", true );
 }

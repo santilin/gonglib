@@ -35,7 +35,7 @@ namespace factu {
 /*<<<<<FACTURAVENTADET_BEFORESAVEORDELETERELATED*/
 void RecFacturaVentaDet::beforeSaveOrDeleteRelated(dbRecord *master, bool saving)
 {
-    /*>>>>>FACTURAVENTADET_BEFORESAVEORDELETERELATED*/
+/*>>>>>FACTURAVENTADET_BEFORESAVEORDELETERELATED*/
     actStocks( master, saving );
     actAlbaranes( master, saving );
 }
@@ -68,12 +68,12 @@ bool RecFacturaVentaDet::actStocks( dbRecord *facturaventa, bool saving ) const
 /*<<<<<FACTURAVENTADET_RELATIONS*/
 RecArticulo *RecFacturaVentaDet::getRecArticulo() const
 {
-    return static_cast<RecArticulo*>(findRelatedRecord("FACTURAVENTADET.ARTICULO_ID"));
+	return static_cast<RecArticulo*>(findRelatedRecord("FACTURAVENTADET.ARTICULO_ID"));
 }
 
 empresa::RecTipoIVA *RecFacturaVentaDet::getRecTipoIVA() const
 {
-    return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("FACTURAVENTADET.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("FACTURAVENTADET.TIPOIVA_ID"));
 }
 
 /*>>>>>FACTURAVENTADET_RELATIONS*/

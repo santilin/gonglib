@@ -12,6 +12,7 @@
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
 
+#include <stdio.h>
 #include <cstdarg>
 #include <vector>
 #include <string>
@@ -117,8 +118,50 @@ extern List<T>::List(unsigned int asize, ... )
     va_end( elements );
 }
 
+template<> inline
+std::string List<long>::join(const std::string &sep) const
+{
+    std::string result;
+    for( const_iterator it = begin(); it != end(); ++it ) {
+        if( result.size() )
+            result += sep;
+		char buffer[ 64 ];
+		sprintf ( buffer, "%ld", *it );
+        result += buffer;
+    }
+    return result;
+}
+
+template<> inline
+std::string List<int>::join(const std::string &sep) const
+{
+    std::string result;
+    for( const_iterator it = begin(); it != end(); ++it ) {
+        if( result.size() )
+            result += sep;
+		char buffer[ 64 ];
+		sprintf ( buffer, "%d", *it );
+        result += buffer;
+    }
+    return result;
+}
+
+template<> inline
+std::string List<unsigned int>::join(const std::string &sep) const
+{
+    std::string result;
+    for( const_iterator it = begin(); it != end(); ++it ) {
+        if( result.size() )
+            result += sep;
+		char buffer[ 64 ];
+		sprintf ( buffer, "%d", *it );
+        result += buffer;
+    }
+    return result;
+}
+
 #ifdef _GONG_DEBUG
-template<class T>
+template<class T> inline
 void List<T>::debug_print(int debug_level) const
 {
     for( const_iterator it = begin(); it != end(); ++it )

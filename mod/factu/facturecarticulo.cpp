@@ -38,22 +38,22 @@ namespace factu {
 /*<<<<<ARTICULO_RELATIONS*/
 RecFamilia *RecArticulo::getRecFamilia() const
 {
-    return static_cast<RecFamilia*>(findRelatedRecord("ARTICULO.FAMILIA_ID"));
+	return static_cast<RecFamilia*>(findRelatedRecord("ARTICULO.FAMILIA_ID"));
 }
 
 empresa::RecTipoIVA *RecArticulo::getRecTipoIVA() const
 {
-    return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("ARTICULO.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("ARTICULO.TIPOIVA_ID"));
 }
 
 RecProveedora *RecArticulo::getRecProveedora() const
 {
-    return static_cast<RecProveedora*>(findRelatedRecord("ARTICULO.PROVEEDORA_ID"));
+	return static_cast<RecProveedora*>(findRelatedRecord("ARTICULO.PROVEEDORA_ID"));
 }
 
 RecArticuloImagen *RecArticulo::getRecArticuloImagen() const
 {
-    return static_cast<RecArticuloImagen*>(findRelatedRecord("ARTICULO.ARTICULOIMAGEN_ID"));
+	return static_cast<RecArticuloImagen*>(findRelatedRecord("ARTICULO.ARTICULOIMAGEN_ID"));
 }
 
 /*>>>>>ARTICULO_RELATIONS*/
@@ -325,8 +325,8 @@ Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &forma
 /*<<<<<ARTICULO_ISVALID*/
 bool RecArticulo::isValid(ValidResult::Context context, ValidResult *result )
 {
-    bool ret = dbRecord::isValid(context, result);
-    /*>>>>>ARTICULO_ISVALID*/
+	bool ret = dbRecord::isValid(context, result);
+/*>>>>>ARTICULO_ISVALID*/
     if( context == ValidResult::fixing ) {
         if( getValue( "COSTESINIVA" ).toDouble() != 0.0 )
             fixPrecios( "COSTESINIVA" );

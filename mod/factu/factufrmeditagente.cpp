@@ -36,26 +36,26 @@ namespace factu {
 
 /*<<<<<FRMEDITAGENTE_CONSTRUCTOR*/
 FrmEditAgente::FrmEditAgente(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
-                             EditMode editmode, dbApplication::EditFlags editflags,
-                             QWidget *parent, const char* name, WidgetFlags fl )
-    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
+	                               EditMode editmode, dbApplication::EditFlags editflags,
+	                               QWidget *parent, const char* name, WidgetFlags fl )
+	    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditAgente" );
-    /*>>>>>FRMEDITAGENTE_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditAgente" );
+/*>>>>>FRMEDITAGENTE_CONSTRUCTOR*/
     QTabWidget *pFrameContactos = new QTabWidget(pControlsFrame);
     new QVBoxLayout( pFrameContactos );
     pFrameContactos->setObjectName( "FrameContactos" );
     /*<<<<<FRMEDITAGENTE_INIT_CONTROLS*/
-    QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
-    QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-    editCodigo = addEditField( pControlsFrame, "AGENTE", "CODIGO", codigoLayout );
-    editRazonSocial = addEditField( pControlsFrame, "AGENTE", "RAZONSOCIAL", codigoLayout );
-    editNotas = addTextField( pControlsFrame, "AGENTE", "NOTAS", notasLayout );
-    pControlsLayout->addLayout( codigoLayout );
-    pControlsLayout->addWidget( pFrameContactos );
-    pControlsLayout->addLayout( notasLayout );
-    /*>>>>>FRMEDITAGENTE_INIT_CONTROLS*/
+	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	editCodigo = addEditField( pControlsFrame, "AGENTE", "CODIGO", codigoLayout );
+	editRazonSocial = addEditField( pControlsFrame, "AGENTE", "RAZONSOCIAL", codigoLayout );
+	editNotas = addTextField( pControlsFrame, "AGENTE", "NOTAS", notasLayout );
+	pControlsLayout->addLayout( codigoLayout );
+	pControlsLayout->addWidget( pFrameContactos );
+	pControlsLayout->addLayout( notasLayout );
+/*>>>>>FRMEDITAGENTE_INIT_CONTROLS*/
 // {capel} Añadir detrás de addLayout( codigoLayout )
 //	pControlsLayout->addWidget( pFrameContactos );
     pEditContactoBehavior = new contactos::FrmEditContactoBehavior( this, pFrameContactos, editRazonSocial );
@@ -70,15 +70,15 @@ void FrmEditAgente::scatterFields()
         getRecAgente()->setValue( "CODIGO", 0 );
     pEditContactoBehavior->setTabOrders( editRazonSocial, editNotas);
     /*<<<<<FRMEDITAGENTE_SCATTER*/
-    editCodigo->setText(getRecAgente()->getValue("CODIGO").toInt());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editCodigo;
-    editRazonSocial->setText(getRecAgente()->getValue("RAZONSOCIAL").toString());
-    editNotas->setText(getRecAgente()->getValue("NOTAS").toString());
-    if( isInserting() && editCodigo->toInt() == 0 ) {
-        editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
-    }
-    /*>>>>>FRMEDITAGENTE_SCATTER*/
+	editCodigo->setText(getRecAgente()->getValue("CODIGO").toInt());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editCodigo;
+	editRazonSocial->setText(getRecAgente()->getValue("RAZONSOCIAL").toString());
+	editNotas->setText(getRecAgente()->getValue("NOTAS").toString());
+	if( isInserting() && editCodigo->toInt() == 0 ) {
+		editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
+	}
+/*>>>>>FRMEDITAGENTE_SCATTER*/
     if( isInserting() && !isDuplicating() && !DBAPP->codeNotFound().isEmpty() ) {
         if( DBAPP->codeNotFound().toInt() != 0 ) {
             editCodigo->setText( DBAPP->codeNotFound() );
@@ -94,21 +94,21 @@ void FrmEditAgente::scatterFields()
 void FrmEditAgente::gatherFields()
 {
     /*<<<<<FRMEDITAGENTE_GATHER*/
-    getRecAgente()->setValue( "CODIGO", editCodigo->toInt());
-    getRecAgente()->setValue( "RAZONSOCIAL", editRazonSocial->toString());
-    getRecAgente()->setValue( "NOTAS", editNotas->toString());
-    /*>>>>>FRMEDITAGENTE_GATHER*/
+	getRecAgente()->setValue( "CODIGO", editCodigo->toInt());
+	getRecAgente()->setValue( "RAZONSOCIAL", editRazonSocial->toString());
+	getRecAgente()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITAGENTE_GATHER*/
 }
 void FrmEditAgente::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
     /*<<<<<FRMEDITAGENTE_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    /*>>>>>FRMEDITAGENTE_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+/*>>>>>FRMEDITAGENTE_VALIDATE*/
     if( !validCodeAndDesc( sender, *validresult, editCodigo, editRazonSocial, "codigo", "razonsocial" ) )
         if( !sender )
             *isvalid = false;

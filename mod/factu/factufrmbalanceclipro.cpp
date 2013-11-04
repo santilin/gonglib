@@ -38,7 +38,7 @@ FrmBalanceCliPro::FrmBalanceCliPro(QWidget * parent, const char * name,
     pEditTitulo = addInput( 0, "Título", titulo );
     XtringList comprasoventas;
     comprasoventas << "Clientes" << "Proveedoras";
-    pComboCliOPro = addComboBox( 0, "Clientes o proveedoras", comprasoventas );
+    pComboCliOPro = addComboBoxXtring( 0, "Clientes o proveedoras", comprasoventas );
     pDateRange = addDateRangeBox( 0, "Fecha de las transacciones",
                                   Date( empresa::ModuleInstance->getEjercicio(), 1, 1 ),
                                   Date( empresa::ModuleInstance->getEjercicio(), 12, 31 ) );
@@ -47,7 +47,7 @@ FrmBalanceCliPro::FrmBalanceCliPro(QWidget * parent, const char * name,
     pSearchProveedora = addMultipleSearchField( 0, "PROVEEDORA", "CODIGO", "RAZONSOCIAL" );
     XtringList agrupar_por;
     agrupar_por << "No agrupar" << "Cliente o proveedora";
-    pComboAgruparPor = addComboBox( 0, "Agrupar  por", agrupar_por );
+    pComboAgruparPor = addComboBoxXtring( 0, "Agrupar  por", agrupar_por );
     pCheckIncCobros = addCheckBox( 0, "Incluir cobros", false );
     pCheckResumido = addCheckBox( 0, "Resumido", false );
     pCheckTodasLasEmpresas = addCheckBox(0, "Todas las empresas", false );

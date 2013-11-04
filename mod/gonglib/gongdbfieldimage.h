@@ -5,7 +5,7 @@
 
 /*<<<<<COPYLEFT*/
 /** @file gongdbfieldimage.h A dbFieldDefinition for Images
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -26,10 +26,10 @@ class dbFieldImage: public dbFieldDefinition
 {
 public:
     /*<<<<<DBFIELD_IMAGE_CONSTRUCTOR*/
-    dbFieldImage(const Xtring &tablename, const Xtring &name,
-                 dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
-                 const Xtring &defaultvalue = Xtring::null)
-    /*>>>>>DBFIELD_IMAGE_CONSTRUCTOR*/
+	dbFieldImage(const Xtring &tablename, const Xtring &name,
+		dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
+		const Xtring &defaultvalue = Xtring::null)
+/*>>>>>DBFIELD_IMAGE_CONSTRUCTOR*/
         : dbFieldDefinition(tablename, name, SQLBLOB, 0, 0, flags, defaultvalue)
     {}
 }; // class

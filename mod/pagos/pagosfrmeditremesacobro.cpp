@@ -55,64 +55,64 @@ namespace pagos {
 
 /*<<<<<FRMEDITREMESACOBRO_CONSTRUCTOR*/
 FrmEditRemesaCobro::FrmEditRemesaCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
-                                       EditMode editmode, dbApplication::EditFlags editflags,
-                                       QWidget *parent, const char* name, WidgetFlags fl )
-    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
+	                               EditMode editmode, dbApplication::EditFlags editflags,
+	                               QWidget *parent, const char* name, WidgetFlags fl )
+	    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditRemesaCobro" );
-    /*>>>>>FRMEDITREMESACOBRO_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditRemesaCobro" );
+/*>>>>>FRMEDITREMESACOBRO_CONSTRUCTOR*/
     QTabWidget *tabFrameEdit = new QTabWidget( pControlsFrame, "tabFrameEdit" );
     searchProyectoCodigo = 0;
     /*<<<<<FRMEDITREMESACOBRO_INIT_CONTROLS*/
-    showTabs(true);
-    QWidget *tabRemesa = new QWidget( pTabWidget, "tabRemesa" );
-    QVBoxLayout *tabRemesaLayout = new QVBoxLayout(tabRemesa, 11, 6, "tabRemesaLayout");
-    QHBoxLayout *remesaNumeroLayout = new QHBoxLayout(0, 0, 6, "remesaNumeroLayout");
-    QHBoxLayout *proyectoLayout = new QHBoxLayout(0, 0, 6, "proyectoLayout");
-    QHBoxLayout *remesaFechasLayout = new QHBoxLayout(0, 0, 6, "remesaFechasLayout");
-    QHBoxLayout *remesaAbonoLayout = new QHBoxLayout(0, 0, 6, "remesaAbonoLayout");
-    QHBoxLayout *remesaTotalesLayout = new QHBoxLayout(0, 0, 6, "remesaTotalesLayout");
-    QHBoxLayout *remesaNotasLayout = new QHBoxLayout(0, 0, 6, "remesaNotasLayout");
-    QWidget *tabRecibos = new QWidget( pTabWidget, "tabRecibos" );
-    QVBoxLayout *tabRecibosLayout = new QVBoxLayout(tabRecibos, 11, 6, "tabRecibosLayout");
-    QHBoxLayout *recibosLayout = new QHBoxLayout(0, 0, 6, "recibosLayout");
-    editNumero = addEditField( tabRemesa, "REMESACOBRO", "NUMERO", remesaNumeroLayout );
-    editDescripcion = addEditField( tabRemesa, "REMESACOBRO", "DESCRIPCION", remesaNumeroLayout );
+	showTabs(true);
+	QWidget *tabRemesa = new QWidget( pTabWidget, "tabRemesa" );
+	QVBoxLayout *tabRemesaLayout = new QVBoxLayout(tabRemesa, 11, 6, "tabRemesaLayout");
+	QHBoxLayout *remesaNumeroLayout = new QHBoxLayout(0, 0, 6, "remesaNumeroLayout");
+	QHBoxLayout *proyectoLayout = new QHBoxLayout(0, 0, 6, "proyectoLayout");
+	QHBoxLayout *remesaFechasLayout = new QHBoxLayout(0, 0, 6, "remesaFechasLayout");
+	QHBoxLayout *remesaAbonoLayout = new QHBoxLayout(0, 0, 6, "remesaAbonoLayout");
+	QHBoxLayout *remesaTotalesLayout = new QHBoxLayout(0, 0, 6, "remesaTotalesLayout");
+	QHBoxLayout *remesaNotasLayout = new QHBoxLayout(0, 0, 6, "remesaNotasLayout");
+	QWidget *tabRecibos = new QWidget( pTabWidget, "tabRecibos" );
+	QVBoxLayout *tabRecibosLayout = new QVBoxLayout(tabRecibos, 11, 6, "tabRecibosLayout");
+	QHBoxLayout *recibosLayout = new QHBoxLayout(0, 0, 6, "recibosLayout");
+	editNumero = addEditField( tabRemesa, "REMESACOBRO", "NUMERO", remesaNumeroLayout );
+	editDescripcion = addEditField( tabRemesa, "REMESACOBRO", "DESCRIPCION", remesaNumeroLayout );
 
-    if(usarProyecto()) {
-        searchProyectoCodigo = addSearchField( tabRemesa, "PROYECTO_ID", "PROYECTO", "CODIGO", "NOMBRE", proyectoLayout );
-        pushProyectoCodigo = searchProyectoCodigo->getButton();
-        connect( pushProyectoCodigo, SIGNAL( clicked() ), this, SLOT( pushProyectoCodigo_clicked() ) );
-        editProyectoCodigo = searchProyectoCodigo->getEditCode();
-        editProyectoNombre = searchProyectoCodigo->getEditDesc();
-    }
-    checkCerrada = addCheckField( tabRemesa, "REMESACOBRO", "CERRADA", remesaFechasLayout );
-    editFechaEmision = addEditField( tabRemesa, "REMESACOBRO", "FECHAEMISION", remesaFechasLayout );
-    editFechaCargo = addEditField( tabRemesa, "REMESACOBRO", "FECHACARGO", remesaFechasLayout );
-    editCuentaBancoAbono = addEditField( tabRemesa, "REMESACOBRO", "CUENTABANCOABONO", remesaAbonoLayout );
-    editNRecibos = addEditField( tabRemesa, "REMESACOBRO", "NRECIBOS", remesaTotalesLayout );
-    editImporte = addEditField( tabRemesa, "REMESACOBRO", "IMPORTE", remesaTotalesLayout );
-    editResto = addEditField( tabRemesa, "REMESACOBRO", "RESTO", remesaTotalesLayout );
-    editNotas = addTextField( tabRemesa, "REMESACOBRO", "NOTAS", remesaNotasLayout );
+if(usarProyecto()){
+	searchProyectoCodigo = addSearchField( tabRemesa, "PROYECTO_ID", "PROYECTO", "CODIGO", "NOMBRE", proyectoLayout );
+	pushProyectoCodigo = searchProyectoCodigo->getButton();
+	connect( pushProyectoCodigo, SIGNAL( clicked() ), this, SLOT( pushProyectoCodigo_clicked() ) );
+	editProyectoCodigo = searchProyectoCodigo->getEditCode();
+	editProyectoNombre = searchProyectoCodigo->getEditDesc();
+}
+	checkCerrada = addCheckField( tabRemesa, "REMESACOBRO", "CERRADA", remesaFechasLayout );
+	editFechaEmision = addEditField( tabRemesa, "REMESACOBRO", "FECHAEMISION", remesaFechasLayout );
+	editFechaCargo = addEditField( tabRemesa, "REMESACOBRO", "FECHACARGO", remesaFechasLayout );
+	editCuentaBancoAbono = addEditField( tabRemesa, "REMESACOBRO", "CUENTABANCOABONO", remesaAbonoLayout );
+	editNRecibos = addEditField( tabRemesa, "REMESACOBRO", "NRECIBOS", remesaTotalesLayout );
+	editImporte = addEditField( tabRemesa, "REMESACOBRO", "IMPORTE", remesaTotalesLayout );
+	editResto = addEditField( tabRemesa, "REMESACOBRO", "RESTO", remesaTotalesLayout );
+	editNotas = addTextField( tabRemesa, "REMESACOBRO", "NOTAS", remesaNotasLayout );
 
-    RecCobro *cobro = static_cast<RecCobro*>(DBAPP->createRecord("COBRO"));
-    dbViewDefinitionsList cobroviews;
-    DBAPP->getDatabase()->getViewsForTable( cobro, cobroviews );
-    dbRecordDataModel *cobrodm = new dbRecordDataModel(cobro, cobroviews);
-    pFrmCobro = static_cast<FrmEditCobro *>(
-                    DBAPP->createEditForm(this, cobro, cobrodm, DataTable::browsing,
-                                          static_cast<dbApplication::EditFlags>(dbApplication::embedded + dbApplication::tableEditEvent ),
-                                          tabRecibos) );
-    recibosLayout->addWidget(pFrmCobro);
-    tabRemesaLayout->addLayout( remesaNumeroLayout );
-    tabRemesaLayout->addLayout( proyectoLayout );
-    tabRemesaLayout->addLayout( remesaFechasLayout );
-    tabRemesaLayout->addLayout( remesaAbonoLayout );
-    tabRemesaLayout->addLayout( remesaTotalesLayout );
-    tabRemesaLayout->addLayout( remesaNotasLayout );
-    tabRecibosLayout->addLayout( recibosLayout );
-    /*>>>>>FRMEDITREMESACOBRO_INIT_CONTROLS*/
+	RecCobro *cobro = static_cast<RecCobro*>(DBAPP->createRecord("COBRO"));
+	dbViewDefinitionsList cobroviews;
+	DBAPP->getDatabase()->getViewsForTable( cobro, cobroviews );
+	dbRecordDataModel *cobrodm = new dbRecordDataModel(cobro, cobroviews);
+	pFrmCobro = static_cast<FrmEditCobro *>(
+		DBAPP->createEditForm(this, cobro, cobrodm, DataTable::browsing,
+		static_cast<dbApplication::EditFlags>(dbApplication::embedded + dbApplication::tableEditEvent ),
+		tabRecibos) );
+	recibosLayout->addWidget(pFrmCobro);
+	tabRemesaLayout->addLayout( remesaNumeroLayout );
+	tabRemesaLayout->addLayout( proyectoLayout );
+	tabRemesaLayout->addLayout( remesaFechasLayout );
+	tabRemesaLayout->addLayout( remesaAbonoLayout );
+	tabRemesaLayout->addLayout( remesaTotalesLayout );
+	tabRemesaLayout->addLayout( remesaNotasLayout );
+	tabRecibosLayout->addLayout( recibosLayout );
+/*>>>>>FRMEDITREMESACOBRO_INIT_CONTROLS*/
     pTabRecibos = tabRecibos;
     tabFrameEdit->insertTab( tabRemesa, "R&emesa" );
     tabFrameEdit->insertTab( tabRecibos, "&Recibos" );
@@ -133,25 +133,25 @@ bool FrmEditRemesaCobro::usarProyecto() const
 void FrmEditRemesaCobro::scatterFields()
 {
     /*<<<<<FRMEDITREMESACOBRO_SCATTER*/
-    editNumero->setText(getRecRemesaCobro()->getValue("NUMERO").toInt());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editNumero;
-    editDescripcion->setText(getRecRemesaCobro()->getValue("DESCRIPCION").toString());
-    checkCerrada->setChecked(getRecRemesaCobro()->getValue("CERRADA").toBool());
-    editFechaEmision->setText(getRecRemesaCobro()->getValue("FECHAEMISION").toDate());
-    editFechaCargo->setText(getRecRemesaCobro()->getValue("FECHACARGO").toDate());
-    editCuentaBancoAbono->setText(getRecRemesaCobro()->getValue("CUENTABANCOABONO").toString());
-    editNRecibos->setText(getRecRemesaCobro()->getValue("NRECIBOS").toInt());
-    editImporte->setText(getRecRemesaCobro()->getValue("IMPORTE").toMoney());
-    editResto->setText(getRecRemesaCobro()->getValue("RESTO").toMoney());
-    editNotas->setText(getRecRemesaCobro()->getValue("NOTAS").toString());
-    if( isInserting() && editNumero->toInt() == 0 ) {
-        editNumero->setText( getRecord()->selectNextInt( "NUMERO" ) );
-    }
-    if(usarProyecto()) {
-        scatterProyecto();
-    }
-    /*>>>>>FRMEDITREMESACOBRO_SCATTER*/
+	editNumero->setText(getRecRemesaCobro()->getValue("NUMERO").toInt());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editNumero;
+	editDescripcion->setText(getRecRemesaCobro()->getValue("DESCRIPCION").toString());
+	checkCerrada->setChecked(getRecRemesaCobro()->getValue("CERRADA").toBool());
+	editFechaEmision->setText(getRecRemesaCobro()->getValue("FECHAEMISION").toDate());
+	editFechaCargo->setText(getRecRemesaCobro()->getValue("FECHACARGO").toDate());
+	editCuentaBancoAbono->setText(getRecRemesaCobro()->getValue("CUENTABANCOABONO").toString());
+	editNRecibos->setText(getRecRemesaCobro()->getValue("NRECIBOS").toInt());
+	editImporte->setText(getRecRemesaCobro()->getValue("IMPORTE").toMoney());
+	editResto->setText(getRecRemesaCobro()->getValue("RESTO").toMoney());
+	editNotas->setText(getRecRemesaCobro()->getValue("NOTAS").toString());
+	if( isInserting() && editNumero->toInt() == 0 ) {
+		editNumero->setText( getRecord()->selectNextInt( "NUMERO" ) );
+	}
+if(usarProyecto()){
+	scatterProyecto();
+}
+/*>>>>>FRMEDITREMESACOBRO_SCATTER*/
     if( !isInserting() && !isDuplicating() ) {
         pFrmCobro->setFormFilter( "COBRO.REMESACOBRO_ID="
                                   + getRecord()->getConnection()->toSQL( getRecRemesaCobro()->getRecordID() ) );
@@ -175,38 +175,38 @@ void FrmEditRemesaCobro::scatterFields()
 void FrmEditRemesaCobro::gatherFields()
 {
     /*<<<<<FRMEDITREMESACOBRO_GATHER*/
-    getRecRemesaCobro()->setValue( "NUMERO", editNumero->toInt());
-    getRecRemesaCobro()->setValue( "DESCRIPCION", editDescripcion->toString());
-    if(usarProyecto()) {
-        getRecRemesaCobro()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
-    }
-    getRecRemesaCobro()->setValue( "CERRADA", checkCerrada->isChecked());
-    getRecRemesaCobro()->setValue( "FECHAEMISION", editFechaEmision->toDate());
-    getRecRemesaCobro()->setValue( "FECHACARGO", editFechaCargo->toDate());
-    getRecRemesaCobro()->setValue( "CUENTABANCOABONO", editCuentaBancoAbono->toString());
-    getRecRemesaCobro()->setValue( "NRECIBOS", editNRecibos->toInt());
-    getRecRemesaCobro()->setValue( "IMPORTE", editImporte->toMoney());
-    getRecRemesaCobro()->setValue( "RESTO", editResto->toMoney());
-    getRecRemesaCobro()->setValue( "NOTAS", editNotas->toString());
-    /*>>>>>FRMEDITREMESACOBRO_GATHER*/
+	getRecRemesaCobro()->setValue( "NUMERO", editNumero->toInt());
+	getRecRemesaCobro()->setValue( "DESCRIPCION", editDescripcion->toString());
+if(usarProyecto()){
+	getRecRemesaCobro()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
+}
+	getRecRemesaCobro()->setValue( "CERRADA", checkCerrada->isChecked());
+	getRecRemesaCobro()->setValue( "FECHAEMISION", editFechaEmision->toDate());
+	getRecRemesaCobro()->setValue( "FECHACARGO", editFechaCargo->toDate());
+	getRecRemesaCobro()->setValue( "CUENTABANCOABONO", editCuentaBancoAbono->toString());
+	getRecRemesaCobro()->setValue( "NRECIBOS", editNRecibos->toInt());
+	getRecRemesaCobro()->setValue( "IMPORTE", editImporte->toMoney());
+	getRecRemesaCobro()->setValue( "RESTO", editResto->toMoney());
+	getRecRemesaCobro()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITREMESACOBRO_GATHER*/
 }
 
 void FrmEditRemesaCobro::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
     /*<<<<<FRMEDITREMESACOBRO_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    if(usarProyecto()) {
-        if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
-            if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
-                               getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
-                scatterProyecto();
-    }
-    /*>>>>>FRMEDITREMESACOBRO_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+if(usarProyecto()){
+	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
+		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		scatterProyecto();
+}
+/*>>>>>FRMEDITREMESACOBRO_VALIDATE*/
     if( !validCodeAndDesc( sender, *validresult, editNumero, editDescripcion, "numero", "descripcion" ) )
         if( !sender )
             *isvalid = false;
@@ -219,83 +219,83 @@ void FrmEditRemesaCobro::validateFields( QWidget *sender, bool *isvalid, ValidRe
 void FrmEditRemesaCobro::scatterProyecto()
 {
     /*<<<<<FRMEDITREMESACOBRO_SCATTER_PROYECTO*/
-    editProyectoCodigo->setText( getRecProyecto()->getValue("CODIGO") );
-    editProyectoNombre->setText( getRecProyecto()->getValue("NOMBRE") );
-    /*>>>>>FRMEDITREMESACOBRO_SCATTER_PROYECTO*/
+	editProyectoCodigo->setText( getRecProyecto()->getValue("CODIGO") );
+	editProyectoNombre->setText( getRecProyecto()->getValue("NOMBRE") );
+/*>>>>>FRMEDITREMESACOBRO_SCATTER_PROYECTO*/
 }
 
 void FrmEditRemesaCobro::pushProyectoCodigo_clicked()
 {
     /*<<<<<FRMEDITREMESACOBRO_PUSH_PROYECTO_CODIGO_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchProyectoCodigo->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editProyectoCodigo->setJustEdited( false );
-        editProyectoCodigo->setCancelling();
-        if( DBAPP->choose(this, getRecProyecto(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterProyecto();
-            editProyectoCodigo->setJustEdited( true );
-            editProyectoCodigo->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecProyecto()->getRecordID() ) {
-            editProyectoCodigo->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecProyecto(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editProyectoCodigo->setJustEdited( true );
-                scatterProyecto();
-            }
-            editProyectoCodigo->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecProyecto()->getRecordID() != 0 ) {
-            editProyectoCodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProyecto(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        empresa::RecProyecto *tmprec = static_cast<empresa::RecProyecto *>(DBAPP->createRecord( "Proyecto" ));
-        editProyectoCodigo->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editProyectoCodigo->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editProyectoCodigo->setJustEdited( true );
-            getRecProyecto()->copyRecord( tmprec );
-            scatterProyecto();
-        }
-        editProyectoCodigo->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITREMESACOBRO_PUSH_PROYECTO_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchProyectoCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editProyectoCodigo->setJustEdited( false );
+			editProyectoCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecProyecto(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterProyecto();
+				editProyectoCodigo->setJustEdited( true );
+				editProyectoCodigo->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecProyecto()->getRecordID() ) {
+					editProyectoCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecProyecto(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editProyectoCodigo->setJustEdited( true );
+						scatterProyecto();
+					}
+					editProyectoCodigo->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecProyecto()->getRecordID() != 0 ) {
+					editProyectoCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProyecto(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				empresa::RecProyecto *tmprec = static_cast<empresa::RecProyecto *>(DBAPP->createRecord( "Proyecto" ));
+				editProyectoCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editProyectoCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editProyectoCodigo->setJustEdited( true );
+					getRecProyecto()->copyRecord( tmprec );
+					scatterProyecto();
+				}
+				editProyectoCodigo->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITREMESACOBRO_PUSH_PROYECTO_CODIGO_CLICKED*/
 }
 
 void FrmEditRemesaCobro::specialControlKeyPressed( QWidget *sender, char key )
 {
     /*<<<<<FRMEDITREMESACOBRO_SPECIALACTION*/
-    mControlKeyPressed = key;
-    FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
-    if(usarProyecto()) {
-        if( sender == editProyectoCodigo )
-            pushProyectoCodigo_clicked();
-    }
-    mControlKeyPressed = '\0';
-    /*>>>>>FRMEDITREMESACOBRO_SPECIALACTION*/
+	mControlKeyPressed = key;
+	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
+if(usarProyecto()){
+	if( sender == editProyectoCodigo )
+		pushProyectoCodigo_clicked();
+}
+	mControlKeyPressed = '\0';
+/*>>>>>FRMEDITREMESACOBRO_SPECIALACTION*/
 }
 
 /**

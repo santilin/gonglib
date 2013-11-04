@@ -4,7 +4,7 @@
 /*>>>>>FRMEDITPROYECTO_PREAMBLE*/
 /*<<<<<COPYLEFT*/
 /** @file sociasfrmeditproyecto.h Fichero de edición de proyectos
- * The GestiONG project. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -33,40 +33,38 @@ typedef gong::pagos::FrmEditRemesaCobro FrmEditRemesaCobro;
 /*<<<<<FRMEDITPROYECTO_CLASS*/
 class FrmEditProyecto: public FrmEditRecMaster
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    FrmEditProyecto(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
-                    EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
-                    QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-    RecProyecto *getRecProyecto() const {
-        return (RecProyecto *)getRecord();
-    }
-    /*>>>>>FRMEDITPROYECTO_CLASS*/
+	FrmEditProyecto(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
+		EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
+		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
+	RecProyecto *getRecProyecto() const { return (RecProyecto *)getRecord(); }
+/*>>>>>FRMEDITPROYECTO_CLASS*/
     /*<<<<<FRMEDITPROYECTO_VIRTUALS_FROM_FRMEDITREC*/
 protected:
-    virtual void scatterFields(); // From FrmEditRec
-    virtual void gatherFields();
-    virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    /*>>>>>FRMEDITPROYECTO_VIRTUALS_FROM_FRMEDITREC*/
+	virtual void scatterFields(); // From FrmEditRec
+	virtual void gatherFields();
+	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+/*>>>>>FRMEDITPROYECTO_VIRTUALS_FROM_FRMEDITREC*/
 
     /*<<<<<FRMEDITPROYECTO_CONTROLS*/
 protected:
-    gong::EditBox *editCodigo;
-    gong::EditBox *editNombre;
-    gong::TextBox *editDescripcion;
-    gong::EditBox *editFechaInicio;
-    gong::EditBox *editFechaFin;
-    gong::ComboBox<int> *comboSociasEstado;
-    gong::EditBox *editNumCuotas;
-    gong::EditBox *editImporte;
-    gong::ComboBox<int> *comboPeriodicidad;
-    gong::EditBox *editFormatoNumRecibo;
-    gong::TextBox *editNotas;
-    FrmEditMiembro *pFrmMiembro;
-    FrmEditRemesaCobro *pFrmRemesaCobro;
-    FrmEditPartidaProyecto *pFrmPartidaProyecto;
-    /*>>>>>FRMEDITPROYECTO_CONTROLS*/
+	gong::EditBox *editCodigo;
+	gong::EditBox *editNombre;
+	gong::TextBox *editDescripcion;
+	gong::EditBox *editFechaInicio;
+	gong::EditBox *editFechaFin;
+	gong::ComboBoxInt *comboSociasEstado;
+	gong::EditBox *editNumCuotas;
+	gong::EditBox *editImporte;
+	gong::ComboBoxInt *comboPeriodicidad;
+	gong::EditBox *editFormatoNumRecibo;
+	gong::TextBox *editNotas;
+	FrmEditMiembro *pFrmMiembro;
+	FrmEditRemesaCobro *pFrmRemesaCobro;
+	FrmEditPartidaProyecto *pFrmPartidaProyecto;
+/*>>>>>FRMEDITPROYECTO_CONTROLS*/
     QWidget *pTabRemesas, *pTabMiembros, *pTabPartidas;
 
 };

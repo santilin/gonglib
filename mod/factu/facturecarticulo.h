@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecarticulo.h Registro de artículos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -32,22 +32,22 @@ namespace factu {
 class RecArticulo: public dbRecord
 {
 public:
-    RecArticulo(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("ARTICULO"), recid, user)
+	RecArticulo(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("ARTICULO"), recid, user)
 /*>>>>>ARTICULO_CONSTRUCTOR*/
     {}
     enum GenCodArt { GenCodArtFijo = 0, GenCodArtNextProv, GenCodArtNextFam, GenCodArtNextProvFam,
                      GenCodArtNextArt
                    };
     /*<<<<<ARTICULO_RELATIONS*/
-    RecFamilia *getRecFamilia() const;
-    empresa::RecTipoIVA *getRecTipoIVA() const;
-    RecProveedora *getRecProveedora() const;
-    RecArticuloImagen *getRecArticuloImagen() const;
-    /*>>>>>ARTICULO_RELATIONS*/
+	RecFamilia *getRecFamilia() const;
+	empresa::RecTipoIVA *getRecTipoIVA() const;
+	RecProveedora *getRecProveedora() const;
+	RecArticuloImagen *getRecArticuloImagen() const;
+/*>>>>>ARTICULO_RELATIONS*/
     /*<<<<<ARTICULO_MEMBERS*/
-    virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
-    /*>>>>>ARTICULO_MEMBERS*/
+	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
+/*>>>>>ARTICULO_MEMBERS*/
 
     void actStocks(bool savingdetail, bool compra, double cantidad);
     void fixMargenYDescuento();

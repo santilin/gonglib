@@ -87,11 +87,11 @@ ContabModule::ContabModule()
     _GONG_DEBUG_ASSERT( pEmpresaModule );
     mDescription = "Módulo de contabilidad financiera";
     /*<<<<<CONTABMODULE_PUBLIC_INFO*/
-    mModuleRequires << "empresa";
-    mMasterTables << "CUENTA" << "ASIENTO" << "TIPOASIENTO";
-    mDetailTables << "APUNTE";
-    pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
-    /*>>>>>CONTABMODULE_PUBLIC_INFO*/
+	mModuleRequires << "empresa";
+	mMasterTables << "CUENTA" << "ASIENTO" << "TIPOASIENTO";
+	mDetailTables << "APUNTE";
+	pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
+/*>>>>>CONTABMODULE_PUBLIC_INFO*/
     mImportTables = mMasterTables;
     empresa::ModuleInstance->addContadorTable("ASIENTO");
 }
@@ -123,7 +123,7 @@ void ContabModule::afterLoad()
                                    DBAPP->getDatabase()->findFieldDefinition("ASIENTO.TIPOASIENTO") );
     if( fldtc )
         fldtc->fill( *getConnection() );
-    if( fldtc->getListOfValues()->size() == 0 ) {
+    if( fldtc->getListOfValues().size() == 0 ) {
         getConnection()->exec( "INSERT INTO TIPOASIENTO (CODIGO,NOMBRE) VALUES "
                                "(1, 'Normal'),"
                                "(2, 'Apertura'),"
@@ -155,9 +155,9 @@ bool ContabModule::initDatabase( dbDefinition *db )
     pMainDatabase = db;
 
     /*<<<<<CONTABMODULE_INIT_DATABASE*/
-    pFicTipoAsiento = new NamesListTable( *pMainDatabase, "TIPOASIENTO" );
-    pMainDatabase->addTable( pFicTipoAsiento->getTableDefinition() );
-    /*>>>>>CONTABMODULE_INIT_DATABASE*/
+	pFicTipoAsiento = new NamesListTable( *pMainDatabase, "TIPOASIENTO" );
+	pMainDatabase->addTable( pFicTipoAsiento->getTableDefinition() );
+/*>>>>>CONTABMODULE_INIT_DATABASE*/
 
     // Añadir cuentas a las tablas del módulo 'empresa'
     contab::MasterTable *cmt = new contab::MasterTable( db->findTableDefinition( "TIPOIVA" ) );
@@ -240,14 +240,14 @@ bool ContabModule::initDatabase( dbDefinition *db )
 /*<<<<<CONTABMODULE_SLOT_CONTABILIDADCUENTA*/
 void ContabModule::slotMenuContabilidadCuenta()
 {
-    pMainWindow->slotMenuEditRecMaestro( "CUENTA" );
+	pMainWindow->slotMenuEditRecMaestro( "CUENTA" );
 }
 /*>>>>>CONTABMODULE_SLOT_CONTABILIDADCUENTA*/
 
 /*<<<<<CONTABMODULE_SLOT_CONTABILIDADASIENTO*/
 void ContabModule::slotMenuContabilidadAsiento()
 {
-    pMainWindow->slotMenuEditRecMaestro( "ASIENTO" );
+	pMainWindow->slotMenuEditRecMaestro( "ASIENTO" );
 }
 /*>>>>>CONTABMODULE_SLOT_CONTABILIDADASIENTO*/
 
@@ -269,15 +269,15 @@ dbRecord *ContabModule::createRecord( const Xtring &tablename, dbRecordID recid,
     if ( tablename.upper() == "CONTRAPARTIDA" )
         return new RecCuenta( getConnection(), recid, user );
     /*<<<<<CONTABMODULE_CREATE_RECORD*/
-    if( tablename.upper() == "CUENTA" )
-        return new RecCuenta(getConnection(), recid, user);
-    if( tablename.upper() == "ASIENTO" )
-        return new RecAsiento(getConnection(), recid, user);
-    if( tablename.upper() == "APUNTE" )
-        return new RecApunte(getConnection(), recid, user);
-    if( tablename.upper() == "TIPOASIENTO" )
-        return new RecNamesListTable("TIPOASIENTO", getConnection(), recid, user);
-    /*>>>>>CONTABMODULE_CREATE_RECORD*/
+	if( tablename.upper() == "CUENTA" )
+		return new RecCuenta(getConnection(), recid, user);
+	if( tablename.upper() == "ASIENTO" )
+		return new RecAsiento(getConnection(), recid, user);
+	if( tablename.upper() == "APUNTE" )
+		return new RecApunte(getConnection(), recid, user);
+	if( tablename.upper() == "TIPOASIENTO" )
+		return new RecNamesListTable("TIPOASIENTO", getConnection(), recid, user);
+/*>>>>>CONTABMODULE_CREATE_RECORD*/
     return 0;
 }
 
@@ -290,13 +290,13 @@ FrmEditRec *ContabModule::createEditForm( FrmEditRec *parentfrm, dbRecord *rec, 
     if( tablename.upper() == "EMPRESA" )
         return new contab::FrmEditEmpresa(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
     /*<<<<<CONTABMODULE_CREATE_EDITFORM*/
-    if( tablename.upper() == "CUENTA" )
-        return new FrmEditCuenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "ASIENTO" )
-        return new FrmEditAsiento(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "TIPOASIENTO" )
-        return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    /*>>>>>CONTABMODULE_CREATE_EDITFORM*/
+	if( tablename.upper() == "CUENTA" )
+		return new FrmEditCuenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "ASIENTO" )
+		return new FrmEditAsiento(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "TIPOASIENTO" )
+		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+/*>>>>>CONTABMODULE_CREATE_EDITFORM*/
     return 0;
 }
 
@@ -310,10 +310,10 @@ FrmEditRecDetail *ContabModule::createEditDetailForm(
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     Xtring tablename = rec->getTableName();
     /*<<<<<CONTABMODULE_CREATE_EDITFORM_DETAIL*/
-    if( tablename.upper() == "APUNTE" )
-        return new FrmEditApunte(frmmaster, ndetail,
-                                 rec, dettablename, dm, editmode, editflags, parent, name, fl);
-    /*>>>>>CONTABMODULE_CREATE_EDITFORM_DETAIL*/
+	if( tablename.upper() == "APUNTE" )
+		return new FrmEditApunte(frmmaster, ndetail,
+			rec, dettablename, dm, editmode, editflags, parent, name, fl);
+/*>>>>>CONTABMODULE_CREATE_EDITFORM_DETAIL*/
     return 0;
 }
 
@@ -386,25 +386,25 @@ bool ContabModule::initMainWindow( MainWindow *mainwin )
 #endif
 
     /*<<<<<CONTABMODULE_INITMAINWINDOW_MENUS*/
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("CUENTA")->getDescPlural();
-        pMenuContabilidadCuenta = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuContabilidadCuenta->setObjectName( "MenuContabilidadCuenta" );
-        pMenuContabilidadCuenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuContabilidadCuenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuContabilidadCuenta, SIGNAL(activated()), this, SLOT(slotMenuContabilidadCuenta()));
-        pMenuContabilidadCuenta->addTo(pMenuContabilidad);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("ASIENTO")->getDescPlural();
-        pMenuContabilidadAsiento = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuContabilidadAsiento->setObjectName( "MenuContabilidadAsiento" );
-        pMenuContabilidadAsiento->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuContabilidadAsiento->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuContabilidadAsiento, SIGNAL(activated()), this, SLOT(slotMenuContabilidadAsiento()));
-        pMenuContabilidadAsiento->addTo(pMenuContabilidad);
-    }
-    /*>>>>>CONTABMODULE_INITMAINWINDOW_MENUS*/
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("CUENTA")->getDescPlural();
+		pMenuContabilidadCuenta = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuContabilidadCuenta->setObjectName( "MenuContabilidadCuenta" );
+		pMenuContabilidadCuenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuContabilidadCuenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuContabilidadCuenta, SIGNAL(activated()), this, SLOT(slotMenuContabilidadCuenta()));
+		pMenuContabilidadCuenta->addTo(pMenuContabilidad);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("ASIENTO")->getDescPlural();
+		pMenuContabilidadAsiento = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuContabilidadAsiento->setObjectName( "MenuContabilidadAsiento" );
+		pMenuContabilidadAsiento->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuContabilidadAsiento->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuContabilidadAsiento, SIGNAL(activated()), this, SLOT(slotMenuContabilidadAsiento()));
+		pMenuContabilidadAsiento->addTo(pMenuContabilidad);
+	}
+/*>>>>>CONTABMODULE_INITMAINWINDOW_MENUS*/
     pMenuContabilidadAsiento->setAccel( QKeySequence( "CTRL+SHIFT+D" ) );
     pMenuContabilidadCuenta->setAccel( QKeySequence( "CTRL+SHIFT+T" ) );
 

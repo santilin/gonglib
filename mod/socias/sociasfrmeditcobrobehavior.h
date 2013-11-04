@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file sociasfrmeditcobrobehavior.h Behavior para el formulario de remesas del módulo socias
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -30,27 +30,25 @@ typedef pagos::RecCobro RecCobro;
 class FrmEditCobroBehavior: public FrmEditRecBehavior
 {
 public:
-    virtual void initGUI();
-    RecCobro *getRecCobro() const {
-        return static_cast<RecCobro *>(pTheForm->getRecord());
-    }
-    FrmEditCobroBehavior( FrmEditRec *theform )
-        : FrmEditRecBehavior( theform )
+	virtual void initGUI();
+	RecCobro *getRecCobro() const { return static_cast<RecCobro *>(pTheForm->getRecord()); }
+	FrmEditCobroBehavior( FrmEditRec *theform )
+		: FrmEditRecBehavior( theform )
 /*>>>>>FRMEDITCOBROBEHAVIOR_CLASS*/
     {}
     // virtual void updateStatus();
     // virtual bool canClose();
     /*<<<<<FRMEDITCOBROBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
 protected:
-    virtual void scatterFields( bool is_pre );
-    virtual void gatherFields();
-    virtual void validateFields( bool is_pre,
-                                 QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    /*>>>>>FRMEDITCOBROBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
+	virtual void scatterFields( bool is_pre );
+	virtual void gatherFields();
+	virtual void validateFields( bool is_pre,
+		QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+/*>>>>>FRMEDITCOBROBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
     virtual bool canBeginEdit(DataTable::EditMode newmode);
     /*<<<<<FRMEDITCOBROBEHAVIOR_CONTROLS*/
 protected:
-    /*>>>>>FRMEDITCOBROBEHAVIOR_CONTROLS*/
+/*>>>>>FRMEDITCOBROBEHAVIOR_CONTROLS*/
 };
 
 /*<<<<<FRMEDITCOBROBEHAVIOR_POSTAMBLE*/

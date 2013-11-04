@@ -61,129 +61,129 @@ namespace factu {
 
 /*<<<<<FRMEDITFACTURACOMPRA_CONSTRUCTOR*/
 FrmEditFacturaCompra::FrmEditFacturaCompra(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
-        EditMode editmode, dbApplication::EditFlags editflags,
-        QWidget *parent, const char* name, WidgetFlags fl )
-    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
+	                               EditMode editmode, dbApplication::EditFlags editflags,
+	                               QWidget *parent, const char* name, WidgetFlags fl )
+	    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditFacturaCompra" );
-    /*>>>>>FRMEDITFACTURACOMPRA_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditFacturaCompra" );
+/*>>>>>FRMEDITFACTURACOMPRA_CONSTRUCTOR*/
     /*<<<<<FRMEDITFACTURACOMPRA_INIT_CONTROLS*/
-    QHBoxLayout *cabeceraLayout = new QHBoxLayout(0, 0, 6, "cabeceraLayout");
-    QHBoxLayout *cabecera2Layout = new QHBoxLayout(0, 0, 6, "cabecera2Layout");
-    QHBoxLayout *facturacompradetLayout = new QHBoxLayout(0, 0, 6, "facturacompradetLayout");
-    QHBoxLayout *rightSumaImportesLayout = new QHBoxLayout(0, 0, 6, "rightSumaImportesLayout");
-    QHBoxLayout *rightDtoP100Layout = new QHBoxLayout(0, 0, 6, "rightDtoP100Layout");
-    QHBoxLayout *rightDescuentoLayout = new QHBoxLayout(0, 0, 6, "rightDescuentoLayout");
-    QHBoxLayout *rightBaseImponibleLayout = new QHBoxLayout(0, 0, 6, "rightBaseImponibleLayout");
-    QHBoxLayout *rightEntregaAlbaranesLayout = new QHBoxLayout(0, 0, 6, "rightEntregaAlbaranesLayout");
-    QHBoxLayout *rightPagosLayout = new QHBoxLayout(0, 0, 6, "rightPagosLayout");
-    QHBoxLayout *rightRecargoEquivalenciaLayout = new QHBoxLayout(0, 0, 6, "rightRecargoEquivalenciaLayout");
-    QHBoxLayout *rightIVALayout = new QHBoxLayout(0, 0, 6, "rightIVALayout");
-    QHBoxLayout *rightEntregaLayout = new QHBoxLayout(0, 0, 6, "rightEntregaLayout");
-    QHBoxLayout *rightRestoLayout = new QHBoxLayout(0, 0, 6, "rightRestoLayout");
-    QHBoxLayout *rightTotalLayout = new QHBoxLayout(0, 0, 6, "rightTotalLayout");
-    showTabs(true);
-    QWidget *tabPagos = new QWidget( pTabWidget, "tabPagos" );
-    QVBoxLayout *tabPagosLayout = new QVBoxLayout(tabPagos, 11, 6, "tabPagosLayout");
-    QHBoxLayout *proyectoLayout = new QHBoxLayout(0, 0, 6, "proyectoLayout");
-    QHBoxLayout *desgloseivaLayout = new QHBoxLayout(0, 0, 6, "desgloseivaLayout");
-    QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
-    QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-    editFecha = addEditField( pControlsFrame, "FACTURACOMPRA", "FECHA", cabeceraLayout );
+	QHBoxLayout *cabeceraLayout = new QHBoxLayout(0, 0, 6, "cabeceraLayout");
+	QHBoxLayout *cabecera2Layout = new QHBoxLayout(0, 0, 6, "cabecera2Layout");
+	QHBoxLayout *facturacompradetLayout = new QHBoxLayout(0, 0, 6, "facturacompradetLayout");
+	QHBoxLayout *rightSumaImportesLayout = new QHBoxLayout(0, 0, 6, "rightSumaImportesLayout");
+	QHBoxLayout *rightDtoP100Layout = new QHBoxLayout(0, 0, 6, "rightDtoP100Layout");
+	QHBoxLayout *rightDescuentoLayout = new QHBoxLayout(0, 0, 6, "rightDescuentoLayout");
+	QHBoxLayout *rightBaseImponibleLayout = new QHBoxLayout(0, 0, 6, "rightBaseImponibleLayout");
+	QHBoxLayout *rightEntregaAlbaranesLayout = new QHBoxLayout(0, 0, 6, "rightEntregaAlbaranesLayout");
+	QHBoxLayout *rightPagosLayout = new QHBoxLayout(0, 0, 6, "rightPagosLayout");
+	QHBoxLayout *rightRecargoEquivalenciaLayout = new QHBoxLayout(0, 0, 6, "rightRecargoEquivalenciaLayout");
+	QHBoxLayout *rightIVALayout = new QHBoxLayout(0, 0, 6, "rightIVALayout");
+	QHBoxLayout *rightEntregaLayout = new QHBoxLayout(0, 0, 6, "rightEntregaLayout");
+	QHBoxLayout *rightRestoLayout = new QHBoxLayout(0, 0, 6, "rightRestoLayout");
+	QHBoxLayout *rightTotalLayout = new QHBoxLayout(0, 0, 6, "rightTotalLayout");
+	showTabs(true);
+	QWidget *tabPagos = new QWidget( pTabWidget, "tabPagos" );
+	QVBoxLayout *tabPagosLayout = new QVBoxLayout(tabPagos, 11, 6, "tabPagosLayout");
+	QHBoxLayout *proyectoLayout = new QHBoxLayout(0, 0, 6, "proyectoLayout");
+	QHBoxLayout *desgloseivaLayout = new QHBoxLayout(0, 0, 6, "desgloseivaLayout");
+	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	editFecha = addEditField( pControlsFrame, "FACTURACOMPRA", "FECHA", cabeceraLayout );
 
-    searchTipoDocCodigo = addSearchField( pControlsFrame, "TIPODOC_ID", "TIPODOC", "CODIGO", "NOMBRE", cabeceraLayout );
-    pushTipoDocCodigo = searchTipoDocCodigo->getButton();
-    connect( pushTipoDocCodigo, SIGNAL( clicked() ), this, SLOT( pushTipoDocCodigo_clicked() ) );
-    editTipoDocCodigo = searchTipoDocCodigo->getEditCode();
-    editTipoDocNombre = searchTipoDocCodigo->getEditDesc();
-    editNumero = addEditField( pControlsFrame, "FACTURACOMPRA", "NUMERO", cabeceraLayout );
-    comboIVADetallado = addComboField<int>( pControlsFrame, "FACTURACOMPRA", "IVADETALLADO", cabeceraLayout );
+	searchTipoDocCodigo = addSearchField( pControlsFrame, "TIPODOC_ID", "TIPODOC", "CODIGO", "NOMBRE", cabeceraLayout );
+	pushTipoDocCodigo = searchTipoDocCodigo->getButton();
+	connect( pushTipoDocCodigo, SIGNAL( clicked() ), this, SLOT( pushTipoDocCodigo_clicked() ) );
+	editTipoDocCodigo = searchTipoDocCodigo->getEditCode();
+	editTipoDocNombre = searchTipoDocCodigo->getEditDesc();
+	editNumero = addEditField( pControlsFrame, "FACTURACOMPRA", "NUMERO", cabeceraLayout );
+	comboIVADetallado = addComboIntField( pControlsFrame, "FACTURACOMPRA", "IVADETALLADO", cabeceraLayout );
 
-    searchProveedoraCodigo = addSearchField( pControlsFrame, "PROVEEDORA_ID", "PROVEEDORA", "CODIGO", "RAZONSOCIAL", cabecera2Layout );
-    pushProveedoraCodigo = searchProveedoraCodigo->getButton();
-    connect( pushProveedoraCodigo, SIGNAL( clicked() ), this, SLOT( pushProveedoraCodigo_clicked() ) );
-    editProveedoraCodigo = searchProveedoraCodigo->getEditCode();
-    editProveedoraRazonSocial = searchProveedoraCodigo->getEditDesc();
+	searchProveedoraCodigo = addSearchField( pControlsFrame, "PROVEEDORA_ID", "PROVEEDORA", "CODIGO", "RAZONSOCIAL", cabecera2Layout );
+	pushProveedoraCodigo = searchProveedoraCodigo->getButton();
+	connect( pushProveedoraCodigo, SIGNAL( clicked() ), this, SLOT( pushProveedoraCodigo_clicked() ) );
+	editProveedoraCodigo = searchProveedoraCodigo->getEditCode();
+	editProveedoraRazonSocial = searchProveedoraCodigo->getEditDesc();
 
-    searchFormaPagoCodigo = addSearchField( pControlsFrame, "FORMAPAGO_ID", "FORMAPAGO", "CODIGO", "NOMBRE", cabecera2Layout );
-    pushFormaPagoCodigo = searchFormaPagoCodigo->getButton();
-    connect( pushFormaPagoCodigo, SIGNAL( clicked() ), this, SLOT( pushFormaPagoCodigo_clicked() ) );
-    editFormaPagoCodigo = searchFormaPagoCodigo->getEditCode();
-    editFormaPagoNombre = searchFormaPagoCodigo->getEditDesc();
-    editContador = addEditField( pControlsFrame, "FACTURACOMPRA", "CONTADOR", cabecera2Layout );
+	searchFormaPagoCodigo = addSearchField( pControlsFrame, "FORMAPAGO_ID", "FORMAPAGO", "CODIGO", "NOMBRE", cabecera2Layout );
+	pushFormaPagoCodigo = searchFormaPagoCodigo->getButton();
+	connect( pushFormaPagoCodigo, SIGNAL( clicked() ), this, SLOT( pushFormaPagoCodigo_clicked() ) );
+	editFormaPagoCodigo = searchFormaPagoCodigo->getEditCode();
+	editFormaPagoNombre = searchFormaPagoCodigo->getEditDesc();
+	editContador = addEditField( pControlsFrame, "FACTURACOMPRA", "CONTADOR", cabecera2Layout );
 
 // frmDetails: FacturaCompraDet
-    QFrame *facturacompradetFrame = new QFrame(this);
-    facturacompradetFrame->setFrameStyle(QFrame::Sunken | QFrame::Panel);
-    facturacompradetFrame->setLineWidth(4);
-    QVBoxLayout *facturacompradetFrameLayout = new QVBoxLayout(facturacompradetFrame);
-    RecFacturaCompraDet *facturacompradet = getRecFacturaCompra()->getRecFacturaCompraDet(-1);
-    dbViewDefinitionsList facturacompradetviews;
-    DBAPP->getDatabase()->getViewsForTable( facturacompradet, facturacompradetviews );
-    dbRecordListDataModel *facturacompradetdm =
-        new dbRecordListDataModel(getRecFacturaCompra()->getListFacturaCompraDet(), facturacompradet, facturacompradetviews, "1=0");
-    pFrmFacturaCompraDet = static_cast<FrmEditFacturaCompraDet *>(
-                               DBAPP->createEditDetailForm(this,
-                                       -1, facturacompradet, "FACTURACOMPRADET",facturacompradetdm, DataTable::browsing,
-                                       static_cast<dbApplication::EditFlags>(dbApplication::embedded + dbApplication::tableEditEvent ),
-                                       pControlsFrame) );
-    pFrmFacturaCompraDet->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding);
-    facturacompradetFrameLayout->addWidget( pFrmFacturaCompraDet );
-    facturacompradetLayout->addWidget(facturacompradetFrame);
-    editSumaImportes = addEditField( pControlsFrame, "FACTURACOMPRA", "SUMAIMPORTES", rightSumaImportesLayout );
-    editDtoP100 = addEditField( pControlsFrame, "FACTURACOMPRA", "DTOP100", rightDtoP100Layout );
-    editDescuento = addEditField( pControlsFrame, "FACTURACOMPRA", "DESCUENTO", rightDescuentoLayout );
-    editBaseImponible = addEditField( pControlsFrame, "FACTURACOMPRA", "BASEIMPONIBLE", rightBaseImponibleLayout );
-    editEntregaAlbaranes = addEditField( pControlsFrame, "FACTURACOMPRA", "ENTREGAALBARANES", rightEntregaAlbaranesLayout );
-    editPagos = addEditField( pControlsFrame, "FACTURACOMPRA", "PAGOS", rightPagosLayout );
-    editRecargoEquivalencia = addEditField( pControlsFrame, "FACTURACOMPRA", "RECARGOEQUIVALENCIA", rightRecargoEquivalenciaLayout );
-    editIVA = addEditField( pControlsFrame, "FACTURACOMPRA", "IVA", rightIVALayout );
-    editEntrega = addEditField( pControlsFrame, "FACTURACOMPRA", "ENTREGA", rightEntregaLayout );
-    editResto = addEditField( pControlsFrame, "FACTURACOMPRA", "RESTO", rightRestoLayout );
-    editTotal = addEditField( pControlsFrame, "FACTURACOMPRA", "TOTAL", rightTotalLayout );
+	QFrame *facturacompradetFrame = new QFrame(this);
+	facturacompradetFrame->setFrameStyle(QFrame::Sunken | QFrame::Panel);
+	facturacompradetFrame->setLineWidth(4);
+	QVBoxLayout *facturacompradetFrameLayout = new QVBoxLayout(facturacompradetFrame);
+	RecFacturaCompraDet *facturacompradet = getRecFacturaCompra()->getRecFacturaCompraDet(-1);
+	dbViewDefinitionsList facturacompradetviews;
+	DBAPP->getDatabase()->getViewsForTable( facturacompradet, facturacompradetviews );
+	dbRecordListDataModel *facturacompradetdm =
+		new dbRecordListDataModel(getRecFacturaCompra()->getListFacturaCompraDet(), facturacompradet, facturacompradetviews, "1=0");
+	pFrmFacturaCompraDet = static_cast<FrmEditFacturaCompraDet *>(
+		DBAPP->createEditDetailForm(this,
+		-1, facturacompradet, "FACTURACOMPRADET",facturacompradetdm, DataTable::browsing,
+		static_cast<dbApplication::EditFlags>(dbApplication::embedded + dbApplication::tableEditEvent ),
+		pControlsFrame) );
+	pFrmFacturaCompraDet->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding);
+	facturacompradetFrameLayout->addWidget( pFrmFacturaCompraDet );
+	facturacompradetLayout->addWidget(facturacompradetFrame);
+	editSumaImportes = addEditField( pControlsFrame, "FACTURACOMPRA", "SUMAIMPORTES", rightSumaImportesLayout );
+	editDtoP100 = addEditField( pControlsFrame, "FACTURACOMPRA", "DTOP100", rightDtoP100Layout );
+	editDescuento = addEditField( pControlsFrame, "FACTURACOMPRA", "DESCUENTO", rightDescuentoLayout );
+	editBaseImponible = addEditField( pControlsFrame, "FACTURACOMPRA", "BASEIMPONIBLE", rightBaseImponibleLayout );
+	editEntregaAlbaranes = addEditField( pControlsFrame, "FACTURACOMPRA", "ENTREGAALBARANES", rightEntregaAlbaranesLayout );
+	editPagos = addEditField( pControlsFrame, "FACTURACOMPRA", "PAGOS", rightPagosLayout );
+	editRecargoEquivalencia = addEditField( pControlsFrame, "FACTURACOMPRA", "RECARGOEQUIVALENCIA", rightRecargoEquivalenciaLayout );
+	editIVA = addEditField( pControlsFrame, "FACTURACOMPRA", "IVA", rightIVALayout );
+	editEntrega = addEditField( pControlsFrame, "FACTURACOMPRA", "ENTREGA", rightEntregaLayout );
+	editResto = addEditField( pControlsFrame, "FACTURACOMPRA", "RESTO", rightRestoLayout );
+	editTotal = addEditField( pControlsFrame, "FACTURACOMPRA", "TOTAL", rightTotalLayout );
 
-    if(empresa::ModuleInstance->usaProyectos()) {
-        searchProyectoCodigo = addSearchField( tabPagos, "PROYECTO_ID", "PROYECTO", "CODIGO", "NOMBRE", proyectoLayout );
-        pushProyectoCodigo = searchProyectoCodigo->getButton();
-        connect( pushProyectoCodigo, SIGNAL( clicked() ), this, SLOT( pushProyectoCodigo_clicked() ) );
-        editProyectoCodigo = searchProyectoCodigo->getEditCode();
-        editProyectoNombre = searchProyectoCodigo->getEditDesc();
-    }
-    editFechaIVA = addEditField( tabPagos, "FACTURACOMPRA", "FECHAIVA", desgloseivaLayout );
-    editDesgloseIVA = addEditField( tabPagos, "FACTURACOMPRA", "DESGLOSEIVA", desgloseivaLayout );
-    editDocumentoPago = addEditField( tabPagos, "FACTURACOMPRA", "DOCUMENTOPAGO", pagoLayout );
-    editFechaPago = addEditField( tabPagos, "FACTURACOMPRA", "FECHAPAGO", pagoLayout );
+if(empresa::ModuleInstance->usaProyectos()){
+	searchProyectoCodigo = addSearchField( tabPagos, "PROYECTO_ID", "PROYECTO", "CODIGO", "NOMBRE", proyectoLayout );
+	pushProyectoCodigo = searchProyectoCodigo->getButton();
+	connect( pushProyectoCodigo, SIGNAL( clicked() ), this, SLOT( pushProyectoCodigo_clicked() ) );
+	editProyectoCodigo = searchProyectoCodigo->getEditCode();
+	editProyectoNombre = searchProyectoCodigo->getEditDesc();
+}
+	editFechaIVA = addEditField( tabPagos, "FACTURACOMPRA", "FECHAIVA", desgloseivaLayout );
+	editDesgloseIVA = addEditField( tabPagos, "FACTURACOMPRA", "DESGLOSEIVA", desgloseivaLayout );
+	editDocumentoPago = addEditField( tabPagos, "FACTURACOMPRA", "DOCUMENTOPAGO", pagoLayout );
+	editFechaPago = addEditField( tabPagos, "FACTURACOMPRA", "FECHAPAGO", pagoLayout );
 
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        searchCuentaPagoCuenta = addSearchField( tabPagos, "CUENTAPAGO_ID", "CUENTA", "CUENTA", "DESCRIPCION", pagoLayout );
-        pushCuentaPagoCuenta = searchCuentaPagoCuenta->getButton();
-        connect( pushCuentaPagoCuenta, SIGNAL( clicked() ), this, SLOT( pushCuentaPagoCuenta_clicked() ) );
-        editCuentaPagoCuenta = searchCuentaPagoCuenta->getEditCode();
-        editCuentaPagoDescripcion = searchCuentaPagoCuenta->getEditDesc();
-    }
+if( ModuleInstance->getContabModule() ) {
+	searchCuentaPagoCuenta = addSearchField( tabPagos, "CUENTAPAGO_ID", "CUENTA", "CUENTA", "DESCRIPCION", pagoLayout );
+	pushCuentaPagoCuenta = searchCuentaPagoCuenta->getButton();
+	connect( pushCuentaPagoCuenta, SIGNAL( clicked() ), this, SLOT( pushCuentaPagoCuenta_clicked() ) );
+	editCuentaPagoCuenta = searchCuentaPagoCuenta->getEditCode();
+	editCuentaPagoDescripcion = searchCuentaPagoCuenta->getEditDesc();
+}
 #endif
-    editNotas = addTextField( tabPagos, "FACTURACOMPRA", "NOTAS", notasLayout );
-    pControlsLayout->addLayout( cabeceraLayout );
-    pControlsLayout->addLayout( cabecera2Layout );
-    pControlsLayout->addLayout( facturacompradetLayout );
-    alignLayout( rightSumaImportesLayout, false);
-    alignLayout( rightDtoP100Layout, false);
-    alignLayout( rightDescuentoLayout, false);
-    alignLayout( rightBaseImponibleLayout, false);
-    alignLayout( rightEntregaAlbaranesLayout, false);
-    alignLayout( rightPagosLayout, false);
-    alignLayout( rightRecargoEquivalenciaLayout, false);
-    alignLayout( rightIVALayout, false);
-    alignLayout( rightEntregaLayout, false);
-    alignLayout( rightRestoLayout, false);
-    alignLayout( rightTotalLayout, false);
-    tabPagosLayout->addLayout( proyectoLayout );
-    tabPagosLayout->addLayout( desgloseivaLayout );
-    tabPagosLayout->addLayout( pagoLayout );
-    tabPagosLayout->addLayout( notasLayout );
-    /*>>>>>FRMEDITFACTURACOMPRA_INIT_CONTROLS*/
+	editNotas = addTextField( tabPagos, "FACTURACOMPRA", "NOTAS", notasLayout );
+	pControlsLayout->addLayout( cabeceraLayout );
+	pControlsLayout->addLayout( cabecera2Layout );
+	pControlsLayout->addLayout( facturacompradetLayout );
+	alignLayout( rightSumaImportesLayout, false);
+	alignLayout( rightDtoP100Layout, false);
+	alignLayout( rightDescuentoLayout, false);
+	alignLayout( rightBaseImponibleLayout, false);
+	alignLayout( rightEntregaAlbaranesLayout, false);
+	alignLayout( rightPagosLayout, false);
+	alignLayout( rightRecargoEquivalenciaLayout, false);
+	alignLayout( rightIVALayout, false);
+	alignLayout( rightEntregaLayout, false);
+	alignLayout( rightRestoLayout, false);
+	alignLayout( rightTotalLayout, false);
+	tabPagosLayout->addLayout( proyectoLayout );
+	tabPagosLayout->addLayout( desgloseivaLayout );
+	tabPagosLayout->addLayout( pagoLayout );
+	tabPagosLayout->addLayout( notasLayout );
+/*>>>>>FRMEDITFACTURACOMPRA_INIT_CONTROLS*/
     pTabWidget->insertTab( tabPagos, toGUI( _( "&Extra" ) ) );
 
     QGridLayout *gridlayout = new QGridLayout();
@@ -250,40 +250,40 @@ void FrmEditFacturaCompra::scatterFields()
         }
     }
     /*<<<<<FRMEDITFACTURACOMPRA_SCATTER*/
-    editFecha->setText(getRecFacturaCompra()->getValue("FECHA").toDate());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editFecha;
-    editNumero->setText(getRecFacturaCompra()->getValue("NUMERO").toString());
-    comboIVADetallado->setCurrentItemByValue(getRecFacturaCompra()->getValue("IVADETALLADO").toInt());
-    editContador->setText(getRecFacturaCompra()->getValue("CONTADOR").toInt());
-    editSumaImportes->setText(getRecFacturaCompra()->getValue("SUMAIMPORTES").toMoney());
-    editDtoP100->setText(getRecFacturaCompra()->getValue("DTOP100").toDouble());
-    editDescuento->setText(getRecFacturaCompra()->getValue("DESCUENTO").toMoney());
-    editBaseImponible->setText(getRecFacturaCompra()->getValue("BASEIMPONIBLE").toMoney());
-    editEntregaAlbaranes->setText(getRecFacturaCompra()->getValue("ENTREGAALBARANES").toMoney());
-    editPagos->setText(getRecFacturaCompra()->getValue("PAGOS").toMoney());
-    editRecargoEquivalencia->setText(getRecFacturaCompra()->getValue("RECARGOEQUIVALENCIA").toMoney());
-    editIVA->setText(getRecFacturaCompra()->getValue("IVA").toMoney());
-    editEntrega->setText(getRecFacturaCompra()->getValue("ENTREGA").toMoney());
-    editResto->setText(getRecFacturaCompra()->getValue("RESTO").toMoney());
-    editTotal->setText(getRecFacturaCompra()->getValue("TOTAL").toMoney());
-    editFechaIVA->setText(getRecFacturaCompra()->getValue("FECHAIVA").toDate());
-    editDesgloseIVA->setText(getRecFacturaCompra()->getValue("DESGLOSEIVA").toString());
-    editDocumentoPago->setText(getRecFacturaCompra()->getValue("DOCUMENTOPAGO").toString());
-    editFechaPago->setText(getRecFacturaCompra()->getValue("FECHAPAGO").toDate());
-    editNotas->setText(getRecFacturaCompra()->getValue("NOTAS").toString());
-    scatterTipoDoc();
-    scatterProveedora();
-    scatterFormaPago();
-    if(empresa::ModuleInstance->usaProyectos()) {
-        scatterProyecto();
-    }
+	editFecha->setText(getRecFacturaCompra()->getValue("FECHA").toDate());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editFecha;
+	editNumero->setText(getRecFacturaCompra()->getValue("NUMERO").toString());
+	comboIVADetallado->setCurrentItemByValue(getRecFacturaCompra()->getValue("IVADETALLADO").toInt());
+	editContador->setText(getRecFacturaCompra()->getValue("CONTADOR").toInt());
+	editSumaImportes->setText(getRecFacturaCompra()->getValue("SUMAIMPORTES").toMoney());
+	editDtoP100->setText(getRecFacturaCompra()->getValue("DTOP100").toDouble());
+	editDescuento->setText(getRecFacturaCompra()->getValue("DESCUENTO").toMoney());
+	editBaseImponible->setText(getRecFacturaCompra()->getValue("BASEIMPONIBLE").toMoney());
+	editEntregaAlbaranes->setText(getRecFacturaCompra()->getValue("ENTREGAALBARANES").toMoney());
+	editPagos->setText(getRecFacturaCompra()->getValue("PAGOS").toMoney());
+	editRecargoEquivalencia->setText(getRecFacturaCompra()->getValue("RECARGOEQUIVALENCIA").toMoney());
+	editIVA->setText(getRecFacturaCompra()->getValue("IVA").toMoney());
+	editEntrega->setText(getRecFacturaCompra()->getValue("ENTREGA").toMoney());
+	editResto->setText(getRecFacturaCompra()->getValue("RESTO").toMoney());
+	editTotal->setText(getRecFacturaCompra()->getValue("TOTAL").toMoney());
+	editFechaIVA->setText(getRecFacturaCompra()->getValue("FECHAIVA").toDate());
+	editDesgloseIVA->setText(getRecFacturaCompra()->getValue("DESGLOSEIVA").toString());
+	editDocumentoPago->setText(getRecFacturaCompra()->getValue("DOCUMENTOPAGO").toString());
+	editFechaPago->setText(getRecFacturaCompra()->getValue("FECHAPAGO").toDate());
+	editNotas->setText(getRecFacturaCompra()->getValue("NOTAS").toString());
+	scatterTipoDoc();
+	scatterProveedora();
+	scatterFormaPago();
+if(empresa::ModuleInstance->usaProyectos()){
+	scatterProyecto();
+}
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        scatterCuentaPago();
-    }
+if( ModuleInstance->getContabModule() ) {
+	scatterCuentaPago();
+}
 #endif
-    /*>>>>>FRMEDITFACTURACOMPRA_SCATTER*/
+/*>>>>>FRMEDITFACTURACOMPRA_SCATTER*/
     if( isInserting() ) {
         if( !isDuplicating() && editFecha->toDate().isNull() )
             editFecha->setText( ModuleInstance->getWorkingDate() );
@@ -318,38 +318,38 @@ void FrmEditFacturaCompra::scatterFields()
 void FrmEditFacturaCompra::gatherFields()
 {
     /*<<<<<FRMEDITFACTURACOMPRA_GATHER*/
-    getRecFacturaCompra()->setValue( "FECHA", editFecha->toDate());
-    getRecFacturaCompra()->setValue( "TIPODOC_ID", getRecTipoDoc()->getRecordID() );
-    getRecFacturaCompra()->setValue( "NUMERO", editNumero->toString());
-    getRecFacturaCompra()->setValue( "IVADETALLADO", comboIVADetallado->getCurrentItemValue());
-    getRecFacturaCompra()->setValue( "PROVEEDORA_ID", getRecProveedora()->getRecordID() );
-    getRecFacturaCompra()->setValue( "FORMAPAGO_ID", getRecFormaPago()->getRecordID() );
-    getRecFacturaCompra()->setValue( "CONTADOR", editContador->toInt());
-    getRecFacturaCompra()->setValue( "SUMAIMPORTES", editSumaImportes->toMoney());
-    getRecFacturaCompra()->setValue( "DTOP100", editDtoP100->toDouble());
-    getRecFacturaCompra()->setValue( "DESCUENTO", editDescuento->toMoney());
-    getRecFacturaCompra()->setValue( "BASEIMPONIBLE", editBaseImponible->toMoney());
-    getRecFacturaCompra()->setValue( "ENTREGAALBARANES", editEntregaAlbaranes->toMoney());
-    getRecFacturaCompra()->setValue( "PAGOS", editPagos->toMoney());
-    getRecFacturaCompra()->setValue( "RECARGOEQUIVALENCIA", editRecargoEquivalencia->toMoney());
-    getRecFacturaCompra()->setValue( "IVA", editIVA->toMoney());
-    getRecFacturaCompra()->setValue( "ENTREGA", editEntrega->toMoney());
-    getRecFacturaCompra()->setValue( "RESTO", editResto->toMoney());
-    getRecFacturaCompra()->setValue( "TOTAL", editTotal->toMoney());
-    if(empresa::ModuleInstance->usaProyectos()) {
-        getRecFacturaCompra()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
-    }
-    getRecFacturaCompra()->setValue( "FECHAIVA", editFechaIVA->toDate());
-    getRecFacturaCompra()->setValue( "DESGLOSEIVA", editDesgloseIVA->toString());
-    getRecFacturaCompra()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
-    getRecFacturaCompra()->setValue( "FECHAPAGO", editFechaPago->toDate());
+	getRecFacturaCompra()->setValue( "FECHA", editFecha->toDate());
+	getRecFacturaCompra()->setValue( "TIPODOC_ID", getRecTipoDoc()->getRecordID() );
+	getRecFacturaCompra()->setValue( "NUMERO", editNumero->toString());
+	getRecFacturaCompra()->setValue( "IVADETALLADO", comboIVADetallado->getCurrentItemValue());
+	getRecFacturaCompra()->setValue( "PROVEEDORA_ID", getRecProveedora()->getRecordID() );
+	getRecFacturaCompra()->setValue( "FORMAPAGO_ID", getRecFormaPago()->getRecordID() );
+	getRecFacturaCompra()->setValue( "CONTADOR", editContador->toInt());
+	getRecFacturaCompra()->setValue( "SUMAIMPORTES", editSumaImportes->toMoney());
+	getRecFacturaCompra()->setValue( "DTOP100", editDtoP100->toDouble());
+	getRecFacturaCompra()->setValue( "DESCUENTO", editDescuento->toMoney());
+	getRecFacturaCompra()->setValue( "BASEIMPONIBLE", editBaseImponible->toMoney());
+	getRecFacturaCompra()->setValue( "ENTREGAALBARANES", editEntregaAlbaranes->toMoney());
+	getRecFacturaCompra()->setValue( "PAGOS", editPagos->toMoney());
+	getRecFacturaCompra()->setValue( "RECARGOEQUIVALENCIA", editRecargoEquivalencia->toMoney());
+	getRecFacturaCompra()->setValue( "IVA", editIVA->toMoney());
+	getRecFacturaCompra()->setValue( "ENTREGA", editEntrega->toMoney());
+	getRecFacturaCompra()->setValue( "RESTO", editResto->toMoney());
+	getRecFacturaCompra()->setValue( "TOTAL", editTotal->toMoney());
+if(empresa::ModuleInstance->usaProyectos()){
+	getRecFacturaCompra()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
+}
+	getRecFacturaCompra()->setValue( "FECHAIVA", editFechaIVA->toDate());
+	getRecFacturaCompra()->setValue( "DESGLOSEIVA", editDesgloseIVA->toString());
+	getRecFacturaCompra()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
+	getRecFacturaCompra()->setValue( "FECHAPAGO", editFechaPago->toDate());
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        getRecFacturaCompra()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
-    }
+if( ModuleInstance->getContabModule() ) {
+	getRecFacturaCompra()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
+}
 #endif
-    getRecFacturaCompra()->setValue( "NOTAS", editNotas->toString());
-    /*>>>>>FRMEDITFACTURACOMPRA_GATHER*/
+	getRecFacturaCompra()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITFACTURACOMPRA_GATHER*/
     ModuleInstance->setWorkingDate( editFecha->toDate() );
 }
 
@@ -357,22 +357,22 @@ void FrmEditFacturaCompra::gatherFields()
 /*<<<<<FRMEDITFACTURACOMPRA_CABECERA_GENNUMDOC*/
 void FrmEditFacturaCompra::genNumeroDocumento()
 {
-    editContador->setText( ModuleInstance->getMaxContador( "FACTURACOMPRA",
-                           getRecord()->getValue("EMPRESA_ID").toInt(),
-                           ModuleInstance->getEmpresaModule()->getEjercicio(),
-                           getRecTipoDoc()->getValue("SERIE").toString() ) );
-    editContador->setJustEdited( true );
-    validateFields( editContador, 0 );
-    /*>>>>>FRMEDITFACTURACOMPRA_CABECERA_GENNUMDOC*/
+		editContador->setText( ModuleInstance->getMaxContador( "FACTURACOMPRA",
+			getRecord()->getValue("EMPRESA_ID").toInt(),
+			ModuleInstance->getEmpresaModule()->getEjercicio(),
+			getRecTipoDoc()->getValue("SERIE").toString() ) );
+		editContador->setJustEdited( true );
+		validateFields( editContador, 0 );
+/*>>>>>FRMEDITFACTURACOMPRA_CABECERA_GENNUMDOC*/
 }
 #endif
 
 void FrmEditFacturaCompra::scatterTipoDoc()
 {
     /*<<<<<FRMEDITFACTURACOMPRA_SCATTER_TIPODOC*/
-    editTipoDocCodigo->setText( getRecTipoDoc()->getValue("CODIGO") );
-    editTipoDocNombre->setText( getRecTipoDoc()->getValue("NOMBRE") );
-    /*>>>>>FRMEDITFACTURACOMPRA_SCATTER_TIPODOC*/
+	editTipoDocCodigo->setText( getRecTipoDoc()->getValue("CODIGO") );
+	editTipoDocNombre->setText( getRecTipoDoc()->getValue("NOMBRE") );
+/*>>>>>FRMEDITFACTURACOMPRA_SCATTER_TIPODOC*/
     if( editTipoDocCodigo->isJustEdited() ) {
         if( getRecTipoDoc()->getValue("IVADetallado").toInt() != 0 )
             comboIVADetallado->setCurrentItemByValue( getRecTipoDoc()->getValue("IVADetallado").toInt() );
@@ -385,147 +385,147 @@ void FrmEditFacturaCompra::scatterTipoDoc()
 void FrmEditFacturaCompra::pushTipoDocCodigo_clicked()
 {
     /*<<<<<FRMEDITFACTURACOMPRA_PUSH_TIPODOC_CODIGO_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchTipoDocCodigo->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editTipoDocCodigo->setJustEdited( false );
-        editTipoDocCodigo->setCancelling();
-        if( DBAPP->choose(this, getRecTipoDoc(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterTipoDoc();
-            editTipoDocCodigo->setJustEdited( true );
-            editTipoDocCodigo->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecTipoDoc()->getRecordID() ) {
-            editTipoDocCodigo->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecTipoDoc(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editTipoDocCodigo->setJustEdited( true );
-                scatterTipoDoc();
-            }
-            editTipoDocCodigo->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecTipoDoc()->getRecordID() != 0 ) {
-            editTipoDocCodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoDoc(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        RecTipoDoc *tmprec = static_cast<RecTipoDoc *>(DBAPP->createRecord( "TipoDoc" ));
-        editTipoDocCodigo->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editTipoDocCodigo->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editTipoDocCodigo->setJustEdited( true );
-            getRecTipoDoc()->copyRecord( tmprec );
-            scatterTipoDoc();
-        }
-        editTipoDocCodigo->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITFACTURACOMPRA_PUSH_TIPODOC_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchTipoDocCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editTipoDocCodigo->setJustEdited( false );
+			editTipoDocCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecTipoDoc(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterTipoDoc();
+				editTipoDocCodigo->setJustEdited( true );
+				editTipoDocCodigo->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecTipoDoc()->getRecordID() ) {
+					editTipoDocCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecTipoDoc(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editTipoDocCodigo->setJustEdited( true );
+						scatterTipoDoc();
+					}
+					editTipoDocCodigo->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecTipoDoc()->getRecordID() != 0 ) {
+					editTipoDocCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoDoc(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecTipoDoc *tmprec = static_cast<RecTipoDoc *>(DBAPP->createRecord( "TipoDoc" ));
+				editTipoDocCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editTipoDocCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editTipoDocCodigo->setJustEdited( true );
+					getRecTipoDoc()->copyRecord( tmprec );
+					scatterTipoDoc();
+				}
+				editTipoDocCodigo->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITFACTURACOMPRA_PUSH_TIPODOC_CODIGO_CLICKED*/
 }
 
 void FrmEditFacturaCompra::scatterProveedora()
 {
     /*<<<<<FRMEDITFACTURACOMPRA_SCATTER_PROVEEDORA*/
-    editProveedoraCodigo->setText( getRecProveedora()->getValue("CODIGO") );
-    editProveedoraRazonSocial->setText( getRecProveedora()->getValue("RAZONSOCIAL") );
-    /*>>>>>FRMEDITFACTURACOMPRA_SCATTER_PROVEEDORA*/
+	editProveedoraCodigo->setText( getRecProveedora()->getValue("CODIGO") );
+	editProveedoraRazonSocial->setText( getRecProveedora()->getValue("RAZONSOCIAL") );
+/*>>>>>FRMEDITFACTURACOMPRA_SCATTER_PROVEEDORA*/
     /*<<<<<FRMEDITFACTURACOMPRA_CABECERA_SCATTER_PROVEEDORA*/
-    if( editProveedoraCodigo->isJustEdited() ) {
-        if( getRecProveedora()->getRecFormaPago()->getValue("CODIGO").toInt() != 0 )
-            searchFormaPagoCodigo->setValue( getRecProveedora()->getRecFormaPago()->getValue("CODIGO") );
-        if( getRecProveedora()->getValue("IVADetallado").toInt() != 0 )
-            comboIVADetallado->setCurrentItemByValue( getRecProveedora()->getValue("IVADetallado").toInt() );
-    }
-    /*>>>>>FRMEDITFACTURACOMPRA_CABECERA_SCATTER_PROVEEDORA*/
+	if( editProveedoraCodigo->isJustEdited() ) {
+		if( getRecProveedora()->getRecFormaPago()->getValue("CODIGO").toInt() != 0 )
+			searchFormaPagoCodigo->setValue( getRecProveedora()->getRecFormaPago()->getValue("CODIGO") );
+		if( getRecProveedora()->getValue("IVADetallado").toInt() != 0 )
+			comboIVADetallado->setCurrentItemByValue( getRecProveedora()->getValue("IVADetallado").toInt() );
+	}
+/*>>>>>FRMEDITFACTURACOMPRA_CABECERA_SCATTER_PROVEEDORA*/
 }
 
 void FrmEditFacturaCompra::pushProveedoraCodigo_clicked()
 {
     /*<<<<<FRMEDITFACTURACOMPRA_PUSH_PROVEEDORA_CODIGO_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchProveedoraCodigo->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editProveedoraCodigo->setJustEdited( false );
-        editProveedoraCodigo->setCancelling();
-        if( DBAPP->choose(this, getRecProveedora(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterProveedora();
-            editProveedoraCodigo->setJustEdited( true );
-            editProveedoraCodigo->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecProveedora()->getRecordID() ) {
-            editProveedoraCodigo->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecProveedora(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editProveedoraCodigo->setJustEdited( true );
-                scatterProveedora();
-            }
-            editProveedoraCodigo->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecProveedora()->getRecordID() != 0 ) {
-            editProveedoraCodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProveedora(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        RecProveedora *tmprec = static_cast<RecProveedora *>(DBAPP->createRecord( "Proveedora" ));
-        editProveedoraCodigo->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editProveedoraCodigo->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editProveedoraCodigo->setJustEdited( true );
-            getRecProveedora()->copyRecord( tmprec );
-            scatterProveedora();
-        }
-        editProveedoraCodigo->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITFACTURACOMPRA_PUSH_PROVEEDORA_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchProveedoraCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editProveedoraCodigo->setJustEdited( false );
+			editProveedoraCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecProveedora(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterProveedora();
+				editProveedoraCodigo->setJustEdited( true );
+				editProveedoraCodigo->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecProveedora()->getRecordID() ) {
+					editProveedoraCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecProveedora(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editProveedoraCodigo->setJustEdited( true );
+						scatterProveedora();
+					}
+					editProveedoraCodigo->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecProveedora()->getRecordID() != 0 ) {
+					editProveedoraCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProveedora(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecProveedora *tmprec = static_cast<RecProveedora *>(DBAPP->createRecord( "Proveedora" ));
+				editProveedoraCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editProveedoraCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editProveedoraCodigo->setJustEdited( true );
+					getRecProveedora()->copyRecord( tmprec );
+					scatterProveedora();
+				}
+				editProveedoraCodigo->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITFACTURACOMPRA_PUSH_PROVEEDORA_CODIGO_CLICKED*/
 }
 
 void FrmEditFacturaCompra::scatterFormaPago()
 {
     /*<<<<<FRMEDITFACTURACOMPRA_SCATTER_FORMAPAGO*/
-    editFormaPagoCodigo->setText( getRecFormaPago()->getValue("CODIGO") );
-    editFormaPagoNombre->setText( getRecFormaPago()->getValue("NOMBRE") );
-    /*>>>>>FRMEDITFACTURACOMPRA_SCATTER_FORMAPAGO*/
+	editFormaPagoCodigo->setText( getRecFormaPago()->getValue("CODIGO") );
+	editFormaPagoNombre->setText( getRecFormaPago()->getValue("NOMBRE") );
+/*>>>>>FRMEDITFACTURACOMPRA_SCATTER_FORMAPAGO*/
     if( getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::Contado
             || getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::SeIgnora ) {
         pushPagar->setVisible( false );
@@ -544,62 +544,62 @@ void FrmEditFacturaCompra::scatterFormaPago()
 void FrmEditFacturaCompra::pushFormaPagoCodigo_clicked()
 {
     /*<<<<<FRMEDITFACTURACOMPRA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchFormaPagoCodigo->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editFormaPagoCodigo->setJustEdited( false );
-        editFormaPagoCodigo->setCancelling();
-        if( DBAPP->choose(this, getRecFormaPago(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterFormaPago();
-            editFormaPagoCodigo->setJustEdited( true );
-            editFormaPagoCodigo->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecFormaPago()->getRecordID() ) {
-            editFormaPagoCodigo->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecFormaPago(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editFormaPagoCodigo->setJustEdited( true );
-                scatterFormaPago();
-            }
-            editFormaPagoCodigo->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecFormaPago()->getRecordID() != 0 ) {
-            editFormaPagoCodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        pagos::RecFormaPago *tmprec = static_cast<pagos::RecFormaPago *>(DBAPP->createRecord( "FormaPago" ));
-        editFormaPagoCodigo->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editFormaPagoCodigo->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editFormaPagoCodigo->setJustEdited( true );
-            getRecFormaPago()->copyRecord( tmprec );
-            scatterFormaPago();
-        }
-        editFormaPagoCodigo->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITFACTURACOMPRA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchFormaPagoCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editFormaPagoCodigo->setJustEdited( false );
+			editFormaPagoCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecFormaPago(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterFormaPago();
+				editFormaPagoCodigo->setJustEdited( true );
+				editFormaPagoCodigo->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecFormaPago()->getRecordID() ) {
+					editFormaPagoCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecFormaPago(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editFormaPagoCodigo->setJustEdited( true );
+						scatterFormaPago();
+					}
+					editFormaPagoCodigo->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecFormaPago()->getRecordID() != 0 ) {
+					editFormaPagoCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				pagos::RecFormaPago *tmprec = static_cast<pagos::RecFormaPago *>(DBAPP->createRecord( "FormaPago" ));
+				editFormaPagoCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editFormaPagoCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editFormaPagoCodigo->setJustEdited( true );
+					getRecFormaPago()->copyRecord( tmprec );
+					scatterFormaPago();
+				}
+				editFormaPagoCodigo->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITFACTURACOMPRA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
 }
 
 void FrmEditFacturaCompra::scatterCuentaPago()
@@ -607,9 +607,9 @@ void FrmEditFacturaCompra::scatterCuentaPago()
 #ifdef HAVE_CONTABMODULE
 #define getRecCuenta getRecCuentaPago
     /*<<<<<FRMEDITFACTURACOMPRA_SCATTER_CUENTAPAGO*/
-    editCuentaPagoCuenta->setText( getRecCuentaPago()->getValue("CUENTA") );
-    editCuentaPagoDescripcion->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
-    /*>>>>>FRMEDITFACTURACOMPRA_SCATTER_CUENTAPAGO*/
+	editCuentaPagoCuenta->setText( getRecCuentaPago()->getValue("CUENTA") );
+	editCuentaPagoDescripcion->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
+/*>>>>>FRMEDITFACTURACOMPRA_SCATTER_CUENTAPAGO*/
 #undef getRecCuenta
 #endif
 }
@@ -618,186 +618,186 @@ void FrmEditFacturaCompra::pushCuentaPagoCuenta_clicked()
 {
 #ifdef HAVE_CONTABMODULE
     /*<<<<<FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchCuentaPagoCuenta->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editCuentaPagoCuenta->setJustEdited( false );
-        editCuentaPagoCuenta->setCancelling();
-        if( DBAPP->choose(this, getRecCuentaPago(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterCuentaPago();
-            editCuentaPagoCuenta->setJustEdited( true );
-            editCuentaPagoCuenta->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecCuentaPago()->getRecordID() ) {
-            editCuentaPagoCuenta->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecCuentaPago(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editCuentaPagoCuenta->setJustEdited( true );
-                scatterCuentaPago();
-            }
-            editCuentaPagoCuenta->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecCuentaPago()->getRecordID() != 0 ) {
-            editCuentaPagoCuenta->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        RecCuentaPago *tmprec = static_cast<RecCuentaPago *>(DBAPP->createRecord( "CuentaPago" ));
-        editCuentaPagoCuenta->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editCuentaPagoCuenta->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editCuentaPagoCuenta->setJustEdited( true );
-            getRecCuentaPago()->copyRecord( tmprec );
-            scatterCuentaPago();
-        }
-        editCuentaPagoCuenta->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchCuentaPagoCuenta->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editCuentaPagoCuenta->setJustEdited( false );
+			editCuentaPagoCuenta->setCancelling();
+			if( DBAPP->choose(this, getRecCuentaPago(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterCuentaPago();
+				editCuentaPagoCuenta->setJustEdited( true );
+				editCuentaPagoCuenta->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecCuentaPago()->getRecordID() ) {
+					editCuentaPagoCuenta->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecCuentaPago(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editCuentaPagoCuenta->setJustEdited( true );
+						scatterCuentaPago();
+					}
+					editCuentaPagoCuenta->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecCuentaPago()->getRecordID() != 0 ) {
+					editCuentaPagoCuenta->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecCuentaPago *tmprec = static_cast<RecCuentaPago *>(DBAPP->createRecord( "CuentaPago" ));
+				editCuentaPagoCuenta->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editCuentaPagoCuenta->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editCuentaPagoCuenta->setJustEdited( true );
+					getRecCuentaPago()->copyRecord( tmprec );
+					scatterCuentaPago();
+				}
+				editCuentaPagoCuenta->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
 #endif
 }
 
 void FrmEditFacturaCompra::scatterProyecto()
 {
     /*<<<<<FRMEDITFACTURACOMPRA_SCATTER_PROYECTO*/
-    editProyectoCodigo->setText( getRecProyecto()->getValue("CODIGO") );
-    editProyectoNombre->setText( getRecProyecto()->getValue("NOMBRE") );
-    /*>>>>>FRMEDITFACTURACOMPRA_SCATTER_PROYECTO*/
+	editProyectoCodigo->setText( getRecProyecto()->getValue("CODIGO") );
+	editProyectoNombre->setText( getRecProyecto()->getValue("NOMBRE") );
+/*>>>>>FRMEDITFACTURACOMPRA_SCATTER_PROYECTO*/
 }
 void FrmEditFacturaCompra::pushProyectoCodigo_clicked()
 {
     /*<<<<<FRMEDITFACTURACOMPRA_PUSH_PROYECTO_CODIGO_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchProyectoCodigo->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editProyectoCodigo->setJustEdited( false );
-        editProyectoCodigo->setCancelling();
-        if( DBAPP->choose(this, getRecProyecto(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterProyecto();
-            editProyectoCodigo->setJustEdited( true );
-            editProyectoCodigo->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecProyecto()->getRecordID() ) {
-            editProyectoCodigo->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecProyecto(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editProyectoCodigo->setJustEdited( true );
-                scatterProyecto();
-            }
-            editProyectoCodigo->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecProyecto()->getRecordID() != 0 ) {
-            editProyectoCodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProyecto(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        empresa::RecProyecto *tmprec = static_cast<empresa::RecProyecto *>(DBAPP->createRecord( "Proyecto" ));
-        editProyectoCodigo->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editProyectoCodigo->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editProyectoCodigo->setJustEdited( true );
-            getRecProyecto()->copyRecord( tmprec );
-            scatterProyecto();
-        }
-        editProyectoCodigo->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITFACTURACOMPRA_PUSH_PROYECTO_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchProyectoCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editProyectoCodigo->setJustEdited( false );
+			editProyectoCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecProyecto(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterProyecto();
+				editProyectoCodigo->setJustEdited( true );
+				editProyectoCodigo->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecProyecto()->getRecordID() ) {
+					editProyectoCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecProyecto(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editProyectoCodigo->setJustEdited( true );
+						scatterProyecto();
+					}
+					editProyectoCodigo->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecProyecto()->getRecordID() != 0 ) {
+					editProyectoCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProyecto(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				empresa::RecProyecto *tmprec = static_cast<empresa::RecProyecto *>(DBAPP->createRecord( "Proyecto" ));
+				editProyectoCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editProyectoCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editProyectoCodigo->setJustEdited( true );
+					getRecProyecto()->copyRecord( tmprec );
+					scatterProyecto();
+				}
+				editProyectoCodigo->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITFACTURACOMPRA_PUSH_PROYECTO_CODIGO_CLICKED*/
 }
 
 void FrmEditFacturaCompra::specialControlKeyPressed( QWidget *sender, char key )
 {
     /*<<<<<FRMEDITFACTURACOMPRA_SPECIALACTION*/
-    mControlKeyPressed = key;
-    FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
-    if( sender == editTipoDocCodigo )
-        pushTipoDocCodigo_clicked();
-    if( sender == editProveedoraCodigo )
-        pushProveedoraCodigo_clicked();
-    if( sender == editFormaPagoCodigo )
-        pushFormaPagoCodigo_clicked();
-    if(empresa::ModuleInstance->usaProyectos()) {
-        if( sender == editProyectoCodigo )
-            pushProyectoCodigo_clicked();
-    }
+	mControlKeyPressed = key;
+	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
+	if( sender == editTipoDocCodigo )
+		pushTipoDocCodigo_clicked();
+	if( sender == editProveedoraCodigo )
+		pushProveedoraCodigo_clicked();
+	if( sender == editFormaPagoCodigo )
+		pushFormaPagoCodigo_clicked();
+if(empresa::ModuleInstance->usaProyectos()){
+	if( sender == editProyectoCodigo )
+		pushProyectoCodigo_clicked();
+}
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        if( sender == editCuentaPagoCuenta )
-            pushCuentaPagoCuenta_clicked();
-    }
+if( ModuleInstance->getContabModule() ) {
+	if( sender == editCuentaPagoCuenta )
+		pushCuentaPagoCuenta_clicked();
+}
 #endif
-    mControlKeyPressed = '\0';
-    /*>>>>>FRMEDITFACTURACOMPRA_SPECIALACTION*/
+	mControlKeyPressed = '\0';
+/*>>>>>FRMEDITFACTURACOMPRA_SPECIALACTION*/
 }
 
 void FrmEditFacturaCompra::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
     /*<<<<<FRMEDITFACTURACOMPRA_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    if( focusWidget() != pushTipoDocCodigo) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editTipoDocCodigo, editTipoDocNombre,
-                           getRecTipoDoc(), "CODIGO", "NOMBRE", Xtring::null) )
-            scatterTipoDoc();
-    if( focusWidget() != pushProveedoraCodigo) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editProveedoraCodigo, editProveedoraRazonSocial,
-                           getRecProveedora(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
-            scatterProveedora();
-    if( focusWidget() != pushFormaPagoCodigo) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editFormaPagoCodigo, editFormaPagoNombre,
-                           getRecFormaPago(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
-            scatterFormaPago();
-    if(empresa::ModuleInstance->usaProyectos()) {
-        if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
-            if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
-                               getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null) )
-                scatterProyecto();
-    }
-    /*>>>>>FRMEDITFACTURACOMPRA_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( focusWidget() != pushTipoDocCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editTipoDocCodigo, editTipoDocNombre,
+		getRecTipoDoc(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterTipoDoc();
+	if( focusWidget() != pushProveedoraCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editProveedoraCodigo, editProveedoraRazonSocial,
+		getRecProveedora(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		scatterProveedora();
+	if( focusWidget() != pushFormaPagoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editFormaPagoCodigo, editFormaPagoNombre,
+		getRecFormaPago(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		scatterFormaPago();
+if(empresa::ModuleInstance->usaProyectos()){
+	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
+		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterProyecto();
+}
+/*>>>>>FRMEDITFACTURACOMPRA_VALIDATE*/
 
 #ifdef HAVE_CONTABMODULE
 #define editCuentaCuenta editCuentaPagoCuenta
@@ -829,46 +829,46 @@ void FrmEditFacturaCompra::validateFields( QWidget *sender, bool *isvalid, Valid
         actTotales();
     }
     /*<<<<<FRMEDITFACTURACOMPRA_CABECERA_VALIDATE*/
-    if( sender == editDtoP100 && editDtoP100->isJustEdited() ) {
-        editDescuento->setText( 0.0 );
-        actTotales();
-    }
-    if( sender == comboIVADetallado ) {
-        if( comboIVADetallado->getCurrentItemValue() == factu::FldIVADetallado::con_recargo ) {
-            editRecargoEquivalencia->setVisible( true );
-            editRecargoEquivalencia->getLabel()->setVisible( true );
-        } else {
-            editRecargoEquivalencia->setVisible( false );
-            editRecargoEquivalencia->getLabel()->setVisible( false );
-        }
-        actTotales();
-    }
-    if( sender == editFecha || !sender ) {
-        if( editFecha->toDate().getYear() != factu::ModuleInstance->getEmpresaModule()->getEjercicio() ) {
-            validresult->addWarning( Xtring::printf(_("La fecha no es del ejercicio actual: %d"),
-                                                    factu::ModuleInstance->getEmpresaModule()->getEjercicio()),
-                                     "FECHA" );
-        }
-    }
-    if( sender == editTotal && editTotal->isJustEdited() ) {
-        if( editBaseImponible->toDouble() != 0.0 ) {
-            double nuevo_total = editTotal->toDouble();
-            editDtoP100->setText( 0.0 );
-            editDescuento->setText( 0.0 );
-            actTotales();
-            double orig_total = editTotal->toDouble();
-            if( orig_total != nuevo_total ) {
-                double orig_sumaimp = editSumaImportes->toDouble();
-                double nuevo_sumaimp =  (nuevo_total * orig_sumaimp) / orig_total;
-                double dtop100 = 100 - (100 * nuevo_sumaimp / orig_sumaimp);
-                editDtoP100->setText( dtop100 );
-                actTotales();
-            }
-        }
-    }
-    if( sender == editEntrega )
-        actTotales();
-    /*>>>>>FRMEDITFACTURACOMPRA_CABECERA_VALIDATE*/
+	if( sender == editDtoP100 && editDtoP100->isJustEdited() ) {
+		editDescuento->setText( 0.0 );
+		actTotales();
+	}
+	if( sender == comboIVADetallado ) {
+		if( comboIVADetallado->getCurrentItemValue() == factu::FldIVADetallado::con_recargo ) {
+			editRecargoEquivalencia->setVisible( true );
+			editRecargoEquivalencia->getLabel()->setVisible( true );
+		} else {
+			editRecargoEquivalencia->setVisible( false );
+			editRecargoEquivalencia->getLabel()->setVisible( false );
+		}
+		actTotales();
+	}
+	if( sender == editFecha || !sender ) {
+		if( editFecha->toDate().getYear() != factu::ModuleInstance->getEmpresaModule()->getEjercicio() ) {
+			validresult->addWarning( Xtring::printf(_("La fecha no es del ejercicio actual: %d"),
+				factu::ModuleInstance->getEmpresaModule()->getEjercicio()),
+				"FECHA" );
+		}
+	}
+	if( sender == editTotal && editTotal->isJustEdited() ) {
+		if( editBaseImponible->toDouble() != 0.0 ) {
+			double nuevo_total = editTotal->toDouble();
+			editDtoP100->setText( 0.0 );
+			editDescuento->setText( 0.0 );
+			actTotales();
+			double orig_total = editTotal->toDouble();
+			if( orig_total != nuevo_total ) {
+				double orig_sumaimp = editSumaImportes->toDouble();
+				double nuevo_sumaimp =  (nuevo_total * orig_sumaimp) / orig_total;
+				double dtop100 = 100 - (100 * nuevo_sumaimp / orig_sumaimp);
+				editDtoP100->setText( dtop100 );
+				actTotales();
+			}
+		}
+	}
+	if( sender == editEntrega )
+		actTotales();
+/*>>>>>FRMEDITFACTURACOMPRA_CABECERA_VALIDATE*/
     if( !sender || (
                 (sender == editNumero && !editNumero->toString().isEmpty())
                 || (sender == editProveedoraCodigo && !editProveedoraCodigo->toString().isEmpty() ) )
@@ -928,21 +928,21 @@ void FrmEditFacturaCompra::validateFields( QWidget *sender, bool *isvalid, Valid
 /*<<<<<FRMEDITFACTURACOMPRA_CABECERA_UPDATEFROMDETAILS*/
 void FrmEditFacturaCompra::updateFromDetails( class FrmEditRecDetail *detailfrm )
 {
-    actTotales();
-    numeraLineas();
-    /*>>>>>FRMEDITFACTURACOMPRA_CABECERA_UPDATEFROMDETAILS*/
+	actTotales();
+	numeraLineas();
+/*>>>>>FRMEDITFACTURACOMPRA_CABECERA_UPDATEFROMDETAILS*/
 }
 
 /*<<<<<FRMEDITFACTURACOMPRA_CABECERA_NUMERALINEAS*/
 void FrmEditFacturaCompra::numeraLineas()
 {
-    dbRecordList *reclst = getRecFacturaCompra()->getListFacturaCompraDet();
-    for ( unsigned int i = 0; i < reclst->size(); i++ ) {
-        RecFacturaCompraDet *detalle = static_cast<RecFacturaCompraDet *>( reclst->at( i ) );
-        if( !detalle->isEmpty() ) // No numerar detalles vacíos
-            detalle->setValue( "NLINEA", i+1 );
-    }
-    /*>>>>>FRMEDITFACTURACOMPRA_CABECERA_NUMERALINEAS*/
+	dbRecordList *reclst = getRecFacturaCompra()->getListFacturaCompraDet();
+	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
+		RecFacturaCompraDet *detalle = static_cast<RecFacturaCompraDet *>( reclst->at( i ) );
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
+			detalle->setValue( "NLINEA", i+1 );
+	}
+/*>>>>>FRMEDITFACTURACOMPRA_CABECERA_NUMERALINEAS*/
 }
 
 bool FrmEditFacturaCompra::canBeginEdit(EditMode newmode)
@@ -1021,10 +1021,10 @@ void FrmEditFacturaCompra::slotPagar()
 /*<<<<<FRMEDITFACTURACOMPRA_CABECERA_ACTTOTALES*/
 void FrmEditFacturaCompra::actTotales()
 {
-    getRecFacturaCompra()->gather( this );
-    getRecFacturaCompra()->actTotales();
-    getRecFacturaCompra()->scatter( this );
-    /*>>>>>FRMEDITFACTURACOMPRA_CABECERA_ACTTOTALES*/
+	getRecFacturaCompra()->gather( this );
+	getRecFacturaCompra()->actTotales();
+	getRecFacturaCompra()->scatter( this );
+/*>>>>>FRMEDITFACTURACOMPRA_CABECERA_ACTTOTALES*/
 }
 
 

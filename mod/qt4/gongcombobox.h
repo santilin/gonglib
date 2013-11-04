@@ -56,14 +56,14 @@ protected:
     virtual void keyPressEvent( QKeyEvent *e ); // from QWidget
 
 private:
-    const XtringList &mConstCaptions;
-    const IntList &mConstValues;
     XtringList mCaptions;
     IntList mValues;
+    const XtringList &mRefCaptions;
+    const IntList &mRefValues;
     QLabel *pLabel;
     QBoxLayout *pLayout;
     bool mHorizontal, mMustBeReadOnly, mEdited;
-    bool mJustEdited, mSettingProgrammatically, mIsConst;
+    bool mJustEdited, mSettingProgrammatically, mIsRef;
 };
 
 
@@ -101,12 +101,12 @@ protected:
     virtual void keyPressEvent( QKeyEvent *e ); // from QWidget
 
 private:
-    const XtringList &mConstCaptions, &mConstValues;
     XtringList mCaptions, mValues;
+    const XtringList &mRefCaptions, &mRefValues;
     QLabel *pLabel;
     QBoxLayout *pLayout;
     bool mHorizontal, mMustBeReadOnly, mEdited;
-    bool mJustEdited, mSettingProgrammatically, mIsConst;
+    bool mJustEdited, mSettingProgrammatically, mIsRef;
 };
 
 } // namespace gong

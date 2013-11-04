@@ -106,6 +106,7 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
         break;
         case dbModuleSetting::None:
         case dbModuleSetting::StringList:
+        case dbModuleSetting::dbRecordID:
         case dbModuleSetting::Image: /// TODO
             break;
         }

@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file contabfrmeditapunte.h Fichero de edición de apuntes
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -30,27 +30,25 @@ typedef RecCuenta RecContrapartida;
 /*<<<<<FRMEDITAPUNTE_CLASS*/
 class FrmEditApunte: public FrmEditRecDetail
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    FrmEditApunte(FrmEditRecMaster *frmmaster, int ndetail,
-                  dbRecord *detail, const Xtring &dettablename, dbRecordDataModel *dm=0,
-                  EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
-                  QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-    RecApunte *getRecApunte() const {
-        return (RecApunte *)getRecord();
-    }
-    /*>>>>>FRMEDITAPUNTE_CLASS*/
+	FrmEditApunte(FrmEditRecMaster *frmmaster, int ndetail,
+		dbRecord *detail, const Xtring &dettablename, dbRecordDataModel *dm=0,
+		EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
+		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
+	RecApunte *getRecApunte() const { return (RecApunte *)getRecord(); }
+/*>>>>>FRMEDITAPUNTE_CLASS*/
     virtual ~FrmEditApunte();
     virtual bool save(); // From frmEditRecDetalle
 
     /*<<<<<FRMEDITAPUNTE_VIRTUALS_FROM_FRMEDITREC*/
 protected:
-    virtual void scatterFields(); // From FrmEditRec
-    virtual void gatherFields();
-    virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    void specialControlKeyPressed(QWidget *sender, char key);
-    /*>>>>>FRMEDITAPUNTE_VIRTUALS_FROM_FRMEDITREC*/
+	virtual void scatterFields(); // From FrmEditRec
+	virtual void gatherFields();
+	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+	void specialControlKeyPressed(QWidget *sender, char key);
+/*>>>>>FRMEDITAPUNTE_VIRTUALS_FROM_FRMEDITREC*/
 
 protected:
     void addContrapartida();
@@ -68,31 +66,29 @@ private slots:
 
     /*<<<<<FRMEDITAPUNTE_SCATTERS_AND_SLOTS*/
 protected:
-    void scatterCuenta();
+	void scatterCuenta();
 
 private slots:
-    void pushCuentaCuenta_clicked();
+	void pushCuentaCuenta_clicked();
 
 public:
-    RecCuenta* getRecCuenta() const
-    {
-        return static_cast<RecApunte*>(getRecord())->getRecCuenta();
-    }
-    /*>>>>>FRMEDITAPUNTE_SCATTERS_AND_SLOTS*/
+	RecCuenta* getRecCuenta() const
+		{ return static_cast<RecApunte*>(getRecord())->getRecCuenta(); }
+/*>>>>>FRMEDITAPUNTE_SCATTERS_AND_SLOTS*/
 
     /*<<<<<FRMEDITAPUNTE_CONTROLS*/
 protected:
-    gong::EditBox *editNumApunte;
-    gong::SearchBox *searchCuentaCuenta;
-    QPushButton *pushCuentaCuenta;
-    gong::LineEdit *editCuentaCuenta;
-    gong::LineEdit *editCuentaDescripcion;
-    gong::EditBox *editDebe;
-    gong::EditBox *editHaber;
-    gong::EditBox *editConcepto;
-    gong::EditBox *editContrapartida;
-    gong::TextBox *editNotas;
-    /*>>>>>FRMEDITAPUNTE_CONTROLS*/
+	gong::EditBox *editNumApunte;
+	gong::SearchBox *searchCuentaCuenta;
+	QPushButton *pushCuentaCuenta;
+	gong::LineEdit *editCuentaCuenta;
+	gong::LineEdit *editCuentaDescripcion;
+	gong::EditBox *editDebe;
+	gong::EditBox *editHaber;
+	gong::EditBox *editConcepto;
+	gong::EditBox *editContrapartida;
+	gong::TextBox *editNotas;
+/*>>>>>FRMEDITAPUNTE_CONTROLS*/
     SearchBox *searchContrapartidaCuenta;
     QPushButton *pushContrapartidaCuenta;
     LineEdit *editContrapartidaCuenta;

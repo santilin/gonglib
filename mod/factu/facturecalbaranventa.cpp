@@ -60,45 +60,45 @@ void RecAlbaranVenta::init()
 /*<<<<<ALBARANVENTA_RELATIONS*/
 RecTipoDoc *RecAlbaranVenta::getRecTipoDoc() const
 {
-    return static_cast<RecTipoDoc*>(findRelatedRecord("ALBARANVENTA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("ALBARANVENTA.TIPODOC_ID"));
 }
 
 RecCliente *RecAlbaranVenta::getRecCliente() const
 {
-    return static_cast<RecCliente*>(findRelatedRecord("ALBARANVENTA.CLIENTE_ID"));
+	return static_cast<RecCliente*>(findRelatedRecord("ALBARANVENTA.CLIENTE_ID"));
 }
 
 RecAgente *RecAlbaranVenta::getRecAgente() const
 {
-    return static_cast<RecAgente*>(findRelatedRecord("ALBARANVENTA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("ALBARANVENTA.AGENTE_ID"));
 }
 
 pagos::RecFormaPago *RecAlbaranVenta::getRecFormaPago() const
 {
-    return static_cast<pagos::RecFormaPago*>(findRelatedRecord("ALBARANVENTA.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("ALBARANVENTA.FORMAPAGO_ID"));
 }
 
 empresa::RecProyecto *RecAlbaranVenta::getRecProyecto() const
 {
-    return static_cast<empresa::RecProyecto*>(findRelatedRecord("ALBARANVENTA.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("ALBARANVENTA.PROYECTO_ID"));
 }
 
 RecAlbaranVentaDet *RecAlbaranVenta::getRecAlbaranVentaDet( int albaranventadet ) const
 {
-    return static_cast<RecAlbaranVentaDet*>(findRelationByRelatedTable("ALBARANVENTADET" )->getRelatedRecord( albaranventadet));
+	return static_cast<RecAlbaranVentaDet*>(findRelationByRelatedTable("ALBARANVENTADET" )->getRelatedRecord( albaranventadet));
 }
 
 dbRecordList *RecAlbaranVenta::getListAlbaranVentaDet() const
 {
-    return findRelationByRelatedTable( "ALBARANVENTADET" )->getRelatedRecordList();
+	return findRelationByRelatedTable( "ALBARANVENTADET" )->getRelatedRecordList();
 }
 /*>>>>>ALBARANVENTA_RELATIONS*/
 
 /*<<<<<ALBARANVENTA_TOSTRING*/
 Xtring RecAlbaranVenta::toString(int format, const RegExp &includedFields) const
 {
-    Xtring result;
-    /*>>>>>ALBARANVENTA_TOSTRING*/
+	Xtring result;
+/*>>>>>ALBARANVENTA_TOSTRING*/
     if( format == TOSTRING_CODE_AND_DESC_WITH_TABLENAME ) {
         result = dbRecord::toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME );
         if( !getRecCliente()->getValue("RAZONSOCIAL").toString().isEmpty() )
@@ -111,7 +111,7 @@ Xtring RecAlbaranVenta::toString(int format, const RegExp &includedFields) const
 /*<<<<<ALBARANVENTA_SAVE*/
 bool RecAlbaranVenta::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>ALBARANVENTA_SAVE*/
+/*>>>>>ALBARANVENTA_SAVE*/
 #ifdef HAVE_PAGOSMODULE
     actRestoFactura();
 #endif
@@ -134,7 +134,7 @@ bool RecAlbaranVenta::save(bool saverelated) throw( dbError )
 /*<<<<<ALBARANVENTA_REMOVE*/
 bool RecAlbaranVenta::remove() throw( dbError )
 {
-    /*>>>>>ALBARANVENTA_REMOVE*/
+/*>>>>>ALBARANVENTA_REMOVE*/
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE

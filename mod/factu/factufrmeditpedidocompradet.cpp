@@ -46,47 +46,47 @@ namespace factu {
 
 /*<<<<<FRMEDITPEDIDOCOMPRADET_CONSTRUCTOR*/
 FrmEditPedidoCompraDet::FrmEditPedidoCompraDet(FrmEditRecMaster *frmmaster, int ndetail,
-        dbRecord *detail, const Xtring &dettablename, dbRecordDataModel *dm,
-        EditMode editmode, dbApplication::EditFlags editflags,
-        QWidget* parent, const char* name, WidgetFlags fl )
-    : FrmEditRecDetail( frmmaster, ndetail, detail, dettablename, dm, editmode, editflags, parent, name, fl )
+	dbRecord *detail, const Xtring &dettablename, dbRecordDataModel *dm,
+	EditMode editmode, dbApplication::EditFlags editflags,
+	QWidget* parent, const char* name, WidgetFlags fl )
+		: FrmEditRecDetail( frmmaster, ndetail, detail, dettablename, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditPedidoCompraDet" );
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditPedidoCompraDet" );
+/*>>>>>FRMEDITPEDIDOCOMPRADET_CONSTRUCTOR*/
     /*<<<<<FRMEDITPEDIDOCOMPRADET_INIT_CONTROLS*/
-    QHBoxLayout *preLayout = new QHBoxLayout(0, 0, 6, "preLayout");
-    QHBoxLayout *cantidadLayout = new QHBoxLayout(0, 0, 6, "cantidadLayout");
-    QHBoxLayout *preciosLayout = new QHBoxLayout(0, 0, 6, "preciosLayout");
-    QHBoxLayout *descripcionLayout = new QHBoxLayout(0, 0, 6, "descripcionLayout");
-    QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-    editNLinea = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "NLINEA", preLayout );
+	QHBoxLayout *preLayout = new QHBoxLayout(0, 0, 6, "preLayout");
+	QHBoxLayout *cantidadLayout = new QHBoxLayout(0, 0, 6, "cantidadLayout");
+	QHBoxLayout *preciosLayout = new QHBoxLayout(0, 0, 6, "preciosLayout");
+	QHBoxLayout *descripcionLayout = new QHBoxLayout(0, 0, 6, "descripcionLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	editNLinea = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "NLINEA", preLayout );
 
-    searchTipoIVACodigo = addSearchField( pControlsFrame, "TIPOIVA_ID", "TIPOIVA", "CODIGO", "NOMBRE", preLayout );
-    pushTipoIVACodigo = searchTipoIVACodigo->getButton();
-    connect( pushTipoIVACodigo, SIGNAL( clicked() ), this, SLOT( pushTipoIVACodigo_clicked() ) );
-    editTipoIVACodigo = searchTipoIVACodigo->getEditCode();
-    editTipoIVANombre = searchTipoIVACodigo->getEditDesc();
-    editCantidad = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "CANTIDAD", cantidadLayout );
+	searchTipoIVACodigo = addSearchField( pControlsFrame, "TIPOIVA_ID", "TIPOIVA", "CODIGO", "NOMBRE", preLayout );
+	pushTipoIVACodigo = searchTipoIVACodigo->getButton();
+	connect( pushTipoIVACodigo, SIGNAL( clicked() ), this, SLOT( pushTipoIVACodigo_clicked() ) );
+	editTipoIVACodigo = searchTipoIVACodigo->getEditCode();
+	editTipoIVANombre = searchTipoIVACodigo->getEditDesc();
+	editCantidad = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "CANTIDAD", cantidadLayout );
 
-    searchArticuloCodigo = addSearchField( pControlsFrame, "ARTICULO_ID", "ARTICULO", "CODIGO", "NOMBRE", cantidadLayout );
-    pushArticuloCodigo = searchArticuloCodigo->getButton();
-    connect( pushArticuloCodigo, SIGNAL( clicked() ), this, SLOT( pushArticuloCodigo_clicked() ) );
-    editArticuloCodigo = searchArticuloCodigo->getEditCode();
-    editArticuloNombre = searchArticuloCodigo->getEditDesc();
-    editCosteSinIVA = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "COSTESINIVA", preciosLayout );
-    editCoste = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "COSTE", preciosLayout );
-    editDtoP100 = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "DTOP100", preciosLayout );
-    editImporte = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "IMPORTE", preciosLayout );
-    editImporteConIVA = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "IMPORTECONIVA", preciosLayout );
-    editDescripcion = addTextField( pControlsFrame, "PEDIDOCOMPRADET", "DESCRIPCION", descripcionLayout );
-    editNotas = addTextField( pControlsFrame, "PEDIDOCOMPRADET", "NOTAS", notasLayout );
-    pControlsLayout->addLayout( preLayout );
-    pControlsLayout->addLayout( cantidadLayout );
-    pControlsLayout->addLayout( preciosLayout );
-    pControlsLayout->addLayout( descripcionLayout );
-    pControlsLayout->addLayout( notasLayout );
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_INIT_CONTROLS*/
+	searchArticuloCodigo = addSearchField( pControlsFrame, "ARTICULO_ID", "ARTICULO", "CODIGO", "NOMBRE", cantidadLayout );
+	pushArticuloCodigo = searchArticuloCodigo->getButton();
+	connect( pushArticuloCodigo, SIGNAL( clicked() ), this, SLOT( pushArticuloCodigo_clicked() ) );
+	editArticuloCodigo = searchArticuloCodigo->getEditCode();
+	editArticuloNombre = searchArticuloCodigo->getEditDesc();
+	editCosteSinIVA = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "COSTESINIVA", preciosLayout );
+	editCoste = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "COSTE", preciosLayout );
+	editDtoP100 = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "DTOP100", preciosLayout );
+	editImporte = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "IMPORTE", preciosLayout );
+	editImporteConIVA = addEditField( pControlsFrame, "PEDIDOCOMPRADET", "IMPORTECONIVA", preciosLayout );
+	editDescripcion = addTextField( pControlsFrame, "PEDIDOCOMPRADET", "DESCRIPCION", descripcionLayout );
+	editNotas = addTextField( pControlsFrame, "PEDIDOCOMPRADET", "NOTAS", notasLayout );
+	pControlsLayout->addLayout( preLayout );
+	pControlsLayout->addLayout( cantidadLayout );
+	pControlsLayout->addLayout( preciosLayout );
+	pControlsLayout->addLayout( descripcionLayout );
+	pControlsLayout->addLayout( notasLayout );
+/*>>>>>FRMEDITPEDIDOCOMPRADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
@@ -103,20 +103,20 @@ FrmEditPedidoCompraDet::FrmEditPedidoCompraDet(FrmEditRecMaster *frmmaster, int 
 void FrmEditPedidoCompraDet::scatterFields()
 {
     /*<<<<<FRMEDITPEDIDOCOMPRADET_SCATTER*/
-    editNLinea->setText(getRecPedidoCompraDet()->getValue("NLINEA").toInt());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editNLinea;
-    editCantidad->setText(getRecPedidoCompraDet()->getValue("CANTIDAD").toDouble());
-    editCosteSinIVA->setText(getRecPedidoCompraDet()->getValue("COSTESINIVA").toMoney());
-    editCoste->setText(getRecPedidoCompraDet()->getValue("COSTE").toMoney());
-    editDtoP100->setText(getRecPedidoCompraDet()->getValue("DTOP100").toDouble());
-    editImporte->setText(getRecPedidoCompraDet()->getValue("IMPORTE").toMoney());
-    editImporteConIVA->setText(getRecPedidoCompraDet()->getValue("IMPORTECONIVA").toMoney());
-    editDescripcion->setText(getRecPedidoCompraDet()->getValue("DESCRIPCION").toString());
-    editNotas->setText(getRecPedidoCompraDet()->getValue("NOTAS").toString());
-    scatterTipoIVA();
-    scatterArticulo();
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_SCATTER*/
+	editNLinea->setText(getRecPedidoCompraDet()->getValue("NLINEA").toInt());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editNLinea;
+	editCantidad->setText(getRecPedidoCompraDet()->getValue("CANTIDAD").toDouble());
+	editCosteSinIVA->setText(getRecPedidoCompraDet()->getValue("COSTESINIVA").toMoney());
+	editCoste->setText(getRecPedidoCompraDet()->getValue("COSTE").toMoney());
+	editDtoP100->setText(getRecPedidoCompraDet()->getValue("DTOP100").toDouble());
+	editImporte->setText(getRecPedidoCompraDet()->getValue("IMPORTE").toMoney());
+	editImporteConIVA->setText(getRecPedidoCompraDet()->getValue("IMPORTECONIVA").toMoney());
+	editDescripcion->setText(getRecPedidoCompraDet()->getValue("DESCRIPCION").toString());
+	editNotas->setText(getRecPedidoCompraDet()->getValue("NOTAS").toString());
+	scatterTipoIVA();
+	scatterArticulo();
+/*>>>>>FRMEDITPEDIDOCOMPRADET_SCATTER*/
     if( ModuleInstance->getModuleSetting( "FILTRAARTICULOSPORPROVEEDORA" ).toBool() ) {
         dbRecordID prov_id = getFrmMaster()->getRecord()->getValue("PROVEEDORA_ID").toInt();
         if( prov_id ) {
@@ -138,268 +138,268 @@ void FrmEditPedidoCompraDet::scatterFields()
 void FrmEditPedidoCompraDet::gatherFields()
 {
     /*<<<<<FRMEDITPEDIDOCOMPRADET_GATHER*/
-    getRecPedidoCompraDet()->setValue( "NLINEA", editNLinea->toInt());
-    getRecPedidoCompraDet()->setValue( "TIPOIVA_ID", getRecTipoIVA()->getRecordID() );
-    getRecPedidoCompraDet()->setValue( "CANTIDAD", editCantidad->toDouble());
-    getRecPedidoCompraDet()->setValue( "ARTICULO_ID", getRecArticulo()->getRecordID() );
-    getRecPedidoCompraDet()->setValue( "COSTESINIVA", editCosteSinIVA->toMoney());
-    getRecPedidoCompraDet()->setValue( "COSTE", editCoste->toMoney());
-    getRecPedidoCompraDet()->setValue( "DTOP100", editDtoP100->toDouble());
-    getRecPedidoCompraDet()->setValue( "IMPORTE", editImporte->toMoney());
-    getRecPedidoCompraDet()->setValue( "IMPORTECONIVA", editImporteConIVA->toMoney());
-    getRecPedidoCompraDet()->setValue( "DESCRIPCION", editDescripcion->toString());
-    getRecPedidoCompraDet()->setValue( "NOTAS", editNotas->toString());
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_GATHER*/
+	getRecPedidoCompraDet()->setValue( "NLINEA", editNLinea->toInt());
+	getRecPedidoCompraDet()->setValue( "TIPOIVA_ID", getRecTipoIVA()->getRecordID() );
+	getRecPedidoCompraDet()->setValue( "CANTIDAD", editCantidad->toDouble());
+	getRecPedidoCompraDet()->setValue( "ARTICULO_ID", getRecArticulo()->getRecordID() );
+	getRecPedidoCompraDet()->setValue( "COSTESINIVA", editCosteSinIVA->toMoney());
+	getRecPedidoCompraDet()->setValue( "COSTE", editCoste->toMoney());
+	getRecPedidoCompraDet()->setValue( "DTOP100", editDtoP100->toDouble());
+	getRecPedidoCompraDet()->setValue( "IMPORTE", editImporte->toMoney());
+	getRecPedidoCompraDet()->setValue( "IMPORTECONIVA", editImporteConIVA->toMoney());
+	getRecPedidoCompraDet()->setValue( "DESCRIPCION", editDescripcion->toString());
+	getRecPedidoCompraDet()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITPEDIDOCOMPRADET_GATHER*/
 }
 
 
 void FrmEditPedidoCompraDet::scatterTipoIVA()
 {
     /*<<<<<FRMEDITPEDIDOCOMPRADET_SCATTER_TIPOIVA*/
-    editTipoIVACodigo->setText( getRecTipoIVA()->getValue("CODIGO") );
-    editTipoIVANombre->setText( getRecTipoIVA()->getValue("NOMBRE") );
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_SCATTER_TIPOIVA*/
+	editTipoIVACodigo->setText( getRecTipoIVA()->getValue("CODIGO") );
+	editTipoIVANombre->setText( getRecTipoIVA()->getValue("NOMBRE") );
+/*>>>>>FRMEDITPEDIDOCOMPRADET_SCATTER_TIPOIVA*/
 }
 void FrmEditPedidoCompraDet::pushTipoIVACodigo_clicked()
 {
     /*<<<<<FRMEDITPEDIDOCOMPRADET_PUSH_TIPOIVA_CODIGO_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchTipoIVACodigo->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editTipoIVACodigo->setJustEdited( false );
-        editTipoIVACodigo->setCancelling();
-        if( DBAPP->choose(this, getRecTipoIVA(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterTipoIVA();
-            editTipoIVACodigo->setJustEdited( true );
-            editTipoIVACodigo->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecTipoIVA()->getRecordID() ) {
-            editTipoIVACodigo->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecTipoIVA(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editTipoIVACodigo->setJustEdited( true );
-                scatterTipoIVA();
-            }
-            editTipoIVACodigo->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecTipoIVA()->getRecordID() != 0 ) {
-            editTipoIVACodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoIVA(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        empresa::RecTipoIVA *tmprec = static_cast<empresa::RecTipoIVA *>(DBAPP->createRecord( "TipoIVA" ));
-        editTipoIVACodigo->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editTipoIVACodigo->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editTipoIVACodigo->setJustEdited( true );
-            getRecTipoIVA()->copyRecord( tmprec );
-            scatterTipoIVA();
-        }
-        editTipoIVACodigo->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_PUSH_TIPOIVA_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchTipoIVACodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editTipoIVACodigo->setJustEdited( false );
+			editTipoIVACodigo->setCancelling();
+			if( DBAPP->choose(this, getRecTipoIVA(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterTipoIVA();
+				editTipoIVACodigo->setJustEdited( true );
+				editTipoIVACodigo->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecTipoIVA()->getRecordID() ) {
+					editTipoIVACodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecTipoIVA(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editTipoIVACodigo->setJustEdited( true );
+						scatterTipoIVA();
+					}
+					editTipoIVACodigo->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecTipoIVA()->getRecordID() != 0 ) {
+					editTipoIVACodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoIVA(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				empresa::RecTipoIVA *tmprec = static_cast<empresa::RecTipoIVA *>(DBAPP->createRecord( "TipoIVA" ));
+				editTipoIVACodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editTipoIVACodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editTipoIVACodigo->setJustEdited( true );
+					getRecTipoIVA()->copyRecord( tmprec );
+					scatterTipoIVA();
+				}
+				editTipoIVACodigo->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITPEDIDOCOMPRADET_PUSH_TIPOIVA_CODIGO_CLICKED*/
 }
 
 void FrmEditPedidoCompraDet::scatterArticulo()
 {
     /*<<<<<FRMEDITPEDIDOCOMPRADET_SCATTER_ARTICULO*/
-    editArticuloCodigo->setText( getRecArticulo()->getValue("CODIGO") );
-    editArticuloNombre->setText( getRecArticulo()->getValue("NOMBRE") );
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_SCATTER_ARTICULO*/
+	editArticuloCodigo->setText( getRecArticulo()->getValue("CODIGO") );
+	editArticuloNombre->setText( getRecArticulo()->getValue("NOMBRE") );
+/*>>>>>FRMEDITPEDIDOCOMPRADET_SCATTER_ARTICULO*/
 }
 void FrmEditPedidoCompraDet::pushArticuloCodigo_clicked()
 {
     /*<<<<<FRMEDITPEDIDOCOMPRADET_PUSH_ARTICULO_CODIGO_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchArticuloCodigo->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editArticuloCodigo->setJustEdited( false );
-        editArticuloCodigo->setCancelling();
-        if( DBAPP->choose(this, getRecArticulo(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterArticulo();
-            editArticuloCodigo->setJustEdited( true );
-            editArticuloCodigo->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecArticulo()->getRecordID() ) {
-            editArticuloCodigo->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecArticulo(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editArticuloCodigo->setJustEdited( true );
-                scatterArticulo();
-            }
-            editArticuloCodigo->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecArticulo()->getRecordID() != 0 ) {
-            editArticuloCodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecArticulo(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        RecArticulo *tmprec = static_cast<RecArticulo *>(DBAPP->createRecord( "Articulo" ));
-        editArticuloCodigo->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editArticuloCodigo->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editArticuloCodigo->setJustEdited( true );
-            getRecArticulo()->copyRecord( tmprec );
-            scatterArticulo();
-        }
-        editArticuloCodigo->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_PUSH_ARTICULO_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchArticuloCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editArticuloCodigo->setJustEdited( false );
+			editArticuloCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecArticulo(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterArticulo();
+				editArticuloCodigo->setJustEdited( true );
+				editArticuloCodigo->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecArticulo()->getRecordID() ) {
+					editArticuloCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecArticulo(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editArticuloCodigo->setJustEdited( true );
+						scatterArticulo();
+					}
+					editArticuloCodigo->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecArticulo()->getRecordID() != 0 ) {
+					editArticuloCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecArticulo(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecArticulo *tmprec = static_cast<RecArticulo *>(DBAPP->createRecord( "Articulo" ));
+				editArticuloCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editArticuloCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editArticuloCodigo->setJustEdited( true );
+					getRecArticulo()->copyRecord( tmprec );
+					scatterArticulo();
+				}
+				editArticuloCodigo->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITPEDIDOCOMPRADET_PUSH_ARTICULO_CODIGO_CLICKED*/
 }
 void FrmEditPedidoCompraDet::specialControlKeyPressed( QWidget *sender, char key )
 {
     /*<<<<<FRMEDITPEDIDOCOMPRADET_SPECIALACTION*/
-    mControlKeyPressed = key;
-    FrmEditRecDetail::specialControlKeyPressed(sender,key); // calls the behaviors
-    if( sender == editTipoIVACodigo )
-        pushTipoIVACodigo_clicked();
-    if( sender == editArticuloCodigo )
-        pushArticuloCodigo_clicked();
-    mControlKeyPressed = '\0';
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_SPECIALACTION*/
+	mControlKeyPressed = key;
+	FrmEditRecDetail::specialControlKeyPressed(sender,key); // calls the behaviors
+	if( sender == editTipoIVACodigo )
+		pushTipoIVACodigo_clicked();
+	if( sender == editArticuloCodigo )
+		pushArticuloCodigo_clicked();
+	mControlKeyPressed = '\0';
+/*>>>>>FRMEDITPEDIDOCOMPRADET_SPECIALACTION*/
 }
 
 void FrmEditPedidoCompraDet::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
     /*<<<<<FRMEDITPEDIDOCOMPRADET_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    if( focusWidget() != pushTipoIVACodigo) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editTipoIVACodigo, editTipoIVANombre,
-                           getRecTipoIVA(), "CODIGO", "NOMBRE", Xtring::null) )
-            scatterTipoIVA();
-    if( focusWidget() != pushArticuloCodigo) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editArticuloCodigo, editArticuloNombre,
-                           getRecArticulo(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::FindCodeInDesc )) )
-            scatterArticulo();
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( focusWidget() != pushTipoIVACodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editTipoIVACodigo, editTipoIVANombre,
+		getRecTipoIVA(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterTipoIVA();
+	if( focusWidget() != pushArticuloCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editArticuloCodigo, editArticuloNombre,
+		getRecArticulo(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::FindCodeInDesc )) )
+		scatterArticulo();
+/*>>>>>FRMEDITPEDIDOCOMPRADET_VALIDATE*/
     /*<<<<<FRMEDITPEDIDOCOMPRADET_DETALLE_VALIDATE*/
-    bool actualiza = (sender && (sender == pFocusWidget) );
-    double cantidad = editCantidad->toDouble();
-    double costesiniva = editCosteSinIVA->toDouble();
-    double costeconiva = editCoste->toDouble();
-    double dtop100 = editDtoP100->toDouble();
-    double importesiniva =  cantidad * costesiniva * ( 1 - dtop100 / 100 );
-    if ( sender == editCantidad && editCantidad->isJustEdited() ) {
-        actualiza = true;
-    }
-    if ( sender == editArticuloCodigo && editArticuloCodigo->isJustEdited() ) {
-        actualiza = true;
-        editTipoIVACodigo->setText( getRecArticulo()->getRecTipoIVA()->getValue( "CODIGO" ) );
-        editTipoIVACodigo->setJustEdited( true );
-        if ( validSeekCode( editTipoIVACodigo, isvalid, *validresult, editTipoIVACodigo, editTipoIVANombre,
-                            getRecTipoIVA(), "CODIGO", "NOMBRE", Xtring::null ) )
-            scatterTipoIVA();
-        costeconiva = getRecArticulo()->getValue( "Coste" ).toDouble();
-        // El precio con IVA se calcula tomando el tipo de iva de este detalle
-        costesiniva = costeconiva / ( 1 + getRecTipoIVA()->getValue( "IVA" ).toDouble() / 100 );
-    }
-    if( (sender == editTipoIVACodigo && editTipoIVACodigo->isJustEdited())
-            || (sender == editCosteSinIVA && editCosteSinIVA->isJustEdited()) ) {
-        actualiza = true;
-        costesiniva = editCosteSinIVA->toDouble();
-        costeconiva = costesiniva * ( 1 + getRecTipoIVA()->getValue( "IVA" ).toDouble() / 100 );
-    }
-    if ( sender == editCoste && editCoste->isJustEdited() ) {
-        actualiza = true;
-        costeconiva = editCoste->toDouble();
-        costesiniva = costeconiva / ( 1 + getRecTipoIVA()->getValue( "IVA" ).toDouble() / 100 );
-    }
-    if ( sender == editDtoP100 && editDtoP100->isJustEdited() ) {
-        actualiza = true;
-        dtop100 = editDtoP100->toDouble();
-    }
-    if( sender == editImporte && editImporte->isJustEdited() ) {
-        importesiniva = editImporte->toDouble();
-        if( cantidad != 0.0 && costesiniva != 0.0 ) {
-            dtop100 = 100 * ( 1 - importesiniva / (cantidad * costesiniva) );
-            editDtoP100->setText( dtop100 );
-        }
-        actualiza = true;
-    }
-    if( sender == editImporteConIVA && editImporteConIVA->isJustEdited() ) {
-        if( cantidad != 0.0 && costesiniva != 0.0 ) {
-            dtop100 = 100 * ( 1 - editImporteConIVA->toDouble() / (cantidad * costeconiva) );
-            editDtoP100->setText( dtop100 );
-        }
-        actualiza = true;
-    }
-    if( actualiza ) {
-        editCosteSinIVA->setText( costesiniva );
-        editCoste->setText( costeconiva );
-        int ndec = empresa::ModuleInstance->getDecimalesMoneda();
-        if( getFrmMaster()->getControlValue( "IVADETALLADO" ).toInt() == factu::FldIVADetallado::incluido )
-            ndec += 2;
-        Money importesiniva(cantidad * costesiniva * ( 1 - dtop100 / 100 ), ndec);
-        Money importeconiva = Money( cantidad * costeconiva * ( 1 - dtop100 / 100 ),
-                                     empresa::ModuleInstance->getDecimalesMoneda() );
-        editImporte->setText( importesiniva );
-        editImporteConIVA->setText( importeconiva );
-    }
-    if (( sender == editArticuloCodigo && editArticuloCodigo->isJustEdited() ) ||
-            ( sender == editCantidad && editCantidad->isJustEdited() ) ) {
-        if ( !getRecArticulo()->isNew() ) {
-            Xtring stock_msg;
-            if( getRecArticulo()->getValue( "USARSTOCKS" ).toBool() )
-                stock_msg = getRecArticulo()->getValue( "STOCK" ).toString();
-            else
-                stock_msg = _("No se usan");
-            Xtring precios_msg;
-            precios_msg = _( "%s: PVP: %s, Coste: %s, Existencias: %s" );
-            DBAPP->showOSD( getTitle(), Xtring::printf( precios_msg,
-                            getRecArticulo()->getValue( "CODIGO" ).toString().c_str(),
-                            getRecArticulo()->getValue( "PVP" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
-                            editCoste->toMoney().toString( DBAPP->getRegConfig() ).c_str(),
-                            stock_msg.c_str() ) );
-        }
-    }
-    /*>>>>>FRMEDITPEDIDOCOMPRADET_DETALLE_VALIDATE*/
+	bool actualiza = (sender && (sender == pFocusWidget) );
+	double cantidad = editCantidad->toDouble();
+	double costesiniva = editCosteSinIVA->toDouble();
+	double costeconiva = editCoste->toDouble();
+	double dtop100 = editDtoP100->toDouble();
+	double importesiniva =  cantidad * costesiniva * ( 1 - dtop100 / 100 );
+	if ( sender == editCantidad && editCantidad->isJustEdited() ) {
+		actualiza = true;
+	}
+	if ( sender == editArticuloCodigo && editArticuloCodigo->isJustEdited() ) {
+		actualiza = true;
+		editTipoIVACodigo->setText( getRecArticulo()->getRecTipoIVA()->getValue( "CODIGO" ) );
+		editTipoIVACodigo->setJustEdited( true );
+		if ( validSeekCode( editTipoIVACodigo, isvalid, *validresult, editTipoIVACodigo, editTipoIVANombre,
+		                    getRecTipoIVA(), "CODIGO", "NOMBRE", Xtring::null ) )
+			scatterTipoIVA();
+		costeconiva = getRecArticulo()->getValue( "Coste" ).toDouble();
+		// El precio con IVA se calcula tomando el tipo de iva de este detalle
+		costesiniva = costeconiva / ( 1 + getRecTipoIVA()->getValue( "IVA" ).toDouble() / 100 );
+	}
+	if( (sender == editTipoIVACodigo && editTipoIVACodigo->isJustEdited())
+		|| (sender == editCosteSinIVA && editCosteSinIVA->isJustEdited()) ) {
+		actualiza = true;
+		costesiniva = editCosteSinIVA->toDouble();
+		costeconiva = costesiniva * ( 1 + getRecTipoIVA()->getValue( "IVA" ).toDouble() / 100 );
+	}
+	if ( sender == editCoste && editCoste->isJustEdited() ) {
+		actualiza = true;
+		costeconiva = editCoste->toDouble();
+		costesiniva = costeconiva / ( 1 + getRecTipoIVA()->getValue( "IVA" ).toDouble() / 100 );
+	}
+	if ( sender == editDtoP100 && editDtoP100->isJustEdited() ) {
+		actualiza = true;
+		dtop100 = editDtoP100->toDouble();
+	}
+	if( sender == editImporte && editImporte->isJustEdited() ) {
+		importesiniva = editImporte->toDouble();
+		if( cantidad != 0.0 && costesiniva != 0.0 ) {
+			dtop100 = 100 * ( 1 - importesiniva / (cantidad * costesiniva) );
+			editDtoP100->setText( dtop100 );
+		}
+		actualiza = true;
+	}
+	if( sender == editImporteConIVA && editImporteConIVA->isJustEdited() ) {
+		if( cantidad != 0.0 && costesiniva != 0.0 ) {
+			dtop100 = 100 * ( 1 - editImporteConIVA->toDouble() / (cantidad * costeconiva) );
+			editDtoP100->setText( dtop100 );
+		}
+		actualiza = true;
+	}
+	if( actualiza ) {
+		editCosteSinIVA->setText( costesiniva );
+		editCoste->setText( costeconiva );
+		int ndec = empresa::ModuleInstance->getDecimalesMoneda();
+		if( getFrmMaster()->getControlValue( "IVADETALLADO" ).toInt() == factu::FldIVADetallado::incluido )
+			ndec += 2;
+		Money importesiniva(cantidad * costesiniva * ( 1 - dtop100 / 100 ), ndec);
+		Money importeconiva = Money( cantidad * costeconiva * ( 1 - dtop100 / 100 ),
+			empresa::ModuleInstance->getDecimalesMoneda() );
+		editImporte->setText( importesiniva );
+		editImporteConIVA->setText( importeconiva );
+	}
+	if (( sender == editArticuloCodigo && editArticuloCodigo->isJustEdited() ) ||
+		    ( sender == editCantidad && editCantidad->isJustEdited() ) ) {
+		if ( !getRecArticulo()->isNew() ) {
+			Xtring stock_msg;
+			if( getRecArticulo()->getValue( "USARSTOCKS" ).toBool() )
+				stock_msg = getRecArticulo()->getValue( "STOCK" ).toString();
+			else
+				stock_msg = _("No se usan");
+			Xtring precios_msg;
+			precios_msg = _( "%s: PVP: %s, Coste: %s, Existencias: %s" );
+			DBAPP->showOSD( getTitle(), Xtring::printf( precios_msg,
+		                       getRecArticulo()->getValue( "CODIGO" ).toString().c_str(),
+		                       getRecArticulo()->getValue( "PVP" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
+		                       editCoste->toMoney().toString( DBAPP->getRegConfig() ).c_str(),
+		                       stock_msg.c_str() ) );
+		}
+	}
+/*>>>>>FRMEDITPEDIDOCOMPRADET_DETALLE_VALIDATE*/
     if ( !ir ) {
         showValidMessages( isvalid, *validresult, sender );
         delete validresult;

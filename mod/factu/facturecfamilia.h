@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecfamilia.h Registro de familias de artículos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -28,13 +28,13 @@ namespace factu {
 class RecFamilia: public dbRecord
 {
 public:
-    RecFamilia(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FAMILIA"), recid, user)
+	RecFamilia(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FAMILIA"), recid, user)
 /*>>>>>FAMILIA_CONSTRUCTOR*/
     {};
     /*<<<<<FAMILIA_RELATIONS*/
-    empresa::RecTipoIVA *getRecTipoIVA() const;
-    /*>>>>>FAMILIA_RELATIONS*/
+	empresa::RecTipoIVA *getRecTipoIVA() const;
+/*>>>>>FAMILIA_RELATIONS*/
 }; // end class
 
 /*<<<<<FAMILIA_POSTAMBLE*/

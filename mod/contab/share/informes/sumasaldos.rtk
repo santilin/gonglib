@@ -1,22 +1,19 @@
 //<<<<<COPYLEFT
 // @file sumasaldos.rtk Balance de sumas y saldos
-// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
-*
-* This library is free software;
-you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation;
-either
-* version 2 of the License, or (at your option) any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY;
-without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+// Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
 //>>>>>COPYLEFT
 
 // \todo borderwidth deberia bastar para que salga el borde, no borderstyle
@@ -32,10 +29,10 @@ without even the implied warranty of
 //>>>>>MODULE_INFO
 
 //<<<<<REPORT_DEFINITION
-Title = "Balance de sumas y saldos";
-Units = chars;
-SizeX = 100;
-SizeY = 60;
+	Title = "Balance de sumas y saldos";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
 //>>>>>REPORT_DEFINITION
 
 PARAMETER nivel {
@@ -52,26 +49,26 @@ from = "ASIENTO INNER JOIN APUNTE ON ASIENTO.ID = APUNTE.ASIENTO_ID INNER JOIN C
 groupby = "1";
 
 //<<<<<INPUT_DEFAULT
-INPUTFIELD CUENTA_CUENTA {
-    Source = CUENTA.CUENTA;
-    Type = text;
-}
-INPUTFIELD CUENTA_DESCRIPCION {
-    Source = CUENTA.DESCRIPCION;
-    Type = text;
-}
-INPUTFIELD APUNTE_DEBE {
-    Source = APUNTE.DEBE;
-    Type = Money;
-}
-INPUTFIELD APUNTE_HABER {
-    Source = APUNTE.HABER;
-    Type = Money;
-}
-INPUTFIELD APUNTE_SALDO {
-    Source = APUNTE.SALDO;
-    Type = Money;
-}
+		INPUTFIELD CUENTA_CUENTA {
+			Source = CUENTA.CUENTA;
+			Type = text;
+		}
+		INPUTFIELD CUENTA_DESCRIPCION {
+			Source = CUENTA.DESCRIPCION;
+			Type = text;
+		}
+		INPUTFIELD APUNTE_DEBE {
+			Source = APUNTE.DEBE;
+			Type = Money;
+		}
+		INPUTFIELD APUNTE_HABER {
+			Source = APUNTE.HABER;
+			Type = Money;
+		}
+		INPUTFIELD APUNTE_SALDO {
+			Source = APUNTE.SALDO;
+			Type = Money;
+		}
 //>>>>>INPUT_DEFAULT
 INPUTFIELD CUENTA_CUENTA {
     Source = LEFT(CUENTA.CUENTA,###nivel###);
@@ -92,43 +89,43 @@ INPUTFIELD CUENTA_CUENTA {
 
 
 //<<<<<PAGE_HEADER
-Include = "default_pageheader.inc";
+	Include = "default_pageheader.inc";
 //>>>>>PAGE_HEADER
 }
 
 //<<<<<DETAILS
-DETAILS details {
-    style = detail;
-    sizey = 1;
-
-    OBJECT CUENTA_CUENTA {
-        value = "=input.CUENTA_CUENTA;";
-        posx = 0.0;
-        sizex = 12.0;
-    }
-    OBJECT CUENTA_DESCRIPCION {
-        value = "=input.CUENTA_DESCRIPCION;";
-        posx = 13.0;
-        sizex = 50.0;
-    }
-    OBJECT APUNTE_DEBE {
-        halignment = "right";
-        value = "=input.APUNTE_DEBE;";
-        posx = 64.0;
-        sizex = 12.0;
-    }
-    OBJECT APUNTE_HABER {
-        halignment = "right";
-        value = "=input.APUNTE_HABER;";
-        posx = 77.0;
-        sizex = 12.0;
-    }
-    OBJECT APUNTE_SALDO {
-        halignment = "right";
-        value = "=input.APUNTE_SALDO;";
-        posx = 90.0;
-        sizex = 12.0;
-    }
+	DETAILS details {
+		style = detail;
+		sizey = 1;
+	
+		OBJECT CUENTA_CUENTA {
+			value = "=input.CUENTA_CUENTA;";
+			posx = 0.0;
+			sizex = 12.0;
+		}
+		OBJECT CUENTA_DESCRIPCION {
+			value = "=input.CUENTA_DESCRIPCION;";
+			posx = 13.0;
+			sizex = 50.0;
+		}
+		OBJECT APUNTE_DEBE {
+			halignment = "right";
+			value = "=input.APUNTE_DEBE;";
+			posx = 64.0;
+			sizex = 12.0;
+		}
+		OBJECT APUNTE_HABER {
+			halignment = "right";
+			value = "=input.APUNTE_HABER;";
+			posx = 77.0;
+			sizex = 12.0;
+		}
+		OBJECT APUNTE_SALDO {
+			halignment = "right";
+			value = "=input.APUNTE_SALDO;";
+			posx = 90.0;
+			sizex = 12.0;
+		}
 //>>>>>DETAILS
 }
 
@@ -204,9 +201,9 @@ PAGEHEADER page_header_0 {
 }
 
 //<<<<<PAGE_FOOTER
-PAGEFOOTER page_footer {
-    sizey = 1;
-    style = pagefooter;
+	PAGEFOOTER page_footer {
+		sizey = 1;
+		style = pagefooter;
 
 
 //>>>>>PAGE_FOOTER

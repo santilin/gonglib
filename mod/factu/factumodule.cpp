@@ -141,15 +141,15 @@ FactuModule::FactuModule()
 #endif
     mDescription = "Módulo de facturación";
     /*<<<<<FACTUMODULE_PUBLIC_INFO*/
-    mModuleRequires << "empresa" << "pagos";
-    mMasterTables << "ARTICULO" << "CLIENTE" << "PROVEEDORA" << "AGENTE" << "FAMILIA" << "TIPODOC" << "PRESUPUESTOVENTA" << "PEDIDOVENTA" << "ALBARANVENTA" << "FACTURAVENTA" << "PEDIDOCOMPRA" << "ALBARANCOMPRA" << "FACTURACOMPRA" << "TIPOCLIENTE" << "ESTADOPEDIDO";
-    mDetailTables << "PRESUPUESTOVENTADET" << "PEDIDOVENTADET" << "ALBARANVENTADET" << "FACTURAVENTADET" << "PEDIDOCOMPRADET" << "ALBARANCOMPRADET" << "FACTURACOMPRADET";
-    pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
-    pPagosModule = static_cast< pagos::PagosModule * >(DBAPP->findModule( "Pagos" ));
+	mModuleRequires << "empresa" << "pagos";
+	mMasterTables << "ARTICULO" << "CLIENTE" << "PROVEEDORA" << "AGENTE" << "FAMILIA" << "TIPODOC" << "PRESUPUESTOVENTA" << "PEDIDOVENTA" << "ALBARANVENTA" << "FACTURAVENTA" << "PEDIDOCOMPRA" << "ALBARANCOMPRA" << "FACTURACOMPRA" << "TIPOCLIENTE" << "ESTADOPEDIDO";
+	mDetailTables << "PRESUPUESTOVENTADET" << "PEDIDOVENTADET" << "ALBARANVENTADET" << "FACTURAVENTADET" << "PEDIDOCOMPRADET" << "ALBARANCOMPRADET" << "FACTURACOMPRADET";
+	pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
+	pPagosModule = static_cast< pagos::PagosModule * >(DBAPP->findModule( "Pagos" ));
 #ifdef HAVE_CONTABMODULE
-    pContabModule = static_cast< contab::ContabModule * >(DBAPP->findModule( "Contab" ));
+	pContabModule = static_cast< contab::ContabModule * >(DBAPP->findModule( "Contab" ));
 #endif
-    /*>>>>>FACTUMODULE_PUBLIC_INFO*/
+/*>>>>>FACTUMODULE_PUBLIC_INFO*/
     mMasterTables << "ARTICULOIMAGEN";
     mInsertables << "PRESUPUESTOVENTA" << "PEDIDOVENTA" << "ALBARANVENTA" << "FACTURAVENTA"
                  << "PEDIDOCOMPRA" << "ALBARANCOMPRA" << "FACTURACOMPRA";
@@ -169,11 +169,11 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pMainDatabase = db;
 
     /*<<<<<FACTUMODULE_INIT_DATABASE*/
-    pFicTipoCliente = new NamesListTable( *pMainDatabase, "TIPOCLIENTE" );
-    pMainDatabase->addTable( pFicTipoCliente->getTableDefinition() );
-    pFicEstadoPedido = new NamesListTable( *pMainDatabase, "ESTADOPEDIDO" );
-    pMainDatabase->addTable( pFicEstadoPedido->getTableDefinition() );
-    /*>>>>>FACTUMODULE_INIT_DATABASE*/
+	pFicTipoCliente = new NamesListTable( *pMainDatabase, "TIPOCLIENTE" );
+	pMainDatabase->addTable( pFicTipoCliente->getTableDefinition() );
+	pFicEstadoPedido = new NamesListTable( *pMainDatabase, "ESTADOPEDIDO" );
+	pMainDatabase->addTable( pFicEstadoPedido->getTableDefinition() );
+/*>>>>>FACTUMODULE_INIT_DATABASE*/
 // 	pFicDetalleIVA = new NamesListTable( *pMainDatabase, "DETALLEIVA" );
 // 	pMainDatabase->addTable( pFicDetalleIVA->getTableDefinition() );
 
@@ -594,7 +594,7 @@ void FactuModule::afterLoad()
                                    DBAPP->getDatabase()->findFieldDefinition("CLIENTE.TIPOCLIENTE") );
     if( fldtc )
         fldtc->fill( *getConnection() );
-    if( fldtc->getListOfValues()->size() == 0 ) {
+    if( fldtc->getListOfValues().size() == 0 ) {
         getConnection()->exec( "INSERT INTO TIPOCLIENTE (CODIGO,NOMBRE) VALUES "
                                "(1, 'Cliente')" );
         fldtc->fill( *getConnection() );
@@ -603,7 +603,7 @@ void FactuModule::afterLoad()
                                    DBAPP->getDatabase()->findFieldDefinition("PEDIDOCOMPRA.ESTADOPEDIDO") );
     if( fldep )
         fldep->fill( *getConnection() );
-    if( fldep->getListOfValues()->size() == 0 ) {
+    if( fldep->getListOfValues().size() == 0 ) {
         getConnection()->exec( "INSERT INTO ESTADOPEDIDO (CODIGO,NOMBRE) VALUES "
                                "(" + getConnection()->toSQL(PedidoPendiente) + ", 'Pendiente'),"
                                "(" + getConnection()->toSQL(PedidoPedido) + ", 'Pedido'),"
@@ -654,51 +654,51 @@ dbRecord *FactuModule::createRecord( const Xtring &tablename, dbRecordID recid, 
 {
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     /*<<<<<FACTUMODULE_CREATE_RECORD*/
-    if( tablename.upper() == "ARTICULO" )
-        return new RecArticulo(getConnection(), recid, user);
-    if( tablename.upper() == "CLIENTE" )
-        return new RecCliente(getConnection(), recid, user);
-    if( tablename.upper() == "PROVEEDORA" )
-        return new RecProveedora(getConnection(), recid, user);
-    if( tablename.upper() == "AGENTE" )
-        return new RecAgente(getConnection(), recid, user);
-    if( tablename.upper() == "FAMILIA" )
-        return new RecFamilia(getConnection(), recid, user);
-    if( tablename.upper() == "TIPODOC" )
-        return new RecTipoDoc(getConnection(), recid, user);
-    if( tablename.upper() == "PRESUPUESTOVENTA" )
-        return new RecPresupuestoVenta(getConnection(), recid, user);
-    if( tablename.upper() == "PRESUPUESTOVENTADET" )
-        return new RecPresupuestoVentaDet(getConnection(), recid, user);
-    if( tablename.upper() == "PEDIDOVENTA" )
-        return new RecPedidoVenta(getConnection(), recid, user);
-    if( tablename.upper() == "PEDIDOVENTADET" )
-        return new RecPedidoVentaDet(getConnection(), recid, user);
-    if( tablename.upper() == "ALBARANVENTA" )
-        return new RecAlbaranVenta(getConnection(), recid, user);
-    if( tablename.upper() == "ALBARANVENTADET" )
-        return new RecAlbaranVentaDet(getConnection(), recid, user);
-    if( tablename.upper() == "FACTURAVENTA" )
-        return new RecFacturaVenta(getConnection(), recid, user);
-    if( tablename.upper() == "FACTURAVENTADET" )
-        return new RecFacturaVentaDet(getConnection(), recid, user);
-    if( tablename.upper() == "PEDIDOCOMPRA" )
-        return new RecPedidoCompra(getConnection(), recid, user);
-    if( tablename.upper() == "PEDIDOCOMPRADET" )
-        return new RecPedidoCompraDet(getConnection(), recid, user);
-    if( tablename.upper() == "ALBARANCOMPRA" )
-        return new RecAlbaranCompra(getConnection(), recid, user);
-    if( tablename.upper() == "ALBARANCOMPRADET" )
-        return new RecAlbaranCompraDet(getConnection(), recid, user);
-    if( tablename.upper() == "FACTURACOMPRA" )
-        return new RecFacturaCompra(getConnection(), recid, user);
-    if( tablename.upper() == "FACTURACOMPRADET" )
-        return new RecFacturaCompraDet(getConnection(), recid, user);
-    if( tablename.upper() == "TIPOCLIENTE" )
-        return new RecNamesListTable("TIPOCLIENTE", getConnection(), recid, user);
-    if( tablename.upper() == "ESTADOPEDIDO" )
-        return new RecNamesListTable("ESTADOPEDIDO", getConnection(), recid, user);
-    /*>>>>>FACTUMODULE_CREATE_RECORD*/
+	if( tablename.upper() == "ARTICULO" )
+		return new RecArticulo(getConnection(), recid, user);
+	if( tablename.upper() == "CLIENTE" )
+		return new RecCliente(getConnection(), recid, user);
+	if( tablename.upper() == "PROVEEDORA" )
+		return new RecProveedora(getConnection(), recid, user);
+	if( tablename.upper() == "AGENTE" )
+		return new RecAgente(getConnection(), recid, user);
+	if( tablename.upper() == "FAMILIA" )
+		return new RecFamilia(getConnection(), recid, user);
+	if( tablename.upper() == "TIPODOC" )
+		return new RecTipoDoc(getConnection(), recid, user);
+	if( tablename.upper() == "PRESUPUESTOVENTA" )
+		return new RecPresupuestoVenta(getConnection(), recid, user);
+	if( tablename.upper() == "PRESUPUESTOVENTADET" )
+		return new RecPresupuestoVentaDet(getConnection(), recid, user);
+	if( tablename.upper() == "PEDIDOVENTA" )
+		return new RecPedidoVenta(getConnection(), recid, user);
+	if( tablename.upper() == "PEDIDOVENTADET" )
+		return new RecPedidoVentaDet(getConnection(), recid, user);
+	if( tablename.upper() == "ALBARANVENTA" )
+		return new RecAlbaranVenta(getConnection(), recid, user);
+	if( tablename.upper() == "ALBARANVENTADET" )
+		return new RecAlbaranVentaDet(getConnection(), recid, user);
+	if( tablename.upper() == "FACTURAVENTA" )
+		return new RecFacturaVenta(getConnection(), recid, user);
+	if( tablename.upper() == "FACTURAVENTADET" )
+		return new RecFacturaVentaDet(getConnection(), recid, user);
+	if( tablename.upper() == "PEDIDOCOMPRA" )
+		return new RecPedidoCompra(getConnection(), recid, user);
+	if( tablename.upper() == "PEDIDOCOMPRADET" )
+		return new RecPedidoCompraDet(getConnection(), recid, user);
+	if( tablename.upper() == "ALBARANCOMPRA" )
+		return new RecAlbaranCompra(getConnection(), recid, user);
+	if( tablename.upper() == "ALBARANCOMPRADET" )
+		return new RecAlbaranCompraDet(getConnection(), recid, user);
+	if( tablename.upper() == "FACTURACOMPRA" )
+		return new RecFacturaCompra(getConnection(), recid, user);
+	if( tablename.upper() == "FACTURACOMPRADET" )
+		return new RecFacturaCompraDet(getConnection(), recid, user);
+	if( tablename.upper() == "TIPOCLIENTE" )
+		return new RecNamesListTable("TIPOCLIENTE", getConnection(), recid, user);
+	if( tablename.upper() == "ESTADOPEDIDO" )
+		return new RecNamesListTable("ESTADOPEDIDO", getConnection(), recid, user);
+/*>>>>>FACTUMODULE_CREATE_RECORD*/
     if( tablename.upper() == "ARTICULOIMAGEN" )
         return new RecArticuloImagen(getConnection(), recid, user);
     return 0;
@@ -711,37 +711,37 @@ FrmEditRec *FactuModule::createEditForm( FrmEditRec *parentfrm, dbRecord *rec, d
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     Xtring tablename = rec->getTableName();
     /*<<<<<FACTUMODULE_CREATE_EDITFORM*/
-    if( tablename.upper() == "ARTICULO" )
-        return new FrmEditArticulo(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "CLIENTE" )
-        return new FrmEditCliente(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PROVEEDORA" )
-        return new FrmEditProveedora(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "AGENTE" )
-        return new FrmEditAgente(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "FAMILIA" )
-        return new FrmEditFamilia(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "TIPODOC" )
-        return new FrmEditTipoDoc(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PRESUPUESTOVENTA" )
-        return new FrmEditPresupuestoVenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PEDIDOVENTA" )
-        return new FrmEditPedidoVenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "ALBARANVENTA" )
-        return new FrmEditAlbaranVenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "FACTURAVENTA" )
-        return new FrmEditFacturaVenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PEDIDOCOMPRA" )
-        return new FrmEditPedidoCompra(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "ALBARANCOMPRA" )
-        return new FrmEditAlbaranCompra(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "FACTURACOMPRA" )
-        return new FrmEditFacturaCompra(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "TIPOCLIENTE" )
-        return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "ESTADOPEDIDO" )
-        return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    /*>>>>>FACTUMODULE_CREATE_EDITFORM*/
+	if( tablename.upper() == "ARTICULO" )
+		return new FrmEditArticulo(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "CLIENTE" )
+		return new FrmEditCliente(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PROVEEDORA" )
+		return new FrmEditProveedora(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "AGENTE" )
+		return new FrmEditAgente(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "FAMILIA" )
+		return new FrmEditFamilia(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "TIPODOC" )
+		return new FrmEditTipoDoc(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PRESUPUESTOVENTA" )
+		return new FrmEditPresupuestoVenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PEDIDOVENTA" )
+		return new FrmEditPedidoVenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "ALBARANVENTA" )
+		return new FrmEditAlbaranVenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "FACTURAVENTA" )
+		return new FrmEditFacturaVenta(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PEDIDOCOMPRA" )
+		return new FrmEditPedidoCompra(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "ALBARANCOMPRA" )
+		return new FrmEditAlbaranCompra(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "FACTURACOMPRA" )
+		return new FrmEditFacturaCompra(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "TIPOCLIENTE" )
+		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "ESTADOPEDIDO" )
+		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+/*>>>>>FACTUMODULE_CREATE_EDITFORM*/
     return 0;
 }
 
@@ -754,108 +754,108 @@ FrmEditRecDetail *FactuModule::createEditDetailForm(
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     Xtring tablename = rec->getTableName();
     /*<<<<<FACTUMODULE_CREATE_EDITFORM_DETAIL*/
-    if( tablename.upper() == "PRESUPUESTOVENTADET" )
-        return new FrmEditPresupuestoVentaDet(frmmaster, ndetail,
-                                              rec, dettablename, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PEDIDOVENTADET" )
-        return new FrmEditPedidoVentaDet(frmmaster, ndetail,
-                                         rec, dettablename, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "ALBARANVENTADET" )
-        return new FrmEditAlbaranVentaDet(frmmaster, ndetail,
-                                          rec, dettablename, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "FACTURAVENTADET" )
-        return new FrmEditFacturaVentaDet(frmmaster, ndetail,
-                                          rec, dettablename, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PEDIDOCOMPRADET" )
-        return new FrmEditPedidoCompraDet(frmmaster, ndetail,
-                                          rec, dettablename, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "ALBARANCOMPRADET" )
-        return new FrmEditAlbaranCompraDet(frmmaster, ndetail,
-                                           rec, dettablename, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "FACTURACOMPRADET" )
-        return new FrmEditFacturaCompraDet(frmmaster, ndetail,
-                                           rec, dettablename, dm, editmode, editflags, parent, name, fl);
-    /*>>>>>FACTUMODULE_CREATE_EDITFORM_DETAIL*/
+	if( tablename.upper() == "PRESUPUESTOVENTADET" )
+		return new FrmEditPresupuestoVentaDet(frmmaster, ndetail,
+			rec, dettablename, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PEDIDOVENTADET" )
+		return new FrmEditPedidoVentaDet(frmmaster, ndetail,
+			rec, dettablename, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "ALBARANVENTADET" )
+		return new FrmEditAlbaranVentaDet(frmmaster, ndetail,
+			rec, dettablename, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "FACTURAVENTADET" )
+		return new FrmEditFacturaVentaDet(frmmaster, ndetail,
+			rec, dettablename, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PEDIDOCOMPRADET" )
+		return new FrmEditPedidoCompraDet(frmmaster, ndetail,
+			rec, dettablename, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "ALBARANCOMPRADET" )
+		return new FrmEditAlbaranCompraDet(frmmaster, ndetail,
+			rec, dettablename, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "FACTURACOMPRADET" )
+		return new FrmEditFacturaCompraDet(frmmaster, ndetail,
+			rec, dettablename, dm, editmode, editflags, parent, name, fl);
+/*>>>>>FACTUMODULE_CREATE_EDITFORM_DETAIL*/
     return 0;
 }
 
 /*<<<<<FACTUMODULE_SLOT_FACTURACIONFAMILIA*/
 void FactuModule::slotMenuFacturacionFamilia()
 {
-    pMainWindow->slotMenuEditRecMaestro( "FAMILIA" );
+	pMainWindow->slotMenuEditRecMaestro( "FAMILIA" );
 }
 /*>>>>>FACTUMODULE_SLOT_FACTURACIONFAMILIA*/
 /*<<<<<FACTUMODULE_SLOT_FACTURACIONARTICULO*/
 void FactuModule::slotMenuFacturacionArticulo()
 {
-    pMainWindow->slotMenuEditRecMaestro( "ARTICULO" );
+	pMainWindow->slotMenuEditRecMaestro( "ARTICULO" );
 }
 /*>>>>>FACTUMODULE_SLOT_FACTURACIONARTICULO*/
 /*<<<<<FACTUMODULE_SLOT_FACTURACIONAGENTE*/
 void FactuModule::slotMenuFacturacionAgente()
 {
-    pMainWindow->slotMenuEditRecMaestro( "AGENTE" );
+	pMainWindow->slotMenuEditRecMaestro( "AGENTE" );
 }
 /*>>>>>FACTUMODULE_SLOT_FACTURACIONAGENTE*/
 
 /*<<<<<FACTUMODULE_SLOT_FACTURACIONCLIENTE*/
 void FactuModule::slotMenuFacturacionCliente()
 {
-    pMainWindow->slotMenuEditRecMaestro( "CLIENTE" );
+	pMainWindow->slotMenuEditRecMaestro( "CLIENTE" );
 }
 /*>>>>>FACTUMODULE_SLOT_FACTURACIONCLIENTE*/
 /*<<<<<FACTUMODULE_SLOT_FACTURACIONPROVEEDORA*/
 void FactuModule::slotMenuFacturacionProveedora()
 {
-    pMainWindow->slotMenuEditRecMaestro( "PROVEEDORA" );
+	pMainWindow->slotMenuEditRecMaestro( "PROVEEDORA" );
 }
 /*>>>>>FACTUMODULE_SLOT_FACTURACIONPROVEEDORA*/
 /*<<<<<FACTUMODULE_SLOT_FACTURACIONTIPODOC*/
 void FactuModule::slotMenuFacturacionTipoDoc()
 {
-    pMainWindow->slotMenuEditRecMaestro( "TIPODOC" );
+	pMainWindow->slotMenuEditRecMaestro( "TIPODOC" );
 }
 /*>>>>>FACTUMODULE_SLOT_FACTURACIONTIPODOC*/
 /*<<<<<FACTUMODULE_SLOT_VENTASPRESUPUESTOVENTA*/
 void FactuModule::slotMenuVentasPresupuestoVenta()
 {
-    pMainWindow->slotMenuEditRecMaestro( "PRESUPUESTOVENTA" );
+	pMainWindow->slotMenuEditRecMaestro( "PRESUPUESTOVENTA" );
 }
 /*>>>>>FACTUMODULE_SLOT_VENTASPRESUPUESTOVENTA*/
 /*<<<<<FACTUMODULE_SLOT_VENTASPEDIDOVENTA*/
 void FactuModule::slotMenuVentasPedidoVenta()
 {
-    pMainWindow->slotMenuEditRecMaestro( "PEDIDOVENTA" );
+	pMainWindow->slotMenuEditRecMaestro( "PEDIDOVENTA" );
 }
 /*>>>>>FACTUMODULE_SLOT_VENTASPEDIDOVENTA*/
 /*<<<<<FACTUMODULE_SLOT_VENTASALBARANVENTA*/
 void FactuModule::slotMenuVentasAlbaranVenta()
 {
-    pMainWindow->slotMenuEditRecMaestro( "ALBARANVENTA" );
+	pMainWindow->slotMenuEditRecMaestro( "ALBARANVENTA" );
 }
 /*>>>>>FACTUMODULE_SLOT_VENTASALBARANVENTA*/
 /*<<<<<FACTUMODULE_SLOT_VENTASFACTURAVENTA*/
 void FactuModule::slotMenuVentasFacturaVenta()
 {
-    pMainWindow->slotMenuEditRecMaestro( "FACTURAVENTA" );
+	pMainWindow->slotMenuEditRecMaestro( "FACTURAVENTA" );
 }
 /*>>>>>FACTUMODULE_SLOT_VENTASFACTURAVENTA*/
 /*<<<<<FACTUMODULE_SLOT_COMPRASPEDIDOCOMPRA*/
 void FactuModule::slotMenuComprasPedidoCompra()
 {
-    pMainWindow->slotMenuEditRecMaestro( "PEDIDOCOMPRA" );
+	pMainWindow->slotMenuEditRecMaestro( "PEDIDOCOMPRA" );
 }
 /*>>>>>FACTUMODULE_SLOT_COMPRASPEDIDOCOMPRA*/
 /*<<<<<FACTUMODULE_SLOT_COMPRASALBARANCOMPRA*/
 void FactuModule::slotMenuComprasAlbaranCompra()
 {
-    pMainWindow->slotMenuEditRecMaestro( "ALBARANCOMPRA" );
+	pMainWindow->slotMenuEditRecMaestro( "ALBARANCOMPRA" );
 }
 /*>>>>>FACTUMODULE_SLOT_COMPRASALBARANCOMPRA*/
 /*<<<<<FACTUMODULE_SLOT_COMPRASFACTURACOMPRA*/
 void FactuModule::slotMenuComprasFacturaCompra()
 {
-    pMainWindow->slotMenuEditRecMaestro( "FACTURACOMPRA" );
+	pMainWindow->slotMenuEditRecMaestro( "FACTURACOMPRA" );
 }
 /*>>>>>FACTUMODULE_SLOT_COMPRASFACTURACOMPRA*/
 
@@ -876,124 +876,124 @@ bool FactuModule::initMainWindow( MainWindow *mainwin )
     pMenuFacturacion->addMenu( pMenuVentas );
 
     /*<<<<<FACTUMODULE_INITMAINWINDOW_MENUS*/
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("ARTICULO")->getDescPlural();
-        pMenuFacturacionArticulo = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuFacturacionArticulo->setObjectName( "MenuFacturacionArticulo" );
-        pMenuFacturacionArticulo->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuFacturacionArticulo->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuFacturacionArticulo, SIGNAL(activated()), this, SLOT(slotMenuFacturacionArticulo()));
-        pMenuFacturacionArticulo->addTo(pMenuFacturacion);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("CLIENTE")->getDescPlural();
-        pMenuFacturacionCliente = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuFacturacionCliente->setObjectName( "MenuFacturacionCliente" );
-        pMenuFacturacionCliente->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuFacturacionCliente->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuFacturacionCliente, SIGNAL(activated()), this, SLOT(slotMenuFacturacionCliente()));
-        pMenuFacturacionCliente->addTo(pMenuFacturacion);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("PROVEEDORA")->getDescPlural();
-        pMenuFacturacionProveedora = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuFacturacionProveedora->setObjectName( "MenuFacturacionProveedora" );
-        pMenuFacturacionProveedora->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuFacturacionProveedora->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuFacturacionProveedora, SIGNAL(activated()), this, SLOT(slotMenuFacturacionProveedora()));
-        pMenuFacturacionProveedora->addTo(pMenuFacturacion);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("AGENTE")->getDescPlural();
-        pMenuFacturacionAgente = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuFacturacionAgente->setObjectName( "MenuFacturacionAgente" );
-        pMenuFacturacionAgente->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuFacturacionAgente->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuFacturacionAgente, SIGNAL(activated()), this, SLOT(slotMenuFacturacionAgente()));
-        pMenuFacturacionAgente->addTo(pMenuFacturacion);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("FAMILIA")->getDescPlural();
-        pMenuFacturacionFamilia = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuFacturacionFamilia->setObjectName( "MenuFacturacionFamilia" );
-        pMenuFacturacionFamilia->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuFacturacionFamilia->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuFacturacionFamilia, SIGNAL(activated()), this, SLOT(slotMenuFacturacionFamilia()));
-        pMenuFacturacionFamilia->addTo(pMenuFacturacion);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("TIPODOC")->getDescPlural();
-        pMenuFacturacionTipoDoc = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuFacturacionTipoDoc->setObjectName( "MenuFacturacionTipoDoc" );
-        pMenuFacturacionTipoDoc->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuFacturacionTipoDoc->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuFacturacionTipoDoc, SIGNAL(activated()), this, SLOT(slotMenuFacturacionTipoDoc()));
-        pMenuFacturacionTipoDoc->addTo(pMenuFacturacion);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("PRESUPUESTOVENTA")->getDescPlural();
-        pMenuVentasPresupuestoVenta = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuVentasPresupuestoVenta->setObjectName( "MenuVentasPresupuestoVenta" );
-        pMenuVentasPresupuestoVenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuVentasPresupuestoVenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuVentasPresupuestoVenta, SIGNAL(activated()), this, SLOT(slotMenuVentasPresupuestoVenta()));
-        pMenuVentasPresupuestoVenta->addTo(pMenuVentas);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("PEDIDOVENTA")->getDescPlural();
-        pMenuVentasPedidoVenta = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuVentasPedidoVenta->setObjectName( "MenuVentasPedidoVenta" );
-        pMenuVentasPedidoVenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuVentasPedidoVenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuVentasPedidoVenta, SIGNAL(activated()), this, SLOT(slotMenuVentasPedidoVenta()));
-        pMenuVentasPedidoVenta->addTo(pMenuVentas);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("ALBARANVENTA")->getDescPlural();
-        pMenuVentasAlbaranVenta = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuVentasAlbaranVenta->setObjectName( "MenuVentasAlbaranVenta" );
-        pMenuVentasAlbaranVenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuVentasAlbaranVenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuVentasAlbaranVenta, SIGNAL(activated()), this, SLOT(slotMenuVentasAlbaranVenta()));
-        pMenuVentasAlbaranVenta->addTo(pMenuVentas);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("FACTURAVENTA")->getDescPlural();
-        pMenuVentasFacturaVenta = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuVentasFacturaVenta->setObjectName( "MenuVentasFacturaVenta" );
-        pMenuVentasFacturaVenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuVentasFacturaVenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuVentasFacturaVenta, SIGNAL(activated()), this, SLOT(slotMenuVentasFacturaVenta()));
-        pMenuVentasFacturaVenta->addTo(pMenuVentas);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("PEDIDOCOMPRA")->getDescPlural();
-        pMenuComprasPedidoCompra = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuComprasPedidoCompra->setObjectName( "MenuComprasPedidoCompra" );
-        pMenuComprasPedidoCompra->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuComprasPedidoCompra->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuComprasPedidoCompra, SIGNAL(activated()), this, SLOT(slotMenuComprasPedidoCompra()));
-        pMenuComprasPedidoCompra->addTo(pMenuCompras);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("ALBARANCOMPRA")->getDescPlural();
-        pMenuComprasAlbaranCompra = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuComprasAlbaranCompra->setObjectName( "MenuComprasAlbaranCompra" );
-        pMenuComprasAlbaranCompra->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuComprasAlbaranCompra->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuComprasAlbaranCompra, SIGNAL(activated()), this, SLOT(slotMenuComprasAlbaranCompra()));
-        pMenuComprasAlbaranCompra->addTo(pMenuCompras);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("FACTURACOMPRA")->getDescPlural();
-        pMenuComprasFacturaCompra = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuComprasFacturaCompra->setObjectName( "MenuComprasFacturaCompra" );
-        pMenuComprasFacturaCompra->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuComprasFacturaCompra->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuComprasFacturaCompra, SIGNAL(activated()), this, SLOT(slotMenuComprasFacturaCompra()));
-        pMenuComprasFacturaCompra->addTo(pMenuCompras);
-    }
-    /*>>>>>FACTUMODULE_INITMAINWINDOW_MENUS*/
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("ARTICULO")->getDescPlural();
+		pMenuFacturacionArticulo = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuFacturacionArticulo->setObjectName( "MenuFacturacionArticulo" );
+		pMenuFacturacionArticulo->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuFacturacionArticulo->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuFacturacionArticulo, SIGNAL(activated()), this, SLOT(slotMenuFacturacionArticulo()));
+		pMenuFacturacionArticulo->addTo(pMenuFacturacion);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("CLIENTE")->getDescPlural();
+		pMenuFacturacionCliente = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuFacturacionCliente->setObjectName( "MenuFacturacionCliente" );
+		pMenuFacturacionCliente->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuFacturacionCliente->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuFacturacionCliente, SIGNAL(activated()), this, SLOT(slotMenuFacturacionCliente()));
+		pMenuFacturacionCliente->addTo(pMenuFacturacion);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("PROVEEDORA")->getDescPlural();
+		pMenuFacturacionProveedora = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuFacturacionProveedora->setObjectName( "MenuFacturacionProveedora" );
+		pMenuFacturacionProveedora->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuFacturacionProveedora->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuFacturacionProveedora, SIGNAL(activated()), this, SLOT(slotMenuFacturacionProveedora()));
+		pMenuFacturacionProveedora->addTo(pMenuFacturacion);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("AGENTE")->getDescPlural();
+		pMenuFacturacionAgente = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuFacturacionAgente->setObjectName( "MenuFacturacionAgente" );
+		pMenuFacturacionAgente->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuFacturacionAgente->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuFacturacionAgente, SIGNAL(activated()), this, SLOT(slotMenuFacturacionAgente()));
+		pMenuFacturacionAgente->addTo(pMenuFacturacion);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("FAMILIA")->getDescPlural();
+		pMenuFacturacionFamilia = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuFacturacionFamilia->setObjectName( "MenuFacturacionFamilia" );
+		pMenuFacturacionFamilia->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuFacturacionFamilia->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuFacturacionFamilia, SIGNAL(activated()), this, SLOT(slotMenuFacturacionFamilia()));
+		pMenuFacturacionFamilia->addTo(pMenuFacturacion);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("TIPODOC")->getDescPlural();
+		pMenuFacturacionTipoDoc = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuFacturacionTipoDoc->setObjectName( "MenuFacturacionTipoDoc" );
+		pMenuFacturacionTipoDoc->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuFacturacionTipoDoc->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuFacturacionTipoDoc, SIGNAL(activated()), this, SLOT(slotMenuFacturacionTipoDoc()));
+		pMenuFacturacionTipoDoc->addTo(pMenuFacturacion);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("PRESUPUESTOVENTA")->getDescPlural();
+		pMenuVentasPresupuestoVenta = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuVentasPresupuestoVenta->setObjectName( "MenuVentasPresupuestoVenta" );
+		pMenuVentasPresupuestoVenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuVentasPresupuestoVenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuVentasPresupuestoVenta, SIGNAL(activated()), this, SLOT(slotMenuVentasPresupuestoVenta()));
+		pMenuVentasPresupuestoVenta->addTo(pMenuVentas);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("PEDIDOVENTA")->getDescPlural();
+		pMenuVentasPedidoVenta = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuVentasPedidoVenta->setObjectName( "MenuVentasPedidoVenta" );
+		pMenuVentasPedidoVenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuVentasPedidoVenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuVentasPedidoVenta, SIGNAL(activated()), this, SLOT(slotMenuVentasPedidoVenta()));
+		pMenuVentasPedidoVenta->addTo(pMenuVentas);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("ALBARANVENTA")->getDescPlural();
+		pMenuVentasAlbaranVenta = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuVentasAlbaranVenta->setObjectName( "MenuVentasAlbaranVenta" );
+		pMenuVentasAlbaranVenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuVentasAlbaranVenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuVentasAlbaranVenta, SIGNAL(activated()), this, SLOT(slotMenuVentasAlbaranVenta()));
+		pMenuVentasAlbaranVenta->addTo(pMenuVentas);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("FACTURAVENTA")->getDescPlural();
+		pMenuVentasFacturaVenta = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuVentasFacturaVenta->setObjectName( "MenuVentasFacturaVenta" );
+		pMenuVentasFacturaVenta->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuVentasFacturaVenta->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuVentasFacturaVenta, SIGNAL(activated()), this, SLOT(slotMenuVentasFacturaVenta()));
+		pMenuVentasFacturaVenta->addTo(pMenuVentas);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("PEDIDOCOMPRA")->getDescPlural();
+		pMenuComprasPedidoCompra = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuComprasPedidoCompra->setObjectName( "MenuComprasPedidoCompra" );
+		pMenuComprasPedidoCompra->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuComprasPedidoCompra->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuComprasPedidoCompra, SIGNAL(activated()), this, SLOT(slotMenuComprasPedidoCompra()));
+		pMenuComprasPedidoCompra->addTo(pMenuCompras);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("ALBARANCOMPRA")->getDescPlural();
+		pMenuComprasAlbaranCompra = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuComprasAlbaranCompra->setObjectName( "MenuComprasAlbaranCompra" );
+		pMenuComprasAlbaranCompra->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuComprasAlbaranCompra->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuComprasAlbaranCompra, SIGNAL(activated()), this, SLOT(slotMenuComprasAlbaranCompra()));
+		pMenuComprasAlbaranCompra->addTo(pMenuCompras);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("FACTURACOMPRA")->getDescPlural();
+		pMenuComprasFacturaCompra = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuComprasFacturaCompra->setObjectName( "MenuComprasFacturaCompra" );
+		pMenuComprasFacturaCompra->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuComprasFacturaCompra->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuComprasFacturaCompra, SIGNAL(activated()), this, SLOT(slotMenuComprasFacturaCompra()));
+		pMenuComprasFacturaCompra->addTo(pMenuCompras);
+	}
+/*>>>>>FACTUMODULE_INITMAINWINDOW_MENUS*/
     pMenuOperaciones = new QMenu( toGUI( _("Operaciones") ) );
     pMenuFacturacion->addMenu( pMenuOperaciones);
     pMenuFactuCambiosMasivosArticulos = new QAction( toGUI("Cambios masivos de artículos..."), 0, pMainWindow,0);

@@ -36,17 +36,17 @@ namespace factu {
 /*<<<<<CLIENTE_RELATIONS*/
 contactos::RecContacto *RecCliente::getRecContacto() const
 {
-    return static_cast<contactos::RecContacto*>(findRelatedRecord("CLIENTE.CONTACTO_ID"));
+	return static_cast<contactos::RecContacto*>(findRelatedRecord("CLIENTE.CONTACTO_ID"));
 }
 
 pagos::RecFormaPago *RecCliente::getRecFormaPago() const
 {
-    return static_cast<pagos::RecFormaPago*>(findRelatedRecord("CLIENTE.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("CLIENTE.FORMAPAGO_ID"));
 }
 
 RecAgente *RecCliente::getRecAgente() const
 {
-    return static_cast<RecAgente*>(findRelatedRecord("CLIENTE.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("CLIENTE.AGENTE_ID"));
 }
 
 /*>>>>>CLIENTE_RELATIONS*/

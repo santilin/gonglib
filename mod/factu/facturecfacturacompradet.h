@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecfacturacompradet.h Registro de detalles de facturas de compra
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -29,8 +29,8 @@ namespace factu {
 class RecFacturaCompraDet: public dbRecord
 {
 public:
-    RecFacturaCompraDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FACTURACOMPRADET"), recid, user)
+	RecFacturaCompraDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FACTURACOMPRADET"), recid, user)
 /*>>>>>FACTURACOMPRADET_CONSTRUCTOR*/
     {
         addSemanticProperty( "COMPRA" );
@@ -39,16 +39,16 @@ public:
     }
 
     /*<<<<<FACTURACOMPRADET_MEMBERS*/
-    virtual void beforeSaveOrDeleteRelated(dbRecord *master, bool saving); // from dbRecord
-    /*>>>>>FACTURACOMPRADET_MEMBERS*/
+	virtual void beforeSaveOrDeleteRelated(dbRecord *master, bool saving); // from dbRecord
+/*>>>>>FACTURACOMPRADET_MEMBERS*/
 
     bool actStocks(dbRecord *facturacompra, bool savingdetail) const;
     bool actAlbaranes( dbRecord *facturacompra, bool savingdetail ) const;
 
     /*<<<<<FACTURACOMPRADET_RELATIONS*/
-    RecArticulo *getRecArticulo() const;
-    empresa::RecTipoIVA *getRecTipoIVA() const;
-    /*>>>>>FACTURACOMPRADET_RELATIONS*/
+	RecArticulo *getRecArticulo() const;
+	empresa::RecTipoIVA *getRecTipoIVA() const;
+/*>>>>>FACTURACOMPRADET_RELATIONS*/
 
 }; // end class
 

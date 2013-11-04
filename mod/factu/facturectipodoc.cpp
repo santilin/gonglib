@@ -36,17 +36,17 @@ namespace factu {
 /*<<<<<TIPODOC_RELATIONS*/
 pagos::RecFormaPago *RecTipoDoc::getRecFormaPago() const
 {
-    return static_cast<pagos::RecFormaPago*>(findRelatedRecord("TIPODOC.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("TIPODOC.FORMAPAGO_ID"));
 }
 
 empresa::RecProyecto *RecTipoDoc::getRecProyecto() const
 {
-    return static_cast<empresa::RecProyecto*>(findRelatedRecord("TIPODOC.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("TIPODOC.PROYECTO_ID"));
 }
 
 RecAgente *RecTipoDoc::getRecAgente() const
 {
-    return static_cast<RecAgente*>(findRelatedRecord("TIPODOC.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("TIPODOC.AGENTE_ID"));
 }
 
 /*>>>>>TIPODOC_RELATIONS*/

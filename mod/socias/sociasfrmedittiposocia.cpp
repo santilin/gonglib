@@ -35,42 +35,40 @@ namespace socias {
 
 /*<<<<<FRMEDITTIPOSOCIA_CONSTRUCTOR*/
 FrmEditTipoSocia::FrmEditTipoSocia(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
-                                   EditMode editmode, dbApplication::EditFlags editflags,
-                                   QWidget *parent, const char* name, WidgetFlags fl )
-    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
+	                               EditMode editmode, dbApplication::EditFlags editflags,
+	                               QWidget *parent, const char* name, WidgetFlags fl )
+	    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditTipoSocia" );
-    /*>>>>>FRMEDITTIPOSOCIA_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditTipoSocia" );
+/*>>>>>FRMEDITTIPOSOCIA_CONSTRUCTOR*/
     /*<<<<<FRMEDITTIPOSOCIA_INIT_CONTROLS*/
-    QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
-    QHBoxLayout *nombreLayout = new QHBoxLayout(0, 0, 6, "nombreLayout");
-    QHBoxLayout *porcentajecuotaLayout = new QHBoxLayout(0, 0, 6, "porcentajecuotaLayout");
-    QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-    editCodigo = addEditField( pControlsFrame, "TIPOSOCIA", "CODIGO", codigoLayout );
-    editNombre = addEditField( pControlsFrame, "TIPOSOCIA", "NOMBRE", nombreLayout );
-    editPorcentajeCuota = addEditField( pControlsFrame, "TIPOSOCIA", "PORCENTAJECUOTA", porcentajecuotaLayout );
-    editNotas = addTextField( pControlsFrame, "TIPOSOCIA", "NOTAS", notasLayout );
-    pControlsLayout->addLayout( codigoLayout );
-    pControlsLayout->addLayout( nombreLayout );
-    pControlsLayout->addLayout( porcentajecuotaLayout );
-    pControlsLayout->addLayout( notasLayout );
-    /*>>>>>FRMEDITTIPOSOCIA_INIT_CONTROLS*/
+	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
+	QHBoxLayout *porcentajecuotaLayout = new QHBoxLayout(0, 0, 6, "porcentajecuotaLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	editCodigo = addEditField( pControlsFrame, "TIPOSOCIA", "CODIGO", codigoLayout );
+	editNombre = addEditField( pControlsFrame, "TIPOSOCIA", "NOMBRE", codigoLayout );
+	editPorcentajeCuota = addEditField( pControlsFrame, "TIPOSOCIA", "PORCENTAJECUOTA", porcentajecuotaLayout );
+	editNotas = addTextField( pControlsFrame, "TIPOSOCIA", "NOTAS", notasLayout );
+	pControlsLayout->addLayout( codigoLayout );
+	pControlsLayout->addLayout( porcentajecuotaLayout );
+	pControlsLayout->addLayout( notasLayout );
+/*>>>>>FRMEDITTIPOSOCIA_INIT_CONTROLS*/
 }
 
 void FrmEditTipoSocia::scatterFields()
 {
     /*<<<<<FRMEDITTIPOSOCIA_SCATTER*/
-    editCodigo->setText(getRecTipoSocia()->getValue("CODIGO").toInt());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editCodigo;
-    editNombre->setText(getRecTipoSocia()->getValue("NOMBRE").toString());
-    editPorcentajeCuota->setText(getRecTipoSocia()->getValue("PORCENTAJECUOTA").toDouble());
-    editNotas->setText(getRecTipoSocia()->getValue("NOTAS").toString());
-    if( isInserting() && editCodigo->toInt() == 0 ) {
-        editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
-    }
-    /*>>>>>FRMEDITTIPOSOCIA_SCATTER*/
+	editCodigo->setText(getRecTipoSocia()->getValue("CODIGO").toInt());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editCodigo;
+	editNombre->setText(getRecTipoSocia()->getValue("NOMBRE").toString());
+	editPorcentajeCuota->setText(getRecTipoSocia()->getValue("PORCENTAJECUOTA").toDouble());
+	editNotas->setText(getRecTipoSocia()->getValue("NOTAS").toString());
+	if( isInserting() && editCodigo->toInt() == 0 ) {
+		editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
+	}
+/*>>>>>FRMEDITTIPOSOCIA_SCATTER*/
     if( isInserting() )
         editPorcentajeCuota->setText( 100.0 );
 }
@@ -78,26 +76,26 @@ void FrmEditTipoSocia::scatterFields()
 void FrmEditTipoSocia::gatherFields()
 {
     /*<<<<<FRMEDITTIPOSOCIA_GATHER*/
-    getRecTipoSocia()->setValue( "CODIGO", editCodigo->toInt());
-    getRecTipoSocia()->setValue( "NOMBRE", editNombre->toString());
-    getRecTipoSocia()->setValue( "PORCENTAJECUOTA", editPorcentajeCuota->toDouble());
-    getRecTipoSocia()->setValue( "NOTAS", editNotas->toString());
-    /*>>>>>FRMEDITTIPOSOCIA_GATHER*/
+	getRecTipoSocia()->setValue( "CODIGO", editCodigo->toInt());
+	getRecTipoSocia()->setValue( "NOMBRE", editNombre->toString());
+	getRecTipoSocia()->setValue( "PORCENTAJECUOTA", editPorcentajeCuota->toDouble());
+	getRecTipoSocia()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITTIPOSOCIA_GATHER*/
 }
 
 void FrmEditTipoSocia::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
     /*<<<<<FRMEDITTIPOSOCIA_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
-        if( !sender )
-            *isvalid = false;
-    /*>>>>>FRMEDITTIPOSOCIA_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
+		if( !sender )
+			*isvalid = false;
+/*>>>>>FRMEDITTIPOSOCIA_VALIDATE*/
     if ( !ir ) {
         showValidMessages( isvalid, *validresult, sender );
         delete validresult;

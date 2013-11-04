@@ -5,7 +5,7 @@
 
 /*<<<<<COPYLEFT*/
 /** @file gongdbindexdefinition.h Index definitions for the data dictionary
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -31,8 +31,8 @@ class dbIndexDefinition
 {
 public:
     /*<<<<<DBINDEXDEFINITION_FULLCONSTRUCTOR*/
-    dbIndexDefinition(const Xtring& name, bool unique, const dbFieldDefinition::Flags& flags = dbFieldDefinition::NONE, const Xtring& options = Xtring::null)
-        : mName(name), mUnique(unique), mFlags(flags), mOptions(options)
+	dbIndexDefinition(const Xtring& name, bool unique, const dbFieldDefinition::Flags& flags = dbFieldDefinition::NONE, const Xtring& options = Xtring::null)
+		: mName(name), mUnique(unique), mFlags(flags), mOptions(options)
 /*>>>>>DBINDEXDEFINITION_FULLCONSTRUCTOR*/
     {}
 
@@ -68,41 +68,22 @@ public:
 
     /*<<<<<DBINDEXDEFINITION_CLASS*/
 public:
-    const Xtring& getName() const {
-        return mName;
-    }
-    bool isUnique() const {
-        return mUnique;
-    }
-    const dbFieldDefinition::Flags& getFlags() const {
-        return mFlags;
-    }
-    const Xtring& getOptions() const {
-        return mOptions;
-    }
-    const dbFieldDefinitionsList& getFieldDefinitions() const {
-        return mFieldDefinitions;
-    }
+	const Xtring& getName() const { return mName; }
+	bool isUnique() const { return mUnique; }
+	const dbFieldDefinition::Flags& getFlags() const { return mFlags; }
+	const Xtring& getOptions() const { return mOptions; }
+	const dbFieldDefinitionsList& getFieldDefinitions() const { return mFieldDefinitions; }
 
-    dbIndexDefinition* setUnique(bool unique) {
-        mUnique = unique;
-        return this;
-    }
-    dbIndexDefinition* setFlags(const dbFieldDefinition::Flags& flags) {
-        mFlags = flags;
-        return this;
-    }
-    dbIndexDefinition* setOptions(const Xtring& options) {
-        mOptions = options;
-        return this;
-    }
+	dbIndexDefinition* setUnique(bool unique) { mUnique = unique; return this; }
+	dbIndexDefinition* setFlags(const dbFieldDefinition::Flags& flags) { mFlags = flags; return this; }
+	dbIndexDefinition* setOptions(const Xtring& options) { mOptions = options; return this; }
 private:
-    Xtring mName;
-    bool mUnique;
-    dbFieldDefinition::Flags mFlags;
-    Xtring mOptions;
-    dbFieldDefinitionsList mFieldDefinitions;
-    /*>>>>>DBINDEXDEFINITION_CLASS*/
+	Xtring mName;
+	bool mUnique;
+	dbFieldDefinition::Flags mFlags;
+	Xtring mOptions;
+	dbFieldDefinitionsList mFieldDefinitions;
+/*>>>>>DBINDEXDEFINITION_CLASS*/
 };
 
 typedef std::vector<dbIndexDefinition *> dbIndexDefinitionsList;

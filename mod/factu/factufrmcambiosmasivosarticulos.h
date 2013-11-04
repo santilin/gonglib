@@ -24,12 +24,12 @@ protected:
     unsigned long int cambiar_precios( int operacion, double nuevoprecio,
                                        const Xtring &fldcambio, const Xtring &fldbase );
 
-    ComboBox<int> *pComboOperacion, *pComboOperacionPrecio;
+    ComboBoxInt *pComboOperacion, *pComboOperacionPrecio;
     SearchBox *pSearchFamilia, *pSearchArticulo, *pSearchProveedora;
     XtringList mOperaciones, mOperacionesPrecios;
     List<int> mCodigosOperaciones, mCodigosOperacionesPrecios;
     LineEdit *pNuevoPrecio;
-    ComboBox<Xtring> *pComboCampoPrecioBase, *pComboCampoPrecioCambio;
+    ComboBoxXtring *pComboCampoPrecioBase, *pComboCampoPrecioCambio;
 };
 
 } // namespace factu

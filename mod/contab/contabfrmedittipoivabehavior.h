@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file contabfrmedittipoivabehavior.h Fichero de edición de tipos de IVA
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -29,26 +29,24 @@ typedef empresa::RecTipoIVA RecTipoIVA;
 class FrmEditTipoIVABehavior: public FrmEditRecBehavior
 {
 public:
-    virtual void initGUI();
-    RecTipoIVA *getRecTipoIVA() const {
-        return static_cast<RecTipoIVA *>(pTheForm->getRecord());
-    }
-    FrmEditTipoIVABehavior( FrmEditRec *theform )
-        : FrmEditRecBehavior( theform )
+	virtual void initGUI();
+	RecTipoIVA *getRecTipoIVA() const { return static_cast<RecTipoIVA *>(pTheForm->getRecord()); }
+	FrmEditTipoIVABehavior( FrmEditRec *theform )
+		: FrmEditRecBehavior( theform )
 /*>>>>>FRMEDITTIPOIVABEHAVIOR_CLASS*/
     {}
     /*<<<<<FRMEDITTIPOIVABEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
 protected:
-    virtual void scatterFields( bool is_pre );
-    virtual void gatherFields();
-    virtual void validateFields( bool is_pre,
-                                 QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    /*>>>>>FRMEDITTIPOIVABEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
+	virtual void scatterFields( bool is_pre );
+	virtual void gatherFields();
+	virtual void validateFields( bool is_pre,
+		QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+/*>>>>>FRMEDITTIPOIVABEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
     /*<<<<<FRMEDITTIPOIVABEHAVIOR_CONTROLS*/
 protected:
-    gong::EditBox *editSubcuentaSoportado;
-    gong::EditBox *editSubcuentaRepercutido;
-    /*>>>>>FRMEDITTIPOIVABEHAVIOR_CONTROLS*/
+	gong::EditBox *editSubcuentaSoportado;
+	gong::EditBox *editSubcuentaRepercutido;
+/*>>>>>FRMEDITTIPOIVABEHAVIOR_CONTROLS*/
 };
 /*<<<<<FRMEDITTIPOIVABEHAVIOR_POSTAMBLE*/
 } // namespace contab

@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
-/** @file sociasrecmiembro.h
- * The GestiONG project. (C) 2003-2013, Francisco Santiago Capel Torres
+/** @file sociasrecmiembro.h 
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -37,33 +37,33 @@ namespace socias {
 /*<<<<<MIEMBRO_CONSTRUCTOR*/
 class RecMiembro: public dbRecord,
 #ifdef HAVE_PAGOSMODULE
-    public IPagableMiembro
+	public IPagableMiembro
 #endif
 
 {
 public:
-    RecMiembro(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("MIEMBRO"), recid, user)
+	RecMiembro(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("MIEMBRO"), recid, user)
 /*>>>>>MIEMBRO_CONSTRUCTOR*/
         , IPagableMiembro( this ) {}
     int getLastNumeroSocia(int proyecto_id) const;
     /*<<<<<MIEMBRO_RELATIONS*/
-    RecProyecto *getRecProyecto() const;
+	RecProyecto *getRecProyecto() const;
 #ifdef HAVE_PAGOSMODULE
-    pagos::RecFormaPago *getRecFormaPago() const;
+	pagos::RecFormaPago *getRecFormaPago() const;
 #endif
-    contactos::RecContacto *getRecContacto() const;
+	contactos::RecContacto *getRecContacto() const;
 #ifdef HAVE_FACTUMODULE
-    factu::RecCliente *getRecCliente() const;
+	factu::RecCliente *getRecCliente() const;
 #endif
-    RecTipoSocia *getRecTipoSocia() const;
-    /*>>>>>MIEMBRO_RELATIONS*/
+	RecTipoSocia *getRecTipoSocia() const;
+/*>>>>>MIEMBRO_RELATIONS*/
     /*<<<<<MIEMBRO_MEMBERS*/
-    virtual bool findMatchingRecord(dbRecordID *matchingid) const; // from dbRecord
-    Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
-    virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
-    virtual bool remove() throw( dbError ); // from dbRecord
-    /*>>>>>MIEMBRO_MEMBERS*/
+	virtual bool findMatchingRecord(dbRecordID *matchingid) const; // from dbRecord
+	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool remove() throw( dbError ); // from dbRecord
+/*>>>>>MIEMBRO_MEMBERS*/
 }; // class
 
 /*<<<<<MIEMBRO_POSTAMBLE*/

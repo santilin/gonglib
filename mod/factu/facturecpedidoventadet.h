@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecpedidoventadet.h Registro de detalles de pedidos de venta
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -31,8 +31,8 @@ class RecArticulo;
 class RecPedidoVentaDet: public dbRecord
 {
 public:
-    RecPedidoVentaDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PEDIDOVENTADET"), recid, user)
+	RecPedidoVentaDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PEDIDOVENTADET"), recid, user)
 /*>>>>>PEDIDOVENTADET_CONSTRUCTOR*/
     {
         addSemanticProperty( "VENTA" );
@@ -40,9 +40,9 @@ public:
         addSemanticProperty( "DETALLE" );
     }
     /*<<<<<PEDIDOVENTADET_RELATIONS*/
-    RecArticulo *getRecArticulo() const;
-    empresa::RecTipoIVA *getRecTipoIVA() const;
-    /*>>>>>PEDIDOVENTADET_RELATIONS*/
+	RecArticulo *getRecArticulo() const;
+	empresa::RecTipoIVA *getRecTipoIVA() const;
+/*>>>>>PEDIDOVENTADET_RELATIONS*/
 }; // end class
 
 /*<<<<<PEDIDOVENTADET_POSTAMBLE*/

@@ -17,7 +17,7 @@ namespace gong {
 /*<<<<<DBFIELD_REFERENCEID_ISVALID*/
 bool dbFieldReferenceID::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
-    /*>>>>>DBFIELD_REFERENCEID_ISVALID*/
+/*>>>>>DBFIELD_REFERENCEID_ISVALID*/
     if (!canBeNull() && ( value->isNull() || value->toVariant().toInt() == 0 ) ) {
 /// \todo {check} Esto se hacía solo para que los apuntes pudieran tener algunos datos incompletos
         //&& sev != IntegrityResult::valid_for_edition ) {

@@ -4,7 +4,7 @@
 /*>>>>>FRMEDITAPUNTE_PREAMBLE*/
 /*<<<<<COPYLEFT*/
 /** @file sociasfrmeditapunte.h Fichero de edición de apuntes
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -36,42 +36,40 @@ class RecPartidaProyecto;
 /*<<<<<FRMEDITAPUNTE_CLASS*/
 class FrmEditApunte: public contab::FrmEditApunte
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    FrmEditApunte(FrmEditRecMaster *frmmaster, int ndetail,
-                  dbRecord *detail, const Xtring &dettablename, dbRecordDataModel *dm=0,
-                  EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
-                  QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-    /*>>>>>FRMEDITAPUNTE_CLASS*/
+	FrmEditApunte(FrmEditRecMaster *frmmaster, int ndetail,
+		dbRecord *detail, const Xtring &dettablename, dbRecordDataModel *dm=0,
+		EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
+		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
+/*>>>>>FRMEDITAPUNTE_CLASS*/
     /*<<<<<FRMEDITAPUNTE_VIRTUALS_FROM_FRMEDITREC*/
 protected:
-    virtual void scatterFields(); // From FrmEditRec
-    virtual void gatherFields();
-    virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    void specialControlKeyPressed(QWidget *sender, char key);
-    /*>>>>>FRMEDITAPUNTE_VIRTUALS_FROM_FRMEDITREC*/
+	virtual void scatterFields(); // From FrmEditRec
+	virtual void gatherFields();
+	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+	void specialControlKeyPressed(QWidget *sender, char key);
+/*>>>>>FRMEDITAPUNTE_VIRTUALS_FROM_FRMEDITREC*/
     /*<<<<<FRMEDITAPUNTE_SCATTERS_AND_SLOTS*/
 protected:
-    void scatterPartidaProyecto();
+	void scatterPartidaProyecto();
 
 private slots:
-    void pushPartidaProyectoCodigo_clicked();
+	void pushPartidaProyectoCodigo_clicked();
 
 public:
-    RecPartidaProyecto* getRecPartidaProyecto() const
-    {
-        return static_cast<RecApunte*>(getRecord())->getRecPartidaProyecto();
-    }
-    /*>>>>>FRMEDITAPUNTE_SCATTERS_AND_SLOTS*/
+	RecPartidaProyecto* getRecPartidaProyecto() const
+		{ return static_cast<RecApunte*>(getRecord())->getRecPartidaProyecto(); }
+/*>>>>>FRMEDITAPUNTE_SCATTERS_AND_SLOTS*/
 
     /*<<<<<FRMEDITAPUNTE_CONTROLS*/
 protected:
-    gong::SearchBox *searchPartidaProyectoCodigo;
-    QPushButton *pushPartidaProyectoCodigo;
-    gong::LineEdit *editPartidaProyectoCodigo;
-    gong::LineEdit *editPartidaProyectoDescripcion;
-    /*>>>>>FRMEDITAPUNTE_CONTROLS*/
+	gong::SearchBox *searchPartidaProyectoCodigo;
+	QPushButton *pushPartidaProyectoCodigo;
+	gong::LineEdit *editPartidaProyectoCodigo;
+	gong::LineEdit *editPartidaProyectoDescripcion;
+/*>>>>>FRMEDITAPUNTE_CONTROLS*/
 };
 
 /*<<<<<FRMEDITAPUNTE_POSTAMBLE*/

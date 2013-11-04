@@ -58,12 +58,12 @@ bool RecFacturaCompraDet::actStocks( dbRecord *facturacompra, bool saving ) cons
 /*<<<<<FACTURACOMPRADET_RELATIONS*/
 RecArticulo *RecFacturaCompraDet::getRecArticulo() const
 {
-    return static_cast<RecArticulo*>(findRelatedRecord("FACTURACOMPRADET.ARTICULO_ID"));
+	return static_cast<RecArticulo*>(findRelatedRecord("FACTURACOMPRADET.ARTICULO_ID"));
 }
 
 empresa::RecTipoIVA *RecFacturaCompraDet::getRecTipoIVA() const
 {
-    return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("FACTURACOMPRADET.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("FACTURACOMPRADET.TIPOIVA_ID"));
 }
 
 /*>>>>>FACTURACOMPRADET_RELATIONS*/
@@ -71,7 +71,7 @@ empresa::RecTipoIVA *RecFacturaCompraDet::getRecTipoIVA() const
 /*<<<<<FACTURACOMPRADET_BEFORESAVEORDELETERELATED*/
 void RecFacturaCompraDet::beforeSaveOrDeleteRelated(dbRecord *master, bool saving)
 {
-    /*>>>>>FACTURACOMPRADET_BEFORESAVEORDELETERELATED*/
+/*>>>>>FACTURACOMPRADET_BEFORESAVEORDELETERELATED*/
     actStocks( master, saving );
     actAlbaranes( master, saving );
 }

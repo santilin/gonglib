@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file contabrecasiento.h Registro de Asientos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -31,23 +31,23 @@ namespace contab {
 class RecAsiento: public dbRecord
 {
 public:
-    RecAsiento(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("ASIENTO"), recid, user)
+	RecAsiento(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("ASIENTO"), recid, user)
 /*>>>>>ASIENTO_CONSTRUCTOR*/
     {
         init();
     }
     /*<<<<<ASIENTO_MEMBERS*/
-    virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
-    Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
-    /*>>>>>ASIENTO_MEMBERS*/
+	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
+	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+/*>>>>>ASIENTO_MEMBERS*/
     void rescateValues( RecAsiento *other );
 
     /*<<<<<ASIENTO_RELATIONS*/
-    empresa::RecProyecto *getRecProyecto() const;
-    RecApunte *getRecApunte( int napunte = -1 ) const;
-    dbRecordList *getListApunte() const;
-    /*>>>>>ASIENTO_RELATIONS*/
+	empresa::RecProyecto *getRecProyecto() const;
+	RecApunte *getRecApunte( int napunte = -1 ) const;
+	dbRecordList *getListApunte() const;
+/*>>>>>ASIENTO_RELATIONS*/
 
     class RecApunte *getRecDetalle(int napunte = -1) const {
             return getRecApunte(napunte);

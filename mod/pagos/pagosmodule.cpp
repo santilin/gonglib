@@ -89,14 +89,14 @@ PagosModule::PagosModule()
     pModuleSettings = _settings;
     _GONG_DEBUG_TRACE(1);
     /*<<<<<PAGOSMODULE_PUBLIC_INFO*/
-    mModuleRequires << "empresa";
-    mMasterTables << "FORMAPAGO" << "REMESACOBRO" << "COBRO" << "PAGO" << "TIPOFORMAPAGO" << "ESTADORECIBO";
+	mModuleRequires << "empresa";
+	mMasterTables << "FORMAPAGO" << "REMESACOBRO" << "COBRO" << "PAGO" << "TIPOFORMAPAGO" << "ESTADORECIBO";
 //	mDetailTables
-    pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
+	pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
 #ifdef HAVE_CONTABMODULE
-    pContabModule = static_cast< contab::ContabModule * >(DBAPP->findModule( "Contab" ));
+	pContabModule = static_cast< contab::ContabModule * >(DBAPP->findModule( "Contab" ));
 #endif
-    /*>>>>>PAGOSMODULE_PUBLIC_INFO*/
+/*>>>>>PAGOSMODULE_PUBLIC_INFO*/
     empresa::ModuleInstance->addContadorTable("COBRO");
     empresa::ModuleInstance->addContadorTable("PAGO");
 }
@@ -114,11 +114,11 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pMainDatabase = db;
 
     /*<<<<<PAGOSMODULE_INIT_DATABASE*/
-    pFicTipoFormaPago = new NamesListTable( *pMainDatabase, "TIPOFORMAPAGO" );
-    pMainDatabase->addTable( pFicTipoFormaPago->getTableDefinition() );
-    pFicEstadoRecibo = new NamesListTable( *pMainDatabase, "ESTADORECIBO" );
-    pMainDatabase->addTable( pFicEstadoRecibo->getTableDefinition() );
-    /*>>>>>PAGOSMODULE_INIT_DATABASE*/
+	pFicTipoFormaPago = new NamesListTable( *pMainDatabase, "TIPOFORMAPAGO" );
+	pMainDatabase->addTable( pFicTipoFormaPago->getTableDefinition() );
+	pFicEstadoRecibo = new NamesListTable( *pMainDatabase, "ESTADORECIBO" );
+	pMainDatabase->addTable( pFicEstadoRecibo->getTableDefinition() );
+/*>>>>>PAGOSMODULE_INIT_DATABASE*/
 
     // La tabla FORMAPAGO es común a todas las empresas y ejercicios
     pFicFormaPago = new empresa::MasterTable( *pMainDatabase, "FORMAPAGO" );
@@ -244,7 +244,7 @@ void PagosModule::afterLoad()
                                     DBAPP->getDatabase()->findFieldDefinition("FORMAPAGO.TIPOFORMAPAGO") );
     if( fldtfp )
         fldtfp->fill( *getConnection() );
-    if( fldtfp->getListOfValues()->size() == 0 ) {
+    if( fldtfp->getListOfValues().size() == 0 ) {
         getConnection()->exec( "INSERT INTO TIPOFORMAPAGO (CODIGO,NOMBRE) VALUES "
                                "(" + getConnection()->toSQL( RecFormaPago::Contado ) + ", 'Contado'),"
                                "(" + getConnection()->toSQL( RecFormaPago::GeneraRecibos ) + ", 'Genera recibos'),"
@@ -256,7 +256,7 @@ void PagosModule::afterLoad()
                                    DBAPP->getDatabase()->findFieldDefinition("PAGO.ESTADORECIBO") );
     if( flder )
         flder->fill( *getConnection() );
-    if( flder->getListOfValues()->size() == 0 ) {
+    if( flder->getListOfValues().size() == 0 ) {
         getConnection()->exec( "INSERT INTO ESTADORECIBO (CODIGO,NOMBRE) VALUES "
                                "(" + getConnection()->toSQL( PagosModule::ReciboPendiente ) + ", 'Pendiente'),"
                                "(" + getConnection()->toSQL( PagosModule::ReciboPagado) + ", 'Pagado'),"
@@ -279,46 +279,46 @@ bool PagosModule::login(FrmLogin *frmlogin, const Xtring& version,
 /*<<<<<PAGOSMODULE_SLOT_EMPRESAFORMAPAGO*/
 void PagosModule::slotMenuEmpresaFormaPago()
 {
-    pMainWindow->slotMenuEditRecMaestro( "FORMAPAGO" );
+	pMainWindow->slotMenuEditRecMaestro( "FORMAPAGO" );
 }
 /*>>>>>PAGOSMODULE_SLOT_EMPRESAFORMAPAGO*/
-/*<<<<<PAGOSMODULE_SLOT_VENTASCOBRO*/
-void PagosModule::slotMenuVentasCobro()
+/*<<<<<PAGOSMODULE_SLOT_PAGOSREMESACOBRO*/
+void PagosModule::slotMenuPagosRemesaCobro()
 {
-    pMainWindow->slotMenuEditRecMaestro( "COBRO" );
+	pMainWindow->slotMenuEditRecMaestro( "REMESACOBRO" );
 }
-/*>>>>>PAGOSMODULE_SLOT_VENTASCOBRO*/
-/*<<<<<PAGOSMODULE_SLOT_COMPRASPAGO*/
-void PagosModule::slotMenuComprasPago()
+/*>>>>>PAGOSMODULE_SLOT_PAGOSREMESACOBRO*/
+/*<<<<<PAGOSMODULE_SLOT_PAGOSCOBRO*/
+void PagosModule::slotMenuPagosCobro()
 {
-    pMainWindow->slotMenuEditRecMaestro( "PAGO" );
+	pMainWindow->slotMenuEditRecMaestro( "COBRO" );
 }
-/*>>>>>PAGOSMODULE_SLOT_COMPRASPAGO*/
-/*<<<<<PAGOSMODULE_SLOT_VENTASREMESACOBRO*/
-void PagosModule::slotMenuVentasRemesaCobro()
+/*>>>>>PAGOSMODULE_SLOT_PAGOSCOBRO*/
+/*<<<<<PAGOSMODULE_SLOT_PAGOSPAGO*/
+void PagosModule::slotMenuPagosPago()
 {
-    pMainWindow->slotMenuEditRecMaestro( "REMESACOBRO" );
+	pMainWindow->slotMenuEditRecMaestro( "PAGO" );
 }
-/*>>>>>PAGOSMODULE_SLOT_VENTASREMESACOBRO*/
+/*>>>>>PAGOSMODULE_SLOT_PAGOSPAGO*/
 
 
 dbRecord *PagosModule::createRecord(const Xtring &tablename, dbRecordID recid, dbUser *user)
 {
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     /*<<<<<PAGOSMODULE_CREATE_RECORD*/
-    if( tablename.upper() == "FORMAPAGO" )
-        return new RecFormaPago(getConnection(), recid, user);
-    if( tablename.upper() == "REMESACOBRO" )
-        return new RecRemesaCobro(getConnection(), recid, user);
-    if( tablename.upper() == "COBRO" )
-        return new RecCobro(getConnection(), recid, user);
-    if( tablename.upper() == "PAGO" )
-        return new RecPago(getConnection(), recid, user);
-    if( tablename.upper() == "TIPOFORMAPAGO" )
-        return new RecNamesListTable("TIPOFORMAPAGO", getConnection(), recid, user);
-    if( tablename.upper() == "ESTADORECIBO" )
-        return new RecNamesListTable("ESTADORECIBO", getConnection(), recid, user);
-    /*>>>>>PAGOSMODULE_CREATE_RECORD*/
+	if( tablename.upper() == "FORMAPAGO" )
+		return new RecFormaPago(getConnection(), recid, user);
+	if( tablename.upper() == "REMESACOBRO" )
+		return new RecRemesaCobro(getConnection(), recid, user);
+	if( tablename.upper() == "COBRO" )
+		return new RecCobro(getConnection(), recid, user);
+	if( tablename.upper() == "PAGO" )
+		return new RecPago(getConnection(), recid, user);
+	if( tablename.upper() == "TIPOFORMAPAGO" )
+		return new RecNamesListTable("TIPOFORMAPAGO", getConnection(), recid, user);
+	if( tablename.upper() == "ESTADORECIBO" )
+		return new RecNamesListTable("ESTADORECIBO", getConnection(), recid, user);
+/*>>>>>PAGOSMODULE_CREATE_RECORD*/
     return 0;
 }
 FrmEditRec *PagosModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm,
@@ -328,19 +328,19 @@ FrmEditRec *PagosModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec, db
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     Xtring tablename = rec->getTableName();
     /*<<<<<PAGOSMODULE_CREATE_EDITFORM*/
-    if( tablename.upper() == "FORMAPAGO" )
-        return new FrmEditFormaPago(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "REMESACOBRO" )
-        return new FrmEditRemesaCobro(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "COBRO" )
-        return new FrmEditCobro(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PAGO" )
-        return new FrmEditPago(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "TIPOFORMAPAGO" )
-        return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "ESTADORECIBO" )
-        return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    /*>>>>>PAGOSMODULE_CREATE_EDITFORM*/
+	if( tablename.upper() == "FORMAPAGO" )
+		return new FrmEditFormaPago(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "REMESACOBRO" )
+		return new FrmEditRemesaCobro(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "COBRO" )
+		return new FrmEditCobro(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PAGO" )
+		return new FrmEditPago(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "TIPOFORMAPAGO" )
+		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "ESTADORECIBO" )
+		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+/*>>>>>PAGOSMODULE_CREATE_EDITFORM*/
     return 0;
 }
 
@@ -354,7 +354,7 @@ FrmEditRecDetail *PagosModule::createEditDetailForm(
     Xtring tablename = rec->getTableName();
     /*<<<<<PAGOSMODULE_CREATE_EDITFORM_DETAIL*/
 
-    /*>>>>>PAGOSMODULE_CREATE_EDITFORM_DETAIL*/
+/*>>>>>PAGOSMODULE_CREATE_EDITFORM_DETAIL*/
     return 0;
 }
 
@@ -365,40 +365,40 @@ bool PagosModule::initMainWindow(MainWindow *mainwin)
     pMainWindow = mainwin;
     QMenu *pMenuEmpresa = pMainWindow->findMenu( "MenuEmpresa" );
     /*<<<<<PAGOSMODULE_INITMAINWINDOW_MENUS*/
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("FORMAPAGO")->getDescPlural();
-        pMenuEmpresaFormaPago = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuEmpresaFormaPago->setObjectName( "MenuEmpresaFormaPago" );
-        pMenuEmpresaFormaPago->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuEmpresaFormaPago->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuEmpresaFormaPago, SIGNAL(activated()), this, SLOT(slotMenuEmpresaFormaPago()));
-        pMenuEmpresaFormaPago->addTo(pMenuEmpresa);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("REMESACOBRO")->getDescPlural();
-        pMenuVentasRemesaCobro = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuVentasRemesaCobro->setObjectName( "MenuPagosRemesaCobro" );
-        pMenuVentasRemesaCobro->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuVentasRemesaCobro->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuVentasRemesaCobro, SIGNAL(activated()), this, SLOT(slotMenuVentasRemesaCobro()));
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("COBRO")->getDescPlural();
-        pMenuVentasCobro = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuVentasCobro->setObjectName( "MenuPagosCobro" );
-        pMenuVentasCobro->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuVentasCobro->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuVentasCobro, SIGNAL(activated()), this, SLOT(slotMenuVentasCobro()));
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("PAGO")->getDescPlural();
-        pMenuComprasPago = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuComprasPago->setObjectName( "MenuPagosPago" );
-        pMenuComprasPago->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuComprasPago->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuComprasPago, SIGNAL(activated()), this, SLOT(slotMenuComprasPago()));
-    }
-    /*>>>>>PAGOSMODULE_INITMAINWINDOW_MENUS*/
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("FORMAPAGO")->getDescPlural();
+		pMenuEmpresaFormaPago = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuEmpresaFormaPago->setObjectName( "MenuEmpresaFormaPago" );
+		pMenuEmpresaFormaPago->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuEmpresaFormaPago->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuEmpresaFormaPago, SIGNAL(activated()), this, SLOT(slotMenuEmpresaFormaPago()));
+		pMenuEmpresaFormaPago->addTo(pMenuEmpresa);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("REMESACOBRO")->getDescPlural();
+		pMenuPagosRemesaCobro = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuPagosRemesaCobro->setObjectName( "MenuPagosRemesaCobro" );
+		pMenuPagosRemesaCobro->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuPagosRemesaCobro->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuPagosRemesaCobro, SIGNAL(activated()), this, SLOT(slotMenuPagosRemesaCobro()));
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("COBRO")->getDescPlural();
+		pMenuPagosCobro = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuPagosCobro->setObjectName( "MenuPagosCobro" );
+		pMenuPagosCobro->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuPagosCobro->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuPagosCobro, SIGNAL(activated()), this, SLOT(slotMenuPagosCobro()));
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("PAGO")->getDescPlural();
+		pMenuPagosPago = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuPagosPago->setObjectName( "MenuPagosPago" );
+		pMenuPagosPago->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuPagosPago->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuPagosPago, SIGNAL(activated()), this, SLOT(slotMenuPagosPago()));
+	}
+/*>>>>>PAGOSMODULE_INITMAINWINDOW_MENUS*/
 // {capel} eliminar:  pMenuVentasCobro->addTo(pMenuVentas); (esos menús son de factu::) y con las compras igual
     return true;
 }

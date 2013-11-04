@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecalbaranventa.h Registro de albaranes de venta
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -40,17 +40,17 @@ namespace factu {
 
 /*<<<<<ALBARANVENTA_CONSTRUCTOR*/
 class RecAlbaranVenta: public dbRecord,
-    public factu::IPagableAlbaran,
-    public factu::IIVADesglosable,
+	public factu::IPagableAlbaran,
+	public factu::IIVADesglosable,
 #ifdef HAVE_CONTABMODULE
-    public factu::IAsentableFactura,
+	public factu::IAsentableFactura,
 #endif
-    public factu::ITotalizableRecord
+	public factu::ITotalizableRecord
 
 {
 public:
-    RecAlbaranVenta(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("ALBARANVENTA"), recid, user)
+	RecAlbaranVenta(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("ALBARANVENTA"), recid, user)
 /*>>>>>ALBARANVENTA_CONSTRUCTOR*/
         , IPagableAlbaran( this, IPagableRecord::cobros )
         , IIVADesglosable( this, getListAlbaranVentaDet() )
@@ -65,20 +65,20 @@ public:
     void setNextNumero( bool checkdup );
 
     /*<<<<<ALBARANVENTA_MEMBERS*/
-    void init();
-    virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
-    virtual bool remove() throw( dbError ); // from dbRecord
-    Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
-    /*>>>>>ALBARANVENTA_MEMBERS*/
+	void init();
+	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool remove() throw( dbError ); // from dbRecord
+	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+/*>>>>>ALBARANVENTA_MEMBERS*/
     /*<<<<<ALBARANVENTA_RELATIONS*/
-    RecTipoDoc *getRecTipoDoc() const;
-    RecCliente *getRecCliente() const;
-    RecAgente *getRecAgente() const;
-    pagos::RecFormaPago *getRecFormaPago() const;
-    empresa::RecProyecto *getRecProyecto() const;
-    RecAlbaranVentaDet *getRecAlbaranVentaDet( int nalbaranventadet = -1 ) const;
-    dbRecordList *getListAlbaranVentaDet() const;
-    /*>>>>>ALBARANVENTA_RELATIONS*/
+	RecTipoDoc *getRecTipoDoc() const;
+	RecCliente *getRecCliente() const;
+	RecAgente *getRecAgente() const;
+	pagos::RecFormaPago *getRecFormaPago() const;
+	empresa::RecProyecto *getRecProyecto() const;
+	RecAlbaranVentaDet *getRecAlbaranVentaDet( int nalbaranventadet = -1 ) const;
+	dbRecordList *getListAlbaranVentaDet() const;
+/*>>>>>ALBARANVENTA_RELATIONS*/
 }; // end class
 
 /*<<<<<ALBARANVENTA_POSTAMBLE*/

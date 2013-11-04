@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file factufrmeditfamilia.h Fichero de edición de familias de artículos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -29,54 +29,50 @@ namespace factu {
 /*<<<<<FRMEDITFAMILIA_CLASS*/
 class FrmEditFamilia: public FrmEditRecMaster
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    FrmEditFamilia(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
-                   EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
-                   QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-    RecFamilia *getRecFamilia() const {
-        return (RecFamilia *)getRecord();
-    }
-    /*>>>>>FRMEDITFAMILIA_CLASS*/
+	FrmEditFamilia(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
+		EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
+		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
+	RecFamilia *getRecFamilia() const { return (RecFamilia *)getRecord(); }
+/*>>>>>FRMEDITFAMILIA_CLASS*/
 
     /*<<<<<FRMEDITFAMILIA_SCATTERS_AND_SLOTS*/
 protected:
-    void scatterTipoIVA();
+	void scatterTipoIVA();
 
 private slots:
-    void pushTipoIVACodigo_clicked();
+	void pushTipoIVACodigo_clicked();
 
 public:
-    empresa::RecTipoIVA* getRecTipoIVA() const
-    {
-        return static_cast<RecFamilia*>(getRecord())->getRecTipoIVA();
-    }
-    /*>>>>>FRMEDITFAMILIA_SCATTERS_AND_SLOTS*/
+	empresa::RecTipoIVA* getRecTipoIVA() const
+		{ return static_cast<RecFamilia*>(getRecord())->getRecTipoIVA(); }
+/*>>>>>FRMEDITFAMILIA_SCATTERS_AND_SLOTS*/
 
     /*<<<<<FRMEDITFAMILIA_VIRTUALS_FROM_FRMEDITREC*/
 protected:
-    virtual void scatterFields(); // From FrmEditRec
-    virtual void gatherFields();
-    virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    void specialControlKeyPressed(QWidget *sender, char key);
-    /*>>>>>FRMEDITFAMILIA_VIRTUALS_FROM_FRMEDITREC*/
+	virtual void scatterFields(); // From FrmEditRec
+	virtual void gatherFields();
+	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+	void specialControlKeyPressed(QWidget *sender, char key);
+/*>>>>>FRMEDITFAMILIA_VIRTUALS_FROM_FRMEDITREC*/
     /*<<<<<FRMEDITFAMILIA_CONTROLS*/
 protected:
-    gong::EditBox *editCodigo;
-    gong::EditBox *editNombre;
-    gong::SearchBox *searchTipoIVACodigo;
-    QPushButton *pushTipoIVACodigo;
-    gong::LineEdit *editTipoIVACodigo;
-    gong::LineEdit *editTipoIVANombre;
+	gong::EditBox *editCodigo;
+	gong::EditBox *editNombre;
+	gong::SearchBox *searchTipoIVACodigo;
+	QPushButton *pushTipoIVACodigo;
+	gong::LineEdit *editTipoIVACodigo;
+	gong::LineEdit *editTipoIVANombre;
 #ifdef HAVE_CONTABMODULE
-    gong::EditBox *editSubcuentaCompras;
+	gong::EditBox *editSubcuentaCompras;
 #endif
 #ifdef HAVE_CONTABMODULE
-    gong::EditBox *editSubcuentaVentas;
+	gong::EditBox *editSubcuentaVentas;
 #endif
-    gong::TextBox *editNotas;
-    /*>>>>>FRMEDITFAMILIA_CONTROLS*/
+	gong::TextBox *editNotas;
+/*>>>>>FRMEDITFAMILIA_CONTROLS*/
 };
 
 /*<<<<<FRMEDITFAMILIA_POSTAMBLE*/

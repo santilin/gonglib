@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecagente.h Registro de agentes comerciales
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -29,13 +29,13 @@ namespace factu {
 class RecAgente: public dbRecord
 {
 public:
-    RecAgente(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("AGENTE"), recid, user)
+	RecAgente(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("AGENTE"), recid, user)
 /*>>>>>AGENTE_CONSTRUCTOR*/
     {};
     /*<<<<<AGENTE_RELATIONS*/
-    contactos::RecContacto *getRecContacto() const;
-    /*>>>>>AGENTE_RELATIONS*/
+	contactos::RecContacto *getRecContacto() const;
+/*>>>>>AGENTE_RELATIONS*/
 }; // end class
 
 /*<<<<<AGENTE_POSTAMBLE*/

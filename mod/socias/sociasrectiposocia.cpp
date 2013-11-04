@@ -33,8 +33,8 @@ namespace socias {
 /*<<<<<TIPOSOCIA_ISVALID*/
 bool RecTipoSocia::isValid(ValidResult::Context context, ValidResult *result )
 {
-    bool ret = dbRecord::isValid(context, result);
-    /*>>>>>TIPOSOCIA_ISVALID*/
+	bool ret = dbRecord::isValid(context, result);
+/*>>>>>TIPOSOCIA_ISVALID*/
     return ret;
 }
 

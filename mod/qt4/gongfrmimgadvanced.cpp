@@ -170,7 +170,7 @@ void FrmImgAdvanced::slot_button_clicked()
         delete fri;
     }
 }
-
+/* http://www.imagemagick.org/Usage/thumbnails/*/
 void FrmImgAdvanced::slot_combo_activated(int index)
 {
     Xtring command;

@@ -42,7 +42,7 @@ GestiongModule::GestiongModule()
 //	mModuleRequires
 //	mMasterTables
 //	mDetailTables
-    /*>>>>>GESTIONGMODULE_PUBLIC_INFO*/
+/*>>>>>GESTIONGMODULE_PUBLIC_INFO*/
 }
 
 
@@ -70,7 +70,7 @@ dbRecord *GestiongModule::createRecord(const Xtring &tablename, dbRecordID recid
     _GONG_DEBUG_ASSERT( GestiongModuleApp ); // Assign GestiongModuleApp to your application
     /*<<<<<GESTIONGMODULE_CREATE_RECORD*/
 
-    /*>>>>>GESTIONGMODULE_CREATE_RECORD*/
+/*>>>>>GESTIONGMODULE_CREATE_RECORD*/
     return 0;
 }
 FrmEditRec *GestiongModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm,
@@ -81,7 +81,7 @@ FrmEditRec *GestiongModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec,
     Xtring tablename = rec->getTableName();
     /*<<<<<GESTIONGMODULE_CREATE_EDITFORM*/
 
-    /*>>>>>GESTIONGMODULE_CREATE_EDITFORM*/
+/*>>>>>GESTIONGMODULE_CREATE_EDITFORM*/
     return 0;
 }
 
@@ -95,7 +95,7 @@ FrmEditRecDetail *GestiongModule::createEditDetailForm(
     Xtring tablename = rec->getTableName();
     /*<<<<<GESTIONGMODULE_CREATE_EDITFORM_DETAIL*/
 
-    /*>>>>>GESTIONGMODULE_CREATE_EDITFORM_DETAIL*/
+/*>>>>>GESTIONGMODULE_CREATE_EDITFORM_DETAIL*/
     return 0;
 }
 
@@ -106,7 +106,7 @@ bool GestiongModule::initMainWindow(MainWindow *mainwin)
     pMainWindow = mainwin;
     /*<<<<<GESTIONGMODULE_INITMAINWINDOW_MENUS*/
 
-    /*>>>>>GESTIONGMODULE_INITMAINWINDOW_MENUS*/
+/*>>>>>GESTIONGMODULE_INITMAINWINDOW_MENUS*/
     return true;
 }
 /*<<<<<GESTIONGMODULE_FIN*/

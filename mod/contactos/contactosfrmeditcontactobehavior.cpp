@@ -126,6 +126,7 @@ void FrmEditContactoBehavior::_initGUI()
 	tabContactoMoreLayout->addLayout( webLayout );
 	tabContactoMoreLayout->addLayout( nonameLayout );
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_INITGUI*/
+	(void)pControlsFrame; (void)pControlsLayout;
     editContacto_Telefono->setHeightInLines(2);
     editContacto_Provincia->setWidthInChars(20);
     pFrameContactos->insertTab( tabContacto, toGUI( _( "&Contacto" ) ) );
@@ -155,6 +156,8 @@ void FrmEditContactoBehavior::_initGUI()
     pushLayout->insertWidget( 0, pushLimpiaDatos );
     pushLayout->insertWidget( 0, pushARazonSocial );
     pushLayout->insertWidget( 0, searchContactoCIF );
+    pushLayout->insertWidget( 0, pushEditFull);
+	pushEditFull->setVisible( false ); /// TODO
     tabContactoLayout->insertLayout(0, pushLayout );
     mUsarTratamiento = ModuleInstance->getModuleSetting( "USAR_TRATAMIENTOS" ).toBool();
     comboContacto_TratamientoContacto->setVisible( mUsarTratamiento );

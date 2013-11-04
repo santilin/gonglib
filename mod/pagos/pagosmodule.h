@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file pagosmodule.h Module pagos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -48,27 +48,27 @@ class RecRemesaCobro;
 /*<<<<<PAGOSMODULE_CLASS_DEFINITION*/
 class PagosModule: public QObject, public dbModule
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    PagosModule();
-    virtual ~PagosModule();
-    virtual bool initMainWindow(class MainWindow *win);
-    virtual bool initDatabase(dbDefinition *dbdef);
-    virtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
-    virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
-    virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
-                                       FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
-                                       dbApplication::EditFlags editflags = dbApplication::editNone,
-                                       QWidget *parent = 0, const char* name = 0,
-                                       WidgetFlags fl = WidgetFlags(0) );
-    virtual FrmEditRecDetail *createEditDetailForm(
-        FrmEditRecMaster *frmmaster, int ndetail,
-        dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm = 0,
-        FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
-        dbApplication::EditFlags editflags = dbApplication::editNone,
-        QWidget *parent = 0, const char* name = 0,
-        WidgetFlags fl = WidgetFlags(0) );
-    /*>>>>>PAGOSMODULE_CLASS_DEFINITION*/
+	PagosModule();
+	virtual ~PagosModule();
+	virtual bool initMainWindow(class MainWindow *win);
+	virtual bool initDatabase(dbDefinition *dbdef);
+	virtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
+	virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
+	virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
+		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
+		dbApplication::EditFlags editflags = dbApplication::editNone,
+		QWidget *parent = 0, const char* name = 0,
+		WidgetFlags fl = WidgetFlags(0) );
+	virtual FrmEditRecDetail *createEditDetailForm(
+		FrmEditRecMaster *frmmaster, int ndetail,
+		dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm = 0,
+		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
+		dbApplication::EditFlags editflags = dbApplication::editNone,
+		QWidget *parent = 0, const char* name = 0,
+		WidgetFlags fl = WidgetFlags(0) );
+/*>>>>>PAGOSMODULE_CLASS_DEFINITION*/
 
     enum EstadoRecibo { ReciboPendiente = 1, ReciboPagado = 2, ReciboDevuelto = 3, ReciboAnulado = 4 };
     virtual void afterLoad(); // from dbModule
@@ -78,39 +78,31 @@ public:
 
     /*<<<<<PAGOSMODULE_RECORD_DEFINITIONS*/
 public:
-    pagos::MasterTable *getFicFormaPago() const {
-        return pFicFormaPago;
-    }
-    pagos::MasterTable *getFicRemesaCobro() const {
-        return pFicRemesaCobro;
-    }
-    pagos::MasterTable *getFicCobro() const {
-        return pFicCobro;
-    }
-    pagos::MasterTable *getFicPago() const {
-        return pFicPago;
-    }
-    NamesListTable *pFicTipoFormaPago;
-    NamesListTable *pFicEstadoRecibo;
+	pagos::MasterTable *getFicFormaPago() const { return pFicFormaPago; }
+	pagos::MasterTable *getFicRemesaCobro() const { return pFicRemesaCobro; }
+	pagos::MasterTable *getFicCobro() const { return pFicCobro; }
+	pagos::MasterTable *getFicPago() const { return pFicPago; }
+	NamesListTable *pFicTipoFormaPago;
+	NamesListTable *pFicEstadoRecibo;
 
 private:
-    pagos::MasterTable *pFicFormaPago;
-    pagos::MasterTable *pFicRemesaCobro;
-    pagos::MasterTable *pFicCobro;
-    pagos::MasterTable *pFicPago;
-    /*>>>>>PAGOSMODULE_RECORD_DEFINITIONS*/
+	pagos::MasterTable *pFicFormaPago;
+	pagos::MasterTable *pFicRemesaCobro;
+	pagos::MasterTable *pFicCobro;
+	pagos::MasterTable *pFicPago;
+/*>>>>>PAGOSMODULE_RECORD_DEFINITIONS*/
     /*<<<<<PAGOSMODULE_MENU_DEFINITIONS*/
 private slots:
-    void slotMenuEmpresaFormaPago();
-    void slotMenuVentasRemesaCobro();
-    void slotMenuVentasCobro();
-    void slotMenuComprasPago();
+	void slotMenuEmpresaFormaPago();
+	void slotMenuPagosRemesaCobro();
+	void slotMenuPagosCobro();
+	void slotMenuPagosPago();
 protected:
-    QAction *pMenuEmpresaFormaPago;
-    QAction *pMenuVentasRemesaCobro;
-    QAction *pMenuVentasCobro;
-    QAction *pMenuComprasPago;
-    /*>>>>>PAGOSMODULE_MENU_DEFINITIONS*/
+	QAction *pMenuEmpresaFormaPago;
+	QAction *pMenuPagosRemesaCobro;
+	QAction *pMenuPagosCobro;
+	QAction *pMenuPagosPago;
+/*>>>>>PAGOSMODULE_MENU_DEFINITIONS*/
 
 public:
     static Xtring sLastCuentaPago, sLastDocumentoPago, sLastMonedaCodigo;
@@ -118,20 +110,16 @@ public:
 
     /*<<<<<PAGOSMODULE_REQUIRES*/
 public:
-    empresa::EmpresaModule *getEmpresaModule() const {
-        return pEmpresaModule;
-    }
+	empresa::EmpresaModule *getEmpresaModule() const { return pEmpresaModule; }
 #ifdef HAVE_CONTABMODULE
-    contab::ContabModule *getContabModule() const {
-        return pContabModule;
-    }
+	contab::ContabModule *getContabModule() const { return pContabModule; }
 #endif
 private:
-    empresa::EmpresaModule *pEmpresaModule;
+	empresa::EmpresaModule *pEmpresaModule;
 #ifdef HAVE_CONTABMODULE
-    contab::ContabModule *pContabModule;
+	contab::ContabModule *pContabModule;
 #endif
-    /*>>>>>PAGOSMODULE_REQUIRES*/
+/*>>>>>PAGOSMODULE_REQUIRES*/
 };
 
 extern PagosModule *ModuleInstance;

@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file pagosrecformapago.h Registro de formas de pago
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -27,8 +27,8 @@ namespace pagos {
 class RecFormaPago: public dbRecord
 {
 public:
-    RecFormaPago(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FORMAPAGO"), recid, user)
+	RecFormaPago(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FORMAPAGO"), recid, user)
 /*>>>>>FORMAPAGO_CONSTRUCTOR*/
     {}
     enum Tipo { Contado = 1, GeneraRecibos = 2, Pendiente = 3, SeIgnora = 4 };

@@ -29,8 +29,8 @@
 namespace gong {
 namespace factu {
 
-IntList FldIVADetallado::mValues;
-XtringList FldIVADetallado::mCaptions;
+IntList FldIVADetallado::sValues;
+XtringList FldIVADetallado::sCaptions;
 
 
 } // namespace factu

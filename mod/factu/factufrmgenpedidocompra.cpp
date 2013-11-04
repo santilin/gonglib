@@ -18,16 +18,16 @@ FrmGenPedidoCompra::FrmGenPedidoCompra(QWidget* parent, const char* name, Widget
 {
     setTitle( _("Generación de pedidos de compra") );
     mOpcionesDesde << "Pedidos de clientes" << "Stocks de los artículos";
-    comboDesde = addComboBox( 0, "Origen de los pedidos a proveedores:", mOpcionesDesde );
+    comboDesde = addComboBoxXtring( 0, "Origen de los pedidos a proveedores:", mOpcionesDesde );
     Date ini = Date(empresa::ModuleInstance->getEjercicio(), 1, 1 );
     Date fin = Date(empresa::ModuleInstance->getEjercicio(), 12, 31 );
     pDateRange = addDateRangeBox( 0, "Fecha de los pedidos de las clientes:", ini, fin);
-    comboEstadoPedidosProveedores = addComboField<int>( 0, _("Poner el estado de los pedidos de las proveedoras a:"),
+    comboEstadoPedidosProveedores = addComboIntField( 0, _("Poner el estado de los pedidos de las proveedoras a:"),
                                     "PEDIDOCOMPRA", "ESTADOPEDIDO", "NOMBRE" );
     pSearchTipoDoc = addMultipleSearchField( 0, "TIPODOC", "CODIGO", "NOMBRE" );
     pSearchTipoDoc->setText( _("Tipo de documento de los pedidos generados") );
     // Solo para pedidos a partir de pedidos de clientes
-    comboEstadoPedidosClientes = addComboField<int>( 0, _("Poner el estado de los pedidos de las clientes a:"),
+    comboEstadoPedidosClientes = addComboIntField( 0, _("Poner el estado de los pedidos de las clientes a:"),
                                  "PEDIDOVENTA", "ESTADOPEDIDO", "NOMBRE", _("No cambiar") );
     chkAgruparPorProveedora = addCheckBox( 0, _("Agrupar por proveedora"), false);
     chkRevisar = addCheckBox( 0, _("Revisar los pedidos generados uno por uno"), true );

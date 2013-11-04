@@ -73,7 +73,7 @@ int RecApunte::actImportesPartida(bool sumar, const dbRecordID partida_id, Money
 /*<<<<<APUNTE_SAVE*/
 bool RecApunte::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>APUNTE_SAVE*/
+/*>>>>>APUNTE_SAVE*/
     // Es más importante grabar el apunte que actualizar los saldos de las cuentas
     bool wasnew = isNew();
     int ret = contab::RecApunte::save( false );
@@ -91,7 +91,7 @@ bool RecApunte::save(bool saverelated) throw( dbError )
 /*<<<<<APUNTE_REMOVE*/
 bool RecApunte::remove() throw( dbError )
 {
-    /*>>>>>APUNTE_REMOVE*/
+/*>>>>>APUNTE_REMOVE*/
     // Es más importante grabar el apunte que actualizar los saldos de las cuentas
     int ret = contab::RecApunte::remove();
     if ( ret )
@@ -103,7 +103,7 @@ bool RecApunte::remove() throw( dbError )
 /*<<<<<APUNTE_RELATIONS*/
 RecPartidaProyecto *RecApunte::getRecPartidaProyecto() const
 {
-    return static_cast<RecPartidaProyecto*>(findRelatedRecord("APUNTE.PARTIDAPROYECTO_ID"));
+	return static_cast<RecPartidaProyecto*>(findRelatedRecord("APUNTE.PARTIDAPROYECTO_ID"));
 }
 
 /*>>>>>APUNTE_RELATIONS*/

@@ -24,8 +24,8 @@ GuiFrmLogin::GuiFrmLogin( QWidget* parent, const char* name, WidgetFlags fl )
 {
     if ( !name )
         setName( "GuiFrmLogin" );
-	image0.load( toGUI(DBAPP->getGonglibDataDir() + "logo.jpg") );
-	_GONG_DEBUG_WARNING( DBAPP->getGonglibDataDir() + "logo.jpg");
+	if( !image0.load( toGUI(DBAPP->getGonglibDataDir() + Xtring(DBAPP->getPackageName()).lower() + "logo.jpg") ) )
+		image0.load( toGUI(DBAPP->getGonglibDataDir() + "logogestiong.jpg") );
 
 	QVBoxLayout *formLayout = new QVBoxLayout( this );
 

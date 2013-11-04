@@ -292,13 +292,13 @@ void addFrmEditRecMasterFields(CppModule *cpcpp, CppModule *cph, const Xtring &f
 			gather += cscpp  + "\tgetRec" + recname + "()->setValue( \""
 				+ fldname.upper() + "\", " + ctrlname + "->isChecked());\n" + cecpp;
 		} else if( type.upper() == "COMBOSTRING" ) {
-			ctrltype = "gong::ComboBox<gong::Xtring>";
+			ctrltype = "gong::ComboBoxXtring";
 			ctrlname = "combo" + fldnamereplaced;
 			scatter += cscpp  + "\t" + ctrlname + "->setText(getRec" + recname + "()->getValue(\"" + fldname.upper() + "\").toString());\n" + cecpp;
 			gather += cscpp  + "\tgetRec" + recname + "()->setValue( \""
 				+ fldname.upper() + "\", " + ctrlname + "->toString());\n" + cecpp;
 		} else if( type.upper() == "COMBOINT" ) {
-			ctrltype = "gong::ComboBox<int>";
+			ctrltype = "gong::ComboBoxInt";
 			ctrlname = "combo" + fldnamereplaced;
 			scatter += cscpp  + "\t" + ctrlname + "->setCurrentItemByValue(getRec" + recname + "()->getValue(\"" + fldname.upper() + "\").toInt());\n" + cecpp;
 			gather += cscpp  + "\tgetRec" + recname + "()->setValue( \""
@@ -530,9 +530,13 @@ void addFrmEditRecMasterFields(CppModule *cpcpp, CppModule *cph, const Xtring &f
 			if( fldname.find(".") != Xtring::npos ) {
 				fldname.splitIn2( tableoffield, fieldoffield, "." );
 			}
-			if( ctrltype == "gong::ComboBox" ) {
+			if( ctrltype == "gong::ComboBoxInt" ) {
 				init_controls += cscpp +
-	"\t" + ctrlname + " = addComboField( values" + fldname + ", " + parent + ", \""
+	"\t" + ctrlname + " = addComboIntField( " /* values" + fldname + ", " */ + parent + ", \""
+		+ tableoffield.upper() + "\", \"" + fieldoffield.upper() + "\", " + layout + " );\n" + cecpp;
+			} else if( ctrltype == "gong::ComboBoxXtring" ) {
+				init_controls += cscpp +
+	"\t" + ctrlname + " = addComboXtringField( " /* values" + fldname + ", "  */ + parent + ", \""
 		+ tableoffield.upper() + "\", \"" + fieldoffield.upper() + "\", " + layout + " );\n" + cecpp;
 			} else {
 				init_controls += cscpp +

@@ -24,9 +24,9 @@ protected:
 
     List<dbRecordID> mPedidoVentaIds, mPedidoVentaDetIds, mPedidosVentaACambiarEstado;
     CheckBox *chkAgruparPorProveedora;
-    ComboBox<Xtring> *comboDesde;
+    ComboBoxXtring *comboDesde;
     DateRangeBox *pDateRange;
-    ComboBox<int> *comboEstadoPedidosClientes, *comboEstadoPedidosProveedores;
+    ComboBoxInt *comboEstadoPedidosClientes, *comboEstadoPedidosProveedores;
     CheckBox *chkRevisar;
     SearchBox *pSearchTipoDoc;
 private:

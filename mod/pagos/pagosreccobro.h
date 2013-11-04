@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file pagosreccobro.h Registro de cobros
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -42,15 +42,15 @@ namespace pagos {
 class RecCobro: public dbRecord
 {
 public:
-    RecCobro(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("COBRO"), recid, user)
+	RecCobro(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("COBRO"), recid, user)
 /*>>>>>COBRO_CONSTRUCTOR*/
         , pRecFactura(0), pRecTercero(0)
     {};
     /*<<<<<COBRO_RELATIONS*/
-    empresa::RecMoneda *getRecMoneda() const;
-    RecRemesaCobro *getRecRemesaCobro() const;
-    /*>>>>>COBRO_RELATIONS*/
+	empresa::RecMoneda *getRecMoneda() const;
+	RecRemesaCobro *getRecRemesaCobro() const;
+/*>>>>>COBRO_RELATIONS*/
     bool actCobrosFactura();
 #ifdef HAVE_CONTABMODULE
     contab::RecCuentaPago *getRecCuentaPago() const;
@@ -62,10 +62,10 @@ public:
                            const Xtring& formato);
 
     /*<<<<<COBRO_MEMBERS*/
-    void init();
-    virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
-    virtual bool remove() throw( dbError ); // from dbRecord
-    /*>>>>>COBRO_MEMBERS*/
+	void init();
+	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool remove() throw( dbError ); // from dbRecord
+/*>>>>>COBRO_MEMBERS*/
 protected:
     dbRecord *pRecFactura, *pRecTercero;
 }; // class

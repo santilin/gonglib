@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file contabreccuenta.h Registro de cuentas
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -30,22 +30,22 @@ namespace contab {
 class RecCuenta: public dbRecord
 {
 public:
-    RecCuenta(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("CUENTA"), recid, user)
+	RecCuenta(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("CUENTA"), recid, user)
 /*>>>>>CUENTA_CONSTRUCTOR*/
     {
         init();
     }
     /*<<<<<CUENTA_MEMBERS*/
-    virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
-    Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
-    /*>>>>>CUENTA_MEMBERS*/
+	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
+	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+/*>>>>>CUENTA_MEMBERS*/
     void resetSaldos();
     static RecCuenta *quickCreate( dbConnection *conn, const Xtring &cuenta, const Xtring &desc );
     static dbRecordID findCuentaID( dbConnection *conn, const Xtring &cuenta );
     /*<<<<<CUENTA_RELATIONS*/
-    contactos::RecContacto *getRecContacto() const;
-    /*>>>>>CUENTA_RELATIONS*/
+	contactos::RecContacto *getRecContacto() const;
+/*>>>>>CUENTA_RELATIONS*/
 private:
     void init();
 };

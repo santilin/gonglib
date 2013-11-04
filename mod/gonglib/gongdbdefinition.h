@@ -4,7 +4,7 @@
 /*>>>>>DBDEFINITION_PREAMBLE*/
 /*<<<<<COPYLEFT*/
 /** @file gongdbdefinition.h Root of the data dictionary
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -85,58 +85,30 @@ public:
 
     /*<<<<<DBDEFINITION_CLASS*/
 public:
-    const Xtring& getName() const {
-        return mName;
-    }
-    const Xtring& getDescription() const {
-        return mDescription;
-    }
-    const Xtring& getEncoding() const {
-        return mEncoding;
-    }
-    const Xtring& getCollation() const {
-        return mCollation;
-    }
-    const dbTableDefinitionsList& getTables() const {
-        return mTables;
-    }
-    const dbViewDefinitionsList& getViews() const {
-        return mViews;
-    }
-    const dbFieldStylesList& getFieldStyles() const {
-        return mFieldStyles;
-    }
+	const Xtring& getName() const { return mName; }
+	const Xtring& getDescription() const { return mDescription; }
+	const Xtring& getEncoding() const { return mEncoding; }
+	const Xtring& getCollation() const { return mCollation; }
+	const dbTableDefinitionsList& getTables() const { return mTables; }
+	const dbViewDefinitionsList& getViews() const { return mViews; }
+	const dbFieldStylesList& getFieldStyles() const { return mFieldStyles; }
 
-    void setName(const Xtring& name) {
-        mName = name;
-    }
-    void setDescription(const Xtring& description) {
-        mDescription = description;
-    }
-    void setEncoding(const Xtring& encoding) {
-        mEncoding = encoding;
-    }
-    void setCollation(const Xtring& collation) {
-        mCollation = collation;
-    }
-    void setTables(const dbTableDefinitionsList& tables) {
-        mTables = tables;
-    }
-    void setViews(const dbViewDefinitionsList& views) {
-        mViews = views;
-    }
-    void setFieldStyles(const dbFieldStylesList& fieldstyles) {
-        mFieldStyles = fieldstyles;
-    }
+	void setName(const Xtring& name) { mName = name; }
+	void setDescription(const Xtring& description) { mDescription = description; }
+	void setEncoding(const Xtring& encoding) { mEncoding = encoding; }
+	void setCollation(const Xtring& collation) { mCollation = collation; }
+	void setTables(const dbTableDefinitionsList& tables) { mTables = tables; }
+	void setViews(const dbViewDefinitionsList& views) { mViews = views; }
+	void setFieldStyles(const dbFieldStylesList& fieldstyles) { mFieldStyles = fieldstyles; }
 private:
-    Xtring mName;
-    Xtring mDescription;
-    Xtring mEncoding;
-    Xtring mCollation;
-    dbTableDefinitionsList mTables;
-    dbViewDefinitionsList mViews;
-    dbFieldStylesList mFieldStyles;
-    /*>>>>>DBDEFINITION_CLASS*/
+	Xtring mName;
+	Xtring mDescription;
+	Xtring mEncoding;
+	Xtring mCollation;
+	dbTableDefinitionsList mTables;
+	dbViewDefinitionsList mViews;
+	dbFieldStylesList mFieldStyles;
+/*>>>>>DBDEFINITION_CLASS*/
 
 };
 

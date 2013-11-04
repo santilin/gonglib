@@ -1,22 +1,19 @@
 //<<<<<COPYLEFT
 // @file PROYECTO.rtk Proyectos
-// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
-*
-* This library is free software;
-you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation;
-either
-* version 2 of the License, or (at your option) any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY;
-without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+// Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
 //>>>>>COPYLEFT
 
 //<<<<<MODULE_INFO
@@ -37,10 +34,10 @@ without even the implied warranty of
 
 
 //<<<<<REPORT_DEFINITION
-Title = "Proyectos";
-Units = chars;
-SizeX = 100;
-SizeY = 60;
+	Title = "Proyectos";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
 //>>>>>REPORT_DEFINITION
 Tag = "Asociación";
 
@@ -50,55 +47,55 @@ from = "PROYECTO LEFT JOIN MIEMBRO ON PROYECTO.ID=MIEMBRO.PROYECTO_ID LEFT JOIN 
 orderby = "PROYECTO.CODIGO, MIEMBRO.NUMEROSOCIA";
 
 //<<<<<INPUT_DEFAULT
-INPUTFIELD MIEMBRO_NUMEROSOCIA {
-    Source = MIEMBRO.NUMEROSOCIA;
-    Type = int;
-}
-INPUTFIELD MIEMBRO_ESTADO {
-    Source = MIEMBRO.ESTADO;
-    Type = text;
-}
-INPUTFIELD CONTACTO_CIF {
-    Source = CONTACTO.CIF;
-    Type = text;
-}
-INPUTFIELD CONTACTO_NOMBRE {
-    Source = CONTACTO.NOMBRE;
-    Type = text;
-}
-INPUTFIELD MIEMBRO_FECHAALTA {
-    Source = MIEMBRO.FECHAALTA;
-    Type = date;
-}
-INPUTFIELD TIPOSOCIA_DESCRIPCION {
-    Source = TIPOSOCIA.DESCRIPCION;
-    Type = text;
-}
-INPUTFIELD PROYECTO_CODIGO {
-    Source = PROYECTO.CODIGO;
-    Type = int;
-}
-INPUTFIELD PROYECTO_DESCRIPCION {
-    Source = PROYECTO.DESCRIPCION;
-    Type = text;
-}
-INPUTFIELD PROYECTO_ESTADO {
-    Source = PROYECTO.ESTADO;
-    Type = text;
-}
-INPUTFIELD PROYECTO_FECHAINICIO {
-    Source = PROYECTO.FECHAINICIO;
-    Type = date;
-}
-INPUTFIELD PROYECTO_FECHAFIN {
-    Source = PROYECTO.FECHAFIN;
-    Type = date;
-}
+		INPUTFIELD MIEMBRO_NUMEROSOCIA {
+			Source = MIEMBRO.NUMEROSOCIA;
+			Type = int;
+		}
+		INPUTFIELD MIEMBRO_ESTADO {
+			Source = MIEMBRO.ESTADO;
+			Type = text;
+		}
+		INPUTFIELD CONTACTO_CIF {
+			Source = CONTACTO.CIF;
+			Type = text;
+		}
+		INPUTFIELD CONTACTO_NOMBRE {
+			Source = CONTACTO.NOMBRE;
+			Type = text;
+		}
+		INPUTFIELD MIEMBRO_FECHAALTA {
+			Source = MIEMBRO.FECHAALTA;
+			Type = date;
+		}
+		INPUTFIELD TIPOSOCIA_DESCRIPCION {
+			Source = TIPOSOCIA.DESCRIPCION;
+			Type = text;
+		}
+		INPUTFIELD PROYECTO_CODIGO {
+			Source = PROYECTO.CODIGO;
+			Type = int;
+		}
+		INPUTFIELD PROYECTO_DESCRIPCION {
+			Source = PROYECTO.DESCRIPCION;
+			Type = text;
+		}
+		INPUTFIELD PROYECTO_ESTADO {
+			Source = PROYECTO.ESTADO;
+			Type = text;
+		}
+		INPUTFIELD PROYECTO_FECHAINICIO {
+			Source = PROYECTO.FECHAINICIO;
+			Type = date;
+		}
+		INPUTFIELD PROYECTO_FECHAFIN {
+			Source = PROYECTO.FECHAFIN;
+			Type = date;
+		}
 //>>>>>INPUT_DEFAULT
 }
 
 //<<<<<PAGE_HEADER
-Include = "default_pageheader.inc";
+	Include = "default_pageheader.inc";
 //>>>>>PAGE_HEADER
 }
 
@@ -142,39 +139,39 @@ OBJECT header_PROYECTO_FECHAFIN {
 }
 
 //<<<<<GROUP_DETAILS_1
-GROUPHEADER group_details_1 {
-style = detail;
-sizey = 1;
-posx = 0;
+	GROUPHEADER group_details_1 {
+		style = detail;
+		sizey = 1;
+		posx = 0;
 
-value= "=input.PROYECTO_CODIGO;";
-level=1;
-OBJECT PROYECTO_CODIGO {
-    halignment = "right";
-    value = "=input.PROYECTO_CODIGO;";
-    posx = 0.0;
-    sizex = 4.0;
-}
-OBJECT PROYECTO_DESCRIPCION {
-    value = "=input.PROYECTO_DESCRIPCION;";
-    posx = 5.0;
-    sizex = 40.0;
-}
-OBJECT PROYECTO_ESTADO {
-    value = "=input.PROYECTO_ESTADO;";
-    posx = 46.0;
-    sizex = 10.0;
-}
-OBJECT PROYECTO_FECHAINICIO {
-    value = "=input.PROYECTO_FECHAINICIO;";
-    posx = 57.0;
-    sizex = 8.0;
-}
-OBJECT PROYECTO_FECHAFIN {
-    value = "=input.PROYECTO_FECHAFIN;";
-    posx = 66.0;
-    sizex = 8.0;
-}
+		value= "=input.PROYECTO_CODIGO;";
+		level=1;
+		OBJECT PROYECTO_CODIGO {
+			halignment = "right";
+			value = "=input.PROYECTO_CODIGO;";
+			posx = 0.0;
+			sizex = 4.0;
+		}
+		OBJECT PROYECTO_DESCRIPCION {
+			value = "=input.PROYECTO_DESCRIPCION;";
+			posx = 5.0;
+			sizex = 40.0;
+		}
+		OBJECT PROYECTO_ESTADO {
+			value = "=input.PROYECTO_ESTADO;";
+			posx = 46.0;
+			sizex = 10.0;
+		}
+		OBJECT PROYECTO_FECHAINICIO {
+			value = "=input.PROYECTO_FECHAINICIO;";
+			posx = 57.0;
+			sizex = 8.0;
+		}
+		OBJECT PROYECTO_FECHAFIN {
+			value = "=input.PROYECTO_FECHAFIN;";
+			posx = 66.0;
+			sizex = 8.0;
+		}
 //>>>>>GROUP_DETAILS_1
 }
 
@@ -221,43 +218,43 @@ OBJECT header_TIPOSOCIA_DESCRIPCION {
 }
 
 //<<<<<DETAILS_0
-DETAILS details {
-posx = 2;
-level = 0;
-style = detail;
-sizey = 1;
+	DETAILS details {
+		posx = 2;
+		level = 0;
+		style = detail;
+		sizey = 1;
 
-OBJECT MIEMBRO_NUMEROSOCIA {
-    halignment = "right";
-    value = "=input.MIEMBRO_NUMEROSOCIA;";
-    posx = 0.0;
-    sizex = 4.0;
-}
-OBJECT MIEMBRO_ESTADO {
-    value = "=input.MIEMBRO_ESTADO;";
-    posx = 5.0;
-    sizex = 4.0;
-}
-OBJECT CONTACTO_CIF {
-    value = "=input.CONTACTO_CIF;";
-    posx = 10.0;
-    sizex = 9.0;
-}
-OBJECT CONTACTO_NOMBRE {
-    value = "=input.CONTACTO_NOMBRE;";
-    posx = 20.0;
-    sizex = 30.0;
-}
-OBJECT MIEMBRO_FECHAALTA {
-    value = "=input.MIEMBRO_FECHAALTA;";
-    posx = 51.0;
-    sizex = 6.0;
-}
-OBJECT TIPOSOCIA_DESCRIPCION {
-    value = "=input.TIPOSOCIA_DESCRIPCION;";
-    posx = 58.0;
-    sizex = 16.0;
-}
+		OBJECT MIEMBRO_NUMEROSOCIA {
+			halignment = "right";
+			value = "=input.MIEMBRO_NUMEROSOCIA;";
+			posx = 0.0;
+			sizex = 4.0;
+		}
+		OBJECT MIEMBRO_ESTADO {
+			value = "=input.MIEMBRO_ESTADO;";
+			posx = 5.0;
+			sizex = 4.0;
+		}
+		OBJECT CONTACTO_CIF {
+			value = "=input.CONTACTO_CIF;";
+			posx = 10.0;
+			sizex = 9.0;
+		}
+		OBJECT CONTACTO_NOMBRE {
+			value = "=input.CONTACTO_NOMBRE;";
+			posx = 20.0;
+			sizex = 30.0;
+		}
+		OBJECT MIEMBRO_FECHAALTA {
+			value = "=input.MIEMBRO_FECHAALTA;";
+			posx = 51.0;
+			sizex = 6.0;
+		}
+		OBJECT TIPOSOCIA_DESCRIPCION {
+			value = "=input.TIPOSOCIA_DESCRIPCION;";
+			posx = 58.0;
+			sizex = 16.0;
+		}
 //>>>>>DETAILS_0
 }
 
@@ -270,9 +267,9 @@ level=1;
 Include = "passwords.inc";
 }
 //<<<<<PAGE_FOOTER
-PAGEFOOTER page_footer {
-sizey = 1;
-style = pagefooter;
+	PAGEFOOTER page_footer {
+		sizey = 1;
+		style = pagefooter;
 
 
 //>>>>>PAGE_FOOTER

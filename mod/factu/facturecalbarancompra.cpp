@@ -51,7 +51,7 @@ namespace factu {
 /*<<<<<ALBARANCOMPRA_INIT*/
 void RecAlbaranCompra::init()
 {
-    /*>>>>>ALBARANCOMPRA_INIT*/
+/*>>>>>ALBARANCOMPRA_INIT*/
     addStructuralFilter( "ALBARANCOMPRA.EMPRESA_ID=" + getConnection()->toSQL( empresa::ModuleInstance->getEmpresaID() ) );
     addStructuralFilter( "ALBARANCOMPRA.EJERCICIO=" + getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
 }
@@ -59,45 +59,45 @@ void RecAlbaranCompra::init()
 /*<<<<<ALBARANCOMPRA_RELATIONS*/
 RecTipoDoc *RecAlbaranCompra::getRecTipoDoc() const
 {
-    return static_cast<RecTipoDoc*>(findRelatedRecord("ALBARANCOMPRA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("ALBARANCOMPRA.TIPODOC_ID"));
 }
 
 RecProveedora *RecAlbaranCompra::getRecProveedora() const
 {
-    return static_cast<RecProveedora*>(findRelatedRecord("ALBARANCOMPRA.PROVEEDORA_ID"));
+	return static_cast<RecProveedora*>(findRelatedRecord("ALBARANCOMPRA.PROVEEDORA_ID"));
 }
 
 RecAgente *RecAlbaranCompra::getRecAgente() const
 {
-    return static_cast<RecAgente*>(findRelatedRecord("ALBARANCOMPRA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("ALBARANCOMPRA.AGENTE_ID"));
 }
 
 pagos::RecFormaPago *RecAlbaranCompra::getRecFormaPago() const
 {
-    return static_cast<pagos::RecFormaPago*>(findRelatedRecord("ALBARANCOMPRA.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("ALBARANCOMPRA.FORMAPAGO_ID"));
 }
 
 empresa::RecProyecto *RecAlbaranCompra::getRecProyecto() const
 {
-    return static_cast<empresa::RecProyecto*>(findRelatedRecord("ALBARANCOMPRA.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("ALBARANCOMPRA.PROYECTO_ID"));
 }
 
 RecAlbaranCompraDet *RecAlbaranCompra::getRecAlbaranCompraDet( int albarancompradet ) const
 {
-    return static_cast<RecAlbaranCompraDet*>(findRelationByRelatedTable("ALBARANCOMPRADET" )->getRelatedRecord( albarancompradet));
+	return static_cast<RecAlbaranCompraDet*>(findRelationByRelatedTable("ALBARANCOMPRADET" )->getRelatedRecord( albarancompradet));
 }
 
 dbRecordList *RecAlbaranCompra::getListAlbaranCompraDet() const
 {
-    return findRelationByRelatedTable( "ALBARANCOMPRADET" )->getRelatedRecordList();
+	return findRelationByRelatedTable( "ALBARANCOMPRADET" )->getRelatedRecordList();
 }
 /*>>>>>ALBARANCOMPRA_RELATIONS*/
 
 /*<<<<<ALBARANCOMPRA_TOSTRING*/
 Xtring RecAlbaranCompra::toString(int format, const RegExp &includedFields) const
 {
-    Xtring result;
-    /*>>>>>ALBARANCOMPRA_TOSTRING*/
+	Xtring result;
+/*>>>>>ALBARANCOMPRA_TOSTRING*/
     if( format == TOSTRING_CODE_AND_DESC_WITH_TABLENAME ) {
         result = dbRecord::toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME );
         if( !getRecProveedora()->getValue("RAZONSOCIAL").toString().isEmpty() )
@@ -110,7 +110,7 @@ Xtring RecAlbaranCompra::toString(int format, const RegExp &includedFields) cons
 /*<<<<<ALBARANCOMPRA_SAVE*/
 bool RecAlbaranCompra::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>ALBARANCOMPRA_SAVE*/
+/*>>>>>ALBARANCOMPRA_SAVE*/
     if( getValue( "CONTADOR" ).toInt() == 0 )
         setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
 #ifdef HAVE_PAGOSMODULE
@@ -138,7 +138,7 @@ bool RecAlbaranCompra::save(bool saverelated) throw( dbError )
 /*<<<<<ALBARANCOMPRA_REMOVE*/
 bool RecAlbaranCompra::remove() throw( dbError )
 {
-    /*>>>>>ALBARANCOMPRA_REMOVE*/
+/*>>>>>ALBARANCOMPRA_REMOVE*/
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE

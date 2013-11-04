@@ -34,39 +34,42 @@ namespace factu {
 void FrmEditEmpresaBehavior::initGUI()
 {
 /*<<<<<FRMEDITEMPRESABEHAVIOR_INITGUI*/
-    QWidget *tabFactu = getOrCreateTab( "tabFactu" );
-    QVBoxLayout *tabFactuLayout = static_cast<QVBoxLayout *>( tabFactu->layout() );
-    QHBoxLayout *recargoequivalenciaLayout = new QHBoxLayout(0, 0, 6, "recargoequivalenciaLayout");
-    checkRecargoEquivalencia = pTheForm->addCheckField( tabFactu, "EMPRESA", "RECARGOEQUIVALENCIA", recargoequivalenciaLayout );
-    tabFactuLayout->addLayout( recargoequivalenciaLayout );
+	QWidget *pControlsFrame = getControlsFrame();
+	QVBoxLayout* pControlsLayout = getControlsLayout();
+	QWidget *tabFactu = getOrCreateTab( "tabFactu" );
+	QVBoxLayout *tabFactuLayout = static_cast<QVBoxLayout *>( tabFactu->layout() );
+	QHBoxLayout *recargoequivalenciaLayout = new QHBoxLayout(0, 0, 6, "recargoequivalenciaLayout");
+	checkRecargoEquivalencia = pTheForm->addCheckField( tabFactu, "EMPRESA", "RECARGOEQUIVALENCIA", recargoequivalenciaLayout );
+	tabFactuLayout->addLayout( recargoequivalenciaLayout );
 /*>>>>>FRMEDITEMPRESABEHAVIOR_INITGUI*/
-    pTheForm->setTabTitle( tabFactu, _("Facturación") );
+	(void)pControlsFrame; (void)pControlsLayout;
+	pTheForm->setTabTitle( tabFactu, _("Facturación") );
 }
 
 void FrmEditEmpresaBehavior::scatterFields( bool is_pre )
 {
     if( !is_pre) return;
     /*<<<<<FRMEDITEMPRESABEHAVIOR_SCATTER*/
-    checkRecargoEquivalencia->setChecked( pTheForm->getRecord()->getValue("RECARGOEQUIVALENCIA").toBool());
-    /*>>>>>FRMEDITEMPRESABEHAVIOR_SCATTER*/
+	checkRecargoEquivalencia->setChecked( pTheForm->getRecord()->getValue("RECARGOEQUIVALENCIA").toBool());
+/*>>>>>FRMEDITEMPRESABEHAVIOR_SCATTER*/
 }
 
 void FrmEditEmpresaBehavior::gatherFields()
 {
     /*<<<<<FRMEDITEMPRESABEHAVIOR_GATHER*/
-    pTheForm->getRecord()->setValue( "RECARGOEQUIVALENCIA", checkRecargoEquivalencia->isChecked());
-    /*>>>>>FRMEDITEMPRESABEHAVIOR_GATHER*/
+	pTheForm->getRecord()->setValue( "RECARGOEQUIVALENCIA", checkRecargoEquivalencia->isChecked());
+/*>>>>>FRMEDITEMPRESABEHAVIOR_GATHER*/
 }
 
 void FrmEditEmpresaBehavior::validateFields(bool is_pre,
         QWidget *sender, bool *isvalid, ValidResult *ir)
 {
     /*<<<<<FRMEDITEMPRESABEHAVIOR_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    /*>>>>>FRMEDITEMPRESABEHAVIOR_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+/*>>>>>FRMEDITEMPRESABEHAVIOR_VALIDATE*/
     if( !ir ) {
         showValidMessages(isvalid, *validresult, sender);
         delete validresult;

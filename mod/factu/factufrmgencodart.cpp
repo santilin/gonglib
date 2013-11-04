@@ -12,7 +12,7 @@ FrmGenCodArt::FrmGenCodArt ( RecArticulo *articulo,
 {
     pRecArticulo = articulo;
     setTitle( _("Generar código del artículo") );
-    pComboOperacion = addComboBox(0, _("Modalidad"), RecArticulo::sModalidades,
+    pComboOperacion = addComboBoxInt(0, _("Modalidad"), RecArticulo::sModalidades,
                                   IdentityIntList );
     pEditFormat = addInput(0, _("Formato"), "", "STRING");
 }

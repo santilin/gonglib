@@ -43,19 +43,19 @@ namespace pagos {
 /*<<<<<PAGO_INIT*/
 void RecPago::init()
 {
-    /*>>>>>PAGO_INIT*/
+/*>>>>>PAGO_INIT*/
     addStructuralFilter( "PAGO.EMPRESA_ID=" + getConnection()->toSQL( empresa::ModuleInstance->getEmpresaID() ) );
 }
 
 /*<<<<<PAGO_RELATIONS*/
 empresa::RecMoneda *RecPago::getRecMoneda() const
 {
-    return static_cast<empresa::RecMoneda*>(findRelatedRecord("PAGO.MONEDA_ID"));
+	return static_cast<empresa::RecMoneda*>(findRelatedRecord("PAGO.MONEDA_ID"));
 }
 
 RecProveedora *RecPago::getRecProveedora() const
 {
-    return static_cast<RecProveedora*>(findRelatedRecord("PAGO.PROVEEDORA_ID"));
+	return static_cast<RecProveedora*>(findRelatedRecord("PAGO.PROVEEDORA_ID"));
 }
 
 /*>>>>>PAGO_RELATIONS*/
@@ -110,7 +110,7 @@ dbRecord *RecPago::getRecTercero()
 /*<<<<<PAGO_SAVE*/
 bool RecPago::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>PAGO_SAVE*/
+/*>>>>>PAGO_SAVE*/
     if( getValue( "CONTADOR" ).toInt() == 0 )
         setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
     bool ret = dbRecord::save(saverelated);
@@ -128,7 +128,7 @@ bool RecPago::save(bool saverelated) throw( dbError )
 /*<<<<<PAGO_REMOVE*/
 bool RecPago::remove() throw( dbError )
 {
-    /*>>>>>PAGO_REMOVE*/
+/*>>>>>PAGO_REMOVE*/
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE

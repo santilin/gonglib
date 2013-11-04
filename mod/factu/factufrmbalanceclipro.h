@@ -20,7 +20,7 @@ private:
 
     DateRangeBox *pDateRange;
     SearchBox *pSearchTipoDoc, *pSearchCliente, *pSearchProveedora;
-    ComboBox<Xtring> *pComboAgruparPor, *pComboCliOPro;
+    ComboBoxXtring *pComboAgruparPor, *pComboCliOPro;
     CheckBox *pCheckIncCobros, *pCheckCSV;
     CheckBox *pCheckResumido, *pCheckTodasLasEmpresas, *pCheckGranTotal, *pCheckIncNotas;
     LineEdit *pEditTitulo;

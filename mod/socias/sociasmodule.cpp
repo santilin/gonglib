@@ -76,19 +76,19 @@ SociasModule::SociasModule()
     ModuleInstance = this;
     _GONG_DEBUG_TRACE(1);
     /*<<<<<SOCIASMODULE_PUBLIC_INFO*/
-    mModuleRequires << "empresa" << "contactos" << "pagos";
-    mMasterTables << "PROYECTO" << "MIEMBRO" << "TIPOSOCIA" << "PARTIDAPROYECTO" << "SOCIASESTADO" << "PERIODICIDAD";
+	mModuleRequires << "empresa" << "contactos" << "pagos";
+	mMasterTables << "PROYECTO" << "MIEMBRO" << "TIPOSOCIA" << "PARTIDAPROYECTO" << "SOCIASESTADO" << "PERIODICIDAD";
 //	mDetailTables
-    pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
-    pContactosModule = static_cast< contactos::ContactosModule * >(DBAPP->findModule( "Contactos" ));
-    pPagosModule = static_cast< pagos::PagosModule * >(DBAPP->findModule( "Pagos" ));
+	pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
+	pContactosModule = static_cast< contactos::ContactosModule * >(DBAPP->findModule( "Contactos" ));
+	pPagosModule = static_cast< pagos::PagosModule * >(DBAPP->findModule( "Pagos" ));
 #ifdef HAVE_CONTABMODULE
-    pContabModule = static_cast< contab::ContabModule * >(DBAPP->findModule( "Contab" ));
+	pContabModule = static_cast< contab::ContabModule * >(DBAPP->findModule( "Contab" ));
 #endif
 #ifdef HAVE_FACTUMODULE
-    pFactuModule = static_cast< factu::FactuModule * >(DBAPP->findModule( "Factu" ));
+	pFactuModule = static_cast< factu::FactuModule * >(DBAPP->findModule( "Factu" ));
 #endif
-    /*>>>>>SOCIASMODULE_PUBLIC_INFO*/
+/*>>>>>SOCIASMODULE_PUBLIC_INFO*/
 }
 
 
@@ -160,11 +160,11 @@ bool SociasModule::initDatabase(dbDefinition *db)
     _GONG_DEBUG_ASSERT( contactos::ModuleInstance->getFicContacto() );
 
     /*<<<<<SOCIASMODULE_INIT_DATABASE*/
-    pFicSociasEstado = new NamesListTable( *pMainDatabase, "SOCIASESTADO" );
-    pMainDatabase->addTable( pFicSociasEstado->getTableDefinition() );
-    pFicPeriodicidad = new NamesListTable( *pMainDatabase, "PERIODICIDAD" );
-    pMainDatabase->addTable( pFicPeriodicidad->getTableDefinition() );
-    /*>>>>>SOCIASMODULE_INIT_DATABASE*/
+	pFicSociasEstado = new NamesListTable( *pMainDatabase, "SOCIASESTADO" );
+	pMainDatabase->addTable( pFicSociasEstado->getTableDefinition() );
+	pFicPeriodicidad = new NamesListTable( *pMainDatabase, "PERIODICIDAD" );
+	pMainDatabase->addTable( pFicPeriodicidad->getTableDefinition() );
+/*>>>>>SOCIASMODULE_INIT_DATABASE*/
 
     dbTableDefinition *tbldef = getDatabase()->findTableDefinition( "COBRO" );
     if( tbldef ) {
@@ -269,43 +269,43 @@ bool SociasModule::initMainWindow(MainWindow *mainwin)
     pMainWindow->menuBar()->insertItem( toGUI( _( "&Socias" ) ), pMenuSocias );
 
     /*<<<<<SOCIASMODULE_INITMAINWINDOW_MENUS*/
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("PROYECTO")->getDescPlural();
-        pMenuSociasProyecto = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuSociasProyecto->setObjectName( "MenuSociasProyecto" );
-        pMenuSociasProyecto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuSociasProyecto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuSociasProyecto, SIGNAL(activated()), this, SLOT(slotMenuSociasProyecto()));
-        pMenuSociasProyecto->addTo(pMenuSocias);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("MIEMBRO")->getDescPlural();
-        pMenuSociasMiembro = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuSociasMiembro->setObjectName( "MenuSociasMiembro" );
-        pMenuSociasMiembro->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuSociasMiembro->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuSociasMiembro, SIGNAL(activated()), this, SLOT(slotMenuSociasMiembro()));
-        pMenuSociasMiembro->addTo(pMenuSocias);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("TIPOSOCIA")->getDescPlural();
-        pMenuSociasTipoSocia = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuSociasTipoSocia->setObjectName( "MenuSociasTipoSocia" );
-        pMenuSociasTipoSocia->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuSociasTipoSocia->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuSociasTipoSocia, SIGNAL(activated()), this, SLOT(slotMenuSociasTipoSocia()));
-        pMenuSociasTipoSocia->addTo(pMenuSocias);
-    }
-    {
-        Xtring caption = DBAPP->getDatabase()->findTableDefinition("PARTIDAPROYECTO")->getDescPlural();
-        pMenuSociasPartidaProyecto = new QAction( toGUI( caption ) + "...", pMainWindow );
-        pMenuSociasPartidaProyecto->setObjectName( "MenuSociasPartidaProyecto" );
-        pMenuSociasPartidaProyecto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-        pMenuSociasPartidaProyecto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-        pMainWindow->connect(pMenuSociasPartidaProyecto, SIGNAL(activated()), this, SLOT(slotMenuSociasPartidaProyecto()));
-        pMenuSociasPartidaProyecto->addTo(pMenuSocias);
-    }
-    /*>>>>>SOCIASMODULE_INITMAINWINDOW_MENUS*/
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("PROYECTO")->getDescPlural();
+		pMenuSociasProyecto = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuSociasProyecto->setObjectName( "MenuSociasProyecto" );
+		pMenuSociasProyecto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuSociasProyecto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuSociasProyecto, SIGNAL(activated()), this, SLOT(slotMenuSociasProyecto()));
+		pMenuSociasProyecto->addTo(pMenuSocias);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("MIEMBRO")->getDescPlural();
+		pMenuSociasMiembro = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuSociasMiembro->setObjectName( "MenuSociasMiembro" );
+		pMenuSociasMiembro->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuSociasMiembro->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuSociasMiembro, SIGNAL(activated()), this, SLOT(slotMenuSociasMiembro()));
+		pMenuSociasMiembro->addTo(pMenuSocias);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("TIPOSOCIA")->getDescPlural();
+		pMenuSociasTipoSocia = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuSociasTipoSocia->setObjectName( "MenuSociasTipoSocia" );
+		pMenuSociasTipoSocia->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuSociasTipoSocia->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuSociasTipoSocia, SIGNAL(activated()), this, SLOT(slotMenuSociasTipoSocia()));
+		pMenuSociasTipoSocia->addTo(pMenuSocias);
+	}
+	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("PARTIDAPROYECTO")->getDescPlural();
+		pMenuSociasPartidaProyecto = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuSociasPartidaProyecto->setObjectName( "MenuSociasPartidaProyecto" );
+		pMenuSociasPartidaProyecto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuSociasPartidaProyecto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuSociasPartidaProyecto, SIGNAL(activated()), this, SLOT(slotMenuSociasPartidaProyecto()));
+		pMenuSociasPartidaProyecto->addTo(pMenuSocias);
+	}
+/*>>>>>SOCIASMODULE_INITMAINWINDOW_MENUS*/
 
 #ifdef HAVE_PAGOSMODULE
     pMainWindow->findAction( "MenuPagosCobro" )->addTo( pMenuSocias );
@@ -343,19 +343,19 @@ dbRecord *SociasModule::createRecord(const Xtring &tablename, dbRecordID recid, 
 {
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     /*<<<<<SOCIASMODULE_CREATE_RECORD*/
-    if( tablename.upper() == "PROYECTO" )
-        return new RecProyecto(getConnection(), recid, user);
-    if( tablename.upper() == "MIEMBRO" )
-        return new RecMiembro(getConnection(), recid, user);
-    if( tablename.upper() == "TIPOSOCIA" )
-        return new RecTipoSocia(getConnection(), recid, user);
-    if( tablename.upper() == "PARTIDAPROYECTO" )
-        return new RecPartidaProyecto(getConnection(), recid, user);
-    if( tablename.upper() == "SOCIASESTADO" )
-        return new RecNamesListTable("SOCIASESTADO", getConnection(), recid, user);
-    if( tablename.upper() == "PERIODICIDAD" )
-        return new RecNamesListTable("PERIODICIDAD", getConnection(), recid, user);
-    /*>>>>>SOCIASMODULE_CREATE_RECORD*/
+	if( tablename.upper() == "PROYECTO" )
+		return new RecProyecto(getConnection(), recid, user);
+	if( tablename.upper() == "MIEMBRO" )
+		return new RecMiembro(getConnection(), recid, user);
+	if( tablename.upper() == "TIPOSOCIA" )
+		return new RecTipoSocia(getConnection(), recid, user);
+	if( tablename.upper() == "PARTIDAPROYECTO" )
+		return new RecPartidaProyecto(getConnection(), recid, user);
+	if( tablename.upper() == "SOCIASESTADO" )
+		return new RecNamesListTable("SOCIASESTADO", getConnection(), recid, user);
+	if( tablename.upper() == "PERIODICIDAD" )
+		return new RecNamesListTable("PERIODICIDAD", getConnection(), recid, user);
+/*>>>>>SOCIASMODULE_CREATE_RECORD*/
 #ifdef HAVE_CONTABMODULE
     if( tablename.upper() == "APUNTE" )
         return new RecApunte(getConnection(), recid, user);
@@ -370,19 +370,19 @@ FrmEditRec *SociasModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec, d
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     Xtring tablename = rec->getTableName();
     /*<<<<<SOCIASMODULE_CREATE_EDITFORM*/
-    if( tablename.upper() == "PROYECTO" )
-        return new FrmEditProyecto(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "MIEMBRO" )
-        return new FrmEditMiembro(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "TIPOSOCIA" )
-        return new FrmEditTipoSocia(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PARTIDAPROYECTO" )
-        return new FrmEditPartidaProyecto(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "SOCIASESTADO" )
-        return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    if( tablename.upper() == "PERIODICIDAD" )
-        return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-    /*>>>>>SOCIASMODULE_CREATE_EDITFORM*/
+	if( tablename.upper() == "PROYECTO" )
+		return new FrmEditProyecto(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "MIEMBRO" )
+		return new FrmEditMiembro(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "TIPOSOCIA" )
+		return new FrmEditTipoSocia(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PARTIDAPROYECTO" )
+		return new FrmEditPartidaProyecto(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "SOCIASESTADO" )
+		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PERIODICIDAD" )
+		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+/*>>>>>SOCIASMODULE_CREATE_EDITFORM*/
     return 0;
 }
 
@@ -396,7 +396,7 @@ FrmEditRecDetail *SociasModule::createEditDetailForm(
     Xtring tablename = rec->getTableName();
     /*<<<<<SOCIASMODULE_CREATE_EDITFORM_DETAIL*/
 
-    /*>>>>>SOCIASMODULE_CREATE_EDITFORM_DETAIL*/
+/*>>>>>SOCIASMODULE_CREATE_EDITFORM_DETAIL*/
 #ifdef HAVE_CONTABMODULE
     if( tablename.upper() == "APUNTE" )
         return new FrmEditApunte(frmmaster, ndetail,
@@ -408,25 +408,25 @@ FrmEditRecDetail *SociasModule::createEditDetailForm(
 /*<<<<<SOCIASMODULE_SLOT_SOCIASPROYECTO*/
 void SociasModule::slotMenuSociasProyecto()
 {
-    pMainWindow->slotMenuEditRecMaestro( "PROYECTO" );
+	pMainWindow->slotMenuEditRecMaestro( "PROYECTO" );
 }
 /*>>>>>SOCIASMODULE_SLOT_SOCIASPROYECTO*/
 /*<<<<<SOCIASMODULE_SLOT_SOCIASMIEMBRO*/
 void SociasModule::slotMenuSociasMiembro()
 {
-    pMainWindow->slotMenuEditRecMaestro( "MIEMBRO" );
+	pMainWindow->slotMenuEditRecMaestro( "MIEMBRO" );
 }
 /*>>>>>SOCIASMODULE_SLOT_SOCIASMIEMBRO*/
 /*<<<<<SOCIASMODULE_SLOT_SOCIASTIPOSOCIA*/
 void SociasModule::slotMenuSociasTipoSocia()
 {
-    pMainWindow->slotMenuEditRecMaestro( "TIPOSOCIA" );
+	pMainWindow->slotMenuEditRecMaestro( "TIPOSOCIA" );
 }
 /*>>>>>SOCIASMODULE_SLOT_SOCIASTIPOSOCIA*/
 /*<<<<<SOCIASMODULE_SLOT_SOCIASPARTIDAPROYECTO*/
 void SociasModule::slotMenuSociasPartidaProyecto()
 {
-    pMainWindow->slotMenuEditRecMaestro( "PARTIDAPROYECTO" );
+	pMainWindow->slotMenuEditRecMaestro( "PARTIDAPROYECTO" );
 }
 /*>>>>>SOCIASMODULE_SLOT_SOCIASPARTIDAPROYECTO*/
 

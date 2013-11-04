@@ -29,7 +29,7 @@ protected:
     }
     DateRangeBox *pDateRange;
     SearchBox *pSearchArticulo, *pSearchTipoDoc, *pSearchCliente, *pSearchProveedora;
-    ComboBox<Xtring> *pComboAgruparPor, *pComboComprasOVentas;
+    ComboBoxXtring *pComboAgruparPor, *pComboComprasOVentas;
     CheckBox *pCheckPreciosConIVA, *pCheckIncNotas, *pCheckMostrarAlbaranes, *pCheckCSV;
     CheckBox *pCheckResumido, *pCheckTodasLasEmpresas, *pCheckGranTotal;
     LineEdit *pEditTitulo;

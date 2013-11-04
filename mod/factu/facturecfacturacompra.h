@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecfacturacompra.h Registro de facturas de compra
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -40,17 +40,17 @@ namespace factu {
 
 /*<<<<<FACTURACOMPRA_CONSTRUCTOR*/
 class RecFacturaCompra: public dbRecord,
-    public factu::IPagableFactura,
-    public factu::IIVADesglosable,
+	public factu::IPagableFactura,
+	public factu::IIVADesglosable,
 #ifdef HAVE_CONTABMODULE
-    public factu::IAsentableFactura,
+	public factu::IAsentableFactura,
 #endif
-    public factu::ITotalizableRecord
+	public factu::ITotalizableRecord
 
 {
 public:
-    RecFacturaCompra(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FACTURACOMPRA"), recid, user)
+	RecFacturaCompra(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FACTURACOMPRA"), recid, user)
 /*>>>>>FACTURACOMPRA_CONSTRUCTOR*/
         , IPagableFactura( this, IPagableRecord::pagos )
         , IIVADesglosable( this, getListFacturaCompraDet() )
@@ -63,21 +63,21 @@ public:
         addSemanticProperty( "FACTURA" );
     }
     /*<<<<<FACTURACOMPRA_MEMBERS*/
-    void init();
-    virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
-    virtual bool remove() throw( dbError ); // from dbRecord
-    Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
-    /*>>>>>FACTURACOMPRA_MEMBERS*/
+	void init();
+	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool remove() throw( dbError ); // from dbRecord
+	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+/*>>>>>FACTURACOMPRA_MEMBERS*/
 public:
     /*<<<<<FACTURACOMPRA_RELATIONS*/
-    pagos::RecFormaPago *getRecFormaPago() const;
-    empresa::RecProyecto *getRecProyecto() const;
-    RecTipoDoc *getRecTipoDoc() const;
-    RecProveedora *getRecProveedora() const;
-    RecAgente *getRecAgente() const;
-    RecFacturaCompraDet *getRecFacturaCompraDet( int nfacturacompradet = -1 ) const;
-    dbRecordList *getListFacturaCompraDet() const;
-    /*>>>>>FACTURACOMPRA_RELATIONS*/
+	pagos::RecFormaPago *getRecFormaPago() const;
+	empresa::RecProyecto *getRecProyecto() const;
+	RecTipoDoc *getRecTipoDoc() const;
+	RecProveedora *getRecProveedora() const;
+	RecAgente *getRecAgente() const;
+	RecFacturaCompraDet *getRecFacturaCompraDet( int nfacturacompradet = -1 ) const;
+	dbRecordList *getListFacturaCompraDet() const;
+/*>>>>>FACTURACOMPRA_RELATIONS*/
 }; // end class
 
 /*<<<<<FACTURACOMPRA_POSTAMBLE*/

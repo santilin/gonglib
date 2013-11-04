@@ -17,7 +17,7 @@ public:
     virtual void accept(); // from FrmBase
 private:
     class RecArticulo *pRecArticulo;
-    ComboBox<int> *pComboOperacion;
+    ComboBoxInt *pComboOperacion;
     LineEdit *pEditFormat;
     Xtring mCodArt;
 };

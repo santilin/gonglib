@@ -1,22 +1,19 @@
 //<<<<<COPYLEFT
 // @file CONTACTO.rtk Contactos
-// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
-*
-* This library is free software;
-you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation;
-either
-* version 2 of the License, or (at your option) any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY;
-without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+// Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
 //>>>>>COPYLEFT
 
 //<<<<<MODULE_INFO
@@ -29,10 +26,10 @@ without even the implied warranty of
 //>>>>>MODULE_INFO
 
 //<<<<<REPORT_DEFINITION
-Title = "Contactos";
-Units = chars;
-SizeX = 100;
-SizeY = 60;
+	Title = "Contactos";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
 //>>>>>REPORT_DEFINITION
 Tag = "Asociación";
 
@@ -41,27 +38,27 @@ driver = mysql;
 from = "CONTACTO";
 
 //<<<<<INPUT_DEFAULT
-INPUTFIELD CONTACTO_CIF {
-    Source = CONTACTO.CIF;
-    Type = text;
-}
-INPUTFIELD CONTACTO_NOMBRE {
-    Source = CONTACTO.NOMBRE;
-    Type = text;
-}
-INPUTFIELD CONTACTO_TELEFONO {
-    Source = CONTACTO.TELEFONO;
-    Type = text;
-}
-INPUTFIELD CONTACTO_EMAIL {
-    Source = CONTACTO.EMAIL;
-    Type = text;
-}
+		INPUTFIELD CONTACTO_CIF {
+			Source = CONTACTO.CIF;
+			Type = text;
+		}
+		INPUTFIELD CONTACTO_NOMBRE {
+			Source = CONTACTO.NOMBRE;
+			Type = text;
+		}
+		INPUTFIELD CONTACTO_TELEFONO {
+			Source = CONTACTO.TELEFONO;
+			Type = text;
+		}
+		INPUTFIELD CONTACTO_EMAIL {
+			Source = CONTACTO.EMAIL;
+			Type = text;
+		}
 //>>>>>INPUT_DEFAULT
 }
 
 //<<<<<PAGE_HEADER
-Include = "default_pageheader.inc";
+	Include = "default_pageheader.inc";
 //>>>>>PAGE_HEADER
 }
 
@@ -96,30 +93,30 @@ OBJECT header_CONTACTO_EMAIL {
 }
 
 //<<<<<DETAILS
-DETAILS details {
-style = detail;
-sizey = 1;
-
-OBJECT CONTACTO_CIF {
-    value = "=input.CONTACTO_CIF;";
-    posx = 0.0;
-    sizex = 9.0;
-}
-OBJECT CONTACTO_NOMBRE {
-    value = "=input.CONTACTO_NOMBRE;";
-    posx = 10.0;
-    sizex = 30.0;
-}
-OBJECT CONTACTO_TELEFONO {
-    value = "=input.CONTACTO_TELEFONO;";
-    posx = 41.0;
-    sizex = 13.0;
-}
-OBJECT CONTACTO_EMAIL {
-    value = "=input.CONTACTO_EMAIL;";
-    posx = 55.0;
-    sizex = 25.0;
-}
+	DETAILS details {
+		style = detail;
+		sizey = 1;
+	
+		OBJECT CONTACTO_CIF {
+			value = "=input.CONTACTO_CIF;";
+			posx = 0.0;
+			sizex = 9.0;
+		}
+		OBJECT CONTACTO_NOMBRE {
+			value = "=input.CONTACTO_NOMBRE;";
+			posx = 10.0;
+			sizex = 30.0;
+		}
+		OBJECT CONTACTO_TELEFONO {
+			value = "=input.CONTACTO_TELEFONO;";
+			posx = 41.0;
+			sizex = 13.0;
+		}
+		OBJECT CONTACTO_EMAIL {
+			value = "=input.CONTACTO_EMAIL;";
+			posx = 55.0;
+			sizex = 25.0;
+		}
 //>>>>>DETAILS
 }
 
@@ -127,9 +124,9 @@ OBJECT CONTACTO_EMAIL {
 Include = "passwords.inc";
 }
 //<<<<<PAGE_FOOTER
-PAGEFOOTER page_footer {
-sizey = 1;
-style = pagefooter;
+	PAGEFOOTER page_footer {
+		sizey = 1;
+		style = pagefooter;
 
 
 //>>>>>PAGE_FOOTER

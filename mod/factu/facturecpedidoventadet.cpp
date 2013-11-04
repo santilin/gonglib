@@ -35,12 +35,12 @@ namespace factu {
 /*<<<<<PEDIDOVENTADET_RELATIONS*/
 RecArticulo *RecPedidoVentaDet::getRecArticulo() const
 {
-    return static_cast<RecArticulo*>(findRelatedRecord("PEDIDOVENTADET.ARTICULO_ID"));
+	return static_cast<RecArticulo*>(findRelatedRecord("PEDIDOVENTADET.ARTICULO_ID"));
 }
 
 empresa::RecTipoIVA *RecPedidoVentaDet::getRecTipoIVA() const
 {
-    return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("PEDIDOVENTADET.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("PEDIDOVENTADET.TIPOIVA_ID"));
 }
 
 /*>>>>>PEDIDOVENTADET_RELATIONS*/

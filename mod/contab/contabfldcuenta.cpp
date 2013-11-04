@@ -34,7 +34,7 @@ namespace contab {
 /*<<<<<DBFIELD_CUENTA_ISVALID*/
 bool FldCuenta::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
-    /*>>>>>DBFIELD_CUENTA_ISVALID*/
+/*>>>>>DBFIELD_CUENTA_ISVALID*/
     Cuenta c(value->toString(), ModuleInstance->getDigitosTrabajo());
     if( c.isEmpty() && canBeNull() )
         return true;

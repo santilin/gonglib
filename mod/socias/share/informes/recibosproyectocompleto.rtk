@@ -1,22 +1,19 @@
 //<<<<<COPYLEFT
 // @file recibosproyectocompleto.rtk Recibos completo
-// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
-*
-* This library is free software;
-you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation;
-either
-* version 2 of the License, or (at your option) any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY;
-without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+// Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
 //>>>>>COPYLEFT
 
 //<<<<<MODULE_INFO
@@ -37,10 +34,10 @@ without even the implied warranty of
 
 
 //<<<<<REPORT_DEFINITION
-Title = "Recibos completo";
-Units = chars;
-SizeX = 100;
-SizeY = 60;
+	Title = "Recibos completo";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
 //>>>>>REPORT_DEFINITION
 Tag = "Asociación";
 
@@ -49,54 +46,54 @@ driver = mysql;
 from = "RECIBOPROYECTO LEFT JOIN REMESAPROYECTO ON RECIBOPROYECTO.REMESAPROYECTO_ID = REMESAPROYECTO.ID LEFT JOIN MIEMBRO ON MIEMBRO.ID=RECIBOPROYECTO.MIEMBRO_ID LEFT JOIN CONTACTO ON CONTACTO.ID=MIEMBRO.CONTACTO_ID";
 
 //<<<<<INPUT_DEFAULT
-INPUTFIELD REMESAPROYECTO_NUMERO {
-    Source = REMESAPROYECTO.NUMERO;
-    Type = int;
-}
-INPUTFIELD RECIBOPROYECTO_NUMERO {
-    Source = RECIBOPROYECTO.NUMERO;
-    Type = text;
-}
-INPUTFIELD RECIBOPROYECTO_DESCRIPCION {
-    Source = RECIBOPROYECTO.DESCRIPCION;
-    Type = text;
-}
-INPUTFIELD CONTACTO_NOMBRE {
-    Source = CONTACTO.NOMBRE;
-    Type = text;
-}
-INPUTFIELD RECIBOPROYECTO_IMPORTE {
-    Source = RECIBOPROYECTO.IMPORTE;
-    Type = money;
-}
-INPUTFIELD RECIBOPROYECTO_RESTO {
-    Source = RECIBOPROYECTO.RESTO;
-    Type = money;
-}
-INPUTFIELD RECIBOPROYECTO_FECHAEMISION {
-    Source = RECIBOPROYECTO.FECHAEMISION;
-    Type = date;
-}
-INPUTFIELD RECIBOPROYECTO_FECHACARGO {
-    Source = RECIBOPROYECTO.FECHACARGO;
-    Type = date;
-}
-INPUTFIELD RECIBOPROYECTO_ESTADO {
-    Source = RECIBOPROYECTO.ESTADO;
-    Type = int;
-}
-INPUTFIELD RECIBOPROYECTO_DOCUMENTOPAGO {
-    Source = RECIBOPROYECTO.DOCUMENTOPAGO;
-    Type = text;
-}
-INPUTFIELD RECIBOPROYECTO_FECHAPAGO {
-    Source = RECIBOPROYECTO.FECHAPAGO;
-    Type = date;
-}
+		INPUTFIELD REMESAPROYECTO_NUMERO {
+			Source = REMESAPROYECTO.NUMERO;
+			Type = int;
+		}
+		INPUTFIELD RECIBOPROYECTO_NUMERO {
+			Source = RECIBOPROYECTO.NUMERO;
+			Type = text;
+		}
+		INPUTFIELD RECIBOPROYECTO_DESCRIPCION {
+			Source = RECIBOPROYECTO.DESCRIPCION;
+			Type = text;
+		}
+		INPUTFIELD CONTACTO_NOMBRE {
+			Source = CONTACTO.NOMBRE;
+			Type = text;
+		}
+		INPUTFIELD RECIBOPROYECTO_IMPORTE {
+			Source = RECIBOPROYECTO.IMPORTE;
+			Type = money;
+		}
+		INPUTFIELD RECIBOPROYECTO_RESTO {
+			Source = RECIBOPROYECTO.RESTO;
+			Type = money;
+		}
+		INPUTFIELD RECIBOPROYECTO_FECHAEMISION {
+			Source = RECIBOPROYECTO.FECHAEMISION;
+			Type = date;
+		}
+		INPUTFIELD RECIBOPROYECTO_FECHACARGO {
+			Source = RECIBOPROYECTO.FECHACARGO;
+			Type = date;
+		}
+		INPUTFIELD RECIBOPROYECTO_ESTADO {
+			Source = RECIBOPROYECTO.ESTADO;
+			Type = int;
+		}
+		INPUTFIELD RECIBOPROYECTO_DOCUMENTOPAGO {
+			Source = RECIBOPROYECTO.DOCUMENTOPAGO;
+			Type = text;
+		}
+		INPUTFIELD RECIBOPROYECTO_FECHAPAGO {
+			Source = RECIBOPROYECTO.FECHAPAGO;
+			Type = date;
+		}
 //>>>>>INPUT_DEFAULT
 }
 //<<<<<PAGE_HEADER
-Include = "default_pageheader.inc";
+	Include = "default_pageheader.inc";
 //>>>>>PAGE_HEADER
 }
 //<<<<<PAGE_HEADER_0
@@ -167,69 +164,69 @@ OBJECT header_RECIBOPROYECTO_FECHAPAGO {
 }
 
 //<<<<<DETAILS
-DETAILS details {
-style = detail;
-sizey = 1;
-
-OBJECT REMESAPROYECTO_NUMERO {
-    halignment = "right";
-    value = "=input.REMESAPROYECTO_NUMERO;";
-    posx = 0.0;
-    sizex = 4.0;
-}
-OBJECT RECIBOPROYECTO_NUMERO {
-    value = "=input.RECIBOPROYECTO_NUMERO;";
-    posx = 5.0;
-    sizex = 10.0;
-}
-OBJECT RECIBOPROYECTO_DESCRIPCION {
-    value = "=input.RECIBOPROYECTO_DESCRIPCION;";
-    posx = 16.0;
-    sizex = 15.0;
-}
-OBJECT CONTACTO_NOMBRE {
-    value = "=input.CONTACTO_NOMBRE;";
-    posx = 32.0;
-    sizex = 20.0;
-}
-OBJECT RECIBOPROYECTO_IMPORTE {
-    halignment = "right";
-    value = "=input.RECIBOPROYECTO_IMPORTE;";
-    posx = 53.0;
-    sizex = 10.0;
-}
-OBJECT RECIBOPROYECTO_RESTO {
-    halignment = "right";
-    value = "=input.RECIBOPROYECTO_RESTO;";
-    posx = 64.0;
-    sizex = 10.0;
-}
-OBJECT RECIBOPROYECTO_FECHAEMISION {
-    value = "=input.RECIBOPROYECTO_FECHAEMISION;";
-    posx = 75.0;
-    sizex = 8.0;
-}
-OBJECT RECIBOPROYECTO_FECHACARGO {
-    value = "=input.RECIBOPROYECTO_FECHACARGO;";
-    posx = 84.0;
-    sizex = 8.0;
-}
-OBJECT RECIBOPROYECTO_ESTADO {
-    halignment = "right";
-    value = "=input.RECIBOPROYECTO_ESTADO;";
-    posx = 93.0;
-    sizex = 6.0;
-}
-OBJECT RECIBOPROYECTO_DOCUMENTOPAGO {
-    value = "=input.RECIBOPROYECTO_DOCUMENTOPAGO;";
-    posx = 100.0;
-    sizex = 12.0;
-}
-OBJECT RECIBOPROYECTO_FECHAPAGO {
-    value = "=input.RECIBOPROYECTO_FECHAPAGO;";
-    posx = 113.0;
-    sizex = 8.0;
-}
+	DETAILS details {
+		style = detail;
+		sizey = 1;
+	
+		OBJECT REMESAPROYECTO_NUMERO {
+			halignment = "right";
+			value = "=input.REMESAPROYECTO_NUMERO;";
+			posx = 0.0;
+			sizex = 4.0;
+		}
+		OBJECT RECIBOPROYECTO_NUMERO {
+			value = "=input.RECIBOPROYECTO_NUMERO;";
+			posx = 5.0;
+			sizex = 10.0;
+		}
+		OBJECT RECIBOPROYECTO_DESCRIPCION {
+			value = "=input.RECIBOPROYECTO_DESCRIPCION;";
+			posx = 16.0;
+			sizex = 15.0;
+		}
+		OBJECT CONTACTO_NOMBRE {
+			value = "=input.CONTACTO_NOMBRE;";
+			posx = 32.0;
+			sizex = 20.0;
+		}
+		OBJECT RECIBOPROYECTO_IMPORTE {
+			halignment = "right";
+			value = "=input.RECIBOPROYECTO_IMPORTE;";
+			posx = 53.0;
+			sizex = 10.0;
+		}
+		OBJECT RECIBOPROYECTO_RESTO {
+			halignment = "right";
+			value = "=input.RECIBOPROYECTO_RESTO;";
+			posx = 64.0;
+			sizex = 10.0;
+		}
+		OBJECT RECIBOPROYECTO_FECHAEMISION {
+			value = "=input.RECIBOPROYECTO_FECHAEMISION;";
+			posx = 75.0;
+			sizex = 8.0;
+		}
+		OBJECT RECIBOPROYECTO_FECHACARGO {
+			value = "=input.RECIBOPROYECTO_FECHACARGO;";
+			posx = 84.0;
+			sizex = 8.0;
+		}
+		OBJECT RECIBOPROYECTO_ESTADO {
+			halignment = "right";
+			value = "=input.RECIBOPROYECTO_ESTADO;";
+			posx = 93.0;
+			sizex = 6.0;
+		}
+		OBJECT RECIBOPROYECTO_DOCUMENTOPAGO {
+			value = "=input.RECIBOPROYECTO_DOCUMENTOPAGO;";
+			posx = 100.0;
+			sizex = 12.0;
+		}
+		OBJECT RECIBOPROYECTO_FECHAPAGO {
+			value = "=input.RECIBOPROYECTO_FECHAPAGO;";
+			posx = 113.0;
+			sizex = 8.0;
+		}
 //>>>>>DETAILS
 }
 SizeX = 120;
@@ -237,9 +234,9 @@ SizeX = 120;
 
 }
 //<<<<<PAGE_FOOTER
-PAGEFOOTER page_footer {
-sizey = 1;
-style = pagefooter;
+	PAGEFOOTER page_footer {
+		sizey = 1;
+		style = pagefooter;
 
 
 //>>>>>PAGE_FOOTER

@@ -34,7 +34,9 @@ namespace socias {
 void FrmEditRemesaCobroBehavior::initGUI()
 {
     /*<<<<<FRMEDITREMESACOBROBEHAVIOR_INITGUI*/
-    /*>>>>>FRMEDITREMESACOBROBEHAVIOR_INITGUI*/
+	QWidget *pControlsFrame = getControlsFrame();
+	QVBoxLayout* pControlsLayout = getControlsLayout();
+/*>>>>>FRMEDITREMESACOBROBEHAVIOR_INITGUI*/
     pushGenerarRecibo = new QPushButton( pTheForm );
     pushGenerarRecibo->setText( toGUI(_("Añadir recibo")) );
     connect( pushGenerarRecibo, SIGNAL( clicked() ), this, SLOT( slotGenerarRecibo_clicked() ) );
@@ -46,14 +48,14 @@ void FrmEditRemesaCobroBehavior::scatterFields( bool is_pre )
     if( !is_pre) return;
     /*<<<<<FRMEDITREMESACOBROBEHAVIOR_SCATTER*/
 
-    /*>>>>>FRMEDITREMESACOBROBEHAVIOR_SCATTER*/
+/*>>>>>FRMEDITREMESACOBROBEHAVIOR_SCATTER*/
 }
 
 void FrmEditRemesaCobroBehavior::gatherFields()
 {
     /*<<<<<FRMEDITREMESACOBROBEHAVIOR_GATHER*/
 
-    /*>>>>>FRMEDITREMESACOBROBEHAVIOR_GATHER*/
+/*>>>>>FRMEDITREMESACOBROBEHAVIOR_GATHER*/
 }
 
 void FrmEditRemesaCobroBehavior::validateFields(bool is_pre,
@@ -61,11 +63,11 @@ void FrmEditRemesaCobroBehavior::validateFields(bool is_pre,
 {
     if( !is_pre) return;
     /*<<<<<FRMEDITREMESACOBROBEHAVIOR_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    /*>>>>>FRMEDITREMESACOBROBEHAVIOR_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+/*>>>>>FRMEDITREMESACOBROBEHAVIOR_VALIDATE*/
     if( !ir ) {
         showValidMessages(isvalid, *validresult, sender);
         delete validresult;

@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecalbarancompradet.h Registro de detalles de albaranes de compra
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -29,8 +29,8 @@ namespace factu {
 class RecAlbaranCompraDet: public dbRecord
 {
 public:
-    RecAlbaranCompraDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("ALBARANCOMPRADET"), recid, user)
+	RecAlbaranCompraDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("ALBARANCOMPRADET"), recid, user)
 /*>>>>>ALBARANCOMPRADET_CONSTRUCTOR*/
     {
         addSemanticProperty( "COMPRA" );
@@ -38,13 +38,13 @@ public:
         addSemanticProperty( "DETALLE" );
     }
     /*<<<<<ALBARANCOMPRADET_RELATIONS*/
-    RecArticulo *getRecArticulo() const;
-    empresa::RecTipoIVA *getRecTipoIVA() const;
-    /*>>>>>ALBARANCOMPRADET_RELATIONS*/
+	RecArticulo *getRecArticulo() const;
+	empresa::RecTipoIVA *getRecTipoIVA() const;
+/*>>>>>ALBARANCOMPRADET_RELATIONS*/
 
     /*<<<<<ALBARANCOMPRADET_MEMBERS*/
-    virtual void beforeSaveOrDeleteRelated(dbRecord *master, bool saving); // from dbRecord
-    /*>>>>>ALBARANCOMPRADET_MEMBERS*/
+	virtual void beforeSaveOrDeleteRelated(dbRecord *master, bool saving); // from dbRecord
+/*>>>>>ALBARANCOMPRADET_MEMBERS*/
     bool actStocks( dbRecord *albarancompra, bool savingdetail ) const;
 }; // end class
 

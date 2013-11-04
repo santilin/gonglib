@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file factufrmeditarticulo.h Fichero de edición de artículos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -29,16 +29,14 @@ namespace factu {
 /*<<<<<FRMEDITARTICULO_CLASS*/
 class FrmEditArticulo: public FrmEditRecMaster
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
-                    EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
-                    QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-    RecArticulo *getRecArticulo() const {
-        return (RecArticulo *)getRecord();
-    }
-    /*>>>>>FRMEDITARTICULO_CLASS*/
+	FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
+		EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
+		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
+	RecArticulo *getRecArticulo() const { return (RecArticulo *)getRecord(); }
+/*>>>>>FRMEDITARTICULO_CLASS*/
     virtual ~FrmEditArticulo();
     void fixPrecios( const Xtring &fldchanged );
 
@@ -48,29 +46,23 @@ protected:
 
     /*<<<<<FRMEDITARTICULO_SCATTERS_AND_SLOTS*/
 protected:
-    void scatterFamilia();
-    void scatterProveedora();
-    void scatterTipoIVA();
+	void scatterFamilia();
+	void scatterProveedora();
+	void scatterTipoIVA();
 
 private slots:
-    void pushFamiliaCodigo_clicked();
-    void pushProveedoraCodigo_clicked();
-    void pushTipoIVACodigo_clicked();
+	void pushFamiliaCodigo_clicked();
+	void pushProveedoraCodigo_clicked();
+	void pushTipoIVACodigo_clicked();
 
 public:
-    RecFamilia* getRecFamilia() const
-    {
-        return static_cast<RecArticulo*>(getRecord())->getRecFamilia();
-    }
-    RecProveedora* getRecProveedora() const
-    {
-        return static_cast<RecArticulo*>(getRecord())->getRecProveedora();
-    }
-    empresa::RecTipoIVA* getRecTipoIVA() const
-    {
-        return static_cast<RecArticulo*>(getRecord())->getRecTipoIVA();
-    }
-    /*>>>>>FRMEDITARTICULO_SCATTERS_AND_SLOTS*/
+	RecFamilia* getRecFamilia() const
+		{ return static_cast<RecArticulo*>(getRecord())->getRecFamilia(); }
+	RecProveedora* getRecProveedora() const
+		{ return static_cast<RecArticulo*>(getRecord())->getRecProveedora(); }
+	empresa::RecTipoIVA* getRecTipoIVA() const
+		{ return static_cast<RecArticulo*>(getRecord())->getRecTipoIVA(); }
+/*>>>>>FRMEDITARTICULO_SCATTERS_AND_SLOTS*/
 
     RecArticulo* getRecArticuloBase() const
     {
@@ -79,11 +71,11 @@ public:
 
     /*<<<<<FRMEDITARTICULO_VIRTUALS_FROM_FRMEDITREC*/
 protected:
-    virtual void scatterFields(); // From FrmEditRec
-    virtual void gatherFields();
-    virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    void specialControlKeyPressed(QWidget *sender, char key);
-    /*>>>>>FRMEDITARTICULO_VIRTUALS_FROM_FRMEDITREC*/
+	virtual void scatterFields(); // From FrmEditRec
+	virtual void gatherFields();
+	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+	void specialControlKeyPressed(QWidget *sender, char key);
+/*>>>>>FRMEDITARTICULO_VIRTUALS_FROM_FRMEDITREC*/
 protected slots:
     void pushArticuloBaseCodigo_clicked();
     void editArticuloImagen_clicked();
@@ -91,46 +83,46 @@ protected slots:
 
     /*<<<<<FRMEDITARTICULO_CONTROLS*/
 protected:
-    gong::SearchBox *searchFamiliaCodigo;
-    QPushButton *pushFamiliaCodigo;
-    gong::LineEdit *editFamiliaCodigo;
-    gong::LineEdit *editFamiliaNombre;
-    gong::SearchBox *searchProveedoraCodigo;
-    QPushButton *pushProveedoraCodigo;
-    gong::LineEdit *editProveedoraCodigo;
-    gong::LineEdit *editProveedoraRazonSocial;
-    gong::EditBox *editNombre;
-    gong::EditBox *editCodigo;
-    gong::SearchBox *searchTipoIVACodigo;
-    QPushButton *pushTipoIVACodigo;
-    gong::LineEdit *editTipoIVACodigo;
-    gong::LineEdit *editTipoIVANombre;
-    gong::EditBox *editFabricante;
-    gong::EditBox *editCodigoInterno;
-    gong::EditBox *editCosteSinIVA;
-    gong::EditBox *editCoste;
-    gong::EditBox *editMargenComercial;
-    gong::EditBox *editPVPSinIVA;
-    gong::EditBox *editPVP;
-    gong::EditBox *editDtoComercial;
-    gong::EditBox *editPVP1;
-    gong::EditBox *editPVP2;
-    gong::EditBox *editPVP3;
-    gong::CheckBox *checkUsarStocks;
-    gong::EditBox *editStock;
-    gong::EditBox *editStockMaximo;
-    gong::EditBox *editStockMinimo;
-    gong::CheckBox *checkEnUso;
-    gong::CheckBox *checkNovedad;
-    gong::CheckBox *checkOferta;
-    gong::TextBox *editNotas;
-    RichTextBox *editDescripcion;
-    gong::EditBox *editMultiploBase;
+	gong::SearchBox *searchFamiliaCodigo;
+	QPushButton *pushFamiliaCodigo;
+	gong::LineEdit *editFamiliaCodigo;
+	gong::LineEdit *editFamiliaNombre;
+	gong::SearchBox *searchProveedoraCodigo;
+	QPushButton *pushProveedoraCodigo;
+	gong::LineEdit *editProveedoraCodigo;
+	gong::LineEdit *editProveedoraRazonSocial;
+	gong::EditBox *editNombre;
+	gong::EditBox *editCodigo;
+	gong::SearchBox *searchTipoIVACodigo;
+	QPushButton *pushTipoIVACodigo;
+	gong::LineEdit *editTipoIVACodigo;
+	gong::LineEdit *editTipoIVANombre;
+	gong::EditBox *editFabricante;
+	gong::EditBox *editCodigoInterno;
+	gong::EditBox *editCosteSinIVA;
+	gong::EditBox *editCoste;
+	gong::EditBox *editMargenComercial;
+	gong::EditBox *editPVPSinIVA;
+	gong::EditBox *editPVP;
+	gong::EditBox *editDtoComercial;
+	gong::EditBox *editPVP1;
+	gong::EditBox *editPVP2;
+	gong::EditBox *editPVP3;
+	gong::CheckBox *checkUsarStocks;
+	gong::EditBox *editStock;
+	gong::EditBox *editStockMaximo;
+	gong::EditBox *editStockMinimo;
+	gong::CheckBox *checkEnUso;
+	gong::CheckBox *checkNovedad;
+	gong::CheckBox *checkOferta;
+	gong::TextBox *editNotas;
+	RichTextBox *editDescripcion;
+	gong::EditBox *editMultiploBase;
 #ifdef HAVE_CONTABMODULE
-    gong::EditBox *editSubcuenta;
+	gong::EditBox *editSubcuenta;
 #endif
-    gong::ImageBox *editArticuloImagen_Imagen;
-    /*>>>>>FRMEDITARTICULO_CONTROLS*/
+	gong::ImageBox *editArticuloImagen_Imagen;
+/*>>>>>FRMEDITARTICULO_CONTROLS*/
     QVBoxLayout *pExtraLayout;
     gong::SearchBox *searchArticuloBaseCodigo;
     QPushButton *pushArticuloBaseCodigo;

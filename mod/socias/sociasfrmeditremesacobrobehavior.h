@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file sociasfrmeditremesacobrobehavior.h Behavior para editar cobros del módulo de socias
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -28,28 +28,26 @@ typedef pagos::RecRemesaCobro RecRemesaCobro;
 /*<<<<<FRMEDITREMESACOBROBEHAVIOR_CLASS*/
 class FrmEditRemesaCobroBehavior: public FrmEditRecBehavior
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    virtual void initGUI();
-    RecRemesaCobro *getRecRemesaCobro() const {
-        return static_cast<RecRemesaCobro *>(pTheForm->getRecord());
-    }
-    FrmEditRemesaCobroBehavior( FrmEditRec *theform )
-        : FrmEditRecBehavior( theform )
+	virtual void initGUI();
+	RecRemesaCobro *getRecRemesaCobro() const { return static_cast<RecRemesaCobro *>(pTheForm->getRecord()); }
+	FrmEditRemesaCobroBehavior( FrmEditRec *theform )
+		: FrmEditRecBehavior( theform )
 /*>>>>>FRMEDITREMESACOBROBEHAVIOR_CLASS*/
     {}
     // virtual void updateStatus();
     // virtual bool canClose();
     /*<<<<<FRMEDITREMESACOBROBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
 protected:
-    virtual void scatterFields( bool is_pre );
-    virtual void gatherFields();
-    virtual void validateFields( bool is_pre,
-                                 QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    /*>>>>>FRMEDITREMESACOBROBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
+	virtual void scatterFields( bool is_pre );
+	virtual void gatherFields();
+	virtual void validateFields( bool is_pre,
+		QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+/*>>>>>FRMEDITREMESACOBROBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
     /*<<<<<FRMEDITREMESACOBROBEHAVIOR_CONTROLS*/
 protected:
-    /*>>>>>FRMEDITREMESACOBROBEHAVIOR_CONTROLS*/
+/*>>>>>FRMEDITREMESACOBROBEHAVIOR_CONTROLS*/
     QPushButton *pushGenerarRecibo;
 protected slots:
     void slotGenerarRecibo_clicked();

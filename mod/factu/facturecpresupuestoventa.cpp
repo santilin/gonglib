@@ -40,34 +40,34 @@ namespace factu {
 /*<<<<<PRESUPUESTOVENTA_INIT*/
 void RecPresupuestoVenta::init()
 {
-    /*>>>>>PRESUPUESTOVENTA_INIT*/
+/*>>>>>PRESUPUESTOVENTA_INIT*/
     addStructuralFilter( "PRESUPUESTOVENTA.EMPRESA_ID=" + getConnection()->toSQL( empresa::ModuleInstance->getEmpresaID() ) );
 }
 
 /*<<<<<PRESUPUESTOVENTA_RELATIONS*/
 RecTipoDoc *RecPresupuestoVenta::getRecTipoDoc() const
 {
-    return static_cast<RecTipoDoc*>(findRelatedRecord("PRESUPUESTOVENTA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("PRESUPUESTOVENTA.TIPODOC_ID"));
 }
 
 RecCliente *RecPresupuestoVenta::getRecCliente() const
 {
-    return static_cast<RecCliente*>(findRelatedRecord("PRESUPUESTOVENTA.CLIENTE_ID"));
+	return static_cast<RecCliente*>(findRelatedRecord("PRESUPUESTOVENTA.CLIENTE_ID"));
 }
 
 RecAgente *RecPresupuestoVenta::getRecAgente() const
 {
-    return static_cast<RecAgente*>(findRelatedRecord("PRESUPUESTOVENTA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("PRESUPUESTOVENTA.AGENTE_ID"));
 }
 
 RecPresupuestoVentaDet *RecPresupuestoVenta::getRecPresupuestoVentaDet( int presupuestoventadet ) const
 {
-    return static_cast<RecPresupuestoVentaDet*>(findRelationByRelatedTable("PRESUPUESTOVENTADET" )->getRelatedRecord( presupuestoventadet));
+	return static_cast<RecPresupuestoVentaDet*>(findRelationByRelatedTable("PRESUPUESTOVENTADET" )->getRelatedRecord( presupuestoventadet));
 }
 
 dbRecordList *RecPresupuestoVenta::getListPresupuestoVentaDet() const
 {
-    return findRelationByRelatedTable( "PRESUPUESTOVENTADET" )->getRelatedRecordList();
+	return findRelationByRelatedTable( "PRESUPUESTOVENTADET" )->getRelatedRecordList();
 }
 /*>>>>>PRESUPUESTOVENTA_RELATIONS*/
 

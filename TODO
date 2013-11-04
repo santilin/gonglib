@@ -224,7 +224,6 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 
 == Bugs ==
 * Si se copia un presupuestoventadet a un pedido peta
-* Si añadimos a un formulario un combo<xtring> cuando está definido como combo<int>, peta
 * Si a un lineedit de tipo date le pasas un datetime en el settext, sale mal el formato y luego la máscara
 
 
@@ -271,9 +270,6 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * IWindow: addControls, layouts, etc.
 ** FrmBase: public QMdiSubWindow, IWindow
 ** DialogBase: public QDialog, IWindow
-* Separar ComboXtring y ComboInt
-** Constructor que reciba las listas por referencia y otro por valor
-** Nameslisttable, que guarde la lista de valores, no los campos
 * Q3Table -> Qt4 (http://www.informit.com/articles/article.aspx?p=1750226&seqNum=3)
 ** Hover sobre q3table, mostrar el texto completo de la celda
 ** Ctrl+click selecciona pero no deselecciona
@@ -312,7 +308,6 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 
 
 * SENDBUG: Que msgxtringlist cierre con el intro
-* SENDBUG: ContactosBehavior, problema con los layouts.
 * SENDBUG: No poder maximizar la ventana inactiva.
 * SENDBUG: el ctrl+e de un lineedit, no retoma el foco cuando se cierra la ventana (depurar con dos monitores)
 * SENDBUG: A pesar de poner un stylesheet con font-size:10px, los editlines salen muy grandes (fontinfo?)

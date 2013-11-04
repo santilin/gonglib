@@ -5,7 +5,7 @@
 
 /*<<<<<COPYLEFT*/
 /** @file pagosfrmeditremesacobro.h Fichero de edición de remesas de recibos de proyectos
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -29,55 +29,51 @@ namespace pagos {
 /*<<<<<FRMEDITREMESACOBRO_CLASS*/
 class FrmEditRemesaCobro: public FrmEditRecMaster
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    FrmEditRemesaCobro(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
-                       EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
-                       QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-    RecRemesaCobro *getRecRemesaCobro() const {
-        return (RecRemesaCobro *)getRecord();
-    }
-    /*>>>>>FRMEDITREMESACOBRO_CLASS*/
+	FrmEditRemesaCobro(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
+		EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
+		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
+	RecRemesaCobro *getRecRemesaCobro() const { return (RecRemesaCobro *)getRecord(); }
+/*>>>>>FRMEDITREMESACOBRO_CLASS*/
     /*<<<<<FRMEDITREMESACOBRO_VIRTUALS_FROM_FRMEDITREC*/
 protected:
-    virtual void scatterFields(); // From FrmEditRec
-    virtual void gatherFields();
-    virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    void specialControlKeyPressed(QWidget *sender, char key);
-    /*>>>>>FRMEDITREMESACOBRO_VIRTUALS_FROM_FRMEDITREC*/
+	virtual void scatterFields(); // From FrmEditRec
+	virtual void gatherFields();
+	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+	void specialControlKeyPressed(QWidget *sender, char key);
+/*>>>>>FRMEDITREMESACOBRO_VIRTUALS_FROM_FRMEDITREC*/
     bool usarProyecto() const;
     /*<<<<<FRMEDITREMESACOBRO_SCATTERS_AND_SLOTS*/
 protected:
-    void scatterProyecto();
+	void scatterProyecto();
 
 private slots:
-    void pushProyectoCodigo_clicked();
+	void pushProyectoCodigo_clicked();
 
 public:
-    empresa::RecProyecto* getRecProyecto() const
-    {
-        return static_cast<RecRemesaCobro*>(getRecord())->getRecProyecto();
-    }
-    /*>>>>>FRMEDITREMESACOBRO_SCATTERS_AND_SLOTS*/
+	empresa::RecProyecto* getRecProyecto() const
+		{ return static_cast<RecRemesaCobro*>(getRecord())->getRecProyecto(); }
+/*>>>>>FRMEDITREMESACOBRO_SCATTERS_AND_SLOTS*/
     /*<<<<<FRMEDITREMESACOBRO_CONTROLS*/
 protected:
-    gong::EditBox *editNumero;
-    gong::EditBox *editDescripcion;
-    gong::SearchBox *searchProyectoCodigo;
-    QPushButton *pushProyectoCodigo;
-    gong::LineEdit *editProyectoCodigo;
-    gong::LineEdit *editProyectoNombre;
-    gong::CheckBox *checkCerrada;
-    gong::EditBox *editFechaEmision;
-    gong::EditBox *editFechaCargo;
-    gong::EditBox *editCuentaBancoAbono;
-    gong::EditBox *editNRecibos;
-    gong::EditBox *editImporte;
-    gong::EditBox *editResto;
-    gong::TextBox *editNotas;
-    FrmEditCobro *pFrmCobro;
-    /*>>>>>FRMEDITREMESACOBRO_CONTROLS*/
+	gong::EditBox *editNumero;
+	gong::EditBox *editDescripcion;
+	gong::SearchBox *searchProyectoCodigo;
+	QPushButton *pushProyectoCodigo;
+	gong::LineEdit *editProyectoCodigo;
+	gong::LineEdit *editProyectoNombre;
+	gong::CheckBox *checkCerrada;
+	gong::EditBox *editFechaEmision;
+	gong::EditBox *editFechaCargo;
+	gong::EditBox *editCuentaBancoAbono;
+	gong::EditBox *editNRecibos;
+	gong::EditBox *editImporte;
+	gong::EditBox *editResto;
+	gong::TextBox *editNotas;
+	FrmEditCobro *pFrmCobro;
+/*>>>>>FRMEDITREMESACOBRO_CONTROLS*/
     QPushButton *pushGenerarCB19;
     QWidget *pTabRecibos;
 private slots:

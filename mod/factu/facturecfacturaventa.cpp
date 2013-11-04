@@ -52,7 +52,7 @@ namespace factu {
 /*<<<<<FACTURAVENTA_INIT*/
 void RecFacturaVenta::init()
 {
-    /*>>>>>FACTURAVENTA_INIT*/
+/*>>>>>FACTURAVENTA_INIT*/
     addStructuralFilter( "FACTURAVENTA.EMPRESA_ID=" + getConnection()->toSQL( empresa::ModuleInstance->getEmpresaID() ) );
     addStructuralFilter( "FACTURAVENTA.EJERCICIO=" + getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
 }
@@ -61,37 +61,37 @@ void RecFacturaVenta::init()
 /*<<<<<FACTURAVENTA_RELATIONS*/
 pagos::RecFormaPago *RecFacturaVenta::getRecFormaPago() const
 {
-    return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FACTURAVENTA.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FACTURAVENTA.FORMAPAGO_ID"));
 }
 
 empresa::RecProyecto *RecFacturaVenta::getRecProyecto() const
 {
-    return static_cast<empresa::RecProyecto*>(findRelatedRecord("FACTURAVENTA.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("FACTURAVENTA.PROYECTO_ID"));
 }
 
 RecTipoDoc *RecFacturaVenta::getRecTipoDoc() const
 {
-    return static_cast<RecTipoDoc*>(findRelatedRecord("FACTURAVENTA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("FACTURAVENTA.TIPODOC_ID"));
 }
 
 RecCliente *RecFacturaVenta::getRecCliente() const
 {
-    return static_cast<RecCliente*>(findRelatedRecord("FACTURAVENTA.CLIENTE_ID"));
+	return static_cast<RecCliente*>(findRelatedRecord("FACTURAVENTA.CLIENTE_ID"));
 }
 
 RecAgente *RecFacturaVenta::getRecAgente() const
 {
-    return static_cast<RecAgente*>(findRelatedRecord("FACTURAVENTA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("FACTURAVENTA.AGENTE_ID"));
 }
 
 RecFacturaVentaDet *RecFacturaVenta::getRecFacturaVentaDet( int facturaventadet ) const
 {
-    return static_cast<RecFacturaVentaDet*>(findRelationByRelatedTable("FACTURAVENTADET" )->getRelatedRecord( facturaventadet));
+	return static_cast<RecFacturaVentaDet*>(findRelationByRelatedTable("FACTURAVENTADET" )->getRelatedRecord( facturaventadet));
 }
 
 dbRecordList *RecFacturaVenta::getListFacturaVentaDet() const
 {
-    return findRelationByRelatedTable( "FACTURAVENTADET" )->getRelatedRecordList();
+	return findRelationByRelatedTable( "FACTURAVENTADET" )->getRelatedRecordList();
 }
 /*>>>>>FACTURAVENTA_RELATIONS*/
 
@@ -99,8 +99,8 @@ dbRecordList *RecFacturaVenta::getListFacturaVentaDet() const
 /*<<<<<FACTURAVENTA_TOSTRING*/
 Xtring RecFacturaVenta::toString(int format, const RegExp &includedFields) const
 {
-    Xtring result;
-    /*>>>>>FACTURAVENTA_TOSTRING*/
+	Xtring result;
+/*>>>>>FACTURAVENTA_TOSTRING*/
     if( format == TOSTRING_CODE_AND_DESC_WITH_TABLENAME ) {
         result = dbRecord::toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME );
         if( !getRecCliente()->getValue("RAZONSOCIAL").toString().isEmpty() )
@@ -114,7 +114,7 @@ Xtring RecFacturaVenta::toString(int format, const RegExp &includedFields) const
 /*<<<<<FACTURAVENTA_SAVE*/
 bool RecFacturaVenta::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>FACTURAVENTA_SAVE*/
+/*>>>>>FACTURAVENTA_SAVE*/
 #ifdef HAVE_PAGOSMODULE
     actRestoFactura();
 #endif
@@ -137,7 +137,7 @@ bool RecFacturaVenta::save(bool saverelated) throw( dbError )
 /*<<<<<FACTURAVENTA_REMOVE*/
 bool RecFacturaVenta::remove() throw( dbError )
 {
-    /*>>>>>FACTURAVENTA_REMOVE*/
+/*>>>>>FACTURAVENTA_REMOVE*/
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE

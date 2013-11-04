@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file factureccliente.h Registro de clientes
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -30,20 +30,20 @@ namespace factu {
 
 /*<<<<<CLIENTE_CONSTRUCTOR*/
 class RecCliente: public dbRecord,
-    public contactos::IContactableRecord
+	public contactos::IContactableRecord
 
 {
 public:
-    RecCliente(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("CLIENTE"), recid, user)
+	RecCliente(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("CLIENTE"), recid, user)
 /*>>>>>CLIENTE_CONSTRUCTOR*/
         , contactos::IContactableRecord( this )
     {};
     /*<<<<<CLIENTE_RELATIONS*/
-    contactos::RecContacto *getRecContacto() const;
-    pagos::RecFormaPago *getRecFormaPago() const;
-    RecAgente *getRecAgente() const;
-    /*>>>>>CLIENTE_RELATIONS*/
+	contactos::RecContacto *getRecContacto() const;
+	pagos::RecFormaPago *getRecFormaPago() const;
+	RecAgente *getRecAgente() const;
+/*>>>>>CLIENTE_RELATIONS*/
 }; // end class
 
 /*<<<<<CLIENTE_POSTAMBLE*/

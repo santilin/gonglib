@@ -89,7 +89,6 @@ FrmEditEmpresa::FrmEditEmpresa(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 /*>>>>>FRMEDITEMPRESA_INIT_CONTROLS*/
 // {capel} Añadir detrás de codigolayout
 //	pControlsLayout->addWidget( pFrameContactos );
-// 	setMinimumHeight( 600 );
     pEditContactoBehavior = new contactos::FrmEditContactoBehavior( this, pFrameContactos, editNombre );
     addBehavior( pEditContactoBehavior );
 	pEditContactoBehavior->_initGUI();

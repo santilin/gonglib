@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturectipodoc.h Registro de tipos de facturas
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -31,8 +31,8 @@ namespace factu {
 class RecTipoDoc: public dbRecord
 {
 public:
-    RecTipoDoc(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("TIPODOC"), recid, user)
+	RecTipoDoc(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("TIPODOC"), recid, user)
 /*>>>>>TIPODOC_CONSTRUCTOR*/
     {};
     bool generaAsientos() const;
@@ -40,10 +40,10 @@ public:
                                      int numero, int codagente, const Xtring& formato);
 
     /*<<<<<TIPODOC_RELATIONS*/
-    pagos::RecFormaPago *getRecFormaPago() const;
-    empresa::RecProyecto *getRecProyecto() const;
-    RecAgente *getRecAgente() const;
-    /*>>>>>TIPODOC_RELATIONS*/
+	pagos::RecFormaPago *getRecFormaPago() const;
+	empresa::RecProyecto *getRecProyecto() const;
+	RecAgente *getRecAgente() const;
+/*>>>>>TIPODOC_RELATIONS*/
 }; // end class
 
 /*<<<<<TIPODOC_POSTAMBLE*/

@@ -40,7 +40,7 @@ namespace factu {
 /*<<<<<PEDIDOVENTA_INIT*/
 void RecPedidoVenta::init()
 {
-    /*>>>>>PEDIDOVENTA_INIT*/
+/*>>>>>PEDIDOVENTA_INIT*/
     addStructuralFilter( "PEDIDOVENTA.EMPRESA_ID=" + getConnection()->toSQL( empresa::ModuleInstance->getEmpresaID() ) );
     addStructuralFilter( "PEDIDOVENTA.EJERCICIO=" + getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
 }
@@ -49,27 +49,27 @@ void RecPedidoVenta::init()
 /*<<<<<PEDIDOVENTA_RELATIONS*/
 RecTipoDoc *RecPedidoVenta::getRecTipoDoc() const
 {
-    return static_cast<RecTipoDoc*>(findRelatedRecord("PEDIDOVENTA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("PEDIDOVENTA.TIPODOC_ID"));
 }
 
 RecCliente *RecPedidoVenta::getRecCliente() const
 {
-    return static_cast<RecCliente*>(findRelatedRecord("PEDIDOVENTA.CLIENTE_ID"));
+	return static_cast<RecCliente*>(findRelatedRecord("PEDIDOVENTA.CLIENTE_ID"));
 }
 
 RecAgente *RecPedidoVenta::getRecAgente() const
 {
-    return static_cast<RecAgente*>(findRelatedRecord("PEDIDOVENTA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("PEDIDOVENTA.AGENTE_ID"));
 }
 
 RecPedidoVentaDet *RecPedidoVenta::getRecPedidoVentaDet( int pedidoventadet ) const
 {
-    return static_cast<RecPedidoVentaDet*>(findRelationByRelatedTable("PEDIDOVENTADET" )->getRelatedRecord( pedidoventadet));
+	return static_cast<RecPedidoVentaDet*>(findRelationByRelatedTable("PEDIDOVENTADET" )->getRelatedRecord( pedidoventadet));
 }
 
 dbRecordList *RecPedidoVenta::getListPedidoVentaDet() const
 {
-    return findRelationByRelatedTable( "PEDIDOVENTADET" )->getRelatedRecordList();
+	return findRelationByRelatedTable( "PEDIDOVENTADET" )->getRelatedRecordList();
 }
 /*>>>>>PEDIDOVENTA_RELATIONS*/
 

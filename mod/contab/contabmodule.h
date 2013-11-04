@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file contabmodule.h Plugin de contabilidad para gestiong
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -43,27 +43,27 @@ class RecCuenta;
 /*<<<<<CONTABMODULE_CLASS_DEFINITION*/
 class ContabModule: public QObject, public dbModule
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    ContabModule();
-    virtual ~ContabModule();
-    virtual bool initMainWindow(class MainWindow *win);
-    virtual bool initDatabase(dbDefinition *dbdef);
-    virtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
-    virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
-    virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
-                                       FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
-                                       dbApplication::EditFlags editflags = dbApplication::editNone,
-                                       QWidget *parent = 0, const char* name = 0,
-                                       WidgetFlags fl = WidgetFlags(0) );
-    virtual FrmEditRecDetail *createEditDetailForm(
-        FrmEditRecMaster *frmmaster, int ndetail,
-        dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm = 0,
-        FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
-        dbApplication::EditFlags editflags = dbApplication::editNone,
-        QWidget *parent = 0, const char* name = 0,
-        WidgetFlags fl = WidgetFlags(0) );
-    /*>>>>>CONTABMODULE_CLASS_DEFINITION*/
+	ContabModule();
+	virtual ~ContabModule();
+	virtual bool initMainWindow(class MainWindow *win);
+	virtual bool initDatabase(dbDefinition *dbdef);
+	virtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
+	virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
+	virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
+		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
+		dbApplication::EditFlags editflags = dbApplication::editNone,
+		QWidget *parent = 0, const char* name = 0,
+		WidgetFlags fl = WidgetFlags(0) );
+	virtual FrmEditRecDetail *createEditDetailForm(
+		FrmEditRecMaster *frmmaster, int ndetail,
+		dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm = 0,
+		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
+		dbApplication::EditFlags editflags = dbApplication::editNone,
+		QWidget *parent = 0, const char* name = 0,
+		WidgetFlags fl = WidgetFlags(0) );
+/*>>>>>CONTABMODULE_CLASS_DEFINITION*/
     virtual void afterLoad(); // from dbModule
     virtual void afterCreateEditForm( FrmEditRec *frm, dbRecord *rec ); // from dbModule
 
@@ -98,34 +98,28 @@ public:
 
     /*<<<<<CONTABMODULE_RECORD_DEFINITIONS*/
 public:
-    contab::MasterTable *getFicCuenta() const {
-        return pFicCuenta;
-    }
-    contab::MasterTable *getFicAsiento() const {
-        return pFicAsiento;
-    }
-    contab::MasterTable *getFicApunte() const {
-        return pFicApunte;
-    }
-    NamesListTable *pFicTipoAsiento;
+	contab::MasterTable *getFicCuenta() const { return pFicCuenta; }
+	contab::MasterTable *getFicAsiento() const { return pFicAsiento; }
+	contab::MasterTable *getFicApunte() const { return pFicApunte; }
+	NamesListTable *pFicTipoAsiento;
 
 private:
-    contab::MasterTable *pFicCuenta;
-    contab::MasterTable *pFicAsiento;
-    contab::MasterTable *pFicApunte;
-    /*>>>>>CONTABMODULE_RECORD_DEFINITIONS*/
+	contab::MasterTable *pFicCuenta;
+	contab::MasterTable *pFicAsiento;
+	contab::MasterTable *pFicApunte;
+/*>>>>>CONTABMODULE_RECORD_DEFINITIONS*/
 
 private slots:
     void slotMenuContabilidadDiarioRecalcular();
     void slotMenuContabilidadCuentasManuales();
     /*<<<<<CONTABMODULE_MENU_DEFINITIONS*/
 private slots:
-    void slotMenuContabilidadCuenta();
-    void slotMenuContabilidadAsiento();
+	void slotMenuContabilidadCuenta();
+	void slotMenuContabilidadAsiento();
 protected:
-    QAction *pMenuContabilidadCuenta;
-    QAction *pMenuContabilidadAsiento;
-    /*>>>>>CONTABMODULE_MENU_DEFINITIONS*/
+	QAction *pMenuContabilidadCuenta;
+	QAction *pMenuContabilidadAsiento;
+/*>>>>>CONTABMODULE_MENU_DEFINITIONS*/
     QAction *pMenuContabilidadDiarioRecalcular;
     QAction *pMenuContabilidadCuentasManuales;
 protected:
@@ -157,12 +151,10 @@ public:
 
     /*<<<<<CONTABMODULE_REQUIRES*/
 public:
-    empresa::EmpresaModule *getEmpresaModule() const {
-        return pEmpresaModule;
-    }
+	empresa::EmpresaModule *getEmpresaModule() const { return pEmpresaModule; }
 private:
-    empresa::EmpresaModule *pEmpresaModule;
-    /*>>>>>CONTABMODULE_REQUIRES*/
+	empresa::EmpresaModule *pEmpresaModule;
+/*>>>>>CONTABMODULE_REQUIRES*/
 };
 
 extern ContabModule *ModuleInstance;

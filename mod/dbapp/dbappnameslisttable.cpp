@@ -1,5 +1,6 @@
 #include "dbappnameslisttable.h"
 #include "dbappdbapplication.h"
+#include <boost/type_traits/detail/is_function_ptr_helper.hpp>
 
 namespace gong {
 
@@ -11,9 +12,6 @@ NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
     addFieldDesc( "NOMBRE" )->setUnique( true );
     addBehavior( DBAPP->getRecordTimestampBehavior() );
 }
-
-static XtringList sNullXtringList;
-static IntList sNullIntList;
 
 /**
  * @brief We can not pass the FldNamesListTable mCaptions and mValues to the constructor of
@@ -27,14 +25,13 @@ static IntList sNullIntList;
  **/
 FldNamesListTable::FldNamesListTable(const Xtring& tablename, const Xtring& fldname,
                                      dbFieldDefinition::Flags flags, const Xtring& defaultvalue)
-    : dbFieldListOfValues<int>( false, sNullXtringList, sNullIntList, tablename, fldname,
+    : dbFieldListOfValues<int>( false, tablename, fldname,
                                 SQLINTEGER, 5, 0, flags, defaultvalue )
 {
 }
 
 void FldNamesListTable::fill( dbConnection &conn )
 {
-	_GONG_DEBUG_ASSERT( !mIsConst );
     mListOfCaptions.clear();
     mListOfValues.clear();
     Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn.nameToSQL( getName() );
@@ -47,9 +44,14 @@ void FldNamesListTable::fill( dbConnection &conn )
 
 void FldNamesListTable::fill(XtringList &captions, List< int > &values)
 {
-	_GONG_DEBUG_ASSERT( !mIsConst );
 	mListOfCaptions = captions;
 	mListOfValues = values;
+}
+
+void FldNamesListTable::fill(const XtringList &captions, const List< int > &values)
+{
+	const_cast<XtringList &>(mRefListOfCaptions) = captions;
+	const_cast<IntList & >(mRefListOfValues) = values;
 }
 
 int FldNamesListTable::findCode(const Xtring& name) const

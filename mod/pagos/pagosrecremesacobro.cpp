@@ -45,7 +45,7 @@ void RecRemesaCobro::actTotales()
 /*<<<<<REMESACOBRO_SAVE*/
 bool RecRemesaCobro::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>REMESACOBRO_SAVE*/
+/*>>>>>REMESACOBRO_SAVE*/
     actTotales();
     return dbRecord::save(saverelated);
 }
@@ -53,7 +53,7 @@ bool RecRemesaCobro::save(bool saverelated) throw( dbError )
 /*<<<<<REMESACOBRO_RELATIONS*/
 empresa::RecProyecto *RecRemesaCobro::getRecProyecto() const
 {
-    return static_cast<empresa::RecProyecto*>(findRelatedRecord("REMESACOBRO.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("REMESACOBRO.PROYECTO_ID"));
 }
 
 /*>>>>>REMESACOBRO_RELATIONS*/

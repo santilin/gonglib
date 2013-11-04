@@ -44,41 +44,41 @@ namespace contab {
 
 /*<<<<<FRMEDITAPUNTE_CONSTRUCTOR*/
 FrmEditApunte::FrmEditApunte(FrmEditRecMaster *frmmaster, int ndetail,
-                             dbRecord *detail, const Xtring &dettablename, dbRecordDataModel *dm,
-                             EditMode editmode, dbApplication::EditFlags editflags,
-                             QWidget* parent, const char* name, WidgetFlags fl )
-    : FrmEditRecDetail( frmmaster, ndetail, detail, dettablename, dm, editmode, editflags, parent, name, fl )
+	dbRecord *detail, const Xtring &dettablename, dbRecordDataModel *dm,
+	EditMode editmode, dbApplication::EditFlags editflags,
+	QWidget* parent, const char* name, WidgetFlags fl )
+		: FrmEditRecDetail( frmmaster, ndetail, detail, dettablename, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditApunte" );
-    /*>>>>>FRMEDITAPUNTE_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditApunte" );
+/*>>>>>FRMEDITAPUNTE_CONSTRUCTOR*/
 
     /*<<<<<FRMEDITAPUNTE_INIT_CONTROLS*/
-    QHBoxLayout *numapunteLayout = new QHBoxLayout(0, 0, 6, "numapunteLayout");
-    QHBoxLayout *cuenta_idLayout = new QHBoxLayout(0, 0, 6, "cuenta_idLayout");
-    QHBoxLayout *moneyLayout = new QHBoxLayout(0, 0, 6, "moneyLayout");
-    QHBoxLayout *conceptoLayout = new QHBoxLayout(0, 0, 6, "conceptoLayout");
-    QHBoxLayout *contrapartidaLayout = new QHBoxLayout(0, 0, 6, "contrapartidaLayout");
-    QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-    editNumApunte = addEditField( pControlsFrame, "APUNTE", "NUMAPUNTE", numapunteLayout );
+	QHBoxLayout *numapunteLayout = new QHBoxLayout(0, 0, 6, "numapunteLayout");
+	QHBoxLayout *cuenta_idLayout = new QHBoxLayout(0, 0, 6, "cuenta_idLayout");
+	QHBoxLayout *moneyLayout = new QHBoxLayout(0, 0, 6, "moneyLayout");
+	QHBoxLayout *conceptoLayout = new QHBoxLayout(0, 0, 6, "conceptoLayout");
+	QHBoxLayout *contrapartidaLayout = new QHBoxLayout(0, 0, 6, "contrapartidaLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	editNumApunte = addEditField( pControlsFrame, "APUNTE", "NUMAPUNTE", numapunteLayout );
 
-    searchCuentaCuenta = addSearchField( pControlsFrame, "CUENTA_ID", "CUENTA", "CUENTA", "DESCRIPCION", cuenta_idLayout );
-    pushCuentaCuenta = searchCuentaCuenta->getButton();
-    connect( pushCuentaCuenta, SIGNAL( clicked() ), this, SLOT( pushCuentaCuenta_clicked() ) );
-    editCuentaCuenta = searchCuentaCuenta->getEditCode();
-    editCuentaDescripcion = searchCuentaCuenta->getEditDesc();
-    editDebe = addEditField( pControlsFrame, "APUNTE", "DEBE", moneyLayout );
-    editHaber = addEditField( pControlsFrame, "APUNTE", "HABER", moneyLayout );
-    editConcepto = addEditField( pControlsFrame, "APUNTE", "CONCEPTO", conceptoLayout );
-    editContrapartida = addEditField( pControlsFrame, "APUNTE", "CONTRAPARTIDA", contrapartidaLayout );
-    editNotas = addTextField( pControlsFrame, "APUNTE", "NOTAS", notasLayout );
-    pControlsLayout->addLayout( numapunteLayout );
-    pControlsLayout->addLayout( cuenta_idLayout );
-    pControlsLayout->addLayout( moneyLayout );
-    pControlsLayout->addLayout( conceptoLayout );
-    pControlsLayout->addLayout( contrapartidaLayout );
-    pControlsLayout->addLayout( notasLayout );
-    /*>>>>>FRMEDITAPUNTE_INIT_CONTROLS*/
+	searchCuentaCuenta = addSearchField( pControlsFrame, "CUENTA_ID", "CUENTA", "CUENTA", "DESCRIPCION", cuenta_idLayout );
+	pushCuentaCuenta = searchCuentaCuenta->getButton();
+	connect( pushCuentaCuenta, SIGNAL( clicked() ), this, SLOT( pushCuentaCuenta_clicked() ) );
+	editCuentaCuenta = searchCuentaCuenta->getEditCode();
+	editCuentaDescripcion = searchCuentaCuenta->getEditDesc();
+	editDebe = addEditField( pControlsFrame, "APUNTE", "DEBE", moneyLayout );
+	editHaber = addEditField( pControlsFrame, "APUNTE", "HABER", moneyLayout );
+	editConcepto = addEditField( pControlsFrame, "APUNTE", "CONCEPTO", conceptoLayout );
+	editContrapartida = addEditField( pControlsFrame, "APUNTE", "CONTRAPARTIDA", contrapartidaLayout );
+	editNotas = addTextField( pControlsFrame, "APUNTE", "NOTAS", notasLayout );
+	pControlsLayout->addLayout( numapunteLayout );
+	pControlsLayout->addLayout( cuenta_idLayout );
+	pControlsLayout->addLayout( moneyLayout );
+	pControlsLayout->addLayout( conceptoLayout );
+	pControlsLayout->addLayout( contrapartidaLayout );
+	pControlsLayout->addLayout( notasLayout );
+/*>>>>>FRMEDITAPUNTE_INIT_CONTROLS*/
     QHBoxLayout *contrapartida_idLayout = new QHBoxLayout(0, 0, 6, "contrapartida_idLayout");
     searchContrapartidaCuenta = addSearchField( pControlsFrame, "CONTRAPARTIDA_ID", "CUENTA", "CUENTA", "DESCRIPCION", contrapartida_idLayout);
     pushContrapartidaCuenta = searchContrapartidaCuenta->getButton();
@@ -112,16 +112,16 @@ void FrmEditApunte::scatterFields()
     if( pFocusWidget == 0 )
         pFocusWidget = editCuentaCuenta;
     /*<<<<<FRMEDITAPUNTE_SCATTER*/
-    editNumApunte->setText(getRecApunte()->getValue("NUMAPUNTE").toInt());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editNumApunte;
-    editDebe->setText(getRecApunte()->getValue("DEBE").toMoney());
-    editHaber->setText(getRecApunte()->getValue("HABER").toMoney());
-    editConcepto->setText(getRecApunte()->getValue("CONCEPTO").toString());
-    editContrapartida->setText(getRecApunte()->getValue("CONTRAPARTIDA").toString());
-    editNotas->setText(getRecApunte()->getValue("NOTAS").toString());
-    scatterCuenta();
-    /*>>>>>FRMEDITAPUNTE_SCATTER*/
+	editNumApunte->setText(getRecApunte()->getValue("NUMAPUNTE").toInt());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editNumApunte;
+	editDebe->setText(getRecApunte()->getValue("DEBE").toMoney());
+	editHaber->setText(getRecApunte()->getValue("HABER").toMoney());
+	editConcepto->setText(getRecApunte()->getValue("CONCEPTO").toString());
+	editContrapartida->setText(getRecApunte()->getValue("CONTRAPARTIDA").toString());
+	editNotas->setText(getRecApunte()->getValue("NOTAS").toString());
+	scatterCuenta();
+/*>>>>>FRMEDITAPUNTE_SCATTER*/
     if( isInserting() || pRecord->isEmpty() ) {
         editConcepto->setText( getFrmAsiento()->getLastConcepto() );
     }
@@ -136,31 +136,31 @@ void FrmEditApunte::scatterFields()
 void FrmEditApunte::gatherFields()
 {
     /*<<<<<FRMEDITAPUNTE_GATHER*/
-    getRecApunte()->setValue( "NUMAPUNTE", editNumApunte->toInt());
-    getRecApunte()->setValue( "CUENTA_ID", getRecCuenta()->getRecordID() );
-    getRecApunte()->setValue( "DEBE", editDebe->toMoney());
-    getRecApunte()->setValue( "HABER", editHaber->toMoney());
-    getRecApunte()->setValue( "CONCEPTO", editConcepto->toString());
-    getRecApunte()->setValue( "CONTRAPARTIDA", editContrapartida->toString());
-    getRecApunte()->setValue( "NOTAS", editNotas->toString());
-    /*>>>>>FRMEDITAPUNTE_GATHER*/
+	getRecApunte()->setValue( "NUMAPUNTE", editNumApunte->toInt());
+	getRecApunte()->setValue( "CUENTA_ID", getRecCuenta()->getRecordID() );
+	getRecApunte()->setValue( "DEBE", editDebe->toMoney());
+	getRecApunte()->setValue( "HABER", editHaber->toMoney());
+	getRecApunte()->setValue( "CONCEPTO", editConcepto->toString());
+	getRecApunte()->setValue( "CONTRAPARTIDA", editContrapartida->toString());
+	getRecApunte()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITAPUNTE_GATHER*/
 }
 
 void FrmEditApunte::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
 /// \todo {gui} saltarse el campo descripción, igual que en validSeekCode
     /*<<<<<FRMEDITAPUNTE_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    if( focusWidget() != pushCuentaCuenta) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editCuentaCuenta, editCuentaDescripcion,
-                           getRecCuenta(), "CUENTA", "DESCRIPCION", Xtring::null) )
-            scatterCuenta();
-    /*>>>>>FRMEDITAPUNTE_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( focusWidget() != pushCuentaCuenta) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editCuentaCuenta, editCuentaDescripcion,
+		getRecCuenta(), "CUENTA", "DESCRIPCION", Xtring::null) )
+		scatterCuenta();
+/*>>>>>FRMEDITAPUNTE_VALIDATE*/
 
 #include "contabvalidatecuenta.inc"
 
@@ -197,70 +197,70 @@ void FrmEditApunte::validateFields(QWidget *sender, bool *isvalid, ValidResult *
 void FrmEditApunte::scatterCuenta()
 {
     /*<<<<<FRMEDITAPUNTE_SCATTER_CUENTA*/
-    editCuentaCuenta->setText( getRecCuenta()->getValue("CUENTA") );
-    editCuentaDescripcion->setText( getRecCuenta()->getValue("DESCRIPCION") );
-    /*>>>>>FRMEDITAPUNTE_SCATTER_CUENTA*/
+	editCuentaCuenta->setText( getRecCuenta()->getValue("CUENTA") );
+	editCuentaDescripcion->setText( getRecCuenta()->getValue("DESCRIPCION") );
+/*>>>>>FRMEDITAPUNTE_SCATTER_CUENTA*/
 }
 
 void FrmEditApunte::pushCuentaCuenta_clicked()
 {
     /*<<<<<FRMEDITAPUNTE_PUSH_CUENTA_CUENTA_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchCuentaCuenta->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editCuentaCuenta->setJustEdited( false );
-        editCuentaCuenta->setCancelling();
-        if( DBAPP->choose(this, getRecCuenta(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterCuenta();
-            editCuentaCuenta->setJustEdited( true );
-            editCuentaCuenta->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecCuenta()->getRecordID() ) {
-            editCuentaCuenta->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecCuenta(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editCuentaCuenta->setJustEdited( true );
-                scatterCuenta();
-            }
-            editCuentaCuenta->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecCuenta()->getRecordID() != 0 ) {
-            editCuentaCuenta->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuenta(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        RecCuenta *tmprec = static_cast<RecCuenta *>(DBAPP->createRecord( "Cuenta" ));
-        editCuentaCuenta->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editCuentaCuenta->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editCuentaCuenta->setJustEdited( true );
-            getRecCuenta()->copyRecord( tmprec );
-            scatterCuenta();
-        }
-        editCuentaCuenta->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITAPUNTE_PUSH_CUENTA_CUENTA_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchCuentaCuenta->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editCuentaCuenta->setJustEdited( false );
+			editCuentaCuenta->setCancelling();
+			if( DBAPP->choose(this, getRecCuenta(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterCuenta();
+				editCuentaCuenta->setJustEdited( true );
+				editCuentaCuenta->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecCuenta()->getRecordID() ) {
+					editCuentaCuenta->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecCuenta(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editCuentaCuenta->setJustEdited( true );
+						scatterCuenta();
+					}
+					editCuentaCuenta->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecCuenta()->getRecordID() != 0 ) {
+					editCuentaCuenta->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuenta(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecCuenta *tmprec = static_cast<RecCuenta *>(DBAPP->createRecord( "Cuenta" ));
+				editCuentaCuenta->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editCuentaCuenta->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editCuentaCuenta->setJustEdited( true );
+					getRecCuenta()->copyRecord( tmprec );
+					scatterCuenta();
+				}
+				editCuentaCuenta->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITAPUNTE_PUSH_CUENTA_CUENTA_CLICKED*/
 }
 
 void FrmEditApunte::scatterContrapartida()
@@ -273,12 +273,12 @@ void FrmEditApunte::scatterContrapartida()
 void FrmEditApunte::specialControlKeyPressed(QWidget *sender, char key)
 {
     /*<<<<<FRMEDITAPUNTE_SPECIALACTION*/
-    mControlKeyPressed = key;
-    FrmEditRecDetail::specialControlKeyPressed(sender,key); // calls the behaviors
-    if( sender == editCuentaCuenta )
-        pushCuentaCuenta_clicked();
-    mControlKeyPressed = '\0';
-    /*>>>>>FRMEDITAPUNTE_SPECIALACTION*/
+	mControlKeyPressed = key;
+	FrmEditRecDetail::specialControlKeyPressed(sender,key); // calls the behaviors
+	if( sender == editCuentaCuenta )
+		pushCuentaCuenta_clicked();
+	mControlKeyPressed = '\0';
+/*>>>>>FRMEDITAPUNTE_SPECIALACTION*/
     if( sender == editContrapartidaCuenta ) {
         mControlKeyPressed = key;
         pushContrapartidaCuenta_clicked();

@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecfacturaventadet.h Registro de detalles de facturas de venta
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -29,8 +29,8 @@ namespace factu {
 class RecFacturaVentaDet: public dbRecord
 {
 public:
-    RecFacturaVentaDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FACTURAVENTADET"), recid, user)
+	RecFacturaVentaDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FACTURAVENTADET"), recid, user)
 /*>>>>>FACTURAVENTADET_CONSTRUCTOR*/
     {
         addSemanticProperty( "FACTURA" );
@@ -38,15 +38,15 @@ public:
         addSemanticProperty( "DETALLE" );
     }
     /*<<<<<FACTURAVENTADET_MEMBERS*/
-    virtual void beforeSaveOrDeleteRelated(dbRecord *master, bool saving); // from dbRecord
-    /*>>>>>FACTURAVENTADET_MEMBERS*/
+	virtual void beforeSaveOrDeleteRelated(dbRecord *master, bool saving); // from dbRecord
+/*>>>>>FACTURAVENTADET_MEMBERS*/
     bool actStocks( dbRecord *facturaventa, bool saving ) const;
     bool actAlbaranes( dbRecord *facturaventa, bool saving = true ) const;
 
     /*<<<<<FACTURAVENTADET_RELATIONS*/
-    RecArticulo *getRecArticulo() const;
-    empresa::RecTipoIVA *getRecTipoIVA() const;
-    /*>>>>>FACTURAVENTADET_RELATIONS*/
+	RecArticulo *getRecArticulo() const;
+	empresa::RecTipoIVA *getRecTipoIVA() const;
+/*>>>>>FACTURAVENTADET_RELATIONS*/
 }; // end class
 
 /*<<<<<FACTURAVENTADET_POSTAMBLE*/

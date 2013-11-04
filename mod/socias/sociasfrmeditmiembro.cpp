@@ -77,7 +77,7 @@ FrmEditMiembro::FrmEditMiembro(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 	editProyectoDescripcion = searchProyectoCodigo->getEditDesc();
 	editNumeroSocia = addEditField( pControlsFrame, "MIEMBRO", "NUMEROSOCIA", nsociaLayout );
 	editFechaAlta = addEditField( pControlsFrame, "MIEMBRO", "FECHAALTA", nsociaLayout );
-	comboSociasEstado = addComboField<int>( pControlsFrame, "MIEMBRO", "SOCIASESTADO", nsociaLayout );
+	comboSociasEstado = addComboIntField( pControlsFrame, "MIEMBRO", "SOCIASESTADO", nsociaLayout );
 
 #ifdef HAVE_FACTUMODULE
 if( ModuleInstance->getFactuModule() ) {

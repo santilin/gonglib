@@ -35,6 +35,7 @@ public:
                           ValidResult::Context context, ValidResult *integres) const; // from dbFieldDefinition
     void fill( dbConnection &conn );
     void fill( XtringList &mCaptions, List<int> &mValues );
+    void fill( const XtringList &mCaptions, const List<int> &mValues );
     int findCode( const Xtring &name ) const;
 };
 

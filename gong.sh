@@ -122,7 +122,6 @@ create_links()
 {
 	PWD_SAVE=`pwd`
 	echo $PWD_SAVE
-	echo $GONGDIR
 	rm acinclude.m4
 	ln -s $GONGDIR/acinclude.m4 .
 	rm gonglib

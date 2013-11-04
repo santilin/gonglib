@@ -63,7 +63,7 @@ SinPapelesModule::SinPapelesModule()
 //	mModuleRequires
 //	mMasterTables
 //	mDetailTables
-    /*>>>>>SINPAPELESMODULE_PUBLIC_INFO*/
+/*>>>>>SINPAPELESMODULE_PUBLIC_INFO*/
     pSinPapelesRecordBehavior = new SinPapelesRecordBehavior();
 }
 
@@ -98,7 +98,7 @@ dbRecord *SinPapelesModule::createRecord(const Xtring &tablename, dbRecordID rec
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     /*<<<<<SINPAPELESMODULE_CREATE_RECORD*/
 
-    /*>>>>>SINPAPELESMODULE_CREATE_RECORD*/
+/*>>>>>SINPAPELESMODULE_CREATE_RECORD*/
     return 0;
 }
 
@@ -110,7 +110,7 @@ FrmEditRec *SinPapelesModule::createEditForm(FrmEditRec *parentfrm, dbRecord *re
     Xtring tablename = rec->getTableName();
     /*<<<<<SINPAPELESMODULE_CREATE_EDITFORM*/
 
-    /*>>>>>SINPAPELESMODULE_CREATE_EDITFORM*/
+/*>>>>>SINPAPELESMODULE_CREATE_EDITFORM*/
     return 0;
 }
 
@@ -124,7 +124,7 @@ FrmEditRecDetail *SinPapelesModule::createEditDetailForm(
     Xtring tablename = rec->getTableName();
     /*<<<<<SINPAPELESMODULE_CREATE_EDITFORM_DETAIL*/
 
-    /*>>>>>SINPAPELESMODULE_CREATE_EDITFORM_DETAIL*/
+/*>>>>>SINPAPELESMODULE_CREATE_EDITFORM_DETAIL*/
     return 0;
 }
 
@@ -147,7 +147,7 @@ bool SinPapelesModule::initMainWindow(MainWindow *mainwin)
     pMainWindow = mainwin;
     /*<<<<<SINPAPELESMODULE_INITMAINWINDOW_MENUS*/
 
-    /*>>>>>SINPAPELESMODULE_INITMAINWINDOW_MENUS*/
+/*>>>>>SINPAPELESMODULE_INITMAINWINDOW_MENUS*/
     return true;
 }
 

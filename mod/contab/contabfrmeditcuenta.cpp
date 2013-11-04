@@ -48,42 +48,42 @@ namespace contab {
 
 /*<<<<<FRMEDITCUENTA_CONSTRUCTOR*/
 FrmEditCuenta::FrmEditCuenta(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
-                             EditMode editmode, dbApplication::EditFlags editflags,
-                             QWidget *parent, const char* name, WidgetFlags fl )
-    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
+	                               EditMode editmode, dbApplication::EditFlags editflags,
+	                               QWidget *parent, const char* name, WidgetFlags fl )
+	    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditCuenta" );
-    /*>>>>>FRMEDITCUENTA_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditCuenta" );
+/*>>>>>FRMEDITCUENTA_CONSTRUCTOR*/
 
     /*<<<<<FRMEDITCUENTA_INIT_CONTROLS*/
-    showTabs(true);
-    QWidget *tabExtracto = new QWidget( pTabWidget, "tabExtracto" );
-    QVBoxLayout *tabExtractoLayout = new QVBoxLayout(tabExtracto, 11, 6, "tabExtractoLayout");
-    QHBoxLayout *saldoLayout = new QHBoxLayout(0, 0, 6, "saldoLayout");
-    QHBoxLayout *contactoLayout = new QHBoxLayout(0, 0, 6, "contactoLayout");
-    QHBoxLayout *cuentaLayout = new QHBoxLayout(0, 0, 6, "cuentaLayout");
-    QHBoxLayout *tipoLayout = new QHBoxLayout(0, 0, 6, "tipoLayout");
-    QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-    editDebe = addEditField( tabExtracto, "CUENTA", "DEBE", saldoLayout );
-    editHaber = addEditField( tabExtracto, "CUENTA", "HABER", saldoLayout );
-    editSaldo = addEditField( tabExtracto, "CUENTA", "SALDO", saldoLayout );
+	showTabs(true);
+	QWidget *tabExtracto = new QWidget( pTabWidget, "tabExtracto" );
+	QVBoxLayout *tabExtractoLayout = new QVBoxLayout(tabExtracto, 11, 6, "tabExtractoLayout");
+	QHBoxLayout *saldoLayout = new QHBoxLayout(0, 0, 6, "saldoLayout");
+	QHBoxLayout *contactoLayout = new QHBoxLayout(0, 0, 6, "contactoLayout");
+	QHBoxLayout *cuentaLayout = new QHBoxLayout(0, 0, 6, "cuentaLayout");
+	QHBoxLayout *tipoLayout = new QHBoxLayout(0, 0, 6, "tipoLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	editDebe = addEditField( tabExtracto, "CUENTA", "DEBE", saldoLayout );
+	editHaber = addEditField( tabExtracto, "CUENTA", "HABER", saldoLayout );
+	editSaldo = addEditField( tabExtracto, "CUENTA", "SALDO", saldoLayout );
 
-    searchContactoCIF = addSearchField( pControlsFrame, "CONTACTO_ID", "CONTACTO", "CIF", "NOMBRE", contactoLayout );
-    pushContactoCIF = searchContactoCIF->getButton();
-    connect( pushContactoCIF, SIGNAL( clicked() ), this, SLOT( pushContactoCIF_clicked() ) );
-    editContactoCIF = searchContactoCIF->getEditCode();
-    editContactoNombre = searchContactoCIF->getEditDesc();
-    editCuenta = addEditField( pControlsFrame, "CUENTA", "CUENTA", cuentaLayout );
-    editDescripcion = addEditField( pControlsFrame, "CUENTA", "DESCRIPCION", cuentaLayout );
-    checkManual = addCheckField( pControlsFrame, "CUENTA", "MANUAL", tipoLayout );
-    editNotas = addTextField( pControlsFrame, "CUENTA", "NOTAS", notasLayout );
-    tabExtractoLayout->addLayout( saldoLayout );
-    pControlsLayout->addLayout( contactoLayout );
-    pControlsLayout->addLayout( cuentaLayout );
-    pControlsLayout->addLayout( tipoLayout );
-    pControlsLayout->addLayout( notasLayout );
-    /*>>>>>FRMEDITCUENTA_INIT_CONTROLS*/
+	searchContactoCIF = addSearchField( pControlsFrame, "CONTACTO_ID", "CONTACTO", "CIF", "NOMBRE", contactoLayout );
+	pushContactoCIF = searchContactoCIF->getButton();
+	connect( pushContactoCIF, SIGNAL( clicked() ), this, SLOT( pushContactoCIF_clicked() ) );
+	editContactoCIF = searchContactoCIF->getEditCode();
+	editContactoNombre = searchContactoCIF->getEditDesc();
+	editCuenta = addEditField( pControlsFrame, "CUENTA", "CUENTA", cuentaLayout );
+	editDescripcion = addEditField( pControlsFrame, "CUENTA", "DESCRIPCION", cuentaLayout );
+	checkManual = addCheckField( pControlsFrame, "CUENTA", "MANUAL", tipoLayout );
+	editNotas = addTextField( pControlsFrame, "CUENTA", "NOTAS", notasLayout );
+	tabExtractoLayout->addLayout( saldoLayout );
+	pControlsLayout->addLayout( contactoLayout );
+	pControlsLayout->addLayout( cuentaLayout );
+	pControlsLayout->addLayout( tipoLayout );
+	pControlsLayout->addLayout( notasLayout );
+/*>>>>>FRMEDITCUENTA_INIT_CONTROLS*/
     // No se genera automáticamente porque usa getViewsByName
     RecAsiento *asiento = static_cast<RecAsiento*>(ModuleInstance->createRecord("ASIENTO"));
     dbViewDefinitionsList asientoviews;
@@ -123,17 +123,17 @@ void FrmEditCuenta::scatterFields()
     if( getRecContacto()->isNew() )
         getRecContacto()->setValue("CIF", "");
     /*<<<<<FRMEDITCUENTA_SCATTER*/
-    editDebe->setText(getRecCuenta()->getValue("DEBE").toMoney());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editDebe;
-    editHaber->setText(getRecCuenta()->getValue("HABER").toMoney());
-    editSaldo->setText(getRecCuenta()->getValue("SALDO").toMoney());
-    editCuenta->setText(getRecCuenta()->getValue("CUENTA").toString());
-    editDescripcion->setText(getRecCuenta()->getValue("DESCRIPCION").toString());
-    checkManual->setChecked(getRecCuenta()->getValue("MANUAL").toBool());
-    editNotas->setText(getRecCuenta()->getValue("NOTAS").toString());
-    scatterContacto();
-    /*>>>>>FRMEDITCUENTA_SCATTER*/
+	editDebe->setText(getRecCuenta()->getValue("DEBE").toMoney());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editDebe;
+	editHaber->setText(getRecCuenta()->getValue("HABER").toMoney());
+	editSaldo->setText(getRecCuenta()->getValue("SALDO").toMoney());
+	editCuenta->setText(getRecCuenta()->getValue("CUENTA").toString());
+	editDescripcion->setText(getRecCuenta()->getValue("DESCRIPCION").toString());
+	checkManual->setChecked(getRecCuenta()->getValue("MANUAL").toBool());
+	editNotas->setText(getRecCuenta()->getValue("NOTAS").toString());
+	scatterContacto();
+/*>>>>>FRMEDITCUENTA_SCATTER*/
     if( isInserting() ) {
         getRecord()->setValue( "EJERCICIO", empresa::ModuleInstance->getEjercicio() );
         if( isDuplicating() ) {
@@ -167,15 +167,15 @@ void FrmEditCuenta::scatterFields()
 void FrmEditCuenta::gatherFields()
 {
     /*<<<<<FRMEDITCUENTA_GATHER*/
-    getRecCuenta()->setValue( "DEBE", editDebe->toMoney());
-    getRecCuenta()->setValue( "HABER", editHaber->toMoney());
-    getRecCuenta()->setValue( "SALDO", editSaldo->toMoney());
-    getRecCuenta()->setValue( "CONTACTO_ID", getRecContacto()->getRecordID() );
-    getRecCuenta()->setValue( "CUENTA", editCuenta->toString());
-    getRecCuenta()->setValue( "DESCRIPCION", editDescripcion->toString());
-    getRecCuenta()->setValue( "MANUAL", checkManual->isChecked());
-    getRecCuenta()->setValue( "NOTAS", editNotas->toString());
-    /*>>>>>FRMEDITCUENTA_GATHER*/
+	getRecCuenta()->setValue( "DEBE", editDebe->toMoney());
+	getRecCuenta()->setValue( "HABER", editHaber->toMoney());
+	getRecCuenta()->setValue( "SALDO", editSaldo->toMoney());
+	getRecCuenta()->setValue( "CONTACTO_ID", getRecContacto()->getRecordID() );
+	getRecCuenta()->setValue( "CUENTA", editCuenta->toString());
+	getRecCuenta()->setValue( "DESCRIPCION", editDescripcion->toString());
+	getRecCuenta()->setValue( "MANUAL", checkManual->isChecked());
+	getRecCuenta()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITCUENTA_GATHER*/
 }
 
 bool FrmEditCuenta::remove()
@@ -197,17 +197,17 @@ bool FrmEditCuenta::remove()
 void FrmEditCuenta::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
     /*<<<<<FRMEDITCUENTA_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    if( focusWidget() != pushContactoCIF) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editContactoCIF, editContactoNombre,
-                           getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
-            scatterContacto();
-    /*>>>>>FRMEDITCUENTA_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( focusWidget() != pushContactoCIF) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editContactoCIF, editContactoNombre,
+		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		scatterContacto();
+/*>>>>>FRMEDITCUENTA_VALIDATE*/
     if ( sender == editContactoCIF && editContactoCIF->isJustEdited()
             && editDescripcion->toString().isEmpty() ) {
         editDescripcion->setText( editContactoNombre->toString() );
@@ -257,79 +257,79 @@ void FrmEditCuenta::validateFields(QWidget *sender, bool *isvalid, ValidResult *
 void FrmEditCuenta::scatterContacto()
 {
     /*<<<<<FRMEDITCUENTA_SCATTER_CONTACTO*/
-    editContactoCIF->setText( getRecContacto()->getValue("CIF") );
-    editContactoNombre->setText( getRecContacto()->getValue("NOMBRE") );
-    /*>>>>>FRMEDITCUENTA_SCATTER_CONTACTO*/
+	editContactoCIF->setText( getRecContacto()->getValue("CIF") );
+	editContactoNombre->setText( getRecContacto()->getValue("NOMBRE") );
+/*>>>>>FRMEDITCUENTA_SCATTER_CONTACTO*/
 }
 void FrmEditCuenta::pushContactoCIF_clicked()
 {
     /*<<<<<FRMEDITCUENTA_PUSH_CONTACTO_CIF_CLICKED*/
-    char action = mControlKeyPressed;
-    if( !isEditing() || searchContactoCIF->mustBeReadOnly() )
-        action = 'E';
-    switch( action ) {
-    case 'F':
-    case '\0':
-        editContactoCIF->setJustEdited( false );
-        editContactoCIF->setCancelling();
-        if( DBAPP->choose(this, getRecContacto(), 0, dbApplication::editNone, this ) ) {
-            setEdited(true);
-            scatterContacto();
-            editContactoCIF->setJustEdited( true );
-            editContactoCIF->setFocus();
-        }
-        break;
-    case 'M':
-    {
-        if( getRecContacto()->getRecordID() ) {
-            editContactoCIF->setJustEdited( false );
-            if( DBAPP->editRecord(this,
-                                  getRecContacto(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                editContactoCIF->setJustEdited( true );
-                scatterContacto();
-            }
-            editContactoCIF->setFocus();
-        }
-    }
-    break;
-    case 'E':
-    {
-        if( getRecContacto()->getRecordID() != 0 ) {
-            editContactoCIF->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecContacto(),
-                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-        }
-    }
-    break;
-    case 'A':
-    {
-        contactos::RecContacto *tmprec = static_cast<contactos::RecContacto *>(DBAPP->createRecord( "Contacto" ));
-        editContactoCIF->setJustEdited( false );
-        tmprec->clear( true ); // set default values
-        DBAPP->setCodeNotFound( editContactoCIF->toString() );
-        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-                              dbApplication::simpleEdition, this ) ) {
-            editContactoCIF->setJustEdited( true );
-            getRecContacto()->copyRecord( tmprec );
-            scatterContacto();
-        }
-        editContactoCIF->setFocus();
-        DBAPP->setCodeNotFound( Xtring() );
-    }
-    break;
-    }
-    /*>>>>>FRMEDITCUENTA_PUSH_CONTACTO_CIF_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchContactoCIF->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editContactoCIF->setJustEdited( false );
+			editContactoCIF->setCancelling();
+			if( DBAPP->choose(this, getRecContacto(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterContacto();
+				editContactoCIF->setJustEdited( true );
+				editContactoCIF->setFocus();
+			}
+			break;
+		case 'M':
+			{
+				if( getRecContacto()->getRecordID() ) {
+					editContactoCIF->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecContacto(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editContactoCIF->setJustEdited( true );
+						scatterContacto();
+					}
+					editContactoCIF->setFocus();
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecContacto()->getRecordID() != 0 ) {
+					editContactoCIF->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecContacto(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				contactos::RecContacto *tmprec = static_cast<contactos::RecContacto *>(DBAPP->createRecord( "Contacto" ));
+				editContactoCIF->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editContactoCIF->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editContactoCIF->setJustEdited( true );
+					getRecContacto()->copyRecord( tmprec );
+					scatterContacto();
+				}
+				editContactoCIF->setFocus();
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITCUENTA_PUSH_CONTACTO_CIF_CLICKED*/
 }
 void FrmEditCuenta::specialControlKeyPressed(QWidget *sender, char key)
 {
     /*<<<<<FRMEDITCUENTA_SPECIALACTION*/
-    mControlKeyPressed = key;
-    FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
-    if( sender == editContactoCIF )
-        pushContactoCIF_clicked();
-    mControlKeyPressed = '\0';
-    /*>>>>>FRMEDITCUENTA_SPECIALACTION*/
+	mControlKeyPressed = key;
+	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
+	if( sender == editContactoCIF )
+		pushContactoCIF_clicked();
+	mControlKeyPressed = '\0';
+/*>>>>>FRMEDITCUENTA_SPECIALACTION*/
 }
 
 

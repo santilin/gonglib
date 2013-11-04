@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file factufrmeditagente.h Fichero de edición de agentes
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -32,31 +32,29 @@ namespace factu {
 /*<<<<<FRMEDITAGENTE_CLASS*/
 class FrmEditAgente: public FrmEditRecMaster
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    FrmEditAgente(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
-                  EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
-                  QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-    RecAgente *getRecAgente() const {
-        return (RecAgente *)getRecord();
-    }
-    /*>>>>>FRMEDITAGENTE_CLASS*/
+	FrmEditAgente(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
+		EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
+		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
+	RecAgente *getRecAgente() const { return (RecAgente *)getRecord(); }
+/*>>>>>FRMEDITAGENTE_CLASS*/
 
     /*<<<<<FRMEDITAGENTE_VIRTUALS_FROM_FRMEDITREC*/
 protected:
-    virtual void scatterFields(); // From FrmEditRec
-    virtual void gatherFields();
-    virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    /*>>>>>FRMEDITAGENTE_VIRTUALS_FROM_FRMEDITREC*/
+	virtual void scatterFields(); // From FrmEditRec
+	virtual void gatherFields();
+	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+/*>>>>>FRMEDITAGENTE_VIRTUALS_FROM_FRMEDITREC*/
     class contactos::FrmEditContactoBehavior *pEditContactoBehavior;
 
     /*<<<<<FRMEDITAGENTE_CONTROLS*/
 protected:
-    gong::EditBox *editCodigo;
-    gong::EditBox *editRazonSocial;
-    gong::TextBox *editNotas;
-    /*>>>>>FRMEDITAGENTE_CONTROLS*/
+	gong::EditBox *editCodigo;
+	gong::EditBox *editRazonSocial;
+	gong::TextBox *editNotas;
+/*>>>>>FRMEDITAGENTE_CONTROLS*/
 };
 
 /*<<<<<FRMEDITAGENTE_POSTAMBLE*/

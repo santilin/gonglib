@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecpresupuestoventadet.h Registro de detalles de presupuestos de venta
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -29,8 +29,8 @@ namespace factu {
 class RecPresupuestoVentaDet: public dbRecord
 {
 public:
-    RecPresupuestoVentaDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PRESUPUESTOVENTADET"), recid, user)
+	RecPresupuestoVentaDet(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PRESUPUESTOVENTADET"), recid, user)
 /*>>>>>PRESUPUESTOVENTADET_CONSTRUCTOR*/
     {
         addSemanticProperty( "VENTA" );
@@ -38,9 +38,9 @@ public:
         addSemanticProperty( "DETALLE" );
     }
     /*<<<<<PRESUPUESTOVENTADET_RELATIONS*/
-    RecArticulo *getRecArticulo() const;
-    empresa::RecTipoIVA *getRecTipoIVA() const;
-    /*>>>>>PRESUPUESTOVENTADET_RELATIONS*/
+	RecArticulo *getRecArticulo() const;
+	empresa::RecTipoIVA *getRecTipoIVA() const;
+/*>>>>>PRESUPUESTOVENTADET_RELATIONS*/
 }; // end class
 
 /*<<<<<PRESUPUESTOVENTADET_POSTAMBLE*/

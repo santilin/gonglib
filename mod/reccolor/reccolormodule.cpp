@@ -73,7 +73,7 @@ RecColorModule::RecColorModule()
 //	mModuleRequires
 //	mMasterTables
 //	mDetailTables
-    /*>>>>>RECCOLORMODULE_PUBLIC_INFO*/
+/*>>>>>RECCOLORMODULE_PUBLIC_INFO*/
     pColorRecordBehavior = new ColorRecordBehavior();
 }
 
@@ -98,7 +98,7 @@ dbRecord *RecColorModule::createRecord(const Xtring &tablename, dbRecordID recid
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     /*<<<<<RECCOLORMODULE_CREATE_RECORD*/
 
-    /*>>>>>RECCOLORMODULE_CREATE_RECORD*/
+/*>>>>>RECCOLORMODULE_CREATE_RECORD*/
     return 0;
 }
 
@@ -110,7 +110,7 @@ FrmEditRec *RecColorModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec,
     Xtring tablename = rec->getTableName();
     /*<<<<<RECCOLORMODULE_CREATE_EDITFORM*/
 
-    /*>>>>>RECCOLORMODULE_CREATE_EDITFORM*/
+/*>>>>>RECCOLORMODULE_CREATE_EDITFORM*/
     return 0;
 }
 
@@ -123,7 +123,7 @@ FrmEditRecDetail *RecColorModule::createEditDetailForm(FrmEditRecMaster *frmmast
     Xtring tablename = rec->getTableName();
     /*<<<<<RECCOLORMODULE_CREATE_EDITFORM_DETAIL*/
 
-    /*>>>>>RECCOLORMODULE_CREATE_EDITFORM_DETAIL*/
+/*>>>>>RECCOLORMODULE_CREATE_EDITFORM_DETAIL*/
     return 0;
 }
 
@@ -156,7 +156,7 @@ bool RecColorModule::initMainWindow(MainWindow *mainwin)
     pMainWindow = mainwin;
     /*<<<<<RECCOLORMODULE_INITMAINWINDOW_MENUS*/
 
-    /*>>>>>RECCOLORMODULE_INITMAINWINDOW_MENUS*/
+/*>>>>>RECCOLORMODULE_INITMAINWINDOW_MENUS*/
     return true;
 }
 

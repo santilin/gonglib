@@ -52,8 +52,8 @@ void RecCuenta::resetSaldos()
 /*<<<<<CUENTA_ISVALID*/
 bool RecCuenta::isValid(ValidResult::Context context, ValidResult *result )
 {
-    bool ret = dbRecord::isValid(context, result);
-    /*>>>>>CUENTA_ISVALID*/
+	bool ret = dbRecord::isValid(context, result);
+/*>>>>>CUENTA_ISVALID*/
     if( context == ValidResult::fixing ) {
         Cuenta cuenta(getValue("CUENTA").toString(), ModuleInstance->getDigitosTrabajo() );
         cuenta.expandir();
@@ -65,8 +65,8 @@ bool RecCuenta::isValid(ValidResult::Context context, ValidResult *result )
 /*<<<<<CUENTA_TOSTRING*/
 Xtring RecCuenta::toString(int format, const RegExp &includedFields) const
 {
-    Xtring result;
-    /*>>>>>CUENTA_TOSTRING*/
+	Xtring result;
+/*>>>>>CUENTA_TOSTRING*/
 #if 0
     if( format == TOSTRING_USER ) {
         result = "(id=" + Xtring::number( getRecordID() ) + "), " + getValue( "CUENTA" ).toString()
@@ -80,7 +80,7 @@ Xtring RecCuenta::toString(int format, const RegExp &includedFields) const
 /*<<<<<CUENTA_RELATIONS*/
 contactos::RecContacto *RecCuenta::getRecContacto() const
 {
-    return static_cast<contactos::RecContacto*>(findRelatedRecord("CUENTA.CONTACTO_ID"));
+	return static_cast<contactos::RecContacto*>(findRelatedRecord("CUENTA.CONTACTO_ID"));
 }
 
 /*>>>>>CUENTA_RELATIONS*/

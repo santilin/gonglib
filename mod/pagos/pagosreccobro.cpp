@@ -42,19 +42,19 @@ namespace pagos {
 /*<<<<<COBRO_INIT*/
 void RecCobro::init()
 {
-    /*>>>>>COBRO_INIT*/
+/*>>>>>COBRO_INIT*/
     addStructuralFilter( "COBRO.EMPRESA_ID=" + getConnection()->toSQL( empresa::ModuleInstance->getEmpresaID() ) );
 }
 
 /*<<<<<COBRO_RELATIONS*/
 empresa::RecMoneda *RecCobro::getRecMoneda() const
 {
-    return static_cast<empresa::RecMoneda*>(findRelatedRecord("COBRO.MONEDA_ID"));
+	return static_cast<empresa::RecMoneda*>(findRelatedRecord("COBRO.MONEDA_ID"));
 }
 
 RecRemesaCobro *RecCobro::getRecRemesaCobro() const
 {
-    return static_cast<RecRemesaCobro*>(findRelatedRecord("COBRO.REMESACOBRO_ID"));
+	return static_cast<RecRemesaCobro*>(findRelatedRecord("COBRO.REMESACOBRO_ID"));
 }
 
 /*>>>>>COBRO_RELATIONS*/
@@ -69,7 +69,7 @@ contab::RecCuentaPago *RecCobro::getRecCuentaPago() const
 /*<<<<<COBRO_SAVE*/
 bool RecCobro::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>COBRO_SAVE*/
+/*>>>>>COBRO_SAVE*/
     if( getValue( "CONTADOR" ).toInt() == 0 )
         setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
     bool ret = dbRecord::save(saverelated);
@@ -87,7 +87,7 @@ bool RecCobro::save(bool saverelated) throw( dbError )
 /*<<<<<COBRO_REMOVE*/
 bool RecCobro::remove() throw( dbError )
 {
-    /*>>>>>COBRO_REMOVE*/
+/*>>>>>COBRO_REMOVE*/
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE

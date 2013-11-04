@@ -289,13 +289,13 @@ void addFrmEditBehaviorFields(CppModule *cpcpp, CppModule *cph, const Xtring &fr
 			gather += cscpp + "\tpTheForm->getRecord()->setValue( \""
 				+ fldname.upper() + "\", check" + fldname + "->isChecked());\n" + cecpp;
 		} else if( type.upper() == "COMBOSTRING" ) {
-			ctrltype = "gong::ComboBox<gong::Xtring>";
+			ctrltype = "gong::ComboBoxXtring";
 			ctrlname = "combo" + fldnamereplaced;
 			scatter += cscpp + "\t" + ctrlname + "->setText( pTheForm->getRecord()->getValue(\"" + fldname.upper() + "\").toString());\n" + cecpp;
 			gather += cscpp + "\tpTheForm->getRecord()->setValue( \""
 				+ fldname.upper() + "\", combo" + fldnamereplaced + "->toString());\n" + cecpp;
 		} else if( type.upper() == "COMBOINT" ) {
-			ctrltype = "gong::ComboBox<int>";
+			ctrltype = "gong::ComboBoxInt";
 			ctrlname = "combo" + fldnamereplaced;
 			scatter += cscpp + "\t" + ctrlname + "->setCurrentItemByValue( pTheForm->getRecord()->getValue(\"" + fldname.upper() + "\").toInt());\n" + cecpp;
 			gather += cscpp + "\tpTheForm->getRecord()->setValue( \""
@@ -518,9 +518,13 @@ void addFrmEditBehaviorFields(CppModule *cpcpp, CppModule *cph, const Xtring &fr
 			if( fldname.find(".") != Xtring::npos ) {
 				fldname.splitIn2( tableoffield, fieldoffield, "." );
 			}
-			if( ctrltype == "gong::ComboBox" ) {
+			if( ctrltype == "gong::ComboBoxInt" ) {
 				init_controls += cscpp +
-	"\t" + ctrlname + " = pTheForm->addComboField( values" + fldname + ", " + parent + ", \""
+	"\t" + ctrlname + " = pTheForm->addComboIntField( " /*values" + fldname + ", " */+ parent + ", \""
+		+ tableoffield.upper() + "\", \"" + fieldoffield.upper() + "\", " + layout + " );\n" + cecpp;
+			} else if( ctrltype == "gong::ComboBoxXtring" ) {
+				init_controls += cscpp +
+	"\t" + ctrlname + " = pTheForm->addComboXtringField( " /*values" + fldname + ", " */ + parent + ", \""
 		+ tableoffield.upper() + "\", \"" + fieldoffield.upper() + "\", " + layout + " );\n" + cecpp;
 			} else {
 				init_controls += cscpp +

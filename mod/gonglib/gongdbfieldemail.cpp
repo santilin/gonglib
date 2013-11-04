@@ -21,7 +21,7 @@ bool EMail::isValid() const
 /*<<<<<DBFIELD_EMAIL_ISVALID*/
 bool dbFieldEmail::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
-    /*>>>>>DBFIELD_EMAIL_ISVALID*/
+/*>>>>>DBFIELD_EMAIL_ISVALID*/
     bool ret = dbFieldDefinition::isValid( r, value, context, integres);
     if( ret ) {
         if( !value->isEmpty() && !EMail(value->toString()).isValid() ) {

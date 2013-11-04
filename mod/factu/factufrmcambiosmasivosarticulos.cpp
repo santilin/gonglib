@@ -26,7 +26,7 @@ FrmCambiosMasivosArticulos::FrmCambiosMasivosArticulos(QWidget * parent, const c
         setName( "FrmCambiosMasivosArticulos" );
     Xtring titulo = _("Cambios masivos en artículos");
     setTitle( titulo );
-    pComboOperacion = addComboBox( 0, _("Operación"), mOperaciones, mCodigosOperaciones );
+    pComboOperacion = addComboBoxInt( 0, _("Operación"), mOperaciones, mCodigosOperaciones );
     pComboOperacion->insertItem( _("Cambiar precios"), OP_CAMBIAR_PRECIOS );
     pComboOperacion->insertItem( _("Grabar imágenes en una carpeta"), OP_GRABAR_IMAGENES );
     pComboOperacion->insertItem( _("Cargar imágenes desde una carpeta"), OP_CARGAR_IMAGENES );
@@ -39,17 +39,17 @@ FrmCambiosMasivosArticulos::FrmCambiosMasivosArticulos(QWidget * parent, const c
     QFrame *frameCambioPrecios = new QFrame( this );
     pInputsLayout->addWidget( frameCambioPrecios );
     QHBoxLayout *frameCambioPreciosLayout = new QHBoxLayout( frameCambioPrecios );
-    pComboCampoPrecioCambio = addComboBox( frameCambioPrecios, _("Cambiar:"),
+    pComboCampoPrecioCambio = addComboBoxXtring( frameCambioPrecios, _("Cambiar:"),
                                            campos_captions, campos, Xtring::null,
                                            0, frameCambioPreciosLayout );
-    pComboOperacionPrecio = addComboBox( frameCambioPrecios, _("Aplicar"),
+    pComboOperacionPrecio = addComboBoxInt( frameCambioPrecios, _("Aplicar"),
                                          mOperacionesPrecios, mCodigosOperacionesPrecios,
                                          Xtring::null, 0, frameCambioPreciosLayout );
     pComboOperacionPrecio->insertItem( _("Precio fijo"), OP_PRECIOS_FIJO );
     pComboOperacionPrecio->insertItem( _("Sumar porcentaje"), OP_PRECIOS_SUMAR_PORCENTAJE );
     pComboOperacionPrecio->insertItem( _("Restar porcentaje"), OP_PRECIOS_RESTAR_PORCENTAJE );
     pNuevoPrecio = addInput( frameCambioPrecios, _("Nuevo valor"), 0.0, "double", 0, frameCambioPreciosLayout );
-    pComboCampoPrecioBase = addComboBox( frameCambioPrecios, _("Sobre:"),
+    pComboCampoPrecioBase = addComboBoxXtring( frameCambioPrecios, _("Sobre:"),
                                          campos_captions, campos, _("Valor introducido"), 0, frameCambioPreciosLayout );
     pSearchFamilia = addMultipleSearchField( 0, "FAMILIA", "CODIGO", "NOMBRE" );
     pSearchProveedora = addMultipleSearchField( 0, "PROVEEDORA", "CODIGO", "RAZONSOCIAL" );

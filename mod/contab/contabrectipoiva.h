@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file contabrectipoiva.h Registro de tipos de IVA
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -27,8 +27,8 @@ namespace contab {
 class RecTipoIVA: public empresa::RecTipoIVA
 {
 public:
-    RecTipoIVA(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : empresa::RecTipoIVA(conn, recid, user)
+	RecTipoIVA(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: empresa::RecTipoIVA(conn, recid, user)
 /*>>>>>TIPOIVA_CONSTRUCTOR*/
     {};
     /*<<<<<TIPOIVA_MEMBERS*/

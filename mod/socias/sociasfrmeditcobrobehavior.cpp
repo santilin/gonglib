@@ -35,7 +35,9 @@ namespace socias {
 void FrmEditCobroBehavior::initGUI()
 {
     /*<<<<<FRMEDITCOBROBEHAVIOR_INITGUI*/
-    /*>>>>>FRMEDITCOBROBEHAVIOR_INITGUI*/
+	QWidget *pControlsFrame = getControlsFrame();
+	QVBoxLayout* pControlsLayout = getControlsLayout();
+/*>>>>>FRMEDITCOBROBEHAVIOR_INITGUI*/
 }
 
 void FrmEditCobroBehavior::scatterFields( bool is_pre )
@@ -43,14 +45,14 @@ void FrmEditCobroBehavior::scatterFields( bool is_pre )
     if( !is_pre) return;
     /*<<<<<FRMEDITCOBROBEHAVIOR_SCATTER*/
 
-    /*>>>>>FRMEDITCOBROBEHAVIOR_SCATTER*/
+/*>>>>>FRMEDITCOBROBEHAVIOR_SCATTER*/
 }
 
 void FrmEditCobroBehavior::gatherFields()
 {
     /*<<<<<FRMEDITCOBROBEHAVIOR_GATHER*/
 
-    /*>>>>>FRMEDITCOBROBEHAVIOR_GATHER*/
+/*>>>>>FRMEDITCOBROBEHAVIOR_GATHER*/
 }
 
 void FrmEditCobroBehavior::validateFields(bool is_pre,
@@ -58,11 +60,11 @@ void FrmEditCobroBehavior::validateFields(bool is_pre,
 {
     if( !is_pre) return;
     /*<<<<<FRMEDITCOBROBEHAVIOR_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    /*>>>>>FRMEDITCOBROBEHAVIOR_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+/*>>>>>FRMEDITCOBROBEHAVIOR_VALIDATE*/
     pagos::FrmEditCobro *frmcobro = static_cast<pagos::FrmEditCobro *>(pTheForm);
     if( sender == frmcobro->getSearchFacturaNumero() ) {
         LineEdit *editFacturaNumero = frmcobro->getSearchFacturaNumero()->getEditCode();

@@ -680,9 +680,12 @@ ComboBoxInt *FrmEditRec::addComboIntField( QWidget * parent, const Xtring & tabl
     ComboBoxInt *combo = 0;
     dbFieldListOfValues<int> *flddef = static_cast<dbFieldListOfValues<int> *>
                                        (DBAPP->getDatabase()->findFieldDefinition( tablename, fldname ) );
+    _GONG_DEBUG_PRINT(0, flddef->getListOfCaptions().join(",") );
+    _GONG_DEBUG_PRINT(0, flddef->getListOfValues().join(",") );
     if( flddef ) {
-        combo = new ComboBoxInt(
-            flddef->getListOfCaptions(), flddef->getListOfValues(),
+	    _GONG_DEBUG_PRINT(0, flddef->getListOfCaptions().join(",") );
+    	_GONG_DEBUG_PRINT(0, flddef->getListOfValues().join(",") );
+        combo = new ComboBoxInt( flddef->getListOfCaptions(), flddef->getListOfValues(),
             parent ? parent : pControlsFrame, tablename + "_" + fldname, Xtring(), horizontal );
         applyFieldStyle( combo, flddef );
         applyFieldStyle( combo->getLabel(), flddef );

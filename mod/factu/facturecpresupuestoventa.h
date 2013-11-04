@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecpresupuestoventa.h Registro de presupuestos de venta
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -31,13 +31,13 @@ namespace factu {
 
 /*<<<<<PRESUPUESTOVENTA_CONSTRUCTOR*/
 class RecPresupuestoVenta: public dbRecord,
-    public IIVADesglosable,
-    public ITotalizableRecord
+	public IIVADesglosable,
+	public ITotalizableRecord
 
 {
 public:
-    RecPresupuestoVenta(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PRESUPUESTOVENTA"), recid, user)
+	RecPresupuestoVenta(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PRESUPUESTOVENTA"), recid, user)
 /*>>>>>PRESUPUESTOVENTA_CONSTRUCTOR*/
         , IIVADesglosable( this, getListPresupuestoVentaDet() )
         , ITotalizableRecord( this, getListPresupuestoVentaDet(), venta )
@@ -46,15 +46,15 @@ public:
         addSemanticProperty( "PRESUPUESTO" );
     }
     /*<<<<<PRESUPUESTOVENTA_MEMBERS*/
-    void init();
-    /*>>>>>PRESUPUESTOVENTA_MEMBERS*/
+	void init();
+/*>>>>>PRESUPUESTOVENTA_MEMBERS*/
     /*<<<<<PRESUPUESTOVENTA_RELATIONS*/
-    RecTipoDoc *getRecTipoDoc() const;
-    RecCliente *getRecCliente() const;
-    RecAgente *getRecAgente() const;
-    RecPresupuestoVentaDet *getRecPresupuestoVentaDet( int npresupuestoventadet = -1 ) const;
-    dbRecordList *getListPresupuestoVentaDet() const;
-    /*>>>>>PRESUPUESTOVENTA_RELATIONS*/
+	RecTipoDoc *getRecTipoDoc() const;
+	RecCliente *getRecCliente() const;
+	RecAgente *getRecAgente() const;
+	RecPresupuestoVentaDet *getRecPresupuestoVentaDet( int npresupuestoventadet = -1 ) const;
+	dbRecordList *getListPresupuestoVentaDet() const;
+/*>>>>>PRESUPUESTOVENTA_RELATIONS*/
 }; // end class
 
 /*<<<<<PRESUPUESTOVENTA_POSTAMBLE*/

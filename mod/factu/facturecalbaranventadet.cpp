@@ -35,12 +35,12 @@ namespace factu {
 /*<<<<<ALBARANVENTADET_RELATIONS*/
 RecArticulo *RecAlbaranVentaDet::getRecArticulo() const
 {
-    return static_cast<RecArticulo*>(findRelatedRecord("ALBARANVENTADET.ARTICULO_ID"));
+	return static_cast<RecArticulo*>(findRelatedRecord("ALBARANVENTADET.ARTICULO_ID"));
 }
 
 empresa::RecTipoIVA *RecAlbaranVentaDet::getRecTipoIVA() const
 {
-    return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("ALBARANVENTADET.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("ALBARANVENTADET.TIPOIVA_ID"));
 }
 
 /*>>>>>ALBARANVENTADET_RELATIONS*/
@@ -48,7 +48,7 @@ empresa::RecTipoIVA *RecAlbaranVentaDet::getRecTipoIVA() const
 /*<<<<<ALBARANVENTADET_BEFORESAVEORDELETERELATED*/
 void RecAlbaranVentaDet::beforeSaveOrDeleteRelated(dbRecord *master, bool saving)
 {
-    /*>>>>>ALBARANVENTADET_BEFORESAVEORDELETERELATED*/
+/*>>>>>ALBARANVENTADET_BEFORESAVEORDELETERELATED*/
     actStocks( master, saving );
 }
 

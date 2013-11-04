@@ -17,7 +17,7 @@ FrmEstadCompraVenta::FrmEstadCompraVenta(QWidget * parent, WidgetFlags fl)
 
     XtringList comprasoventas;
     comprasoventas << _("Compras y ventas") << _("Sólo compras") << _("Sólo ventas");
-    pComboComprasOVentas = addComboBox( 0, _("Compras o ventas"), comprasoventas );
+    pComboComprasOVentas = addComboBoxXtring( 0, _("Compras o ventas"), comprasoventas );
     pDateRange = addDateRangeBox( 0, _("Fecha de las compras o ventas"),
                                   Date( empresa::ModuleInstance->getEjercicio(), 1, 1 ),
                                   Date( empresa::ModuleInstance->getEjercicio(), 12, 31 ) );
@@ -27,7 +27,7 @@ FrmEstadCompraVenta::FrmEstadCompraVenta(QWidget * parent, WidgetFlags fl)
     pSearchProveedora = addMultipleSearchField( 0, "PROVEEDORA", "CODIGO", "RAZONSOCIAL" );
     XtringList agrupar_por;
     agrupar_por << "No agrupar" << "Artículo" << "Razón social" << "Fecha (diario)";
-    pComboAgruparPor = addComboBox( 0, _("Agrupar  por"), agrupar_por );
+    pComboAgruparPor = addComboBoxXtring( 0, _("Agrupar  por"), agrupar_por );
     pCheckPreciosConIVA = addCheckBox( 0, _("Precios con IVA"), true );
     pCheckMostrarAlbaranes = addCheckBox( 0, _("Mostrar albaranes facturados en vez de facturas"), true );
     pCheckResumido = addCheckBox( 0, _("Resumido"), false );

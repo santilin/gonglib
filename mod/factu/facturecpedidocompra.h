@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file facturecpedidocompra.h Registro de pedidos de compra
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -30,12 +30,12 @@ namespace factu {
 
 /*<<<<<PEDIDOCOMPRA_CONSTRUCTOR*/
 class RecPedidoCompra: public dbRecord,
-    public ITotalizableRecord
+	public ITotalizableRecord
 
 {
 public:
-    RecPedidoCompra(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-        : dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PEDIDOCOMPRA"), recid, user)
+	RecPedidoCompra(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("PEDIDOCOMPRA"), recid, user)
 /*>>>>>PEDIDOCOMPRA_CONSTRUCTOR*/
         , ITotalizableRecord( this, getListPedidoCompraDet(), compra )
     {
@@ -43,15 +43,15 @@ public:
         addSemanticProperty( "PEDIDO" );
     }
     /*<<<<<PEDIDOCOMPRA_MEMBERS*/
-    void init();
-    /*>>>>>PEDIDOCOMPRA_MEMBERS*/
+	void init();
+/*>>>>>PEDIDOCOMPRA_MEMBERS*/
     /*<<<<<PEDIDOCOMPRA_RELATIONS*/
-    RecTipoDoc *getRecTipoDoc() const;
-    RecProveedora *getRecProveedora() const;
-    RecAgente *getRecAgente() const;
-    RecPedidoCompraDet *getRecPedidoCompraDet( int npedidocompradet = -1 ) const;
-    dbRecordList *getListPedidoCompraDet() const;
-    /*>>>>>PEDIDOCOMPRA_RELATIONS*/
+	RecTipoDoc *getRecTipoDoc() const;
+	RecProveedora *getRecProveedora() const;
+	RecAgente *getRecAgente() const;
+	RecPedidoCompraDet *getRecPedidoCompraDet( int npedidocompradet = -1 ) const;
+	dbRecordList *getListPedidoCompraDet() const;
+/*>>>>>PEDIDOCOMPRA_RELATIONS*/
 }; // end class
 
 /*<<<<<PEDIDOCOMPRA_POSTAMBLE*/

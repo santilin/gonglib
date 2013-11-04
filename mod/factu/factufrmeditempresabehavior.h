@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file factufrmeditempresabehavior.h Behavior para añadir el campo recargo de equivalencia
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -30,25 +30,23 @@ typedef empresa::RecEmpresa RecEmpresa;
 class FrmEditEmpresaBehavior: public FrmEditRecBehavior
 {
 public:
-    virtual void initGUI();
-    RecEmpresa *getRecEmpresa() const {
-        return static_cast<RecEmpresa *>(pTheForm->getRecord());
-    }
-    FrmEditEmpresaBehavior( FrmEditRec *theform )
-        : FrmEditRecBehavior( theform )
+	virtual void initGUI();
+	RecEmpresa *getRecEmpresa() const { return static_cast<RecEmpresa *>(pTheForm->getRecord()); }
+	FrmEditEmpresaBehavior( FrmEditRec *theform )
+		: FrmEditRecBehavior( theform )
 /*>>>>>FRMEDITEMPRESABEHAVIOR_CLASS*/
     {}
     /*<<<<<FRMEDITEMPRESABEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
 protected:
-    virtual void scatterFields( bool is_pre );
-    virtual void gatherFields();
-    virtual void validateFields( bool is_pre,
-                                 QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-    /*>>>>>FRMEDITEMPRESABEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
+	virtual void scatterFields( bool is_pre );
+	virtual void gatherFields();
+	virtual void validateFields( bool is_pre,
+		QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+/*>>>>>FRMEDITEMPRESABEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
     /*<<<<<FRMEDITEMPRESABEHAVIOR_CONTROLS*/
 protected:
-    gong::CheckBox *checkRecargoEquivalencia;
-    /*>>>>>FRMEDITEMPRESABEHAVIOR_CONTROLS*/
+	gong::CheckBox *checkRecargoEquivalencia;
+/*>>>>>FRMEDITEMPRESABEHAVIOR_CONTROLS*/
 };
 
 /*<<<<<FRMEDITEMPRESABEHAVIOR_POSTAMBLE*/

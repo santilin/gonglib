@@ -1,6 +1,6 @@
 /*<<<<<COPYLEFT*/
 /** @file factumodule.h Módulo de facturación de gonglib
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -51,27 +51,27 @@ namespace factu {
 /*<<<<<FACTUMODULE_CLASS_DEFINITION*/
 class FactuModule: public QObject, public dbModule
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    FactuModule();
-    virtual ~FactuModule();
-    virtual bool initMainWindow(class MainWindow *win);
-    virtual bool initDatabase(dbDefinition *dbdef);
-    virtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
-    virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
-    virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
-                                       FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
-                                       dbApplication::EditFlags editflags = dbApplication::editNone,
-                                       QWidget *parent = 0, const char* name = 0,
-                                       WidgetFlags fl = WidgetFlags(0) );
-    virtual FrmEditRecDetail *createEditDetailForm(
-        FrmEditRecMaster *frmmaster, int ndetail,
-        dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm = 0,
-        FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
-        dbApplication::EditFlags editflags = dbApplication::editNone,
-        QWidget *parent = 0, const char* name = 0,
-        WidgetFlags fl = WidgetFlags(0) );
-    /*>>>>>FACTUMODULE_CLASS_DEFINITION*/
+	FactuModule();
+	virtual ~FactuModule();
+	virtual bool initMainWindow(class MainWindow *win);
+	virtual bool initDatabase(dbDefinition *dbdef);
+	virtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
+	virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
+	virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
+		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
+		dbApplication::EditFlags editflags = dbApplication::editNone,
+		QWidget *parent = 0, const char* name = 0,
+		WidgetFlags fl = WidgetFlags(0) );
+	virtual FrmEditRecDetail *createEditDetailForm(
+		FrmEditRecMaster *frmmaster, int ndetail,
+		dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm = 0,
+		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
+		dbApplication::EditFlags editflags = dbApplication::editNone,
+		QWidget *parent = 0, const char* name = 0,
+		WidgetFlags fl = WidgetFlags(0) );
+/*>>>>>FACTUMODULE_CLASS_DEFINITION*/
     virtual void afterLoad();    // from dbModule
     virtual void afterCreateEditForm( FrmEditRec *frm, dbRecord *rec ); // from dbModule
     virtual Xtring getMigrationSQL( uint old_version ) const;
@@ -98,91 +98,51 @@ public:
 
     /*<<<<<FACTUMODULE_RECORD_DEFINITIONS*/
 public:
-    factu::MasterTable *getFicArticulo() const {
-        return pFicArticulo;
-    }
-    factu::MasterTable *getFicCliente() const {
-        return pFicCliente;
-    }
-    factu::MasterTable *getFicProveedora() const {
-        return pFicProveedora;
-    }
-    factu::MasterTable *getFicAgente() const {
-        return pFicAgente;
-    }
-    factu::MasterTable *getFicFamilia() const {
-        return pFicFamilia;
-    }
-    factu::MasterTable *getFicTipoDoc() const {
-        return pFicTipoDoc;
-    }
-    factu::MasterTable *getFicPresupuestoVenta() const {
-        return pFicPresupuestoVenta;
-    }
-    factu::MasterTable *getFicPresupuestoVentaDet() const {
-        return pFicPresupuestoVentaDet;
-    }
-    factu::MasterTable *getFicPedidoVenta() const {
-        return pFicPedidoVenta;
-    }
-    factu::MasterTable *getFicPedidoVentaDet() const {
-        return pFicPedidoVentaDet;
-    }
-    factu::MasterTable *getFicAlbaranVenta() const {
-        return pFicAlbaranVenta;
-    }
-    factu::MasterTable *getFicAlbaranVentaDet() const {
-        return pFicAlbaranVentaDet;
-    }
-    factu::MasterTable *getFicFacturaVenta() const {
-        return pFicFacturaVenta;
-    }
-    factu::MasterTable *getFicFacturaVentaDet() const {
-        return pFicFacturaVentaDet;
-    }
-    factu::MasterTable *getFicPedidoCompra() const {
-        return pFicPedidoCompra;
-    }
-    factu::MasterTable *getFicPedidoCompraDet() const {
-        return pFicPedidoCompraDet;
-    }
-    factu::MasterTable *getFicAlbaranCompra() const {
-        return pFicAlbaranCompra;
-    }
-    factu::MasterTable *getFicAlbaranCompraDet() const {
-        return pFicAlbaranCompraDet;
-    }
-    factu::MasterTable *getFicFacturaCompra() const {
-        return pFicFacturaCompra;
-    }
-    factu::MasterTable *getFicFacturaCompraDet() const {
-        return pFicFacturaCompraDet;
-    }
-    NamesListTable *pFicTipoCliente;
-    NamesListTable *pFicEstadoPedido;
+	factu::MasterTable *getFicArticulo() const { return pFicArticulo; }
+	factu::MasterTable *getFicCliente() const { return pFicCliente; }
+	factu::MasterTable *getFicProveedora() const { return pFicProveedora; }
+	factu::MasterTable *getFicAgente() const { return pFicAgente; }
+	factu::MasterTable *getFicFamilia() const { return pFicFamilia; }
+	factu::MasterTable *getFicTipoDoc() const { return pFicTipoDoc; }
+	factu::MasterTable *getFicPresupuestoVenta() const { return pFicPresupuestoVenta; }
+	factu::MasterTable *getFicPresupuestoVentaDet() const { return pFicPresupuestoVentaDet; }
+	factu::MasterTable *getFicPedidoVenta() const { return pFicPedidoVenta; }
+	factu::MasterTable *getFicPedidoVentaDet() const { return pFicPedidoVentaDet; }
+	factu::MasterTable *getFicAlbaranVenta() const { return pFicAlbaranVenta; }
+	factu::MasterTable *getFicAlbaranVentaDet() const { return pFicAlbaranVentaDet; }
+	factu::MasterTable *getFicFacturaVenta() const { return pFicFacturaVenta; }
+	factu::MasterTable *getFicFacturaVentaDet() const { return pFicFacturaVentaDet; }
+	factu::MasterTable *getFicPedidoCompra() const { return pFicPedidoCompra; }
+	factu::MasterTable *getFicPedidoCompraDet() const { return pFicPedidoCompraDet; }
+	factu::MasterTable *getFicAlbaranCompra() const { return pFicAlbaranCompra; }
+	factu::MasterTable *getFicAlbaranCompraDet() const { return pFicAlbaranCompraDet; }
+	factu::MasterTable *getFicFacturaCompra() const { return pFicFacturaCompra; }
+	factu::MasterTable *getFicFacturaCompraDet() const { return pFicFacturaCompraDet; }
+	NamesListTable *pFicTipoCliente;
+	NamesListTable *pFicEstadoPedido;
 
 private:
-    factu::MasterTable *pFicArticulo;
-    factu::MasterTable *pFicCliente;
-    factu::MasterTable *pFicProveedora;
-    factu::MasterTable *pFicAgente;
-    factu::MasterTable *pFicFamilia;
-    factu::MasterTable *pFicTipoDoc;
-    factu::MasterTable *pFicPresupuestoVenta;
-    factu::MasterTable *pFicPresupuestoVentaDet;
-    factu::MasterTable *pFicPedidoVenta;
-    factu::MasterTable *pFicPedidoVentaDet;
-    factu::MasterTable *pFicAlbaranVenta;
-    factu::MasterTable *pFicAlbaranVentaDet;
-    factu::MasterTable *pFicFacturaVenta;
-    factu::MasterTable *pFicFacturaVentaDet;
-    factu::MasterTable *pFicPedidoCompra;
-    factu::MasterTable *pFicPedidoCompraDet;
-    factu::MasterTable *pFicAlbaranCompra;
-    factu::MasterTable *pFicAlbaranCompraDet;
-    factu::MasterTable *pFicFacturaCompra;
-    factu::MasterTable *pFicFacturaCompraDet;
-    /*>>>>>FACTUMODULE_RECORD_DEFINITIONS*/
+	factu::MasterTable *pFicArticulo;
+	factu::MasterTable *pFicCliente;
+	factu::MasterTable *pFicProveedora;
+	factu::MasterTable *pFicAgente;
+	factu::MasterTable *pFicFamilia;
+	factu::MasterTable *pFicTipoDoc;
+	factu::MasterTable *pFicPresupuestoVenta;
+	factu::MasterTable *pFicPresupuestoVentaDet;
+	factu::MasterTable *pFicPedidoVenta;
+	factu::MasterTable *pFicPedidoVentaDet;
+	factu::MasterTable *pFicAlbaranVenta;
+	factu::MasterTable *pFicAlbaranVentaDet;
+	factu::MasterTable *pFicFacturaVenta;
+	factu::MasterTable *pFicFacturaVentaDet;
+	factu::MasterTable *pFicPedidoCompra;
+	factu::MasterTable *pFicPedidoCompraDet;
+	factu::MasterTable *pFicAlbaranCompra;
+	factu::MasterTable *pFicAlbaranCompraDet;
+	factu::MasterTable *pFicFacturaCompra;
+	factu::MasterTable *pFicFacturaCompraDet;
+/*>>>>>FACTUMODULE_RECORD_DEFINITIONS*/
     factu::MasterTable *pFicArticuloImagen;
     Date mWorkingDate;
     XtringList mInsertables;
@@ -197,34 +157,34 @@ private slots:
     void slotMenuFactuCopiarDocumento();
     /*<<<<<FACTUMODULE_MENU_DEFINITIONS*/
 private slots:
-    void slotMenuFacturacionArticulo();
-    void slotMenuFacturacionCliente();
-    void slotMenuFacturacionProveedora();
-    void slotMenuFacturacionAgente();
-    void slotMenuFacturacionFamilia();
-    void slotMenuFacturacionTipoDoc();
-    void slotMenuVentasPresupuestoVenta();
-    void slotMenuVentasPedidoVenta();
-    void slotMenuVentasAlbaranVenta();
-    void slotMenuVentasFacturaVenta();
-    void slotMenuComprasPedidoCompra();
-    void slotMenuComprasAlbaranCompra();
-    void slotMenuComprasFacturaCompra();
+	void slotMenuFacturacionArticulo();
+	void slotMenuFacturacionCliente();
+	void slotMenuFacturacionProveedora();
+	void slotMenuFacturacionAgente();
+	void slotMenuFacturacionFamilia();
+	void slotMenuFacturacionTipoDoc();
+	void slotMenuVentasPresupuestoVenta();
+	void slotMenuVentasPedidoVenta();
+	void slotMenuVentasAlbaranVenta();
+	void slotMenuVentasFacturaVenta();
+	void slotMenuComprasPedidoCompra();
+	void slotMenuComprasAlbaranCompra();
+	void slotMenuComprasFacturaCompra();
 protected:
-    QAction *pMenuFacturacionArticulo;
-    QAction *pMenuFacturacionCliente;
-    QAction *pMenuFacturacionProveedora;
-    QAction *pMenuFacturacionAgente;
-    QAction *pMenuFacturacionFamilia;
-    QAction *pMenuFacturacionTipoDoc;
-    QAction *pMenuVentasPresupuestoVenta;
-    QAction *pMenuVentasPedidoVenta;
-    QAction *pMenuVentasAlbaranVenta;
-    QAction *pMenuVentasFacturaVenta;
-    QAction *pMenuComprasPedidoCompra;
-    QAction *pMenuComprasAlbaranCompra;
-    QAction *pMenuComprasFacturaCompra;
-    /*>>>>>FACTUMODULE_MENU_DEFINITIONS*/
+	QAction *pMenuFacturacionArticulo;
+	QAction *pMenuFacturacionCliente;
+	QAction *pMenuFacturacionProveedora;
+	QAction *pMenuFacturacionAgente;
+	QAction *pMenuFacturacionFamilia;
+	QAction *pMenuFacturacionTipoDoc;
+	QAction *pMenuVentasPresupuestoVenta;
+	QAction *pMenuVentasPedidoVenta;
+	QAction *pMenuVentasAlbaranVenta;
+	QAction *pMenuVentasFacturaVenta;
+	QAction *pMenuComprasPedidoCompra;
+	QAction *pMenuComprasAlbaranCompra;
+	QAction *pMenuComprasFacturaCompra;
+/*>>>>>FACTUMODULE_MENU_DEFINITIONS*/
     QMenu *pMenuFacturacion, *pMenuCompras, *pMenuVentas, *pMenuInformes, *pMenuOperaciones;
     QAction *pMenuFactuRegenAsientos, *pMenuFactuCopiarDocumento;
     QAction *pMenuFactuEstadCompraVenta, *pMenuFactuGenPedidosCompras, *pMenuFactuBalanceCliPro;
@@ -251,24 +211,18 @@ public:
 
     /*<<<<<FACTUMODULE_REQUIRES*/
 public:
-    empresa::EmpresaModule *getEmpresaModule() const {
-        return pEmpresaModule;
-    }
-    pagos::PagosModule *getPagosModule() const {
-        return pPagosModule;
-    }
+	empresa::EmpresaModule *getEmpresaModule() const { return pEmpresaModule; }
+	pagos::PagosModule *getPagosModule() const { return pPagosModule; }
 #ifdef HAVE_CONTABMODULE
-    contab::ContabModule *getContabModule() const {
-        return pContabModule;
-    }
+	contab::ContabModule *getContabModule() const { return pContabModule; }
 #endif
 private:
-    empresa::EmpresaModule *pEmpresaModule;
-    pagos::PagosModule *pPagosModule;
+	empresa::EmpresaModule *pEmpresaModule;
+	pagos::PagosModule *pPagosModule;
 #ifdef HAVE_CONTABMODULE
-    contab::ContabModule *pContabModule;
+	contab::ContabModule *pContabModule;
 #endif
-    /*>>>>>FACTUMODULE_REQUIRES*/
+/*>>>>>FACTUMODULE_REQUIRES*/
 };
 
 extern FactuModule *ModuleInstance;

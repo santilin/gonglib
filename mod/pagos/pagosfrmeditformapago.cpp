@@ -45,126 +45,126 @@ namespace pagos {
 
 /*<<<<<FRMEDITFORMAPAGO_CONSTRUCTOR*/
 FrmEditFormaPago::FrmEditFormaPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
-                                   EditMode editmode, dbApplication::EditFlags editflags,
-                                   QWidget *parent, const char* name, WidgetFlags fl )
-    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
+	                               EditMode editmode, dbApplication::EditFlags editflags,
+	                               QWidget *parent, const char* name, WidgetFlags fl )
+	    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
 {
-    if ( !name )
-        setName( "FrmEditFormaPago" );
-    /*>>>>>FRMEDITFORMAPAGO_CONSTRUCTOR*/
+	if ( !name )
+	    setName( "FrmEditFormaPago" );
+/*>>>>>FRMEDITFORMAPAGO_CONSTRUCTOR*/
 
     /*<<<<<FRMEDITFORMAPAGO_INIT_CONTROLS*/
-    QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
-    QHBoxLayout *tipoLayout = new QHBoxLayout(0, 0, 6, "tipoLayout");
-    QHBoxLayout *plazosLayout = new QHBoxLayout(0, 0, 6, "plazosLayout");
-    QHBoxLayout *dtoLayout = new QHBoxLayout(0, 0, 6, "dtoLayout");
-    QHBoxLayout *sub1Layout = new QHBoxLayout(0, 0, 6, "sub1Layout");
-    QHBoxLayout *sub2Layout = new QHBoxLayout(0, 0, 6, "sub2Layout");
-    QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-    editCodigo = addEditField( pControlsFrame, "FORMAPAGO", "CODIGO", codigoLayout );
-    editNombre = addEditField( pControlsFrame, "FORMAPAGO", "NOMBRE", codigoLayout );
-    comboTipoFormaPago = addComboField<int>( pControlsFrame, "FORMAPAGO", "TIPOFORMAPAGO", tipoLayout );
-    editNumPlazos = addEditField( pControlsFrame, "FORMAPAGO", "NUMPLAZOS", plazosLayout );
-    editDiasEntrePlazos = addEditField( pControlsFrame, "FORMAPAGO", "DIASENTREPLAZOS", plazosLayout );
-    editDiasPrimerPlazo = addEditField( pControlsFrame, "FORMAPAGO", "DIASPRIMERPLAZO", plazosLayout );
-    editDtoEnFactura = addEditField( pControlsFrame, "FORMAPAGO", "DTOENFACTURA", dtoLayout );
+	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
+	QHBoxLayout *tipoLayout = new QHBoxLayout(0, 0, 6, "tipoLayout");
+	QHBoxLayout *plazosLayout = new QHBoxLayout(0, 0, 6, "plazosLayout");
+	QHBoxLayout *dtoLayout = new QHBoxLayout(0, 0, 6, "dtoLayout");
+	QHBoxLayout *sub1Layout = new QHBoxLayout(0, 0, 6, "sub1Layout");
+	QHBoxLayout *sub2Layout = new QHBoxLayout(0, 0, 6, "sub2Layout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	editCodigo = addEditField( pControlsFrame, "FORMAPAGO", "CODIGO", codigoLayout );
+	editNombre = addEditField( pControlsFrame, "FORMAPAGO", "NOMBRE", codigoLayout );
+	comboTipoFormaPago = addComboIntField( pControlsFrame, "FORMAPAGO", "TIPOFORMAPAGO", tipoLayout );
+	editNumPlazos = addEditField( pControlsFrame, "FORMAPAGO", "NUMPLAZOS", plazosLayout );
+	editDiasEntrePlazos = addEditField( pControlsFrame, "FORMAPAGO", "DIASENTREPLAZOS", plazosLayout );
+	editDiasPrimerPlazo = addEditField( pControlsFrame, "FORMAPAGO", "DIASPRIMERPLAZO", plazosLayout );
+	editDtoEnFactura = addEditField( pControlsFrame, "FORMAPAGO", "DTOENFACTURA", dtoLayout );
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        editSubcuentaPago = addEditField( pControlsFrame, "FORMAPAGO", "SUBCUENTAPAGO", sub1Layout );
-    }
+if( ModuleInstance->getContabModule() ) {
+	editSubcuentaPago = addEditField( pControlsFrame, "FORMAPAGO", "SUBCUENTAPAGO", sub1Layout );
+}
 #endif
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        editSubcuentaCobro = addEditField( pControlsFrame, "FORMAPAGO", "SUBCUENTACOBRO", sub2Layout );
-    }
+if( ModuleInstance->getContabModule() ) {
+	editSubcuentaCobro = addEditField( pControlsFrame, "FORMAPAGO", "SUBCUENTACOBRO", sub2Layout );
+}
 #endif
-    editNotas = addTextField( pControlsFrame, "FORMAPAGO", "NOTAS", notasLayout );
-    pControlsLayout->addLayout( codigoLayout );
-    pControlsLayout->addLayout( tipoLayout );
-    pControlsLayout->addLayout( plazosLayout );
-    pControlsLayout->addLayout( dtoLayout );
-    pControlsLayout->addLayout( sub1Layout );
-    pControlsLayout->addLayout( sub2Layout );
-    pControlsLayout->addLayout( notasLayout );
-    /*>>>>>FRMEDITFORMAPAGO_INIT_CONTROLS*/
+	editNotas = addTextField( pControlsFrame, "FORMAPAGO", "NOTAS", notasLayout );
+	pControlsLayout->addLayout( codigoLayout );
+	pControlsLayout->addLayout( tipoLayout );
+	pControlsLayout->addLayout( plazosLayout );
+	pControlsLayout->addLayout( dtoLayout );
+	pControlsLayout->addLayout( sub1Layout );
+	pControlsLayout->addLayout( sub2Layout );
+	pControlsLayout->addLayout( notasLayout );
+/*>>>>>FRMEDITFORMAPAGO_INIT_CONTROLS*/
 }
 
 void FrmEditFormaPago::scatterFields()
 {
     /*<<<<<FRMEDITFORMAPAGO_SCATTER*/
-    editCodigo->setText(getRecFormaPago()->getValue("CODIGO").toInt());
-    if( isEditing() && (pFocusWidget == 0) )
-        pFocusWidget = editCodigo;
-    editNombre->setText(getRecFormaPago()->getValue("NOMBRE").toString());
-    comboTipoFormaPago->setCurrentItemByValue(getRecFormaPago()->getValue("TIPOFORMAPAGO").toInt());
-    editNumPlazos->setText(getRecFormaPago()->getValue("NUMPLAZOS").toInt());
-    editDiasEntrePlazos->setText(getRecFormaPago()->getValue("DIASENTREPLAZOS").toInt());
-    editDiasPrimerPlazo->setText(getRecFormaPago()->getValue("DIASPRIMERPLAZO").toInt());
-    editDtoEnFactura->setText(getRecFormaPago()->getValue("DTOENFACTURA").toDouble());
+	editCodigo->setText(getRecFormaPago()->getValue("CODIGO").toInt());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editCodigo;
+	editNombre->setText(getRecFormaPago()->getValue("NOMBRE").toString());
+	comboTipoFormaPago->setCurrentItemByValue(getRecFormaPago()->getValue("TIPOFORMAPAGO").toInt());
+	editNumPlazos->setText(getRecFormaPago()->getValue("NUMPLAZOS").toInt());
+	editDiasEntrePlazos->setText(getRecFormaPago()->getValue("DIASENTREPLAZOS").toInt());
+	editDiasPrimerPlazo->setText(getRecFormaPago()->getValue("DIASPRIMERPLAZO").toInt());
+	editDtoEnFactura->setText(getRecFormaPago()->getValue("DTOENFACTURA").toDouble());
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        editSubcuentaPago->setText(getRecFormaPago()->getValue("SUBCUENTAPAGO").toString());
-    }
+if( ModuleInstance->getContabModule() ) {
+	editSubcuentaPago->setText(getRecFormaPago()->getValue("SUBCUENTAPAGO").toString());
+}
 #endif
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        editSubcuentaCobro->setText(getRecFormaPago()->getValue("SUBCUENTACOBRO").toString());
-    }
+if( ModuleInstance->getContabModule() ) {
+	editSubcuentaCobro->setText(getRecFormaPago()->getValue("SUBCUENTACOBRO").toString());
+}
 #endif
-    editNotas->setText(getRecFormaPago()->getValue("NOTAS").toString());
-    if( isInserting() && editCodigo->toInt() == 0 ) {
-        editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
-    }
-    if( isInserting() && !isDuplicating() && !DBAPP->codeNotFound().isEmpty() ) {
-        if( DBAPP->codeNotFound().toInt() != 0 ) {
-            editCodigo->setText( DBAPP->codeNotFound() );
-            editCodigo->setJustEdited( true );
-        } else {
-            editNombre->setText( DBAPP->codeNotFound() );
-            editNombre->setJustEdited( true );
-        }
-    }
-    /*>>>>>FRMEDITFORMAPAGO_SCATTER*/
+	editNotas->setText(getRecFormaPago()->getValue("NOTAS").toString());
+	if( isInserting() && editCodigo->toInt() == 0 ) {
+		editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
+	}
+	if( isInserting() && !isDuplicating() && !DBAPP->codeNotFound().isEmpty() ) {
+		if( DBAPP->codeNotFound().toInt() != 0 ) {
+			editCodigo->setText( DBAPP->codeNotFound() );
+			editCodigo->setJustEdited( true );
+		} else {
+		editNombre->setText( DBAPP->codeNotFound() );
+		editNombre->setJustEdited( true );
+		}
+	}
+/*>>>>>FRMEDITFORMAPAGO_SCATTER*/
     enableControlesPago();
 }
 
 void FrmEditFormaPago::gatherFields()
 {
     /*<<<<<FRMEDITFORMAPAGO_GATHER*/
-    getRecFormaPago()->setValue( "CODIGO", editCodigo->toInt());
-    getRecFormaPago()->setValue( "NOMBRE", editNombre->toString());
-    getRecFormaPago()->setValue( "TIPOFORMAPAGO", comboTipoFormaPago->getCurrentItemValue());
-    getRecFormaPago()->setValue( "NUMPLAZOS", editNumPlazos->toInt());
-    getRecFormaPago()->setValue( "DIASENTREPLAZOS", editDiasEntrePlazos->toInt());
-    getRecFormaPago()->setValue( "DIASPRIMERPLAZO", editDiasPrimerPlazo->toInt());
-    getRecFormaPago()->setValue( "DTOENFACTURA", editDtoEnFactura->toDouble());
+	getRecFormaPago()->setValue( "CODIGO", editCodigo->toInt());
+	getRecFormaPago()->setValue( "NOMBRE", editNombre->toString());
+	getRecFormaPago()->setValue( "TIPOFORMAPAGO", comboTipoFormaPago->getCurrentItemValue());
+	getRecFormaPago()->setValue( "NUMPLAZOS", editNumPlazos->toInt());
+	getRecFormaPago()->setValue( "DIASENTREPLAZOS", editDiasEntrePlazos->toInt());
+	getRecFormaPago()->setValue( "DIASPRIMERPLAZO", editDiasPrimerPlazo->toInt());
+	getRecFormaPago()->setValue( "DTOENFACTURA", editDtoEnFactura->toDouble());
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        getRecFormaPago()->setValue( "SUBCUENTAPAGO", editSubcuentaPago->toString());
-    }
+if( ModuleInstance->getContabModule() ) {
+	getRecFormaPago()->setValue( "SUBCUENTAPAGO", editSubcuentaPago->toString());
+}
 #endif
 #ifdef HAVE_CONTABMODULE
-    if( ModuleInstance->getContabModule() ) {
-        getRecFormaPago()->setValue( "SUBCUENTACOBRO", editSubcuentaCobro->toString());
-    }
+if( ModuleInstance->getContabModule() ) {
+	getRecFormaPago()->setValue( "SUBCUENTACOBRO", editSubcuentaCobro->toString());
+}
 #endif
-    getRecFormaPago()->setValue( "NOTAS", editNotas->toString());
-    /*>>>>>FRMEDITFORMAPAGO_GATHER*/
+	getRecFormaPago()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITFORMAPAGO_GATHER*/
 }
 
 void FrmEditFormaPago::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
     /*<<<<<FRMEDITFORMAPAGO_VALIDATE*/
-    bool v=true;
-    if( !isvalid )
-        isvalid = &v;
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-        *isvalid = false;
-    if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
-        if( !sender )
-            *isvalid = false;
-    /*>>>>>FRMEDITFORMAPAGO_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
+		if( !sender )
+			*isvalid = false;
+/*>>>>>FRMEDITFORMAPAGO_VALIDATE*/
     if( sender == comboTipoFormaPago && comboTipoFormaPago->isJustEdited() ) {
         enableControlesPago();
     }

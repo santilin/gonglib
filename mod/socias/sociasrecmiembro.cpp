@@ -50,24 +50,35 @@ int RecMiembro::getLastNumeroSocia(int proyecto_id) const
 /*<<<<<MIEMBRO_RELATIONS*/
 RecProyecto *RecMiembro::getRecProyecto() const
 {
-    return static_cast<RecProyecto*>(findRelatedRecord("MIEMBRO.PROYECTO_ID"));
+	return static_cast<RecProyecto*>(findRelatedRecord("MIEMBRO.PROYECTO_ID"));
 }
 
 #ifdef HAVE_PAGOSMODULE
+if( ModuleInstance->getPagosModule() ) {
 pagos::RecFormaPago *RecMiembro::getRecFormaPago() const
 {
-    return static_cast<pagos::RecFormaPago*>(findRelatedRecord("MIEMBRO.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("MIEMBRO.FORMAPAGO_ID"));
+}
+
 }
 #endif
+contactos::RecContacto *RecMiembro::getRecContacto() const
+{
+	return static_cast<contactos::RecContacto*>(findRelatedRecord("MIEMBRO.CONTACTO_ID"));
+}
+
 #ifdef HAVE_FACTUMODULE
+if( ModuleInstance->getFactuModule() ) {
 factu::RecCliente *RecMiembro::getRecCliente() const
 {
-    return static_cast<factu::RecCliente*>(findRelatedRecord("MIEMBRO.CLIENTE_ID"));
+	return static_cast<factu::RecCliente*>(findRelatedRecord("MIEMBRO.CLIENTE_ID"));
+}
+
 }
 #endif
 RecTipoSocia *RecMiembro::getRecTipoSocia() const
 {
-    return static_cast<RecTipoSocia*>(findRelatedRecord("MIEMBRO.TIPOSOCIA_ID"));
+	return static_cast<RecTipoSocia*>(findRelatedRecord("MIEMBRO.TIPOSOCIA_ID"));
 }
 
 /*>>>>>MIEMBRO_RELATIONS*/
@@ -82,8 +93,8 @@ contactos::RecContacto *RecMiembro::getRecContacto() const
 /*<<<<<MIEMBRO_FINDMATCHINGRECORD*/
 bool RecMiembro::findMatchingRecord(dbRecordID *matchingid) const
 {
-    bool found;
-    /*>>>>>MIEMBRO_FINDMATCHINGRECORD*/
+	bool found;
+/*>>>>>MIEMBRO_FINDMATCHINGRECORD*/
     found = dbRecord::findMatchingRecord(matchingid);
     return found;
 }
@@ -91,8 +102,8 @@ bool RecMiembro::findMatchingRecord(dbRecordID *matchingid) const
 /*<<<<<MIEMBRO_TOSTRING*/
 Xtring RecMiembro::toString(int format, const RegExp &includedFields) const
 {
-    Xtring result;
-    /*>>>>>MIEMBRO_TOSTRING*/
+	Xtring result;
+/*>>>>>MIEMBRO_TOSTRING*/
     if( format == TOSTRING_CODE_AND_DESC ) {
         if( !getRecContacto()->getValue("CIF").toString().isEmpty() )
             result += getRecContacto()->getValue( "CIF" ).toString() + ",";
@@ -105,7 +116,7 @@ Xtring RecMiembro::toString(int format, const RegExp &includedFields) const
 /*<<<<<MIEMBRO_SAVE*/
 bool RecMiembro::save(bool saverelated) throw( dbError )
 {
-    /*>>>>>MIEMBRO_SAVE*/
+/*>>>>>MIEMBRO_SAVE*/
 #ifdef HAVE_PAGOSMODULE
     actRestoFactura();
 #endif
@@ -122,7 +133,7 @@ bool RecMiembro::save(bool saverelated) throw( dbError )
 /*<<<<<MIEMBRO_REMOVE*/
 bool RecMiembro::remove() throw( dbError )
 {
-    /*>>>>>MIEMBRO_REMOVE*/
+/*>>>>>MIEMBRO_REMOVE*/
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE

@@ -38,7 +38,7 @@ namespace contab {
 /*<<<<<APUNTE_RELATIONS*/
 RecCuenta *RecApunte::getRecCuenta() const
 {
-    return static_cast<RecCuenta*>(findRelatedRecord("APUNTE.CUENTA_ID"));
+	return static_cast<RecCuenta*>(findRelatedRecord("APUNTE.CUENTA_ID"));
 }
 
 /*>>>>>APUNTE_RELATIONS*/
@@ -88,7 +88,7 @@ bool RecApunte::actSaldosCuenta( bool sumar, const dbRecordID cuenta_id,
 /*<<<<<APUNTE_ISEMPTY*/
 bool RecApunte::isEmpty( const Xtring &nocheck_fields ) const
 {
-    /*>>>>>APUNTE_ISEMPTY*/
+/*>>>>>APUNTE_ISEMPTY*/
     if ( getValue( "CUENTA_ID" ).toInt() != 0 )
         return false;
     if ( getValue( "DEBE" ).toMoney() != 0.0 )
@@ -105,16 +105,16 @@ bool RecApunte::isEmpty( const Xtring &nocheck_fields ) const
 /*<<<<<APUNTE_ISVALID*/
 bool RecApunte::isValid(ValidResult::Context context, ValidResult *result )
 {
-    bool ret = dbRecord::isValid(context, result);
-    /*>>>>>APUNTE_ISVALID*/
+	bool ret = dbRecord::isValid(context, result);
+/*>>>>>APUNTE_ISVALID*/
     return ret;
 }
 
 /*<<<<<APUNTE_TOSTRING*/
 Xtring RecApunte::toString(int format, const RegExp &includedFields) const
 {
-    Xtring result;
-    /*>>>>>APUNTE_TOSTRING*/
+	Xtring result;
+/*>>>>>APUNTE_TOSTRING*/
     result = dbRecord::toString(format, includedFields);
     return result;
 }
@@ -123,7 +123,7 @@ Xtring RecApunte::toString(int format, const RegExp &includedFields) const
 /*<<<<<APUNTE_BEFORESAVEORDELETERELATED*/
 void RecApunte::beforeSaveOrDeleteRelated(dbRecord *master, bool saving)
 {
-    /*>>>>>APUNTE_BEFORESAVEORDELETERELATED*/
+/*>>>>>APUNTE_BEFORESAVEORDELETERELATED*/
     actSaldosCuenta( saving,
                      getValue( "CUENTA_ID" ).toInt(),
                      master->getValue( "EJERCICIO" ).toInt(),

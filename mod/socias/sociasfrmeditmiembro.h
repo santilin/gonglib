@@ -5,10 +5,10 @@
 
 /*<<<<<COPYLEFT*/
 /** @file sociasfrmeditmiembro.h Formulario de edición de miembros de la asociación
- * The GestiONG project. (C) 2003-2013, Francisco Santiago Capel Torres
+ * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
+ * modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
@@ -92,7 +92,7 @@ protected:
 	gong::LineEdit *editProyectoDescripcion;
 	gong::EditBox *editNumeroSocia;
 	gong::EditBox *editFechaAlta;
-	gong::ComboBox<int> *comboSociasEstado;
+	gong::ComboBoxInt *comboSociasEstado;
 #ifdef HAVE_FACTUMODULE
 	gong::SearchBox *searchClienteCodigo;
 	QPushButton *pushClienteCodigo;

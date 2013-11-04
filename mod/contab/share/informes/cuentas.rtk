@@ -1,22 +1,19 @@
 //<<<<<COPYLEFT
 // @file cuentas.rtk Cuentas
-// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
-*
-* This library is free software;
-you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation;
-either
-* version 2 of the License, or (at your option) any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY;
-without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+// Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
 //>>>>>COPYLEFT
 
 //<<<<<MODULE_INFO
@@ -28,10 +25,10 @@ without even the implied warranty of
 //>>>>>MODULE_INFO
 
 //<<<<<REPORT_DEFINITION
-Title = "Cuentas";
-Units = chars;
-SizeX = 100;
-SizeY = 60;
+	Title = "Cuentas";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
 //>>>>>REPORT_DEFINITION
 Tag = "Contabilidad";
 
@@ -41,23 +38,23 @@ from = CUENTA;
 orderby = "CUENTA.CUENTA";
 
 //<<<<<INPUT_DEFAULT
-INPUTFIELD CUENTA_CUENTA {
-    Source = CUENTA.CUENTA;
-    Type = text;
-}
-INPUTFIELD CUENTA_DESCRIPCION {
-    Source = CUENTA.DESCRIPCION;
-    Type = text;
-}
-INPUTFIELD CUENTA_SALDO {
-    Source = CUENTA.SALDO;
-    Type = Money;
-}
+		INPUTFIELD CUENTA_CUENTA {
+			Source = CUENTA.CUENTA;
+			Type = text;
+		}
+		INPUTFIELD CUENTA_DESCRIPCION {
+			Source = CUENTA.DESCRIPCION;
+			Type = text;
+		}
+		INPUTFIELD CUENTA_SALDO {
+			Source = CUENTA.SALDO;
+			Type = Money;
+		}
 //>>>>>INPUT_DEFAULT
 }
 
 //<<<<<PAGE_HEADER
-Include = "default_pageheader.inc";
+	Include = "default_pageheader.inc";
 //>>>>>PAGE_HEADER
 }
 
@@ -88,33 +85,33 @@ OBJECT header_CUENTA_SALDO {
 }
 
 //<<<<<DETAILS
-DETAILS details {
-style = detail;
-sizey = 1;
-
-OBJECT CUENTA_CUENTA {
-    value = "=input.CUENTA_CUENTA;";
-    posx = 0.0;
-    sizex = 12.0;
-}
-OBJECT CUENTA_DESCRIPCION {
-    value = "=input.CUENTA_DESCRIPCION;";
-    posx = 13.0;
-    sizex = 50.0;
-}
-OBJECT CUENTA_SALDO {
-    halignment = "right";
-    value = "=input.CUENTA_SALDO;";
-    posx = 64.0;
-    sizex = 12.0;
-}
+	DETAILS details {
+		style = detail;
+		sizey = 1;
+	
+		OBJECT CUENTA_CUENTA {
+			value = "=input.CUENTA_CUENTA;";
+			posx = 0.0;
+			sizex = 12.0;
+		}
+		OBJECT CUENTA_DESCRIPCION {
+			value = "=input.CUENTA_DESCRIPCION;";
+			posx = 13.0;
+			sizex = 50.0;
+		}
+		OBJECT CUENTA_SALDO {
+			halignment = "right";
+			value = "=input.CUENTA_SALDO;";
+			posx = 64.0;
+			sizex = 12.0;
+		}
 //>>>>>DETAILS
 }
 }
 //<<<<<PAGE_FOOTER
-PAGEFOOTER page_footer {
-sizey = 1;
-style = pagefooter;
+	PAGEFOOTER page_footer {
+		sizey = 1;
+		style = pagefooter;
 
 
 //>>>>>PAGE_FOOTER

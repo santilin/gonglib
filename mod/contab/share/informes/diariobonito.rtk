@@ -1,22 +1,19 @@
 //<<<<<COPYLEFT
 // @file diariobonito.rtk Libro diario
-// Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
-*
-* This library is free software;
-you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation;
-either
-* version 2 of the License, or (at your option) any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY;
-without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+// Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
 //>>>>>COPYLEFT
 
 //<<<<<MODULE_INFO
@@ -31,10 +28,10 @@ without even the implied warranty of
 //>>>>>MODULE_INFO
 
 //<<<<<REPORT_DEFINITION
-Title = "Libro diario";
-Units = chars;
-SizeX = 100;
-SizeY = 60;
+	Title = "Libro diario";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
 //>>>>>REPORT_DEFINITION
 Tag = "Contabilidad";
 SizeX = 100;
@@ -46,35 +43,35 @@ from = "ASIENTO INNER JOIN APUNTE ON ASIENTO.ID = APUNTE.ASIENTO_ID INNER JOIN C
 orderby = "ASIENTO.FECHA, ASIENTO.ID, APUNTE.NUMAPUNTE";
 
 //<<<<<INPUT_DEFAULT
-INPUTFIELD ASIENTO_NUMASIENTO {
-    Source = ASIENTO.NUMASIENTO;
-    Type = int;
-}
-INPUTFIELD APUNTE_DEBE {
-    Source = APUNTE.DEBE;
-    Type = Money;
-}
-INPUTFIELD CUENTA_CUENTA {
-    Source = CUENTA.CUENTA;
-    Type = text;
-}
-INPUTFIELD CUENTA_DESCRIPCION {
-    Source = CUENTA.DESCRIPCION;
-    Type = text;
-}
-INPUTFIELD APUNTE_HABER {
-    Source = APUNTE.HABER;
-    Type = Money;
-}
-INPUTFIELD ASIENTO_FECHA {
-    Source = ASIENTO.FECHA;
-    Type = date;
-}
+		INPUTFIELD ASIENTO_NUMASIENTO {
+			Source = ASIENTO.NUMASIENTO;
+			Type = int;
+		}
+		INPUTFIELD APUNTE_DEBE {
+			Source = APUNTE.DEBE;
+			Type = Money;
+		}
+		INPUTFIELD CUENTA_CUENTA {
+			Source = CUENTA.CUENTA;
+			Type = text;
+		}
+		INPUTFIELD CUENTA_DESCRIPCION {
+			Source = CUENTA.DESCRIPCION;
+			Type = text;
+		}
+		INPUTFIELD APUNTE_HABER {
+			Source = APUNTE.HABER;
+			Type = Money;
+		}
+		INPUTFIELD ASIENTO_FECHA {
+			Source = ASIENTO.FECHA;
+			Type = date;
+		}
 //>>>>>INPUT_DEFAULT
 }
 
 //<<<<<PAGE_HEADER
-Include = "default_pageheader.inc";
+	Include = "default_pageheader.inc";
 //>>>>>PAGE_HEADER
 OBJECT asociacion {
 sizex = 72;
@@ -105,18 +102,18 @@ visible = false;
 }
 
 //<<<<<GROUP_DETAILS_1
-GROUPHEADER group_details_1 {
-style = detail;
-sizey = 1;
-posx = 0;
+	GROUPHEADER group_details_1 {
+		style = detail;
+		sizey = 1;
+		posx = 0;
 
-value= "=input.ASIENTO_FECHA;";
-level=1;
-OBJECT ASIENTO_FECHA {
-    value = "=input.ASIENTO_FECHA;";
-    posx = 0.0;
-    sizex = 10.0;
-}
+		value= "=input.ASIENTO_FECHA;";
+		level=1;
+		OBJECT ASIENTO_FECHA {
+			value = "=input.ASIENTO_FECHA;";
+			posx = 0.0;
+			sizex = 10.0;
+		}
 //>>>>>GROUP_DETAILS_1
 OBJECT ASIENTO_FECHA {
     posx = 10;
@@ -172,40 +169,40 @@ supressed = true;
 
 
 //<<<<<DETAILS_0
-DETAILS details {
-posx = 2;
-level = 0;
-style = detail;
-sizey = 1;
+	DETAILS details {
+		posx = 2;
+		level = 0;
+		style = detail;
+		sizey = 1;
 
-OBJECT ASIENTO_NUMASIENTO {
-    halignment = "right";
-    value = "=input.ASIENTO_NUMASIENTO;";
-    posx = 0.0;
-    sizex = 5.0;
-}
-OBJECT APUNTE_DEBE {
-    halignment = "right";
-    value = "=input.APUNTE_DEBE;";
-    posx = 6.0;
-    sizex = 12.0;
-}
-OBJECT CUENTA_CUENTA {
-    value = "=input.CUENTA_CUENTA;";
-    posx = 19.0;
-    sizex = 10.0;
-}
-OBJECT CUENTA_DESCRIPCION {
-    value = "=input.CUENTA_DESCRIPCION;";
-    posx = 30.0;
-    sizex = 48.0;
-}
-OBJECT APUNTE_HABER {
-    halignment = "right";
-    value = "=input.APUNTE_HABER;";
-    posx = 79.0;
-    sizex = 12.0;
-}
+		OBJECT ASIENTO_NUMASIENTO {
+			halignment = "right";
+			value = "=input.ASIENTO_NUMASIENTO;";
+			posx = 0.0;
+			sizex = 5.0;
+		}
+		OBJECT APUNTE_DEBE {
+			halignment = "right";
+			value = "=input.APUNTE_DEBE;";
+			posx = 6.0;
+			sizex = 12.0;
+		}
+		OBJECT CUENTA_CUENTA {
+			value = "=input.CUENTA_CUENTA;";
+			posx = 19.0;
+			sizex = 10.0;
+		}
+		OBJECT CUENTA_DESCRIPCION {
+			value = "=input.CUENTA_DESCRIPCION;";
+			posx = 30.0;
+			sizex = 48.0;
+		}
+		OBJECT APUNTE_HABER {
+			halignment = "right";
+			value = "=input.APUNTE_HABER;";
+			posx = 79.0;
+			sizex = 12.0;
+		}
 //>>>>>DETAILS_0
 OBJECT ASIENTO_NUMASIENTO {
     supressdup = true;
@@ -240,9 +237,9 @@ Include = "passwords.inc";
 
 }
 //<<<<<PAGE_FOOTER
-PAGEFOOTER page_footer {
-sizey = 1;
-style = pagefooter;
+	PAGEFOOTER page_footer {
+		sizey = 1;
+		style = pagefooter;
 
 
 //>>>>>PAGE_FOOTER

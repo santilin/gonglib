@@ -11,7 +11,6 @@
  *
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
-
 #include "gongdbfieldlistofvalues.h"
 
 namespace gong {
@@ -19,28 +18,27 @@ namespace gong {
 template<class T>
 void dbFieldListOfValues<T>::addValue(const Xtring &newcaption, const T &newvalue)
 {
-	_GONG_DEBUG_ASSERT( !mIsConst );
-    if( mListOfCaptions.contains( newcaption ) )
+    if( mRefListOfCaptions.contains( newcaption ) )
         return;
-    mListOfCaptions.push_back( newcaption );
-	mListOfValues.push_back( newvalue );
+    const_cast<XtringList &>(mRefListOfCaptions).push_back( newcaption );
+	const_cast<List<T> &>(mRefListOfValues).push_back( newvalue );
 }
 
 template<class T>
 const Xtring &dbFieldListOfValues<T>::findText(T value) const
 {
-    for( uint i=0; i<mConstListOfValues.size(); i++ )
-        if( mConstListOfValues.at(i) == value )
-            return mConstListOfCaptions.at(i);
+    for( uint i=0; i<mRefListOfValues.size(); i++ )
+        if( mRefListOfValues.at(i) == value )
+            return mRefListOfCaptions.at(i);
     return Xtring::null;
 }
 
 template<class T>
 const T dbFieldListOfValues<T>::findValue(const Xtring &caption) const
 {
-    for( uint i=0; i<mConstListOfCaptions.size(); i++ )
-        if( mConstListOfCaptions.at(i).upper() == caption.upper() )
-            return mConstListOfValues.at(i);
+    for( uint i=0; i<mRefListOfCaptions.size(); i++ )
+        if( mRefListOfCaptions.at(i).upper() == caption.upper() )
+            return mRefListOfValues.at(i);
     return T();
 }
 
@@ -50,9 +48,9 @@ template<>
 bool dbFieldListOfValues<int>::isValid( dbRecord *r, dbFieldValue *value,
                                         ValidResult::Context context, ValidResult *integres ) const
 {
-    if( value->isEmpty() && (canBeNull() || mConstListOfValues.size() == 0) )
+    if( value->isEmpty() && (canBeNull() || mRefListOfValues.size() == 0) )
         return true;
-    if( value->isEmpty() && !canBeNull() && mConstListOfValues.size() > 0 ) {
+    if( value->isEmpty() && !canBeNull() && mRefListOfValues.size() > 0 ) {
         if( integres )
             integres->addError( "'" + getCaption() + "' no puede quedarse vacío", getName() );
         return false;
@@ -60,9 +58,9 @@ bool dbFieldListOfValues<int>::isValid( dbRecord *r, dbFieldValue *value,
     if( !dbFieldDefinition::isValid(r, value, context, integres ) )
         return false;
     if( value->toVariant().type() == Variant::tInt
-            && mConstListOfValues.contains( value->toVariant().toInt() ) ) {
+            && mRefListOfValues.contains( value->toVariant().toInt() ) ) {
         return true;
-    } else if( mConstListOfCaptions.contains( value->toString() ) && context == ValidResult::fixing ) {
+    } else if( mRefListOfCaptions.contains( value->toString() ) && context == ValidResult::fixing ) {
         // Fix value if the field has the caption instead of the value
         value->setValue( findValue( value->toString() ) );
         return true;
@@ -78,14 +76,14 @@ template<>
 bool dbFieldListOfValues<Xtring>::isValid( dbRecord *r, dbFieldValue *value,
         ValidResult::Context context, ValidResult *integres ) const
 {
-    if( value->isEmpty() && (canBeNull() || mConstListOfValues.size() == 0) )
+    if( value->isEmpty() && (canBeNull() || mRefListOfValues.size() == 0) )
         return true;
     if( !dbFieldDefinition::isValid(r, value, context, integres ) )
         return false;
     if( value->toVariant().type() == Variant::tString
-            && mConstListOfValues.contains( value->toString() ) ) {
+            && mRefListOfValues.contains( value->toString() ) ) {
         return true;
-    } else if( mConstListOfCaptions.contains( value->toString() ) && context == ValidResult::fixing ) {
+    } else if( mRefListOfCaptions.contains( value->toString() ) && context == ValidResult::fixing ) {
         // Fix value if the field has the caption instead of the value
         value->setValue( findValue( value->toString() ) );
         return true;
@@ -100,9 +98,8 @@ bool dbFieldListOfValues<Xtring>::isValid( dbRecord *r, dbFieldValue *value,
 template<>
 void dbFieldListOfValues<int>::setValuesFromString(const Xtring &values)
 {
-	_GONG_DEBUG_ASSERT( !mIsConst );
-    mListOfValues.clear();
-    mListOfCaptions.clear();
+    const_cast<IntList &>(mRefListOfValues).clear();
+    const_cast<XtringList &>(mRefListOfCaptions).clear();
     XtringList valuesandcaptions;
     values.tokenize( valuesandcaptions, "|" );
     uint nitem = 0;
@@ -116,13 +113,12 @@ void dbFieldListOfValues<int>::setValuesFromString(const Xtring &values)
         } else {
             addValue( caption, value.toInt() );
         }
-    }
+	}
 }
 
 template<>
 void dbFieldListOfValues<Xtring>::setValuesFromString(const Xtring &values)
 {
-	_GONG_DEBUG_ASSERT( !mIsConst );
     mListOfValues.clear();
     mListOfCaptions.clear();
     XtringList valuesandcaptions;
