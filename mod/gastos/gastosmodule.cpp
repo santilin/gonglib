@@ -66,6 +66,7 @@ GastosModule::GastosModule()
 {
 	ModuleInstance = this;
     _GONG_DEBUG_TRACE(1);
+	pModuleSettings = _settings;
 /*<<<<<GASTOSMODULE_PUBLIC_INFO*/
 	mModuleRequires << "gastos";
 	mMasterTables << "GASTO" << "TIPOGASTO" << "CATEGORIAGASTO";

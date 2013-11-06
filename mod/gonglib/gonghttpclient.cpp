@@ -71,6 +71,7 @@ Xtring uriEncode(const Xtring& sSrc)
     return sResult;
 }
 
+#ifdef HAVE_BOOST_SYSTEM
 int read_http_file(XtringList &theResponse, char **theContent,
                    const Xtring &theServer, const Xtring &theFilename,
                    const Xtring &extraHeader,
@@ -215,6 +216,7 @@ int read_http_file(XtringList &theResponse, char **theContent,
     }
     return status_code;
 }
+#endif
 
 } // namespace gong
 

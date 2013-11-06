@@ -18,7 +18,7 @@ libgongrtk_la_SOURCES = rtk.cpp rtkreport.cpp rtkbaseimage.cpp \
 	rtksection.cpp rtkstdlib.cpp rtkstringtable.cpp rtkstyle.cpp rtkvalue.cpp \
 	rtkvmachine.cpp rtkinputxbase.cpp rtkoutputgnumeric.cpp
 
-nodist_libgongrtk_la_HEADERS = rtkbaseimage.h rtkcolor.h rtkcompiler.h rtkconfig.h rtkcontext.h \
+libgongrtk_la_HEADERS = rtkbaseimage.h rtkcolor.h rtkcompiler.h rtkconfig.h rtkcontext.h \
 	rtkdscript.h rtkerror.h rtkfloattable.h rtkformula.h rtkfunctions.h \
 	rtkimage.h rtkinput.h rtkinputcached.h rtkinputcsv.h rtkinputfield.h \
 	rtkinputmysql.h rtkinputpgsql.h rtkinputxbase.h rtkinputxml.h rtkinstruction.h \

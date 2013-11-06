@@ -109,7 +109,7 @@ void SociasModule::afterLoad()
                                     DBAPP->getDatabase()->findFieldDefinition("MIEMBRO.SOCIASESTADO") );
     if( fldest )
         fldest->fill( *getConnection() );
-    if( fldest->getListOfValues()->size() == 0 ) {
+    if( fldest->getListOfValues().size() == 0 ) {
         getConnection()->exec( "INSERT INTO SOCIASESTADO (CODIGO,NOMBRE) VALUES "
                                "( 1, 'Activo'),( 2, 'Inactivo' )" );
         fldest->fill( *getConnection() );
@@ -122,7 +122,7 @@ void SociasModule::afterLoad()
                                     DBAPP->getDatabase()->findFieldDefinition("PROYECTO.PERIODICIDAD") );
     if( fldper )
         fldper->fill( *getConnection() );
-    if( fldper->getListOfValues()->size() == 0 ) {
+    if( fldper->getListOfValues().size() == 0 ) {
         getConnection()->exec( "INSERT INTO PERIODICIDAD (CODIGO,NOMBRE) VALUES "
                                "(" + getConnection()->toSQL( puntual ) + ", 'Puntual'),"
                                "(" + getConnection()->toSQL( diaria ) + ", 'Diaria' ),"

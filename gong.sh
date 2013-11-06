@@ -466,30 +466,47 @@ make_tar)
 		exit 1
 	fi
 	VERSION=$(grep "AC_INIT" configure.ac | grep -o "[0-9]\.[0-9]")
-	MODULES=$(grep -i "dnl module " configure.ac | cut -d " " -f 3)
-	cd  ~/devel/tmp
-	rm -rf $PROJECTNAME-$VERSION
-	mkdir $PROJECTNAME-$VERSION
-	cd $PROJECTNAME-$VERSION
-	svn export svn://santilinx/gestiong/gonglib gonglib
-	svn export svn://santilinx/gestiong/m4 m4
-	svn export svn://santilinx/gestiong/share share
-	for m in $MODULES; do
-		mod=`echo $m | tr '[:upper:]' '[:lower:]'`
-		svn export svn://santilinx/gestiong/mod/$mod/ $mod
-	done
-	if test "x$PROJECTNAME" == "xgestiong"; then
-		svn export svn://santilinx/gestiong/gestiong . --force
+# 	cd  ~/devel/tmp
+# 	rm -rf $PROJECTNAME-$VERSION
+# 	mkdir $PROJECTNAME-$VERSION
+# 	cd $PROJECTNAME-$VERSION
+# 	MODULES=$(grep -i "dnl module " configure.ac | cut -d " " -f 3)
+# 	svn export svn://santilinx/gestiong/gonglib gonglib
+# 	svn export svn://santilinx/gestiong/m4 m4
+# 	svn export svn://santilinx/gestiong/share share
+# 	for m in $MODULES; do
+# 		mod=`echo $m | tr '[:upper:]' '[:lower:]'`
+# 		svn export svn://santilinx/gestiong/mod/$mod/ $mod
+# 	done
+# 	if test "x$PROJECTNAME" == "xgestiong"; then
+# 		svn export svn://santilinx/gestiong/gestiong . --force
+# 	else
+# 		svn export svn://santilinx/gongapps/$PROJECTNAME . --force
+# 	fi
+	if test -d Release; then
+		cd Release
 	else
-		svn export svn://santilinx/gongapps/$PROJECTNAME . --force
+		cd Debug
 	fi
-	sed -e s%-I../../%-I../% -i configure.ac
-	make -f Makefile.cvs
-	rm acinclude.m4
-	cp $GONGDIR/acinclude.m4 .
-	cd ..
-	tar -zcvf ${PROJECTNAME}_$VERSION.orig.tar.gz $PROJECTNAME-$VERSION
-	echo "Tar file created in $(pwd)/${PROJECTNAME}_$VERSION.orig.tar.gz"
+	if make ; then
+		make dist
+		DISTFILE=$(ls $PROJECTNAME*.tar.gz)
+		rm -rf /tmp/$PROJECTNAME*
+		cp $DISTFILE /tmp
+		cd /tmp
+		tar -zxvf $DISTFILE
+		DISTDIR=$(find /tmp \( ! -name tmp -prune \) -type d -a -name "$PROJECTNAME*")
+		cd $DISTDIR
+		echo "Working on $DISTDIR"
+		rm -rf autom4te.cache
+		sed -e s%-I../../%-I../% -i configure.ac
+		make -f Makefile.cvs
+		rm acinclude.m4
+		cp $GONGDIR/acinclude.m4 .
+		cd ..
+		tar -zcvf ${PROJECTNAME}_$VERSION.orig.tar.gz $DISTDIR
+		echo "Tar file created in $(pwd)/${PROJECTNAME}_$VERSION.orig.tar.gz"
+	fi
 	;;
 
 *)

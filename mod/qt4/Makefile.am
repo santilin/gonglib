@@ -11,7 +11,7 @@ libgongqt4_la_SOURCES = gongcombobox.cpp gongguiapplication.cpp gongguimainwindo
 	gongtextedit.cpp gongrichtextedit.cpp gongcheckbox.cpp \
 	gongpushbutton.cpp gongimagebox.cpp gongfrmimgadvanced.cpp
 
-nodist_libgongqt4_la_HEADERS =	gongguinamespace.h gongguiapplication.h \
+libgongqt4_la_HEADERS =	gongguinamespace.h gongguiapplication.h \
 	gongguimainwindow.h gongpushbutton.h \
 	gongcombobox.h gongguicontrols.h gongdatatable.h gongfrmbase.h \
 	gonglineedit.h gongosdwidget.h gongguimultiplelistbox.h \

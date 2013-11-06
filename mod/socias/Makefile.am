@@ -13,7 +13,7 @@ libgongsocias_la_SOURCES = sociasmodule.cpp \
 	sociasrectiposocia.cpp sociasrecpartidaproyecto.cpp sociasfrmmailing.cpp \
 	sociasfrmeditcobrobehavior.cpp sociasfrmeditremesacobrobehavior.cpp
 
-nodist_libgongsocias_la_HEADERS = sociasmodule.h sociasfrmeditmiembro.h \
+libgongsocias_la_HEADERS = sociasmodule.h sociasfrmeditmiembro.h \
 	sociasfrmeditpartidaproyecto.h sociasfrmeditproyecto.h \
 	sociasfrmgenerarrecibos.h \
 	sociasmastertable.h sociascobrobehavior.h \
@@ -28,7 +28,7 @@ nodist_libgongsocias_la_SOURCES = \
 	moc_sociasmodule.cpp moc_sociasfrmeditremesacobrobehavior.cpp
 
 libgongsocias_la_SOURCES += sociasfrmeditapunte.cpp sociasrecapunte.cpp
-nodist_libgongsocias_la_HEADERS += sociasfrmeditapunte.h sociasrecapunte.h
+libgongsocias_la_HEADERS += sociasfrmeditapunte.h sociasrecapunte.h
 nodist_libgongsocias_la_SOURCES += moc_sociasfrmeditapunte.cpp
 
 moc_%.cpp: %.h

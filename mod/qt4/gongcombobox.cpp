@@ -11,12 +11,6 @@ ComboBoxInt::ComboBoxInt( const XtringList &captions, const IntList &values,
 		mHorizontal(horizontal), mMustBeReadOnly(false),
       mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( true )
 {
-    _GONG_DEBUG_PRINT(0, captions.join(",") );
-    _GONG_DEBUG_PRINT(0, values.join(",") );
-    _GONG_DEBUG_PRINT(0, mRefCaptions.join(",") );
-    _GONG_DEBUG_PRINT(0, mRefValues.join(",") );
-    _GONG_DEBUG_PRINT(0, mCaptions.join(",") );
-    _GONG_DEBUG_PRINT(0, mValues.join(",") );
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     insertItems();
     if( mHorizontal )
@@ -242,6 +236,19 @@ const Xtring &ComboBoxXtring::getItemValue(int i) const
 		return mRefValues[ i ];
 	else
 		return Xtring::null;
+}
+
+bool ComboBoxXtring::isNewItem() const
+{
+	if( currentText() == text( currentItem() ) )
+		return false;
+	else {
+		for( int index=0; index < count(); index ++ ) {
+			if( text( index ) == currentText() )
+				return false;
+		}
+	}
+	return true;
 }
 
 void ComboBoxXtring::setText(const Xtring& caption)
