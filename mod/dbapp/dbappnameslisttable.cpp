@@ -28,30 +28,27 @@ FldNamesListTable::FldNamesListTable(const Xtring& tablename, const Xtring& fldn
     : dbFieldListOfValues<int>( false, tablename, fldname,
                                 SQLINTEGER, 5, 0, flags, defaultvalue )
 {
+	struct dbApplication::NamesListTableInfo info;
+	dbApplication::NamesListTableInfoList::const_iterator it = DBAPP->getNamesListTables().find( tablename );
+	if(  it == DBAPP->getNamesListTables().end() ) {
+		DBAPP->getNamesListTables().insert( fldname, info );
+	} else {
+		info = (*it).second;
+	}
+	pListOfCaptions = &info.captions;
+	pListOfValues = &info.values;
 }
 
 void FldNamesListTable::fill( dbConnection &conn )
 {
-    mListOfCaptions.clear();
-    mListOfValues.clear();
+    pListOfCaptions->clear();
+    pListOfValues->clear();
     Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn.nameToSQL( getName() );
     dbResultSet *rs = conn.select( sql );
     while( rs->next() ) {
-        mListOfCaptions.push_back( rs->toString(1) );
-        mListOfValues.push_back( rs->toInt(0) );
+        pListOfCaptions->push_back( rs->toString(1) );
+        pListOfValues->push_back( rs->toInt(0) );
     }
-}
-
-void FldNamesListTable::fill(XtringList &captions, List< int > &values)
-{
-	mListOfCaptions = captions;
-	mListOfValues = values;
-}
-
-void FldNamesListTable::fill(const XtringList &captions, const List< int > &values)
-{
-	const_cast<XtringList &>(mRefListOfCaptions) = captions;
-	const_cast<IntList & >(mRefListOfValues) = values;
 }
 
 int FldNamesListTable::findCode(const Xtring& name) const

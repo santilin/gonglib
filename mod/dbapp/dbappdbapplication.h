@@ -37,6 +37,9 @@ class LineEdit;
 class dbApplication: public GuiApplication
 {
 public:
+	struct NamesListTableInfo {XtringList captions; IntList values;};
+	typedef Dictionary<NamesListTableInfo> NamesListTableInfoList;
+
     dbApplication( const char *dbversion, const char *datadir,
                    const char *packagename, const char *packageversion,
                    int &argc, char **argv );
@@ -251,12 +254,16 @@ public:	// Edit forms
     static void setAnotherRecordID(const dbRecordID &another_id) {
         sAnotherRecordID = another_id;
     }
-    static XtringList &getMasterTablesList() {
+    static XtringList &getMasterTables() {
         return mMasterTables;
     }
-    static XtringList &getDetailTablesList() {
+    static XtringList &getDetailTables() {
         return mDetailTables;
     }
+    static NamesListTableInfoList &getNamesListTables() {
+		return mNamesListTables;
+	}
+	static void fillNamesListTableInfo( dbConnection *conn );
     static long version2Long( const Xtring &version );
 
 protected:
@@ -270,6 +277,7 @@ protected:
     bool mReadOnly;
     Xtring mDbUser, mDbHost, mDbUserPassword, mReportsLocalPath, mReportsGlobalPath;
     static XtringList mMasterTables, mDetailTables;
+	static NamesListTableInfoList mNamesListTables;
     static Xtring sCodeNotFound, sDescNotFound, sClipBoardContent;
     static List<dbRecordID> sSeekCodeRecordIDs;
     static dbRecordID sAnotherRecordID;

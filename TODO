@@ -15,6 +15,7 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 * COMPROBAR: Cuando se paga menos y se divide el recibo, el número agrupado no se queda igual, se genera nuevo
 
 == Hacer ==
+* Que se resalte la familia seleccionada
 * TPV: Config: Mostrar nombres en mayúsculas
 * TPV: Config global tiene preferencia sobre config usuaria
 * TPV: Algunas veces se queda sin seleccionar el artículo introducido

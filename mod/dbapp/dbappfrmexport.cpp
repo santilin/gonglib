@@ -17,10 +17,10 @@ FrmExport::FrmExport( QWidget* parent, const char* name, WidgetFlags fl )
     : GuiFrmExport( parent, name, fl )
 {
     ExportViewItem *groupItem;
-    _GONG_DEBUG_PRINT(0, DBAPP->getMasterTablesList().join("\n") );
+    _GONG_DEBUG_PRINT(0, DBAPP->getMasterTables().join("\n") );
     // Recorrer la lista de fin a principio, para que salga ordenada de principio a fin
-    for( XtringList::reverse_iterator it = DBAPP->getMasterTablesList().rbegin();
-            it != DBAPP->getMasterTablesList().rend();
+    for( XtringList::reverse_iterator it = DBAPP->getMasterTables().rbegin();
+            it != DBAPP->getMasterTables().rend();
             ++it ) {
         _GONG_DEBUG_PRINT(0, *it);
         dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( *it );

@@ -50,7 +50,7 @@ libgonglib_la_SOURCES = \
 	gongdbrecordtimestampbehavior.cpp \
 	gongdbcalculator.cpp
 
-nodist_libgonglib_la_HEADERS = \
+libgonglib_la_HEADERS = \
 	gongcsvutils.h \
 	gongdate.h \
 	gongdbconnection.h \

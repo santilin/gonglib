@@ -38,7 +38,7 @@ empresa_sharedir = $(datadir)/gestiong/empresa
 empresa_share_DATA = $(top_srcdir)/empresa/share/empresa.ddd
 
 empresa_datosdir = $(datadir)/gestiong/empresa/datos
-empresa_datos_DATA = $(top_srcdir)/empresa/share/datos/FormaPago.csv \
-	$(top_srcdir)/empresa/share/datos/TipoIva.csv
+empresa_datos_DATA = $(top_srcdir)/share/gestiong/empresa/datos/FormaPago.csv \
+	$(top_srcdir)/share/gestiong/empresa/share/datos/TipoIva.csv
 
 

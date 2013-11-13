@@ -30,15 +30,16 @@ public:
                         SqlColumnType sqltype, unsigned short int width, unsigned short int decimals = 0,
                         dbFieldDefinition::Flags flags = NONE, const Xtring& defaultvalue = Xtring::null)
         : dbFieldDefinition(tablename, name, sqltype, width, decimals, flags, defaultvalue),
-          mRefListOfCaptions(mListOfCaptions), mRefListOfValues(mListOfValues),
+          pListOfCaptions(const_cast<XtringList *>(&mListOfCaptions)),
+          pListOfValues(const_cast<ValueListType *>(&mListOfValues)),
           mInsertAllowed(insertallowed), mIsRef( true )
     {}
     dbFieldListOfValues(bool insertallowed,
-                        const XtringList &captions, const ValueListType &values, const Xtring& tablename, const Xtring& name,
+                        XtringList *captions, ValueListType *values, const Xtring& tablename, const Xtring& name,
                         SqlColumnType sqltype, unsigned short int width, unsigned short int decimals = 0,
                         dbFieldDefinition::Flags flags = NONE, const Xtring& defaultvalue = Xtring::null)
         : dbFieldDefinition(tablename, name, sqltype, width, decimals, flags, defaultvalue),
-          mRefListOfCaptions(captions), mRefListOfValues(values),
+          pListOfCaptions(captions), pListOfValues(values),
           mInsertAllowed(insertallowed), mIsRef( true )
     {}
     dbFieldListOfValues(bool insertallowed,
@@ -47,13 +48,14 @@ public:
                         dbFieldDefinition::Flags flags = NONE, const Xtring& defaultvalue = Xtring::null)
         : dbFieldDefinition(tablename, name, sqltype, width, decimals, flags, defaultvalue),
           mListOfCaptions(captions), mListOfValues(values),
-          mRefListOfCaptions(mListOfCaptions), mRefListOfValues(mListOfValues),
+          pListOfCaptions(const_cast<XtringList *>(&mListOfCaptions)),
+          pListOfValues(const_cast<ValueListType *>(&mListOfValues)),
           mInsertAllowed(insertallowed), mIsRef( false )
     {}
 
     virtual dbFieldListOfValues *clone() const { return new dbFieldListOfValues( *this ); }
-    const ValueListType &getListOfValues() const { return mRefListOfValues; }
-    const XtringList &getListOfCaptions() const { return mRefListOfCaptions; }
+    const ValueListType &getListOfValues() const { return *pListOfValues; }
+    const XtringList &getListOfCaptions() const { return *pListOfCaptions; }
     virtual bool isValid( dbRecord *r, dbFieldValue *value,
                           ValidResult::Context context, ValidResult *integres) const; // from dbFieldDefinition
     virtual Xtring getDisplayValue(const Variant &value) const; // From dbFieldDefinition
@@ -66,13 +68,10 @@ public:
         return this;
     }
 protected:
-    /**
-     * @brief Must be references as they are shared by all the field definitions in the database
-     **/
-    XtringList mListOfCaptions;
-    ValueListType mListOfValues;
-    const XtringList &mRefListOfCaptions;
-    const ValueListType &mRefListOfValues;
+    const XtringList mListOfCaptions;
+    const ValueListType mListOfValues;
+    XtringList *pListOfCaptions;
+    ValueListType *pListOfValues;
     bool mInsertAllowed;
 	bool mIsRef;
 };

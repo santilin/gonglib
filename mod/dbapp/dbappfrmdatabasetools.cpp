@@ -209,7 +209,7 @@ void FrmDatabaseTools::backupDatabase(bool automatic)
             Xtring errors;
             XtringList tables;
             if( onlygongtables )
-                tables << "METADBDATA " << DBAPP->getMasterTablesList() << DBAPP->getDetailTablesList();
+                tables << "METADBDATA " << DBAPP->getMasterTables() << DBAPP->getDetailTables();
             if( !dump( fname, DBAPP->getDatabase()->getName(), DBAPP->getDbUser(),
                        DBAPP->getDbHost(), password, tables, errors ) ) {
                 FrmBase::msgError( this, errors );
@@ -253,7 +253,7 @@ void FrmDatabaseTools::lockDatabase()
         if( !fname.isEmpty() ) {
             Xtring errors;
             XtringList tables;
-            tables << "METADBDATA " << DBAPP->getMasterTablesList() << DBAPP->getDetailTablesList();
+            tables << "METADBDATA " << DBAPP->getMasterTables() << DBAPP->getDetailTables();
             if( !dump( fname, DBAPP->getDatabase()->getName(), DBAPP->getDbUser(),
                        DBAPP->getDbHost(), password, tables, errors ) ) {
                 FrmBase::msgError( this, errors );

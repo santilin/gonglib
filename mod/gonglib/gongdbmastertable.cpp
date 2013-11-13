@@ -39,7 +39,7 @@ dbFieldDefinition *dbMasterTable::addFieldOne2ManyRelation(const Xtring &name,
 
 template<>
 dbFieldDefinition *dbMasterTable::addFieldListOfValues(bool insertallowed,
-        const XtringList &captions, const List<Xtring> &values, const Xtring &name)
+        XtringList *captions, List<Xtring> *values, const Xtring &name)
 {
     /// \todo {0.3.4} Calcular la longitud máxima de los captions?
     return pTableDefinition->addField(new dbFieldListOfValues<Xtring>(
@@ -59,7 +59,7 @@ dbFieldDefinition *dbMasterTable::addFieldListOfValues(bool insertallowed,
 
 template<>
 dbFieldDefinition *dbMasterTable::addFieldListOfValues<int>(bool insertallowed,
-        const XtringList &captions, const List<int> &values, const Xtring &name)
+        XtringList *captions, List<int> *values, const Xtring &name)
 {
     return pTableDefinition->addField(new dbFieldListOfValues<int>(
                                           insertallowed, captions, values, pTableDefinition->getName(), name, SQLINTEGER, 10, 0,

@@ -22,7 +22,8 @@ Date dbApplication::sWorkingDate = Date::currentDate();
 dbRecordID dbApplication::sAnotherRecordID = 0;
 XtringList dbApplication::mMasterTables, dbApplication::mDetailTables;
 dbRecordTimestampBehavior *dbApplication::sTimestampBehavior
-= new dbRecordTimestampBehavior( "REC_FECHA_CREA", "REC_FECHA_MODIF" );
+	= new dbRecordTimestampBehavior( "REC_FECHA_CREA", "REC_FECHA_MODIF" );
+dbApplication::NamesListTableInfoList dbApplication::mNamesListTables;
 
 dbApplication::dbApplication ( const char *dbversion, const char *datadir,
                                const char *packagename, const char *packageversion,
@@ -349,10 +350,12 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         if( mModules[i]->isEnabled() )
             mModules[i]->afterLoad();
 
+
     /// after all the settings have been read and the database upgraded, configure the database
     setDDDFromConfig( pDatabase );
     setViewsFromConfig( pDatabase );
     setStylesFromConfig( pDatabase );
+	fillNamesListTableInfo( getConnection() );
 
     if( !startingapp ) {
         delete pFrmLogin;
@@ -1507,5 +1510,20 @@ RecMetaDBData* dbApplication::getRecMetaDBData() const
     return pRecMetaDBData;
 }
 
+void dbApplication::fillNamesListTableInfo(dbConnection* conn)
+{
+	for( NamesListTableInfoList::const_iterator it = mNamesListTables.begin();
+		it != mNamesListTables.end(); ++ it ) {
+		dbApplication::NamesListTableInfo info = (*it).second;
+		// TODO: This connection should be the one from the module that defines the nameslisttable
+		dbConnection *conn = DBAPP->getConnection();
+		Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn->nameToSQL( (*it).first );
+		dbResultSet *rs = conn->select( sql );
+		while( rs->next() ) {
+			info.captions.push_back( rs->toString(1) );
+			info.values.push_back( rs->toInt(0) );
+		}
+	}
+}
 
 } // namespace gong

@@ -12,8 +12,8 @@ FrmImport::FrmImport(QWidget* parent, const char* name, WidgetFlags fl)
     editFicheroFugit->setText( getenv("HOME") );
     ImportViewItem *groupItem, *newItem;
     // Recorrer la lista de fin a principio, para que salga ordenada de principio a fin
-    for( XtringList::reverse_iterator it = DBAPP->getMasterTablesList().rbegin();
-            it != DBAPP->getMasterTablesList().rend();
+    for( XtringList::reverse_iterator it = DBAPP->getMasterTables().rbegin();
+            it != DBAPP->getMasterTables().rend();
             ++it ) {
         dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( *it );
         if( tbldef ) {
