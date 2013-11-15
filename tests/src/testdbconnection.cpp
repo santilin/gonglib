@@ -9,7 +9,7 @@
 using namespace std;
 using namespace gong;
 
-static dbConnection::SqlDriver testdriver = dbConnection::DRIVER_SQLITE3;
+static dbConnection::SqlDriver testdriver = dbConnection::DRIVER_MYSQL;
 
 TestConnection::TestConnection()
 
@@ -86,9 +86,9 @@ int TestConnection::testCreateDatabase()
 
 
 	_GONG_DEBUG_ASSERT(  conn.selectDatabase( "testdbase" )  );
-	_GONG_DEBUG_ASSERT(  conn.select( "SHOW TABLES" )->getRowCount() == 0  );
+	_GONG_DEBUG_ASSERT(  conn.select( "SHOW TABLES" )->getRowCount() == 0L  );
 	conn.exec( "CREATE TABLE contactos ( CONTACTO VARCHAR(50) )" );
-	_GONG_DEBUG_ASSERT(  conn.select( "SHOW TABLES" )->getRowCount() == 1  );
+	_GONG_DEBUG_ASSERT(  conn.select( "SHOW TABLES" )->getRowCount() == 1L  );
 	cout << conn.getLastError().what() << endl;
 	_GONG_DEBUG_ASSERT(  !conn.selectDatabase( "testdbase2" )  );
 

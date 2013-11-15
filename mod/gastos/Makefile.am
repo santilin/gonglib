@@ -8,13 +8,16 @@ libgonggastos_la_SOURCES = gastosmodule.cpp \
  	gastosrecgasto.cpp \
  	gastosfrmeditgasto.cpp
 
-libgonggastos_la_HEADERS = gastosmodule.h \
- 	gastosrecgasto.h \
- 	gastosfrmeditgasto.h
+libgonggastos_la_HEADERS = gastosmodule.h gastosmastertable.h \
+ 	gastosrecgasto.h gastosfrmeditgasto.h
 
 nodist_libgonggastos_la_SOURCES = moc_gastosmodule.cpp \
  	moc_gastosfrmeditgasto.cpp
 
 moc_%.cpp: %.h
 	moc $< -o \$@
+
+gastos_sharedir = $(srcdir)/gestiong/gastos
+dist_gastos_share_DATA = $(top_srcdir)/share/gestiong/gastos/gastos.ddd
+
 

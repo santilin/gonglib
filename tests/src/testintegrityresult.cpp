@@ -1,7 +1,7 @@
 //
 // C++ Implementation: testintegrityresult
 //
-// Description: 
+// Description:
 //
 //
 // Author: Santiago Capel <elcansino@arremolina.com>, (C) 2007
@@ -11,23 +11,23 @@
 //
 #include <gongdebug.h>
 #include "testintegrityresult.h"
-#include <gongdbintegresult.h>
+#include <gongdbvalidresult.h>
 #include <iostream>
 
 using namespace std;
 using namespace gong;
 
 
-TestIntegrityResult::TestIntegrityResult()
+TestValidResult::TestValidResult()
 {
 }
 
 
-TestIntegrityResult::~TestIntegrityResult()
+TestValidResult::~TestValidResult()
 {
 }
 
-bool showValidMessages(bool *isvalid, const IntegrityResult &validresult)
+bool showValidMessages(bool *isvalid, const ValidResult &validresult)
 {
     Xtring messagesA;
     if( !(*isvalid) )
@@ -36,7 +36,7 @@ bool showValidMessages(bool *isvalid, const IntegrityResult &validresult)
         // Mostrar todos los mensajes de error, no los avisos
 #if 0
         for( int nm=0; nm<validresult.count(); nm++ )
-            if( validresult.getMessageInfo(nm).sev >= IntegrityResult::invalid )
+            if( validresult.getMessageInfo(nm).sev >= ValidResult::invalid )
                 messages += validresult.getMessageInfo(nm).message + "\n";
 //		Xtring caption = "Error " + getTitle();
 #endif
@@ -49,11 +49,10 @@ bool showValidMessages(bool *isvalid, const IntegrityResult &validresult)
 }
 
 
-void TestIntegrityResult::run()
+void TestValidResult::run()
 {
-	IntegrityResult r;
-	r.addMessage( INTEG_INVALID, IntegrityResult::invalid, 
-		"Elige 'En Local' o 'En calle'", "ENLOCAL" );
+	ValidResult r;
+	r.addMessage( ValidResult::error, "Elige 'En Local' o 'En calle'", "ENLOCAL" );
 	bool isvalid = false;
 	_GONG_DEBUG_ASSERT(  showValidMessages( &isvalid, r )  );
 }

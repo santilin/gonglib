@@ -31,8 +31,7 @@ public:
 		dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
 		const Xtring &defaultvalue = Xtring::null)
 /*>>>>>DBFIELD_IVADETALLADO_CONSTRUCTOR*/
-        : dbFieldListOfValues<int>( false, const_cast<const XtringList &>(sCaptions),
-                                   const_cast<const List<int> &>(sValues), tablename, name,
+        : dbFieldListOfValues<int>( false, &sCaptions, &sValues, tablename, name,
                                     SQLINTEGER, 4, 0, flags, defaultvalue )
     {
         setStyle( "TIPODOCUMENTO" );

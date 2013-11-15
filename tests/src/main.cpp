@@ -22,8 +22,9 @@
 #include "testcsv.h"
 #include "testlistview.h"
 #include "testdbcalculator.h"
-#include "testsearchisbn.h"
+// #include "testsearchisbn.h"
 #include "testhttpclient.h"
+#include "testdbnameslisttable.h"
 
 #include <stdarg.h>      // addError
 
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
 {
 	__gong_debug::_gong_debug_level = 4;
 
-#if 0
+#if 1
 	TestMoney testmoney;
 	testmoney.run();
 	TestDate testdate;
@@ -79,9 +80,9 @@ int main(int argc, char *argv[])
 	TestdbRecord testdbrecord;
 	testdbrecord.run();
 
-#if 0
-	TestIntegrityResult testintegrityresult;
-	testintegrityresult.run();
+#if 1
+	TestValidResult testvalidresult;
+	testvalidresult.run();
 	TestLibrary testlibrary;
 	testlibrary.run();
 	TestRegConfig testregconfig;
@@ -90,18 +91,16 @@ int main(int argc, char *argv[])
 	testunicode.run();
 	TestCSV testcsv;
 	testcsv.run();
-	TestConnection testconnection;
-	testconnection.run();
  	TestdbCalculator testdbcalculator;
  	testdbcalculator.run("4 + PVP");
-	TestSearchISBN testisbnsearch;
-	testisbnsearch.run();
 #endif
 
 
-#if 0
-	TestHTTPClient testhttpclient;
-	testhttpclient.run();
+// 	TestSearchISBN testisbnsearch;
+// 	testisbnsearch.run();
+// 	TestHTTPClient testhttpclient;
+// 	testhttpclient.run();
+#if 1
 #ifdef HAVE_DBAPPMODULE
 	gong::GongLibrary l("","GONG-TESTS","", argc, argv);
 	gong::GongLibraryInstance = &l;

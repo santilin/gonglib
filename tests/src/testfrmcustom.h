@@ -17,7 +17,7 @@ public:
 	QPushButton *getPushCancelar() const { return pushCancel; }
 private:
 	CheckBox *cb1;
-	ComboBox<Xtring> *combo1;
+	ComboBoxXtring *combo1;
 	GroupBox *gb1, *gb2;
 };
 

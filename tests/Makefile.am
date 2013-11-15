@@ -6,4 +6,4 @@ ACLOCAL_AMFLAGS = -I m4
 
 
 SUBDIRS=gonglib \
-	gong-qt4 gong-dbapp src
+	qt4 dbapp src

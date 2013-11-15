@@ -490,23 +490,24 @@ make_tar)
 	fi
 	if make ; then
 		make dist
-		DISTFILE=$(ls $PROJECTNAME*.tar.gz)
-		rm -rf /tmp/$PROJECTNAME*
-		cp $DISTFILE /tmp
-		cd /tmp
-		tar -zxvf $DISTFILE
-		DISTDIR=$(find /tmp \( ! -name tmp -prune \) -type d -a -name "$PROJECTNAME*")
-		cd $DISTDIR
-		echo "Working on $DISTDIR"
-		rm -rf autom4te.cache
-		sed -e s%-I../../%-I../% -i configure.ac
-		make -f Makefile.cvs
-		rm acinclude.m4
-		cp $GONGDIR/acinclude.m4 .
-		cd ..
-		tar -zcvf ${PROJECTNAME}_$VERSION.orig.tar.gz $DISTDIR
-		echo "Tar file created in $(pwd)/${PROJECTNAME}_$VERSION.orig.tar.gz"
 	fi
+# 		DISTFILE=$(ls $PROJECTNAME*.tar.gz)
+# 		rm -rf /tmp/$PROJECTNAME*
+# 		cp $DISTFILE /tmp
+# 		cd /tmp
+# 		tar -zxvf $DISTFILE
+# 		DISTDIR=$(find /tmp \( ! -name tmp -prune \) -type d -a -name "$PROJECTNAME*")
+# 		cd $DISTDIR
+# 		rm -rf autom4te.cache
+# 		sed -e s%-I../../%-I../% -i configure.ac
+# 		make -f Makefile.cvs
+# 		rm acinclude.m4
+# 		cp $GONGDIR/acinclude.m4 .
+# 		cd ..
+# 		echo "Working on $(pwd)"
+# 		tar -zcvf ${PROJECTNAME}_$VERSION.orig.tar.gz $DISTDIR
+# 		echo "Tar file created in $(pwd)/${PROJECTNAME}_$VERSION.orig.tar.gz"
+
 	;;
 
 *)

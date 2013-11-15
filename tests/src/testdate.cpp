@@ -30,6 +30,6 @@ TestDate::TestDate()
 void TestDate::run()
 {
     Date dateTest;
-    _GONG_DEBUG_ASSERT( dateTest.isNull() == false );
+    _GONG_DEBUG_ASSERT( dateTest.isNull() == true );
 }
 

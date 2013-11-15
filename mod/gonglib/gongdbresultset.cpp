@@ -352,6 +352,8 @@ bool dbResultSet::next()
                     break;
                 }
             }
+			mRowCount++;
+			mRowNumber++;
             return true;
         }
         case SQLITE_DONE:

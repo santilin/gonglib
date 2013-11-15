@@ -28,15 +28,16 @@ FldNamesListTable::FldNamesListTable(const Xtring& tablename, const Xtring& fldn
     : dbFieldListOfValues<int>( false, tablename, fldname,
                                 SQLINTEGER, 5, 0, flags, defaultvalue )
 {
-	struct dbApplication::NamesListTableInfo info;
+	// TODO destructor to delete these infos
+	struct dbApplication::NamesListTableInfo *info = new dbApplication::NamesListTableInfo();
 	dbApplication::NamesListTableInfoList::const_iterator it = DBAPP->getNamesListTables().find( tablename );
 	if(  it == DBAPP->getNamesListTables().end() ) {
-		DBAPP->getNamesListTables().insert( fldname, info );
+		DBAPP->getNamesListTables().insert( fldname, *info );
 	} else {
-		info = (*it).second;
+		*info = const_cast<struct dbApplication::NamesListTableInfo &>((*it).second);
 	}
-	pListOfCaptions = &info.captions;
-	pListOfValues = &info.values;
+	pListOfCaptions = &info->captions;
+	pListOfValues = &info->values;
 }
 
 void FldNamesListTable::fill( dbConnection &conn )

@@ -14,7 +14,7 @@ libgongempresa_la_SOURCES = empresamodule.cpp \
 	empresarecempresa.cpp empresarectipoiva.cpp \
 	empresarecmoneda.cpp empresarecdepartamento.cpp
 
-libgongempresa_la_HEADERS = empresamodule.h \
+libgongempresa_la_HEADERS = empresamodule.h empresamastertable.h \
 	empresafrmeditproyecto.h empresarecproyecto.h \
 	empresafldcuentabanco.h empresafldejercicio.h empresafldempresaid.h \
 	empresafldperiodicidad.h \
@@ -35,10 +35,10 @@ moc_%.cpp: %.h
 	moc $< -o $@
 
 empresa_sharedir = $(datadir)/gestiong/empresa
-empresa_share_DATA = $(top_srcdir)/empresa/share/empresa.ddd
+dist_empresa_share_DATA = $(top_srcdir)/share/gestiong/empresa/empresa.ddd
 
 empresa_datosdir = $(datadir)/gestiong/empresa/datos
-empresa_datos_DATA = $(top_srcdir)/share/gestiong/empresa/datos/FormaPago.csv \
-	$(top_srcdir)/share/gestiong/empresa/share/datos/TipoIva.csv
+dist_empresa_datos_DATA = $(top_srcdir)/share/gestiong/empresa/datos/FormaPago.csv \
+	$(top_srcdir)/share/gestiong/empresa/datos/TipoIva.csv
 
 

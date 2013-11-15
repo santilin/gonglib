@@ -1,25 +1,14 @@
-//
-// C++ Interface: testintegrityresult
-//
-// Description: 
-//
-//
-// Author: Santiago Capel <elcansino@arremolina.com>, (C) 2007
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
-#ifndef TESTINTEGRITYRESULT_H
-#define TESTINTEGRITYRESULT_H
+#ifndef TESTVALIDRESULT_H
+#define TESTVALIDRESULT_H
 
 /**
 	@author Santiago Capel <elcansino@arremolina.com>
 */
-class TestIntegrityResult{
+class TestValidResult{
 public:
-    TestIntegrityResult();
+    TestValidResult();
 
-    ~TestIntegrityResult();
+    ~TestValidResult();
 	void run();
 
 

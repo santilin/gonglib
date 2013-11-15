@@ -63,7 +63,7 @@ am_gonglibtest_OBJECTS = main.$(OBJEXT) testcommon.$(OBJEXT) \
 	testdate.$(OBJEXT) testfrmcustom.$(OBJEXT) \
 	testunicode.$(OBJEXT) testmoney.$(OBJEXT) testcsv.$(OBJEXT) \
 	testlistview.$(OBJEXT) testdbcalculator.$(OBJEXT) \
-	testsearchisbn.$(OBJEXT) testhttpclient.$(OBJEXT)
+	testdbnameslisttable.$(OBJEXT)
 gonglibtest_OBJECTS = $(am_gonglibtest_OBJECTS)
 gonglibtest_DEPENDENCIES =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -94,6 +94,8 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BDB_CPPFLAGS = @BDB_CPPFLAGS@
+BDB_LDADD = @BDB_LDADD@
 BOOST_CPPFLAGS = @BOOST_CPPFLAGS@
 BOOST_LDFLAGS = @BOOST_LDFLAGS@
 CC = @CC@
@@ -123,6 +125,8 @@ GONGLIB_CPPFLAGS = @GONGLIB_CPPFLAGS@
 GONGLIB_LIBS = @GONGLIB_LIBS@
 GONGQT4_CPPFLAGS = @GONGQT4_CPPFLAGS@
 GONGQT4_LIBS = @GONGQT4_LIBS@
+GONGRTK_CPPFLAGS = @GONGRTK_CPPFLAGS@
+GONGRTK_LIBS = @GONGRTK_LIBS@
 GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -238,14 +242,14 @@ gonglibtest_SOURCES = main.cpp testcommon.cpp testdatabase.cpp \
 	testsettings.cpp testtabledatamodel.cpp testregconfig.cpp \
 	testlineedit.cpp testfrmbase.cpp testdate.cpp testfrmcustom.cpp \
 	testunicode.cpp testmoney.cpp testcsv.cpp testlistview.cpp \
-	testdbcalculator.cpp testsearchisbn.cpp testhttpclient.cpp
+	testdbcalculator.cpp testdbnameslisttable.cpp
 
 noinst_HEADERS = testcommon.h testdatabase.h testdbconnection.h \
 	testdbdefinition.h testdbfieldvalue.h testdbrecord.h testdbschema.h testdbtabledef.h \
 	testintegrityresult.h testlibrary.h testscript.h testsettings.h testtabledatamodel.h \
 	testregconfig.h testlineedit.h testfrmbase.h testdate.h testfrmcustom.h \
 	testunicode.h testmoney.h testcsv.h testlistview.h \
-	testdbcalculator.h testsearchisbn.h testhttpclient.h
+	testdbcalculator.h testdbnameslisttable.h
 
 all: all-am
 
@@ -260,9 +264,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/Makefile
+	  $(AUTOMAKE) --foreign src/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -343,19 +347,18 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbconnection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbdefinition.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbfieldvalue.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbnameslisttable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbrecord.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbschema.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbtabledef.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testfrmbase.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testfrmcustom.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testhttpclient.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testintegrityresult.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testlibrary.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testlineedit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testlistview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testmoney.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testregconfig.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testsearchisbn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testsettings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testtabledatamodel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testunicode.Po@am__quote@

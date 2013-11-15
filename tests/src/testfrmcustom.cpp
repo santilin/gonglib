@@ -20,7 +20,7 @@ FrmCustomForTesting::FrmCustomForTesting(QWidget *parent, const char *name, Widg
 	XtringList l;
 	l << "Hola" << "Adiós";
 	_GONG_DEBUG_PRINT(0, l.join(",") );
-	combo1 = addComboBox(0, "Combo box 1", l );
+	combo1 = addComboBoxXtring(0, "Combo box 1", l );
 
 	XtringList opciones;
 	opciones << "Opcion1" << "Opcion2" << "Opcion3";
