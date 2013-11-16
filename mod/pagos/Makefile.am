@@ -27,4 +27,4 @@ moc_%.cpp: %.h
 	moc $< -o \$@
 
 pagos_sharedir = $(datadir)/gestiong/pagos
-dist_pagos_share_DATA = $(top_srcdir)/pagos/share/pagos.ddd
+dist_pagos_share_DATA = $(srcdir)/share/pagos.ddd

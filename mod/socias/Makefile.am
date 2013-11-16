@@ -35,19 +35,19 @@ moc_%.cpp: %.h
 	moc $< -o $@
 
 socias_sharedir = $(datadir)/gestiong/socias
-dist_socias_share_DATA = $(top_srcdir)/share/gestiong/socias/socias.ddd \
-	$(top_srcdir)/share/gestiong/socias/ca_socias.ddd
+dist_socias_share_DATA = $(srcdir)/share//socias.ddd \
+	$(srcdir)/share//ca_socias.ddd
 
 socias_informesdir = $(datadir)/gestiong/socias/informes
-dist_socias_informes_DATA = $(top_srcdir)/share/gestiong/socias/informes/ASIENTO.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/firmasproyecto.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/firmasproyecto_al.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/firmasproyecto_blanco.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/firmasproyecto_mz.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/MIEMBRO.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/PARTIDAPROYECTO.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/PROYECTO.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/proyectosdemiembros.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/recibi.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/recibosdemiembros.rtk \
-	$(top_srcdir)/share/gestiong/socias/informes/recibosproyectocompleto.rtk
+dist_socias_informes_DATA = $(srcdir)/share//informes/ASIENTO.rtk \
+	$(srcdir)/share//informes/firmasproyecto.rtk \
+	$(srcdir)/share//informes/firmasproyecto_al.rtk \
+	$(srcdir)/share//informes/firmasproyecto_blanco.rtk \
+	$(srcdir)/share//informes/firmasproyecto_mz.rtk \
+	$(srcdir)/share//informes/MIEMBRO.rtk \
+	$(srcdir)/share//informes/PARTIDAPROYECTO.rtk \
+	$(srcdir)/share//informes/PROYECTO.rtk \
+	$(srcdir)/share//informes/proyectosdemiembros.rtk \
+	$(srcdir)/share//informes/recibi.rtk \
+	$(srcdir)/share//informes/recibosdemiembros.rtk \
+	$(srcdir)/share//informes/recibosproyectocompleto.rtk

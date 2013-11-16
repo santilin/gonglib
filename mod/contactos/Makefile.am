@@ -25,12 +25,12 @@ moc_%.cpp: %.h
 	moc $< -o $@
 
 contactos_sharedir = $(datadir)/gestiong/contactos
-dist_contactos_share_DATA = $(top_srcdir)/share/gestiong/contactos/contactos.ddd \
-	$(top_srcdir)/share/gestiong/contactos/stylesheet.css \
-	$(top_srcdir)/share/gestiong/contactos/provincias.txt \
-	$(top_srcdir)/share/gestiong/contactos/codigospostales.txt \
-	$(top_srcdir)/share/gestiong/contactos/calles.txt
+dist_contactos_share_DATA = $(srcdir)/share/contactos.ddd \
+	$(srcdir)/share/stylesheet.css \
+	$(srcdir)/share/provincias.txt \
+	$(srcdir)/share/codigospostales.txt \
+	$(srcdir)/share/calles.txt
 
 contactos_informesdir = $(datadir)/gestiong/contactos/informes
-dist_contactos_informes_DATA = $(top_srcdir)/share/gestiong/contactos/informes/CONTACTO.rtk
+dist_contactos_informes_DATA = $(srcdir)/share/informes/CONTACTO.rtk
 

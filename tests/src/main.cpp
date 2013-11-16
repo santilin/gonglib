@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 {
 	__gong_debug::_gong_debug_level = 4;
 
-#if 1
+#if 0
 	TestMoney testmoney;
 	testmoney.run();
 	TestDate testdate;
@@ -76,11 +76,8 @@ int main(int argc, char *argv[])
 	testdbschema.run();
 	TestTableDef testtabledef;
 	testtabledef.run();
-#endif
 	TestdbRecord testdbrecord;
 	testdbrecord.run();
-
-#if 1
 	TestValidResult testvalidresult;
 	testvalidresult.run();
 	TestLibrary testlibrary;
@@ -95,12 +92,14 @@ int main(int argc, char *argv[])
  	testdbcalculator.run("4 + PVP");
 #endif
 
+	TestdbNamesListTable testdbnameslisttable;
+	TestdbNamesListTable.run();
 
 // 	TestSearchISBN testisbnsearch;
 // 	testisbnsearch.run();
 // 	TestHTTPClient testhttpclient;
 // 	testhttpclient.run();
-#if 1
+#if 0
 #ifdef HAVE_DBAPPMODULE
 	gong::GongLibrary l("","GONG-TESTS","", argc, argv);
 	gong::GongLibraryInstance = &l;

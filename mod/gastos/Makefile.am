@@ -18,6 +18,6 @@ moc_%.cpp: %.h
 	moc $< -o \$@
 
 gastos_sharedir = $(srcdir)/gestiong/gastos
-dist_gastos_share_DATA = $(top_srcdir)/share/gestiong/gastos/gastos.ddd
+dist_gastos_share_DATA = $(srcdir)/share/gastos.ddd
 
 
