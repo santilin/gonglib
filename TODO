@@ -285,6 +285,7 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 ** Ajustar el alto de fila a la fuente
 ** ContextMenu de la pDataTable: Usar el menu del frmeditrecmaster
 === dbapp ===
+* NamesListTable: buscar la lista de valores por defecto: configuración?
 * canBeginEdit( EditMode &newmode )
 * Definición de las vistas: +SELECT BLA,BLA FROM INNER JOIN
 * Añadir a herramientas de la base de datos información sobre la conexión como etiquetas en el propio formulario
@@ -304,6 +305,7 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * dbModule::readSettings( local/global ) y en dbapplication::readSettings, llamar primero al global,
 	luego leer las globales de la aplicación y luego llamar al local y luego las locales de la aplicación, igual con los reportspath
 === gonglib ===
+* Mastertable: SemanticProperties, pConnection
 * Hacer Xtring shared
 * Configuración: para qué conjunto de settings vale cada setting
 * dbRecordBehavior se tiene que añadir a los registros, no a la tabledefinition

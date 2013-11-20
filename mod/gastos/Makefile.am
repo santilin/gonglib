@@ -17,7 +17,7 @@ nodist_libgonggastos_la_SOURCES = moc_gastosmodule.cpp \
 moc_%.cpp: %.h
 	moc $< -o \$@
 
-gastos_sharedir = $(srcdir)/gestiong/gastos
+gastos_sharedir = $(datadir)/gestiong/gastos
 dist_gastos_share_DATA = $(srcdir)/share/gastos.ddd
 
 

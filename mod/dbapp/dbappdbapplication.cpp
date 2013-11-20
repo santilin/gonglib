@@ -11,6 +11,7 @@
 #include "dbappdbmodule.h"
 #include "dbappfrmdatabasetools.h"
 #include "dbapprecmetadbdata.h"
+#include "dbappnameslisttable.h"
 
 namespace gong {
 
@@ -23,7 +24,6 @@ dbRecordID dbApplication::sAnotherRecordID = 0;
 XtringList dbApplication::mMasterTables, dbApplication::mDetailTables;
 dbRecordTimestampBehavior *dbApplication::sTimestampBehavior
 	= new dbRecordTimestampBehavior( "REC_FECHA_CREA", "REC_FECHA_MODIF" );
-dbApplication::NamesListTableInfoList dbApplication::mNamesListTables;
 
 dbApplication::dbApplication ( const char *dbversion, const char *datadir,
                                const char *packagename, const char *packageversion,
@@ -355,7 +355,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
     setDDDFromConfig( pDatabase );
     setViewsFromConfig( pDatabase );
     setStylesFromConfig( pDatabase );
-	fillNamesListTableInfo( getConnection() );
+	NamesListTable::fillInfoList( getConnection() );
 
     if( !startingapp ) {
         delete pFrmLogin;
@@ -1503,27 +1503,10 @@ long int dbApplication::version2Long(const Xtring& version)
     return nversion;
 }
 
-
 RecMetaDBData* dbApplication::getRecMetaDBData() const
 {
     _GONG_DEBUG_ASSERT( pRecMetaDBData );
     return pRecMetaDBData;
-}
-
-void dbApplication::fillNamesListTableInfo(dbConnection* conn)
-{
-	for( NamesListTableInfoList::const_iterator it = mNamesListTables.begin();
-		it != mNamesListTables.end(); ++ it ) {
-		dbApplication::NamesListTableInfo info = (*it).second;
-		// TODO: This connection should be the one from the module that defines the nameslisttable
-		dbConnection *conn = DBAPP->getConnection();
-		Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn->nameToSQL( (*it).first );
-		dbResultSet *rs = conn->select( sql );
-		while( rs->next() ) {
-			info.captions.push_back( rs->toString(1) );
-			info.values.push_back( rs->toInt(0) );
-		}
-	}
 }
 
 } // namespace gong

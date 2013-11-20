@@ -93,12 +93,12 @@ libgongfactu_la_HEADERS += factufrmregenasientos.h
 moc_%.cpp: %.h
 	moc $< -o $@
 
-factu_sharedir = $(srcdir)/gestiong/factu
+factu_sharedir = $(datadir)/gestiong/factu
 dist_factu_share_DATA = $(srcdir)/share/factu.ddd \
 	$(srcdir)/share/stylesheet.css
 # act_stocks.sql
 
-factu_informesdir = $(srcdir)/gestiong/factu/informes
+factu_informesdir = $(datadir)/gestiong/factu/informes
 dist_factu_informes_DATA = $(srcdir)/share/informes/ALBARANCOMPRA.rtk \
 	$(srcdir)/share/informes/ALBARANVENTA.rtk \
 	$(srcdir)/share/informes/ALBARANVENTA_IVAINCLUIDO.rtk \
@@ -127,7 +127,7 @@ dist_factu_informes_DATA = $(srcdir)/share/informes/ALBARANCOMPRA.rtk \
 # 	$(srcdir)/share/informes/FACTURAVENTA_POR_FECHA.rtk
 #	$(srcdir)/share/informes/ALBARANVENTA_DEPOSITO_IVAINCLUIDO.rtk
 
-factu_plantillasdir = $(srcdir)/gestiong/factu/plantillas/import
+factu_plantillasdir = $(datadir)/gestiong/factu/plantillas/import
 dist_factu_plantillas_DATA = $(srcdir)/share/plantillas/import/ARTICULO.ods \
 	$(srcdir)/share/plantillas/import/CLIENTE.ods \
 	$(srcdir)/share/plantillas/import/CONTACTO.ods \

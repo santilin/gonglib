@@ -21,7 +21,16 @@ namespace gong {
 class NamesListTable: public dbMasterTable
 {
 public:
-    NamesListTable(dbDefinition &db, const Xtring &name);
+	struct Info {XtringList captions; IntList values;};
+	typedef Dictionary<Info*> InfoList;
+
+	NamesListTable(dbDefinition &db, const Xtring &name);
+    static InfoList &getNamesListTables() {
+		return mNamesListTables;
+	}
+	static void fillInfoList( dbConnection *conn );
+private:
+	static InfoList mNamesListTables;
 };
 
 

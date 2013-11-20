@@ -1,8 +1,9 @@
 default: all
 
 all:
+	automake --add-missing
 	aclocal -I m4
 	autoheader
 	libtoolize --force -c
-	automake --add-missing
+#	automake --add-missing
 	autoconf

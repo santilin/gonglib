@@ -24,5 +24,5 @@ moc_%.cpp: %.h
 	moc $< -o $@
 
 gestiong_sharedir = $(datadir)/gestiong
-gestiong_share_DATA = $(top_srcdir)/share/gestiong/gestiong.ddd \
-	$(top_srcdir)/share/gestiong/integralg.ddd
+dist_gestiong_share_DATA = $(srcdir)/share/gestiong.ddd \
+	$(srcdir)/share/integralg.ddd

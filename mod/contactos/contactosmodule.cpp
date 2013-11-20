@@ -86,6 +86,7 @@ bool ContactosModule::login(FrmLogin *frmlogin, const Xtring &version,
 
 void ContactosModule::afterLoad()
 {
+	return;
     FldNamesListTable *fldtrat = static_cast<FldNamesListTable *>(
 		DBAPP->getDatabase()->findFieldDefinition("CONTACTO.TRATAMIENTOCONTACTO") );
     if( fldtrat )
@@ -109,7 +110,7 @@ bool ContactosModule::initDatabase(dbDefinition *db)
     _GONG_DEBUG_ASSERT( db );
     pMainDatabase = db;
 
-    /*<<<<<CONTACTOSMODULE_INIT_DATABASE*/
+/*<<<<<CONTACTOSMODULE_INIT_DATABASE*/
 	pFicTratamientoContacto = new NamesListTable( *pMainDatabase, "TRATAMIENTOCONTACTO" );
 	pMainDatabase->addTable( pFicTratamientoContacto->getTableDefinition() );
 /*>>>>>CONTACTOSMODULE_INIT_DATABASE*/

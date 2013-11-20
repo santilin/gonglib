@@ -39,15 +39,15 @@ dist_socias_share_DATA = $(srcdir)/share//socias.ddd \
 	$(srcdir)/share//ca_socias.ddd
 
 socias_informesdir = $(datadir)/gestiong/socias/informes
-dist_socias_informes_DATA = $(srcdir)/share//informes/ASIENTO.rtk \
-	$(srcdir)/share//informes/firmasproyecto.rtk \
-	$(srcdir)/share//informes/firmasproyecto_al.rtk \
-	$(srcdir)/share//informes/firmasproyecto_blanco.rtk \
-	$(srcdir)/share//informes/firmasproyecto_mz.rtk \
-	$(srcdir)/share//informes/MIEMBRO.rtk \
-	$(srcdir)/share//informes/PARTIDAPROYECTO.rtk \
-	$(srcdir)/share//informes/PROYECTO.rtk \
-	$(srcdir)/share//informes/proyectosdemiembros.rtk \
-	$(srcdir)/share//informes/recibi.rtk \
-	$(srcdir)/share//informes/recibosdemiembros.rtk \
-	$(srcdir)/share//informes/recibosproyectocompleto.rtk
+dist_socias_informes_DATA = $(srcdir)/share/informes/ASIENTO.rtk \
+	$(srcdir)/share/informes/firmasproyecto.rtk \
+	$(srcdir)/share/informes/firmasproyecto_al.rtk \
+	$(srcdir)/share/informes/firmasproyecto_blanco.rtk \
+	$(srcdir)/share/informes/firmasproyecto_mz.rtk \
+	$(srcdir)/share/informes/MIEMBRO.rtk \
+	$(srcdir)/share/informes/PARTIDAPROYECTO.rtk \
+	$(srcdir)/share/informes/PROYECTO.rtk \
+	$(srcdir)/share/informes/proyectosdemiembros.rtk \
+	$(srcdir)/share/informes/recibi.rtk \
+	$(srcdir)/share/informes/recibosdemiembros.rtk \
+	$(srcdir)/share/informes/recibosproyectocompleto.rtk

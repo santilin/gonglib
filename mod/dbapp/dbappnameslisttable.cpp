@@ -4,6 +4,8 @@
 
 namespace gong {
 
+NamesListTable::InfoList NamesListTable::mNamesListTables;
+
 NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
     : dbMasterTable( db, name )
 {
@@ -12,6 +14,24 @@ NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
     addFieldDesc( "NOMBRE" )->setUnique( true );
     addBehavior( DBAPP->getRecordTimestampBehavior() );
 }
+
+void NamesListTable::fillInfoList(dbConnection* conn)
+{
+	for( NamesListTable::InfoList::const_iterator it = mNamesListTables.begin();
+		it != mNamesListTables.end(); ++ it ) {
+		_GONG_DEBUG_PRINT(0, (*it).first );
+		NamesListTable::Info *info = (*it).second;
+		// TODO: This connection should be the one from the module that defines the nameslisttable
+		Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn->nameToSQL( (*it).first );
+		dbResultSet *rs = conn->select( sql );
+		while( rs->next() ) {
+			info->values.push_back( rs->toInt(0) );
+			info->captions.push_back( rs->toString(1) );
+			_GONG_DEBUG_PRINT(0, info->captions.join(",") );
+		}
+	}
+}
+
 
 /**
  * @brief We can not pass the FldNamesListTable mCaptions and mValues to the constructor of
@@ -29,12 +49,16 @@ FldNamesListTable::FldNamesListTable(const Xtring& tablename, const Xtring& fldn
                                 SQLINTEGER, 5, 0, flags, defaultvalue )
 {
 	// TODO destructor to delete these infos
-	struct dbApplication::NamesListTableInfo *info = new dbApplication::NamesListTableInfo();
-	dbApplication::NamesListTableInfoList::const_iterator it = DBAPP->getNamesListTables().find( tablename );
-	if(  it == DBAPP->getNamesListTables().end() ) {
-		DBAPP->getNamesListTables().insert( fldname, *info );
+	NamesListTable::Info *info = new NamesListTable::Info();
+	info->captions << "Prueba";
+	NamesListTable::InfoList::const_iterator it = NamesListTable::getNamesListTables().find( fldname );
+	if(  it == NamesListTable::getNamesListTables().end() ) {
+		NamesListTable::getNamesListTables().insert( fldname, info );
+NamesListTable::InfoList::const_iterator it2 = NamesListTable::getNamesListTables().find( fldname );
+		_GONG_DEBUG_PRINT(0, (*it2).second->captions.join(",") );
+
 	} else {
-		*info = const_cast<struct dbApplication::NamesListTableInfo &>((*it).second);
+		info = (*it).second;
 	}
 	pListOfCaptions = &info->captions;
 	pListOfValues = &info->values;
