@@ -42,8 +42,8 @@
 			format="%d/%m/%Y %H:%M";
 			sizey = 1;
 			posy = 0;
-			posx = -23 ;
-			sizex = 12;
+			posx = -24 ;
+			sizex = 13;
 		}
 		OBJECT npagina_text  {
 			style = pagenumber ;

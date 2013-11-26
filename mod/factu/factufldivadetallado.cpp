@@ -32,6 +32,5 @@ namespace factu {
 IntList FldIVADetallado::sValues;
 XtringList FldIVADetallado::sCaptions;
 
-
 } // namespace factu
 } // namespace gong

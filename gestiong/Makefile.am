@@ -2,7 +2,7 @@
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
 # >>>>>GONGLIB_M4
-SUBDIRS=gonglib rtk qt4 dbapp contactos empresa gastos \
+SUBDIRS=gonglib rtk qt4 dbapp contactos empresa gastos contab pagos factu socias sinpapeles reccolor \
 	src
 
 EXTRA_DIST=debian Makefile.cvs

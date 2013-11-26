@@ -50,13 +50,9 @@ FldNamesListTable::FldNamesListTable(const Xtring& tablename, const Xtring& fldn
 {
 	// TODO destructor to delete these infos
 	NamesListTable::Info *info = new NamesListTable::Info();
-	info->captions << "Prueba";
 	NamesListTable::InfoList::const_iterator it = NamesListTable::getNamesListTables().find( fldname );
 	if(  it == NamesListTable::getNamesListTables().end() ) {
 		NamesListTable::getNamesListTables().insert( fldname, info );
-NamesListTable::InfoList::const_iterator it2 = NamesListTable::getNamesListTables().find( fldname );
-		_GONG_DEBUG_PRINT(0, (*it2).second->captions.join(",") );
-
 	} else {
 		info = (*it).second;
 	}

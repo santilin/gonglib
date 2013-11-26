@@ -1,3 +1,4 @@
+No ha generado el recibo de eva, 1 Ö
 == Hecho ==
 
 == CATS ==
@@ -17,6 +18,7 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 * COMPROBAR: Cuando se paga menos y se divide el recibo, el número agrupado no se queda igual, se genera nuevo
 
 == Hacer ==
+* LineEdit Hacer la letra más grande y las cajas más pequeñas
 * Cuando da un artículo duplicado, al cancelar no selecciona el duplicado
 * TPV: Que se resalte la familia seleccionada
 * TPV: Config: Mostrar nombres en mayúsculas
@@ -38,6 +40,7 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-factu ==
+* Código del artículo en detalles más grande
 * Si la empresa no tiene recargo y se reciben facturas de compra con recargo, avisar
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 * Genera pagos de albaranes y luego en la factura, al facturarlo, también

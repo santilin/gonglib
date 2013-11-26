@@ -33,9 +33,7 @@ namespace socias {
 
 void FrmEditRemesaCobroBehavior::initGUI()
 {
-    /*<<<<<FRMEDITREMESACOBROBEHAVIOR_INITGUI*/
-	QWidget *pControlsFrame = getControlsFrame();
-	QVBoxLayout* pControlsLayout = getControlsLayout();
+/*<<<<<FRMEDITREMESACOBROBEHAVIOR_INITGUI*/
 /*>>>>>FRMEDITREMESACOBROBEHAVIOR_INITGUI*/
     pushGenerarRecibo = new QPushButton( pTheForm );
     pushGenerarRecibo->setText( toGUI(_("Añadir recibo")) );

@@ -22,8 +22,6 @@ class LineEdit;
 
 class CalcButton : public QToolButton
 {
-    Q_OBJECT
-
 public:
     CalcButton(const Xtring &text, QWidget *parent = 0);
 

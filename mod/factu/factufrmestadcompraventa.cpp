@@ -26,7 +26,7 @@ FrmEstadCompraVenta::FrmEstadCompraVenta(QWidget * parent, WidgetFlags fl)
     pSearchCliente = addMultipleSearchField( 0, "CLIENTE", "CODIGO", "RAZONSOCIAL" );
     pSearchProveedora = addMultipleSearchField( 0, "PROVEEDORA", "CODIGO", "RAZONSOCIAL" );
     XtringList agrupar_por;
-    agrupar_por << "No agrupar" << "Artículo" << "Razón social" << "Fecha (diario)";
+    agrupar_por << "No agrupar" << "Artículo" << "Razón social" << "Fecha (diario)" << "Documento";
     pComboAgruparPor = addComboBoxXtring( 0, _("Agrupar  por"), agrupar_por );
     pCheckPreciosConIVA = addCheckBox( 0, _("Precios con IVA"), true );
     pCheckMostrarAlbaranes = addCheckBox( 0, _("Mostrar albaranes facturados en vez de facturas"), true );
@@ -70,6 +70,11 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
     if( agrupar_fecha_diario ) {
         defines += "#define AGRUPAR\n";
         defines += "#define AGRUPAR_POR_FECHA_DIARIO\n";
+    }
+    bool agrupar_documento = ( pComboAgruparPor->currentIndex() == 4 );
+    if( agrupar_documento ) {
+        defines += "#define AGRUPAR\n";
+        defines += "#define AGRUPAR_POR_DOCUMENTO\n";
     }
 
     if( !pDateRange->getDateFrom().isNull() ) {
@@ -238,6 +243,8 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
         rtkstring += "\t\torderby = \"VT.RAZONSOCIAL,VT.RAZONSOCIAL_ID,VT_FECHA\";\n";
     else if( agrupar_fecha_diario )
         rtkstring += "\t\torderby = \"VT.FECHA,A.CODIGO\";\n";
+    else if( agrupar_documento )
+        rtkstring += "\t\torderby = \"VT.FECHA,VT.NUMERO,VT.RAZONSOCIAL_ID,A.CODIGO\";\n";
     else
         rtkstring += "\t\torderby = \"VT_FECHA\";\n";
     rtkstring +="\t}\n";

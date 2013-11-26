@@ -131,6 +131,43 @@
 			posy = 0;
 		}
 #endif // AGRUPAR_POR_FECHA_DIARIO
+#ifdef AGRUPAR_POR_DOCUMENTO
+		value = "=input.VT_NUMERO";
+		OBJECT VT_TIPO {
+			value = "=input.VT_TIPO";
+			posx = 0;
+			sizex = 2;
+		}
+		OBJECT VT_TIPODOC {
+			value = "=input.VT_TIPODOC";
+			sizex = 14;
+			posx = -1;
+		}
+		OBJECT numero {
+			value = "=input.VT_NUMERO";
+			posx = -1;
+			sizex = 20;
+			posy = 0;
+		}
+		OBJECT fecha {
+			value = "=input.VT_FECHA";
+			posx = -1;
+			sizex = 10;
+			posy = 0;
+		}
+		OBJECT RAZONSOCIAL_CODIGO {
+			value = "=input.RAZONSOCIAL_CODIGO";
+			alignment = right;
+			sizex = 4;
+			posx = -1;
+		}
+		OBJECT RAZONSOCIAL {
+			value = "=input.RAZONSOCIAL";
+			adjustment = reducefont;
+			posx = -1;
+		}
+
+#endif // AGRUPAR_POR_DOCUMENTO
 	}
 #endif // AGRUPAR
 
@@ -150,13 +187,17 @@
 		style = header;
 		level = 1;
 		paddingtop = 0.1;
+
 #ifndef AGRUPAR_POR_FECHA_DIARIO
+#ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_FECHA {
 			value = "= const @DDD.ALBARANVENTA_FECHA_CAPTION;";
 			posx = 0;
 			sizex = 7;
 		}
 #endif
+#endif
+#ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_TIPODOC {
 			value = "= const @DDD.TIPODOC_DESCSINGULAR;";
 			posx = -1;
@@ -170,6 +211,7 @@
 			posx = -1;
 			sizex = 8;
 		}
+#endif
 		OBJECT VT_CANTIDAD {
 			value = "= const @DDD.ALBARANVENTADET_CANTIDAD_CAPTION;";
 			posx = -1;
@@ -246,12 +288,15 @@
 		sizey = 1;
 
 #ifndef AGRUPAR_POR_FECHA_DIARIO
+#ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_FECHA {
 			value = "=input.VT_FECHA";
 			posx = 0;
 			sizex = 7;
 		}
 #endif
+#endif
+#ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_TIPO {
 			value = "=input.VT_TIPO";
 			posx = -1;
@@ -276,6 +321,7 @@
 			sizex = 8;
 			adjustment = reducefont;
 		}
+#endif
 		OBJECT VT_CANTIDAD {
 			value = "=input.VT_CANTIDAD";
 			posx = -1;
@@ -438,7 +484,7 @@
 			value = "=input.VT_IMPORTE";
 #endif
 			aggregate = sum;
-			posx = 44;
+			posx = 45;
 			sizex = 12;
 			alignment = right;
 		}

@@ -139,7 +139,7 @@ void FrmCalculator::setValue(double value)
 
 void FrmCalculator::digitClicked()
 {
-    CalcButton *clickedButton = qobject_cast<CalcButton *>(sender());
+    CalcButton *clickedButton = dynamic_cast<CalcButton *>(sender());
     int digitValue = clickedButton->text().toInt();
     if (display->toString() == "0" && digitValue == 0.0)
         return;
@@ -153,7 +153,7 @@ void FrmCalculator::digitClicked()
 
 void FrmCalculator::unaryOperatorClicked()
 {
-    CalcButton *clickedButton = qobject_cast<CalcButton *>(sender());
+    CalcButton *clickedButton = dynamic_cast<CalcButton *>(sender());
     Xtring clickedOperator = fromGUI(clickedButton->text());
     double operand = display->toString().toDouble();
     double result = 0.0;
@@ -179,7 +179,7 @@ void FrmCalculator::unaryOperatorClicked()
 
 void FrmCalculator::additiveOperatorClicked()
 {
-    CalcButton *clickedButton = qobject_cast<CalcButton *>(sender());
+    CalcButton *clickedButton = dynamic_cast<CalcButton *>(sender());
     Xtring clickedOperator = fromGUI(clickedButton->text());
     double operand = display->toString().toDouble();
 
@@ -210,7 +210,7 @@ void FrmCalculator::additiveOperatorClicked()
 
 void FrmCalculator::multiplicativeOperatorClicked()
 {
-    CalcButton *clickedButton = qobject_cast<CalcButton *>(sender());
+    CalcButton *clickedButton = dynamic_cast<CalcButton *>(sender());
     Xtring clickedOperator = fromGUI(clickedButton->text());
     double operand = display->toString().toDouble();
 

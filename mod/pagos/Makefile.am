@@ -12,7 +12,7 @@ libgongpagos_la_SOURCES = pagosmodule.cpp \
 	pagosfrmpagarrecibo.cpp pagosipagablerecord.cpp \
 	pagoscuaderno19.cpp
 
-libgongpagos_la_HEADERS = pagosmodule.h \
+libgongpagos_la_HEADERS = pagosmodule.h pagosmastertable.h \
 	pagosfrmeditcobro.h pagosfrmpagarrecibo.h pagosfrmeditpago.h \
 	pagosfrmeditformapago.h pagosrecformapago.h \
 	pagosfrmeditremesacobro.h pagosrecremesacobro.h \

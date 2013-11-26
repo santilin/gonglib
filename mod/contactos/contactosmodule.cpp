@@ -86,7 +86,7 @@ bool ContactosModule::login(FrmLogin *frmlogin, const Xtring &version,
 
 void ContactosModule::afterLoad()
 {
-	return;
+#if 0
     FldNamesListTable *fldtrat = static_cast<FldNamesListTable *>(
 		DBAPP->getDatabase()->findFieldDefinition("CONTACTO.TRATAMIENTOCONTACTO") );
     if( fldtrat )
@@ -102,6 +102,7 @@ void ContactosModule::afterLoad()
                                + getConnection()->toSQL( RecContacto::TratamientoColectivo) + ", 'Colectivo')" );
         fldtrat->fill( *getConnection() );
     }
+#endif
 }
 
 bool ContactosModule::initDatabase(dbDefinition *db)
