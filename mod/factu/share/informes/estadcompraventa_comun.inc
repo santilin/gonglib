@@ -132,7 +132,7 @@
 		}
 #endif // AGRUPAR_POR_FECHA_DIARIO
 #ifdef AGRUPAR_POR_DOCUMENTO
-		value = "=input.VT_NUMERO";
+		value = "= VT_FECHA,VT_NUMERO";
 		OBJECT VT_TIPO {
 			value = "=input.VT_TIPO";
 			posx = 0;

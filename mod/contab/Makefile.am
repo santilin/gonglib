@@ -29,17 +29,17 @@ nodist_libgongcontab_la_SOURCES = \
 moc_%.cpp: %.h
 	moc $< -o $@
 
-contab_sharedir = $(datadir)/gestiong/contab
-dist_contab_share_DATA = $(top_srcdir)/share/gestiong/contab/contab.ddd \
-	$(top_srcdir)/share/gestiong/contab/RealDecreto_1415_2007.fugit \
-	$(top_srcdir)/share/gestiong/contab/RealDecreto_1515_2007_ONGS.fugit \
-	$(top_srcdir)/share/gestiong/contab/RealDecreto_1515_2007_PYMES.fugit
+contab_sharedir = $(datadir)
+dist_contab_share_DATA = $(srcdir)/share/contab.ddd \
+	$(srcdir)/share/RealDecreto_1415_2007.fugit \
+	$(srcdir)/share/RealDecreto_1515_2007_ONGS.fugit \
+	$(srcdir)/share/RealDecreto_1515_2007_PYMES.fugit
 
-contab_informesdir = $(datadir)/gestiong/contab/informes
-dist_contab_informes_DATA = $(top_srcdir)/share/gestiong/contab/informes/CUENTA.rtk \
-	$(top_srcdir)/share/gestiong/contab/informes/cuentas.rtk \
-	$(top_srcdir)/share/gestiong/contab/informes/diariobonito.rtk \
-	$(top_srcdir)/share/gestiong/contab/informes/sumasaldos.rtk \
-	$(top_srcdir)/share/gestiong/contab/informes/tipodoc_recibi.rtk
+contab_informesdir = $(datadir)/informes
+dist_contab_informes_DATA = $(srcdir)/share/informes/CUENTA.rtk \
+	$(srcdir)/share/informes/cuentas.rtk \
+	$(srcdir)/share/informes/diariobonito.rtk \
+	$(srcdir)/share/informes/sumasaldos.rtk \
+	$(srcdir)/share/informes/tipodoc_recibi.rtk
 
-#dist_bin_SCRIPTS = $(top_srcdir)/share/gestiong/scripts/contaplus2fugit.py
+#dist_bin_SCRIPTS = $(srcdir)/share/gestiong/scripts/contaplus2fugit.py

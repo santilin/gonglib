@@ -18,6 +18,8 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 * COMPROBAR: Cuando se paga menos y se divide el recibo, el número agrupado no se queda igual, se genera nuevo
 
 == Hacer ==
+* Pagos: no sale caption facturatabla
+* Agrupar por documento, resumido
 * LineEdit Hacer la letra más grande y las cajas más pequeñas
 * Cuando da un artículo duplicado, al cancelar no selecciona el duplicado
 * TPV: Que se resalte la familia seleccionada
