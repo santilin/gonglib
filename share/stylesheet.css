@@ -1,8 +1,8 @@
-QPushButton { font-size: bigger }
 QFrame { border: 2px inset #f0f0f0; border-radius: 4px }
 QTabWidget > QFrame { padding: 0px 0px; margin: 0 }
 QTabWidget { border: 2px outset blue }
 QWidget > QMenuBar { border: 2px outset gray; font-weight: bold }
 QLabel { border: none }
-QLineEdit { font-size: bigger }
+QLineEdit { font-size: small; color: green; }
+QPushButton { font-size: small; color: green; }
 

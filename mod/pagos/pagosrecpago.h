@@ -19,7 +19,6 @@
 #include <dbappdbapplication.h>
 
 #include "empresarecmoneda.h"
-#include "pagosrecproveedora.h"
 /*>>>>>PAGO_INCLUDES*/
 
 #ifdef HAVE_CONTABMODULE
@@ -48,7 +47,6 @@ public:
     { };
     /*<<<<<PAGO_RELATIONS*/
 	empresa::RecMoneda *getRecMoneda() const;
-	RecProveedora *getRecProveedora() const;
 /*>>>>>PAGO_RELATIONS*/
     bool actPagosFactura();
 #ifdef HAVE_CONTABMODULE

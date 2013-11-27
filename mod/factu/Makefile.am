@@ -61,7 +61,7 @@ libgongfactu_la_HEADERS = factumodule.h factumastertable.h \
 	factufrmbalanceclipro.h factufrmcambiosmasivosarticulos.h \
 	factufrmmod303.h factufrmgencodart.h \
 	factuipagables.h factuiivadesglosable.h factuiasentables.h \
-	factuitotalizablerecord.cpp
+	factuitotalizablerecord.h
 
 nodist_libgongfactu_la_SOURCES = \
 	moc_factufrmeditagente.cpp \

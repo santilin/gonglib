@@ -23,7 +23,6 @@
 // Member save
 // Member remove
 // Relation empresa::Moneda
-// Relation Proveedora
 // TYPE dbRecord pagos::Pago
 /*>>>>>MODULE_INFO*/
 
@@ -51,11 +50,6 @@ void RecPago::init()
 empresa::RecMoneda *RecPago::getRecMoneda() const
 {
 	return static_cast<empresa::RecMoneda*>(findRelatedRecord("PAGO.MONEDA_ID"));
-}
-
-RecProveedora *RecPago::getRecProveedora() const
-{
-	return static_cast<RecProveedora*>(findRelatedRecord("PAGO.PROVEEDORA_ID"));
 }
 
 /*>>>>>PAGO_RELATIONS*/
