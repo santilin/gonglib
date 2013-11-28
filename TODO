@@ -1,8 +1,6 @@
 Menssana: No ha generado el recibo de eva, 1 Ö
 Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
 
-Elias
-
 == CATS ==
 * Borrar RTK.PATH de .gestiong/cats/settings.rc
 
@@ -44,6 +42,7 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-factu ==
+* Forma de pago "se ignora" hay que dejar el resto a 0
 * Código del artículo en detalles más grande
 * Si la empresa no tiene recargo y se reciben facturas de compra con recargo, avisar
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto

@@ -75,6 +75,12 @@
 			Source = VT.RAZONSOCIAL_CODIGO;
 			Type = integer;
 		}
+#ifdef AGRUPAR_POR_DOCUMENTO
+		INPUTFIELD DOCUMENTO_GRUPO {
+			Source = CONCAT(VT.FECHA,VT.NUMERO);
+			Type = string;
+		}
+#endif
 	}
 
 	include = "default_pageheader.inc";
@@ -132,7 +138,7 @@
 		}
 #endif // AGRUPAR_POR_FECHA_DIARIO
 #ifdef AGRUPAR_POR_DOCUMENTO
-		value = "= VT_FECHA,VT_NUMERO";
+		value = "=input.DOCUMENTO_GRUPO";
 		OBJECT VT_TIPO {
 			value = "=input.VT_TIPO";
 			posx = 0;

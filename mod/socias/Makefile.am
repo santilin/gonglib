@@ -15,7 +15,7 @@ libgongsocias_la_SOURCES = sociasmodule.cpp \
 
 libgongsocias_la_HEADERS = sociasmodule.h sociasfrmeditmiembro.h \
 	sociasfrmeditpartidaproyecto.h sociasfrmeditproyecto.h \
-	sociasfrmeditiposocia.h sociasfrmgenerarrecibos.h \
+	sociasfrmedittiposocia.h sociasfrmgenerarrecibos.h \
 	sociasmastertable.h sociascobrobehavior.h \
 	sociasrecmiembro.h sociasrecproyecto.h sociasipagables.h \
 	sociasrectiposocia.h sociasrecpartidaproyecto.h sociasfrmmailing.h \

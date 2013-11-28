@@ -4,9 +4,7 @@ Priority: optional
 Maintainer: santilin <gestiong@programacionsocial.net>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.3
-Homepage: http://www.programacionsocial.net
-#Vcs-Git: git://git.debian.org/collab-maint/gestiong.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/gestiong.git;a=summary
+Homepage: <http://www.programacionsocial.net>
 
 Package: gestiong
 Architecture: any
