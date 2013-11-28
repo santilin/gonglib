@@ -17,7 +17,7 @@ libgongcontab_la_HEADERS = contabmastertable.h contabcuenta.h \
 	contabfrmeditcuenta.h contabfrmeditempresa.h \
 	contabmodule.h contabrecapunte.h contabrecasiento.h \
 	contabreccuenta.h contabfrmedittipoivabehavior.h \
-	contabfldcuenta.h contabiasentablerecord.h
+	contabfldcuenta.h contabiasentablerecord.h contabvalidatecuenta.inc
 
 nodist_libgongcontab_la_SOURCES = \
 	moc_contabmodule.cpp \

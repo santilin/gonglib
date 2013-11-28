@@ -20,9 +20,10 @@
 #include <dbappfrmeditrecmaster.h>
 #include "sociasrecproyecto.h"
 #include "sociasfrmeditmiembro.h"
-#include "sociasfrmeditremesacobro.h"
 #include "sociasfrmeditpartidaproyecto.h"
 /*>>>>>FRMEDITPROYECTO_INCLUDES*/
+
+#include <pagosfrmeditremesacobro.h>
 
 namespace gong {
 namespace socias {

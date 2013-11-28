@@ -11,7 +11,7 @@ libgongreccolor_la_SOURCES = reccolormodule.cpp \
 	reccolorrecordbehavior.cpp reccolorfrmeditrecbehavior.cpp \
 	reccolordatatable.cpp
 
-libgongreccolor_la_HEADERS = reccolormodule.h \
+libgongreccolor_la_HEADERS = reccolormodule.h reccolormastertable.h \
 	reccolorrecordbehavior.h reccolorfrmeditrecbehavior.h \
 	reccolordatatable.h
 
