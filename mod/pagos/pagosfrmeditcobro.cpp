@@ -800,7 +800,7 @@ bool FrmEditCobro::canBeginEdit(EditMode newmode)
 {
     if( !FrmEditRecMaster::canBeginEdit( newmode ) )
         return false;
-    if( newmode == DataTable::inserting ) {
+    if( newmode == DataTable::inserting || newmode == DataTable::duplicating ) {
         if( getRecord()->getValue( "TABLAFACTURAS" ).toString().isEmpty()
                 || getRecord()->getValue( "TABLATERCEROS" ).toString().isEmpty() ) {
             msgError( this, _("No se pueden crear cobros directamente.") );

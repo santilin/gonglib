@@ -574,35 +574,36 @@ SearchBox *FrmEditRec::addSearchField( QWidget *parent, const Xtring &fldname,
     dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( reftablename );
     if( tbldef ) {
         dbFieldDefinition *flddefdesc = tbldef->findFieldDefinition( flddnamedesc, true );
-        if( !flddefdesc )
-            return search;
-        // 	applyFieldStyle( search->getButton(), flddefdesc );
-        search->getButton()->setText( QString::fromUtf8( tbldef->getDescSingular().c_str()) );
-        // Set the caption to the ddd field caption if appropiate
-        dbFieldDefinition *reference_id_fld = getRecord()->getTableDefinition()->findFieldDefinition( fldname );
-        if( reference_id_fld ) {
-            Xtring caption = reference_id_fld->getCaption();
-            if( caption.upper() != fldname.upper() ) {
-                search->getButton()->setText( toGUI( caption ) );
-            }
-        }
-        int nombrewidth = flddefdesc->getDisplayWidth(), savewidth = nombrewidth;
-        if( nombrewidth > 15 )
-            nombrewidth = nombrewidth * 0.3;
-        if( nombrewidth > 15 )
-            nombrewidth = 15;
-        flddefdesc->setDisplayWidth( nombrewidth );
-// 		applyFieldStyle( search->getEditCode(), flddefdesc );
-// 		search->getEditCode()->setMaxLength( savewidth );
-        flddefdesc->setDisplayWidth( savewidth );
-        applyFieldStyle( search->getEditDesc(), flddefdesc );
+        search->getButton()->setText( toGUI( tbldef->getDescSingular().c_str()) );
+        if( flddefdesc ) {
+		    // 	applyFieldStyle( search->getButton(), flddefdesc );
+		    // Set the caption to the ddd field caption of the reference if appropiate
+		    dbFieldDefinition *reference_id_fld = getRecord()->getTableDefinition()->findFieldDefinition( fldname );
+		    if( reference_id_fld ) {
+		        Xtring caption = reference_id_fld->getCaption();
+		        if( caption.upper() != fldname.upper() ) {
+		            search->getButton()->setText( toGUI( caption ) );
+		        }
+		    }
+		    int nombrewidth = flddefdesc->getDisplayWidth(), savewidth = nombrewidth;
+		    if( nombrewidth > 15 )
+		        nombrewidth = nombrewidth * 0.3;
+		    if( nombrewidth > 15 )
+		        nombrewidth = 15;
+		    flddefdesc->setDisplayWidth( nombrewidth );
+			applyFieldStyle( search->getEditCode(), flddefdesc );
+	 		search->getEditCode()->setMaxLength( savewidth );
+    	    flddefdesc->setDisplayWidth( savewidth );
+		    applyFieldStyle( search->getEditDesc(), flddefdesc );
+		}
         search->setMustBeReadOnly( search->getEditCode()->isReadOnly() );
         if( showlabels ) {
             dbFieldDefinition *flddefcode = tbldef->findFieldDefinition( fldnamecodigo, true );
             applyFieldStyle( search->getLabelCode(), flddefcode );
-            applyFieldStyle( search->getLabelDesc(), flddefdesc );
+			if( flddefdesc )
+            	applyFieldStyle( search->getLabelDesc(), flddefdesc );
         }
-        search->getEditCode()->setName( ( reftablename + "_" + fldnamecodigo ).c_str() );
+        search->getEditCode()->setName( ( reftablename + "_" + fldnamecodigo ).c_str() );				
         search->getEditDesc()->setName( ( reftablename + "_" + flddnamedesc ).c_str() );
         connect( search->getEditCode(), SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
                  this, SLOT( specialControlKeyPressed( QWidget *, char ) ) );

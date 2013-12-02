@@ -6,7 +6,6 @@
 == Los pájaros ==
 * Algunas veces los albaranes del tpv no formatean el número
 
-
 == Comprobar en mc ==
 * Hago un pedido de cliente y en las lineas añado muchos lineas de texto en la descripción, si lo imprimo sale correcto pero si lo paso a pedido a proveedor me aparece la descripción del articulo en vez de lo que he escrito a mano que siempre es el acabado..... no se si me explico....
 2 Al elegir un articulo pongo luna y no me filtra, existiendo artículos que en su nombre si tienen la palabra luna, y luego pasa algo raro con los artículos se queda la pantalla por detrás de una en blanco.
@@ -14,8 +13,6 @@
 * COMPROBAR: Cuando se paga menos y se divide el recibo, el número agrupado no se queda igual, se genera nuevo
 
 == Hacer ==
-* Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
-* Pagos: no sale caption facturatabla
 * Agrupar por documento, resumido
 * Cuando da un artículo duplicado, al cancelar no selecciona el duplicado
 * TPV: Que se resalte la familia seleccionada
@@ -38,7 +35,6 @@
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-factu ==
-* Forma de pago "se ignora" hay que dejar el resto a 0
 * Código del artículo en detalles más grande
 * Si la empresa no tiene recargo y se reciben facturas de compra con recargo, avisar
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
@@ -290,7 +286,6 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 ** Ajustar el alto de fila a la fuente
 ** ContextMenu de la pDataTable: Usar el menu del frmeditrecmaster
 === dbapp ===
-* NamesListTable: buscar la lista de valores por defecto: configuración?
 * canBeginEdit( EditMode &newmode )
 * Definición de las vistas: +SELECT BLA,BLA FROM INNER JOIN
 * Añadir a herramientas de la base de datos información sobre la conexión como etiquetas en el propio formulario
@@ -329,6 +324,8 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 == .deb ==
 https://wiki.debian.org/IntroDebianPackaging
 
-../gong.sh make_tar gestiong
-dh_make --native -c lgpl -e gestiong@programacionsocial.net -s
+cd gestiong
+make dist
+cp gestiong-0.5.0-beta1.tar.gz ~/devel/tmp/gestiong_0.5.0-beta1.orig.tar.gz
+#dh_make --native -c gpl -e gestiong@programacionsocial.net -s
 debuild -us -uc
