@@ -71,8 +71,8 @@ GongLibrary::GongLibrary( const char *datadir, const char *packagename,
     char *s = getcwd( pathname, 255 );
     if( s ) {
         _GONG_DEBUG_PRINT( 0, Xtring::printf(
-                               "CWD=%s\n=GlobalDataDir=%s\n=LocalDataDir=%s",
-                               pathname, getGlobalDataDir().c_str(),
+                               "CWD=%s\nGonglibDataDir=%s\nGlobalDataDir=%s\nLocalDataDir=%s",
+                               pathname, getGonglibDataDir().c_str(),  getGlobalDataDir().c_str(),
                                getLocalDataDir().c_str() ) );
     }
 #ifdef ENABLE_NLS

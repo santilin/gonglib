@@ -37,10 +37,10 @@ dbApplication::dbApplication ( const char *dbversion, const char *datadir,
     _GONG_DEBUG_TRACE ( 1 );
     pMachineSettings = new Settings( Xtring::null, _("Configuración por omisión de este ordenador") );
     pMachineSettings->setReadOnly( true );
+    // We need some basic settings in order to log in (databse settings )
+    pMachineSettings->read( getGonglibDataDir() + "dbapp/settings.rc" );
     pUserLocalSettings = new Settings( getLocalDataDir() + "settings.rc",
                                        _("Configuración local para este ordenador") );
-    // We need some basic settings in order to log in (databse settings )
-    pMachineSettings->read( getGonglibDataDir() + "settings.rc" );
     pUserLocalSettings->read(); // will be read again later
 }
 
@@ -68,14 +68,14 @@ void dbApplication::readSettings()
     _GONG_DEBUG_PRINT(0, "Reading settings for the application" );
     // Local machine settings are read before everything else
     QString ss( styleSheet() );
-    if( FileUtils::exists( (getGonglibDataDir() + "stylesheet.css").c_str() ) ) {
-        ss += FileUtils::readFile( getGonglibDataDir() + "stylesheet.css" ).c_str();
-        _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + getGonglibDataDir() + "stylesheet.css" );
+    if( FileUtils::exists( (getGonglibDataDir() + "dbapp/stylesheet.css").c_str() ) ) {
+        ss += FileUtils::readFile( getGonglibDataDir() + "dbapp/stylesheet.css" ).c_str();
+        _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
     } else {
-        _GONG_DEBUG_PRINT(0, "NOT ADDING stylesheet: " + getGonglibDataDir() + "stylesheet.css" );
+        _GONG_DEBUG_PRINT(0, "NOT ADDING stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
     }
     setStyleSheet( ss );
-    mReportsGlobalPath = getGonglibDataDir() + "informes/:" + getGlobalDataDir() + "informes/:";
+    mReportsGlobalPath = getGonglibDataDir() + "dbapp/informes/:" + getGlobalDataDir() + "informes/:";
     // Now, each module's global and local settings
     for ( unsigned int i=0; i < mModules.size(); i++ )
         mModules[i]->readSettings();

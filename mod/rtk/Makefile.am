@@ -29,15 +29,4 @@ libgongrtk_la_HEADERS = rtkbaseimage.h rtkcolor.h rtkcompiler.h rtkconfig.h rtkc
 	rtkstringtable.h rtkstyle.h rtkvalue.h rtkvmachine.h rtkoutputgnumeric.h
 
 
-#opendocumentdir= $(datadir)/$(PACKAGE)/opendocument/calc/template
-#dist_opendocument_DATA = $(top_srcdir)/share/gestiong/opendocument/calc/template/meta.xml \
-#	$(top_srcdir)/share/gestiong/opendocument/calc/template/mimetype \
-#	$(top_srcdir)/share/gestiong/opendocument/calc/template/settings.xml \
-#	$(top_srcdir)/share/gestiong/opendocument/calc/template/styles.xml
-
-#opendocumentmetadir= $(datadir)/$(PACKAGE)/opendocument/calc/template/META-INF
-#dist_opendocumentmeta_DATA = $(top_srcdir)/share/gestiong/opendocument/calc/template/META-INF/manifest.xml
-
-
-
 

@@ -1,3 +1,8 @@
+== HECHO ==
+* Si no existe el contacto de la empresa, no hace inner join al imprimir albaranes de venta
+* LineEdit Hacer la letra más grande y las cajas más pequeñas: En el stylesheet
+
+
 Menssana: No ha generado el recibo de eva, 1 Ö
 Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
 
@@ -7,11 +12,8 @@ Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
 == Los pájaros ==
 * Algunas veces los albaranes del tpv no formatean el número
 
-== Lanzamiento ==
-Versión en mc, la que funcionan bien las ventanas: 1323
-* Si no existe el contacto de la empresa, no hace inner join al imprimir albaranes de venta
 
-== Comprobar ==
+== Comprobar en mc ==
 * Hago un pedido de cliente y en las lineas añado muchos lineas de texto en la descripción, si lo imprimo sale correcto pero si lo paso a pedido a proveedor me aparece la descripción del articulo en vez de lo que he escrito a mano que siempre es el acabado..... no se si me explico....
 2 Al elegir un articulo pongo luna y no me filtra, existiendo artículos que en su nombre si tienen la palabra luna, y luego pasa algo raro con los artículos se queda la pantalla por detrás de una en blanco.
 3 Si al elegir un articulo este no existe y desde hay le doy de alta  el código se va al nombre del articulo  entonces tengo que cortar y pegar. para seguir dando de alta.
@@ -20,7 +22,6 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 == Hacer ==
 * Pagos: no sale caption facturatabla
 * Agrupar por documento, resumido
-* LineEdit Hacer la letra más grande y las cajas más pequeñas
 * Cuando da un artículo duplicado, al cancelar no selecciona el duplicado
 * TPV: Que se resalte la familia seleccionada
 * TPV: Config: Mostrar nombres en mayúsculas
@@ -42,6 +43,7 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-factu ==
+* Grid albaranventa, el facturado que esté sobre la base imponible
 * Forma de pago "se ignora" hay que dejar el resto a 0
 * Código del artículo en detalles más grande
 * Si la empresa no tiene recargo y se reciben facturas de compra con recargo, avisar
@@ -74,6 +76,7 @@ Versión en mc, la que funcionan bien las ventanas: 1323
 * A pantalla completa. Seguir probando, no va muy bien.
 
 == gong-deposit ==
+* Generar liquidación a proveedoras, el validate del tipodoc no funciona
 * Liquidación de depósitos de venta, marcar la liquidación, igual que los de compra.
 * Si no hay coste de artículo, que la liquidación lo avise.
 * browse de liqventa, mostrar número.
@@ -274,6 +277,7 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * Añadir validErrors y un saveNoValidate()
 * Al guardar un registro, que el resto de registros de las relaciones se pongan mIsRead = false, esto implica tener una lista de registros en memoria
 === gui ===
+* Probar window modality = WindowModal y que las mdisubwindows no tengan padre para que no se propague la modalidad a todas las ventanas
 * FrmBase => FrmCustom (con tabs) => FrmEditRec
 * MdiArea:
 * Interface GuiControl

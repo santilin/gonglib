@@ -512,25 +512,30 @@ void EmpresaModule::rereadEmpresa()
         exit( 1 );
     }
     AppReport::setReportSubTitle( getNombreEmpresa() );
-    if ( !pRecEmpresa->getRecMoneda()->getRecordID() ) {
+    if ( !pRecEmpresa->getRecMoneda()->getRecordID() || !pRecEmpresa->getRecContacto()->getRecordID() ) {
         theGuiApp->waitCursor( true );
-        dbRecordID monedaid = getConnection()->selectInt( "SELECT MIN(ID) FROM MONEDA" );
-        if( monedaid != 0 ) {
-            pRecEmpresa->setValue( "MONEDA_ID", monedaid );
-            pRecEmpresa->readRelated( true );
-            pRecEmpresa->getRecMoneda()->setRegConfigFromValues( *DBAPP->getRegConfig() );
-        } else {
-            pRecEmpresa->getRecMoneda()->clear( true );
-            pRecEmpresa->getRecMoneda()->setValue( "NOMBRE", "Moneda" );
-            pRecEmpresa->getRecMoneda()->setValue( "CODIGO", 1 );
-            pRecEmpresa->getRecMoneda()->setValuesFromRegConfig( *DBAPP->getRegConfig() );
-            pRecEmpresa->getRecMoneda()->save(false);
-            pRecEmpresa->setValue( "MONEDA_ID", pRecEmpresa->getRecMoneda()->getRecordID() );
-            pRecEmpresa->save(false);
-            DBAPP->showStickyOSD( DBAPP->getPackageString(),
-                                  _("Se ha definido una moneda por defecto, revísala para confirmar que es la moneda que quieres utilizar.") );
-        }
-        pMainWindow->createClient( DBAPP->createEditForm( 0, pRecEmpresa, 0, DataTable::updating ) );
+		if ( !pRecEmpresa->getRecMoneda()->getRecordID() ) {
+			dbRecordID monedaid = getConnection()->selectInt( "SELECT MIN(ID) FROM MONEDA" );
+			if( monedaid != 0 ) {
+				pRecEmpresa->setValue( "MONEDA_ID", monedaid );
+				pRecEmpresa->readRelated( true );
+				pRecEmpresa->getRecMoneda()->setRegConfigFromValues( *DBAPP->getRegConfig() );
+			} else {
+				pRecEmpresa->getRecMoneda()->clear( true );
+				pRecEmpresa->getRecMoneda()->setValue( "NOMBRE", "Moneda" );
+				pRecEmpresa->getRecMoneda()->setValue( "CODIGO", 1 );
+				pRecEmpresa->getRecMoneda()->setValuesFromRegConfig( *DBAPP->getRegConfig() );
+				pRecEmpresa->getRecMoneda()->save(false);
+				pRecEmpresa->setValue( "MONEDA_ID", pRecEmpresa->getRecMoneda()->getRecordID() );
+				pRecEmpresa->save(false);
+				DBAPP->showStickyOSD( DBAPP->getPackageString(),
+									_("Se ha definido una moneda por defecto, revísala para confirmar que es la moneda que quieres utilizar.") );
+			}
+		}
+		if( !pRecEmpresa->getRecContacto()->getRecordID() ) {
+			DBAPP->showStickyOSD( DBAPP->getPackageString(),
+				_("La empresa no tiene definidos sus datos de contacto. El programa no funcionará correctamente hasta que los definas.") );
+		}
         DBAPP->resetCursor();
     }
 }

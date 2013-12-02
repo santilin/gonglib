@@ -53,7 +53,23 @@ libgongdbapp_la_HEADERS += \
 nodist_libgongdbapp_la_SOURCES += \
 	moc_dbappfrmreports_gui.cpp moc_dbappfrmreports.cpp \
 	moc_dbappreportqtviewer.cpp
+
+opendocumentdir= $(datadir)/gestiong/opendocument/calc/template
+dist_opendocument_DATA = $(srcdir)/share/opendocument/calc/template/meta.xml \
+	$(srcdir)/share/opendocument/calc/template/mimetype \
+	$(srcdir)/share/opendocument/calc/template/settings.xml \
+	$(srcdir)/share/opendocument/calc/template/styles.xml
+
+opendocumentmetadir= $(datadir)/gestiong/opendocument/calc/template/META-INF
+dist_opendocumentmeta_DATA = $(srcdir)/share/opendocument/calc/template/META-INF/manifest.xml
+
 endif
 
 moc_%.cpp: %.h
 	moc $< -o $@
+
+dbapp_sharedir = $(datadir)/gestiong/dbapp
+dist_dbapp_share_DATA = $(srcdir)/share/logogestiong.jpg \
+	$(srcdir)/share/settings.rc \
+	$(srcdir)/share/stylesheet.css
+
