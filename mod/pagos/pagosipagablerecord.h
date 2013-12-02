@@ -61,6 +61,7 @@ public:
     const XtringList &getOtherPagosFields() const {
         return mOtherPagosFields;
     }
+    void recibo(bool arg1);
 protected:
     dbRecord *pFactura;
     Tipo mTipo;

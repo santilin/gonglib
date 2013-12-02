@@ -78,18 +78,27 @@ bool IPagableRecord::delPagos( bool soloautomaticos )
     return ret;
 }
 
+/**
+ * @brief ...
+ *
+ * @return void
+ **/
 void IPagableRecord::actRestoFactura()
 {
-    Money resto = pFactura->getValue( mTotalField ).toMoney();
-    Money pagos = pFactura->getValue( mPagosField ).toMoney();
-    resto = resto - pagos;
-    for( XtringList::const_iterator it = mOtherPagosFields.begin();
-            it != mOtherPagosFields.end(); ++ it ) {
-        resto = resto - pFactura->getValue( *it ).toMoney();
-    }
+    Money resto;
+    dbRecord *formapago = pFactura->findRelatedRecord( "FORMAPAGO_ID" );
+    _GONG_DEBUG_ASSERT( formapago );
+    if( formapago->getValue( "TIPOFORMAPAGO" ).toInt() != RecFormaPago::SeIgnora ) {
+		resto = pFactura->getValue( mTotalField ).toMoney();
+		Money pagos = pFactura->getValue( mPagosField ).toMoney();
+		resto = resto - pagos;
+		for( XtringList::const_iterator it = mOtherPagosFields.begin();
+				it != mOtherPagosFields.end(); ++ it ) {
+			resto = resto - pFactura->getValue( *it ).toMoney();
+		}
+	}
     pFactura->setValue( mRestoField, resto );
 }
-
 
 bool IPagableRecord::actPagos()
 {

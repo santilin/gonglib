@@ -28,7 +28,7 @@
 // FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbApplication::InsertIfNotFound) - cabecera3
 // FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera3
 // FIELD AlbaranVentaDet FrmEditRecDetail
-// FIELD NoFacturable bool - noaddrightSumaImportes
+// FIELD NoFacturable bool - noaddrightNoFacturable
 // FIELD SumaImportes money - noaddrightSumaImportes
 // FIELD DtoP100 double - noaddrightDtoP100
 // FIELD Descuento money - noaddrightDescuento
@@ -76,6 +76,7 @@ FrmEditAlbaranVenta::FrmEditAlbaranVenta(FrmEditRec *parentfrm, dbRecord *master
 	QHBoxLayout *cabecera2Layout = new QHBoxLayout(0, 0, 6, "cabecera2Layout");
 	QHBoxLayout *cabecera3Layout = new QHBoxLayout(0, 0, 6, "cabecera3Layout");
 	QHBoxLayout *albaranventadetLayout = new QHBoxLayout(0, 0, 6, "albaranventadetLayout");
+	QHBoxLayout *rightNoFacturableLayout = new QHBoxLayout(0, 0, 6, "rightNoFacturableLayout");
 	QHBoxLayout *rightSumaImportesLayout = new QHBoxLayout(0, 0, 6, "rightSumaImportesLayout");
 	QHBoxLayout *rightDtoP100Layout = new QHBoxLayout(0, 0, 6, "rightDtoP100Layout");
 	QHBoxLayout *rightDescuentoLayout = new QHBoxLayout(0, 0, 6, "rightDescuentoLayout");
@@ -141,7 +142,7 @@ FrmEditAlbaranVenta::FrmEditAlbaranVenta(FrmEditRec *parentfrm, dbRecord *master
 	pFrmAlbaranVentaDet->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding);
 	albaranventadetFrameLayout->addWidget( pFrmAlbaranVentaDet );
 	albaranventadetLayout->addWidget(albaranventadetFrame);
-	checkNoFacturable = addCheckField( pControlsFrame, "ALBARANVENTA", "NOFACTURABLE", rightSumaImportesLayout );
+	checkNoFacturable = addCheckField( pControlsFrame, "ALBARANVENTA", "NOFACTURABLE", rightNoFacturableLayout );
 	editSumaImportes = addEditField( pControlsFrame, "ALBARANVENTA", "SUMAIMPORTES", rightSumaImportesLayout );
 	editDtoP100 = addEditField( pControlsFrame, "ALBARANVENTA", "DTOP100", rightDtoP100Layout );
 	editDescuento = addEditField( pControlsFrame, "ALBARANVENTA", "DESCUENTO", rightDescuentoLayout );
@@ -178,6 +179,7 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( cabecera2Layout );
 	pControlsLayout->addLayout( cabecera3Layout );
 	pControlsLayout->addLayout( albaranventadetLayout );
+	alignLayout( rightNoFacturableLayout, false);
 	alignLayout( rightSumaImportesLayout, false);
 	alignLayout( rightDtoP100Layout, false);
 	alignLayout( rightDescuentoLayout, false);
@@ -196,6 +198,7 @@ if( ModuleInstance->getContabModule() ) {
     pTabWidget->insertTab( tabPagos, toGUI( _( "&Extra" ) ) );
 
     QGridLayout *gridlayout = new QGridLayout();
+    gridlayout->addLayout( rightNoFacturableLayout, 0, 0 );
     gridlayout->addLayout( rightSumaImportesLayout, 0, 1 );
     gridlayout->addLayout( rightDtoP100Layout, 0, 2 );
     gridlayout->addLayout( rightDescuentoLayout, 0, 3 );
@@ -298,13 +301,13 @@ if( ModuleInstance->getContabModule() ) {
     editTotal->setMustBeReadOnly( mHasCobros );
     editEntrega->setMustBeReadOnly( mHasCobros );
     pushCobrar->setVisible( !mHasCobros );
-    scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
-    validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
+	scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
+	validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
 }
 
 void FrmEditAlbaranVenta::gatherFields()
 {
-    /*<<<<<FRMEDITALBARANVENTA_GATHER*/
+/*<<<<<FRMEDITALBARANVENTA_GATHER*/
 	getRecAlbaranVenta()->setValue( "FECHA", editFecha->toDate());
 	getRecAlbaranVenta()->setValue( "TIPODOC_ID", getRecTipoDoc()->getRecordID() );
 	getRecAlbaranVenta()->setValue( "CONTADOR", editContador->toInt());
@@ -754,7 +757,7 @@ void FrmEditAlbaranVenta::pushProyectoCodigo_clicked()
 
 void FrmEditAlbaranVenta::scatterFormaPago()
 {
-    /*<<<<<FRMEDITALBARANVENTA_SCATTER_FORMAPAGO*/
+/*<<<<<FRMEDITALBARANVENTA_SCATTER_FORMAPAGO*/
 	editFormaPagoCodigo->setText( getRecFormaPago()->getValue("CODIGO") );
 	editFormaPagoNombre->setText( getRecFormaPago()->getValue("NOMBRE") );
 /*>>>>>FRMEDITALBARANVENTA_SCATTER_FORMAPAGO*/
@@ -975,7 +978,7 @@ void FrmEditAlbaranVenta::numeraLineas()
 	dbRecordList *reclst = getRecAlbaranVenta()->getListAlbaranVentaDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecAlbaranVentaDet *detalle = static_cast<RecAlbaranVentaDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITALBARANVENTA_CABECERA_NUMERALINEAS*/

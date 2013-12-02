@@ -703,7 +703,7 @@ bool dbRecord::saveRelated( bool updating )
             // one2one relations are independent, so they are not saved here
             if ( mRecordRelations[i]->getType() == dbRelationDefinition::aggregate )
             {
-                _GONG_DEBUG_PRINT(0, Xtring::printf("Saving aggregate relation %s",
+                _GONG_DEBUG_PRINT(4, Xtring::printf("Saving aggregate relation %s",
                                                     mRecordRelations[i]->getRelationDefinition()->getFullName().c_str() ) );
                 Variant leftvalue = getValue( mRecordRelations[i]->getLeftField() );
                 Variant rightvalue;
@@ -724,7 +724,7 @@ bool dbRecord::saveRelated( bool updating )
                 }
             } else if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2many
                         || mRecordRelations[i]->getType() == dbRelationDefinition::many2many ) {
-                _GONG_DEBUG_PRINT(0, Xtring::printf("Saving 1:M or M:M relation %s",
+                _GONG_DEBUG_PRINT(4, Xtring::printf("Saving 1:M or M:M relation %s",
                                                     mRecordRelations[i]->getRelationDefinition()->getFullName().c_str() ) );
                 Variant leftvalue = getValue ( mRecordRelations[i]->getLeftField() );
                 for( uint nr = 0; nr < mRecordRelations[i]->getRelatedRecordList()->size(); nr ++ ) {
@@ -732,8 +732,6 @@ bool dbRecord::saveRelated( bool updating )
                     // Detect as much identical records as we can
                     bool optimizing_out = true;
                     if( optimizing_out && updating && nr < mRecordRelations[i]->getRelatedRecordListOrig()->size() ) {
-                        _GONG_DEBUG_PRINT(0, mRecordRelations[i]->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE ) );
-                        _GONG_DEBUG_PRINT(0, detail->toString( TOSTRING_DEBUG_COMPLETE ) );
                         if( mRecordRelations[i]->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
                                 != detail->toString( TOSTRING_DEBUG_COMPLETE ) )
                             optimizing_out = false;
@@ -1012,7 +1010,7 @@ Variant dbRecord::getValue ( unsigned int nfield ) const
     if ( nfield < mFieldValues.size() ) {
         return mFieldValues[nfield]->toVariant();
     } else {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exists in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return Variant();
     }
@@ -1025,7 +1023,7 @@ Variant dbRecord::getOrigValue(unsigned int nfield) const
     if ( nfield < mOrigFieldValues.size() ) {
         return mOrigFieldValues[nfield]->toVariant();
     } else {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exists in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return Variant();
     }
@@ -1038,7 +1036,7 @@ bool dbRecord::isNullValue ( unsigned int nfield ) const
     if ( nfield < mFieldValues.size() ) {
         return mFieldValues[nfield]->isNull();
     } else {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exists in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return false;
     }
@@ -1051,7 +1049,7 @@ bool dbRecord::isNullOrigValue(unsigned int nfield) const
     if ( nfield < mOrigFieldValues.size() ) {
         return mOrigFieldValues[nfield]->isNull();
     } else {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exists in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return false;
     }
@@ -1074,12 +1072,14 @@ bool dbRecord::isNullValue ( const Xtring &fullfldname ) const
         if ( dbRecordRelation *rel = findRelationByRelatedTable ( tablename ) ) {
             dbRecord *relatedr = rel->getRelatedRecord(-1);
             uint leftvalue = getValue( rel->getLeftField() ).toUInt();
-            if( leftvalue && relatedr->getRecordID() != leftvalue )
-                relatedr->setRecordID( leftvalue );
+            if( relatedr->getRecordID() != leftvalue ) {
+				_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
+                const_cast<dbRecord *>(this)->setValue( rel->getLeftField(), relatedr->getRecordID() );
+			}
             return relatedr->isNullValue( fldname );
         }
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exists in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return true;
 }
@@ -1097,13 +1097,13 @@ bool dbRecord::isNullOrigValue(const Xtring& fullfldname) const
     } else {
         _GONG_DEBUG_WARNING("Testing null orig value of related record is not allowed");
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exists in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return true;
 
 }
 
-Variant dbRecord::getValue ( const Xtring &fullfldname ) const
+Variant dbRecord::getValue( const Xtring &fullfldname ) const
 {
     if( !mIsRead && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
@@ -1117,15 +1117,23 @@ Variant dbRecord::getValue ( const Xtring &fullfldname ) const
             return mFieldValues[fldname]->toVariant();
         }
     } else {
+		/* get a value from a related table
+		 * If the id of the related table doesn't match the reference field in this table
+		 * it can only be because the related table has been read after this record.
+		 * The other possibility, that the reference field has changed whitout the id of the
+		 * related table being changed is not possible because the setValue function synchronizes
+		 * both values */
         if ( dbRecordRelation *rel = findRelationByRelatedTable ( tablename ) )	{
             dbRecord *relatedr = rel->getRelatedRecord(-1);
             uint leftvalue = getValue( rel->getLeftField() ).toUInt();
-            if( leftvalue && relatedr->getRecordID() != leftvalue )
-                relatedr->setRecordID( leftvalue );
+            if( relatedr->getRecordID() != leftvalue ) {
+				_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
+                const_cast<dbRecord *>(this)->setValue( rel->getLeftField(), relatedr->getRecordID() );
+			}
             return relatedr->getValue( fldname );
         }
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exists in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return Variant();
 }
@@ -1143,7 +1151,7 @@ Variant dbRecord::getOrigValue(const Xtring& fullfldname) const
     } else {
         _GONG_DEBUG_WARNING("Getting orig value of related record is not allowed");
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exists in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return Variant();
 }
@@ -1167,7 +1175,7 @@ bool dbRecord::setNullValue ( unsigned int nfield )
     }
     else
     {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exists in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return false;
     }
@@ -1205,12 +1213,14 @@ bool dbRecord::setNullValue ( const Xtring &fullfldname )
         if ( dbRecordRelation *rel = findRelationByRelatedTable ( tablename ) ) {
             dbRecord *relatedr = rel->getRelatedRecord(-1);
             uint leftvalue = getValue( rel->getLeftField() ).toUInt();
-            if( leftvalue && relatedr->getRecordID() != leftvalue )
-                relatedr->setRecordID( leftvalue );
+            if( relatedr->getRecordID() != leftvalue ) {
+				_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
+                setValue( rel->getLeftField(), relatedr->getRecordID() );
+			}
             return relatedr->setNullValue ( fldname );
         }
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exists in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return false;
 }
@@ -1244,7 +1254,7 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
     }
     else
     {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exists in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return false;
     }
@@ -1294,14 +1304,15 @@ bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
         if ( dbRecordRelation *rel = findRelationByRelatedTable( tablename ) ) {
             dbRecord *relatedr = rel->getRelatedRecord(-1);
             uint leftvalue = getValue( rel->getLeftField() ).toUInt();
-            if( leftvalue && relatedr->getRecordID() != leftvalue )
-                relatedr->setRecordID( leftvalue );
+            if( relatedr->getRecordID() != leftvalue ) {
+				_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
+                setValue( rel->getLeftField(), relatedr->getRecordID() );
+			}
             return relatedr->setValue( fldname, value );
         }
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' not found in table %s, with fields\n%s",
-                                           fullfldname.c_str(), getTableName().c_str(),
-                                           mFieldValues.toString().c_str() ) );
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' not found in table %s",
+                                           fullfldname.c_str(), getTableName().c_str() ) );
     return false;
 }
 

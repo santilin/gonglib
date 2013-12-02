@@ -132,6 +132,7 @@ void ITotalizableRecord::actTotales()
         pRecord->setValue( "RESTO", Money(resto, ndecmoneda) );
     if( IIVADesglosable *idr = dynamic_cast<IIVADesglosable *>(pRecord) )
         pRecord->setValue( "DESGLOSEIVA", idr->calcDesgloseIVA() );
+	_GONG_DEBUG_WARNING( resto );
 }
 
 } // namesace factu

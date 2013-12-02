@@ -1,10 +1,7 @@
 == HECHO ==
-* Si no existe el contacto de la empresa, no hace inner join al imprimir albaranes de venta
-* LineEdit Hacer la letra más grande y las cajas más pequeñas: En el stylesheet
 
 
-Menssana: No ha generado el recibo de eva, 1 Ö
-Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
+
 
 == CATS ==
 * Borrar RTK.PATH de .gestiong/cats/settings.rc
@@ -20,6 +17,8 @@ Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
 * COMPROBAR: Cuando se paga menos y se divide el recibo, el número agrupado no se queda igual, se genera nuevo
 
 == Hacer ==
+* Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
+* Estilo de publicar en web.
 * Pagos: no sale caption facturatabla
 * Agrupar por documento, resumido
 * Cuando da un artículo duplicado, al cancelar no selecciona el duplicado
@@ -43,7 +42,6 @@ Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-factu ==
-* Grid albaranventa, el facturado que esté sobre la base imponible
 * Forma de pago "se ignora" hay que dejar el resto a 0
 * Código del artículo en detalles más grande
 * Si la empresa no tiene recargo y se reciben facturas de compra con recargo, avisar
@@ -76,6 +74,7 @@ Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
 * A pantalla completa. Seguir probando, no va muy bien.
 
 == gong-deposit ==
+* Al crear un albarán desde una liquidación, no rellena el importe de la liquidación en cada detalle
 * Generar liquidación a proveedoras, el validate del tipodoc no funciona
 * Liquidación de depósitos de venta, marcar la liquidación, igual que los de compra.
 * Si no hay coste de artículo, que la liquidación lo avise.
