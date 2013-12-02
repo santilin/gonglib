@@ -164,7 +164,6 @@ FrmEditPedidoVenta::FrmEditPedidoVenta(FrmEditRec *parentfrm, dbRecord *master, 
     editIVA->setMustBeReadOnly( true );
     editClienteCodigo->setWidthInChars(8);
     editAgenteCodigo->setWidthInChars(8);
-    editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
 }
 
 /*<<<<<FRMEDITPEDIDOVENTA_CABECERA_GENNUMDOC*/
@@ -576,7 +575,7 @@ void FrmEditPedidoVenta::numeraLineas()
 	dbRecordList *reclst = getRecPedidoVenta()->getListPedidoVentaDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecPedidoVentaDet *detalle = static_cast<RecPedidoVentaDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITPEDIDOVENTA_CABECERA_NUMERALINEAS*/

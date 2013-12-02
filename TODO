@@ -8,9 +8,13 @@
 
 == Comprobar en mc ==
 * Hago un pedido de cliente y en las lineas añado muchos lineas de texto en la descripción, si lo imprimo sale correcto pero si lo paso a pedido a proveedor me aparece la descripción del articulo en vez de lo que he escrito a mano que siempre es el acabado..... no se si me explico....
-2 Al elegir un articulo pongo luna y no me filtra, existiendo artículos que en su nombre si tienen la palabra luna, y luego pasa algo raro con los artículos se queda la pantalla por detrás de una en blanco.
-3 Si al elegir un articulo este no existe y desde hay le doy de alta  el código se va al nombre del articulo  entonces tengo que cortar y pegar. para seguir dando de alta.
-* COMPROBAR: Cuando se paga menos y se divide el recibo, el número agrupado no se queda igual, se genera nuevo
+** Comprobado en dos ocasiones, no falla.
+* Al elegir un articulo pongo luna y no me filtra, existiendo artículos que en su nombre si tienen la palabra luna, y luego pasa algo raro con los artículos se queda la pantalla por detrás de una en blanco.
+** Eso es porque estás metiendo una factura de un proveedor y solo busca los artículos de ese proveedor
+* Si al elegir un articulo este no existe y desde ahí le doy de alta el código se va al nombre del articulo entonces tengo que cortar y pegar. para seguir dando de alta.
+
+* Cuando se paga menos y se divide el recibo, el número agrupado no se queda igual, se genera nuevo
+
 
 == Hacer ==
 * Agrupar por documento, resumido
