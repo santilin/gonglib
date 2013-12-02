@@ -19,7 +19,6 @@ void NamesListTable::fillInfoList(dbConnection* conn)
 {
 	for( NamesListTable::InfoList::const_iterator it = mNamesListTables.begin();
 		it != mNamesListTables.end(); ++ it ) {
-		_GONG_DEBUG_PRINT(0, (*it).first );
 		Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + (*it).first + ".VALUES" ).toString();
 		if( values.isEmpty() )
 			_GONG_DEBUG_WARNING( "DBDEF.TABLE." + (*it).first + ".VALUES not found" );

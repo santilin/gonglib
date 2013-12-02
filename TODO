@@ -13,8 +13,6 @@
 ** Eso es porque estás metiendo una factura de un proveedor y solo busca los artículos de ese proveedor
 * Si al elegir un articulo este no existe y desde ahí le doy de alta el código se va al nombre del articulo entonces tengo que cortar y pegar. para seguir dando de alta.
 
-* Cuando se paga menos y se divide el recibo, el número agrupado no se queda igual, se genera nuevo
-
 
 == Hacer ==
 * Agrupar por documento, resumido

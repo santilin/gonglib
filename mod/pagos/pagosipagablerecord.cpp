@@ -478,7 +478,7 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                         recibo->setValue( "IMPORTE", importe - pago );
                         recibo->setValue( "RESTO", importe - pago );
                         recibo->setValue( "FECHAEMISION", fechapago );
-                        recibo->setValue( "NUMEROAGRUPADO", lastrecibo );
+                        recibo->setValue( "NUMEROAGRUPADO", numeroagrupado );
                         recibo->setNullValue( "FECHAPAGO" );
 #ifdef HAVE_CONTABMODULE
                         recibo->setValue( "CUENTAORIGEN", cuentaorigen );

@@ -150,7 +150,7 @@ FrmEditPedidoCompra::FrmEditPedidoCompra(FrmEditRec *parentfrm, dbRecord *master
     editRecargoEquivalencia->setMustBeReadOnly( true );
     editIVA->setMustBeReadOnly( true );
     editProveedoraCodigo->setWidthInChars(5);
-    editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
+	editNotas->setHeightInLines(3);
     if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == false ) {
         editRecargoEquivalencia->getLabel()->setVisible( false );
         editRecargoEquivalencia->setVisible( false );
@@ -501,7 +501,7 @@ void FrmEditPedidoCompra::numeraLineas()
 	dbRecordList *reclst = getRecPedidoCompra()->getListPedidoCompraDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecPedidoCompraDet *detalle = static_cast<RecPedidoCompraDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITPEDIDOCOMPRA_CABECERA_NUMERALINEAS*/
