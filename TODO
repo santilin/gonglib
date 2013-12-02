@@ -1,8 +1,5 @@
 == HECHO ==
 
-
-
-
 == CATS ==
 * Borrar RTK.PATH de .gestiong/cats/settings.rc
 
@@ -18,7 +15,6 @@
 
 == Hacer ==
 * Doy de alta factura, doy de alta artículo, al grabarlo se cuelga
-* Estilo de publicar en web.
 * Pagos: no sale caption facturatabla
 * Agrupar por documento, resumido
 * Cuando da un artículo duplicado, al cancelar no selecciona el duplicado
