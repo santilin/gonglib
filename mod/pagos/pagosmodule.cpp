@@ -238,38 +238,6 @@ Xtring PagosModule::getMigrationSQL( uint old_version ) const
     return ret;
 }
 
-void PagosModule::afterLoad()
-{
-    FldNamesListTable *fldtfp = static_cast<FldNamesListTable *>(
-                                    DBAPP->getDatabase()->findFieldDefinition("FORMAPAGO.TIPOFORMAPAGO") );
-    if( fldtfp )
-        fldtfp->fill( *getConnection() );
-    if( fldtfp->getListOfValues().size() == 0 ) {
-        getConnection()->exec( "INSERT INTO TIPOFORMAPAGO (CODIGO,NOMBRE) VALUES "
-                               "(" + getConnection()->toSQL( RecFormaPago::Contado ) + ", 'Contado'),"
-                               "(" + getConnection()->toSQL( RecFormaPago::GeneraRecibos ) + ", 'Genera recibos'),"
-                               "(" + getConnection()->toSQL( RecFormaPago::Pendiente ) + ", 'Pendiente'),"
-                               "(" + getConnection()->toSQL( RecFormaPago::SeIgnora ) + ", 'Se ignora')" );
-        fldtfp->fill( *getConnection() );
-    }
-    FldNamesListTable *flder = static_cast<FldNamesListTable *>(
-                                   DBAPP->getDatabase()->findFieldDefinition("PAGO.ESTADORECIBO") );
-    if( flder )
-        flder->fill( *getConnection() );
-    if( flder->getListOfValues().size() == 0 ) {
-        getConnection()->exec( "INSERT INTO ESTADORECIBO (CODIGO,NOMBRE) VALUES "
-                               "(" + getConnection()->toSQL( PagosModule::ReciboPendiente ) + ", 'Pendiente'),"
-                               "(" + getConnection()->toSQL( PagosModule::ReciboPagado) + ", 'Pagado'),"
-                               "(" + getConnection()->toSQL( PagosModule::ReciboDevuelto ) + ", 'Devuelto'),"
-                               "(" + getConnection()->toSQL( PagosModule::ReciboAnulado ) + ", 'Anulado')" );
-        flder->fill( *getConnection() );
-    }
-    flder = static_cast<FldNamesListTable *>(
-                DBAPP->getDatabase()->findFieldDefinition("COBRO.ESTADORECIBO") );
-    if( flder )
-        flder->fill( *getConnection() );
-}
-
 bool PagosModule::login(FrmLogin *frmlogin, const Xtring& version,
                         Xtring& addTitle, bool startingapp)
 {

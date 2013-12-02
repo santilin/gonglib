@@ -590,32 +590,6 @@ void FactuModule::afterLoad()
     FldIVADetallado *fid = new FldIVADetallado( "foo", "bar" );
     fid->setValuesFromString( ModuleInstance->getModuleSetting( "IVADETALLADO.VALUES" ).toString() );
     delete fid;
-    FldNamesListTable *fldtc = static_cast<FldNamesListTable *>(
-                                   DBAPP->getDatabase()->findFieldDefinition("CLIENTE.TIPOCLIENTE") );
-    if( fldtc )
-        fldtc->fill( *getConnection() );
-    if( fldtc->getListOfValues().size() == 0 ) {
-        getConnection()->exec( "INSERT INTO TIPOCLIENTE (CODIGO,NOMBRE) VALUES "
-                               "(1, 'Cliente')" );
-        fldtc->fill( *getConnection() );
-    }
-    FldNamesListTable *fldep = static_cast<FldNamesListTable *>(
-                                   DBAPP->getDatabase()->findFieldDefinition("PEDIDOCOMPRA.ESTADOPEDIDO") );
-    if( fldep )
-        fldep->fill( *getConnection() );
-    if( fldep->getListOfValues().size() == 0 ) {
-        getConnection()->exec( "INSERT INTO ESTADOPEDIDO (CODIGO,NOMBRE) VALUES "
-                               "(" + getConnection()->toSQL(PedidoPendiente) + ", 'Pendiente'),"
-                               "(" + getConnection()->toSQL(PedidoPedido) + ", 'Pedido'),"
-                               "(" + getConnection()->toSQL(PedidoRecibido) + ", 'Recibido'),"
-                               "(" + getConnection()->toSQL(PedidoEntregado) + ", 'Entregado')"
-                             );
-        fldep->fill( *getConnection() );
-    }
-    fldep = static_cast<FldNamesListTable *>(
-                DBAPP->getDatabase()->findFieldDefinition("PEDIDOVENTA.ESTADOPEDIDO") );
-    if( fldep )
-        fldep->fill( *getConnection() );
 }
 
 

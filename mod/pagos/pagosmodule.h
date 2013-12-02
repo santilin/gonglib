@@ -71,7 +71,6 @@ public:
 /*>>>>>PAGOSMODULE_CLASS_DEFINITION*/
 
     enum EstadoRecibo { ReciboPendiente = 1, ReciboPagado = 2, ReciboDevuelto = 3, ReciboAnulado = 4 };
-    virtual void afterLoad(); // from dbModule
     virtual Xtring getMigrationSQL( uint old_version ) const;
     empresa::RecProyecto *getRecProyectoPadre(const FrmEditRec *childfrm) const;
     RecRemesaCobro *getRecRemesaCobroPadre(const FrmEditRec *childfrm) const;

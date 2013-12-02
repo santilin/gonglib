@@ -84,27 +84,6 @@ bool ContactosModule::login(FrmLogin *frmlogin, const Xtring &version,
     return true;
 }
 
-void ContactosModule::afterLoad()
-{
-#if 0
-    FldNamesListTable *fldtrat = static_cast<FldNamesListTable *>(
-		DBAPP->getDatabase()->findFieldDefinition("CONTACTO.TRATAMIENTOCONTACTO") );
-    if( fldtrat )
-        fldtrat->fill( *getConnection() );
-    if( fldtrat->getListOfValues().size() == 0 ) {
-        getConnection()->exec( "INSERT INTO TRATAMIENTOCONTACTO (CODIGO,NOMBRE) VALUES "
-                               "(" + getConnection()->toSQL( RecContacto::TratamientoDona ) + ", 'Doña'),("
-                               + getConnection()->toSQL( RecContacto::TratamientoDon ) + ", 'Don'), ("
-                               + getConnection()->toSQL( RecContacto::TratamientoEmpresa ) + ", 'Empresa'), ("
-                               + getConnection()->toSQL( RecContacto::TratamientoAsociacion ) + ", 'Asociación'), ("
-                               + getConnection()->toSQL( RecContacto::TratamientoCooperativa ) + ", 'Cooperativa'), ("
-                               + getConnection()->toSQL( RecContacto::TratamientoAutonoma ) + ", 'Autónomo'), ("
-                               + getConnection()->toSQL( RecContacto::TratamientoColectivo) + ", 'Colectivo')" );
-        fldtrat->fill( *getConnection() );
-    }
-#endif
-}
-
 bool ContactosModule::initDatabase(dbDefinition *db)
 {
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application

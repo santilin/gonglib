@@ -20,6 +20,9 @@ void NamesListTable::fillInfoList(dbConnection* conn)
 	for( NamesListTable::InfoList::const_iterator it = mNamesListTables.begin();
 		it != mNamesListTables.end(); ++ it ) {
 		_GONG_DEBUG_PRINT(0, (*it).first );
+		Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + (*it).first + ".VALUES" ).toString();
+		if( values.isEmpty() )
+			_GONG_DEBUG_WARNING( "DBDEF.TABLE." + (*it).first + ".VALUES not found" );
 		NamesListTable::Info *info = (*it).second;
 		// TODO: This connection should be the one from the module that defines the nameslisttable
 		Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn->nameToSQL( (*it).first );
@@ -27,7 +30,27 @@ void NamesListTable::fillInfoList(dbConnection* conn)
 		while( rs->next() ) {
 			info->values.push_back( rs->toInt(0) );
 			info->captions.push_back( rs->toString(1) );
-			_GONG_DEBUG_PRINT(0, info->captions.join(",") );
+		}
+		if( info->values.size() == 0 ) {
+			// Fill in from read only configuration
+			// see void dbFieldListOfValues<int>::setValuesFromString(const Xtring &values)
+			XtringList valuesandcaptions;
+			Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + (*it).first + ".VALUES" ).toString();
+			values.tokenize( valuesandcaptions, "|" );
+			uint nitem = 0;
+			for( XtringList::const_iterator it = valuesandcaptions.begin();
+					it != valuesandcaptions.end();
+					++it, ++nitem ) {
+				Xtring value, caption;
+				(*it).splitIn2( value, caption, "=" );
+				if( caption.isEmpty() ) {// Only caption, so values are numbers
+					info->values.push_back( nitem );
+					info->captions.push_back( value );
+				} else {
+					info->values.push_back( value.toInt() );
+					info->captions.push_back( caption );
+				}
+			}
 		}
 	}
 }

@@ -118,20 +118,6 @@ void ContabModule::afterLoad()
         pMainDatabase->addFieldStyle( cuentastyle );
     }
     cuentastyle->setWidth( getDigitosTrabajo() );
-
-    FldNamesListTable *fldtc = static_cast<FldNamesListTable *>(
-                                   DBAPP->getDatabase()->findFieldDefinition("ASIENTO.TIPOASIENTO") );
-    if( fldtc )
-        fldtc->fill( *getConnection() );
-    if( fldtc->getListOfValues().size() == 0 ) {
-        getConnection()->exec( "INSERT INTO TIPOASIENTO (CODIGO,NOMBRE) VALUES "
-                               "(1, 'Normal'),"
-                               "(2, 'Apertura'),"
-                               "(3, 'Regularización'),"
-                               "(4, 'Cierre'),"
-                               "(5, 'Automático')" );
-        fldtc->fill( *getConnection() );
-    }
 }
 
 void ContabModule::afterCreateEditForm(FrmEditRec* frm, dbRecord* rec)
