@@ -47,8 +47,7 @@
 #include "factumodule.h"
 #include "factufldivadetallado.h"
 
-namespace gong
-{
+namespace gong {
 namespace factu {
 
 /*<<<<<FRMEDITPRESUPUESTOVENTA_CONSTRUCTOR*/
@@ -156,6 +155,7 @@ FrmEditPresupuestoVenta::FrmEditPresupuestoVenta(FrmEditRec *parentfrm, dbRecord
     editTipoDocCodigo->setWidthInChars(8);
     editClienteCodigo->setWidthInChars(8);
     editAgenteCodigo->setWidthInChars(8);
+	editNotas->setHeightInLines(3);
     editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
 }
 
@@ -554,7 +554,7 @@ void FrmEditPresupuestoVenta::numeraLineas()
 	dbRecordList *reclst = getRecPresupuestoVenta()->getListPresupuestoVentaDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecPresupuestoVentaDet *detalle = static_cast<RecPresupuestoVentaDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITPRESUPUESTOVENTA_CABECERA_NUMERALINEAS*/

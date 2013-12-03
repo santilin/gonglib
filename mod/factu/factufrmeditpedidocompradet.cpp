@@ -88,6 +88,7 @@ FrmEditPedidoCompraDet::FrmEditPedidoCompraDet(FrmEditRecMaster *frmmaster, int 
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITPEDIDOCOMPRADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
+	editArticuloCodigo->setWidthInChars(12);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "Act. coste artículo" ) ) );

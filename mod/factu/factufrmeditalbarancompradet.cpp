@@ -88,6 +88,7 @@ FrmEditAlbaranCompraDet::FrmEditAlbaranCompraDet(FrmEditRecMaster *frmmaster, in
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITALBARANCOMPRADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
+	editArticuloCodigo->setWidthInChars(12);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "&Act. coste artículo" ) ) );

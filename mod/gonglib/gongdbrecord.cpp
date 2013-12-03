@@ -1071,12 +1071,14 @@ bool dbRecord::isNullValue ( const Xtring &fullfldname ) const
     } else {
         if ( dbRecordRelation *rel = findRelationByRelatedTable ( tablename ) ) {
             dbRecord *relatedr = rel->getRelatedRecord(-1);
-            uint leftvalue = getValue( rel->getLeftField() ).toUInt();
-            if( relatedr->getRecordID() != leftvalue ) {
-				_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
-                const_cast<dbRecord *>(this)->setValue( rel->getLeftField(), relatedr->getRecordID() );
+			if( relatedr->isRead() ) {
+	            uint leftvalue = getValue( rel->getLeftField() ).toUInt();
+    	        if( relatedr->getRecordID() != leftvalue ) {
+					_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
+                	const_cast<dbRecord *>(this)->setValue( rel->getLeftField(), relatedr->getRecordID() );
+				}
 			}
-            return relatedr->isNullValue( fldname );
+			return relatedr->isNullValue( fldname );
         }
     }
     _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
@@ -1118,17 +1120,19 @@ Variant dbRecord::getValue( const Xtring &fullfldname ) const
         }
     } else {
 		/* get a value from a related table
-		 * If the id of the related table doesn't match the reference field in this table
-		 * it can only be because the related table has been read after this record.
-		 * The other possibility, that the reference field has changed whitout the id of the
+		 * If the id of the related record doesn't match the reference id field in this record
+		 * it means that the related table has been read after this record.
+		 * The other possibility, that the reference field has changed whithout the id of the
 		 * related table being changed is not possible because the setValue function synchronizes
 		 * both values */
         if ( dbRecordRelation *rel = findRelationByRelatedTable ( tablename ) )	{
             dbRecord *relatedr = rel->getRelatedRecord(-1);
-            uint leftvalue = getValue( rel->getLeftField() ).toUInt();
-            if( relatedr->getRecordID() != leftvalue ) {
-				_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
-                const_cast<dbRecord *>(this)->setValue( rel->getLeftField(), relatedr->getRecordID() );
+			if( relatedr->isRead() ) {
+	            uint leftvalue = getValue( rel->getLeftField() ).toUInt();
+    	        if( relatedr->getRecordID() != leftvalue ) {
+					_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
+                	const_cast<dbRecord *>(this)->setValue( rel->getLeftField(), relatedr->getRecordID() );
+				}
 			}
             return relatedr->getValue( fldname );
         }
@@ -1212,12 +1216,14 @@ bool dbRecord::setNullValue ( const Xtring &fullfldname )
     {
         if ( dbRecordRelation *rel = findRelationByRelatedTable ( tablename ) ) {
             dbRecord *relatedr = rel->getRelatedRecord(-1);
-            uint leftvalue = getValue( rel->getLeftField() ).toUInt();
-            if( relatedr->getRecordID() != leftvalue ) {
-				_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
-                setValue( rel->getLeftField(), relatedr->getRecordID() );
+			if( relatedr->isRead() ) {
+	            uint leftvalue = getValue( rel->getLeftField() ).toUInt();
+    	        if( relatedr->getRecordID() != leftvalue ) {
+					_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
+                	const_cast<dbRecord *>(this)->setValue( rel->getLeftField(), relatedr->getRecordID() );
+				}
 			}
-            return relatedr->setNullValue ( fldname );
+			return relatedr->setNullValue ( fldname );
         }
     }
     _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
@@ -1282,9 +1288,9 @@ bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
             bool wasnull = it->second->isNull();
             // If the field is null and the value is empty, do not change anything
             if( !(wasnull && value.isEmpty()) ) {
-                it->second->setValue( value );
-                if( value.type() == Variant::tInt || value.type() == Variant::tLong )
-                    setRelatedID(getTableDefinition()->getFieldPosition(fldname), value );
+				it->second->setValue( value );
+				if( getTableDefinition()->findFieldDefinition( fldname )->isReference() )
+                    setRelatedID( getTableDefinition()->getFieldPosition(fldname), value );
                 // If value is empty and the field was not null, set it to null if it can be null
                 if ( value.isEmpty() && !wasnull ) {
                     const dbFieldDefinition *flddef = getTableDefinition()->findFieldDefinition( fldname );
@@ -1298,17 +1304,17 @@ bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
             }
             return true;
         }
-    }
-    else
-    {
+    } else {
         if ( dbRecordRelation *rel = findRelationByRelatedTable( tablename ) ) {
             dbRecord *relatedr = rel->getRelatedRecord(-1);
-            uint leftvalue = getValue( rel->getLeftField() ).toUInt();
-            if( relatedr->getRecordID() != leftvalue ) {
-				_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
-                setValue( rel->getLeftField(), relatedr->getRecordID() );
+			if( relatedr->isRead() ) {
+	            uint leftvalue = getValue( rel->getLeftField() ).toUInt();
+    	        if( relatedr->getRecordID() != leftvalue ) {
+					_GONG_DEBUG_WARNING( Xtring::printf("%s.%s != %s.%s", tablename.c_str(), rel->getLeftField().c_str(), rel->getRightTable().c_str(), rel->getRightField().c_str() ) );
+                	const_cast<dbRecord *>(this)->setValue( rel->getLeftField(), relatedr->getRecordID() );
+				}
 			}
-            return relatedr->setValue( fldname, value );
+			return relatedr->setValue( fldname, value );
         }
     }
     _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' not found in table %s",

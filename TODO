@@ -6,29 +6,31 @@
 == Los pájaros ==
 * Algunas veces los albaranes del tpv no formatean el número
 
-== Comprobar en mc ==
-* Hago un pedido de cliente y en las lineas añado muchos lineas de texto en la descripción, si lo imprimo sale correcto pero si lo paso a pedido a proveedor me aparece la descripción del articulo en vez de lo que he escrito a mano que siempre es el acabado..... no se si me explico....
-** Comprobado en dos ocasiones, no falla.
-* Al elegir un articulo pongo luna y no me filtra, existiendo artículos que en su nombre si tienen la palabra luna, y luego pasa algo raro con los artículos se queda la pantalla por detrás de una en blanco.
-** Eso es porque estás metiendo una factura de un proveedor y solo busca los artículos de ese proveedor
-* Si al elegir un articulo este no existe y desde ahí le doy de alta el código se va al nombre del articulo entonces tengo que cortar y pegar. para seguir dando de alta.
-** Hecho
-* Cuando da un artículo duplicado, al cancelar no selecciona el duplicado
-** Hecho
-
 == Hacer ==
-* Agrupar por documento, resumido
+* Opción optimizar imagen para el tpv
 * TPV: Que se resalte la familia seleccionada
-* TPV: Config: Mostrar nombres en mayúsculas
-* TPV: Config global tiene preferencia sobre config usuaria
+
+* TPV: Config global tiene preferencia sobre config usuaria?
 * TPV: Algunas veces se queda sin seleccionar el artículo introducido
 * Mostrar la ventana de mesas maximizada siempre
-* Hacer tpvscreen una mainwindow
 * Poder meter rondas en vez de suma y sigue. ( 3 quintos, 1 agua, 2 quintos )
+
+* TPV: hay mucho espacio en el ticket después de los datos del cliente
+* Problema: Maximizar TPV, guardar y cerrar, cancelar, minimizar tpv, guardar y cerrar, esta ventana sale maximizada.
+* Tarifas por el tipo de mesa.
+* saveEstado intenta grabar siempre, ver la diferencia
+* TPV: Imprimir en el ticket el número de socia
+* Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
+* TPV: Z: Sumar la entrega, no el total del ticket
 * Configuración: Tamaños diferentes familias y artículos.
 * Poner la mesa más visible.
+* Al limpiar la mesa, lee registros
+* TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
 
 = PRESCINDIBLE =
+
+== Ofertas ==
+* No hace copia de seguridad
 
 == gong-socias ==
 * Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
@@ -38,7 +40,8 @@
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-factu ==
-* Código del artículo en detalles más grande
+* En presupuestos de venta, al resizar la ventana hacia abajo, se alargan los detalles, lo cual está bien, pero en pedidos de venta no.
+* Agrupar por documento, resumido
 * Si la empresa no tiene recargo y se reciben facturas de compra con recargo, avisar
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 * Genera pagos de albaranes y luego en la factura, al facturarlo, también
@@ -55,18 +58,7 @@
 * Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
 
 == gong-tpv ==
-* Al limpiar la mesa, lee registros
-* TPV: Z: Sumar la entrega, no el total del ticket
-* TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
-* TPV: Imprimir en el ticket el número de socia
-* TPV: hay mucho espacio en el ticket después de los datos del cliente
-* La primera vez que se abre el tpv, no salen letras grandes
-* saveEstado intenta grabar siempre, ver la diferencia
-* Tarifas por el tipo de mesa.
-* Problema: Maximizar TPV, guardar y cerrar, cancelar, minimizar tpv, guardar y cerrar, esta ventana sale maximizada.
-* Opción optimizar imagen para el tpv
-* Limpiar: Borrar el cliente y el agente y elegir el agente otra vez
-* A pantalla completa. Seguir probando, no va muy bien.
+
 
 == gong-deposit ==
 * Al crear un albarán desde una liquidación, no rellena el importe de la liquidación en cada detalle

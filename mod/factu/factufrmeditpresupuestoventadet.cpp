@@ -90,6 +90,7 @@ FrmEditPresupuestoVentaDet::FrmEditPresupuestoVentaDet(FrmEditRecMaster *frmmast
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITPRESUPUESTOVENTADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
+	editArticuloCodigo->setWidthInChars(12);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "&Act. PVP artículo" ) ) );

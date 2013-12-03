@@ -47,8 +47,7 @@
 
 using namespace std;
 
-namespace dscript
-{
+namespace dscript {
 
 namespace stdlib
 {
@@ -199,6 +198,16 @@ void tomoney(ARGS)
     if( args.size() == 2 )
         ndec = args[1].to_int();
     ctx.set_return( gong::Money(d, ndec).toDouble() );
+}
+void toupper(ARGS)
+{
+    RTK::Xtring s( args[0].to_str() );
+    ctx.set_return( s.upper() );
+}
+void tolower(ARGS)
+{
+    RTK::Xtring s( args[0].to_str() );
+    ctx.set_return( s.lower() );
 }
 
 // END SCT
@@ -354,6 +363,16 @@ void link_string_functions(dscript::context& ctx)
         "tomoney",
         &dscript::stdlib::tomoney,
         1,2,"(%num)"
+    );
+    ctx.link_function(
+        "toupper",
+        &dscript::stdlib::toupper,
+        1,1,"(%str)"
+    );
+    ctx.link_function(
+        "tolower",
+        &dscript::stdlib::tolower,
+        1,1,"(%str)"
     );
 // END SCT
 }
