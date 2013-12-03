@@ -29,13 +29,13 @@ nodist_libgongcontab_la_SOURCES = \
 moc_%.cpp: %.h
 	moc $< -o $@
 
-contab_sharedir = $(datadir)
+contab_sharedir = $(datadir)/gestiong/contab
 dist_contab_share_DATA = $(srcdir)/share/contab.ddd \
 	$(srcdir)/share/RealDecreto_1415_2007.fugit \
 	$(srcdir)/share/RealDecreto_1515_2007_ONGS.fugit \
 	$(srcdir)/share/RealDecreto_1515_2007_PYMES.fugit
 
-contab_informesdir = $(datadir)/informes
+contab_informesdir = $(datadir)/gestiong/contab/informes
 dist_contab_informes_DATA = $(srcdir)/share/informes/CUENTA.rtk \
 	$(srcdir)/share/informes/cuentas.rtk \
 	$(srcdir)/share/informes/diariobonito.rtk \

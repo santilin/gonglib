@@ -89,6 +89,7 @@ FrmEditAlbaranVentaDet::FrmEditAlbaranVentaDet(FrmEditRecMaster *frmmaster, int 
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITALBARANVENTADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
+	editArticuloCodigo->setWidthInChars(20);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "&Act. PVP artículo" ) ) );

@@ -223,8 +223,8 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 	editArticuloImagen_Imagen->setImageData(getRecArticulo()->getValue("ARTICULOIMAGEN.IMAGEN"));
 	if( isInserting() && !isDuplicating() && !DBAPP->codeNotFound().isEmpty() ) {
-		editNombre->setText( DBAPP->codeNotFound() );
-		editNombre->setJustEdited( true );
+		editCodigo->setText( DBAPP->codeNotFound() );
+		editCodigo->setJustEdited( true );
 	}
 	scatterFamilia();
 	scatterProveedora();
@@ -595,6 +595,8 @@ void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResul
 		getRecTipoIVA(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterTipoIVA();
 /*>>>>>FRMEDITARTICULO_VALIDATE*/
+	if( sender == editCodigo && editCodigo->isJustEdited() )
+		editArticuloImagen_Imagen->setProposedFileName( editCodigo->toString() + ".jpg" );
     if( focusWidget() != pushArticuloBaseCodigo) // To avoid triggering the validate event if the button is pressed
         if( validSeekCode( sender, isvalid, *validresult, editArticuloBaseCodigo, editArticuloBaseNombre,
                            getRecArticuloBase(), "CODIGO", "NOMBRE", Xtring::null) ) {

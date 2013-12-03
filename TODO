@@ -12,11 +12,12 @@
 * Al elegir un articulo pongo luna y no me filtra, existiendo artículos que en su nombre si tienen la palabra luna, y luego pasa algo raro con los artículos se queda la pantalla por detrás de una en blanco.
 ** Eso es porque estás metiendo una factura de un proveedor y solo busca los artículos de ese proveedor
 * Si al elegir un articulo este no existe y desde ahí le doy de alta el código se va al nombre del articulo entonces tengo que cortar y pegar. para seguir dando de alta.
-
+** Hecho
+* Cuando da un artículo duplicado, al cancelar no selecciona el duplicado
+** Hecho
 
 == Hacer ==
 * Agrupar por documento, resumido
-* Cuando da un artículo duplicado, al cancelar no selecciona el duplicado
 * TPV: Que se resalte la familia seleccionada
 * TPV: Config: Mostrar nombres en mayúsculas
 * TPV: Config global tiene preferencia sobre config usuaria

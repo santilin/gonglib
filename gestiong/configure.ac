@@ -14,7 +14,7 @@ dnl MODULE RecColor
 dnl TYPE Project gestiong
 dnl >>>>>MODULE_INFO
 
-AC_INIT([GestiONG],[0.5.0-beta1],[gestiong@programacionsocial.net],[gestiong])
+AC_INIT([GestiONG],[0.5.0],[gestiong@programacionsocial.net],[gestiong])
 
 dnl <<<<<GONGLIB_MODULE_INIT
 AC_CONFIG_MACRO_DIR([m4])
@@ -25,8 +25,8 @@ AM_INIT_AUTOMAKE
 
 AC_MSG_NOTICE( [gestiong Custom configuration] )
 
-AC_ARG_WITH( [mysql], 
-	AS_HELP_STRING([--with-mysql], [Support for input from MySQL (default is YES)]), 
+AC_ARG_WITH( [mysql],
+	AS_HELP_STRING([--with-mysql], [Support for input from MySQL (default is YES)]),
 	[ac_cv_use_mysql=$withval],
 	[ac_cv_use_mysql=yes] )
 if test "$ac_cv_use_mysql" = yes ; then
@@ -37,8 +37,8 @@ if test "$ac_cv_use_mysql" = yes ; then
 fi
 AX_LIB_SQLITE3
 
-AC_ARG_WITH( [LIBXML2], 
-			AS_HELP_STRING([--with-libxml2], [Support for XML input and output (default is YES)]), 
+AC_ARG_WITH( [LIBXML2],
+			AS_HELP_STRING([--with-libxml2], [Support for XML input and output (default is YES)]),
 			[ac_cv_use_libxml2=$withval],
 			[ac_cv_use_libxml2=yes] )
 if test "$ac_cv_use_libxml2" = yes ; then
@@ -86,7 +86,7 @@ dnl >>>>>GONGLIB_MODULE_GONGLIB
 
 dnl <<<<<GONGLIB_MODULE__MODULES
 AC_ARG_WITH( [GONG_RTK],
-AS_HELP_STRING([--with-gong-rtk], [Support for the gong rtk module (default is YES)]), 
+AS_HELP_STRING([--with-gong-rtk], [Support for the gong rtk module (default is YES)]),
 [ac_cv_use_gong_rtk=$withval],
 [ac_cv_use_gong_rtk=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_RTK], [ test "$ac_cv_use_gong_rtk" = yes ])
@@ -107,7 +107,7 @@ AC_SUBST(GONGRTK_CPPFLAGS)
 AC_SUBST(GONGRTK_LIBS)
 
 AC_ARG_WITH( [GONG_QT4],
-AS_HELP_STRING([--with-gong-qt4], [Support for the gong qt4 module (default is YES)]), 
+AS_HELP_STRING([--with-gong-qt4], [Support for the gong qt4 module (default is YES)]),
 [ac_cv_use_gong_qt4=$withval],
 [ac_cv_use_gong_qt4=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_QT4], [ test "$ac_cv_use_gong_qt4" = yes ])
@@ -128,7 +128,7 @@ AC_SUBST(GONGQT4_CPPFLAGS)
 AC_SUBST(GONGQT4_LIBS)
 
 AC_ARG_WITH( [GONG_DBAPP],
-AS_HELP_STRING([--with-gong-dbapp], [Support for the gong dbapp module (default is YES)]), 
+AS_HELP_STRING([--with-gong-dbapp], [Support for the gong dbapp module (default is YES)]),
 [ac_cv_use_gong_dbapp=$withval],
 [ac_cv_use_gong_dbapp=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_DBAPP], [ test "$ac_cv_use_gong_dbapp" = yes ])
@@ -146,7 +146,7 @@ AC_SUBST(GONGDBAPP_CPPFLAGS)
 AC_SUBST(GONGDBAPP_LIBS)
 
 AC_ARG_WITH( [GONG_CONTACTOS],
-AS_HELP_STRING([--with-gong-contactos], [Support for the gong contactos module (default is YES)]), 
+AS_HELP_STRING([--with-gong-contactos], [Support for the gong contactos module (default is YES)]),
 [ac_cv_use_gong_contactos=$withval],
 [ac_cv_use_gong_contactos=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_CONTACTOS], [ test "$ac_cv_use_gong_contactos" = yes ])
@@ -164,7 +164,7 @@ AC_SUBST(GONGCONTACTOS_CPPFLAGS)
 AC_SUBST(GONGCONTACTOS_LIBS)
 
 AC_ARG_WITH( [GONG_EMPRESA],
-AS_HELP_STRING([--with-gong-empresa], [Support for the gong empresa module (default is YES)]), 
+AS_HELP_STRING([--with-gong-empresa], [Support for the gong empresa module (default is YES)]),
 [ac_cv_use_gong_empresa=$withval],
 [ac_cv_use_gong_empresa=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_EMPRESA], [ test "$ac_cv_use_gong_empresa" = yes ])
@@ -182,7 +182,7 @@ AC_SUBST(GONGEMPRESA_CPPFLAGS)
 AC_SUBST(GONGEMPRESA_LIBS)
 
 AC_ARG_WITH( [GONG_GASTOS],
-AS_HELP_STRING([--with-gong-gastos], [Support for the gong gastos module (default is YES)]), 
+AS_HELP_STRING([--with-gong-gastos], [Support for the gong gastos module (default is YES)]),
 [ac_cv_use_gong_gastos=$withval],
 [ac_cv_use_gong_gastos=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_GASTOS], [ test "$ac_cv_use_gong_gastos" = yes ])
@@ -200,7 +200,7 @@ AC_SUBST(GONGGASTOS_CPPFLAGS)
 AC_SUBST(GONGGASTOS_LIBS)
 
 AC_ARG_WITH( [GONG_CONTAB],
-AS_HELP_STRING([--with-gong-contab], [Support for the gong contab module (default is YES)]), 
+AS_HELP_STRING([--with-gong-contab], [Support for the gong contab module (default is YES)]),
 [ac_cv_use_gong_contab=$withval],
 [ac_cv_use_gong_contab=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_CONTAB], [ test "$ac_cv_use_gong_contab" = yes ])
@@ -218,7 +218,7 @@ AC_SUBST(GONGCONTAB_CPPFLAGS)
 AC_SUBST(GONGCONTAB_LIBS)
 
 AC_ARG_WITH( [GONG_PAGOS],
-AS_HELP_STRING([--with-gong-pagos], [Support for the gong pagos module (default is YES)]), 
+AS_HELP_STRING([--with-gong-pagos], [Support for the gong pagos module (default is YES)]),
 [ac_cv_use_gong_pagos=$withval],
 [ac_cv_use_gong_pagos=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_PAGOS], [ test "$ac_cv_use_gong_pagos" = yes ])
@@ -236,7 +236,7 @@ AC_SUBST(GONGPAGOS_CPPFLAGS)
 AC_SUBST(GONGPAGOS_LIBS)
 
 AC_ARG_WITH( [GONG_FACTU],
-AS_HELP_STRING([--with-gong-factu], [Support for the gong factu module (default is YES)]), 
+AS_HELP_STRING([--with-gong-factu], [Support for the gong factu module (default is YES)]),
 [ac_cv_use_gong_factu=$withval],
 [ac_cv_use_gong_factu=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_FACTU], [ test "$ac_cv_use_gong_factu" = yes ])
@@ -254,7 +254,7 @@ AC_SUBST(GONGFACTU_CPPFLAGS)
 AC_SUBST(GONGFACTU_LIBS)
 
 AC_ARG_WITH( [GONG_SOCIAS],
-AS_HELP_STRING([--with-gong-socias], [Support for the gong socias module (default is YES)]), 
+AS_HELP_STRING([--with-gong-socias], [Support for the gong socias module (default is YES)]),
 [ac_cv_use_gong_socias=$withval],
 [ac_cv_use_gong_socias=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_SOCIAS], [ test "$ac_cv_use_gong_socias" = yes ])
@@ -272,7 +272,7 @@ AC_SUBST(GONGSOCIAS_CPPFLAGS)
 AC_SUBST(GONGSOCIAS_LIBS)
 
 AC_ARG_WITH( [GONG_SINPAPELES],
-AS_HELP_STRING([--with-gong-sinpapeles], [Support for the gong sinpapeles module (default is YES)]), 
+AS_HELP_STRING([--with-gong-sinpapeles], [Support for the gong sinpapeles module (default is YES)]),
 [ac_cv_use_gong_sinpapeles=$withval],
 [ac_cv_use_gong_sinpapeles=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_SINPAPELES], [ test "$ac_cv_use_gong_sinpapeles" = yes ])
@@ -290,7 +290,7 @@ AC_SUBST(GONGSINPAPELES_CPPFLAGS)
 AC_SUBST(GONGSINPAPELES_LIBS)
 
 AC_ARG_WITH( [GONG_RECCOLOR],
-AS_HELP_STRING([--with-gong-reccolor], [Support for the gong reccolor module (default is YES)]), 
+AS_HELP_STRING([--with-gong-reccolor], [Support for the gong reccolor module (default is YES)]),
 [ac_cv_use_gong_reccolor=$withval],
 [ac_cv_use_gong_reccolor=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_RECCOLOR], [ test "$ac_cv_use_gong_reccolor" = yes ])

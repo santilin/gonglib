@@ -662,6 +662,7 @@ bool FrmEditRecMaster::canClose()
             // If the form was cancelled after raising an existing record error, try to sync to the existing record
             if( DBAPP->getAnotherRecordID() ) {
                 mLastID = DBAPP->getAnotherRecordID();
+				mMustRefresh = true;
                 DBAPP->setAnotherRecordID( 0 );
             }
             if( pDataTable && !( mEditMode == DataTable::browsing || mEditMode == DataTable::choosing ) ) {
