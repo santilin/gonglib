@@ -103,42 +103,6 @@ bool SociasModule::login(FrmLogin *frmlogin, const Xtring& version,
     return true;
 }
 
-void SociasModule::afterLoad()
-{
-    FldNamesListTable *fldest = static_cast<FldNamesListTable *>(
-                                    DBAPP->getDatabase()->findFieldDefinition("MIEMBRO.SOCIASESTADO") );
-    if( fldest )
-        fldest->fill( *getConnection() );
-    if( fldest->getListOfValues().size() == 0 ) {
-        getConnection()->exec( "INSERT INTO SOCIASESTADO (CODIGO,NOMBRE) VALUES "
-                               "( 1, 'Activo'),( 2, 'Inactivo' )" );
-        fldest->fill( *getConnection() );
-    }
-    fldest = static_cast<FldNamesListTable *>(
-                 DBAPP->getDatabase()->findFieldDefinition("PROYECTO.SOCIASESTADO") );
-    if( fldest )
-        fldest->fill( *getConnection() );
-    FldNamesListTable *fldper = static_cast<FldNamesListTable *>(
-                                    DBAPP->getDatabase()->findFieldDefinition("PROYECTO.PERIODICIDAD") );
-    if( fldper )
-        fldper->fill( *getConnection() );
-    if( fldper->getListOfValues().size() == 0 ) {
-        getConnection()->exec( "INSERT INTO PERIODICIDAD (CODIGO,NOMBRE) VALUES "
-                               "(" + getConnection()->toSQL( puntual ) + ", 'Puntual'),"
-                               "(" + getConnection()->toSQL( diaria ) + ", 'Diaria' ),"
-                               "(" + getConnection()->toSQL( semanal ) + ", 'Semanal'),"
-                               "(" + getConnection()->toSQL( quincenal ) + ", 'Quincenal' ),"
-                               "(" + getConnection()->toSQL( mensual ) + ", 'Mensual' ),"
-                               "(" + getConnection()->toSQL( bimensual ) + ", 'Bimensual' ),"
-                               "(" + getConnection()->toSQL( trimestral ) + ", 'Trimestral'),"
-                               "(" + getConnection()->toSQL( cuatrimestral ) + ", 'Cuatrimestral' ),"
-                               "(" + getConnection()->toSQL( semestral ) + ", 'Semestral' ),"
-                               "(" + getConnection()->toSQL( anual ) + ", 'Anual' ),"
-                               "(" + getConnection()->toSQL( bianual ) + ", 'Bianual')" );
-        fldper->fill( *getConnection() );
-    }
-}
-
 void SociasModule::afterCreateEditForm(FrmEditRec* frm, dbRecord* rec)
 {
     if( rec->getTableName() == "COBRO" ) {

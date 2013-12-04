@@ -126,6 +126,15 @@ bool ImageBox::loadFromFile( const Xtring &filename )
     return ret;
 }
 
+bool ImageBox::setImage(QPixmap* image)
+{
+	pImageLabel->setPixmap( *image);
+    pImageLabel->update();
+    displayInfo();
+    setEdited( true );
+	return true;
+}
+
 bool ImageBox::setImageData( const Variant &data )
 {
     mByteCount = data.toString().size();

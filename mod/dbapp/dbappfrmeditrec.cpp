@@ -603,7 +603,7 @@ SearchBox *FrmEditRec::addSearchField( QWidget *parent, const Xtring &fldname,
 			if( flddefdesc )
             	applyFieldStyle( search->getLabelDesc(), flddefdesc );
         }
-        search->getEditCode()->setName( ( reftablename + "_" + fldnamecodigo ).c_str() );				
+        search->getEditCode()->setName( ( reftablename + "_" + fldnamecodigo ).c_str() );
         search->getEditDesc()->setName( ( reftablename + "_" + flddnamedesc ).c_str() );
         connect( search->getEditCode(), SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
                  this, SLOT( specialControlKeyPressed( QWidget *, char ) ) );
@@ -681,11 +681,7 @@ ComboBoxInt *FrmEditRec::addComboIntField( QWidget * parent, const Xtring & tabl
     ComboBoxInt *combo = 0;
     dbFieldListOfValues<int> *flddef = static_cast<dbFieldListOfValues<int> *>
                                        (DBAPP->getDatabase()->findFieldDefinition( tablename, fldname ) );
-    _GONG_DEBUG_PRINT(0, flddef->getListOfCaptions().join(",") );
-    _GONG_DEBUG_PRINT(0, flddef->getListOfValues().join(",") );
     if( flddef ) {
-	    _GONG_DEBUG_PRINT(0, flddef->getListOfCaptions().join(",") );
-    	_GONG_DEBUG_PRINT(0, flddef->getListOfValues().join(",") );
         combo = new ComboBoxInt( flddef->getListOfCaptions(), flddef->getListOfValues(),
             parent ? parent : pControlsFrame, tablename + "_" + fldname, Xtring(), horizontal );
         applyFieldStyle( combo, flddef );
@@ -883,16 +879,15 @@ QWidget *FrmEditRec::findControl( const Xtring & _fieldname ) const
     for ( EditControlsList::const_iterator it = mEditControls.begin();
             it != mEditControls.end();
             ++ it ) {
+		_GONG_DEBUG_PRINT( 0, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), (*it)->name() ) );
         if ( SearchBox * search = dynamic_cast<SearchBox *>( *it ) ) {
-// 			_GONG_DEBUG_PRINT( 0, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), search->getEditCode()->name() ) );
-// 			_GONG_DEBUG_PRINT( 0, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), search->getEditDesc()->name() ) );
+			_GONG_DEBUG_PRINT( 0, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), search->getEditCode()->name() ) );
+			_GONG_DEBUG_PRINT( 0, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), search->getEditDesc()->name() ) );
             if ( Xtring( search->getEditCode()->name() ).upper() == fieldname ) {
                 return search->getEditCode();
             } else if ( Xtring( search->getEditDesc()->name() ).upper() ==  fieldname ) {
                 return search->getEditDesc();
             }
-        } else {
-// 			_GONG_DEBUG_PRINT( 10, Xtring::printf( "No es un search box: Field:%s comparando con %s", fieldname.c_str(), ( *it )->name() ) );
         }
         if( Xtring( ( *it )->name() ).upper() == fieldname )
             return *it;

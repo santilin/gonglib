@@ -82,7 +82,6 @@ public:
                         };
 
     bool hasContabilidad() const;
-    virtual void afterLoad(); // from dbModule
     virtual void afterCreateEditForm( FrmEditRec *frm, dbRecord *rec ); // from dbModule
 
     /*<<<<<SOCIASMODULE_RECORD_DEFINITIONS*/
