@@ -7,13 +7,14 @@
 * Algunas veces los albaranes del tpv no formatean el número
 
 == Hacer ==
+* TPV Si no encuentra un artículo, elije alhambra.
 * Opción optimizar imagen para el tpv
 * TPV: Que se resalte la familia seleccionada
-
 * TPV: Config global tiene preferencia sobre config usuaria?
 * TPV: Algunas veces se queda sin seleccionar el artículo introducido
-* Mostrar la ventana de mesas maximizada siempre
+* Añadir botón cerrar a choosemesa
 * Poder meter rondas en vez de suma y sigue. ( 3 quintos, 1 agua, 2 quintos )
+* Poner la mesa más visible.
 
 * TPV: hay mucho espacio en el ticket después de los datos del cliente
 * Problema: Maximizar TPV, guardar y cerrar, cancelar, minimizar tpv, guardar y cerrar, esta ventana sale maximizada.
@@ -23,7 +24,6 @@
 * Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
 * TPV: Z: Sumar la entrega, no el total del ticket
 * Configuración: Tamaños diferentes familias y artículos.
-* Poner la mesa más visible.
 * Al limpiar la mesa, lee registros
 * TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
 

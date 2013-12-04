@@ -637,7 +637,9 @@ bool FrmEditRecMaster::canClose()
                 return false;
         }
         if (( mBrowsing && mEditMode == DataTable::browsing ) || ( mChoosing && mEditMode == DataTable::choosing ) ) {
-            // Estamos en un browse, cerraremos siempre
+            // browsing or choosing always closes
+            if( wasCancelled() ) // FIXME does not work
+				pDataTable->getSelectedIDs().clear();
             willclose = true;
         } else if ( !isEditing() || isSaved() ) {
             if ( !( mEditFlags & dbApplication::simpleEdition ) && !wasCancelled() ) {

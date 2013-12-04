@@ -667,7 +667,7 @@ bool dbApplication::chooseMulti( List<dbRecordID> &v,
     if( choosemaster ) {
         choosemaster->getDataTable()->setSelectedIDs(v);
         choosemaster->showModalFor ( parent, false, true );
-        if ( choosemaster->getDataTable()->getSelectedIDs().size() ) {
+        if( !choosemaster->wasCancelled() && choosemaster->getDataTable()->getSelectedIDs().size() ) {
             v = choosemaster->getDataTable()->getSelectedIDs();
             ret = true;
         }
