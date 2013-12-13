@@ -1,16 +1,23 @@
 == HECHO ==
 
+== A MEDIO HACER ==
+* Opción optimizar imagen para el tpv
+* TPV: Que se resalte la familia seleccionada
+
+== HACER ==
+* Si no se usa tratamiento, no dar error de que el cif de las personas etc...
+* No calcula el vencimiento de los pagos aplazados
+
+
 == CATS ==
 * Borrar RTK.PATH de .gestiong/cats/settings.rc
 
 == Los pájaros ==
 * Algunas veces los albaranes del tpv no formatean el número
 
-== Hacer ==
-* Opción optimizar imagen para el tpv
+== TPV ==
 * TPV: Config global tiene preferencia sobre config usuaria?
 * TPV: Algunas veces se queda sin seleccionar el artículo introducido
-* TPV: Que se resalte la familia seleccionada
 * Añadir botón cerrar a choosemesa
 * Poder meter rondas en vez de suma y sigue. ( 3 quintos, 1 agua, 2 quintos )
 * Poner la mesa más visible.
