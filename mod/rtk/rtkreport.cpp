@@ -985,7 +985,7 @@ void Report::calcAggregateValues( uint level )
                 break;
             case AggDistinctCount:
                 for ( uint i = level; i <= mGroupLevels; i++ ) {
-                    _GONG_DEBUG_PRINT(0, Xtring::printf("%s:%s.realValue=%s, prevValue=%s",
+                    _GONG_DEBUG_PRINT(10, Xtring::printf("%s:%s.realValue=%s, prevValue=%s",
                                                         object->parent()->name(),
                                                         object->name(),
                                                         object->parent()->mRealValue.toString().c_str(),
@@ -993,7 +993,7 @@ void Report::calcAggregateValues( uint level )
                     if( object->parent()->realValueChanged() ) {
                         object->mPrevAggregateValues[i] = object->mAggregateValues[i];
                         object->mAggregateValues[i] += 1;
-                        _GONG_DEBUG_PRINT(0, Xtring::printf("Distinct counting object: %s of section %s for level %d, value=%d",
+                        _GONG_DEBUG_PRINT(10, Xtring::printf("Distinct counting object: %s of section %s for level %d, value=%d",
                                                             object->name(), object->parent()->name(), i, object->mAggregateValues[i].toInt() ) );
                     }
                 }

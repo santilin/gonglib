@@ -8,6 +8,3 @@ SUBDIRS=gonglib rtk qt4 dbapp contactos empresa contab pagos factu gastos socias
 EXTRA_DIST=debian Makefile.cvs
 dist-hook:
 	sed -e s%-I../../%-I../% -i $(distdir)/configure.ac
-#	(cd $(distdir) && make -f Makefile.cvs)
-#	(cd $(distdir) && rm -rf autom4te.cache )
-

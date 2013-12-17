@@ -25,6 +25,79 @@ XtringList dbApplication::mMasterTables, dbApplication::mDetailTables;
 dbRecordTimestampBehavior *dbApplication::sTimestampBehavior
 	= new dbRecordTimestampBehavior( "REC_FECHA_CREA", "REC_FECHA_MODIF" );
 
+static dbModuleSetting _settings[] = {
+    {
+        dbModuleSetting::Bool,
+        "AUTOLOGIN",
+        _("Conectar automáticamente a la base de datos al iniciar el programa"),
+        "false"
+    },
+// TODO
+//     {
+//         dbModuleSetting::Bool,
+//         "SAVE_WINDOW_GEOMETRY",
+//         _("Recordar tamaños y posiciones de las ventanas"),
+//         "true"
+//     },
+	// INFORMES
+    {
+        dbModuleSetting::Int,
+        "RTK.PATH",
+        _("Ruta de búsqueda de informes"),
+        ""
+    },
+    {
+        dbModuleSetting::Int,
+        "RTK.OUTPUT.SCREEN.MARGINLEFT",
+        _("Margen izquierdo de los informes en pantalla"),
+        "20"
+    },
+    {
+        dbModuleSetting::Int,
+        "RTK.OUTPUT.SCREEN.MARGINRIGHT",
+        _("Margen derecho de los informes en pantalla"),
+        "20"
+    },
+    {
+        dbModuleSetting::Int,
+        "RTK.OUTPUT.SCREEN.MARGINTOP",
+        _("Margen superior de los informes en pantalla"),
+        "20"
+    },
+    {
+        dbModuleSetting::Int,
+        "RTK.OUTPUT.SCREEN.MARGININFERIOR",
+        _("Margen inferior de los informes en pantalla"),
+        "20"
+    },
+    {
+        dbModuleSetting::Int,
+        "RTK.OUTPUT.PDF.MARGINLEFT",
+        _("Margen izquierdo de los informes en PDF"),
+        "20"
+    },
+    {
+        dbModuleSetting::Int,
+        "RTK.OUTPUT.PDF.MARGINRIGHT",
+        _("Margen derecho de los informes en PDF"),
+        "20"
+    },
+    {
+        dbModuleSetting::Int,
+        "RTK.OUTPUT.PDF.MARGINTOP",
+        _("Margen superior de los informes en PDF"),
+        "20"
+    },
+    {
+        dbModuleSetting::Int,
+        "RTK.OUTPUT.PDF.MARGININFERIOR",
+        _("Margen inferior de los informes en PDF"),
+        "20"
+    },
+
+    {dbModuleSetting::None}
+};
+
 dbApplication::dbApplication ( const char *dbversion, const char *datadir,
                                const char *packagename, const char *packageversion,
                                int &argc, char **argv )
@@ -42,6 +115,7 @@ dbApplication::dbApplication ( const char *dbversion, const char *datadir,
     pUserLocalSettings = new Settings( getLocalDataDir() + "settings.rc",
                                        _("Configuración local para este ordenador") );
     pUserLocalSettings->read(); // will be read again later
+	pModuleSettings = _settings;
 }
 
 dbApplication::~dbApplication()
@@ -127,9 +201,6 @@ bool dbApplication::readDatabaseSettings(const Xtring& tablename, const Xtring& 
  **/
 Xtring dbApplication::getReportsPath( bool reversed )
 {
-    _GONG_DEBUG_PRINT(0, mReportsGlobalPath );
-    _GONG_DEBUG_PRINT(0, mReportsLocalPath );
-    _GONG_DEBUG_PRINT(0, DBAPP->getAppSettingConcat( "RTK.PATH", ":", true ) );
     Xtring ret = mReportsGlobalPath + ":" + mReportsLocalPath + ":" + DBAPP->getAppSettingConcat( "RTK.PATH", ":", true );
     if( reversed ) {
         XtringList paths;

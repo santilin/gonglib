@@ -135,7 +135,7 @@ void RecColorModule::afterLoad()
 bool RecColorModule::login(FrmLogin *frmlogin, const Xtring& version,
                            Xtring& addTitle, bool startingapp)
 {
-    Xtring cfg_tables = DBAPP->getAppSettingConcat( "MODULE.RECCOLOR.TABLES", "" );
+    Xtring cfg_tables = ModuleInstance->getModuleSetting( "TABLES" ).toString();
     cfg_tables.tokenize(mTables, ",");
     _GONG_DEBUG_PRINT(0, cfg_tables );
     for( XtringList::const_iterator it = mTables.begin(); it != mTables.end(); ++it ) {

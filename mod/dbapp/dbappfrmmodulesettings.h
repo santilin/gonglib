@@ -18,7 +18,7 @@ namespace gong {
 typedef struct {
     QWidget *w;
     bool edited;
-    const Xtring *modulename;
+    Xtring modulename;
     const dbModuleSetting *settinginfo;
 } SettingsControlInfo;
 typedef std::vector<SettingsControlInfo> SettingsControlsList;

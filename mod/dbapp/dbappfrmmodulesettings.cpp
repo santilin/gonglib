@@ -29,13 +29,20 @@ FrmModuleSettings::FrmModuleSettings(SettingsType type, QWidget* parent, WidgetF
 
 void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
 {
-    const dbModuleSetting *pms = module->getModuleSettings();
+    const dbModuleSetting *pms;
+	if( module )
+		pms = module->getModuleSettings();
+	else
+		pms = DBAPP->getModuleSettings();
     while( pms && pms->type != dbModuleSetting::None ) {
         SettingsControlInfo scinfo;
         scinfo.settinginfo = pms;
-        scinfo.modulename = &module->getUnixName();
+		if( module )
+			scinfo.modulename = "MODULE." + module->getUnixName() + ".";
+		else
+			scinfo.modulename = "";
         scinfo.edited = false;
-        Variant value = pSettings->getValue( "MODULE." + scinfo.modulename->upper() + "." + pms->key,
+        Variant value = pSettings->getValue( scinfo.modulename.upper() + pms->key,
                                              scinfo.settinginfo->defaultvalue);
         if( value.toString() == scinfo.settinginfo->defaultvalue )
             value = Variant();
@@ -124,7 +131,14 @@ bool FrmModuleSettings::canClose()
 
 void FrmModuleSettings::scatter()
 {
-    for ( unsigned int i=0; i< DBAPP->getModules().size(); i++ ) {
+	// DBAPP
+	QWidget *moduleWidget = new QWidget(pTabWidget);
+	moduleWidget->setObjectName("ControlsFrameDBAPP");
+	QVBoxLayout *moduleLayout = new QVBoxLayout( moduleWidget );
+	pTabWidget->addTab( moduleWidget, _("Sistema") );
+	addModuleSettings( 0, moduleLayout );
+	// MODULES
+	for ( unsigned int i=0; i< DBAPP->getModules().size(); i++ ) {
         dbModule *module = DBAPP->getModules()[i];
         if( module->getModuleSettings() ) {
             QWidget *moduleWidget = new QWidget(pTabWidget);
@@ -144,7 +158,7 @@ void FrmModuleSettings::gather()
         if( !scinfo.edited )
             continue;
         Variant old_value = pSettings->getValue(
-                                "MODULE." + scinfo.modulename->upper() + "." + scinfo.settinginfo->key,
+                                scinfo.modulename.upper() + scinfo.settinginfo->key,
                                 scinfo.settinginfo->defaultvalue );
         Variant new_value;
         QWidget *control = scinfo.w;
@@ -171,7 +185,7 @@ void FrmModuleSettings::gather()
         }
         if( new_value.toString() != old_value.toString() ) {
             pSettings->setValue(
-                "MODULE." + scinfo.modulename->upper() + "." +scinfo.settinginfo->key, new_value );
+                scinfo.modulename.upper() + scinfo.settinginfo->key, new_value );
         }
     }
 }

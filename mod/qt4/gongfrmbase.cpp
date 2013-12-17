@@ -212,7 +212,7 @@ void FrmBase::closeEvent ( QCloseEvent *e )
             }
         }
         if ( pShowModalFor ) {
- 			_GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
+//  			_GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
             pShowModalFor->setEnabled( true );
             if ( pShowModalFor->isMinimized() )
                 pShowModalFor->showNormal();
@@ -314,7 +314,7 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
         parentwin->move ( x, y );
     raise();
     activateWindow();
-    theGuiApp->waitCursor( false );
+//     theGuiApp->waitCursor( false );
     while ( !isHidden() ) {
         theGuiApp->processEvents();
         usleep ( 1000 );
@@ -324,7 +324,7 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
 //     (void) eventLoop.exec(QEventLoop::DialogExec);
 //     if (guard.isNull())
 // 		mWasCancelled = true;
-    theGuiApp->resetCursor();
+//     theGuiApp->resetCursor();
     if( wasmaximized )
         parent->parentWidget()->showMaximized();
     // parent is reenabled in the close event of this form

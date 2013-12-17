@@ -79,7 +79,7 @@ bool SinPapelesModule::initDatabase(dbDefinition *db)
     _GONG_DEBUG_ASSERT( db );
     pMainDatabase = db;
 
-    Xtring cfg_tables = DBAPP->getAppSettingConcat( "MODULE.SINPAPELES.TABLES", "" );
+    Xtring cfg_tables = ModuleInstance->getModuleSetting( "TABLES" ).toString();
     cfg_tables.tokenize(mTables, ",");
     _GONG_DEBUG_PRINT(0, cfg_tables );
     for( XtringList::const_iterator it = mTables.begin(); it != mTables.end(); ++it ) {
