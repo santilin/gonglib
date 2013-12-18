@@ -295,7 +295,7 @@ Xtring RecContacto::normalizaEmpresa(const Xtring& nombre, bool force )
     int formato = ModuleInstance->getModuleSetting("FORMATO_EMPRESA").toInt();
     if( formato == 0 && !force )
         return nombre;
-    Xtring ret = normalizaNombre(nombre, force);
+    Xtring ret = normalizaNombreOEmpresa(formato, nombre, force);
     size_t pos = ret.find_last_of(',');
     if( pos == Xtring::npos )
         pos = ret.find_last_of(' ');
@@ -323,10 +323,15 @@ Xtring RecContacto::normalizaEmpresa(const Xtring& nombre, bool force )
     return ret;
 }
 
-
-Xtring RecContacto::normalizaNombre(const Xtring &nombre, bool force)
+Xtring RecContacto::normalizaNombre(const Xtring& nombre, bool force)
 {
     int formato = ModuleInstance->getModuleSetting("FORMATO_NOMBRE").toInt();
+	return normalizaNombreOEmpresa( formato, nombre, force );
+}
+
+
+Xtring RecContacto::normalizaNombreOEmpresa(int formato, const Xtring &nombre, bool force)
+{
     if( formato == 0 && !force )
         return nombre;
     Xtring normalizado = nombre;
@@ -401,7 +406,6 @@ RecContacto::Tratamiento RecContacto::tratamientoFromCIF(const Xtring& cif)
     }
     return TratamientoNo;
 }
-
 
 } // namespace contactos
 } // namespace gong

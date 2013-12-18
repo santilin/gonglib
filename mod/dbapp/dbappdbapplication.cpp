@@ -1115,19 +1115,34 @@ void dbApplication::writeSettings()
         if( pGlobalSettings )
             pGlobalSettings->write();
     }
-    pUserLocalSettings->write();
-    pMachineSettings->write();
+    if( pUserLocalSettings )
+		pUserLocalSettings->write();
+	if( pMachineSettings )
+		pMachineSettings->write();
 }
 
+/**
+ * @brief Gets the value of a setting from its key
+ *
+ * The order of precedende of the settings is:
+ *    1) UserLocalSettings. Stored in a file in the HOME directory of the unix user.
+ *    2) UserGlobalSettings. Stored in the database per user (not used at the moment)
+ *    3) GlobalSettings.- Stored in the database, without user
+ *    4) MachineSettings.- Read-only, installed with the application
+ *
+ * @param settingname ...
+ * @param defaultvalue ...
+ * @return Variant
+ **/
 Variant dbApplication::getAppSetting(const Xtring &settingname, const Variant &defaultvalue) const
 {
     Variant v( Variant::tInvalid );
-    if( pUserGlobalSettings )
+    if( pUserLocalSettings )
+        v = pUserLocalSettings->getValue( settingname );
+    if( !v.isValid() && pUserGlobalSettings )
         v = pUserGlobalSettings->getValue( settingname );
     if( !v.isValid() && pGlobalSettings )
         v = pGlobalSettings->getValue( settingname );
-    if( !v.isValid() && pUserLocalSettings )
-        v = pUserLocalSettings->getValue( settingname );
     if( !v.isValid() )
         v = pMachineSettings->getValue( settingname );
     if( !v.isValid() ) {
@@ -1143,10 +1158,10 @@ Xtring dbApplication::getAppSettingConcat(const Xtring &settingname,
     Xtring vcomb;
     std::vector<Settings *>settings;
     if( fromglobaltolocal ) {
-        if( pUserGlobalSettings )
-            settings.push_back(pUserGlobalSettings);
         if( pGlobalSettings )
             settings.push_back(pGlobalSettings);
+        if( pUserGlobalSettings )
+            settings.push_back(pUserGlobalSettings);
         if( pUserLocalSettings )
             settings.push_back(pUserLocalSettings);
         settings.push_back(pMachineSettings);
@@ -1154,10 +1169,10 @@ Xtring dbApplication::getAppSettingConcat(const Xtring &settingname,
         settings.push_back(pMachineSettings);
         if( pUserLocalSettings )
             settings.push_back(pUserLocalSettings);
-        if( pGlobalSettings )
-            settings.push_back(pGlobalSettings);
         if( pUserGlobalSettings )
             settings.push_back(pUserGlobalSettings);
+        if( pGlobalSettings )
+            settings.push_back(pGlobalSettings);
     }
     for( unsigned int i = 0; i < settings.size(); ++i ) {
         if( settings[i] ) {
