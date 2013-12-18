@@ -17,14 +17,15 @@ NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
 
 void NamesListTable::fillInfoList(dbConnection* conn)
 {
-	for( NamesListTable::InfoList::const_iterator it = mNamesListTables.begin();
-		it != mNamesListTables.end(); ++ it ) {
-		Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + (*it).first + ".VALUES" ).toString();
+	for( NamesListTable::InfoList::const_iterator itt = mNamesListTables.begin();
+		itt != mNamesListTables.end(); ++ itt ) {
+		const Xtring &tablename = (*itt).first;
+		Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + tablename + ".VALUES" ).toString();
 		if( values.isEmpty() )
-			_GONG_DEBUG_WARNING( "DBDEF.TABLE." + (*it).first + ".VALUES not found" );
-		NamesListTable::Info *info = (*it).second;
+			_GONG_DEBUG_WARNING( "DBDEF.TABLE." + tablename + ".VALUES not found" );
+		NamesListTable::Info *info = (*itt).second;
 		// TODO: This connection should be the one from the module that defines the nameslisttable
-		Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn->nameToSQL( (*it).first );
+		Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn->nameToSQL( tablename );
 		dbResultSet *rs = conn->select( sql );
 		while( rs->next() ) {
 			info->values.push_back( rs->toInt(0) );
@@ -34,22 +35,30 @@ void NamesListTable::fillInfoList(dbConnection* conn)
 			// Fill in from read only configuration
 			// see void dbFieldListOfValues<int>::setValuesFromString(const Xtring &values)
 			XtringList valuesandcaptions;
-			Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + (*it).first + ".VALUES" ).toString();
+			Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + tablename + ".VALUES" ).toString();
 			values.tokenize( valuesandcaptions, "|" );
 			uint nitem = 0;
-			for( XtringList::const_iterator it = valuesandcaptions.begin();
-					it != valuesandcaptions.end();
-					++it, ++nitem ) {
+			dbRecord *r = DBAPP->createRecord( tablename);
+			for( XtringList::const_iterator itv = valuesandcaptions.begin();
+					itv != valuesandcaptions.end();
+					++itv, ++nitem ) {
 				Xtring value, caption;
-				(*it).splitIn2( value, caption, "=" );
+				(*itv).splitIn2( value, caption, "=" );
 				if( caption.isEmpty() ) {// Only caption, so values are numbers
 					info->values.push_back( nitem );
 					info->captions.push_back( value );
+					r->setValue( "CODIGO", nitem );
+					r->setValue( "NOMBRE", value );
 				} else {
 					info->values.push_back( value.toInt() );
 					info->captions.push_back( caption );
+					r->setValue( "CODIGO", value.toInt() );
+					r->setValue( "NOMBRE", caption );
 				}
+				r->save( false );
+				r->setNew( true );
 			}
+			delete r;
 		}
 	}
 }
