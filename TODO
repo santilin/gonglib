@@ -6,7 +6,6 @@
 
 == HACER ==
 * No calcula el vencimiento de los pagos aplazados
-* La forma de pago contado no genera bien la entrega
 
 == Los pájaros ==
 * Algunas veces los albaranes del tpv no formatean el número

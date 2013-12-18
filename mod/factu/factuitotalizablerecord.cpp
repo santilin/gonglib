@@ -79,7 +79,6 @@ void ITotalizableRecord::actTotales()
     pRecord->setValue( "RECARGOEQUIVALENCIA", Money(recargo, ndecmoneda) );
     pRecord->setValue( "TOTAL", Money(total, ndecmoneda) );
 
-    double suma_entregas = 0.0;
     Xtring tbl_albaran, fld_pagos;
     if( mTipo == compra ) {
         fld_pagos = "PAGOS";
@@ -88,10 +87,11 @@ void ITotalizableRecord::actTotales()
         fld_pagos = "COBROS";
         tbl_albaran = "ALBARANVENTA";
     }
+    double suma_entregas = 0.0;
     if( pDetalles->size() &&
             pRecord->getTableDefinition()->findFieldDefinition( "ENTREGAALBARANES", false ) ) {
-        // TODO: optimizar esto para que sume de una lista de entregas en el formulario para no tener que leerlos cada vez que se actualizan los totales
         dbRecordID old_alb_id = 0, alb_id = 0;
+        // TODO: optimizar esto para que sume de una lista de entregas en el formulario para no tener que leerlos cada vez que se actualizan los totales
         dbRecord *albaran = DBAPP->createRecord( tbl_albaran );
         for ( unsigned int ii = 0; ii < pDetalles->size(); ii++ ) {
             dbRecord *detalle = pDetalles->at( ii );
@@ -107,9 +107,6 @@ void ITotalizableRecord::actTotales()
         pRecord->setValue( "ENTREGAALBARANES", Money(suma_entregas) );
     }
     double entrega = 0.0, cobros = 0.0;
-    if( pRecord->getTableDefinition()->findFieldDefinition( "ENTREGA" ) )
-        entrega = pRecord->getValue( "ENTREGA" ).toDouble();
-    suma_entregas += entrega;
     if( pRecord->getTableDefinition()->findFieldDefinition( fld_pagos ) ) {
         cobros = pRecord->getValue( fld_pagos ).toDouble();
         suma_entregas += cobros;
@@ -122,7 +119,10 @@ void ITotalizableRecord::actTotales()
         } else if( pRecord->getValue( "FORMAPAGO.TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::SeIgnora ) {
             entrega = 0.0;
             resto = 0.0;
-        }
+        } else if( pRecord->getTableDefinition()->findFieldDefinition( "ENTREGA" ) ) {
+				entrega = pRecord->getValue( "ENTREGA" ).toDouble();
+				resto -= entrega;
+		}
     } else {
         resto -= entrega;
     }

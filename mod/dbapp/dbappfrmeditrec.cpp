@@ -879,10 +879,10 @@ QWidget *FrmEditRec::findControl( const Xtring & _fieldname ) const
     for ( EditControlsList::const_iterator it = mEditControls.begin();
             it != mEditControls.end();
             ++ it ) {
-		_GONG_DEBUG_PRINT( 0, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), (*it)->name() ) );
+		_GONG_DEBUG_PRINT( 10, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), (*it)->name() ) );
         if ( SearchBox * search = dynamic_cast<SearchBox *>( *it ) ) {
-			_GONG_DEBUG_PRINT( 0, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), search->getEditCode()->name() ) );
-			_GONG_DEBUG_PRINT( 0, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), search->getEditDesc()->name() ) );
+			_GONG_DEBUG_PRINT( 10, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), search->getEditCode()->name() ) );
+			_GONG_DEBUG_PRINT( 10, Xtring::printf( "Field:%s, comparando con %s", fieldname.c_str(), search->getEditDesc()->name() ) );
             if ( Xtring( search->getEditCode()->name() ).upper() == fieldname ) {
                 return search->getEditCode();
             } else if ( Xtring( search->getEditDesc()->name() ).upper() ==  fieldname ) {
@@ -894,7 +894,7 @@ QWidget *FrmEditRec::findControl( const Xtring & _fieldname ) const
         else if ( ( Xtring( ( *it )->name() ).upper() ).endsWith( "_" + fieldname.upper() ) )
             return *it;
     }
-    _GONG_DEBUG_PRINT(1, Xtring::printf( "%s: EditField not found", fieldname.c_str() ) );
+    _GONG_DEBUG_PRINT(2, Xtring::printf( "%s: EditField not found", fieldname.c_str() ) );
     return 0;
 }
 
