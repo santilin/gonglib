@@ -55,7 +55,7 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
                 XtringList captions;
                 Xtring(pms->values).tokenize( captions, "|" );
                 IntList il;
-                ComboBoxInt *cb = addComboBoxInt( this, pms->description, captions, il, Xtring::null, 0, layout );
+                ComboBoxInt *cb = addComboBoxInt( false, this, pms->description, captions, il, Xtring::null, 0, layout );
                 cb->setCurrentItemByValue( value.toInt() );
                 scinfo.w = cb;
             } else {
@@ -72,7 +72,7 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
             if( pms->values ) {
                 XtringList captions;
                 Xtring(pms->values).tokenize( captions, "|" );
-                ComboBoxXtring *cb = addComboBoxXtring( this, pms->description, captions, captions, Xtring::null, 0, layout );
+                ComboBoxXtring *cb = addComboBoxXtring( false, this, pms->description, captions, captions, Xtring::null, 0, layout );
                 cb->setCurrentItemByValue( value.toString() );
                 scinfo.w = cb;
             } else {

@@ -18,7 +18,7 @@ FrmGenPedidoCompra::FrmGenPedidoCompra(QWidget* parent, const char* name, Widget
 {
     setTitle( _("Generación de pedidos de compra") );
     mOpcionesDesde << "Pedidos de clientes" << "Stocks de los artículos";
-    comboDesde = addComboBoxXtring( 0, "Origen de los pedidos a proveedores:", mOpcionesDesde );
+    comboDesde = addComboBoxXtring( false, 0, "Origen de los pedidos a proveedores:", mOpcionesDesde );
     Date ini = Date(empresa::ModuleInstance->getEjercicio(), 1, 1 );
     Date fin = Date(empresa::ModuleInstance->getEjercicio(), 12, 31 );
     pDateRange = addDateRangeBox( 0, "Fecha de los pedidos de las clientes:", ini, fin);

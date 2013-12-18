@@ -237,15 +237,18 @@ void FrmCustom::button_clicked()
     validate_input( static_cast<QWidget *>(sender()), &is_valid );
 }
 
-ComboBoxXtring *FrmCustom::addComboBoxXtring(QWidget* parent, const Xtring& caption,
-        XtringList& captions, XtringList& values,
+ComboBoxXtring *FrmCustom::addComboBoxXtring(bool byref, QWidget* parent, const Xtring& caption,
+        const XtringList& captions, const XtringList& values,
         const Xtring& empty, const char *_name, QBoxLayout* layout)
 {
     Xtring name = _name;
     if( name.isEmpty() )
         name = "combo_" + Xtring(caption).replace(" ", "_");
-    ComboBoxXtring *combo = new ComboBoxXtring(
-        captions, values, parent ? parent : pFrameEdit, name.c_str(), caption );
+    ComboBoxXtring *combo;
+	if( byref )
+		combo = new ComboBoxXtring( captions, values, parent ? parent : pFrameEdit, name.c_str(), caption );
+	else
+		combo = new ComboBoxXtring( const_cast<XtringList &>(captions), const_cast<XtringList&>(values), parent ? parent : pFrameEdit, name.c_str(), caption );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, "", 0 );
         combo->setCurrentIndex( 0 );
@@ -263,19 +266,23 @@ ComboBoxXtring *FrmCustom::addComboBoxXtring(QWidget* parent, const Xtring& capt
 }
 
 
-ComboBoxXtring *FrmCustom::addComboBoxXtring( QWidget *parent, const Xtring &caption,
-        XtringList &captions_values, const Xtring &empty,
+ComboBoxXtring *FrmCustom::addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
+        const XtringList &captions_values, const Xtring &empty,
         const char *name, QBoxLayout* layout )
 {
-    return addComboBoxXtring( parent, caption, captions_values, captions_values, empty, name, layout );
+    return addComboBoxXtring( byref, parent, caption, captions_values, captions_values, empty, name, layout );
 }
 
 
-ComboBoxInt *FrmCustom::addComboBoxInt( QWidget *parent, const Xtring &caption,
+ComboBoxInt *FrmCustom::addComboBoxInt( bool byref, QWidget *parent, const Xtring &caption,
 	const XtringList &captions, const IntList &values, const Xtring &empty,
 	const char *name, QBoxLayout * layout )
 {
-    ComboBoxInt *combo = new ComboBoxInt( captions, values, parent ? parent : pFrameEdit, name, caption );
+	ComboBoxInt *combo;
+	if( byref )
+		combo = new ComboBoxInt( captions, values, parent ? parent : pFrameEdit, name, caption );
+	else
+		combo = new ComboBoxInt( const_cast<XtringList &>(captions), const_cast<IntList &>(values), parent ? parent : pFrameEdit, name, caption );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, -1, 0 );
         combo->setCurrentIndex( 0 );
@@ -389,7 +396,7 @@ ComboBoxInt *FrmCustom::addComboIntField(QWidget* parent, const Xtring& _caption
     if( name.isEmpty() )
         name = "combo_" + tablename + "_" + fldnamevalues;
     if( flddef ) {
-        ComboBoxInt *combo = addComboBoxInt( parent, caption, flddef->getListOfCaptions(),
+        ComboBoxInt *combo = addComboBoxInt( true, parent, caption, flddef->getListOfCaptions(),
                                             flddef->getListOfValues(), empty, name.c_str(), layout );
         FrmEditRec::applyFieldStyle( combo, flddef );
         FrmEditRec::applyFieldStyle( combo->getLabel(), flddef );
@@ -399,7 +406,7 @@ ComboBoxInt *FrmCustom::addComboIntField(QWidget* parent, const Xtring& _caption
     } else {
         XtringList lc;
         IntList li;
-        return addComboBoxInt( parent, caption, lc, li, empty, name.c_str(), layout );
+        return addComboBoxInt( false, parent, caption, lc, li, empty, name.c_str(), layout );
     }
 }
 

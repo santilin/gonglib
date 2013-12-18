@@ -39,7 +39,7 @@ namespace reccolor {
 RecColorModule *ModuleInstance = 0;
 static dbModuleSetting _settings[] = {
     {
-        dbModuleSetting::StringList,
+        dbModuleSetting::String,
         "TABLES",
         _("Tablas a colorear"),
         ""

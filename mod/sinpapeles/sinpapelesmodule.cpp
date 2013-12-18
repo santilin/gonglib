@@ -39,7 +39,7 @@ namespace sinpapeles {
 SinPapelesModule *ModuleInstance = 0;
 static dbModuleSetting _settings[] = {
     {
-        dbModuleSetting::StringList,
+        dbModuleSetting::String, // TODO StringList
         "TABLES",
         _("Tablas a que guardarán documentos escaneados"),
         ""

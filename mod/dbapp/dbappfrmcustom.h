@@ -67,13 +67,13 @@ public:
                               const char *name, QBoxLayout *layout = 0 );
     CheckBox *addCheckBox( QWidget *parent, const Xtring &caption,
                            bool value, const char *name = 0, QBoxLayout *layout = 0 );
-    ComboBoxXtring *addComboBoxXtring( QWidget *parent, const Xtring &caption,
-                                   XtringList &captions, XtringList &values, const Xtring &empty = Xtring::null,
+    ComboBoxXtring *addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
+                                   const XtringList &captions, const XtringList &values, const Xtring &empty = Xtring::null,
                                    const char *name = 0, QBoxLayout * layout = 0 );
-    ComboBoxXtring *addComboBoxXtring( QWidget *parent, const Xtring &caption,
-                                   XtringList &captions_values, const Xtring &empty = Xtring::null,
+    ComboBoxXtring *addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
+                                   const XtringList &captions_values, const Xtring &empty = Xtring::null,
                                    const char *name = 0, QBoxLayout * layout = 0 );
-    ComboBoxInt *addComboBoxInt( QWidget *parent, const Xtring &caption,
+    ComboBoxInt *addComboBoxInt( bool byref, QWidget *parent, const Xtring &caption,
                                 const XtringList &captions, const IntList &values, const Xtring &empty = Xtring::null,
                                 const char *name = 0, QBoxLayout * layout = 0 );
     GroupBox *addGroupBox( QWidget *parent, XtringList &options, const Xtring &caption,

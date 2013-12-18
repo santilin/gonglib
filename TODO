@@ -7,7 +7,6 @@
 == HACER ==
 * Si no se usa tratamiento, no dar error de que el cif de las personas etc...
 * No calcula el vencimiento de los pagos aplazados
-* En forma de pago "se ignora", no editar la entrega
 * La forma de pago contado no genera bien la entrega
 
 == Los pájaros ==

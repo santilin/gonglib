@@ -75,7 +75,11 @@ bool ComboBoxInt::insertItems()
 
 int ComboBoxInt::getItemValue(int i) const
 {
-	if( i != -1 && i<(int)mRefValues.size() )
+	if( i == -1 )
+		return 0;
+	if( mRefValues.size() == 0 )
+		return i;
+	if( i<(int)mRefValues.size() )
 		return mRefValues[ i ];
 	else
 		return 0;
