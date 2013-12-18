@@ -312,7 +312,8 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 == optimizaciones ==
 * CreateRecord: hacerlo en el readrelations
 * mysql: no guardar el resultset completo, utilizar el cursor
-
+== Módulos ==
+* Avisos: añade campo avisos y cada vez que se elige un registro muestra ese aviso
 
 * SENDBUG: Que msgxtringlist cierre con el intro
 * SENDBUG: No poder maximizar la ventana inactiva.

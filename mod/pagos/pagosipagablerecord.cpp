@@ -151,6 +151,8 @@ int IPagableRecord::genPagos()
     }
     importe /= nrecibos;
     Date vencimiento = pFactura->getValue("FECHA").toDate() + diasprimerplazo;
+	_GONG_DEBUG_PRINT(0, diasprimerplazo );
+	_GONG_DEBUG_PRINT(0, vencimiento.toString() );
     Date fechavalor = vencimiento;
     bool nocontinuar = false;
     for( uint nrecibo = 0; nrecibo < nrecibos && nocontinuar == false; nrecibo ++ ) {
@@ -269,13 +271,13 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
         importe = recibo->getValue( "IMPORTE" ).toMoney();
         if( pago == 0.0 )
             pago = importe;
-        Date fechapago;
         dbRecordID moneda_id;
-        if( !PagosModule::sLastFechaPago.isNull() ) {
-            // Si se acaba de borrar un recibo, sLastFechaPago tiene la fecha de pago de ese recibo
-            fechapago = PagosModule::sLastFechaPago;
-        } else
-            fechapago = recibo->getValue( "VENCIMIENTO" ).toDate();
+        Date fechapago;
+//         if( !PagosModule::sLastFechaPago.isNull() ) {
+//             // Si se acaba de borrar un recibo, sLastFechaPago tiene la fecha de pago de ese recibo
+//             fechapago = PagosModule::sLastFechaPago;
+//         } else
+		fechapago = recibo->getValue( "VENCIMIENTO" ).toDate();
         PagosModule::sLastMonedaCodigo = recmoneda->getValue( "CODIGO" ).toString();
         if( pago_multiple == false ) { // Si no estamos en un pago múltiple, pedir datos
             FrmPagarRecibo *pr = new FrmPagarRecibo( has_contab, pago, fechapago,
