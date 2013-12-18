@@ -497,7 +497,7 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
             }
         }
         // Comprobar al final, cuando el CIF ya es correcto, si es apropiado para el tipo de contacto
-        if( (!sender || sender == editContactoCIF) && nac_espana && cif_error.isEmpty() ) {
+        if( mUsarTratamiento && (!sender || sender == editContactoCIF) && nac_espana && cif_error.isEmpty() ) {
             if( comboContacto_TratamientoContacto->getCurrentItemValue() == 0 )
                 comboContacto_TratamientoContacto->setCurrentItemByValue( RecContacto::tratamientoFromCIF( editContactoCIF->toString() ) );
         }

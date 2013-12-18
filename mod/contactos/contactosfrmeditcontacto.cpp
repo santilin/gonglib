@@ -122,7 +122,7 @@ FrmEditContacto::FrmEditContacto(FrmEditRec *parentfrm, dbRecord *master, dbReco
     cpLayout->addWidget( pSearchCP );
     connect( pSearchCP, SIGNAL( clicked() ), this, SLOT( slot_searchCP_clicked() ) );
     mUsarTratamiento = ModuleInstance->getModuleSetting( "USAR_TRATAMIENTOS" ).toBool();
-    comboTratamientoContacto->setVisible( mUsarTratamiento );
+	comboTratamientoContacto->setVisible( mUsarTratamiento );
 }
 
 void FrmEditContacto::scatterFields()
@@ -285,7 +285,7 @@ void FrmEditContacto::validateFields(QWidget *sender, bool *isvalid, ValidResult
     // El CIF y el nombre están ahora normalizados, ahora se comprueban los duplicados
     validCodeAndDesc( sender, *validresult, editCIF, editNombre,
                       "cif", "nombre", Xtring::null, true /*codecanbenull*/ );
-    if( (!sender || sender == editCIF ) && nac_espana && cif_error.isEmpty() ) {
+    if( mUsarTratamiento && (!sender || sender == editCIF ) && nac_espana && cif_error.isEmpty() ) {
         if( comboTratamientoContacto->getCurrentItemValue() == 0 )
             comboTratamientoContacto->setCurrentItemByValue( RecContacto::tratamientoFromCIF( editCIF->toString() ) );
     }
