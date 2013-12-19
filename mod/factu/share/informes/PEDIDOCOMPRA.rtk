@@ -301,6 +301,7 @@ INPUT default {
             value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
             posx = 25.0;
             sizex = 43.0;
+            adjustment = "grow";
         }
         OBJECT PEDIDOCOMPRADET_COSTESINIVA {
             halignment = "right";

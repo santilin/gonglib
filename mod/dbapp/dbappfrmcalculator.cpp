@@ -24,10 +24,10 @@ QSize CalcButton::sizeHint() const
 
 
 FrmCalculator::FrmCalculator(bool simple, bool embedded, QWidget *parent)
-    : FrmBase(parent)
+    : FrmBase(parent, "FrmCalculator")
 {
-    setObjectName( "FrmCalculator" );
-    sumInMemory = 0.0;
+
+	sumInMemory = 0.0;
     sumSoFar = 0.0;
     factorSoFar = 0.0;
     waitingForOperand = true;
@@ -141,9 +141,8 @@ void FrmCalculator::digitClicked()
 {
     CalcButton *clickedButton = dynamic_cast<CalcButton *>(sender());
     int digitValue = clickedButton->text().toInt();
-    if (display->toString() == "0" && digitValue == 0.0)
+    if (display->toString() == "0" && digitValue == 0 )
         return;
-
     if (waitingForOperand) {
         display->clear();
         waitingForOperand = false;

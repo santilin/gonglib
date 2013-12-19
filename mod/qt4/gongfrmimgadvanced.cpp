@@ -15,7 +15,7 @@ FrmImgAdvanced::FrmImgAdvanced( ImageBox *imgbox, const Xtring &convert_path,
                                 QWidget *parent, const char *name )
     : FrmBase( parent, name ), pImageBox( imgbox ), mConvertPath( convert_path )
 {
-    theGuiApp->waitCursor( true );
+//     theGuiApp->waitCursor( true );
     QVBoxLayout *mainLayout = new QVBoxLayout( this );
     pImageLabel = new ResizableImageLabel( this, (Xtring("lblimg_") + name).c_str() );
     pImageLabel->setText( imgbox->text() );
@@ -60,7 +60,7 @@ FrmImgAdvanced::FrmImgAdvanced( ImageBox *imgbox, const Xtring &convert_path,
     setMaximumHeight( 800 );
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
     setTitle( _("Edición avanzada de imágenes" ) );
-    theGuiApp->resetCursor();
+//     theGuiApp->resetCursor();
 }
 
 void FrmImgAdvanced::accept()

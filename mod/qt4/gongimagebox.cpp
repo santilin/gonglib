@@ -85,13 +85,16 @@ void ImageBox::displayInfo( const Xtring &errmsg )
 
 void ImageBox::slot_button_clicked()
 {
-    theGuiApp->waitCursor( true );
     if( sender() == pushClear ) {
         clear();
     } else if( sender() == pushPaste ) {
+		theGuiApp->waitCursor( true );
         pImageLabel->setPixmap( QPixmap::fromImage(QApplication::clipboard()->image()) );
+		theGuiApp->resetCursor();
     } else if( sender() == pushCopy ) {
+		theGuiApp->waitCursor( true );
         QApplication::clipboard()->setImage( getImage()->toImage() );
+		theGuiApp->resetCursor();
     } else if( sender() == pushSaveAs ) {
         Xtring fname = theGuiApp->getSaveFileName(
                            _("Elige el fichero donde guardar esta imagen"),
@@ -105,7 +108,6 @@ void ImageBox::slot_button_clicked()
             this, "convert", parentWidget(), "FrmImgAdvanced");
         advform->showModalFor( parentWidget(), false, true );
     }
-    theGuiApp->resetCursor();
 }
 
 bool ImageBox::loadFromFile( const Xtring &filename )

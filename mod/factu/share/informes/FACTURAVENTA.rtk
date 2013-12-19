@@ -297,7 +297,6 @@ INPUT default {
         OBJECT ARTICULO_NOMBRE {
             value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
             posx = 9.0;
-            sizey = 1;
             sizex = 57.0;
             adjustment = "grow";
         }

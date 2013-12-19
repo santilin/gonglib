@@ -1,15 +1,21 @@
 == HECHO ==
 
+== ERRORES ==
+* Generar pedido de compra a partir de pedido de venta, pones fecha y no filtra la fecha.
+* Dar de alta factura, modificar artículo, peta, solo en mueblescapel release
+* Pasa por entrega antes que por total
+
 == Los pájaros ==
 * Algunas veces los albaranes del tpv no formatean el número
 
 == A MEDIO HACER ==
 * Opción optimizar imagen para el tpv
 * TPV: Que se resalte la familia seleccionada
+* Poder meter rondas en vez de suma y sigue. ( 3 quintos, 1 agua, 2 quintos )
+** Añadido campo ronda a MesasInfo
 
 == TPV ==
 * TPV: Algunas veces se queda sin seleccionar el artículo introducido
-* Poder meter rondas en vez de suma y sigue. ( 3 quintos, 1 agua, 2 quintos )
 * Poner la mesa más visible.
 
 * TPV: hay mucho espacio en el ticket después de los datos del cliente

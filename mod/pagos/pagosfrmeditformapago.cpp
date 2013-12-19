@@ -174,13 +174,15 @@ void FrmEditFormaPago::validateFields( QWidget *sender, bool *isvalid, ValidResu
     case RecFormaPago::SeIgnora:
         break;
     case RecFormaPago::GeneraRecibos:
-		if( editNumPlazos->toInt() == 0 ) {
-			validresult->addError( _("El número de plazos tiene que ser mayor que cero"), "NUMPLAZOS" );
-			*isvalid = false;
-		} else if( editNumPlazos->toInt() > 0 ) {
-			if( editDiasEntrePlazos->toInt() == 0 && editDiasPrimerPlazo->toInt() == 0 ) {
-				validresult->addError( _("El número de días entre plazos o de días hasta el primer plazo tiene que ser mayor que cero"), "NUMPLAZOS" );
+		if( editNumPlazos->isJustEdited() ) {
+			if( editNumPlazos->toInt() == 0 ) {
+				validresult->addError( _("El número de plazos tiene que ser mayor que cero"), "NUMPLAZOS" );
 				*isvalid = false;
+			} else if( editNumPlazos->toInt() > 0 ) {
+				if( editDiasEntrePlazos->toInt() == 0 && editDiasPrimerPlazo->toInt() == 0 ) {
+					validresult->addError( _("El número de días entre plazos o de días hasta el primer plazo tiene que ser mayor que cero"), "NUMPLAZOS" );
+					*isvalid = false;
+				}
 			}
 		}
         break;

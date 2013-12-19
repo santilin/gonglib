@@ -102,6 +102,7 @@
 			value = "=input.CLIENTE_CONTACTO_NOMBRE;";
 			posy = 0.2;
 			posx = 50.0;
+			adjustment = reducefont;
 			fontweight = bold;
 			fontsize = "16";
 		}
