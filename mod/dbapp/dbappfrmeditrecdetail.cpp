@@ -263,7 +263,9 @@ void FrmEditRecDetail::beginEdit(DataTable *dt, EditMode newmode,
                     }
                 }
                 getFrmMaster()->gather(); // So that the detail form can access the master record's fields
+				DBAPP->resetCursor();
                 detailfrm->showModalFor(getFrmMaster(), true, true ); // Centered
+				DBAPP->waitCursor();
             }
             dt->setFocus();
             int r = dt->currentRow(), c = dt->currentColumn();
