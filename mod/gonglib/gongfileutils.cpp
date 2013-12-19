@@ -209,7 +209,8 @@ int FileUtils::execProcess(const Xtring& _command, Xtring& messages, Xtring& err
     if( &errors != &Xtring::null ) {
         errors = FileUtils::readFile( tmpfilename );
         unlink( tmpfilename.c_str() );
-        _GONG_DEBUG_WARNING( errors );
+		if( !errors.isEmpty() )
+			_GONG_DEBUG_WARNING( errors );
     }
     return ret;
 }

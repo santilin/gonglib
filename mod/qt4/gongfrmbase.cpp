@@ -314,7 +314,7 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
         parentwin->move ( x, y );
     raise();
     activateWindow();
-//     theGuiApp->waitCursor( false );
+    theGuiApp->changeOverrideCursor( QCursor( Qt::ArrowCursor ) );
     while ( !isHidden() ) {
         theGuiApp->processEvents();
         usleep ( 1000 );

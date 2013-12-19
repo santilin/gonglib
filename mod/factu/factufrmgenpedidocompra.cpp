@@ -67,17 +67,29 @@ void FrmGenPedidoCompra::preparaDesdePedidosClientes()
         DBAPP->showOSD("Elige el/los pedidos de venta", "para generar los pedidos de compras" );
         RecPedidoVenta *tmprec = static_cast<RecPedidoVenta *>( DBAPP->createRecord( "PEDIDOVENTA" ) );
         mPedidoVentaIds.clear();
+		Xtring filter;
+		if( pDateRange->getDateFrom().isValid() )
+			filter = "PEDIDOVENTA.FECHA >= " + DBAPP->getConnection()->toSQL( pDateRange->getDateTimeFrom() );
+		if( pDateRange->getDateTo().isValid() ) {
+			if( !filter.isEmpty() )
+				filter += " AND " ;
+			filter += "PEDIDOVENTA.FECHA <= " + DBAPP->getConnection()->toSQL( pDateRange->getDateTimeTo() );
+		}
+		RecPedidoVentaDet *pvdet = static_cast<RecPedidoVentaDet *>( DBAPP->createRecord( "PEDIDOVENTADET" ) );
+		dbViewDefinitionsList pvview;
+		DBAPP->getDatabase()->getViewsForTable( "PEDIDOVENTA", pvview);
+		dbRecordDataModel *pvrdm = new dbRecordDataModel( pvdet, pvview, filter);
         dbRecordID pedidoventa_id = DBAPP->chooseMulti( mPedidoVentaIds,
-                                    static_cast<FrmEditRecMaster*>(0), tmprec );
+                                    static_cast<FrmEditRecMaster*>(0), tmprec, pvrdm );
         int npedidos = 0;
         if ( pedidoventa_id != 0 ) {
             DBAPP->showOSD( "Elige los artículos", "para generar los pedidos de compras");
             RecPedidoVentaDet *pvdet = static_cast<RecPedidoVentaDet *>( DBAPP->createRecord( "PEDIDOVENTADET" ) );
-            dbViewDefinitionsList pvview;
-            DBAPP->getDatabase()->getViewsByName( "PEDIDOVENTADET._POR_PROVEEDORA", pvview);
-            dbRecordDataModel *pvrdm = new dbRecordDataModel( pvdet, pvview, "PEDIDOVENTA.ID IN(" + mPedidoVentaIds.join(",") + ")");
+            dbViewDefinitionsList pvdtview;
+            DBAPP->getDatabase()->getViewsByName( "PEDIDOVENTADET._POR_PROVEEDORA", pvdtview);
+            dbRecordDataModel *pvdtrdm = new dbRecordDataModel( pvdet, pvdtview, "PEDIDOVENTA.ID IN(" + mPedidoVentaIds.join(",") + ")");
             mPedidoVentaDetIds.clear();
-            DBAPP->chooseMulti( mPedidoVentaDetIds, static_cast<FrmEditRec*>(0), pvdet, pvrdm, dbApplication::readOnly );
+            DBAPP->chooseMulti( mPedidoVentaDetIds, static_cast<FrmEditRec*>(0), pvdet, pvdtrdm, dbApplication::readOnly );
             if( mPedidoVentaDetIds.size() ) {
                 npedidos = genDesdePedidosClientes( chkAgruparPorProveedora->isOn() );
             }

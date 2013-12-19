@@ -1,7 +1,6 @@
 == HECHO ==
 
 == ERRORES ==
-* Generar pedido de compra a partir de pedido de venta, pones fecha y no filtra la fecha.
 * Dar de alta factura, modificar artículo, peta, solo en mueblescapel release
 
 == Los pájaros ==
