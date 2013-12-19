@@ -32,12 +32,12 @@
 // FIELD DtoP100 double - noaddrightDtoP100
 // FIELD Descuento money - noaddrightDescuento
 // FIELD BaseImponible money - noaddrightBaseImponible
-// FIELD Pagos money - noaddrightPagos
 // FIELD RecargoEquivalencia money - noaddrightRecargoEquivalencia
 // FIELD IVA money - noaddrightIVA
-// FIELD Entrega money - noaddrightEntrega
 // FIELD Resto money - noaddrightResto
 // FIELD Total money - noaddrightTotal
+// FIELD Pagos money - noaddrightPagos
+// FIELD Entrega money - noaddrightEntrega
 // FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre) tabPagos proyecto if(empresa::ModuleInstance->usaProyectos())
 // FIELD DesgloseIVA string tabPagos desgloseiva
 // FIELD DocumentoPago string tabPagos pago
@@ -77,12 +77,12 @@ FrmEditAlbaranCompra::FrmEditAlbaranCompra(FrmEditRec *parentfrm, dbRecord *mast
 	QHBoxLayout *rightDtoP100Layout = new QHBoxLayout(0, 0, 6, "rightDtoP100Layout");
 	QHBoxLayout *rightDescuentoLayout = new QHBoxLayout(0, 0, 6, "rightDescuentoLayout");
 	QHBoxLayout *rightBaseImponibleLayout = new QHBoxLayout(0, 0, 6, "rightBaseImponibleLayout");
-	QHBoxLayout *rightPagosLayout = new QHBoxLayout(0, 0, 6, "rightPagosLayout");
 	QHBoxLayout *rightRecargoEquivalenciaLayout = new QHBoxLayout(0, 0, 6, "rightRecargoEquivalenciaLayout");
 	QHBoxLayout *rightIVALayout = new QHBoxLayout(0, 0, 6, "rightIVALayout");
-	QHBoxLayout *rightEntregaLayout = new QHBoxLayout(0, 0, 6, "rightEntregaLayout");
 	QHBoxLayout *rightRestoLayout = new QHBoxLayout(0, 0, 6, "rightRestoLayout");
 	QHBoxLayout *rightTotalLayout = new QHBoxLayout(0, 0, 6, "rightTotalLayout");
+	QHBoxLayout *rightPagosLayout = new QHBoxLayout(0, 0, 6, "rightPagosLayout");
+	QHBoxLayout *rightEntregaLayout = new QHBoxLayout(0, 0, 6, "rightEntregaLayout");
 	showTabs(true);
 	QWidget *tabPagos = new QWidget( pTabWidget, "tabPagos" );
 	QVBoxLayout *tabPagosLayout = new QVBoxLayout(tabPagos, 11, 6, "tabPagosLayout");
@@ -137,12 +137,12 @@ FrmEditAlbaranCompra::FrmEditAlbaranCompra(FrmEditRec *parentfrm, dbRecord *mast
 	editDtoP100 = addEditField( pControlsFrame, "ALBARANCOMPRA", "DTOP100", rightDtoP100Layout );
 	editDescuento = addEditField( pControlsFrame, "ALBARANCOMPRA", "DESCUENTO", rightDescuentoLayout );
 	editBaseImponible = addEditField( pControlsFrame, "ALBARANCOMPRA", "BASEIMPONIBLE", rightBaseImponibleLayout );
-	editPagos = addEditField( pControlsFrame, "ALBARANCOMPRA", "PAGOS", rightPagosLayout );
 	editRecargoEquivalencia = addEditField( pControlsFrame, "ALBARANCOMPRA", "RECARGOEQUIVALENCIA", rightRecargoEquivalenciaLayout );
 	editIVA = addEditField( pControlsFrame, "ALBARANCOMPRA", "IVA", rightIVALayout );
-	editEntrega = addEditField( pControlsFrame, "ALBARANCOMPRA", "ENTREGA", rightEntregaLayout );
 	editResto = addEditField( pControlsFrame, "ALBARANCOMPRA", "RESTO", rightRestoLayout );
 	editTotal = addEditField( pControlsFrame, "ALBARANCOMPRA", "TOTAL", rightTotalLayout );
+	editPagos = addEditField( pControlsFrame, "ALBARANCOMPRA", "PAGOS", rightPagosLayout );
+	editEntrega = addEditField( pControlsFrame, "ALBARANCOMPRA", "ENTREGA", rightEntregaLayout );
 
 if(empresa::ModuleInstance->usaProyectos()){
 	searchProyectoCodigo = addSearchField( tabPagos, "PROYECTO_ID", "PROYECTO", "CODIGO", "NOMBRE", proyectoLayout );
@@ -173,12 +173,12 @@ if( ModuleInstance->getContabModule() ) {
 	alignLayout( rightDtoP100Layout, false);
 	alignLayout( rightDescuentoLayout, false);
 	alignLayout( rightBaseImponibleLayout, false);
-	alignLayout( rightPagosLayout, false);
 	alignLayout( rightRecargoEquivalenciaLayout, false);
 	alignLayout( rightIVALayout, false);
-	alignLayout( rightEntregaLayout, false);
 	alignLayout( rightRestoLayout, false);
 	alignLayout( rightTotalLayout, false);
+	alignLayout( rightPagosLayout, false);
+	alignLayout( rightEntregaLayout, false);
 	tabPagosLayout->addLayout( proyectoLayout );
 	tabPagosLayout->addLayout( desgloseivaLayout );
 	tabPagosLayout->addLayout( pagoLayout );
@@ -254,12 +254,12 @@ void FrmEditAlbaranCompra::scatterFields()
 	editDtoP100->setText(getRecAlbaranCompra()->getValue("DTOP100").toDouble());
 	editDescuento->setText(getRecAlbaranCompra()->getValue("DESCUENTO").toMoney());
 	editBaseImponible->setText(getRecAlbaranCompra()->getValue("BASEIMPONIBLE").toMoney());
-	editPagos->setText(getRecAlbaranCompra()->getValue("PAGOS").toMoney());
 	editRecargoEquivalencia->setText(getRecAlbaranCompra()->getValue("RECARGOEQUIVALENCIA").toMoney());
 	editIVA->setText(getRecAlbaranCompra()->getValue("IVA").toMoney());
-	editEntrega->setText(getRecAlbaranCompra()->getValue("ENTREGA").toMoney());
 	editResto->setText(getRecAlbaranCompra()->getValue("RESTO").toMoney());
 	editTotal->setText(getRecAlbaranCompra()->getValue("TOTAL").toMoney());
+	editPagos->setText(getRecAlbaranCompra()->getValue("PAGOS").toMoney());
+	editEntrega->setText(getRecAlbaranCompra()->getValue("ENTREGA").toMoney());
 	editDesgloseIVA->setText(getRecAlbaranCompra()->getValue("DESGLOSEIVA").toString());
 	editDocumentoPago->setText(getRecAlbaranCompra()->getValue("DOCUMENTOPAGO").toString());
 	editFechaPago->setText(getRecAlbaranCompra()->getValue("FECHAPAGO").toDate());
@@ -321,12 +321,12 @@ void FrmEditAlbaranCompra::gatherFields()
 	getRecAlbaranCompra()->setValue( "DTOP100", editDtoP100->toDouble());
 	getRecAlbaranCompra()->setValue( "DESCUENTO", editDescuento->toMoney());
 	getRecAlbaranCompra()->setValue( "BASEIMPONIBLE", editBaseImponible->toMoney());
-	getRecAlbaranCompra()->setValue( "PAGOS", editPagos->toMoney());
 	getRecAlbaranCompra()->setValue( "RECARGOEQUIVALENCIA", editRecargoEquivalencia->toMoney());
 	getRecAlbaranCompra()->setValue( "IVA", editIVA->toMoney());
-	getRecAlbaranCompra()->setValue( "ENTREGA", editEntrega->toMoney());
 	getRecAlbaranCompra()->setValue( "RESTO", editResto->toMoney());
 	getRecAlbaranCompra()->setValue( "TOTAL", editTotal->toMoney());
+	getRecAlbaranCompra()->setValue( "PAGOS", editPagos->toMoney());
+	getRecAlbaranCompra()->setValue( "ENTREGA", editEntrega->toMoney());
 if(empresa::ModuleInstance->usaProyectos()){
 	getRecAlbaranCompra()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
 }

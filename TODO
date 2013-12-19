@@ -3,7 +3,6 @@
 == ERRORES ==
 * Generar pedido de compra a partir de pedido de venta, pones fecha y no filtra la fecha.
 * Dar de alta factura, modificar artículo, peta, solo en mueblescapel release
-* Pasa por entrega antes que por total
 
 == Los pájaros ==
 * Algunas veces los albaranes del tpv no formatean el número

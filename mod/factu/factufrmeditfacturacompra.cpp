@@ -30,13 +30,13 @@
 // FIELD DtoP100 double - noaddrightDtoP100
 // FIELD Descuento money - noaddrightDescuento
 // FIELD BaseImponible money - noaddrightBaseImponible
-// FIELD EntregaAlbaranes money - noaddrightEntregaAlbaranes
-// FIELD Pagos money - noaddrightPagos
 // FIELD RecargoEquivalencia money - noaddrightRecargoEquivalencia
 // FIELD IVA money - noaddrightIVA
-// FIELD Entrega money - noaddrightEntrega
-// FIELD Resto money - noaddrightResto
 // FIELD Total money - noaddrightTotal
+// FIELD Pagos money - noaddrightPagos
+// FIELD EntregaAlbaranes money - noaddrightEntregaAlbaranes
+// FIELD Resto money - noaddrightResto
+// FIELD Entrega money - noaddrightEntrega
 // FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre) tabPagos proyecto if(empresa::ModuleInstance->usaProyectos())
 // FIELD FechaIVA date tabPagos desgloseiva
 // FIELD DesgloseIVA string tabPagos desgloseiva
@@ -76,13 +76,13 @@ FrmEditFacturaCompra::FrmEditFacturaCompra(FrmEditRec *parentfrm, dbRecord *mast
 	QHBoxLayout *rightDtoP100Layout = new QHBoxLayout(0, 0, 6, "rightDtoP100Layout");
 	QHBoxLayout *rightDescuentoLayout = new QHBoxLayout(0, 0, 6, "rightDescuentoLayout");
 	QHBoxLayout *rightBaseImponibleLayout = new QHBoxLayout(0, 0, 6, "rightBaseImponibleLayout");
-	QHBoxLayout *rightEntregaAlbaranesLayout = new QHBoxLayout(0, 0, 6, "rightEntregaAlbaranesLayout");
-	QHBoxLayout *rightPagosLayout = new QHBoxLayout(0, 0, 6, "rightPagosLayout");
 	QHBoxLayout *rightRecargoEquivalenciaLayout = new QHBoxLayout(0, 0, 6, "rightRecargoEquivalenciaLayout");
 	QHBoxLayout *rightIVALayout = new QHBoxLayout(0, 0, 6, "rightIVALayout");
-	QHBoxLayout *rightEntregaLayout = new QHBoxLayout(0, 0, 6, "rightEntregaLayout");
-	QHBoxLayout *rightRestoLayout = new QHBoxLayout(0, 0, 6, "rightRestoLayout");
 	QHBoxLayout *rightTotalLayout = new QHBoxLayout(0, 0, 6, "rightTotalLayout");
+	QHBoxLayout *rightPagosLayout = new QHBoxLayout(0, 0, 6, "rightPagosLayout");
+	QHBoxLayout *rightEntregaAlbaranesLayout = new QHBoxLayout(0, 0, 6, "rightEntregaAlbaranesLayout");
+	QHBoxLayout *rightRestoLayout = new QHBoxLayout(0, 0, 6, "rightRestoLayout");
+	QHBoxLayout *rightEntregaLayout = new QHBoxLayout(0, 0, 6, "rightEntregaLayout");
 	showTabs(true);
 	QWidget *tabPagos = new QWidget( pTabWidget, "tabPagos" );
 	QVBoxLayout *tabPagosLayout = new QVBoxLayout(tabPagos, 11, 6, "tabPagosLayout");
@@ -135,13 +135,13 @@ FrmEditFacturaCompra::FrmEditFacturaCompra(FrmEditRec *parentfrm, dbRecord *mast
 	editDtoP100 = addEditField( pControlsFrame, "FACTURACOMPRA", "DTOP100", rightDtoP100Layout );
 	editDescuento = addEditField( pControlsFrame, "FACTURACOMPRA", "DESCUENTO", rightDescuentoLayout );
 	editBaseImponible = addEditField( pControlsFrame, "FACTURACOMPRA", "BASEIMPONIBLE", rightBaseImponibleLayout );
-	editEntregaAlbaranes = addEditField( pControlsFrame, "FACTURACOMPRA", "ENTREGAALBARANES", rightEntregaAlbaranesLayout );
-	editPagos = addEditField( pControlsFrame, "FACTURACOMPRA", "PAGOS", rightPagosLayout );
 	editRecargoEquivalencia = addEditField( pControlsFrame, "FACTURACOMPRA", "RECARGOEQUIVALENCIA", rightRecargoEquivalenciaLayout );
 	editIVA = addEditField( pControlsFrame, "FACTURACOMPRA", "IVA", rightIVALayout );
-	editEntrega = addEditField( pControlsFrame, "FACTURACOMPRA", "ENTREGA", rightEntregaLayout );
-	editResto = addEditField( pControlsFrame, "FACTURACOMPRA", "RESTO", rightRestoLayout );
 	editTotal = addEditField( pControlsFrame, "FACTURACOMPRA", "TOTAL", rightTotalLayout );
+	editPagos = addEditField( pControlsFrame, "FACTURACOMPRA", "PAGOS", rightPagosLayout );
+	editEntregaAlbaranes = addEditField( pControlsFrame, "FACTURACOMPRA", "ENTREGAALBARANES", rightEntregaAlbaranesLayout );
+	editResto = addEditField( pControlsFrame, "FACTURACOMPRA", "RESTO", rightRestoLayout );
+	editEntrega = addEditField( pControlsFrame, "FACTURACOMPRA", "ENTREGA", rightEntregaLayout );
 
 if(empresa::ModuleInstance->usaProyectos()){
 	searchProyectoCodigo = addSearchField( tabPagos, "PROYECTO_ID", "PROYECTO", "CODIGO", "NOMBRE", proyectoLayout );
@@ -172,13 +172,13 @@ if( ModuleInstance->getContabModule() ) {
 	alignLayout( rightDtoP100Layout, false);
 	alignLayout( rightDescuentoLayout, false);
 	alignLayout( rightBaseImponibleLayout, false);
-	alignLayout( rightEntregaAlbaranesLayout, false);
-	alignLayout( rightPagosLayout, false);
 	alignLayout( rightRecargoEquivalenciaLayout, false);
 	alignLayout( rightIVALayout, false);
-	alignLayout( rightEntregaLayout, false);
-	alignLayout( rightRestoLayout, false);
 	alignLayout( rightTotalLayout, false);
+	alignLayout( rightPagosLayout, false);
+	alignLayout( rightEntregaAlbaranesLayout, false);
+	alignLayout( rightRestoLayout, false);
+	alignLayout( rightEntregaLayout, false);
 	tabPagosLayout->addLayout( proyectoLayout );
 	tabPagosLayout->addLayout( desgloseivaLayout );
 	tabPagosLayout->addLayout( pagoLayout );
@@ -260,13 +260,13 @@ void FrmEditFacturaCompra::scatterFields()
 	editDtoP100->setText(getRecFacturaCompra()->getValue("DTOP100").toDouble());
 	editDescuento->setText(getRecFacturaCompra()->getValue("DESCUENTO").toMoney());
 	editBaseImponible->setText(getRecFacturaCompra()->getValue("BASEIMPONIBLE").toMoney());
-	editEntregaAlbaranes->setText(getRecFacturaCompra()->getValue("ENTREGAALBARANES").toMoney());
-	editPagos->setText(getRecFacturaCompra()->getValue("PAGOS").toMoney());
 	editRecargoEquivalencia->setText(getRecFacturaCompra()->getValue("RECARGOEQUIVALENCIA").toMoney());
 	editIVA->setText(getRecFacturaCompra()->getValue("IVA").toMoney());
-	editEntrega->setText(getRecFacturaCompra()->getValue("ENTREGA").toMoney());
-	editResto->setText(getRecFacturaCompra()->getValue("RESTO").toMoney());
 	editTotal->setText(getRecFacturaCompra()->getValue("TOTAL").toMoney());
+	editPagos->setText(getRecFacturaCompra()->getValue("PAGOS").toMoney());
+	editEntregaAlbaranes->setText(getRecFacturaCompra()->getValue("ENTREGAALBARANES").toMoney());
+	editResto->setText(getRecFacturaCompra()->getValue("RESTO").toMoney());
+	editEntrega->setText(getRecFacturaCompra()->getValue("ENTREGA").toMoney());
 	editFechaIVA->setText(getRecFacturaCompra()->getValue("FECHAIVA").toDate());
 	editDesgloseIVA->setText(getRecFacturaCompra()->getValue("DESGLOSEIVA").toString());
 	editDocumentoPago->setText(getRecFacturaCompra()->getValue("DOCUMENTOPAGO").toString());
@@ -329,13 +329,13 @@ void FrmEditFacturaCompra::gatherFields()
 	getRecFacturaCompra()->setValue( "DTOP100", editDtoP100->toDouble());
 	getRecFacturaCompra()->setValue( "DESCUENTO", editDescuento->toMoney());
 	getRecFacturaCompra()->setValue( "BASEIMPONIBLE", editBaseImponible->toMoney());
-	getRecFacturaCompra()->setValue( "ENTREGAALBARANES", editEntregaAlbaranes->toMoney());
-	getRecFacturaCompra()->setValue( "PAGOS", editPagos->toMoney());
 	getRecFacturaCompra()->setValue( "RECARGOEQUIVALENCIA", editRecargoEquivalencia->toMoney());
 	getRecFacturaCompra()->setValue( "IVA", editIVA->toMoney());
-	getRecFacturaCompra()->setValue( "ENTREGA", editEntrega->toMoney());
-	getRecFacturaCompra()->setValue( "RESTO", editResto->toMoney());
 	getRecFacturaCompra()->setValue( "TOTAL", editTotal->toMoney());
+	getRecFacturaCompra()->setValue( "PAGOS", editPagos->toMoney());
+	getRecFacturaCompra()->setValue( "ENTREGAALBARANES", editEntregaAlbaranes->toMoney());
+	getRecFacturaCompra()->setValue( "RESTO", editResto->toMoney());
+	getRecFacturaCompra()->setValue( "ENTREGA", editEntrega->toMoney());
 if(empresa::ModuleInstance->usaProyectos()){
 	getRecFacturaCompra()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
 }

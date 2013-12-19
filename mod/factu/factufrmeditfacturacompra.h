@@ -118,13 +118,13 @@ protected:
 	gong::EditBox *editDtoP100;
 	gong::EditBox *editDescuento;
 	gong::EditBox *editBaseImponible;
-	gong::EditBox *editEntregaAlbaranes;
-	gong::EditBox *editPagos;
 	gong::EditBox *editRecargoEquivalencia;
 	gong::EditBox *editIVA;
-	gong::EditBox *editEntrega;
-	gong::EditBox *editResto;
 	gong::EditBox *editTotal;
+	gong::EditBox *editPagos;
+	gong::EditBox *editEntregaAlbaranes;
+	gong::EditBox *editResto;
+	gong::EditBox *editEntrega;
 	gong::SearchBox *searchProyectoCodigo;
 	QPushButton *pushProyectoCodigo;
 	gong::LineEdit *editProyectoCodigo;
