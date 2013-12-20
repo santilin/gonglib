@@ -136,6 +136,7 @@ protected:
     bool mWasCancelled, mShownYet, mClosingExternally;
     QWidget *pShowModalFor, *pRealParent, *pFocusWidget, *pSavedFocusWidget;
     QPushButton *pushCancel, *pushAccept;
+	QEventLoop *pEventLoop;
 };
 
 class QDialogWithSaveAs: public QDialog

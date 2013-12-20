@@ -1,30 +1,25 @@
 == HECHO ==
 
 == ERRORES ==
-* Dar de alta factura, modificar artículo, peta, solo en mueblescapel release
-
-== Los pájaros ==
-* Algunas veces los albaranes del tpv no formatean el número
+* mc: Dar de alta factura, modificar artículo, peta, solo en mueblescapel release
+* paj: mesas.svg. Siempre aparece seleccionada la mesa 9
 
 == A MEDIO HACER ==
-* Opción optimizar imagen para el tpv
 * TPV: Que se resalte la familia seleccionada
+** No funciona el ItemIsSelectable
 * Poder meter rondas en vez de suma y sigue. ( 3 quintos, 1 agua, 2 quintos )
 ** Añadido campo ronda a MesasInfo
 
 == TPV ==
-* TPV: Algunas veces se queda sin seleccionar el artículo introducido
-* Poner la mesa más visible.
-
+* Cuando se cierra una operación, ¿la mesa no debería quedarse con la misma vendedora?
+* Añadir modalidad: Rondas, mesas, vendedores, etc.
 * TPV: hay mucho espacio en el ticket después de los datos del cliente
-* Problema: Maximizar TPV, guardar y cerrar, cancelar, minimizar tpv, guardar y cerrar, esta ventana sale maximizada.
 * Tarifas por el tipo de mesa.
+* Al limpiar la mesa, lee registros
 * saveEstado intenta grabar siempre, ver la diferencia
 * TPV: Imprimir en el ticket el número de socia
 * Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
 * TPV: Z: Sumar la entrega, no el total del ticket
-* Configuración: Tamaños diferentes familias y artículos.
-* Al limpiar la mesa, lee registros
 * TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
 
 = PRESCINDIBLE =
@@ -106,6 +101,7 @@
 * 	struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Copia de seguridad, falta poner el puerto
 * QWidgetTab->strongFocus
 * qt_tabwidget_tabbar toma el foco cuando pasamos con el tabulador
 * Tras "Asistente de acceso" no añade nombre empresa a título ventana principal

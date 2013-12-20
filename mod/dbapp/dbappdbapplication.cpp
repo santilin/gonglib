@@ -142,13 +142,17 @@ void dbApplication::readSettings()
     _GONG_DEBUG_PRINT(0, "Reading settings for the application" );
     // Local machine settings are read before everything else
     QString ss( styleSheet() );
+	bool ssread = false;
     if( FileUtils::exists( (getGonglibDataDir() + "dbapp/stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getGonglibDataDir() + "dbapp/stylesheet.css" ).c_str();
+		ssread = true;
         _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
     } else {
         _GONG_DEBUG_PRINT(0, "NOT ADDING stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
     }
-    setStyleSheet( ss );
+    if( ssread )
+		setStyleSheet( ss );
+	ssread = false;
     mReportsGlobalPath = getGonglibDataDir() + "dbapp/informes/:" + getGlobalDataDir() + "informes/:";
     // Now, each module's global and local settings
     for ( unsigned int i=0; i < mModules.size(); i++ )
@@ -159,17 +163,20 @@ void dbApplication::readSettings()
     ss = styleSheet();
     if( FileUtils::exists( (getGlobalDataDir() + "stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getGlobalDataDir() + "stylesheet.css" ).c_str();
+		ssread = true;
         _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + getGlobalDataDir() + "stylesheet.css" );
     } else {
         _GONG_DEBUG_PRINT(0, "NOT ADDING stylesheet: " + getGlobalDataDir() + "stylesheet.css" );
     }
     if( FileUtils::exists( (getLocalDataDir() + "stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getLocalDataDir() + "stylesheet.css" ).c_str();
-        setStyleSheet( ss );
+		ssread = true;
         _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + getLocalDataDir() + "stylesheet.css" );
     } else {
         _GONG_DEBUG_PRINT(0, "NOT ADDING stylesheet: " + getLocalDataDir() + "stylesheet.css" );
     }
+    if( ssread )
+        setStyleSheet( ss );
     // The package settings take precedence over the modules settings
     pMachineSettings->read( getGlobalDataDir() + "settings.rc" );
     pMachineSettings->read( getGlobalDataDir() + Xtring(getPackageName()).lower() + ".ddd" );

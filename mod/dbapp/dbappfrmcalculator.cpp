@@ -83,9 +83,13 @@ FrmCalculator::FrmCalculator(bool simple, bool embedded, QWidget *parent)
 #else
     pGridLayout->setSizeConstraint(QLayout::SetFixedSize);
 #endif
-    pGridLayout->addWidget(display, 0, 0, 1, 6);
-    pGridLayout->addWidget(backspaceButton, 0, 6);
-    pGridLayout->addWidget(clearAllButton, 1, 6);
+	if( !embedded )
+		pGridLayout->addWidget(display, 0, 0, 1, 6);
+	else
+		pGridLayout->addWidget(display, 1, 6);
+
+    pGridLayout->addWidget(backspaceButton, 2, 6);
+    pGridLayout->addWidget(clearAllButton, 3, 6);
 
     if( !simple ) {
         pGridLayout->addWidget(clearButton, 2, 6);

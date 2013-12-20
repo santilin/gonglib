@@ -22,7 +22,7 @@ FrmBase::FrmBase ( QWidget *parent, const Xtring &name, WidgetFlags f )
     : QWidget ( parent, name.c_str(), f ),
       mWasCancelled ( true ), mShownYet( false), mClosingExternally(true),
       pShowModalFor ( 0 ), pRealParent ( parent ), pFocusWidget ( 0 ),
-      pSavedFocusWidget( 0 )
+      pSavedFocusWidget( 0 ), pEventLoop( 0 )
 {
     _GONG_DEBUG_PRINT(4, Xtring("Creating ") + name );
     // Para que no tome el foco el formulario
@@ -141,8 +141,12 @@ void FrmBase::keyPressEvent ( QKeyEvent *e )
         return;
     }
 #ifdef _GONG_DEBUG
-    if( e->key() == Qt::Key_F10 )
-        _GONG_DEBUG_WARNING(theGuiApp->focusWidget()->name() );
+    if( e->key() == Qt::Key_F10 ) {
+        _GONG_DEBUG_WARNING( Xtring::printf("FocusWidget: %s", theGuiApp->focusWidget()->name() ) );
+		QWidget *widget = qApp->widgetAt(QCursor::pos());
+        _GONG_DEBUG_WARNING( Xtring::printf("Widget under mouse: (%s) %s",
+											widget->metaObject()->className(), widget->name() ) );
+	}
 #endif
     QWidget::keyPressEvent ( e );
 }
@@ -173,22 +177,23 @@ void FrmBase::showEvent(QShowEvent *event)
 void FrmBase::accept()
 {
     mWasCancelled = false;
-    mClosingExternally = false;
-    close();
-    mClosingExternally = true;
+	mClosingExternally = false;
+	close();
+	mClosingExternally = true;
+	if( pEventLoop )
+		pEventLoop->exit( 0 ); // mWasCancelled = false
 }
 
 void FrmBase::cancel()
 {
-    if( focusWidget() ) {
-        _GONG_DEBUG_PRINT(10, focusWidget()->name() );
-    }
     if( LineEdit *le = dynamic_cast<LineEdit *>(focusWidget()) )
         le->setCancelling();
     mWasCancelled = true;
-    mClosingExternally = false;
-    close();
-    mClosingExternally = true;
+	mClosingExternally = false;
+	close();
+	mClosingExternally = true;
+	if( pEventLoop )
+		pEventLoop->exit( 1 ); // mWasCancelled = true
 }
 
 /**
@@ -315,15 +320,17 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
     raise();
     activateWindow();
     theGuiApp->changeOverrideCursor( QCursor( Qt::ArrowCursor ) );
-    while ( !isHidden() ) {
-        theGuiApp->processEvents();
-        usleep ( 1000 );
-    }
-//     QEventLoop eventLoop;
-//     QPointer<FrmBase> guard = this;
-//     (void) eventLoop.exec(QEventLoop::DialogExec);
-//     if (guard.isNull())
-// 		mWasCancelled = true;
+//     while ( !isHidden() ) {
+//         theGuiApp->processEvents();
+//         usleep ( 1000 );
+//     }
+	pEventLoop = new QEventLoop();
+    QPointer<FrmBase> guard = this;
+    mWasCancelled = pEventLoop->exec(QEventLoop::DialogExec);
+    if( guard.isNull() )
+		mWasCancelled = true;
+	delete pEventLoop;
+	pEventLoop = 0;
 //     theGuiApp->resetCursor();
     if( wasmaximized )
         parent->parentWidget()->showMaximized();

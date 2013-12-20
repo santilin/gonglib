@@ -241,7 +241,7 @@ if( ModuleInstance->getContabModule() ) {
 
 void FrmEditArticulo::gatherFields()
 {
-    /*<<<<<FRMEDITARTICULO_GATHER*/
+/*<<<<<FRMEDITARTICULO_GATHER*/
 	getRecArticulo()->setValue( "FAMILIA_ID", getRecFamilia()->getRecordID() );
 	getRecArticulo()->setValue( "PROVEEDORA_ID", getRecProveedora()->getRecordID() );
 	getRecArticulo()->setValue( "NOMBRE", editNombre->toString());
@@ -276,7 +276,6 @@ if( ModuleInstance->getContabModule() ) {
 	getRecArticulo()->setValue( "ARTICULOIMAGEN.IMAGEN", editArticuloImagen_Imagen->toData());
 /*>>>>>FRMEDITARTICULO_GATHER*/
     getRecArticulo()->setValue( "ARTICULOBASE_ID", getRecArticuloBase()->getRecordID() );
-    _GONG_DEBUG_PRINT(0, getRecArticulo()->toString( TOSTRING_DEBUG_COMPLETE ) );
 }
 
 void FrmEditArticulo::scatterTipoIVA()
