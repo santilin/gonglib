@@ -143,7 +143,7 @@ Xtring dbFieldDefinition::sameSQLSchema( const dbFieldDefinition *other, dbConne
             }
             if( changed ) {
                 // Avoid changing column if one default value is empty and the other is "0"
-                _GONG_DEBUG_PRINT(0, Xtring::printf("Default value: %s, %s", getDefaultValue().c_str(), other->getDefaultValue().c_str() ) );
+                _GONG_DEBUG_PRINT(10, Xtring::printf("Default value: %s, %s", getDefaultValue().c_str(), other->getDefaultValue().c_str() ) );
                 ret ="ALTER TABLE " + getTableName() + " CHANGE COLUMN " + other->getName() + " " + getName() + " " + toDDL(conn) + ";\n";
             }
         }

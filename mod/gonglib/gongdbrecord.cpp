@@ -850,7 +850,7 @@ bool dbRecord::removeRelated( bool updating )
                                 related_record_orig->beforeDeleteRelated( const_cast<dbRecord *>(this) );
                                 related_record_orig->remove();
                             } else {
-                                _GONG_DEBUG_PRINT(0, "Not removing record because it is new: "
+                                _GONG_DEBUG_WARNING("Not removing record because it is new: "
                                                   + mRecordRelations[i]->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE ) );
                             }
                         } else {

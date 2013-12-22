@@ -528,7 +528,6 @@ void FrmEditPresupuestoVenta::validateFields( QWidget *sender, bool *isvalid, Va
                                  getRecTipoDoc()->getValue("FORMATO").toString()) );
     }
     if( !sender || sender == editContador ) {
-        _GONG_DEBUG_PRINT(0, editContador->toString() );
         if( !validCodeAndDesc( ( sender == editContador ? editNumero : sender ),
                                *validresult, editNumero, 0, "NUMERO", "") )
             if( !sender )

@@ -232,7 +232,6 @@ Xtring RecArticulo::genCodigoArticulo(int modalidad, const Xtring &formato,
         Xtring from, where;
         Xtring buscar_formato = formatCodigoArticulo( "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
                                 formato, nameart, codfam, namefam, codpro, namepro );
-        _GONG_DEBUG_PRINT(0, buscar_formato );
         // Buscar el último código
         switch( modalidad ) {
         case GenCodArtFijo:

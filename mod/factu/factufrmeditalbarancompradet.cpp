@@ -440,7 +440,6 @@ void FrmEditAlbaranCompraDet::slotActPrecioArticulo_clicked()
             getRecArticulo()->setValue("COSTESINIVA", editCosteSinIVA->toMoney() );
             getRecArticulo()->setValue("COSTE", editCoste->toMoney() );
             getRecArticulo()->fixMargenYDescuento();
-            _GONG_DEBUG_PRINT(0, getRecArticulo()->toString( TOSTRING_DEBUG_ONLY_MODIFIED ) );
             if( DBAPP->editRecord(this, getRecArticulo(), 0, DataTable::updating,
                                   dbApplication::simpleEdition, this ) ) {
                 DBAPP->showStickyOSD( getTitle(), Xtring::printf( _( "Se han actualizado los costes del artículo a los de este detalle: sin IVA: %s, con IVA: %s" ),

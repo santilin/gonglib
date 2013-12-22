@@ -809,7 +809,7 @@ bool FrmBase::calcLayoutPositionOfWidget( QLayout *layout, const char *name, int
             pos = l;
         QLayoutItem *li = layout->itemAt( l );
         if( li->widget() ) {
-            _GONG_DEBUG_PRINT(0, Xtring::printf("Found widget %s at pos %d at level %d", li->widget()->name(), pos, level ) );
+//             _GONG_DEBUG_PRINT(10, Xtring::printf("Found widget %s at pos %d at level %d", li->widget()->name(), pos, level ) );
             if( strcmp( li->widget()->name(), name) == 0 ) {
                 return true;
             }

@@ -185,10 +185,7 @@ dbRecordID FrmEditRecDetail::getTableRecID() const
 */
 bool FrmEditRecDetail::save()
 {
-// 	_GONG_DEBUG_PRINT(0, mNumDetalle );
-// 	_GONG_DEBUG_PRINT(0, getRecord()->toString( TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS ) );
     pDetalles->getRecord( mNumDetalle )->copyRecord ( getRecord() );
-// 	_GONG_DEBUG_PRINT(0, pDetalles->getRecord( mNumDetalle )->toString( TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS ) );
     return true;
 }
 

@@ -41,7 +41,6 @@ bool CsvUtils::readCSVFile(const Xtring &fname, XtringList &lines, Xtring &heade
                 }
                 if( !quotes_ok ) {
                     Xtring continuation;
-                    _GONG_DEBUG_PRINT(0, line );
                     std::getline( *file, continuation );
                     if( !continuation.isEmpty() && !file->eof() )
                         line += "\n" + continuation;

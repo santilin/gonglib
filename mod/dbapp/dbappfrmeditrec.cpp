@@ -201,7 +201,7 @@ void FrmEditRec::accept()
             }
         }
     } catch ( dbError & err ) {
-        _GONG_DEBUG_PRINT(0, err.getNumber() );
+        _GONG_DEBUG_PRINT(WARNING, err.what() );
         msgError( this,
                   Xtring::printf( _("No se ha podido %1s %2s.\n%3s"),
                                   mEditMode == DataTable::deleting ? _("borrar") : _("grabar"),
@@ -682,9 +682,6 @@ ComboBoxInt *FrmEditRec::addComboIntField( QWidget * parent, const Xtring & tabl
     dbFieldListOfValues<int> *flddef = static_cast<dbFieldListOfValues<int> *>
                                        (DBAPP->getDatabase()->findFieldDefinition( tablename, fldname ) );
     if( flddef ) {
-		_GONG_DEBUG_PRINT(0, &flddef->getListOfCaptions() );
-		_GONG_DEBUG_PRINT(0, flddef->getListOfCaptions().join(",") );
-		_GONG_DEBUG_PRINT(0, flddef->getListOfValues().join(",") );
         combo = new ComboBoxInt( flddef->getListOfCaptions(), flddef->getListOfValues(),
             parent ? parent : pControlsFrame, tablename + "_" + fldname, Xtring(), horizontal );
         applyFieldStyle( combo, flddef );
@@ -1156,7 +1153,6 @@ bool FrmEditRec::removeControl( QWidget *control )
                 return true;
             }
         } else if ( SearchBox *search = dynamic_cast<SearchBox *>( *it ) ) {
-            _GONG_DEBUG_PRINT(0, search->name() );
             if( dynamic_cast<SearchBox *>(control) && search == control) {
                 delete search;
                 mEditControls.erase( it );

@@ -50,7 +50,6 @@ AppReport::AppReport( const dbApplication &dbapp )
       mdbApp( dbapp )
 {
     Xtring paths = DBAPP->getReportsPath( true );
-// 	_GONG_DEBUG_PRINT(0, "Report paths: " + paths );
     setStylesPath ( paths );
     setImagesPath ( paths );
     setIncludePath( paths );
@@ -435,7 +434,6 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &prop
         for( Dictionary<Xtring>::const_iterator propit = properties.begin();
                 propit != properties.end(); ++ propit ) {
             if( !setPropOrigValue( propit->first, propit->second ) ) {
-                _GONG_DEBUG_PRINT(0, "Setting orig property " + propit->first + "=" + propit->second );
                 _GONG_DEBUG_WARNING( propit->first + "not found in report" );
             }
         }

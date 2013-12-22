@@ -557,7 +557,6 @@ dbRecordID FrmEditContactoBehavior::findDupCIFOrName( QWidget *sender,
 {
     if( pTheForm->focusWidget() == pTheForm->getAcceptButton() && sender )
         return 0; // This avoids checking twice when pressing pushAccept while in one of the fields
-    _GONG_DEBUG_PRINT(0, getRecContacto()->toString( TOSTRING_DEBUG_COMPLETE ) );
     Xtring bigcond;
     if( sender == editContactoCIF || !sender ) {
         // If value is empty and codecanbenull, do not check dups
@@ -582,7 +581,6 @@ bool FrmEditContactoBehavior::save()
             getRecContacto()->setValue( "CODIGO", getRecContacto()->selectNextInt("CODIGO", Xtring::null, true ) );
     }
     bool modified = getRecContacto()->isModified();
-    _GONG_DEBUG_PRINT(0, modified );
     if( !getRecContacto()->save( false ) ) {
         FrmBase::msgError( pTheForm, _("No se ha podido grabar el contacto") );
         return false;

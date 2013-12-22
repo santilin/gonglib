@@ -1292,7 +1292,6 @@ InputField *ReportDefParser::parseInputField( Input *pInput, const char *ifname,
 bool Report::readRtkFile( const char *filename,
                           const char *defaultinput, Input *usethisinput, const Xtring &initdefines )
 {
-    _GONG_DEBUG_PRINT(0, filename );
     std::ifstream f;
     f.open( filename, std::ios_base::binary | std::ios_base::in );
     if ( !f.is_open() || !f.good() ) {

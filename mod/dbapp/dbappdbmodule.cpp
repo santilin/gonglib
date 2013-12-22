@@ -33,7 +33,7 @@ dbConnection *dbModule::getConnection() const
  **/
 void dbModule::readSettings()
 {
-    _GONG_DEBUG_PRINT(0, "Reading settings for module " + mUnixName );
+    _GONG_DEBUG_PRINT(1, "Reading settings for module " + mUnixName );
     DBAPP->readMachineSettings( mModuleGlobalDataDir + mUnixName + ".ddd" );
 // 	// Read localized ddd
 // 	_GONG_DEBUG_PRINT(3, "Reading localized " + DBAPP->getRegConfig()->getLanguage() + " ddd for module " + mUnixName
@@ -48,30 +48,30 @@ void dbModule::readSettings()
         DBAPP->addReportsPath( false,  mModuleGlobalDataDir + "informes/" );
         _GONG_DEBUG_PRINT(2, "Adding rtkpath: " + mModuleGlobalDataDir + "informes/" );
     } else {
-        _GONG_DEBUG_PRINT(2, "Not adding rtkpath: " + mModuleGlobalDataDir + "informes" );
+        _GONG_DEBUG_PRINT(3, "Not adding rtkpath: " + mModuleGlobalDataDir + "informes" );
     }
     // There are no local settings for modules, they are all stored in the local settings file for the application
     if( FileUtils::exists( (mModuleLocalDataDir + "informes").c_str() ) ) {
         DBAPP->addReportsPath( true, mModuleLocalDataDir + "informes/" );
         _GONG_DEBUG_PRINT(2, "Adding rtkpath: " + mModuleLocalDataDir + "informes/" );
     } else {
-        _GONG_DEBUG_PRINT(2, "Not adding rtkpath: " + mModuleLocalDataDir + "informes" );
+        _GONG_DEBUG_PRINT(3, "Not adding rtkpath: " + mModuleLocalDataDir + "informes" );
     }
     QString ss( DBAPP->styleSheet() );
     bool ssread = false;
     if( FileUtils::exists( (mModuleGlobalDataDir + "stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( mModuleGlobalDataDir + "stylesheet.css" ).c_str();
         ssread = true;
-        _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + mModuleGlobalDataDir + "stylesheet.css" );
+        _GONG_DEBUG_PRINT(2, "Adding stylesheet: " + mModuleGlobalDataDir + "stylesheet.css" );
     } else {
-        _GONG_DEBUG_PRINT(2, "NOT ADDING stylesheet: " + mModuleGlobalDataDir + "stylesheet.css" );
+        _GONG_DEBUG_PRINT(3, "NOT ADDING stylesheet: " + mModuleGlobalDataDir + "stylesheet.css" );
     }
     if( FileUtils::exists( (mModuleLocalDataDir + "stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( mModuleLocalDataDir + "stylesheet.css" ).c_str();
         ssread = true;
-        _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + mModuleLocalDataDir + "stylesheet.css" );
+        _GONG_DEBUG_PRINT(2, "Adding stylesheet: " + mModuleLocalDataDir + "stylesheet.css" );
     } else {
-        _GONG_DEBUG_PRINT(2, "NOT ADDING stylesheet: " + mModuleLocalDataDir + "stylesheet.css" );
+        _GONG_DEBUG_PRINT(3, "NOT ADDING stylesheet: " + mModuleLocalDataDir + "stylesheet.css" );
     }
     if( ssread )
         DBAPP->setStyleSheet( ss );

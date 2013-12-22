@@ -97,7 +97,7 @@ void dbSettings::setValue(const Xtring& settingname, const Variant& val)
             _GONG_DEBUG_WARNING( "Could not save setting: " + settingname + "=" + val.toString() );
         }
     }
-    _GONG_DEBUG_PRINT(0, "Saved setting: " + settingname + "=" + val.toString() );
+    _GONG_DEBUG_PRINT(3, "Saved setting: " + settingname + "=" + val.toString() );
 }
 
 

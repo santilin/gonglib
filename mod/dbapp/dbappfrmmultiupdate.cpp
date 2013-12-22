@@ -71,7 +71,6 @@ void FrmMultiUpdate::accept()
         if( record->read( recid ) ) {
             record->setValue( pComboField->getCurrentItemValue(), pValor->toVariant() );
             record->readRelated( true );
-            _GONG_DEBUG_PRINT(0, record->toString( TOSTRING_DEBUG_COMPLETE ) );
             if( !record->isValid( ValidResult::fixing, 0 ) ) {
                 DBAPP->showOSD( _("Modificar múltiple"), _("Este registro contiene errores.") );
                 revisar = true;

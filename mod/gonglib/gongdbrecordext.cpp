@@ -352,10 +352,10 @@ bool dbRecord::fromString ( const Xtring &source, int format, const RegExp &incl
                                     setValue( fldname, fldvalue );
                                 continue;
                             } else {
-                                _GONG_DEBUG_PRINT(0, "In table " + getTableName() + ", related record for table " + reftable + " not found");
+                                _GONG_DEBUG_WARNING("In table " + getTableName() + ", related record for table " + reftable + " not found");
                             }
                         } else {
-                            _GONG_DEBUG_PRINT(0, "In table " + getTableName() + ", relation for table " + reftable + " not found" );
+                            _GONG_DEBUG_WARNING("In table " + getTableName() + ", relation for table " + reftable + " not found" );
                         }
                     } else if( dbFieldListOfValues<int> *fldlov = dynamic_cast< dbFieldListOfValues<int> *>(flddef) ) {
                         int value = fldlov->findValue( fldvalue );

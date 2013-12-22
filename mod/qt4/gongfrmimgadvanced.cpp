@@ -322,9 +322,6 @@ FrmResizeImage::FrmResizeImage(int sizex, int sizey, QWidget* parent)
 
 void FrmResizeImage::validateFields(QWidget *sender , bool *isvalid )
 {
-    _GONG_DEBUG_PRINT(0, mAspectRatio );
-    _GONG_DEBUG_PRINT(0, pEditSizeX->toInt());
-    _GONG_DEBUG_PRINT(0, pEditSizeY->toInt());
     if( pCheckAspect->isOn() && mAspectRatio != 0.0 ) {
         if( sender == pEditSizeX ) {
             pEditSizeY->setText( int(pEditSizeX->toInt() / mAspectRatio) );

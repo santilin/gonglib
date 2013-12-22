@@ -65,7 +65,6 @@ void Input::fixInputParameters(const ParametersList &parameters, const char *del
     propEncoding.fix( parameters, delim );
     for( uint i=0; i<countFields(); i++ ) {
         InputField *ifld = getInputField(i);
-		_GONG_DEBUG_PRINT(0, ifld->name() );
         ifld->fixParameters(parameters, delim);
     }
 }

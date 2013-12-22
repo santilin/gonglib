@@ -151,8 +151,6 @@ int IPagableRecord::genPagos()
     }
     importe /= nrecibos;
     Date vencimiento = pFactura->getValue("FECHA").toDate() + diasprimerplazo;
-	_GONG_DEBUG_PRINT(0, diasprimerplazo );
-	_GONG_DEBUG_PRINT(0, vencimiento.toString() );
     Date fechavalor = vencimiento;
     bool nocontinuar = false;
     for( uint nrecibo = 0; nrecibo < nrecibos && nocontinuar == false; nrecibo ++ ) {
@@ -461,9 +459,6 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                                                             Xtring::null, 0, pago,
                                                             PagosModule::sLastDocumentoPago, cuenta_pago_contraida );
                                     asiento->addApunte( apuntenew );
-                                }
-                                for( uint nap = 0; nap < asiento->getApuntes()->size(); ++nap ) {
-                                    _GONG_DEBUG_PRINT(0, asiento->getApuntes()->getRecord( nap )->toString( TOSTRING_DEBUG_COMPLETE) );
                                 }
                                 asiento->save(true);
                                 delete asiento;

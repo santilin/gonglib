@@ -146,9 +146,9 @@ void dbApplication::readSettings()
     if( FileUtils::exists( (getGonglibDataDir() + "dbapp/stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getGonglibDataDir() + "dbapp/stylesheet.css" ).c_str();
 		ssread = true;
-        _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
+        _GONG_DEBUG_PRINT(2, "Adding stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
     } else {
-        _GONG_DEBUG_PRINT(0, "NOT ADDING stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
+        _GONG_DEBUG_PRINT(3, "NOT ADDING stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
     }
     if( ssread )
 		setStyleSheet( ss );
@@ -164,16 +164,16 @@ void dbApplication::readSettings()
     if( FileUtils::exists( (getGlobalDataDir() + "stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getGlobalDataDir() + "stylesheet.css" ).c_str();
 		ssread = true;
-        _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + getGlobalDataDir() + "stylesheet.css" );
+        _GONG_DEBUG_PRINT(2, "Adding stylesheet: " + getGlobalDataDir() + "stylesheet.css" );
     } else {
-        _GONG_DEBUG_PRINT(0, "NOT ADDING stylesheet: " + getGlobalDataDir() + "stylesheet.css" );
+        _GONG_DEBUG_PRINT(3, "NOT ADDING stylesheet: " + getGlobalDataDir() + "stylesheet.css" );
     }
     if( FileUtils::exists( (getLocalDataDir() + "stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getLocalDataDir() + "stylesheet.css" ).c_str();
 		ssread = true;
-        _GONG_DEBUG_PRINT(0, "Adding stylesheet: " + getLocalDataDir() + "stylesheet.css" );
+        _GONG_DEBUG_PRINT(2, "Adding stylesheet: " + getLocalDataDir() + "stylesheet.css" );
     } else {
-        _GONG_DEBUG_PRINT(0, "NOT ADDING stylesheet: " + getLocalDataDir() + "stylesheet.css" );
+        _GONG_DEBUG_PRINT(3, "NOT ADDING stylesheet: " + getLocalDataDir() + "stylesheet.css" );
     }
     if( ssread )
         setStyleSheet( ss );

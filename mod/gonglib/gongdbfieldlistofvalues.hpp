@@ -31,7 +31,6 @@ dbFieldListOfValues<Xtring>::dbFieldListOfValues(const dbFieldListOfValues<Xtrin
 	mListOfCaptions( other.mListOfCaptions ), mListOfValues( other.mListOfValues ),
     mInsertAllowed( other.mInsertAllowed ), mIsRef( other.mIsRef )
 {
-	_GONG_DEBUG_PRINT(0, getTableName() );
 }
 
 template<class T>

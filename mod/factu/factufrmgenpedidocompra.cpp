@@ -176,18 +176,14 @@ int FrmGenPedidoCompra::genDesdePedidosClientes( bool agrupar_por_proveedor )
         cliente_numeropedido = rsdetalles->getValue(i,7).toString();
         dbRecordID pedidoventa_id = rsdetalles->getValue(i,8).toInt();
         Xtring descripcion = rsdetalles->getValue(i,9).toString();
-        _GONG_DEBUG_PRINT(0, descripcion );
         if( !mPedidosVentaACambiarEstado.contains( pedidoventa_id ) )
             mPedidosVentaACambiarEstado.push_back( pedidoventa_id );
         RecPedidoCompraDet *pedidocompra_det = static_cast<RecPedidoCompraDet *>
                                                ( DBAPP->createRecord( "PEDIDOCOMPRADET" ) );
         pedidocompra_det->setValue( "NLINEA", nlinea );
         pedidocompra_det->setValue( "CANTIDAD", cantidad );
-        _GONG_DEBUG_PRINT(0, pedidocompra_det->getRecArticulo()->toString( TOSTRING_DEBUG_COMPLETE ) );
         pedidocompra_det->setValue( "ARTICULO_ID", articulo_id );
-        _GONG_DEBUG_PRINT(0, pedidocompra_det->getRecArticulo()->toString( TOSTRING_DEBUG_COMPLETE ) );
         pedidocompra_det->getRecArticulo()->read( articulo_id );
-        _GONG_DEBUG_PRINT(0, pedidocompra_det->getRecArticulo()->toString( TOSTRING_DEBUG_COMPLETE ) );
         pedidocompra_det->setValue( "COSTESINIVA", costesiniva );
         pedidocompra_det->setValue( "COSTE", coste );
         pedidocompra_det->setValue( "TIPOIVA_ID", tipoiva_id );

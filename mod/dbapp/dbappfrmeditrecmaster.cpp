@@ -1280,7 +1280,7 @@ void FrmEditRecMaster::printReport( const Xtring &reportname, const Dictionary<X
         bool ret;
         AppReport *report = new AppReport( *DBAPP );
         if( isafilename ) {
-            _GONG_DEBUG_PRINT(0, "Printing report " + reportname );
+            _GONG_DEBUG_PRINT(2, "Printing report " + reportname );
             ret = report->readFile( reportname, defines );
         } else {
             ret = report->readString( reportname.c_str(), defines );
@@ -1361,12 +1361,9 @@ void FrmEditRecMaster::slotViewChanged()
 void FrmEditRecMaster::menuTableRemoveFilter_clicked()
 {
     // Remove adhoc record filters
-    _GONG_DEBUG_PRINT(0, getWholeFilter() );
     for( int i = (int)pRecord->getFilters().size() -1; i >= 0; --i ) {
         Xtring f = pRecord->getFilters()[i];
-        _GONG_DEBUG_PRINT(0, f );
         if( !pRecord->isStructuralFilter( f ) ) {
-            _GONG_DEBUG_PRINT(0, "Removing: " + f );
             pRecord->removeFilter( f );
         }
     }
@@ -1414,7 +1411,6 @@ void FrmEditRecMaster::menuTableImport_clicked()
         if ( !CsvUtils::readCSVFile( fname, records, headersline, true, '\"' ) ) {
             FrmBase::msgError( this,
                                Xtring::printf( _( "Error en el fichero %s\n%s" ), fname.c_str(), strerror( errno ) ) );
-            _GONG_DEBUG_PRINT(0, frmimport->getSiExiste() );
             return;
         }
         if ( records.size() == 0 ) {
@@ -1476,7 +1472,6 @@ void FrmEditRecMaster::menuTableImport_clicked()
                 _GONG_DEBUG_PRINT(3, "Skipping empty csv line" );
                 continue;
             }
-            _GONG_DEBUG_PRINT(0, from );
             r->fromString( from, TOSTRING_CSV );
             dbRecordID existing_id = 0;
             r->findMatchingRecord(&existing_id);

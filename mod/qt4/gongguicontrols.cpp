@@ -240,7 +240,6 @@ Xtring GroupBox::getSelectedString() const
     QListIterator<QObject *> i = children();
     while (i.hasNext()) {
         QObject *obj = i.next();
-        _GONG_DEBUG_PRINT(0, obj->name() );
         QRadioButton *rb = dynamic_cast<QRadioButton *>(obj);
         if( rb ) {
             if( rb->isOn() ) {
@@ -274,7 +273,6 @@ void GroupBox::setSelectedString(const Xtring& value)
     QListIterator<QObject *> i = children();
     while (i.hasNext()) {
         QObject *obj = i.next();
-        _GONG_DEBUG_PRINT(0, obj->name() );
         QRadioButton *rb = dynamic_cast<QRadioButton *>(obj);
         if( rb ) {
             if( fromGUI( rb->text() ) == value ) {

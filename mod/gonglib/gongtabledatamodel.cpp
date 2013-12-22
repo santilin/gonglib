@@ -58,13 +58,11 @@ void TableDataModel::addFilter(const Xtring &aFilter)
         mFilter = aFilter;
     else
         mFilter = "(" + mFilter + ")AND(" + aFilter + ")";
-    _GONG_DEBUG_PRINT(0, "Adding filter to datamodel: " + mFilter );
 }
 
 void TableDataModel::setFilter(const Xtring &aFilter)
 {
     mFilter = aFilter;
-    _GONG_DEBUG_PRINT(0, "Setting filter to datamodel: " + mFilter );
 }
 
 void TableDataModel::removeFilters()

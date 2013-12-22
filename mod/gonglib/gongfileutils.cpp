@@ -181,7 +181,6 @@ int FileUtils::execProcess(const Xtring& _command, Xtring& messages, Xtring& err
     int ret = 0; // Normal exit
     if( &errors != &Xtring::null )
         command += Xtring(" 2>") + tmpfilename;
-    _GONG_DEBUG_PRINT(0, command );
     if( &messages != &Xtring::null ) {
         FILE *f = NULL;
         if( (f = popen(command.c_str(), "r")) == NULL) {

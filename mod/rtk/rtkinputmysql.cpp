@@ -140,8 +140,6 @@ bool InputMySql::init()
         select += Xtring(" GROUP BY ") + groupBy();
     if ( !strempty(orderBy()) )
         select += Xtring(" ORDER BY ") + orderBy();
-    _GONG_DEBUG_PRINT(0, "Executing query " + select );
-    _GONG_DEBUG_PRINT(0, Xtring("Order by ") + orderBy() );
     if ( ::mysql_real_query(&mMySql, select.c_str(), select.size()) ) {
         mReport.addError(Error::SqlQuery, "InputMySql", 0, ::mysql_error(&mMySql), select.c_str());
         return false;

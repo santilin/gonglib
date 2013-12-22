@@ -15,7 +15,7 @@ bool Settings::read(const Xtring &filename)
         _GONG_DEBUG_WARNING( Xtring::printf("%s: %s", strerror( errno ), cfilename) );
         return false;
     }
-    _GONG_DEBUG_PRINT(0, Xtring::printf("Reading settings from %s", cfilename) );
+    _GONG_DEBUG_PRINT(2, Xtring::printf("Reading settings from %s", cfilename) );
     f.seekg( 0, std::ios_base::end );
     long end_pos = f.tellg();
     f.seekg( 0, std::ios_base::beg );
