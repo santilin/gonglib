@@ -589,7 +589,7 @@ void FactuModule::afterLoad()
 {
     FldIVADetallado *fid = new FldIVADetallado( "foo", "bar" );
     fid->setValuesFromString( ModuleInstance->getModuleSetting( "IVADETALLADO.VALUES" ).toString() );
-    delete fid;
+	delete fid;
 }
 
 

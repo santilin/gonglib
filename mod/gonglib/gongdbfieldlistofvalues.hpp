@@ -15,6 +15,25 @@
 
 namespace gong {
 
+template<>
+dbFieldListOfValues<int>::dbFieldListOfValues(const dbFieldListOfValues<int> &other)
+	: dbFieldDefinition( other ),
+	pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
+	mListOfCaptions( other.mListOfCaptions ), mListOfValues( other.mListOfValues ),
+    mInsertAllowed( other.mInsertAllowed ), mIsRef( other.mIsRef )
+{
+}
+
+template<>
+dbFieldListOfValues<Xtring>::dbFieldListOfValues(const dbFieldListOfValues<Xtring> &other)
+	: dbFieldDefinition( other ),
+	pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
+	mListOfCaptions( other.mListOfCaptions ), mListOfValues( other.mListOfValues ),
+    mInsertAllowed( other.mInsertAllowed ), mIsRef( other.mIsRef )
+{
+	_GONG_DEBUG_PRINT(0, getTableName() );
+}
+
 template<class T>
 void dbFieldListOfValues<T>::addValue(const Xtring &newcaption, const T &newvalue)
 {

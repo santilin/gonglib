@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 #endif
 
 	TestdbNamesListTable testdbnameslisttable;
-	TestdbNamesListTable.run();
+	testdbnameslisttable.run();
 
 // 	TestSearchISBN testisbnsearch;
 // 	testisbnsearch.run();

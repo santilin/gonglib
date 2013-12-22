@@ -1,3 +1,115 @@
+# Check for Qt compiler flags, linker flags, and binary packages
+AC_DEFUN([GONG_CHECK_QT5],
+[
+AC_REQUIRE([AC_PROG_CXX])
+AC_REQUIRE([AC_PATH_X])
+
+AC_MSG_CHECKING([QTDIR])
+AC_ARG_WITH([qtdir], [  --with-qtdir=DIR        Qt installation directory [default=$QTDIR]], QTDIR=$withval)
+# Check that QTDIR is defined or that --with-qtdir given
+if test x"$QTDIR" = x ; then
+	QTDIR=`qmake -query QT_INSTALL_PREFIX`
+fi
+if test x"$QTDIR" = x ; then
+	# some usual Qt-locations
+	QT_SEARCH="/usr /usr/lib/qt /usr/X11R6 /usr/local/Trolltech/Qt-4.0.0 /usr/local/Trolltech/Qt-4.0.1 /usr/local/Trolltech/Qt-4.1.0 /usr/local/Trolltech/Qt-4.2.0 /usr/local/Trolltech/Qt-4.2.1 /usr/local/Trolltech/Qt-4.2.2"
+	for i in $QT_SEARCH ; do
+		QT_INCLUDE_SEARCH="include/qt5 include"
+		for j in $QT_INCLUDE_SEARCH ; do
+				if test -f $i/$j/Qt/qglobal.h -a x$QTDIR = x ; then
+				QTDIR=$i
+				QT_INCLUDES=$i/$j
+			fi
+		done
+	done
+else
+	QT_INCLUDES=`qmake -query QT_INSTALL_HEADERS`
+fi
+if test x"$QTDIR" = x ; then
+	AC_MSG_ERROR([*** QTDIR must be defined, or --with-qtdir option given])
+fi
+AC_MSG_RESULT([$QTDIR])
+
+AC_MSG_CHECKING([Qt includes])
+# Check where includes are located
+if test x"$QT_INCLUDES" = x ; then
+	AC_MSG_ERROR([*** could not find Qt-includes! Make sure you have the Qt-devel-files installed!])
+fi
+AC_MSG_RESULT([$QT_INCLUDES])
+
+
+if test -z "$QTHOSTDIR" ; then
+	if test -n "$QTDIR" ; then
+		QTHOSTDIR="$QTDIR"
+	else
+		QTHOSTDIR=/usr
+	fi
+fi
+
+# Check that moc is in path
+AC_CHECK_PROG(MOC, moc-qt5, $QTHOSTDIR/bin/moc-qt5,,$QTHOSTDIR/bin/)
+if test x$MOC = x ; then
+	AC_CHECK_PROG(MOC, moc, $QTHOSTDIR/bin/moc,,$QTHOSTDIR/bin/)
+	if test x$MOC = x ; then
+        	AC_MSG_ERROR([*** not found! Make sure you have Qt-devel-tools installed!])
+	fi
+fi
+
+# Check that uic is in path
+AC_CHECK_PROG(UIC, uic-qt5, $QTHOSTDIR/bin/uic-qt5,,$QTHOSTDIR/bin/)
+if test x$UIC = x ; then
+	AC_CHECK_PROG(UIC, uic, $QTHOSTDIR/bin/uic,,$QTHOSTDIR/bin/)
+	if test x$UIC = x ; then
+        	AC_MSG_ERROR([*** not found! Make sure you have Qt-devel-tools installed!])
+	fi
+fi
+
+# lupdate is the Qt translation-update utility.
+AC_CHECK_PROG(LUPDATE, lupdate-qt5, $QTHOSTDIR/bin/lupdate-qt5,,$QTHOSTDIR/bin/)
+if test x$LUPDATE = x ; then
+	AC_CHECK_PROG(LUPDATE, lupdate, $QTHOSTDIR/bin/lupdate,,$QTHOSTDIR/bin/)
+	if test x$MOC = x ; then
+	        AC_MSG_WARN([*** not found! It's not needed just for compiling but should be part of a proper Qt-devel-tools-installation!])
+	fi
+fi
+
+# lrelease is the Qt translation-release utility.
+AC_CHECK_PROG(LRELEASE, lrelease-qt5, $QTHOSTDIR/bin/lrelease-qt5,,$QTHOSTDIR/bin/)
+if test x$LRELEASE = x ; then
+	AC_CHECK_PROG(LRELEASE, lrelease, $QTHOSTDIR/bin/lrelease,,$QTHOSTDIR/bin/)
+	if test x$MOC = x ; then
+	        AC_MSG_WARN([*** not found! It's not needed just for compiling but should be part of a proper Qt-devel-tools-installation!])
+	fi
+fi
+
+# Calculate Qt include path
+QT_CXXFLAGS="-DQT3_SUPPORT -I$QT_INCLUDES -I$QT_INCLUDES/Qt -I$QT_INCLUDES/QtGui -I$QT_INCLUDES/Qt3Support -I$QT_INCLUDES/QtCore"
+
+# On unix, figure out if we're doing a static or dynamic link
+# AC_MSG_CHECKING([if Qt is static])
+# AC_MSG_RESULT([$QT_IS_STATIC])
+
+QT_LIBS=`qmake -query QT_INSTALL_LIBS`
+QT_LIBS="-L$QT_LIBS"
+
+QT_TRANSLATIONS=`qmake -query QT_INSTALL_TRANSLATIONS`
+
+QT_CXXFLAGS="$QT_CXXFLAGS -D_REENTRANT -DQT_NO_DEBUG -DQT_THREAD_SUPPORT"
+
+QT_LDADD="$QT_LIBS -lX11 -lm -ldl -lQtSvg -lQtGui -lQtCore"
+
+AC_MSG_CHECKING([QT_CXXFLAGS])
+AC_MSG_RESULT([$QT_CXXFLAGS])
+AC_MSG_CHECKING([QT_LDADD])
+AC_MSG_RESULT([$QT_LDADD])
+
+AC_SUBST(QT_CXXFLAGS)
+AC_SUBST(QT_LDADD)
+AC_SUBST(QT_TRANSLATIONS)
+
+])
+
+
 
 
 AC_DEFUN([GONG_CHECK_RTK],

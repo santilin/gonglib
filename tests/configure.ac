@@ -136,6 +136,9 @@ AC_SUBST(GONGDBAPP_LIBS)
 AC_SUBST(GONGLIB_CPPFLAGS)
 AC_SUBST(GONGLIB_LIBS)
 
+AM_CONDITIONAL( [COMPILE_WITH_TESTS], [ 1 ])
+
+
 AC_CONFIG_FILES( Makefile gonglib/Makefile \
 	qt4/Makefile dbapp/Makefile src/Makefile )
 AC_OUTPUT

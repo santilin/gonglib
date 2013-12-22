@@ -52,6 +52,7 @@ public:
           pListOfValues(const_cast<ValueListType *>(&mListOfValues)),
           mInsertAllowed(insertallowed), mIsRef( false )
     {}
+    dbFieldListOfValues(const dbFieldListOfValues &other);
 
     virtual dbFieldListOfValues *clone() const { return new dbFieldListOfValues( *this ); }
     const ValueListType &getListOfValues() const { return *pListOfValues; }

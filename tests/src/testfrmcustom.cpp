@@ -20,7 +20,7 @@ FrmCustomForTesting::FrmCustomForTesting(QWidget *parent, const char *name, Widg
 	XtringList l;
 	l << "Hola" << "Adiós";
 	_GONG_DEBUG_PRINT(0, l.join(",") );
-	combo1 = addComboBoxXtring(0, "Combo box 1", l );
+	combo1 = addComboBoxXtring(false, 0, "Combo box 1", l );
 
 	XtringList opciones;
 	opciones << "Opcion1" << "Opcion2" << "Opcion3";
@@ -50,7 +50,7 @@ TestFrmCustom::~TestFrmCustom()
 void TestFrmCustom::run()
 {
 	int argc = 1;
-	char *argv[] = { "gongcommontests", 0 };
+	char *argv[] = { (char *)"gongcommontests", 0 };
 	GuiApplication app("", "", "", argc, argv);
 
 	FrmCustomForTesting *f = new FrmCustomForTesting(0, "FrmCustomForm test");
