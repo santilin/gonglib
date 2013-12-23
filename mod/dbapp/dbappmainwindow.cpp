@@ -37,11 +37,11 @@ QMdiSubWindow *MainWindow::createClient(QWidget *widget, bool force )
             }
         } else if( FrmBase *asfrm = dynamic_cast<FrmBase *>(widget) ) {
             ret = GuiMainWindow::createClient(widget);
-			if( DBAPP->getAppSetting("GUI.SAVE_WINDOW_GEOMETRY").toBool() ) {
+// 			if( DBAPP->getAppSetting("GUI.SAVE_WINDOW_GEOMETRY").toBool() ) {
 				Xtring savedsize = DBAPP->getAppSetting("GUI.WORKSPACE." + Xtring(widget->name()) + ".GEOMETRY").toString();
 				if( !savedsize.isEmpty() )
 					asfrm->setGeometry( savedsize );
-			}
+// 			}
         } else {
             ret = GuiMainWindow::createClient(widget);
         }

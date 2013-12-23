@@ -221,8 +221,6 @@ void FrmBase::closeEvent ( QCloseEvent *e )
             pShowModalFor->setEnabled( true );
             if ( pShowModalFor->isMinimized() )
                 pShowModalFor->showNormal();
-			if( pParentFocusWidget )
-				pParentFocusWidget->setFocus();
 //            pShowModalFor->setFocus();
             pShowModalFor = 0;
         }
