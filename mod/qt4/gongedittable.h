@@ -22,7 +22,8 @@ namespace gong {
 class dbDefinition;
 class TableDataModel;
 class dbFieldDefinition;
-class EditTablePrivate;
+class FormatterItemDelegate;
+class FormatterTableModel;
 
 class EditTable : public QTableView
 {
@@ -56,13 +57,16 @@ public:
 
 	int currentRow() const;
 	void setCurrentRow(int row);
-	int numRows() const;
+	int rowCount() const;
+	int columnCount() const;
     bool isFirstRow() const { return currentRow() == 0; }
-    bool isLastRow() const { return currentRow() == numRows()-1; }
+    bool isLastRow() const { return currentRow() == rowCount()-1; }
 
+    void setVerticalHeader( bool visible );
     void setDataModel( TableDataModel *dm );
     TableDataModel* getDataModel() const;
-    virtual bool setView( int view );
+
+	virtual bool setView( int view );
     virtual QString text ( int row, int col ) const; // from QTable
     void sync(dbRecordID id);
     void refresh();
@@ -79,8 +83,6 @@ public:
     TableEditMode getTableEditMode() const;
     List<dbRecordID> getSelectedIDs() const;
     void setSelectedIDs( const List<dbRecordID> &selrecords );
-    void setVerticalHeader( bool visible );
-    int  indexOf( unsigned int i ) const;
     const dbFieldDefinition *getFldInfo(int col);
 
 signals:
@@ -88,12 +90,12 @@ signals:
     void focusChanged(EditTable *sender, QFocusEvent *ev);
 
 
-#if 0
 protected:
+    virtual void addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset); // from QTable
+#if 0
     virtual void keyPressEvent( QKeyEvent *e ); // from QWidget
     virtual void contentsContextMenuEvent( QContextMenuEvent* e ); // from QScrollView (QTable)
     virtual void contentsMouseDoubleClickEvent( QMouseEvent *e ); // from QScrollView (QTable)
-    virtual void addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset); // from QTable
     virtual void removeColumn( unsigned int col ); // from QTable
     virtual void swapColumns( int col1, int col2, bool swapHeaders = false ); // from QTable
     virtual void paintCell ( QPainter * p, int row, int col, const QRect & cr,
@@ -104,12 +106,18 @@ protected:
 
 private:
     void findInColumn( int column, const Xtring & str, bool caseSensitive, bool backwards );
-    void reset();
     void init();
 
+	FormatterItemDelegate *pItemDelegate;
+	FormatterTableModel *pTableViewModel;
     dbDefinition *pDatabase;
-    EditTablePrivate* d;
+    TableDataModel *pDataModel;
+    std::vector<const dbFieldDefinition *> mFields;
+    std::vector<QIcon> mIcons;
     Formatter mFormatter;
+    Xtring searchString;
+	int mSortedColumn;
+    EditTable::TableEditMode tbEditMode;
 };
 
 
