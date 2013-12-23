@@ -2,16 +2,12 @@
 
 == ERRORES ==
 * mc: Dar de alta factura, modificar artículo, peta, solo en mueblescapel release
-* paj: mesas.svg. Siempre aparece seleccionada la mesa 9
 
 == A MEDIO HACER ==
 * TPV: Que se resalte la familia seleccionada
 ** No funciona el ItemIsSelectable
-* Poder meter rondas en vez de suma y sigue. ( 3 quintos, 1 agua, 2 quintos )
-** Añadido campo ronda a MesasInfo
 
 == TPV ==
-* Cuando se cierra una operación, ¿la mesa no debería quedarse con la misma vendedora?
 * Añadir modalidad: Rondas, mesas, vendedores, etc.
 * TPV: hay mucho espacio en el ticket después de los datos del cliente
 * Tarifas por el tipo de mesa.
@@ -101,6 +97,7 @@
 * 	struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
 * QWidgetTab->strongFocus
 * qt_tabwidget_tabbar toma el foco cuando pasamos con el tabulador

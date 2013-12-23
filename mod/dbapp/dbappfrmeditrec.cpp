@@ -201,7 +201,7 @@ void FrmEditRec::accept()
             }
         }
     } catch ( dbError & err ) {
-        _GONG_DEBUG_PRINT(WARNING, err.what() );
+        _GONG_DEBUG_WARNING( err.what() );
         msgError( this,
                   Xtring::printf( _("No se ha podido %1s %2s.\n%3s"),
                                   mEditMode == DataTable::deleting ? _("borrar") : _("grabar"),

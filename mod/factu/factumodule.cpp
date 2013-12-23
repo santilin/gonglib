@@ -1126,12 +1126,13 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
     if( !source_id )
         return false;
     DBAPP->waitCursor( true );
+	LineEdit *le_tipodoc = 0;
     if( dest->isEmpty( "EMPRESA_ID,EJERCICIO,FECHA" ) ) {
         // No quiero copiar en profundidad para que no copie los detalles
         dest->copyRecord( source, false, Xtring::null, "ID,EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR" );
-        LineEdit *le = static_cast<LineEdit *>(masterform->findControl( "TIPODOC.CODIGO" ) );
-        if( le )
-            le->setJustEdited(true);
+        le_tipodoc = static_cast<LineEdit *>(masterform->findControl( "TIPODOC.CODIGO" ) );
+        if( le_tipodoc )
+            le_tipodoc->setJustEdited(true);
     }
     XtringList det_properties;
     det_properties << "DETALLE";
@@ -1188,6 +1189,8 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
         masterform->updateFromDetails( detailform );
         masterform->setEdited(true);
         detailform->addDetailIfNeeded();
+        if( le_tipodoc )
+            le_tipodoc->setJustEdited(false);
     }
     delete source;
     DBAPP->resetCursor();

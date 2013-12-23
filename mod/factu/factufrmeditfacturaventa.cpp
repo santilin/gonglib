@@ -240,6 +240,7 @@ void FrmEditFacturaVenta::scatterFields()
         getRecFacturaVenta()->setValue( "COBROS", Money(0.0) );
         getRecFacturaVenta()->setValue( "RESTO", getRecFacturaVenta()->getValue( "TOTAL") );
         getRecFacturaVenta()->setValue( "FECHAPAGO", Date() );
+        getRecFacturaVenta()->setValue( "FECHA", Date::currentDate() );
         getRecFacturaVenta()->setValue( "DOCUMENTOPAGO", 0 );
         getRecFacturaVenta()->setValue( "FECHAIVA", 0 );
 #ifdef HAVE_CONTABMODULE

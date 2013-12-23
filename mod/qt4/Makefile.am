@@ -25,7 +25,7 @@ nodist_libgongqt4_la_SOURCES = \
 	moc_gongosdwidget.cpp moc_gongrichtextedit.cpp \
 	moc_gongtextedit.cpp moc_gongimagebox.cpp
 
-if COMPILE_WITH_TESTS
+if COMPILE_EXPERIMENTAL
 libgongqt4_la_SOURCES += gongedittable.cpp
 libgongqt4_la_HEADERS += gongedittable.h
 nodist_libgongqt4_la_SOURCES += moc_gongedittable.cpp
