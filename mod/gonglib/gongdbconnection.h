@@ -51,8 +51,8 @@ public:
                  const Xtring &defaultdatabase, const Xtring &host=Xtring(), unsigned int port = 0,
                  const Xtring &options = Xtring::null );
     bool createDatabase( const Xtring &databasename );
-    dbResultSet *select(const Xtring &query, bool ignorerrors = false);
-    bool exec(const Xtring &query, bool ignorerrors = false);
+    virtual dbResultSet *select(const Xtring &query, bool ignorerrors = false);
+    virtual bool exec(const Xtring &query, bool ignorerrors = false);
     bool exec(const XtringList &querys, bool ignorerrors = false);
     const dbError &getLastError() const {
         return mLastError;

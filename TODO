@@ -1,21 +1,16 @@
 == HECHO ==
 
 == ERRORES ==
+* Modifico factura de jardines del mundo, cambio el email del contacto y me dice que lo ha creado, pero en realidad ya estaba creado
+* No se reinicia la búsqueda en datatable cuando se entra al registro.
+* Ticket de los pájaros: quitar cif.
+** Cambiar palabra ticket.
+* ImgAdvanced no se cierra la ventana
+* El guardar como del imgbox no muestra bien el filtro
 
 == A MEDIO HACER ==
 * TPV: Que se resalte la familia seleccionada
 ** No funciona el ItemIsSelectable
-
-== TPV ==
-* Añadir modalidad: Rondas, mesas, vendedores, etc.
-* TPV: hay mucho espacio en el ticket después de los datos del cliente
-* Tarifas por el tipo de mesa.
-* Al limpiar la mesa, lee registros
-* saveEstado intenta grabar siempre, ver la diferencia
-* TPV: Imprimir en el ticket el número de socia
-* Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
-* TPV: Z: Sumar la entrega, no el total del ticket
-* TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
 
 = PRESCINDIBLE =
 
@@ -48,7 +43,20 @@
 * Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
 
 == gong-tpv ==
-
+* Fila de productos más vendidos
+* Optimizar imágenes de las familias. TPVBehavior
+* Orden en TPV. TPVBehavior
+* Si no encuentra las imágenes next y previos, peta.
+* Si hay exactamente 2 x 5 familias, salen 3 filas porque añade el botón next.
+* Añadir modalidad: Rondas, mesas, vendedores, etc.
+* TPV: hay mucho espacio en el ticket después de los datos del cliente
+* Tarifas por el tipo de mesa.
+* Al limpiar la mesa, lee registros
+* saveEstado intenta grabar siempre, ver la diferencia
+* TPV: Imprimir en el ticket el número de socia
+* Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
+* TPV: Z: Sumar la entrega, no el total del ticket
+* TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
 
 == gong-deposit ==
 * Al crear un albarán desde una liquidación, no rellena el importe de la liquidación en cada detalle
@@ -90,6 +98,7 @@
 == gong-contactos ==
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Utilizar campo alternativo para buscar clientes, proveedoras y contactos
+* Mostrar nombres parecidos al dar de alta un nombre
 
 == gong-empresa ==
 * Cuando se modifica la base de datos, en el login dice que no exite la empresa y acaba el programa
