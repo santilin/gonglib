@@ -1,33 +1,43 @@
 #include <QHeaderView>
 #include <QStyledItemDelegate>
+#include <gongdbrecorddatamodel.h>
 #include <gongtabledatamodel.h>
 #include <gongguiapplication.h>
-#include "gongedittable.h"
+#include "gongviewtable.h"
 
 namespace gong {
 
-class FormatterTableModel: public QAbstractTableModel
+class ViewTableModel: public QAbstractTableModel, public dbRecordDataModel
 {
 public:
-	FormatterTableModel( QObject *parent ) : QAbstractTableModel( parent ) {};
+	ViewTableModel( QObject *parent, dbRecord *record, const dbViewDefinitionsList &vlist,
+					const Xtring &filter = Xtring() )
+		: QAbstractTableModel( parent ), dbRecordDataModel( record, vlist, filter ) {};
+    void addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset);
+	bool setView( int view );
 protected:
 	int rowCount( const QModelIndex & parent = QModelIndex() ) const;
 	int columnCount( const QModelIndex & parent = QModelIndex() ) const;
 	QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 	QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+private:
+    std::vector<const dbFieldDefinition *> mFields;
+    std::vector<QIcon> mIcons;
 };
 
-int FormatterTableModel::columnCount(const QModelIndex& parent) const
+int ViewTableModel::columnCount(const QModelIndex& parent) const
 {
-	return 4;
+	_GONG_DEBUG_PRINT(0, mFields.size());
+	return mFields.size();
 }
 
-int FormatterTableModel::rowCount(const QModelIndex& parent) const
+int ViewTableModel::rowCount(const QModelIndex& parent) const
 {
-	return 2;
+	_GONG_DEBUG_PRINT(0, getRowCount() );
+	return getRowCount();
 }
 
-QVariant FormatterTableModel::data(const QModelIndex& index, int role) const
+QVariant ViewTableModel::data(const QModelIndex& index, int role) const
 {
 	if (!index.isValid())
 		return QVariant();
@@ -36,40 +46,55 @@ QVariant FormatterTableModel::data(const QModelIndex& index, int role) const
 		default:
 			return Qt::AlignRight;
 		}
-	} else if( role == Qt::BackgroundRole ) {
-		return QColor( "white" );
 	} else if( role == Qt::DisplayRole ) {
-		return QVariant(QString("Data"));
+		int column = index.column();
+		int row = index.row();
+		return QVariant( toGUI(getValue(row, column).toString()) );
 	}
 	return QVariant();
 }
 
-QVariant FormatterTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ViewTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
 	if( orientation == Qt::Horizontal ) {
 		if( role == Qt::DisplayRole ) {
-			return toGUI(("Artículo"));
+			return QVariant(toGUI( mFields[section]->getCaption()));
 		}
 	}
 	return QVariant();
 }
 
-class FormatterItemDelegate: public QStyledItemDelegate
-{
-public:
-	FormatterItemDelegate( QObject *parent = 0)
-		: QStyledItemDelegate( parent ) {};
-protected:
-	virtual void paint ( QPainter * painter, const QStyleOptionViewItem & option,
-						 const QModelIndex & index ) const;
-};
 
-void FormatterItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void ViewTableModel::addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset)
 {
-	_GONG_DEBUG_PRINT(0, index.column() );
-	_GONG_DEBUG_PRINT(0, index.row() );
+    _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo campo %p,%s a la tabla con caption=%s y width=%d",
+                                         fldinfo, fldinfo->getFullName().c_str(), fldinfo->getCaption().c_str(), fldinfo->getDisplayWidth() ) );
+    mFields.push_back( fldinfo );
+    mIcons.push_back( iconset );
 }
 
+
+bool ViewTableModel::setView( int newview )
+{
+	mFields.clear();
+	mIcons.clear();
+    if( newview >= (int)getViewCount() )
+        newview = 0;
+    setViewIndex(newview);
+    const dbViewDefinition *curView = getCurrentView();
+    if( curView )
+    {
+        for ( unsigned int i = 0; i < curView->getFieldCount(); ++i )
+        {
+            _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo columna: %s",
+					curView->getFieldDefinition(i)->getName().c_str() ) );
+            addColumn( curView->getFieldDefinition(i), QIcon() );
+        }
+        reset();
+        return true;
+    } else
+        return false;
+}
 
 
 /*!
@@ -84,16 +109,14 @@ void FormatterItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     representing NULL values as strings.
 */
 
-EditTable::EditTable ( dbDefinition *database,
-                       QWidget * parent, const char * name )
-    : QTableView( parent ), pDatabase( database),
+ViewTable::ViewTable( dbRecord *record, const dbViewDefinitionsList &vlist,
+					const Xtring &filter, QWidget * parent, const char * name )
+    : QTableView( parent ), pDatabase( &record->getTableDefinition()->getdbDefinition() ),
       mFormatter( *GongLibraryInstance->getRegConfig() )
 {
 	setObjectName( name );
-	pTableViewModel = new FormatterTableModel( this );
-	setModel( pTableViewModel );
-// 	pItemDelegate = new FormatterItemDelegate( this );
-// 	setItemDelegate( pItemDelegate );
+	pViewTableModel = new ViewTableModel( this, record, vlist, filter );
+	setModel( pViewTableModel );
 // 	setSelectionMode( QAbstractItemView::SingleSelection );
 // 	setSelectionBehavior( QAbstractItemView::SelectRows );
 // 	setAlternatingRowColors( true );
@@ -102,10 +125,23 @@ EditTable::EditTable ( dbDefinition *database,
 // 	horizontalHeader()->setStretchLastSection(true);
 }
 
-EditTable::~EditTable()
+ViewTable::~ViewTable()
 {
-// 	delete pItemDelegate;
+ 	delete pViewTableModel;
 }
+
+bool ViewTable::setView(int nview)
+{
+    mSortedColumn = 1; // Para saltarse la columna ID
+    searchString.clear();
+	return pViewTableModel->setView( nview );
+}
+
+void ViewTable::refresh()
+{
+	pViewTableModel->reset();
+}
+
 
 /*!
     Returns the text in cell \a row, \a col, or an empty string if the
@@ -114,18 +150,16 @@ EditTable::~EditTable()
     returned.
 */
 
-QString EditTable::text ( int row, int col ) const
+QString ViewTable::text ( int row, int col ) const
 {
-    _GONG_DEBUG_ASSERT( pDataModel );
-
     QString s;
-    if ( (unsigned int)row < pDataModel->getRowCount() )
-        s = toGUI(pDataModel->getValue(row, col ).toString());
+    if ( (unsigned int)row < pViewTableModel->getRowCount() )
+        s = toGUI(pViewTableModel->getValue(row, col ).toString());
     return s;
 }
 
 
-int EditTable::currentRow() const
+int ViewTable::currentRow() const
 {
 	int row = -1;
 	const QModelIndexList &selecteds = selectionModel()->selection().indexes();
@@ -136,20 +170,20 @@ int EditTable::currentRow() const
 }
 
 
-void EditTable::setCurrentRow(int row)
+void ViewTable::setCurrentRow(int row)
 {
 	if( (int)row < model()->rowCount() && (int) row > 0)
 		selectionModel()->setCurrentIndex(model()->index( row, 0),
 			QItemSelectionModel::Select | QItemSelectionModel::Rows );
 }
 
-int EditTable::columnCount() const
+int ViewTable::columnCount() const
 {
 	return horizontalHeader()->count();
 }
 
 
-void EditTable::setVerticalHeader( bool visible )
+void ViewTable::setVerticalHeader( bool visible )
 {
     verticalHeader()->setVisible( visible );
 // 	if( visible )
@@ -158,67 +192,11 @@ void EditTable::setVerticalHeader( bool visible )
 //         setLeftMargin(0);
 }
 
-/*!
-  Hace que el Modelo de datos sea el origen de datos de la tabla.
-  En realidad, aquí solamente define la lista de columnas,
-  ni siquiera las crea en la tabla. Cuando se llama a refresh,
-  se crean las columnas realmente en la tabla.
-*/
-void EditTable::setDataModel( TableDataModel *dm )
-{
-    _GONG_DEBUG_ASSERT( dm );
-    pDataModel = dm;
-}
 
-bool EditTable::setView( int newview )
-{
-	_GONG_DEBUG_ASSERT( pDataModel );
-    if( newview >= (int)pDataModel->getViewCount() )
-        newview = 0;
-    pDataModel->setViewIndex(newview);
-#if 0
-    setNumRows( pDataModel->getRowCount() );
-#endif
-    mSortedColumn = 1; // Para saltarse la columna ID
-    searchString.clear();
-    const dbViewDefinition *curView = pDataModel->getCurrentView();
-    if( curView )
-    {
-        for ( unsigned int i = 0; i < curView->getFieldCount(); ++i )
-        {
-            _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo columna: %s",
-					curView->getFieldDefinition(i)->getName().c_str() ) );
-            addColumn( curView->getFieldDefinition(i), QIcon() );
-        }
-        refresh( RefreshColumns );
-        return true;
-    } else
-        return false;
-}
-
-/*!
-    Adds the next column to be displayed using the field \a fieldName,
-    column label \a label, width \a width and iconset \a iconset.
-
-    If \a label is specified, it is used as the column's header label,
-    otherwise the field's display label is used when setTableDataModel() is
-    called. The \a iconset is used to set the icon used by the column
-    header; by default there is no icon.
-
-    \sa setTableDataModel() refresh()
-*/
-
-void EditTable::addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset)
-{
-    _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo campo %p,%s a la tabla con caption=%s y width=%d",
-                                         fldinfo, fldinfo->getFullName().c_str(), fldinfo->getCaption().c_str(), fldinfo->getDisplayWidth() ) );
-    mFields.push_back( fldinfo );
-    mIcons.push_back( iconset );
-}
 
 
 /*!
-    \overload void EditTable::refresh( Refresh mode )
+    \overload void ViewTable::refresh( Refresh mode )
 
     Refreshes the table. If there is no currently defined query (see
     setTableDataModel()), nothing happens. The \a mode parameter determines
@@ -227,9 +205,10 @@ void EditTable::addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset
     \sa Refresh setTableDataModel() addColumn()
 */
 
-void EditTable::refresh( EditTable::Refresh mode )
+#if 0
+void ViewTable::refresh( ViewTable::Refresh mode )
 {
-    _GONG_DEBUG_ASSERT(  pDataModel  );
+    _GONG_DEBUG_ASSERT(  pViewTableModel  );
     bool refreshData = ( mode & RefreshData );
     bool refreshCol = ( mode & RefreshColumns || ((int)mFields.size() != columnCount() ) );
     bool refreshNumRows = ( mode & RefreshNumRows );
@@ -237,11 +216,10 @@ void EditTable::refresh( EditTable::Refresh mode )
         return;
     viewport()->setUpdatesEnabled( false );
     if( refreshData ) {
-        setView( pDataModel->getCurrentViewIndex() );
+        setView( pViewTableModel->getCurrentViewIndex() );
     }
-#if 0
     if( refreshNumRows ) {
-        setNumRows( pDataModel->getRowCount() );
+        setNumRows( pViewTableModel->getRowCount() );
     }
     if ( refreshCol )
     {
@@ -252,7 +230,7 @@ void EditTable::refresh( EditTable::Refresh mode )
         // datamodel fields
         for( unsigned int i = 0; i < d->mFields.size(); ++i )
         {
-            Xtring colname = pDataModel->getColName(i).upper();
+            Xtring colname = pViewTableModel->getColName(i).upper();
             Xtring fullfldname;
             if ( colname.find(".") == Xtring::npos )
                 fullfldname = d->mFields[i]->getName().upper();
@@ -265,12 +243,12 @@ void EditTable::refresh( EditTable::Refresh mode )
             else
             {
                 // otherwise we take the first field that matches the desired name
-                for( fpos = 0; fpos < pDataModel->getColCount(); fpos++)
+                for( fpos = 0; fpos < pViewTableModel->getColCount(); fpos++)
                 {
-                    if( fullfldname == pDataModel->getColName(fpos).upper() )
+                    if( fullfldname == pViewTableModel->getColName(fpos).upper() )
                         break;
                 }
-                if( fpos == pDataModel->getColCount() )
+                if( fpos == pViewTableModel->getColCount() )
                     fpos = (unsigned int)-1;
             }
             if ( fpos!=(unsigned int)-1 )
@@ -297,7 +275,7 @@ void EditTable::refresh( EditTable::Refresh mode )
                 }
                 _GONG_DEBUG_PRINT(10, Xtring::printf("Añadida columna[%d] con caption='%s' y nombre='%s' en la posición %d",
                                                      i, d->mFields[i]->getCaption().c_str(),
-                                                     pDataModel->getColName(i).c_str(), fpos));
+                                                     pViewTableModel->getColName(i).c_str(), fpos));
             }
             else
             {
@@ -315,22 +293,18 @@ void EditTable::refresh( EditTable::Refresh mode )
         setCurrentCell( 0, 1 );
         selectRow(0);
     }
-#endif
 }
 
 /*!
     Refreshes the table. The query is refreshed using the current
     filter, the current sort, and the currently defined columns.
-    Equivalent to calling refresh( EditTable::RefreshData ).
+    Equivalent to calling refresh( ViewTable::RefreshData ).
 */
 
-void EditTable::refresh()
+void ViewTable::refresh()
 {
     refresh( RefreshData );
 }
-
-#if 0
-
 
 
 /*!
@@ -340,7 +314,7 @@ void EditTable::refresh()
     \sa GSqlField
 */
 
-void EditTable::removeColumn( unsigned int col )
+void ViewTable::removeColumn( unsigned int col )
 {
     if ( col < d->mFields.size() )
     {
@@ -354,7 +328,7 @@ void EditTable::removeColumn( unsigned int col )
  *
  * @return bool
  **/
-void EditTable::scrollToCurrent()
+void ViewTable::scrollToCurrent()
 {
     if( currentRow() + 1 >= numRows() ) {
         ensureCellVisible( currentRow(), currentColumn() );
@@ -369,7 +343,7 @@ void EditTable::scrollToCurrent()
         ensureCellVisible( currentRow() + 4, currentColumn() );
 }
 
-void EditTable::setTableEditMode(TableEditMode em)
+void ViewTable::setTableEditMode(TableEditMode em)
 {
     d->tbEditMode = em;
     switch( em ) {
@@ -388,7 +362,7 @@ void EditTable::setTableEditMode(TableEditMode em)
     };
 }
 
-EditTable::TableEditMode EditTable::getTableEditMode() const
+ViewTable::TableEditMode ViewTable::getTableEditMode() const
 {
     return d->tbEditMode;
 }
@@ -397,24 +371,24 @@ EditTable::TableEditMode EditTable::getTableEditMode() const
     Returns the data model used by the data table.
 */
 
-TableDataModel* EditTable::getDataModel() const
+TableDataModel* ViewTable::getDataModel() const
 {
-    return pDataModel;
+    return pViewTableModel;
 }
 
 
 /*! \reimp */
 /*
-  QEditTable usa eventFilter para procesar keyPressEvent.
+  QViewTable usa eventFilter para procesar keyPressEvent.
   Sin embargo, eso hace que cuando se pulsa Ctrl+X, el eventFilter
   obtenga la pulsación del Ctrl sólamente, y luego la de X, así que
   Ctrl no hace nada y luego se usa la tecla X para buscar.
   Usando keyPressEvent, se obtiene la X y el Control a la vez, asi
   que aquí no se usa y se pasa directamente al padre.
  */
-void EditTable::keyPressEvent( QKeyEvent *ke )
+void ViewTable::keyPressEvent( QKeyEvent *ke )
 {
-    if( !pDataModel || pDataModel->getRowCount() == 0 )
+    if( !pViewTableModel || pViewTableModel->getRowCount() == 0 )
     {
         ke->ignore();
     }
@@ -481,7 +455,7 @@ void EditTable::keyPressEvent( QKeyEvent *ke )
 }
 
 /*! \reimp */
-void EditTable::contentsContextMenuEvent( QContextMenuEvent* e )
+void ViewTable::contentsContextMenuEvent( QContextMenuEvent* e )
 {
     /// \todo {refactor} filtering, searching, etc. Es necesario o se puede usar el menu de frmeditrec?
     /// \todo {0.3.4} Añadir resto de funciones sobre el registro
@@ -496,7 +470,7 @@ void EditTable::contentsContextMenuEvent( QContextMenuEvent* e )
         IdUpdate,
         IdDelete
     };
-    QPointer<Q3PopupMenu> popup = new Q3PopupMenu( this, "EditTableContextMenu" );
+    QPointer<Q3PopupMenu> popup = new Q3PopupMenu( this, "ViewTableContextMenu" );
     int id[ 4 ];
     id[ IdView ] = popup->insertItem( QString::fromUtf8( _( "&Examinar" ) ) );
     id[ IdInsert ] = popup->insertItem( QString::fromUtf8( _( "&Añadir" ) ) );
@@ -533,7 +507,7 @@ void EditTable::contentsContextMenuEvent( QContextMenuEvent* e )
     is displayed in column \a i.
 */
 
-int EditTable::indexOf( unsigned int i ) const
+int ViewTable::indexOf( unsigned int i ) const
 {
     if( (int)i == -1 ) // what a hack!
         return d->mFields.size();
@@ -548,13 +522,13 @@ int EditTable::indexOf( unsigned int i ) const
     the cell does not exist or has no value.
 */
 
-Variant EditTable::value ( int row, int col ) const
+Variant ViewTable::value ( int row, int col ) const
 {
-    _GONG_DEBUG_ASSERT(  pDataModel  );
+    _GONG_DEBUG_ASSERT(  pViewTableModel  );
 
     Variant v;
-    if ( (unsigned int)row < pDataModel->getRowCount() )
-        v = pDataModel->getValue(row, indexOf( col ) );
+    if ( (unsigned int)row < pViewTableModel->getRowCount() )
+        v = pViewTableModel->getValue(row, indexOf( col ) );
     return v;
 }
 
@@ -573,12 +547,12 @@ Variant EditTable::value ( int row, int col ) const
     \sa QSql::isNull()
 */
 
-void EditTable::paintCell( QPainter * p, int row, int col, const QRect & cr,
+void ViewTable::paintCell( QPainter * p, int row, int col, const QRect & cr,
                            bool selected, const QColorGroup &cg )
 {
-//     _GONG_DEBUG_PRINT(10, Xtring::printf("Datatable::paintCell(%d,%d, total:%d, selected=%d)", row, col, pDataModel->getRowCount(), selected ));
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("Datatable::paintCell(%d,%d, total:%d, selected=%d)", row, col, pViewTableModel->getRowCount(), selected ));
 //     _GONG_DEBUG_PRINT(10, Xtring::printf("Row(%d) selected:%d, Col(%d) selected:%d", currentRow(), isRowSelected(row), currentColumn(), isColumnSelected(col)));
-    _GONG_DEBUG_ASSERT( pDataModel );
+    _GONG_DEBUG_ASSERT( pViewTableModel );
     _GONG_DEBUG_ASSERT( row >= 0 );
 #if 0
     if( verticalHeader()->sectionSize( row ) != fontMetrics().height() + 2 )
@@ -591,14 +565,14 @@ void EditTable::paintCell( QPainter * p, int row, int col, const QRect & cr,
     }
     else
         Q3Table::paintCell( p, row, col, cr, selected/*rowselected*/, cg );
-    if( (unsigned int)row < pDataModel->getRowCount() )
+    if( (unsigned int)row < pViewTableModel->getRowCount() )
     {
         p->setPen( selected ? cg.foreground() : cg.text() );
         const dbFieldDefinition *flddef = d->mFields[indexOf(col)];
         dbFieldStyle *fldstyle = 0;
         QString text;
         dbFieldStyle::Alignment al = dbFieldStyle::AlignAuto;
-        Variant value(pDataModel->getValue(row, indexOf( col )));
+        Variant value(pViewTableModel->getValue(row, indexOf( col )));
         if( flddef ) {
 // 			_GONG_DEBUG_PRINT(0, Xtring::printf("Field: %s, style:%s",
 // 								flddef->getName().c_str(),
@@ -644,7 +618,7 @@ void EditTable::paintCell( QPainter * p, int row, int col, const QRect & cr,
     \reimp
 */
 
-void EditTable::swapColumns( int col1, int col2, bool )
+void ViewTable::swapColumns( int col1, int col2, bool )
 {
     const dbFieldDefinition *fld = d->mFields[ col1 ];
     QIcon mIcons = d->mIcons[ col1 ];
@@ -661,16 +635,16 @@ void EditTable::swapColumns( int col1, int col2, bool )
 }
 
 
-void EditTable::sync(dbRecordID id)
+void ViewTable::sync(dbRecordID id)
 {
     if( id==0 )
         return;
     unsigned int row=0;
     theGuiApp->waitCursor();
     clearSelection();
-    while( row < pDataModel->getRowCount() )
+    while( row < pViewTableModel->getRowCount() )
     {
-        if( static_cast<dbRecordID>(pDataModel->
+        if( static_cast<dbRecordID>(pViewTableModel->
                                     getValue(row, 0).toInt()) == id )
         {
             break;
@@ -689,10 +663,10 @@ void EditTable::sync(dbRecordID id)
     Used to find a substring typed from the keyboard.
 */
 
-void EditTable::findInColumn( int column, const Xtring & str,
+void ViewTable::findInColumn( int column, const Xtring & str,
                               bool caseSensitive, bool backwards )
 {
-    _GONG_DEBUG_ASSERT(  pDataModel  );
+    _GONG_DEBUG_ASSERT(  pViewTableModel  );
     _GONG_DEBUG_PRINT(10, Xtring::printf("Buscando: %s en la columna %d", str.c_str(), column));
     Xtring tmp, text;
     unsigned int  row = currentRow(), startRow = row;
@@ -708,7 +682,7 @@ void EditTable::findInColumn( int column, const Xtring & str,
     theGuiApp->waitCursor(true);
     while( wrap )
     {
-        while( !found && row < pDataModel->getRowCount() )
+        while( !found && row < pViewTableModel->getRowCount() )
         {
 #if 0
             const dbFieldDefinition *flddef = d->mFields[indexOf(column)];
@@ -716,7 +690,7 @@ void EditTable::findInColumn( int column, const Xtring & str,
             dbFieldStyle *fldstyle = theGuiApp->getDatabase()->findFieldStyle(flddef->getStyle());
             if( fldstyle )
             {
-                text = mFormatter.format(pDataModel->getValue(row, indexOf( column )),
+                text = mFormatter.format(pViewTableModel->getValue(row, indexOf( column )),
                                          fldstyle->getFormat().c_str(), fldstyle->getMask().c_str(), flddef->getVariantType() );
             } else {
                 text = this->text(row, indexOf(column) ).latin1();
@@ -771,7 +745,7 @@ void EditTable::findInColumn( int column, const Xtring & str,
 }
 
 
-void EditTable::contentsMouseDoubleClickEvent( QMouseEvent *e )
+void ViewTable::contentsMouseDoubleClickEvent( QMouseEvent *e )
 {
     if ( e->button() != Qt::LeftButton )
         return;
@@ -781,21 +755,21 @@ void EditTable::contentsMouseDoubleClickEvent( QMouseEvent *e )
         emit beginEditSignal(this, inserting, Xtring::null );
 }
 
-void EditTable::sortColumn( int col, bool /*ascending*/, bool /*wholeRows*/)
+void ViewTable::sortColumn( int col, bool /*ascending*/, bool /*wholeRows*/)
 {
-    if( pDataModel->getColCount() <= (unsigned int)col )
+    if( pViewTableModel->getColCount() <= (unsigned int)col )
         return;
     d->sortedColumn = col;
     /// \todo {0.3.4} q->setOrderBy(d->mFields[col]->getName() + (ascending?" ASC":" DESC"));
     refresh();
 }
 
-const dbFieldDefinition *EditTable::getFldInfo(int col)
+const dbFieldDefinition *ViewTable::getFldInfo(int col)
 {
     return d->mFields[col];
 }
 
-bool EditTable::nextRow()
+bool ViewTable::nextRow()
 {
     if( currentRow() < numRows() )
     {
@@ -808,7 +782,7 @@ bool EditTable::nextRow()
     }
 }
 
-bool EditTable::prevRow()
+bool ViewTable::prevRow()
 {
     if( currentRow() > 0 )
     {
@@ -821,7 +795,7 @@ bool EditTable::prevRow()
     }
 }
 
-bool EditTable::firstRow()
+bool ViewTable::firstRow()
 {
     if( numRows() > 0 )
     {
@@ -834,7 +808,7 @@ bool EditTable::firstRow()
     }
 }
 
-bool EditTable::lastRow()
+bool ViewTable::lastRow()
 {
     if( numRows() > 0 )
     {
@@ -847,7 +821,7 @@ bool EditTable::lastRow()
     }
 }
 
-void EditTable::focusInEvent( QFocusEvent *e)
+void ViewTable::focusInEvent( QFocusEvent *e)
 {
     Q3Table::focusInEvent( e );
     if( e->reason() != Qt::ActiveWindowFocusReason && e->reason() != Qt::OtherFocusReason ) {
@@ -857,31 +831,31 @@ void EditTable::focusInEvent( QFocusEvent *e)
     emit focusChanged(this, e);
 }
 
-void EditTable::focusOutEvent(QFocusEvent* e)
+void ViewTable::focusOutEvent(QFocusEvent* e)
 {
     Q3Table::focusOutEvent(e);
     emit focusChanged(this, e);
 }
 
 
-List<dbRecordID> EditTable::getSelectedIDs() const
+List<dbRecordID> ViewTable::getSelectedIDs() const
 {
     List<dbRecordID> sel;
     for( int i=0; i<numRows(); i++ ) {
         if( isRowSelected(i) ) {
             _GONG_DEBUG_PRINT(10, Xtring::printf("Row %d is selected: ID=%d", i,
-                                                 pDataModel->getRowID(i) ) );
-            sel.push_back(pDataModel->getRowID(i));
+                                                 pViewTableModel->getRowID(i) ) );
+            sel.push_back(pViewTableModel->getRowID(i));
         }
     }
     return sel;
 }
 
-void EditTable::setSelectedIDs( const List<dbRecordID> &selrecords )
+void ViewTable::setSelectedIDs( const List<dbRecordID> &selrecords )
 {
     if( selrecords.size() ) {
         for( int i=0; i<numRows(); i++ ) {
-            if( selrecords.contains( pDataModel->getRowID(i) ) )
+            if( selrecords.contains( pViewTableModel->getRowID(i) ) )
                 selectRow(i);
         }
     }

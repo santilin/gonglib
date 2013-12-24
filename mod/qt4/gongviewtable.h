@@ -1,7 +1,7 @@
-#ifndef _GONG_EDITTABLE_H
-#define _GONG_EDITTABLE_H
+#ifndef _GONG_VIEWTABLE_H
+#define _GONG_VIEWTABLE_H
 
-/** @file gongedittable.h Qt based table view widget
+/** @file gongviewtable.h Qt based table view widget
  * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
@@ -17,26 +17,19 @@ class QPainter;
 
 #include <gongformatter.h>
 #include <gongdbrecord.h>
+#include <gongdbviewdefinition.h>
+
 namespace gong {
 
 class dbDefinition;
-class TableDataModel;
 class dbFieldDefinition;
 class FormatterItemDelegate;
-class FormatterTableModel;
+class ViewTableModel;
 
-class EditTable : public QTableView
+class ViewTable : public QTableView
 {
     Q_OBJECT
 public:
-    enum Refresh {
-        RefreshNone = 0,
-        RefreshData = 1,
-        RefreshColumns = 2,
-        RefreshNumRows = 4,
-        RefreshAll = RefreshData | RefreshColumns | RefreshNumRows
-    };
-
     enum TableEditMode {
         None = 0,
         Inline = 1,
@@ -52,8 +45,12 @@ public:
         accepting
     };
 
-    EditTable( dbDefinition *database, QWidget* parent=0, const char* name=0 );
-    ~EditTable();
+    ViewTable( dbRecord *record, const dbViewDefinitionsList &vlist,
+			const Xtring &filter = Xtring(), QWidget* parent=0, const char* name=0 );
+    ~ViewTable();
+
+	bool setView( int nview );
+    void refresh();
 
 	int currentRow() const;
 	void setCurrentRow(int row);
@@ -63,14 +60,9 @@ public:
     bool isLastRow() const { return currentRow() == rowCount()-1; }
 
     void setVerticalHeader( bool visible );
-    void setDataModel( TableDataModel *dm );
-    TableDataModel* getDataModel() const;
 
-	virtual bool setView( int view );
-    virtual QString text ( int row, int col ) const; // from QTable
     void sync(dbRecordID id);
-    void refresh();
-    virtual void refresh( Refresh mode );
+    virtual QString text ( int row, int col ) const; // from QTable
     Variant value( int row, int col ) const;
 
 
@@ -86,12 +78,11 @@ public:
     const dbFieldDefinition *getFldInfo(int col);
 
 signals:
-    void beginEditSignal(EditTable *sender, EditTable::EditMode editMode, const Xtring &fldvalue);
-    void focusChanged(EditTable *sender, QFocusEvent *ev);
+    void beginEditSignal(ViewTable *sender, ViewTable::EditMode editMode, const Xtring &fldvalue);
+    void focusChanged(ViewTable *sender, QFocusEvent *ev);
 
 
 protected:
-    virtual void addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset); // from QTable
 #if 0
     virtual void keyPressEvent( QKeyEvent *e ); // from QWidget
     virtual void contentsContextMenuEvent( QContextMenuEvent* e ); // from QScrollView (QTable)
@@ -108,18 +99,13 @@ private:
     void findInColumn( int column, const Xtring & str, bool caseSensitive, bool backwards );
     void init();
 
-	FormatterItemDelegate *pItemDelegate;
-	FormatterTableModel *pTableViewModel;
     dbDefinition *pDatabase;
-    TableDataModel *pDataModel;
-    std::vector<const dbFieldDefinition *> mFields;
-    std::vector<QIcon> mIcons;
+    ViewTableModel *pViewTableModel;
     Formatter mFormatter;
     Xtring searchString;
 	int mSortedColumn;
-    EditTable::TableEditMode tbEditMode;
+    ViewTable::TableEditMode tbEditMode;
 };
 
-
 }; // namespace
-#endif  // _GONG_EDITTABLE_H
+#endif  // _GONG_VIEWTABLE_H
