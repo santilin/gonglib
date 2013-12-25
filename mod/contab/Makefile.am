@@ -37,6 +37,7 @@ dist_contab_share_DATA = $(srcdir)/share/contab.ddd \
 
 contab_informesdir = $(datadir)/gestiong/contab/informes
 dist_contab_informes_DATA = $(srcdir)/share/informes/CUENTA.rtk \
+	$(srcdir)/share/informes/ASIENTO.rtk \
 	$(srcdir)/share/informes/cuentas.rtk \
 	$(srcdir)/share/informes/diariobonito.rtk \
 	$(srcdir)/share/informes/sumasaldos.rtk \

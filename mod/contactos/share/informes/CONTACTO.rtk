@@ -1,41 +1,15 @@
-//<<<<<COPYLEFT
-// @file CONTACTO.rtk Contactos
-// Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public
- * License along with this library. If not, see <http://www.gnu.org/licenses/>.
-//>>>>>COPYLEFT
-
-//<<<<<MODULE_INFO
-// COPYLEFT Contactos
-// FIELD CONTACTO.CIF||text|9
-// FIELD CONTACTO.NOMBRE||text|30
-// FIELD CONTACTO.TELEFONO||text|13
-// FIELD CONTACTO.EMAIL||text|25
-// TYPE SimpleReport
-//>>>>>MODULE_INFO
-
+Report CONTACTO {
 //<<<<<REPORT_DEFINITION
 	Title = "Contactos";
 	Units = chars;
 	SizeX = 100;
 	SizeY = 60;
 //>>>>>REPORT_DEFINITION
-Tag = "Asociación";
+	Tag = "Asociación";
 
 INPUT default {
-driver = mysql;
-from = "CONTACTO";
+	driver = mysql;
+	from = "CONTACTO";
 
 //<<<<<INPUT_DEFAULT
 		INPUTFIELD CONTACTO_CIF {
@@ -55,7 +29,7 @@ from = "CONTACTO";
 			Type = text;
 		}
 //>>>>>INPUT_DEFAULT
-}
+	}
 
 Include = "default_pageheader.inc";
 
@@ -95,7 +69,7 @@ OBJECT header_CONTACTO_EMAIL {
 	DETAILS details {
 		style = detail;
 		sizey = 1;
-	
+
 		OBJECT CONTACTO_CIF {
 			value = "=input.CONTACTO_CIF;";
 			posx = 0.0;
@@ -117,19 +91,7 @@ OBJECT header_CONTACTO_EMAIL {
 			sizex = 25.0;
 		}
 //>>>>>DETAILS
-}
 
-//<<<<<PAGE_FOOTER
-	PAGEFOOTER page_footer {
-		sizey = 1;
-		style = pagefooter;
-
-
-//>>>>>PAGE_FOOTER
-}
-
-}
-//<<<<<PAGE_HEADER
-	Include = "default_pageheader.inc";
-//>>>>>PAGE_HEADER
+	}
+	Include = "default_pagefooter.inc";
 }

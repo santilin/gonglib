@@ -46,15 +46,15 @@ FrmAdvancedPrint::FrmAdvancedPrint(FrmEditRecMaster *theform,
     ReportsList rplst = AppReport::getReportsList();
     for( ReportsList::iterator it = rplst.begin();
             it != rplst.end(); 	++it) {
-        _GONG_DEBUG_PRINT(3, Xtring::printf("Titulo: %s, grupo:%s",
-                                            (*it).repTitle.c_str(), (*it).repGroup.c_str() ) );
+        _GONG_DEBUG_PRINT(0, Xtring::printf("Titulo: %s, repFrom:%s",
+                                            (*it).repTitle.c_str(), (*it).repFrom.join(",").c_str() ) );
         if( (*it).repFrom.contains( pTheForm->getRecord()->getTableName() ) ) {
             templates_captions << (*it).repPath;
         }
     }
 #endif
 
-    pComboTemplates = addComboBoxXtring(true, 0, _("Elige un informe:"), templates_captions );
+    pComboTemplates = addComboBoxXtring(false, 0, _("Elige un informe:"), templates_captions );
 
     pReportFileName = addFileNameBox(0, _("Buscar otro informe") );
     pReportFileName->setFileName( theform->getRecord()->getTableName() + ".rtk" );
@@ -154,7 +154,7 @@ void FrmAdvancedPrint::accept()
                          pIncTotals->isOn() );
         if( pShowTemplate->isOn() ) {
             msgOkLarge(this,
-                       _("Esta es la plantilla generada a partir de la vista actual. Cópiala y pégala en un editor de textos para guardarla como un fichero."),
+                       _("Esta es la plantilla generada a partir de la vista actual. Puedes guardarla como un fichero .rtk"),
                        rtk);
         }
         reportfilename = rtk;

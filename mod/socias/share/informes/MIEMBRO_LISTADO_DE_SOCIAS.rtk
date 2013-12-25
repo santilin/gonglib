@@ -1,0 +1,383 @@
+REPORT MIEMBRO_LISTADO_DE_SOCIAS
+{
+	Title = "Listado de socias";
+	Units = chars;
+	SizeX = 120;
+	SizeY = 60;
+	PageOrientation = "Landscape";
+
+	PARAMETER subtitle {
+		type = text;
+		value = "";
+	}
+	PARAMETER selection {
+		type = text;
+		value = "";
+	}
+
+	INPUT default {
+		driver = mysql;
+		from = "MIEMBRO INNER JOIN CONTACTO ON MIEMBRO.CONTACTO_ID = CONTACTO.ID INNER JOIN FORMAPAGO ON MIEMBRO.FORMAPAGO_ID = FORMAPAGO.ID INNER JOIN PROYECTO ON MIEMBRO.PROYECTO_ID = PROYECTO.ID INNER JOIN TIPOSOCIA ON MIEMBRO.TIPOSOCIA_ID = TIPOSOCIA.ID";
+		orderby = "4";
+
+		INPUTFIELD PROYECTO_CODIGO_dummy {
+			Source = PROYECTO.CODIGO;
+			Type = int;
+		}
+		INPUTFIELD PROYECTO_CODIGO {
+			Source = PROYECTO.CODIGO;
+			Type = int;
+		}
+		INPUTFIELD PROYECTO_NOMBRE {
+			Source = PROYECTO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD PROYECTO_FECHAINICIO {
+			Source = PROYECTO.FECHAINICIO;
+			Type = string;
+		}
+		INPUTFIELD PROYECTO_FECHAFIN {
+			Source = PROYECTO.FECHAFIN;
+			Type = string;
+		}
+		INPUTFIELD MIEMBRO_NUMEROSOCIA {
+			Source = MIEMBRO.NUMEROSOCIA;
+			Type = int;
+		}
+		INPUTFIELD MIEMBRO_FECHAALTA {
+			Source = MIEMBRO.FECHAALTA;
+			Type = date;
+		}
+		INPUTFIELD MIEMBRO_SOCIASESTADO {
+			Source = MIEMBRO.SOCIASESTADO;
+			Type = int;
+		}
+		INPUTFIELD CONTACTO_TRATAMIENTOCONTACTO {
+			Source = CONTACTO.TRATAMIENTOCONTACTO;
+			Type = int;
+		}
+		INPUTFIELD CONTACTO_NOMBRE {
+			Source = CONTACTO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_CIF {
+			Source = CONTACTO.CIF;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_EMAIL {
+			Source = CONTACTO.EMAIL;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_TELEFONO {
+			Source = CONTACTO.TELEFONO;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_DIRECCION {
+			Source = CONTACTO.DIRECCION;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_BARRIO {
+			Source = CONTACTO.BARRIO;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_CP {
+			Source = CONTACTO.CP;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_LOCALIDAD {
+			Source = CONTACTO.LOCALIDAD;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_PROVINCIA {
+			Source = CONTACTO.PROVINCIA;
+			Type = string;
+		}
+		INPUTFIELD TIPOSOCIA_NOMBRE {
+			Source = TIPOSOCIA.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD FORMAPAGO_NOMBRE {
+			Source = FORMAPAGO.NOMBRE;
+			Type = string;
+		}
+
+	}
+
+	include = "default_pageheader.inc";
+
+	GROUPHEADER proyecto_header {
+		posx = 5;
+		sizey=1.1;
+		marginbottom = 0.5;
+		fontweight = bold;
+		borderbottomstyle = solid ;
+		borderbottomcolor = blue ;
+		borderbottomwidth = 2;
+		fontcolor = "blue";
+
+		value= "=input.PROYECTO_CODIGO;";
+		level=1;
+		OBJECT header_PROYECTO_CODIGO {
+			value = "= const @DDD.PROYECTO_CODIGO_CAPTION;";
+			posx = 0.0;
+			sizex = 6.0;
+		}
+		OBJECT header_PROYECTO_NOMBRE {
+			value = "= const @DDD.PROYECTO_NOMBRE_CAPTION;";
+			posx = -1;
+			sizex = 50.0;
+		}
+		OBJECT header_PROYECTO_SOCIASESTADO {
+			value = "= const @DDD.PROYECTO_SOCIASESTADO_CAPTION;";
+			posx = -1;
+			sizex = 10.0;
+		}
+		OBJECT header_PROYECTO_FECHAINICIO {
+			value = "= const @DDD.PROYECTO_FECHAINICIO_CAPTION;";
+			posx = -1;
+			sizex = 12.0;
+		}
+		OBJECT header_PROYECTO_FECHAFIN {
+			value = "= const @DDD.PROYECTO_FECHAFIN_CAPTION;";
+			posx = -1;
+			sizex = 12.0;
+		}
+	}
+
+	GROUPHEADER proyecto_values {
+		sizey = 1.5;
+		posy = 0;
+		posx = 5;
+		level=1;
+		value= "=input.PROYECTO_CODIGO;";
+
+		OBJECT PROYECTO_CODIGO {
+			halignment = "right";
+			value = "=input.PROYECTO_CODIGO;";
+			posx = 0.0;
+			sizex = 5;
+		}
+		OBJECT PROYECTO_NOMBRE {
+			value = "=input.PROYECTO_NOMBRE;";
+			posx = -1;
+			sizex = 40.0;
+		}
+		OBJECT PROYECTO_SOCIASESTADO {
+			value = "=input.PROYECTO_SOCIASESTADO;";
+			posx = -1;
+			sizex = 10.0;
+		}
+		OBJECT PROYECTO_FECHAINICIO {
+			value = "=input.PROYECTO_FECHAINICIO;";
+			posx = -1;
+			sizex = 12.0;
+		}
+		OBJECT PROYECTO_FECHAFIN {
+			value = "=input.PROYECTO_FECHAFIN;";
+			posx = -1;
+			sizex = 12.0;
+		}
+	}
+
+	GROUPHEADER miembros_captions {
+		level=1;
+		sizey=1;
+		fontweight = bold;
+		borderbottomstyle = solid;
+		borderbottomcolor = black;
+		borderbottomwidth = 1;
+
+		OBJECT header_MIEMBRO_NUMEROSOCIA {
+			value = "Número";
+			posx = 0;
+			sizex = 4;
+		}
+		OBJECT header_MIEMBRO_FECHAALTA {
+			value = "Fecha de alta";
+			posx = 5;
+			sizex = 3;
+		}
+		OBJECT header_MIEMBRO_SOCIASESTADO {
+			value = "Estado";
+			posx = 9;
+			sizex = 2;
+		}
+		OBJECT header_CONTACTO_TRATAMIENTOCONTACTO {
+			value = "Tratamiento";
+			posx = 12;
+			sizex = 2;
+		}
+		OBJECT header_CONTACTO_NOMBRE {
+			value = "Nombre";
+			posx = 15;
+			sizex = 10;
+		}
+		OBJECT header_CONTACTO_CIF {
+			value = "CIF";
+			posx = 26;
+			sizex = 4;
+		}
+		OBJECT header_CONTACTO_EMAIL {
+			value = "Email";
+			posx = 31;
+			sizex = 10;
+		}
+		OBJECT header_CONTACTO_TELEFONO {
+			value = "Teléfonos";
+			posx = 42;
+			sizex = 10;
+		}
+		OBJECT header_CONTACTO_DIRECCION {
+			value = "Dirección";
+			posx = 53;
+			sizex = 10;
+		}
+		OBJECT header_CONTACTO_BARRIO {
+			value = "Barrio";
+			posx = 64;
+			sizex = 10;
+		}
+		OBJECT header_CONTACTO_CP {
+			value = "C. Postal";
+			posx = 75;
+			sizex = 2;
+		}
+		OBJECT header_CONTACTO_LOCALIDAD {
+			value = "Municipio";
+			posx = 78;
+			sizex = 10;
+		}
+		OBJECT header_CONTACTO_PROVINCIA {
+			value = "Provincia";
+			posx = 89;
+			sizex = 2;
+		}
+		OBJECT header_TIPOSOCIA_NOMBRE {
+			value = "Tipo";
+			posx = 92;
+			sizex = 5;
+		}
+		OBJECT header_FORMAPAGO_NOMBRE {
+			value = "FormaPago";
+			posx = 98;
+			sizex = 5;
+		}
+
+	}
+
+#ifndef RESUMIDO
+	DETAILS details {
+		posx = 0;
+		level = 0;
+		style = detail;
+		sizey = 1;
+		backcolor = "gray&white";
+
+		OBJECT MIEMBRO_NUMEROSOCIA {
+			value = "=input.MIEMBRO_NUMEROSOCIA";
+			halignment = "right";
+			posx = 0;
+			sizex = 5;
+		}
+		OBJECT MIEMBRO_FECHAALTA {
+			value = "=input.MIEMBRO_FECHAALTA";
+			halignment = "left";
+			posx = -1;
+			sizex = 3;
+		}
+		OBJECT MIEMBRO_SOCIASESTADO {
+			value = "=input.MIEMBRO_SOCIASESTADO";
+			halignment = "right";
+			posx = -1;
+			sizex = 2;
+		}
+		OBJECT CONTACTO_TRATAMIENTOCONTACTO {
+			value = "=input.CONTACTO_TRATAMIENTOCONTACTO";
+			halignment = "right";
+			posx = -1;
+			sizex = 2;
+		}
+		OBJECT CONTACTO_NOMBRE {
+			value = "=input.CONTACTO_NOMBRE";
+			halignment = "left";
+			posx = -1;
+			sizex = 20;
+			adjustment = grow;
+		}
+		OBJECT CONTACTO_CIF {
+			value = "=input.CONTACTO_CIF";
+			halignment = "left";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT CONTACTO_EMAIL {
+			value = "=input.CONTACTO_EMAIL";
+			halignment = "left";
+			posx = -1;
+			sizex = 30;
+			adjustment=reducefont;
+		}
+		OBJECT CONTACTO_TELEFONO {
+			value = "=input.CONTACTO_TELEFONO";
+			halignment = "left";
+			posx = -1;
+			sizex =12;
+			adjustment=grow;
+		}
+		OBJECT CONTACTO_DIRECCION {
+			value = "= @input.CONTACTO_DIRECCION + \" \" +  @input.CONTACTO_BARRIO;";
+			halignment = "left";
+			posx = -1;
+			sizex = 20;
+			adjustment = grow;
+		}
+		OBJECT CONTACTO_BARRIO {
+			value = "= @input.CONTACTO_CP + \" \" + @input.CONTACTO_LOCALIDAD + \" \" + @input.CONTACTO_PROVINCIA;";
+			halignment = "left";
+			posx = -1;
+			sizex = 10;
+			adjustment = grow;
+		}
+		OBJECT TIPOSOCIA_NOMBRE {
+			value = "=input.TIPOSOCIA_NOMBRE";
+			halignment = "left";
+			posx = -1;
+			sizex = 5;
+		}
+		OBJECT FORMAPAGO_NOMBRE {
+			value = "=input.FORMAPAGO_NOMBRE";
+			halignment = "left";
+			posx = -1;
+			sizex = 5;
+		}
+
+	}
+#endif
+
+	REPORTFOOTER page_footer {
+		sizey = 1.4;
+		bordertopstyle = solid;
+		paddingtop = 0.4;
+		style = pagefooter;
+
+
+		OBJECT suma_MIEMBRO_SOCIASESTADO {
+			value = "=input.MIEMBRO_SOCIASESTADO";
+			halignment = "right";
+			posx = 20;
+			sizex = 2;
+			aggregate = sum;
+		}
+		OBJECT suma_CONTACTO_TRATAMIENTOCONTACTO {
+			value = "=input.CONTACTO_TRATAMIENTOCONTACTO";
+			halignment = "right";
+			posx = 23;
+			sizex = 2;
+			aggregate = sum;
+		}
+
+	}
+
+	include = "default_pagefooter.inc";
+
+}
