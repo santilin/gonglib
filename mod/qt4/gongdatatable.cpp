@@ -472,18 +472,26 @@ void DataTable::contentsContextMenuEvent( QContextMenuEvent* e )
     delete (Q3PopupMenu*) popup;
     if ( r == id[ IdView ] )
     {
+        d->searchString.clear();
+        theGuiApp->hideOSD();
         emit beginEditSignal(this, selecting, Xtring(text(currentRow(), currentColumn()).latin1()) );
     }
     else if ( r == id[ IdInsert ] )
     {
+        d->searchString.clear();
+        theGuiApp->hideOSD();
         emit beginEditSignal(this, inserting, Xtring(text(currentRow(), currentColumn()).latin1()) );
     }
     else if ( r == id[ IdUpdate ] )
     {
+        d->searchString.clear();
+        theGuiApp->hideOSD();
         emit beginEditSignal(this, updating, Xtring(text(currentRow(), currentColumn()).latin1()) );
     }
     else if ( r == id[ IdDelete ] )
     {
+        d->searchString.clear();
+        theGuiApp->hideOSD();
         emit beginEditSignal(this, deleting, Xtring(text(currentRow(), currentColumn()).latin1()) );
     }
     e->accept();
@@ -761,6 +769,8 @@ void DataTable::contentsMouseDoubleClickEvent( QMouseEvent *e )
 {
     if ( e->button() != Qt::LeftButton )
         return;
+	d->searchString.clear();
+	theGuiApp->hideOSD();
     if( rowAt( e->y() ) != -1 )
         emit beginEditSignal(this, defaulteditmode, Xtring::null );
     else

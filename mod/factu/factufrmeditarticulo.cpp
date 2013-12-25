@@ -690,7 +690,7 @@ void FrmEditArticulo::editArticuloImagen_clicked()
 {
     Xtring fname = GuiApplication::getOpenFileName(
                        Xtring::printf( _( "Elige una imagen para %s"),
-                                       DBAPP->getTableDescSingular("CONTACTO", "esta" ).c_str() ),
+                                       DBAPP->getTableDescSingular("ARTICULO", "esta" ).c_str() ),
                        Xtring::null,
                        _( "Imágenes (*.png *.gif *.jpg)" ),
                        this );

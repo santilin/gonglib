@@ -162,6 +162,15 @@ Xtring GuiApplication::getOpenFileName(const Xtring &caption,
     return fromGUI(fn);
 }
 
+/**
+ * @brief ...
+ *
+ * @param caption ...
+ * @param initialname ...
+ * @param filter  "Ficheros CSV (*.csv);;Todos los ficheros (*)"
+ * @param parent ...
+ * @return Xtring
+ **/
 Xtring GuiApplication::getSaveFileName(const Xtring &caption,
                                        const Xtring &initialname,
                                        const Xtring &filter,

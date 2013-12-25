@@ -99,7 +99,7 @@ void ImageBox::slot_button_clicked()
         Xtring fname = theGuiApp->getSaveFileName(
                            _("Elige el fichero donde guardar esta imagen"),
                            mProposedFileName,
-                           _("Imágenes (*.png);;Todos (*)"), this );
+                           _("Imágenes (*.png;*.jpg);;Todo (*)"), this );
         if( !fname.isEmpty() ) {
             getImage()->save( toGUI(fname) );
         }
