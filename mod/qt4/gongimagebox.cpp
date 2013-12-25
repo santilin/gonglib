@@ -107,6 +107,7 @@ void ImageBox::slot_button_clicked()
         FrmImgAdvanced *advform = new FrmImgAdvanced(
             this, "convert", parentWidget(), "FrmImgAdvanced");
         advform->showModalFor( parentWidget(), false, true );
+		delete advform;
     }
 }
 

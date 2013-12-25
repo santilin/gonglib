@@ -66,7 +66,7 @@ FrmImgAdvanced::FrmImgAdvanced( ImageBox *imgbox, const Xtring &convert_path,
 void FrmImgAdvanced::accept()
 {
     pImageBox->setImageData( getImageData() );
-    close();
+	FrmBase::accept();
 }
 
 
