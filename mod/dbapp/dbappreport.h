@@ -58,28 +58,25 @@ public:
     }
     static void readAllReports( bool force = false );
     static int readReportsFromPath(const Xtring &pathorig, ReportsList &reportslist = mReportsList );
-    static const ReportsList &getReportsList() {
-        return mReportsList;
-    }
-    static void clearList() {
-        mReportsList.clear();
-    }
-    static Xtring getReportSubTitle() {
-        return sReportSubTitle;
-    }
-    static void setReportSubTitle( const Xtring &title ) {
-        sReportSubTitle = title;
-    }
+    static const ReportsList &getReportsList() { return mReportsList; }
+    static void clearList() { mReportsList.clear(); }
+    static Xtring getReportSubTitle() { return sReportSubTitle; }
+    static void setReportSubTitle( const Xtring &title ) { sReportSubTitle = title; }
+    static Xtring getReportAuthor() { return sReportAuthor; }
+    static void setReportAuthor( const Xtring &title ) { sReportAuthor = title; }
+    static Xtring getReportCompany() { return sReportCompany; }
+    static void setReportCompany( const Xtring &title ) { sReportCompany = title; }
 
     /* Looks for a property in the whole report, usually called from formulae */
-    virtual Variant getGlobalPropValue(const Xtring &propname) const; // from Report
+    virtual Variant getExternalPropertyValue(const Xtring &propname) const; // from Report
+    virtual Variant callExternalFunction(const Xtring &function, Variant &value1, Variant &value2); // from Report
 
 private:
     ReportViewer *mViewer;
     static ReportsList mReportsList;
     RTK::Input *pGongInput;
     const dbApplication &mdbApp;
-    static Xtring sReportSubTitle;
+    static Xtring sReportAuthor, sReportCompany, sReportSubTitle;
 };
 
 } // namespace gong

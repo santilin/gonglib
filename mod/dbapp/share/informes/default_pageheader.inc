@@ -1,17 +1,13 @@
 	PARAMETER LOGO {
 		type = image;
 	}
-	PARAMETER EMPRESA {
+	PARAMETER SUBTITLE {
 		type = text;
 		value = "GestiONG";
 	}
 	PARAMETER SELECCION {
 		type = text;
 		value = "= @report.filter;";
-	}
-	PARAMETER TITULO {
-		type = text;
-		value = "Informe";
 	}
 
 	PAGEHEADER page_header_default {
@@ -27,9 +23,9 @@
 			imagestyle = "expanded";
 		}
 
-		OBJECT empresa {
+		OBJECT subtitle {
 			halignment = left;
-			value="###EMPRESA###" ;
+			value="###SUBTITLE###" ;
 			fontweight = bold;
 			posx = 0;
 			posy = 0;

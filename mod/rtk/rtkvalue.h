@@ -23,6 +23,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <gongdate.h>
+#include <gongvariant.h>
 /*
 	ChangeLog
 	2008/12/02  Added date type
@@ -51,7 +52,10 @@ struct value
     value(const std::string& s);
     value(const std::string& s, bool); // binary
     value(string_table::entry s);
-
+/// SCT
+	value(const gong::Variant &v);
+	static gong::Variant valueToVariant(const value &v);
+/// SCT
     value(const value& other);
     value& operator = (const value& other);
 

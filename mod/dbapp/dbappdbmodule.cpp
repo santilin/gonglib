@@ -91,7 +91,6 @@ Variant dbModule::getModuleSetting(const Xtring& settingname) const
     return DBAPP->getAppSetting( "MODULE." + mUnixName.upper() + "." + settingname, defaultvalue );
 }
 
-
 QAction* dbModule::createActionForTable(const Xtring& tablename, const Xtring &shortcut)
 {
     QAction *act_menu;

@@ -285,7 +285,6 @@ void FrmEstadCompraVenta::accept()
     if( !rtkstring.isEmpty() ) {
         AppReport *report = new AppReport(*DBAPP);
         report->readString( rtkstring.c_str() );
-        report->setParameterValue( "EMPRESA", empresa::ModuleInstance->getNombreEmpresa() );
         Dictionary<Xtring> properties;
         properties.insert( "TITLE", titulo );
         if( pCheckCSV->isChecked() )

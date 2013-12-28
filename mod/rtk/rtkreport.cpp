@@ -1311,9 +1311,9 @@ void Report::setDetailsValue(const Xtring &value)
  * @param out
  * @return 0 if successfull
  */
-int Report::print( Input *in, Output *out )
+bool Report::print( Input *in, Output *out )
 {
-    int ret = 0;
+    bool ret = false;
     try {
         if( !in )
             in = defaultInput();
@@ -1383,8 +1383,9 @@ int Report::print( Input *in, Output *out )
             delete outputcachedtosort;
         if( outputcachedtogroup )
             delete outputcachedtogroup;
+		ret = true;
     } catch ( Error &e ) { // This error has already been added
-        ret = 1;
+        ret = false;
     }
 #if 0
     // Do not catch any other exception we don't know about.
@@ -1875,7 +1876,7 @@ bool Report::setPropOrigValue(const Xtring & propname, const Xtring &value)
  * @param propname Ex: report.PageOrientation, input.CODE, ...
  * @return the value of the property
  */
-Variant Report::getGlobalPropValue(const Xtring &propname) const
+Variant Report::getExternalPropertyValue(const Xtring &propname) const
 {
     _GONG_DEBUG_PRINT(5, propname );
     Xtring object = propname.left(propname.find('.') );
@@ -1905,7 +1906,7 @@ Variant Report::getGlobalPropValue(const Xtring &propname) const
 }
 
 
-bool Report::setGlobalPropValue(const Xtring &propname, const Variant &value)
+bool Report::setExternalPropertyValue(const Xtring &propname, const Variant &value)
 {
     Xtring object = propname.left(propname.find('.') );
     Xtring property = propname.mid( propname.find('.')+1 );
@@ -1935,6 +1936,12 @@ bool Report::setGlobalPropValue(const Xtring &propname, const Variant &value)
     }
     return false;
 }
+
+Variant Report::callExternalFunction(const Xtring& function, Variant& value1, Variant &value2)
+{
+	return Variant();
+}
+
 
 #if USE_CXX_FORMULA
 

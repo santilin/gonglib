@@ -227,7 +227,7 @@ Measure ReportQtOutput::printObject( const Object &object )
         return y0;
 
     clipMeasures( object, &x0, &y0, &width, &height);
-    _GONG_DEBUG_PRINT(3, Xtring::printf("Printing object %s(%s) at x=%d, y=%d, w=%d, h=%d)",
+    _GONG_DEBUG_PRINT(0, Xtring::printf("Printing object %s(%s) at x=%d, y=%d, w=%d, h=%d)",
                                         object.name(), Variant::typeToName(object.realValue().type()),
                                         x0, y0,width,height ) );
 
@@ -351,12 +351,10 @@ Measure ReportQtOutput::printObject( const Object &object )
                 QRect outrect = mPainter.boundingRect( x0, y0, width, -1, tf, toGUI(text) );
                 while( (outrect.height() -2 - height > 0)
                         || (outrect.width() -1 - width > 0 ) ) {
-                    _GONG_DEBUG_PRINT( 0, outrect.width() -1 );
-                    _GONG_DEBUG_PRINT( 0, width );
                     if( !smallerfont )
                         smallerfont = new QFont( font );
                     smallerfont->setPointSize( smallerfont->pointSize() - 0.5 );
-                    _GONG_DEBUG_PRINT( 0, smallerfont->pointSize() );
+                    _GONG_DEBUG_PRINT( 4, smallerfont->pointSize() );
                     if( smallerfont->pointSize() < 7 )
                         break;
                     mPainter.setFont( *smallerfont );

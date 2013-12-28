@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DScript Includes
 #include "rtkvalue.h"
+#include "gongvariant.h"
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace std;
@@ -68,6 +69,57 @@ value::value(const value& other)
       dateval(other.dateval)
 {
 }
+/// SCT
+value::value(const gong::Variant& v)
+{
+	switch( v.type() ) {
+		case gong::Variant::tInt:
+		case gong::Variant::tLong:
+		case gong::Variant::tBool:
+			type = type_int;
+			intval = v.toInt();
+			break;
+		case gong::Variant::tDouble:
+		case gong::Variant::tMoney:
+			type = type_flt;
+			fltval = v.toDouble();
+			break;
+		case gong::Variant::tBinary:
+			type = type_binary;
+			strval = v.toString();
+			break;
+		case gong::Variant::tDate:
+		case gong::Variant::tDateTime:
+		case gong::Variant::tTime:
+			type = type_date;
+			dateval = v.toDate();
+			break;
+		case gong::Variant::tString:
+		default:
+			type = type_str;
+			strval = v.toString();
+			break;
+	}
+}
+
+gong::Variant value::valueToVariant(const value& v)
+{
+    switch(v.type)
+    {
+		case type_int:
+			return gong::Variant( v.intval );
+		case type_flt:
+			return gong::Variant( v.fltval );
+		case type_date:
+			return gong::Variant( v.dateval );
+		case type_binary:
+			return gong::Variant( static_cast<const void *>(v.strval.c_str()), v.strval.size() );
+		default:
+			return gong::Variant( v.strval );
+    }
+}
+
+/// SCT
 
 value& value::operator = (const std::string& s)
 {

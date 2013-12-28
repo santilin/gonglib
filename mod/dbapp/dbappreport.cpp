@@ -23,6 +23,8 @@ namespace gong {
 
 ReportsList AppReport::mReportsList;
 Xtring AppReport::sReportSubTitle;
+Xtring AppReport::sReportCompany;
+Xtring AppReport::sReportAuthor;
 
 // Subclase de QReportViewer para poder cerrarla con la tecla escape
 class ReportViewer: public ReportQtViewer
@@ -304,6 +306,9 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &prop
         title = _("Informe");
     if( !filter.isEmpty() ) /// TODO: mezclar con report.filter
         setParameterValue( "report_filter", filter );
+	setParameterValue( "COMPANY", sReportCompany );
+	setParameterValue( "AUTHOR", sReportAuthor );
+	setParameterValue( "SUBTITLE", sReportSubTitle );
     if ( askforparameters && getParametersCount() )  // Is there any parameter?
     {
         ReportQtFrmParams *frmparam = new ReportQtFrmParams ( *this );
@@ -434,7 +439,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &prop
         for( Dictionary<Xtring>::const_iterator propit = properties.begin();
                 propit != properties.end(); ++ propit ) {
             if( !setPropOrigValue( propit->first, propit->second ) ) {
-                _GONG_DEBUG_WARNING( propit->first + "not found in report" );
+                _GONG_DEBUG_WARNING( "property " + propit->first + " not found in report" );
             }
         }
         try {
@@ -446,7 +451,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &prop
         }
         if ( tiposalida == RTK_Screen || tiposalida == 	RTK_Printer_With_Dialog
                 || tiposalida == RTK_Printer_Without_Dialog ) {
-            if ( ret == 0 ) {
+            if ( ret == true ) {
                 // No borrar salida, que ya la borrará el viewer
                 mViewer = new ReportViewer ( salida, true, DBAPP->getMainWindow()->getViewport() );
                 mViewer->setObjectName( tmpnam(0) );
@@ -467,18 +472,18 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &prop
                 }
             }
         } else {
-            if ( ret == 0 && tiposalida == RTK_PDF ) {
+            if ( ret == true && tiposalida == RTK_PDF ) {
                 Xtring cmd2pdf = "ps2pdf \"" + fname + ".~~~\" \"" + fname + "\"";
                 ret = FileUtils::execProcess ( cmd2pdf.c_str() );
                 unlink ( ( fname + ".~~~" ).c_str() );
             }
-            if ( ret == 0 )
+            if ( ret == true )
                 FrmBase::msgOk ( DBAPP->getPackageString(),
                                  Xtring::printf ( "El informe se ha guardado correctamente en %s",
                                                   fname.c_str() ), FrmBase::information );
             delete salida;
         }
-        if ( ret || errorsCount() ) {
+        if ( !ret || errorsCount() ) {
             Xtring errores;
             int e, maxerrs = 10; // Do not show more that this number of errors
             for ( e = 0; e < errorsCount() && maxerrs > 0; e++ ) {
@@ -624,7 +629,7 @@ int AppReport::readReportsFromPath ( const Xtring &pathorig, ReportsList &report
 }
 
 /* the grammar only admits one . in propname, so we use module.modname_tablename_fldname */
-Variant AppReport::getGlobalPropValue( const Xtring &propname ) const
+Variant AppReport::getExternalPropertyValue( const Xtring &propname ) const
 {
     _GONG_DEBUG_PRINT(4, propname );
     Variant ret;
@@ -711,9 +716,21 @@ Variant AppReport::getGlobalPropValue( const Xtring &propname ) const
         }
     }
     if ( !ret.isValid() )
-        ret = RTK::Report::getGlobalPropValue ( propname );
+        ret = RTK::Report::getExternalPropertyValue( propname );
     return ret;
 }
+
+Variant AppReport::callExternalFunction(const Xtring& _function, Variant& value1, Variant &value2)
+{
+	const char *function = _function.c_str();
+	if( strcasecmp( function, "getDisplayValue") == 0 ) {
+		const dbFieldDefinition *flddef = DBAPP->getDatabase()->findFieldDefinition( value1.toString() );
+		return flddef->getDisplayValue( value2 );
+	}
+	_GONG_DEBUG_WARNING( "Function " + _function + " not found" );
+	return Report::callExternalFunction( _function, value1, value2 );
+}
+
 
 } // namespace gong
 

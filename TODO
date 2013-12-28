@@ -1,13 +1,10 @@
 == HECHO ==
 
 == ERRORES ==
-* FrmAdvancedPrint no pone el parámetro empresa
-* El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
-* rtk: no aparecen los captions de los nameslisttables, aparecen los values
-* No guarda el tamaño de los campos DIRECCION, etc en las vistas
 * Modifico factura de jardines del mundo, cambio el email del contacto y me dice que lo ha creado, pero en realidad ya estaba creado
 * Ticket de los pájaros: quitar cif.
 ** Cambiar palabra ticket.
+* El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 
 == A MEDIO HACER ==
 * TPV: Que se resalte la familia seleccionada
@@ -106,6 +103,7 @@
 * 	struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* No guarda el tamaño de los campos DIRECCION, etc en las vistas
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
 * QWidgetTab->strongFocus

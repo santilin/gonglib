@@ -511,6 +511,8 @@ void EmpresaModule::rereadEmpresa()
                                        getCodEmpresa(), DBAPP->getPackageString().c_str() ), FrmBase::information );
         exit( 1 );
     }
+    AppReport::setReportAuthor( DBAPP->getPackageString() );
+    AppReport::setReportCompany( getNombreEmpresa() );
     AppReport::setReportSubTitle( getNombreEmpresa() );
     if ( !pRecEmpresa->getRecMoneda()->getRecordID() || !pRecEmpresa->getRecContacto()->getRecordID() ) {
         theGuiApp->waitCursor( true );

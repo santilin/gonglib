@@ -44,6 +44,7 @@
 #define ARGS const dscript::args_t& args,dscript::context& ctx
 
 #include <gongmoney.h>
+#include <gongvariant.h>
 
 using namespace std;
 
@@ -199,6 +200,15 @@ void tomoney(ARGS)
         ndec = args[1].to_int();
     ctx.set_return( gong::Money(d, ndec).toDouble() );
 }
+
+void callFunction(ARGS)
+{
+    RTK::Xtring function( args[0].to_str() );
+    gong::Variant field( dscript::value::valueToVariant(args[1]) );
+    gong::Variant val( dscript::value::valueToVariant(args[2]) );
+	ctx.set_return( dscript::value( ctx.getReport()->callExternalFunction( function, field, val ) ) );
+}
+
 void toupper(ARGS)
 {
     RTK::Xtring s( args[0].to_str() );
@@ -373,6 +383,11 @@ void link_string_functions(dscript::context& ctx)
         "tolower",
         &dscript::stdlib::tolower,
         1,1,"(%str)"
+    );
+    ctx.link_function(
+        "callFunction",
+        &dscript::stdlib::callFunction,
+        3,3,"(%str,%str,%value)"
     );
 // END SCT
 }

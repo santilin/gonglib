@@ -52,18 +52,12 @@ public:
     bool readRtkString( const char *rtkstring, const char *defaultinput = 0,
                         const char *filename = 0, Input *usethisinput = 0, const Xtring &initdefines = Xtring::null );
 
-    int print( Input *in, Output *out );
-    int print( Output *out ) {
-        return print(pDefaultInput, out);
-    }
-    const Formatter &formatter() const {
-        return *pFormatter;
-    }
+    bool print( Input *in, Output *out );
+    bool print( Output *out ) { return print(pDefaultInput, out); }
+    const Formatter &formatter() const { return *pFormatter; }
     char *serializeGroupValues(int *len) const;
     char *serializeFields(const Input *in, int *len) const;
-    uint groupLevels() const {
-        return mGroupLevels;
-    }
+    uint groupLevels() const { return mGroupLevels; }
     void fixAllProperties(const Output *out);
 
     const Xtring &location() const {
@@ -155,8 +149,9 @@ protected:
 // Report properties
 public:
     /* Looks for a property in the whole report, usually called from formulae */
-    virtual Variant getGlobalPropValue(const Xtring &propname) const;
-    virtual bool setGlobalPropValue(const Xtring &propname, const Variant &value);
+    virtual Variant getExternalPropertyValue(const Xtring &propname) const;
+    virtual bool setExternalPropertyValue(const Xtring &propname, const Variant &value);
+	virtual Variant callExternalFunction(const Xtring &function, Variant &value1, Variant &value2);
     /* Gets a report's property value by name */
     virtual Variant getPropValue(const Xtring &propname) const;
     /* Sets a report's property working value by name */

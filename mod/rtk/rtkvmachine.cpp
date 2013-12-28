@@ -153,7 +153,7 @@ void vmachine::execute(
             string_table::entry ste = instr->get_str();
 // GESTIONG BEGIN
             if( ste[0] == '@' ) {
-                Variant v = ctx.getReport()->getGlobalPropValue( ste+1 );
+                Variant v = ctx.getReport()->getExternalPropertyValue( ste+1 );
                 if( !v.isValid() )
                     _GONG_DEBUG_WARNING( Xtring("Property ") + ste + " not found" );
                 switch( v.type() ) {
@@ -728,19 +728,19 @@ void vmachine::execute(
                 switch( v.type ) {
                 case value::type_str:
                 case value::type_binary:
-                    ctx.getReport()->setGlobalPropValue(
+                    ctx.getReport()->setExternalPropertyValue(
                         ste+1, Variant(v.to_str()) );
                     break;
                 case value::type_int:
-                    ctx.getReport()->setGlobalPropValue(
+                    ctx.getReport()->setExternalPropertyValue(
                         ste+1, v.to_int() );
                     break;
                 case value::type_flt:
-                    ctx.getReport()->setGlobalPropValue(
+                    ctx.getReport()->setExternalPropertyValue(
                         ste+1, v.to_flt() );
                     break;
                 case value::type_date:
-                    ctx.getReport()->setGlobalPropValue(
+                    ctx.getReport()->setExternalPropertyValue(
                         ste+1, v.to_datetime() );
                     break;
                 }

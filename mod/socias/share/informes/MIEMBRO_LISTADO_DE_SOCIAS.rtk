@@ -2,18 +2,9 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 {
 	Title = "Listado de socias";
 	Units = chars;
-	SizeX = 120;
+	SizeX = 125;
 	SizeY = 60;
 	PageOrientation = "Landscape";
-
-	PARAMETER subtitle {
-		type = text;
-		value = "";
-	}
-	PARAMETER selection {
-		type = text;
-		value = "";
-	}
 
 	INPUT default {
 		driver = mysql;
@@ -40,6 +31,10 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			Source = PROYECTO.FECHAFIN;
 			Type = string;
 		}
+		INPUTFIELD PROYECTO_SOCIASESTADO {
+			Source = PROYECTO.SOCIASESTADO;
+			Type = int;
+		}
 		INPUTFIELD MIEMBRO_NUMEROSOCIA {
 			Source = MIEMBRO.NUMEROSOCIA;
 			Type = int;
@@ -50,10 +45,6 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 		}
 		INPUTFIELD MIEMBRO_SOCIASESTADO {
 			Source = MIEMBRO.SOCIASESTADO;
-			Type = int;
-		}
-		INPUTFIELD CONTACTO_TRATAMIENTOCONTACTO {
-			Source = CONTACTO.TRATAMIENTOCONTACTO;
 			Type = int;
 		}
 		INPUTFIELD CONTACTO_NOMBRE {
@@ -118,7 +109,7 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 		value= "=input.PROYECTO_CODIGO;";
 		level=1;
 		OBJECT header_PROYECTO_CODIGO {
-			value = "= const @DDD.PROYECTO_CODIGO_CAPTION;";
+			value = "= const @DDD.PROYECTO_DESCSINGULAR;";
 			posx = 0.0;
 			sizex = 6.0;
 		}
@@ -155,15 +146,15 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			halignment = "right";
 			value = "=input.PROYECTO_CODIGO;";
 			posx = 0.0;
-			sizex = 5;
+			sizex = 6;
 		}
 		OBJECT PROYECTO_NOMBRE {
 			value = "=input.PROYECTO_NOMBRE;";
 			posx = -1;
-			sizex = 40.0;
+			sizex = 50.0;
 		}
 		OBJECT PROYECTO_SOCIASESTADO {
-			value = "=input.PROYECTO_SOCIASESTADO;";
+			value = "= return callFunction( \"getDisplayValue\", \"PROYECTO.SOCIASESTADO\", @input.PROYECTO_SOCIASESTADO );";
 			posx = -1;
 			sizex = 10.0;
 		}
@@ -191,78 +182,59 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			value = "Número";
 			posx = 0;
 			sizex = 4;
+			fontsize = 8;
 		}
 		OBJECT header_MIEMBRO_FECHAALTA {
 			value = "Fecha de alta";
-			posx = 5;
-			sizex = 3;
+			posx = -1;
+			sizex = 6;
 		}
 		OBJECT header_MIEMBRO_SOCIASESTADO {
 			value = "Estado";
-			posx = 9;
-			sizex = 2;
-		}
-		OBJECT header_CONTACTO_TRATAMIENTOCONTACTO {
-			value = "Tratamiento";
-			posx = 12;
+			posx = -1;
 			sizex = 2;
 		}
 		OBJECT header_CONTACTO_NOMBRE {
 			value = "Nombre";
-			posx = 15;
-			sizex = 10;
+			posx = -1;
+			sizex = 25;
 		}
 		OBJECT header_CONTACTO_CIF {
 			value = "CIF";
-			posx = 26;
-			sizex = 4;
+			posx = -1;
+			sizex = 8;
 		}
 		OBJECT header_CONTACTO_EMAIL {
 			value = "Email";
-			posx = 31;
-			sizex = 10;
+			posx = -1;
+			sizex = 28;
 		}
 		OBJECT header_CONTACTO_TELEFONO {
 			value = "Teléfonos";
-			posx = 42;
-			sizex = 10;
+			posx = -1;
+			sizex = 8;
 		}
 		OBJECT header_CONTACTO_DIRECCION {
 			value = "Dirección";
-			posx = 53;
-			sizex = 10;
+			posx = -1;
+			sizex = 18;
 		}
 		OBJECT header_CONTACTO_BARRIO {
-			value = "Barrio";
-			posx = 64;
-			sizex = 10;
-		}
-		OBJECT header_CONTACTO_CP {
-			value = "C. Postal";
-			posx = 75;
-			sizex = 2;
-		}
-		OBJECT header_CONTACTO_LOCALIDAD {
-			value = "Municipio";
-			posx = 78;
-			sizex = 10;
-		}
-		OBJECT header_CONTACTO_PROVINCIA {
-			value = "Provincia";
-			posx = 89;
-			sizex = 2;
+			value = "Localidad";
+			posx = -1;
+			sizex = 12;
 		}
 		OBJECT header_TIPOSOCIA_NOMBRE {
 			value = "Tipo";
-			posx = 92;
+			posx = -1;
 			sizex = 5;
 		}
 		OBJECT header_FORMAPAGO_NOMBRE {
 			value = "FormaPago";
-			posx = 98;
+			posx = -1;
 			sizex = 5;
+			visible = false;
 		}
-
 	}
 
 #ifndef RESUMIDO
@@ -277,23 +249,16 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			value = "=input.MIEMBRO_NUMEROSOCIA";
 			halignment = "right";
 			posx = 0;
-			sizex = 5;
+			sizex = 4;
 		}
 		OBJECT MIEMBRO_FECHAALTA {
 			value = "=input.MIEMBRO_FECHAALTA";
 			halignment = "left";
 			posx = -1;
-			sizex = 3;
+			sizex = 6;
 		}
 		OBJECT MIEMBRO_SOCIASESTADO {
-			value = "=input.MIEMBRO_SOCIASESTADO";
-			halignment = "right";
-			posx = -1;
-			sizex = 2;
-		}
-		OBJECT CONTACTO_TRATAMIENTOCONTACTO {
-			value = "=input.CONTACTO_TRATAMIENTOCONTACTO";
-			halignment = "right";
+			value = "= return callFunction( \"getDisplayValue\", \"MIEMBRO.SOCIASESTADO\", @input.MIEMBRO_SOCIASESTADO );";
 			posx = -1;
 			sizex = 2;
 		}
@@ -301,7 +266,7 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			value = "=input.CONTACTO_NOMBRE";
 			halignment = "left";
 			posx = -1;
-			sizex = 20;
+			sizex = 25;
 			adjustment = grow;
 		}
 		OBJECT CONTACTO_CIF {
@@ -314,43 +279,44 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			value = "=input.CONTACTO_EMAIL";
 			halignment = "left";
 			posx = -1;
-			sizex = 30;
-			adjustment=reducefont;
+			sizex = 28;
+			adjustment=grow;
 		}
 		OBJECT CONTACTO_TELEFONO {
 			value = "=input.CONTACTO_TELEFONO";
 			halignment = "left";
 			posx = -1;
-			sizex =12;
+			sizex = 8;
 			adjustment=grow;
 		}
 		OBJECT CONTACTO_DIRECCION {
 			value = "= @input.CONTACTO_DIRECCION + \" \" +  @input.CONTACTO_BARRIO;";
 			halignment = "left";
 			posx = -1;
-			sizex = 20;
-			adjustment = grow;
+			sizex = 18;
+			adjustment = reducefont;
 		}
 		OBJECT CONTACTO_BARRIO {
 			value = "= @input.CONTACTO_CP + \" \" + @input.CONTACTO_LOCALIDAD + \" \" + @input.CONTACTO_PROVINCIA;";
 			halignment = "left";
 			posx = -1;
-			sizex = 10;
-			adjustment = grow;
+			sizex = 12;
+			adjustment = reducefont;
 		}
 		OBJECT TIPOSOCIA_NOMBRE {
 			value = "=input.TIPOSOCIA_NOMBRE";
 			halignment = "left";
 			posx = -1;
 			sizex = 5;
+			adjustment = reducefont;
 		}
 		OBJECT FORMAPAGO_NOMBRE {
 			value = "=input.FORMAPAGO_NOMBRE";
 			halignment = "left";
 			posx = -1;
 			sizex = 5;
+			visible = false;
 		}
-
 	}
 #endif
 
@@ -361,19 +327,17 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 		style = pagefooter;
 
 
-		OBJECT suma_MIEMBRO_SOCIASESTADO {
-			value = "=input.MIEMBRO_SOCIASESTADO";
-			halignment = "right";
-			posx = 20;
-			sizex = 2;
-			aggregate = sum;
+		OBJECT count_SOCIAS_HEADER {
+			value = "Número de socias:";
+			posx = 0;
+			sizex = 20;
 		}
-		OBJECT suma_CONTACTO_TRATAMIENTOCONTACTO {
-			value = "=input.CONTACTO_TRATAMIENTOCONTACTO";
+		OBJECT count_SOCIAS {
+			value = "=input.MIEMBRO_NUMEROSOCIA";
 			halignment = "right";
-			posx = 23;
-			sizex = 2;
-			aggregate = sum;
+			posx = -1;
+			sizex = 10;
+			aggregate = count;
 		}
 
 	}

@@ -1294,7 +1294,7 @@ void FrmEditRecMaster::printReport( const Xtring &reportname, const Dictionary<X
                 read( getTableRecordID() );
             ret = report->print( RTK_Screen, properties, filter, Xtring::null, po, false ); // no pedir parámetros
         }
-        if( ret ) {
+        if( !ret ) {
             if ( report->errorsCount() == 0 ) {
                 FrmBase::msgError( this,
                                    Xtring::printf(
