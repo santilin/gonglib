@@ -53,7 +53,25 @@ static dbModuleSetting _settings[] = {
         _("Formato de la dirección postal"),
         "{direccion}, {barrio}\n{cp} {localidad}, {provincia}. {pais}\nTel: {telefono}, Fax: {fax}\n{email}"
     },
-    {dbModuleSetting::None}
+	{
+		dbModuleSetting::String,
+		"SMTP_HOST",
+		_("Host del servidor SMTP"),
+		""
+	},
+	{
+		dbModuleSetting::String,
+		"SMTP_USER",
+		_("Usuaria del servidor SMTP"),
+		""
+	},
+	{
+		dbModuleSetting::Int,
+		"SMTP_PORT",
+		_("Puerto del servidor SMTP (25)"),
+		"25"
+	},
+	{dbModuleSetting::None}
 };
 
 ContactosModule::ContactosModule()

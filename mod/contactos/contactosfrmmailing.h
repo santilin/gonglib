@@ -30,14 +30,18 @@ protected:
     void addEmailToList( XtringList &list, const Xtring &email,
                          const Xtring &nombre, bool include_names) const;
     virtual void validate_input( QWidget *sender, bool *isvalid ); // from FrmCustom
+	void accept(); // from FrmBase
+	void addMessage( TextEdit *dest, const Xtring &message );
 private:
     QTabWidget *tabFrameEdit;
-    QWidget *tabSeleccion, *tabContenido, *tabConfiguracion;
-    LineEdit *pSubject;
-    class RichTextBox *pBody;
+    QWidget *tabSeleccion, *tabContenido, *tabConfiguracion, *tabResultado;
+    LineEdit *pFrom, *pSubject;
+    class RichTextBox *pHTMLBody;
     LineEdit *pHost, *pUser, *pPassword, *pPort;
     List<SearchBox *> mSearchBoxes;
     PushButton *pushShowEMails, *pushShowEMailsAndNames;
+	TextEdit *pBody, *pResultado, *pErrors;
+	QCheckBox *pCheckSaveSettings;
 };
 
 } // namespace contactos
