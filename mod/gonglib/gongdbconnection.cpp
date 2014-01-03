@@ -79,6 +79,18 @@ dbConnection::~dbConnection()
     clearIConv();
 }
 
+/**
+ * @brief ...
+ *
+ * @param driver ...
+ * @param user ...
+ * @param password ...
+ * @param dbname ...
+ * @param host ...
+ * @param port ...
+ * @param options Semicolon separated list of database options
+ * @return bool
+ **/
 bool dbConnection::connect( enum SqlDriver driver, const Xtring &user, const Xtring &password,
                             const Xtring &dbname, const Xtring &host, unsigned int port,
                             const Xtring &options )
@@ -135,13 +147,15 @@ bool dbConnection::connect( enum SqlDriver driver, const Xtring &user, const Xtr
         Xtring fname = mHost;
         if( !fname.isEmpty() )
             FileUtils::addSeparator( fname );
-        fname += dbname + ".sql3";
+        fname += dbname;
+		if( !fname.endsWith( ".sql3" ) )
+			fname += ".sql3";
         int error;
         XtringList options;
         mOptions.tokenize( options, ";" );
         if( options.contains( "CREATEDATABASE") )
             error = sqlite3_open_v2( fname.c_str(), &pSqLite, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0 );
-        else
+		else
             error = sqlite3_open_v2( fname.c_str(), &pSqLite, SQLITE_OPEN_READWRITE, 0 );
         if( error != SQLITE_OK ) {
             setError( fname );

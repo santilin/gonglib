@@ -248,6 +248,7 @@ Xtring dbFieldDefinition::toSQL( dbConnection *conn, const dbFieldValue &value, 
  */
 Xtring dbFieldDefinition::toDDL( dbConnection *conn) const
 {
+	_GONG_DEBUG_ASSERT( conn );
     Xtring ddl;
     switch( getSqlColumnType() ) {
     case SQLTEXT:
@@ -286,10 +287,10 @@ Xtring dbFieldDefinition::toDDL( dbConnection *conn) const
     }
     if( isSequence() )
     {
-        if( conn && conn->isPGSQL() )
-            ddl += " SERIAL";
-        else
+        if( conn->isMySQL() )
             ddl += " AUTO_INCREMENT";
+        else if( conn->isPGSQL() )
+            ddl += " SERIAL";
     } else if( getDefaultValue().isEmpty() && !canBeNull() ) {
         switch( getSqlColumnType() ) {
         case SQLTEXT:
