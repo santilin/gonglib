@@ -1441,7 +1441,7 @@ Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* program
     Xtring diff = programdb->sameSQLSchema( oldschema, conn, purging );
     try {
         if( !diff.isEmpty() ) {
-            _GONG_DEBUG_PRINT(3, diff );
+            _GONG_DEBUG_PRINT(2, diff );
             XtringList querys;
             diff.tokenize( querys, ";\n" );
 			bool doit = true;
@@ -1454,12 +1454,13 @@ Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* program
                 purging = false; // Do not create the indexes again later
                 programdb->dropIndexes(conn, false, true);
                 conn->exec( querys );
-                programdb->createIndexes(conn, true);
                 // Las líneas que comienzan con # son comentarios
                 if( diff.find("# CREATE TABLE " ) != Xtring::npos ) {
                     // Creates new tables, the existing ones are not touched
                     programdb->createTables( conn, Xtring(), true );
-                }
+                } else {
+	                programdb->createIndexes(conn, true);
+				}
             }
         }
         if( purging ) {

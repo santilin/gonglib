@@ -226,7 +226,10 @@ bool dbTableDefinition::create( dbConnection *conn, bool ifnotexists,
         extraargs.replace( "TEMPORARY", "" );
     if( mTemporary )
         extraargs += " TEMPORARY";
-    Xtring fieldsdef, tabledef = "CREATE " + extraargs + " TABLE ";
+    Xtring fieldsdef, tabledef = "CREATE";
+	if( !extraargs.isEmpty() )
+		tabledef += " " + extraargs;
+	tabledef += " TABLE ";
     if ( conn->isMySQL() && ifnotexists )
         tabledef += "IF NOT EXISTS ";
     tabledef += conn->nameToSQL( getName() ) + "(";
@@ -247,6 +250,7 @@ bool dbTableDefinition::createIndexes( dbConnection *conn, bool ignoreerrors )
     for ( unsigned int i = 0; i < getFieldDefinitions().size(); i++ ) {
         dbFieldDefinition *flddef = getFieldDefinition( i );
         if ( flddef->isUnique() && !flddef->isPrimaryKey() ) {
+			conn->exec( "ALTER TABLE " + getName() + " DROP INDEX (" + flddef->getName() + ")", true );
             conn->exec( "ALTER TABLE " + getName() + " ADD UNIQUE INDEX (" + flddef->getName() + ")", true );
         }
     }

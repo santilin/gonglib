@@ -4,7 +4,7 @@
 Ofertas.
 
 == CONSULTAR ==
-C++. Por qué el operador de copia no se virtualiza?
+C++. ¿Por qué el operador de copia no se virtualiza?
 
 
 == ERRORES ==
@@ -20,6 +20,10 @@ C++. Por qué el operador de copia no se virtualiza?
 
 == Ofertas ==
 * No hace copia de seguridad
+* ¿Cómo se saca una lista de las tablas temporales en mysql?
+* ¿Cobros y pagos?
+* DDD de los cobros y pagos
+* Probar a que la segunda conexión sea sqlite
 
 == gong-factu ==
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
@@ -182,7 +186,6 @@ C++. Por qué el operador de copia no se virtualiza?
 * En campos deshabilitados no funciona ctrl+c
 
 == gonglib ==
-* TIPOCLIENTE, SOCIASESTADO, etc. tienen índices duplicados
 * editar fechas de nacimiento, si el año es mayor de 2100 y es multiplo de 100, es un 19xx
 * dbSettings::removeSetting no está acabado
 * Al inicio, da muchos errores de locale, intenta leer el locale en_US
