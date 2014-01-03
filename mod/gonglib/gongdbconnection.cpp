@@ -841,7 +841,7 @@ int dbConnection::selectValues( const Xtring & statement, ... )
             Variant::Type t = pvariant->type();
             if( t == Variant::tInvalid )
                 t = toVariantType( rs->getColumnType(i));
-            switch ( pvariant->type() ) {
+            switch ( t ) {
             case Variant::tBool:
                 *pvariant = rs->toBool( i );
                 break;

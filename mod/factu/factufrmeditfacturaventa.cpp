@@ -458,6 +458,7 @@ void FrmEditFacturaVenta::scatterCliente()
 	if( editClienteCodigo->isJustEdited() ) {
 		if( getRecCliente()->getRecFormaPago()->getValue("CODIGO").toInt() != 0 )
 			searchFormaPagoCodigo->setValue( getRecCliente()->getRecFormaPago()->getValue("CODIGO") );
+		_GONG_DEBUG_PRINT(0, getRecCliente()->getValue("IVADetallado").toInt() );
 		if( getRecCliente()->getValue("IVADetallado").toInt() != 0 )
 			comboIVADetallado->setCurrentItemByValue( getRecCliente()->getValue("IVADetallado").toInt() );
 		if( getRecCliente()->getRecAgente()->getRecordID() != 0 )

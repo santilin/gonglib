@@ -1,11 +1,16 @@
 == HECHO ==
 
 == HACIENDO ==
-Ofertas.
+
+== PARA MAÑANA ==
+* Envío de emails masivos. Bare LF
+* Informe de etiquetas de socias.
+* Error biosegura.
 
 == CONSULTAR ==
 C++. ¿Por qué el operador de copia no se virtualiza?
-
+Calcular el máximo de una unión en SQL
+* ¿Cómo se saca una lista de las tablas temporales en mysql?
 
 == ERRORES ==
 * Modifico factura de jardines del mundo, cambio el email del contacto y me dice que lo ha creado, pero en realidad ya estaba creado
@@ -20,7 +25,6 @@ C++. ¿Por qué el operador de copia no se virtualiza?
 
 == Ofertas ==
 * No hace copia de seguridad
-* ¿Cómo se saca una lista de las tablas temporales en mysql?
 * ¿Cobros y pagos?
 * DDD de los cobros y pagos
 * Probar a que la segunda conexión sea sqlite
