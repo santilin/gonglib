@@ -62,7 +62,8 @@ dbTableDefinition::dbTableDefinition( const dbTableDefinition &other )
     // We use the integer iterator because we don't want them in alpha order
     for( std::size_t f = 0; f < other.mFieldDefinitions.size(); f++ ) {
         dbFieldDefinition *flddefcloned = other.mFieldDefinitions[f]->clone();
-        mFieldDefinitions.insert( other.mFieldDefinitions.getKey( f ), flddefcloned );
+//        dbFieldDefinition *flddefcloned = new dbFieldDefinition( *other.mFieldDefinitions[f] );
+		mFieldDefinitions.insert( other.mFieldDefinitions.getKey( f ), flddefcloned );
     }
     for( std::size_t i = 0; i < other.mIndexDefinitions.size(); i++ ) {
         dbIndexDefinition *idxdef = new dbIndexDefinition( *other.mIndexDefinitions[i] );

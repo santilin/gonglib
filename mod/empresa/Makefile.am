@@ -8,7 +8,6 @@ libgongempresa_ladir = $(includedir)/gonglib
 libgongempresa_la_SOURCES = empresamodule.cpp \
 	empresafrmeditproyecto.cpp empresarecproyecto.cpp \
 	empresafldcuentabanco.cpp empresafldejercicio.cpp empresafldempresaid.cpp \
-	empresafldperiodicidad.cpp \
 	empresafrmeditempresa.cpp empresafrmedittipoiva.cpp \
 	empresafrmeditmoneda.cpp empresafrmeditdepartamento.cpp \
 	empresarecempresa.cpp empresarectipoiva.cpp \
@@ -17,7 +16,6 @@ libgongempresa_la_SOURCES = empresamodule.cpp \
 libgongempresa_la_HEADERS = empresamodule.h empresamastertable.h \
 	empresafrmeditproyecto.h empresarecproyecto.h \
 	empresafldcuentabanco.h empresafldejercicio.h empresafldempresaid.h \
-	empresafldperiodicidad.h \
 	empresafrmeditempresa.h empresafrmedittipoiva.h \
 	empresafrmeditmoneda.h empresafrmeditdepartamento.h \
 	empresarecempresa.h empresarectipoiva.h \
