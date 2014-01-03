@@ -185,8 +185,6 @@ C++. Por qué el operador de copia no se virtualiza?
 * TIPOCLIENTE, SOCIASESTADO, etc. tienen índices duplicados
 * editar fechas de nacimiento, si el año es mayor de 2100 y es multiplo de 100, es un 19xx
 * dbSettings::removeSetting no está acabado
-* Problema con campos Text e Image: Aunque se definen como medium_text y medium_blog respectivamente,
-** al leerlos con selectfromrow el tipo de cada uno en dbRow es el mismo y a partir de ahí se consideran binarios
 * Al inicio, da muchos errores de locale, intenta leer el locale en_US
 * 2002:Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'
 * stringInc: Cuando solo son letras, incrementa por la izquierda!
@@ -269,7 +267,6 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * Al guardar un registro, que el resto de registros de las relaciones se pongan mIsRead = false, esto implica tener una lista de registros en memoria
 * dbRecordBehavior se tiene que añadir a los registros, no a la tabledefinition
 * Mastertable: SemanticProperties, pConnection
-* Añadir dbRecord::mOrigFieldValues
 
 * Settings: añadir null values
 * usar poco::string

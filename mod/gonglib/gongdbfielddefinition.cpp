@@ -281,7 +281,7 @@ Xtring dbFieldDefinition::toDDL( dbConnection *conn) const
         ddl = "FLOAT";
         break;
     case SQLBLOB:
-        ddl = "MEDIUMBLOB";
+        ddl = "LONGBLOB";
         break;
     }
     if( isSequence() )
