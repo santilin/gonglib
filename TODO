@@ -1,10 +1,13 @@
 == HECHO ==
 
+REF: Cambio versión de mc a 0.5.1
+== HACIENDO ==
+
+
 == ERRORES ==
 * Modifico factura de jardines del mundo, cambio el email del contacto y me dice que lo ha creado, pero en realidad ya estaba creado
 * Ticket de los pájaros: quitar cif.
 ** Cambiar palabra ticket.
-* El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 
 == A MEDIO HACER ==
 * TPV: Que se resalte la familia seleccionada
@@ -15,17 +18,7 @@
 == Ofertas ==
 * No hace copia de seguridad
 
-== gong-socias ==
-* Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
-* Al añadir o duplicar socia, deshabilitar fecha y motivo baja
-* Elegir remesa en generar recibos, elegir solo las no cerradas
-* Tipo de partida: nameslisttable
-* Socias: ¿Están al corriente del pago? Avisar si no lo están.
-
 == gong-factu ==
-* En presupuestos de venta, al resizar la ventana hacia abajo, se alargan los detalles, lo cual está bien, pero en pedidos de venta no.
-* Agrupar por documento, resumido
-* Si la empresa no tiene recargo y se reciben facturas de compra con recargo, avisar
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 * Genera pagos de albaranes y luego en la factura, al facturarlo, también
 * Albaranes, facturas, etc. Añadir Cantidad asignada al proyecto
@@ -39,6 +32,13 @@
 * Buscador de documentos por número
 * Cambios masivos de precios: Sumar una cantidad fija
 * Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
+
+== gong-socias ==
+* Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
+* Al añadir o duplicar socia, deshabilitar fecha y motivo baja
+* Elegir remesa en generar recibos, elegir solo las no cerradas
+* Tipo de partida: nameslisttable
+* Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-tpv ==
 * Fila de productos más vendidos
@@ -147,6 +147,7 @@
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
+* El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 * El borderbottom no funciona salvo que la siguiente sección tenga un margen top
 * Al hacer un informe apaisado, el alto de línea es demasiado pequeño
 * Añadir propiedad fontsizeincrement
@@ -256,22 +257,35 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 
 
 == gonglib 0.6.0 ==
+
 === dbRecord ===
 * Crear un objeto Query con métodos para formar una query
 * Añadir: List<IntegrityResult> mErrors, mWarnings;
 * isValid( context ) => rellena el array de IntegrityResult
 * Añadir validErrors y un saveNoValidate()
 * Al guardar un registro, que el resto de registros de las relaciones se pongan mIsRead = false, esto implica tener una lista de registros en memoria
+* dbRecordBehavior se tiene que añadir a los registros, no a la tabledefinition
+* Mastertable: SemanticProperties, pConnection
+* Añadir dbRecord::mOrigFieldValues
+
+* Settings: añadir null values
+* usar poco::string
+* Configuración: para qué conjunto de settings vale cada setting
+
 === gui ===
-* Probar window modality = WindowModal y que las mdisubwindows no tengan padre para que no se propague la modalidad a todas las ventanas
-* FrmBase => FrmCustom (con tabs) => FrmEditRec
-* MdiArea:
-* Interface GuiControl
-* Añadir setVisible a TextBox, EditBox, etc.
-* IControl: isSettingProgrammatically: Probar a desconectar las señales/slots
-* IWindow: addControls, layouts, etc.
-** FrmBase: public QMdiSubWindow, IWindow
-** DialogBase: public QDialog, IWindow
+* Crear interface gui::IControl
+** setVisible
+** setEnabled
+** setMustBeReadOnly
+** signal validate
+** isSettingProgrammatically: Probar a desconectar las señales/slots
+* Crear interface gui::FormController
+** addControl
+** addXXXXControl
+** Jerarquía de formularios
+* QMdiSubWindow => FrmBase => FrmCustom (con tabs) => FrmEditRec
+** FrmBase: public QMdiSubWindow, IFormController
+** DialogBase: public QDialog, IFormController
 * Q3Table -> Qt4 (http://www.informit.com/articles/article.aspx?p=1750226&seqNum=3)
 ** Hover sobre q3table, mostrar el texto completo de la celda
 ** Ctrl+click selecciona pero no deselecciona
@@ -280,6 +294,7 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 ** Al mover la barra de detalles, no se redibuja bien
 ** Ajustar el alto de fila a la fuente
 ** ContextMenu de la pDataTable: Usar el menu del frmeditrecmaster
+
 === dbapp ===
 * Opción en configuración: Guardar la sesión o no, quitar lo de guardar posición de la ventana, que se guarde siempre dentro de la sesión.
 ** Necesita una forma de que cuando se cierre un FrmBase, se ejecute algo en DBAPP
@@ -302,16 +317,11 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 ** Esto es una barbaridad Xtring FrmCustom::readRTK( const Xtring &_template )
 * dbModule::readSettings( local/global ) y en dbapplication::readSettings, llamar primero al global,
 	luego leer las globales de la aplicación y luego llamar al local y luego las locales de la aplicación, igual con los reportspath
-=== gonglib ===
-* Settings: añadir null values
-* Mastertable: SemanticProperties, pConnection
-* Hacer Xtring shared
-* Configuración: para qué conjunto de settings vale cada setting
-* dbRecordBehavior se tiene que añadir a los registros, no a la tabledefinition
-* Añadir dbRecord::mOrigFieldValues
+
 == optimizaciones ==
 * CreateRecord: hacerlo en el readrelations
 * mysql: no guardar el resultset completo, utilizar el cursor
+
 == Módulos ==
 * Avisos: añade campo avisos y cada vez que se elige un registro muestra ese aviso
 

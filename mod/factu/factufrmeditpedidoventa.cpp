@@ -50,7 +50,6 @@
 #include "factumodule.h"
 #include "factufldivadetallado.h"
 
-
 namespace gong {
 namespace factu {
 
@@ -165,6 +164,7 @@ FrmEditPedidoVenta::FrmEditPedidoVenta(FrmEditRec *parentfrm, dbRecord *master, 
     editClienteCodigo->setWidthInChars(8);
     editAgenteCodigo->setWidthInChars(8);
 	editNotas->setHeightInLines(3);
+    editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
 }
 
 /*<<<<<FRMEDITPEDIDOVENTA_CABECERA_GENNUMDOC*/

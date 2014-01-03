@@ -69,6 +69,12 @@
 			Source = VT.RAZONSOCIAL_CODIGO;
 			Type = integer;
 		}
+#ifdef AGRUPAR_POR_DOCUMENTO
+		INPUTFIELD DOCUMENTO_GRUPO {
+			Source = CONCAT(VT.FECHA,VT.NUMERO);
+			Type = string;
+		}
+#endif
 	}
 
 	include = "default_pageheader.inc";
@@ -118,6 +124,31 @@
 			sizex = 48;
 		}
 #endif
+#ifdef AGRUPAR_POR_DOCUMENTO
+		value = "=input.DOCUMENTO_GRUPO";
+		OBJECT fecha {
+			value = "=const @DDD.ALBARANVENTA_FECHA_CAPTION;";
+			posx = 0;
+			sizex = 6;
+			posy = 0;
+		}
+		OBJECT VT_TIPO {
+			value = "=const @DDD.TIPODOC_DESCSINGULAR";
+			posx = -1;
+			sizex = 10;
+		}
+		OBJECT numero {
+			value = "=const @DDD.ALBARANVENTA_NUMERO_CAPTION;";
+			posx = -1;
+			sizex = 12;
+			posy = 0;
+		}
+		OBJECT RAZONSOCIAL_CODIGO {
+			value = "=const @DDD.CLIENTE_RAZONSOCIAL_CAPTION;";
+			sizex = 18;
+			posx = -1;
+		}
+#endif // AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_CANTIDAD {
 			value = "= const @DDD.ALBARANVENTADET_CANTIDAD_CAPTION;";
 			posx = 55;
@@ -151,7 +182,7 @@
 			value = "=input.ARTICULO_NOMBRE";
 			posx = -1;
 			posy = 0;
-			sizex = 26;
+			sizex = 27;
 			adjustment = grow;
 		}
 #endif // AGRUPAR_POR_ARTICULO
@@ -167,7 +198,7 @@
 			value = "=input.RAZONSOCIAL";
 			posx = -1;
 			posy = 0;
-			sizex = 48;
+			sizex = 49;
 		}
 #endif // AGRUPAR_POR_RAZONSOCIAL
 #ifdef AGRUPAR_POR_FECHA_DIARIO
@@ -179,12 +210,50 @@
 			sizex = 50;
 		}
 #endif // AGRUPAR_POR_FECHA_DIARIO
+#ifdef AGRUPAR_POR_DOCUMENTO
+		value = "=input.DOCUMENTO_GRUPO";
+		OBJECT fecha {
+			value = "=input.VT_FECHA";
+			posx = -1;
+			sizex = 6;
+			posy = 0;
+		}
+		OBJECT VT_TIPO {
+			value = "=input.VT_TIPO";
+			posx = -1;
+			sizex = 2;
+		}
+		OBJECT VT_TIPODOC {
+			value = "=input.VT_TIPODOC";
+			sizex = 7;
+			posx = -1;
+		}
+		OBJECT numero {
+			value = "=input.VT_NUMERO";
+			posx = -1;
+			sizex = 12;
+			posy = 0;
+			adjustment = "reducefont";
+		}
+		OBJECT RAZONSOCIAL_CODIGO {
+			value = "=input.RAZONSOCIAL_CODIGO";
+			alignment = right;
+			sizex = 4;
+			posx = -1;
+		}
+		OBJECT RAZONSOCIAL {
+			value = "=input.RAZONSOCIAL";
+			adjustment = reducefont;
+			posx = -1;
+			sizex = 22;
+		}
+#endif // AGRUPAR_POR_DOCUMENTO
 
 		OBJECT VT_CANTIDAD_grupo {
 			value = "=input.VT_CANTIDAD";
 			aggregate = sum;
-			posx = 55;
-			sizex = 12;
+			posx = 57;
+			sizex = 10;
 			alignment = right;
 		}
 		OBJECT VT_IMPORTE_grupo {

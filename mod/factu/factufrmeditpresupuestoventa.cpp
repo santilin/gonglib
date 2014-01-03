@@ -22,8 +22,8 @@
 // FIELD TipoDoc_ID Reference(TipoDoc,Codigo,Nombre) - cabecera
 // FIELD Contador int - cabecera
 // FIELD Numero string - cabecera
-// FIELD IVADetallado comboint - cabecera
 // FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
+// FIELD IVADetallado comboint - cabecera
 // FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
 // FIELD PresupuestoVentaDet FrmEditRecDetail
 // FIELD SumaImportes money - noaddrightSumaImportes

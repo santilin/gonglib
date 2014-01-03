@@ -835,9 +835,15 @@ if(empresa::ModuleInstance->usaProyectos()){
 	}
 	if( sender == comboIVADetallado ) {
 		if( comboIVADetallado->getCurrentItemValue() == factu::FldIVADetallado::con_recargo ) {
+			if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == false )
+				validresult->addWarning( Xtring::printf( _("%s no está en el régimen de recargo de equivalencia."),
+														 DBAPP->getTableDescSingular("EMPRESA", "La").c_str()),  "IVADETALLADO" );
 			editRecargoEquivalencia->setVisible( true );
 			editRecargoEquivalencia->getLabel()->setVisible( true );
 		} else {
+			if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == true 	)
+				validresult->addWarning( Xtring::printf( _("%s está en el régimen de recargo de equivalencia."),
+														 DBAPP->getTableDescSingular("EMPRESA", "La").c_str()),  "IVADETALLADO" );
 			editRecargoEquivalencia->setVisible( false );
 			editRecargoEquivalencia->getLabel()->setVisible( false );
 		}
@@ -939,7 +945,7 @@ void FrmEditFacturaCompra::numeraLineas()
 	dbRecordList *reclst = getRecFacturaCompra()->getListFacturaCompraDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecFacturaCompraDet *detalle = static_cast<RecFacturaCompraDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITFACTURACOMPRA_CABECERA_NUMERALINEAS*/

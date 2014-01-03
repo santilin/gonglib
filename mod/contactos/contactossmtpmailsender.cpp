@@ -81,6 +81,10 @@ int SMTPMailSender::send(const Xtring& from, const Xtring& to, const Xtring &sub
 		cerr << "SMTPException: " << e.displayText() << endl;
 		setError( e.displayText() );
 		ret = 0;
+	} catch( ConnectionResetException &e ) {
+		cerr << "SMTPException: " << e.displayText() << endl;
+		setError( e.displayText() );
+		ret = 0;
 	}
     return ret;
 }
@@ -95,13 +99,20 @@ int SMTPMailSender::sendHTML(const Xtring& from, const Xtring& to, const Xtring&
     message.addRecipient(MailRecipient(MailRecipient::PRIMARY_RECIPIENT, to));
     message.setSubject(enc_subject);
     message.setContentType("text/html; charset=UTF-8");
-    message.setContent(content, MailMessage::ENCODING_8BIT);
+	Xtring lf_content(content);
+    message.setContent(lf_content, MailMessage::ENCODING_8BIT);
+	lf_content.replace("\x0a", "\x0d\x0a");
     try {
 		pSession->sendMessage(message);
 		ret = 1;
 	} catch (SMTPException &e) {
 		cerr << "SMTPException: " << e.displayText() << endl;
 		setError( e.displayText() );
+		ret = 0;
+	} catch( ConnectionResetException &e ) {
+		cerr << "SMTPException: " << e.displayText() << endl;
+		setError( e.displayText() );
+		open();
 		ret = 0;
 	}
     return ret;

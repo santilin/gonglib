@@ -151,6 +151,7 @@ FrmEditPedidoCompra::FrmEditPedidoCompra(FrmEditRec *parentfrm, dbRecord *master
     editIVA->setMustBeReadOnly( true );
     editProveedoraCodigo->setWidthInChars(5);
 	editNotas->setHeightInLines(3);
+    editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
     if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == false ) {
         editRecargoEquivalencia->getLabel()->setVisible( false );
         editRecargoEquivalencia->setVisible( false );
@@ -442,9 +443,15 @@ void FrmEditPedidoCompra::validateFields( QWidget *sender, bool *isvalid, ValidR
 	}
 	if( sender == comboIVADetallado ) {
 		if( comboIVADetallado->getCurrentItemValue() == factu::FldIVADetallado::con_recargo ) {
+			if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == false )
+				validresult->addWarning( Xtring::printf( _("%s no está en el régimen de recargo de equivalencia."),
+														 DBAPP->getTableDescSingular("EMPRESA", "La").c_str()),  "IVADETALLADO" );
 			editRecargoEquivalencia->setVisible( true );
 			editRecargoEquivalencia->getLabel()->setVisible( true );
 		} else {
+			if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == true 	)
+				validresult->addWarning( Xtring::printf( _("%s está en el régimen de recargo de equivalencia."),
+														 DBAPP->getTableDescSingular("EMPRESA", "La").c_str()),  "IVADETALLADO" );
 			editRecargoEquivalencia->setVisible( false );
 			editRecargoEquivalencia->getLabel()->setVisible( false );
 		}

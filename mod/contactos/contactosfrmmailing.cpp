@@ -1,11 +1,12 @@
+#include "config.h"
 #include <gonggettext.h>
 #include <gongdbdefinition.h>
+#include <gongdbfieldemail.h>
 #include <gongcsvutils.h>
 #include <dbappdbapplication.h>
 #include "contactossmtpmailsender.h"
 #include "contactosmodule.h"
 #include "contactosfrmmailing.h"
-#include "../gonglib/gongdbfieldemail.h"
 
 namespace gong {
 namespace contactos {
@@ -15,6 +16,7 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
 {
     Xtring titulo = _("Envío de correos electrónicos masivos");
     setTitle( titulo );
+	pushAccept->setText( _("Enviar") );
 
     tabFrameEdit = new QTabWidget( pFrameEdit );
     pInputsLayout->addWidget( tabFrameEdit );
@@ -63,11 +65,14 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
 	pResultado = addTextEditBox( tabResultado, _("Resultado"), Xtring::null, 0, resLayout );
 	pErrors = addTextEditBox( tabResultado, _("Errores"), Xtring::null, 0, resLayout );
 	tabFrameEdit->addTab( tabResultado, _("Resultado") );
+#if HAVE_POCOLIB
+	msgError( this, _("No se pueden enviar emails, la biblioteca POCO no está instalada") );
+	pushAccept->setEnabled( false );
+#endif
 }
 
 void FrmMailing::validate_input(QWidget* sender, bool* isvalid)
 {
-	pushAccept->setEnabled( true );
     if( sender == pushShowEMails ) {
         XtringList emails;
         getEmailsList( emails, false );
@@ -134,6 +139,9 @@ void FrmMailing::addEmailToList(XtringList& list, const Xtring &email,
 
 void FrmMailing::accept()
 {
+#if !HAVE_POCOLIB
+	msgError( this, _("No se pueden enviar emails, la biblioteca POCO no está instalada") );
+#else
 	if( pFrom->toString().isEmpty() ) {
 		msgError( this, _("El remitente está vacío. Introduce una dirección de correo.") );
 		return;
@@ -158,8 +166,10 @@ void FrmMailing::accept()
 	tabFrameEdit->setCurrentIndex( 3 );
 	DBAPP->processEvents();
 	DBAPP->waitCursor( true );
-	pushAccept->setEnabled( true );
 	XtringList emails;
+	pErrors->clear();
+	pResultado->clear();
+	bool hubo_errores = false;
 	SMTPMailSender s( pHost->toString(), pPort->toInt(), pUser->toString(), pPassword->toString() );
 	if( !s.open() ) {
 		addMessage( pErrors, _("Error: " + s.getError()) );
@@ -170,10 +180,11 @@ void FrmMailing::accept()
 			if( pHTMLBody->toString().isEmpty() )
 				ret = s.send( pFrom->toString(), *it, pSubject->toString(), pBody->toString() );
 			else
-				ret = s.sendHTML( pFrom->toString(), *it, pSubject->toString(), pBody->toString() );
+				ret = s.sendHTML( pFrom->toString(), *it, pSubject->toString(), pHTMLBody->toString() );
 			if( ret ) {
 				addMessage( pResultado, Xtring::printf( _("%s: Ok\n"), (*it).c_str() ) );
 			} else {
+				hubo_errores = true;
 				addMessage( pErrors, Xtring::printf( _("%s: Error: %s\n"), (*it).c_str(), s.getError().c_str() ) );
 			}
 		}
@@ -187,15 +198,22 @@ void FrmMailing::accept()
 			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_USER", pUser->toString() );
 			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_PORT", pPort->toInt() );
 		}
-		msgOk( this, _("La operación se ha completado con éxito") );
+		if( !hubo_errores ) {
+			msgOk( this, _("La operación se ha completado con éxito") );
+			pushAccept->setEnabled( false );
+		} else {
+			pushAccept->setEnabled( true );
+		}
 	}
 	DBAPP->resetCursor();
+#endif
 }
 
 void FrmMailing::addMessage(TextEdit* dest, const Xtring& message)
 {
 	dest->moveCursor(QTextCursor::End);
 	dest->insertPlainText( toGUI( message ) );
+	DBAPP->processEvents();
 }
 
 
