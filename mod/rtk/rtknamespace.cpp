@@ -398,7 +398,7 @@ int stringToFontSize(const char *origvalue, Xtring &errmsg, bool *isnull )
     if( !isnull )
         isnull = &localnull;
     *isnull = false;
-    Xtring realsfs = origvalue;
+    Xtring realsfs(origvalue);
     realsfs.remove_white_space();
     if( !realsfs.size() ) {
         *isnull = true;

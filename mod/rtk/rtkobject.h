@@ -68,7 +68,11 @@ public:
     bool setPropOrigValue(const Xtring &propname, const Xtring &value);
     Variant getAggregateValue(uint level);
 
-    /*<<<<<OBJECT_PROPERTIES*/
+	double realFontSize() const;
+private: // use realFontSize instead
+    double fontSize() const;
+//{capel} remove fontSize()
+/*<<<<<OBJECT_PROPERTIES*/
 public:
     const char * name() const {
         return propName.get();
@@ -179,7 +183,6 @@ public:
     void setOrigFontFamily(const char * fontfamily )		{
         propFontFamily.setOrig(fontfamily);
     }
-    double fontSize() const;
     void setOrigFontSize(const char * fontsize )		{
         propFontSize.setOrig(fontsize);
     }
@@ -396,6 +399,7 @@ private:
     int mInputFieldNumber; // If the value is an input field
     Xtring mFormattedText;
     Xtring mPrevFormattedText;
+	double mFontSizeIncrement;
 
 #ifdef _GONG_DEBUG
 protected:

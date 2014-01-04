@@ -769,7 +769,7 @@ Object *ReportDefParser::parseObject( Section *psect, const char *objectname, co
             if( value.isEmpty() )
                 pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
                                     token.c_str(), "OBJECT", objectname );
-            /*<<<<<OBJECT_READRTK*/
+/*<<<<<OBJECT_READRTK*/
             if( strcaseequal(token, "Value") )
                 pObject->setOrigValue( value.c_str() );
             else if( strcaseequal(token, "FormulaBefore") )
@@ -868,7 +868,7 @@ Object *ReportDefParser::parseObject( Section *psect, const char *objectname, co
                 pObject->setOrigBackgroundImage( value.c_str() );
             else if( strcaseequal(token, "ImageStyle") )
                 pObject->setOrigImageStyle( value.c_str() );
-            /*>>>>>OBJECT_READRTK*/
+/*>>>>>OBJECT_READRTK*/
             // A few property sinonyms
             else if ( strcaseequal( token, "Alignment" ) || strcaseequal( token, "Align" ) || strcaseequal( token, "HAlign" ) )
                 pObject->setOrigHAlignment( value.c_str() );
@@ -907,7 +907,7 @@ Style *ReportDefParser::parseStyle( const char *stylename, const char **text, bo
             if( value.isEmpty() )
                 pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
                                     token.c_str(), "STYLE", stylename );
-            /*<<<<<STYLE_READRTK*/
+/*<<<<<STYLE_READRTK*/
             if( strcaseequal(token, "Visible") )
                 pStyle->setOrigVisible( value.c_str() );
             else if( strcaseequal(token, "Supressed") )

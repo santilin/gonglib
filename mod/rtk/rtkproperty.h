@@ -111,6 +111,7 @@ public:
         this->mValue = newvalue;
         mIsNull=true;
     }
+    void clear() { ReadOnlyProperty<ValueT>::clear(); mIsNull = true; }
 protected:
     bool mIsNull;
 };

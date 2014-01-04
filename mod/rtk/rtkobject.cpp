@@ -22,7 +22,7 @@ namespace gong {
 
 Object::Object( Object *parent, const char *name ) :
     propVisible(true), propSupressed(false),
-    pParent(parent), mIsConst(false), mInputFieldNumber(-1)
+    pParent(parent), mIsConst(false), mInputFieldNumber(-1), mFontSizeIncrement(0.0)
 {
     // If propName is initialized on the constructor above,
     // propName.isNull() would be true as all the properties must be 'set' to avoid being null
@@ -523,12 +523,13 @@ void Object::fixMeasures( Measure outsizex, Measure outsizey,
         } else
             propPosX = outsizex - posX();
     }
+
 }
 
 
 void Object::fixParameters(const ParametersList &parameters, const char *delim)
 {
-    /*<<<<<OBJECT_FIXPARAMETERS*/
+/*<<<<<OBJECT_FIXPARAMETERS*/
     propValue.fix( parameters, delim );
     propFormulaBefore.fix( parameters, delim );
     propFormulaAfter.fix( parameters, delim );
@@ -551,7 +552,7 @@ void Object::fixParameters(const ParametersList &parameters, const char *delim)
     propFontSize.fix( parameters, delim, 10 );
     propFontWeight.fix( parameters, delim, 0 );
     propFontItalic.fix( parameters, delim, false );
-    propMinFontSize.fix( parameters, delim, 8 );
+    propMinFontSize.fix( parameters, delim, 4 );
     propAdjustment.fix( parameters, delim, AdjustTrim );
     propMaxLines.fix( parameters, delim, 0 );
     propFormat.fix( parameters, delim );
@@ -578,7 +579,12 @@ void Object::fixParameters(const ParametersList &parameters, const char *delim)
     propBorderRightStyle.fix( parameters, delim, BorderNone );
     propBackgroundImage.fix( parameters, delim );
     propImageStyle.fix( parameters, delim, RTK::ImageNone );
-    /*>>>>>OBJECT_FIXPARAMETERS*/
+/*>>>>>OBJECT_FIXPARAMETERS*/
+	if( propFontSize.getOrig() && (*propFontSize.getOrig() == '+' || *propFontSize.getOrig() == '-' )) {
+		Xtring errmsg;
+		mFontSizeIncrement = stringTo<double>(propFontSize.getOrig(), errmsg);
+		propFontSize.clear();
+	}
 }
 
 /**
@@ -714,6 +720,16 @@ Xtring Object::debugPrint(const Xtring &file, const Xtring &function, int line) 
 }
 #endif
 
+
+double Object::realFontSize() const
+{
+	double fontsize = fontSize();
+	if( mFontSizeIncrement != 0.0 )
+		fontsize += mFontSizeIncrement;
+	if( fontsize < minFontSize() )
+		fontsize = minFontSize();
+	return fontsize;
+}
 
 
 /*<<<<<OBJECT_Visible_GET*/

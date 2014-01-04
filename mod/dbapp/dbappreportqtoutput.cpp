@@ -53,7 +53,7 @@ Measure ReportQtOutput::startPage()
             std::cout << "DeviceMetrics:w:"
                       << aPicture->width() << ",h:" << aPicture->height() << ",wMM:" << aPicture->widthMM() << ",hMM:" << aPicture->heightMM()
                       << ",dpix:" << aPicture->logicalDpiX() << ",dpiy:" << aPicture->logicalDpiY() << std::endl;
-            QFontMetrics fm( QFont( "", (int)mReport.fontSize() ) );
+            QFontMetrics fm( QFont( "", (int)mReport.realFontSize() ) );
             std::cout << "FontMetrics:w:" << fm.width( 'W' ) << ",h:" << fm.height() << std::endl;
         }
 #endif
@@ -282,12 +282,11 @@ Measure ReportQtOutput::printObject( const Object &object )
         Xtring text( object.formattedText() );
         if ( text.size() ) {
             // Set the font
-            QFont font( object.fontFamily(),
-                        object.fontSize() == 0 ? 10 : int(round(object.fontSize(), 0)),
+			double fs = object.realFontSize();
+            QFont font( object.fontFamily(), fs == 0.0 ? 10 : int(round(fs, 0)),
                         object.fontWeight(), object.fontItalic() );
             mPainter.setFont( font );
             QFontMetrics fm( font );
-            _GONG_DEBUG_PRINT(10, Xtring::printf("Color del objeto: %s", toQColor(object.fontColor()).name().latin1() ) );
             QPen textPen( toQColor(object.fontColor()), 0, Qt::SolidLine );
             mPainter.setPen( textPen );
 

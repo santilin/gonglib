@@ -46,7 +46,7 @@ in that section.
 
 void Style::fixParameters(const ParametersList &parameters, const char *delim)
 {
-    /*<<<<<STYLE_FIXPARAMETERS*/
+/*<<<<<STYLE_FIXPARAMETERS*/
     propVisible.fix( parameters, delim, true );
     propSupressed.fix( parameters, delim, false );
     propSupressDup.fix( parameters, delim, false );
@@ -55,7 +55,7 @@ void Style::fixParameters(const ParametersList &parameters, const char *delim)
     propFontWeight.fix( parameters, delim, 0 );
     propFontItalic.fix( parameters, delim, false );
     propMaxLines.fix( parameters, delim, 0 );
-    propMinFontSize.fix( parameters, delim, 8 );
+    propMinFontSize.fix( parameters, delim, 4 );
     propFormat.fix( parameters, delim );
     propMask.fix( parameters, delim );
     propLocale.fix( parameters, delim );

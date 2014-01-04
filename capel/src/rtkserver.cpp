@@ -141,7 +141,6 @@ GetSetArray gsImage[] = {
     { PROPERTY_FIX, "ImageStyle", "ImageStyle", "RTK::ImageNone", "", "Style to apply to the background image" }
                         };
 
-#define OUTPUT_COMMON_PROPERTIES 9
 GetSetArray gsOutput[] = {
     { PROPERTY, "Measure", "UnitsPerInchX", "72", "", ""},
     { PROPERTY, "Measure", "UnitsPerInchY", "72", "", ""},
@@ -158,7 +157,7 @@ GetSetArray gsOutput[] = {
     { PROPERTY, "double", "DefaultFontSize", "10", "", "Output's default Font size"},
     { PROPERTY, "int", "DefaultFontWeight", "0", "", "Output's default Font weight"},
     { PROPERTY, "bool", "DefaultFontItalic", "false", "", "whether the oject's font is italic"},
-    { PROPERTY, "double", "DefaultMinFontSize", "8", "", "Output's default minimun font size"},
+    { PROPERTY, "double", "DefaultMinFontSize", "4", "", "Output's default minimun font size"},
     { PROPERTY, "Adjustment", "DefaultAdjustment", "AdjustTrim", "", "Output's default type of adjudstment"},
     { PROPERTY, "Color", "DefaultFontColor", "Color::Black", "", "Output's default text color"},
     { PROPERTY, "Color", "DefaultBackColor", "Color::White", "", "Output's default back color"},

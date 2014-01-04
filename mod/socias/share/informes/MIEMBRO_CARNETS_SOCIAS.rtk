@@ -1,0 +1,89 @@
+REPORT MIEMBRO_CARNET_DE_SOCIA
+{
+	Title = "Socias carnet de socia";
+	Units = chars;
+	SizeX = 90;
+	SizeY = 60;
+
+	INPUT default {
+		driver = mysql;
+		from = "MIEMBRO INNER JOIN CONTACTO ON MIEMBRO.CONTACTO_ID = CONTACTO.ID INNER JOIN PROYECTO ON MIEMBRO.PROYECTO_ID = PROYECTO.ID";
+		orderby = "3";
+
+		INPUTFIELD PROYECTO_NOMBRE_dummy {
+			Source = PROYECTO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD PROYECTO_NOMBRE {
+			Source = PROYECTO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD MIEMBRO_NUMEROSOCIA {
+			Source = MIEMBRO.NUMEROSOCIA;
+			Type = int;
+		}
+		INPUTFIELD CONTACTO_CIF {
+			Source = CONTACTO.CIF;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_NOMBRE {
+			Source = CONTACTO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD MIEMBRO_FECHAALTA {
+			Source = MIEMBRO.FECHAALTA;
+			Type = date;
+		}
+
+	}
+
+	DETAILS details {
+		posx = 0;
+		sizex = 30;
+		level = 0;
+		style = detail;
+		sizey = 5;
+		columns = 3;
+
+		OBJECT PROYECTO_NOMBRE {
+			value = "=input.PROYECTO_NOMBRE";
+			halignment = "left";
+			posx = 0;
+			posy = 0;
+			sizex = 25;
+			fontsize = "+4";
+			fontfamily = "Dented BRK";
+		}
+		OBJECT MIEMBRO_NUMEROSOCIA {
+			value = "=input.MIEMBRO_NUMEROSOCIA";
+			halignment = "right";
+			posx = -1;
+			posy = 0;
+			sizex = 10;
+		}
+		OBJECT CONTACTO_CIF {
+			value = "=input.CONTACTO_CIF";
+			halignment = "left";
+			posy = 2;
+			posx = 0;
+			sizex = 15;
+		}
+		OBJECT CONTACTO_NOMBRE {
+			value = "=input.CONTACTO_NOMBRE";
+			halignment = "left";
+			posy = 2;
+			posx = -1;
+			sizex = 38;
+		}
+		OBJECT MIEMBRO_FECHAALTA {
+			value = "=input.MIEMBRO_FECHAALTA";
+			halignment = "left";
+			posy = 3;
+			posx = 0;
+			sizex = 10;
+			fontsize = "-2";
+		}
+
+	}
+
+}

@@ -253,11 +253,11 @@ Measure OutputPS::printObject( const Object &object )
             objtext = escapeText(objtext);
             const char *text = objtext.c_str();
             if( mLastFontFamily != object.fontFamily()
-                    || mLastFontSize != object.fontSize()
+                    || mLastFontSize != object.realFontSize()
                     || mLastFontWeight != object.fontWeight()
                     || mLastFontItalic != object.fontItalic() ) {
                 mLastFontFamily = object.fontFamily();
-                mLastFontSize = object.fontSize();
+                mLastFontSize = object.realFontSize();
                 mLastFontWeight = object.fontWeight();
                 mLastFontItalic = object.fontItalic();
                 Xtring usedfont;

@@ -1,15 +1,11 @@
 == HECHO ==
-REF: Elimino constante PACKAGE_DATA_DIR de gonglib, se usaba solo en outputodfcalc.
-FIX: Utilizo nombres de los settings en menús y editor de vistas
-FIX: No guarda el tamaño de los campos DIRECCION, etc en las vistas
-FIX: FrmEditView: Guardar en la configuración elegida
+
 == HACIENDO ==
 
 == gong-rtk ==
 * El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 * El borderbottom no funciona salvo que la siguiente sección tenga un margen top
 * Al hacer un informe apaisado, el alto de línea es demasiado pequeño
-* Añadir propiedad fontsizeincrement
 * Cerrar informes con el escape
 * Peta si se añade al inicio de xxxx_comun.inc:
 #ifndef AGRUPAR
