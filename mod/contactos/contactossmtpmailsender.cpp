@@ -3,6 +3,7 @@
 #include <Poco/Net/MailRecipient.h>
 #include <Poco/Net/SMTPClientSession.h>
 #include <Poco/Net/NetException.h>
+#include <gongdebug.h>
 
 #include "contactossmtpmailsender.h"
 
@@ -91,6 +92,22 @@ int SMTPMailSender::send(const Xtring& from, const Xtring& to, const Xtring &sub
 
 int SMTPMailSender::sendHTML(const Xtring& from, const Xtring& to, const Xtring& subject, const Xtring& content)
 {
+
+	const char *c = content.c_str();
+	const char *n = 0, *r = 0;
+	while( *c ) {
+		if( *c == '\n' )
+			n = c;
+		if( *c == '\r' ) {
+			r = c;
+			if( n + 1 != r ) {
+				_GONG_DEBUG_PRINT(0, "Bare LF!");
+				_GONG_DEBUG_PRINT(0, n );
+			}
+		}
+		c++;
+	}
+
 	int ret = 0;
 	clearError();
     Xtring enc_subject = MailMessage::encodeWord(subject, "UTF-8");
@@ -100,8 +117,8 @@ int SMTPMailSender::sendHTML(const Xtring& from, const Xtring& to, const Xtring&
     message.setSubject(enc_subject);
     message.setContentType("text/html; charset=UTF-8");
 	Xtring lf_content(content);
-    message.setContent(lf_content, MailMessage::ENCODING_8BIT);
 	lf_content.replace("\x0a", "\x0d\x0a");
+    message.setContent(lf_content, MailMessage::ENCODING_7BIT);
     try {
 		pSession->sendMessage(message);
 		ret = 1;

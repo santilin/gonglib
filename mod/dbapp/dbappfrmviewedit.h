@@ -127,6 +127,7 @@ private:
     FrmEditRecMaster *pFrmEditRecMaster;
     dbViewDefinition *pViewDefinition;
     dbRecord *pRecord;
+	int mSaveSettingIndex;
 };
 
 }

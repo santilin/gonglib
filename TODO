@@ -1,15 +1,41 @@
 == HECHO ==
-
+REF: Elimino constante PACKAGE_DATA_DIR de gonglib, se usaba solo en outputodfcalc.
+FIX: Utilizo nombres de los settings en menús y editor de vistas
+FIX: No guarda el tamaño de los campos DIRECCION, etc en las vistas
+FIX: FrmEditView: Guardar en la configuración elegida
 == HACIENDO ==
 
+== gong-rtk ==
+* El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
+* El borderbottom no funciona salvo que la siguiente sección tenga un margen top
+* Al hacer un informe apaisado, el alto de línea es demasiado pequeño
+* Añadir propiedad fontsizeincrement
+* Cerrar informes con el escape
+* Peta si se añade al inicio de xxxx_comun.inc:
+#ifndef AGRUPAR
+	SizeX = 120;
+* pagesperfolio=2, no imprime el pie de página de la primera página
+=== Error en RTK ===
+* Esto falla miserablemente:
+		INPUTFIELD NOMBRE {
+			Source = T.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD IVA {
+* Comprobar los estilos de los campos de los informes, que se usen los de gonglib
+* Si en un pageheader se pone un objeto con un sizey que va al final y luego hay otros objetos que van al principio, el del final no sale
+* rtk: startpage.drawImages no cubre todo el painter
+
+
 == PARA MAÑANA ==
-* Envío de emails masivos. Bare LF
+* Envío de emails masivos Bare LF
 * Informe de etiquetas de socias.
 * Error biosegura.
 
-== CONSULTAR ==
-C++. ¿Por qué el operador de copia no se virtualiza?
-Calcular el máximo de una unión en SQL
+== CON INTERNET ==
+* Buscar macro AC para las PocoLib
+* C++. ¿Por qué el operador de copia no se virtualiza?
+* Calcular el máximo de una unión en SQL
 * ¿Cómo se saca una lista de las tablas temporales en mysql?
 
 == ERRORES ==
@@ -45,7 +71,6 @@ Calcular el máximo de una unión en SQL
 * Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
 
 == gong-socias ==
-* ENH: socias: Al añadir o duplicar socia, deshabilitar fecha y motivo baja
 * Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
 * Elegir remesa en generar recibos, elegir solo las no cerradas
 * Tipo de partida: nameslisttable
@@ -53,8 +78,6 @@ Calcular el máximo de una unión en SQL
 
 == gong-tpv ==
 * Fila de productos más vendidos
-* Optimizar imágenes de las familias. TPVBehavior
-* Orden en TPV. TPVBehavior
 * Si no encuentra las imágenes next y previos, peta.
 * Si hay exactamente 2 x 5 familias, salen 3 filas porque añade el botón next.
 * Añadir modalidad: Rondas, mesas, vendedores, etc.
@@ -114,7 +137,6 @@ Calcular el máximo de una unión en SQL
 * 	struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
-* No guarda el tamaño de los campos DIRECCION, etc en las vistas
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
 * QWidgetTab->strongFocus
@@ -157,26 +179,6 @@ Calcular el máximo de una unión en SQL
 * La longitud del documento archivado no puede ser mayor de ...
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
-== gong-rtk ==
-* El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
-* El borderbottom no funciona salvo que la siguiente sección tenga un margen top
-* Al hacer un informe apaisado, el alto de línea es demasiado pequeño
-* Añadir propiedad fontsizeincrement
-* Cerrar informes con el escape
-* Peta si se añade al inicio de xxxx_comun.inc:
-#ifndef AGRUPAR
-	SizeX = 120;
-* pagesperfolio=2, no imprime el pie de página de la primera página
-=== Error en RTK ===
-* Esto falla miserablemente:
-		INPUTFIELD NOMBRE {
-			Source = T.NOMBRE;
-			Type = string;
-		}
-		INPUTFIELD IVA {
-* Comprobar los estilos de los campos de los informes, que se usen los de gonglib
-* Si en un pageheader se pone un objeto con un sizey que va al final y luego hay otros objetos que van al principio, el del final no sale
-* rtk: startpage.drawImages no cubre todo el painter
 
 == gong-qt4 ==
 * Checkboxes, que el ENTER no cambie el valor, sólo el espacio

@@ -88,14 +88,14 @@ void MainWindow::initGUI()
     pMenuSystemConfigEditor->addTo(pMenuSystemConfig);
 
     text = toGUI( _("Abre el editor de la configuración para este ordenador") );
-    pMenuSystemModuleLocalUserSettingsEditor = new QAction( toGUI( _("local a este ordenador") ), 0, this, 0);
+    pMenuSystemModuleLocalUserSettingsEditor = new QAction( toGUI( DBAPP->getUserLocalSettings()->getDescription() ), 0, this, 0);
     pMenuSystemModuleLocalUserSettingsEditor->setStatusTip( text );
     pMenuSystemModuleLocalUserSettingsEditor->setWhatsThis( text );
     connect(pMenuSystemModuleLocalUserSettingsEditor, SIGNAL(activated()), this, SLOT(slotMenuSystemModuleLocalUserSettingsEditor()));
     pMenuSystemModuleLocalUserSettingsEditor->addTo(pMenuSystemConfig);
 
     text = toGUI( _("Abre el editor de la configuración global para todos los ordenadores") );
-    pMenuSystemModuleGlobalSettingsEditor = new QAction( toGUI( _("común a todos los ordenadores") ), 0, this, 0);
+    pMenuSystemModuleGlobalSettingsEditor = new QAction( toGUI( DBAPP->getGlobalSettings()->getDescription() ), 0, this, 0);
     pMenuSystemModuleGlobalSettingsEditor->setStatusTip( text );
     pMenuSystemModuleGlobalSettingsEditor->setWhatsThis( text );
     connect(pMenuSystemModuleGlobalSettingsEditor, SIGNAL(activated()), this, SLOT(slotMenuSystemModuleGlobalSettingsEditor()));

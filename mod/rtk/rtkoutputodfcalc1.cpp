@@ -11,6 +11,7 @@
 #include <gongiconv.h>
 #include <gongfileutils.h>
 #include <gongformatter.h>
+#include <gonglibrary.h>
 #include "rtkobject.h"
 #include "rtksection.h"
 #include "rtkreport.h"
@@ -56,15 +57,12 @@ static const char *body =
 static const char *body_end =
     "</table:table></office:spreadsheet></office:body></office:document-content>";
 
-/// TODO: Para el package data dir al constructor
-#define PACKAGE_DATA_DIR PACKAGE
-
 int OutputODFCalc1::startReport()
 {
     mIntSizeX = static_cast<int>(sizeX());
     mIntSizeY = static_cast<int>(sizeY());
     if( strempty(templatePath()) )
-        propTemplatePath = PACKAGE_DATA_DIR PACKAGE "/opendocument/calc/template/";
+        propTemplatePath = strdup( (Xtring(GongLibraryInstance->getGlobalDataDir()) +  "/opendocument/calc/template/").c_str() );
     switch( replaceContent() ) {
     case CREATE:
         if( FileUtils::exists( fileName() ) ) {

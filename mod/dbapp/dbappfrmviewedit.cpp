@@ -166,20 +166,20 @@ FrmViewEdit::FrmViewEdit(DataTable::EditMode editmode,
     mainLayout->addLayout(buttonsLayout);
     verticalLayout->addLayout(mainLayout);
 
-
     lblViewName->setText( toGUI(_("Nombre de la vista")) );
     lblViewOrigin->setText(toGUI(_("Origen")) );
     lblFields->setText(toGUI(_("Campos")) );
     lblCaption->setText(toGUI(_("Encabezado")) );
     lblWidth->setText(toGUI(_("Ancho")) );
     lblStyle->setText(toGUI(_("Estilo")) );
-    lblSetting->setText( toGUI(_("Guardar en la configuración") ) );
+    lblSetting->setText( toGUI(_("Guardar en") ) );
     lblOrderBy->setText(toGUI(_("Ordenar por")));
     chkIncludeFilter->setText( toGUI( _("Incluir el filtro actual" ) ) );
-    comboSetting->insertItem( toGUI( _("Tu configuración global" ) ) );
-    comboSetting->insertItem( toGUI( _("La configuración global" ) ) );
-    comboSetting->insertItem( toGUI( _("Tu configuración local" ) ) );
-    pushAccept->setText( toGUI( _("Grabar") ) );
+    comboSetting->insertItem( toGUI( DBAPP->getUserLocalSettings()->getDescription() ) );
+    comboSetting->insertItem( toGUI( DBAPP->getGlobalSettings()->getDescription() ) );
+	if( mEditMode == DataTable::updating )
+		comboSetting->insertItem( toGUI( _("No cambiar" ) ) );
+	pushAccept->setText( toGUI( _("Grabar") ) );
     pushCancel->setText( toGUI( _("Cancelar") ) );
 
     txtViewName->setText( viewdef->getCaption() );
@@ -187,12 +187,8 @@ FrmViewEdit::FrmViewEdit(DataTable::EditMode editmode,
     txtOrderBy->setText( viewdef->getOrderBy() );
     Xtring title;
 
-    lblSetting->setVisible( false );
-    comboSetting->setVisible (false );
     switch( mEditMode ) {
     case DataTable::inserting:
-        lblSetting->setVisible( true );
-        comboSetting->setVisible (true );
         pFocusWidget = txtViewName;
         txtOrderBy->setText("2");
         title = _("Añadiendo una nueva vista a la tabla de %2$s");
@@ -200,6 +196,7 @@ FrmViewEdit::FrmViewEdit(DataTable::EditMode editmode,
     case DataTable::updating:
         title = _("Modificando la vista '%1$s'");
         txtViewName->setEnabled( false );
+		comboSetting->setCurrentIndex( 2 );
         break;
     case DataTable::deleting:
         title = _("Eliminando la vista '%1$s'");
@@ -207,6 +204,7 @@ FrmViewEdit::FrmViewEdit(DataTable::EditMode editmode,
     default:
         throw std::runtime_error("Invalid editmode in FrmViewEdit");
     }
+    mSaveSettingIndex = comboSetting->currentIndex();
     setCaption( toGUI(Xtring::printf( title,
                                       viewdef->getOrigin().startsWith("DEFAULT:") || pViewDefinition->getName().endsWith(".DEFAULT")
                                       ? _( "por defecto" ) : pViewDefinition->getCaption().c_str(),
@@ -384,7 +382,9 @@ int FrmViewEdit::exec()
     updateStatus();
     showModalFor( getRealParent(), false, true );
     if( !wasCancelled() ) {
-        if( pViewDefinition->isModified() || pViewDefinition->getCaption() != txtViewName->toString() ) {
+        if( pViewDefinition->isModified()
+			|| pViewDefinition->getCaption() != txtViewName->toString()
+			|| mSaveSettingIndex != comboSetting->currentIndex() ) {
             updateView();
             saveView();
         }
@@ -440,9 +440,19 @@ bool FrmViewEdit::saveView()
     if( chkIncludeFilter->isChecked() && pFrmEditRecMaster )
         pViewDefinition->setWhere( pFrmEditRecMaster->getWholeFilter() );
     pViewDefinition->setOrderBy( txtOrderBy->toString() );
-    _GONG_DEBUG_PRINT(3, "Must save view " + pViewDefinition->getCaption() +
+    _GONG_DEBUG_PRINT(0, "Must save view " + pViewDefinition->getCaption() +
                       " to origin " + origin + "=" + pViewDefinition->toConfigString() );
-    DBAPP->updateSetting( origin, pViewDefinition->toConfigString() );
+	switch( comboSetting->currentIndex() ) {
+		case 0:
+			DBAPP->getUserLocalSettings()->setValue( origin, pViewDefinition->toConfigString() );
+			break;
+		case 1:
+			DBAPP->getGlobalSettings()->setValue( origin, pViewDefinition->toConfigString() );
+			break;
+		case 2:
+			DBAPP->updateSetting( origin, pViewDefinition->toConfigString() );
+			break;
+	}
     pViewDefinition->setModified( false );
     DBAPP->setViewsFromConfig();
     return true;

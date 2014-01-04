@@ -65,7 +65,7 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
 	pResultado = addTextEditBox( tabResultado, _("Resultado"), Xtring::null, 0, resLayout );
 	pErrors = addTextEditBox( tabResultado, _("Errores"), Xtring::null, 0, resLayout );
 	tabFrameEdit->addTab( tabResultado, _("Resultado") );
-#if HAVE_POCOLIB
+#if !HAVE_POCOLIB
 	msgError( this, _("No se pueden enviar emails, la biblioteca POCO no está instalada") );
 	pushAccept->setEnabled( false );
 #endif
@@ -171,7 +171,7 @@ void FrmMailing::accept()
 	pResultado->clear();
 	bool hubo_errores = false;
 	SMTPMailSender s( pHost->toString(), pPort->toInt(), pUser->toString(), pPassword->toString() );
-	if( !s.open() ) {
+	if( s.open() ) { // Ojito
 		addMessage( pErrors, _("Error: " + s.getError()) );
 	} else {
 		getEmailsList( emails, false );
