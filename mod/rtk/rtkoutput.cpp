@@ -124,7 +124,7 @@ Measure Output::startPage()
 {
     mTotalPages++;
     mCurrentPage++;
-    mCurrentColumn = 1;
+    mCurrentColumn = 0;
     mGrowthY = 0;
     mCurrX = marginLeft();
     mCurrY = mColumnCurrY = ( mCurrY + marginTop() );

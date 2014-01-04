@@ -2,7 +2,7 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 {
 	Title = "Socias carnet de socia";
 	Units = chars;
-	SizeX = 90;
+	SizeX = 93;
 	SizeY = 60;
 
 	INPUT default {
@@ -44,14 +44,15 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 		style = detail;
 		sizey = 5;
 		columns = 3;
+		marginright = 1;
 
 		OBJECT PROYECTO_NOMBRE {
 			value = "=input.PROYECTO_NOMBRE";
 			halignment = "left";
 			posx = 0;
 			posy = 0;
-			sizex = 25;
-			fontsize = "+4";
+			sizex = 20;
+			fontsize = "+8";
 			fontfamily = "Dented BRK";
 		}
 		OBJECT MIEMBRO_NUMEROSOCIA {
@@ -59,21 +60,22 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 			halignment = "right";
 			posx = -1;
 			posy = 0;
-			sizex = 10;
+			sizex = 9;
 		}
 		OBJECT CONTACTO_CIF {
 			value = "=input.CONTACTO_CIF";
 			halignment = "left";
 			posy = 2;
 			posx = 0;
-			sizex = 15;
+			sizex = 10;
 		}
 		OBJECT CONTACTO_NOMBRE {
 			value = "=input.CONTACTO_NOMBRE";
 			halignment = "left";
 			posy = 2;
 			posx = -1;
-			sizex = 38;
+			sizex = 19;
+			adjustment = "grow";
 		}
 		OBJECT MIEMBRO_FECHAALTA {
 			value = "=input.MIEMBRO_FECHAALTA";
@@ -81,7 +83,6 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 			posy = 3;
 			posx = 0;
 			sizex = 10;
-			fontsize = "-2";
 		}
 
 	}
