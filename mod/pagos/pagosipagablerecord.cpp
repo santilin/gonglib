@@ -736,5 +736,5 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
 }
 
 
-} // namesace pagos
-} // namesace gong
+} // namespace pagos
+} // namespace gong

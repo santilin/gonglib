@@ -49,5 +49,5 @@ FrmEditRec *IAsentableRecord::showAsiento( DataTable::EditMode editmode, const X
 }
 
 
-} // namesace contab
-} // namesace gong
+} // namespace contab
+} // namespace gong

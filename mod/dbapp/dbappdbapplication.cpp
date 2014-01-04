@@ -782,7 +782,8 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
     sCodeNotFound = code;
     sDescNotFound = desc;
     sSeekCodeRecordIDs.clear();
-    Xtring fullfldcod = "BINARY " + rec->getTableName() + "." + fldcod;
+    Xtring fullfldcod = rec->getTableName() + "." + fldcod;
+    Xtring binaryfullfldcod = "BINARY " + fullfldcod;
     Xtring fullflddesc;
     bool usejoinedtables = false;
     if( flddesc.find( ".") != Xtring::npos ) {
@@ -794,9 +795,9 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
     {
         if ( !code.isEmpty() && !desc.isEmpty() )
         {
-            swheres[nwheres++] = fullfldcod + "=" + rec->getConnection()->toSQL ( code )
+            swheres[nwheres++] = binaryfullfldcod + "=" + rec->getConnection()->toSQL ( code )
                                  + " AND " + fullflddesc + "=" + rec->getConnection()->toSQL ( desc );
-            swheres[nwheres++] = fullfldcod + "=" + rec->getConnection()->toSQL ( code )
+            swheres[nwheres++] = binaryfullfldcod + "=" + rec->getConnection()->toSQL ( code )
                                  + " AND " + rec->getConnection()->toSQLLike ( fullflddesc, desc );
             swheres[nwheres++] = rec->getConnection()->toSQLStartLike ( fullfldcod, code )
                                  + " AND " + fullflddesc + "=" + rec->getConnection()->toSQL ( desc );
@@ -807,7 +808,7 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
         }
         else if ( !code.isEmpty() )
         {
-            swheres[nwheres++] = fullfldcod + "=" + rec->getConnection()->toSQL ( code );
+            swheres[nwheres++] = binaryfullfldcod + "=" + rec->getConnection()->toSQL ( code );
             if( flags & FindCodeInDesc ) {
                 swheres[nwheres++] = rec->getConnection()->toSQLLike ( rec->getTableName() + "." + fldcod, code )
                                      + " OR " + rec->getConnection()->toSQLLike ( fullflddesc, code );
@@ -822,7 +823,7 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
         {
             swheres[nwheres++] = fullflddesc + "=" + rec->getConnection()->toSQL ( desc );
             swheres[nwheres++] = rec->getConnection()->toSQLLike ( fullflddesc, desc );
-            swheres[nwheres++] = fullfldcod + "=" + rec->getConnection()->toSQL ( desc );
+            swheres[nwheres++] = binaryfullfldcod + "=" + rec->getConnection()->toSQL ( desc );
             swheres[nwheres++] = rec->getConnection()->toSQLStartLike ( fullfldcod, desc );
             swheres[nwheres++] = rec->getConnection()->toSQLLike ( fullfldcod, desc );
         }
@@ -834,7 +835,7 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
     }
     else
     {
-        swheres[nwheres++] = fullfldcod + "=" + rec->getConnection()->toSQL ( code );
+        swheres[nwheres++] = binaryfullfldcod + "=" + rec->getConnection()->toSQL ( code );
         swheres[nwheres++] = rec->getConnection()->toSQLStartLike ( fullfldcod, code );
         swheres[nwheres++] = rec->getConnection()->toSQLLike ( fullfldcod, code );
     }

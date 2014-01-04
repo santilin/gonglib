@@ -193,6 +193,7 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
             return new dbResultSet( this, res );
         } else {
             setError( query );
+			_GONG_DEBUG_WARNING( mLastError.getWholeError());
             if ( !ignoreerrors )
                 throw mLastError;
         }
@@ -212,6 +213,7 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
             return new dbResultSet( this, ppSmt );
         } else {
             setError( query );
+			_GONG_DEBUG_WARNING( mLastError.getWholeError());			
             if( ppSmt )
                 sqlite3_finalize( ppSmt );
             if ( !ignoreerrors )

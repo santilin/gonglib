@@ -134,5 +134,5 @@ void ITotalizableRecord::actTotales()
         pRecord->setValue( "DESGLOSEIVA", idr->calcDesgloseIVA() );
 }
 
-} // namesace factu
-} // namesace gong
+} // namespace factu
+} // namespace gong

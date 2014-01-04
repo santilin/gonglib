@@ -187,10 +187,12 @@ Xtring dbDefinition::sameSQLSchema( const dbDefinition *other, dbConnection *con
 {
     Xtring ret;
     for( unsigned int nt = 0; nt < getTables().size(); nt++ ) {
+		if( getTableDefinition(nt)->isTemporary() )
+			continue;
         const dbTableDefinition *othertabledef = other->findTableDefinition( getTableDefinition(nt)->getName() );
         if( othertabledef )
             ret += getTableDefinition(nt)->sameSQLSchema( othertabledef, conn, purging );
-        else
+        else 
             ret += "# CREATE TABLE " + getTableDefinition(nt)->getName() + "\n";
     }
     return ret;
