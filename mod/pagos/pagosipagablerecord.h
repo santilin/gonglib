@@ -16,7 +16,8 @@ class IPagableRecord
 public:
     enum Tipo { pagos, cobros };
     IPagableRecord( dbRecord *factura, IPagableRecord::Tipo t, const Xtring &total_field,
-                    const Xtring &pagos_field, const Xtring &resto_field, const XtringList &other_pagos_fields );
+                    const Xtring &pagos_field, const Xtring &resto_field, const XtringList &other_pagos_fields,
+					const Xtring &tablapagos = Xtring::null );
     virtual dbRecordID getProyectoID() const = 0;
     virtual dbRecord *getRecTercero() const = 0;
 #ifdef HAVE_CONTABMODULE
@@ -65,7 +66,7 @@ public:
 protected:
     dbRecord *pFactura;
     Tipo mTipo;
-    Xtring mTotalField, mPagosField, mRestoField, mPrefijoContableTercero;
+    Xtring mTotalField, mPagosField, mRestoField, mPrefijoContableTercero, mTablaPagos;
     XtringList mOtherPagosFields;
     dbRecord *pRecTercero;
 };

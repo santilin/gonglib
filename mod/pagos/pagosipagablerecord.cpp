@@ -17,18 +17,26 @@ namespace pagos {
 
 IPagableRecord::IPagableRecord(dbRecord* pFactura, Tipo t,
                                const Xtring& total_field, const Xtring& pagos_field,
-                               const Xtring& resto_field, const XtringList& other_pagos_fields)
+                               const Xtring& resto_field, const XtringList& other_pagos_fields,
+							   const Xtring& tablapagos )
     : pFactura( pFactura ), mTipo( t ), mTotalField( total_field ), mPagosField( pagos_field ),
       mRestoField( resto_field ), mOtherPagosFields( other_pagos_fields )
 {
+	if( tablapagos.isEmpty() ) {
+		if( mTipo == IPagableRecord::pagos )
+			mTablaPagos = "PAGO";
+		else
+			mTablaPagos = "COBRO";
+	} else
+		mTablaPagos = tablapagos;
 }
 
 dbRecord *IPagableRecord::createRecibo()
 {
     if( mTipo == pagos ) {
-        return DBAPP->createRecord( "PAGO", 0, pFactura->getUser() );
+        return DBAPP->createRecord( mTablaPagos, 0, pFactura->getUser() );
     } else {
-        return DBAPP->createRecord( "COBRO", 0, pFactura->getUser() );
+        return DBAPP->createRecord( mTablaPagos, 0, pFactura->getUser() );
     }
 }
 
@@ -43,7 +51,7 @@ Xtring IPagableRecord::getFacturaWhere() const
 int IPagableRecord::hasPagos(int estado_si, int estado_no, bool soloautomaticos)
 {
     dbRecord *recibo = createRecibo();
-    Xtring sql = "SELECT COUNT(*) FROM " + recibo->getTableName() +
+    Xtring sql = "SELECT COUNT(*) FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName()) +
                  recibo->getFilter( "WHERE", getFacturaWhere() );
     if( soloautomaticos )
         sql += " AND AUTOMATICO=1";
@@ -59,7 +67,7 @@ bool IPagableRecord::delPagos( bool soloautomaticos )
     bool ret = true;
     dbRecord *recibo = createRecibo();
     Xtring id_field = pFactura->getTableName() + "_ID";
-    Xtring sql = "SELECT ID FROM " + recibo->getTableName()
+    Xtring sql = "SELECT ID FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName())
                  + recibo->getFilter( "WHERE", getFacturaWhere() )
                  + " AND ESTADORECIBO=" + pFactura->getConnection()->toSQL( PagosModule::ReciboPendiente ) ;
     if( soloautomaticos )
@@ -104,7 +112,7 @@ bool IPagableRecord::actPagos()
 {
     dbRecord *recibo = createRecibo();
     Xtring id_field = pFactura->getTableName() + "_ID";
-    Xtring sql = "SELECT SUM( IMPORTE - RESTO ) FROM " + recibo->getTableName() +
+    Xtring sql = "SELECT SUM( IMPORTE - RESTO ) FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName()) +
                  recibo->getFilter( "WHERE", getFacturaWhere() );
     Money pagos = pFactura->getConnection()->selectMoney( sql );
     if( pagos != pFactura->getValue( mPagosField ).toDouble() ) {
@@ -221,9 +229,9 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
     Xtring que_es;
     Xtring tercero_field = getRecTercero()->getTableName() + "_ID";
     if( mTipo == pagos ) {
-        que_es = DBAPP->getTableDescSingular( "PAGO", "" ) + " ";
+        que_es = DBAPP->getTableDescSingular( mTablaPagos, "" ) + " ";
     } else {
-        que_es = DBAPP->getTableDescSingular( "COBRO", "" ) + " ";
+        que_es = DBAPP->getTableDescSingular( mTablaPagos, "" ) + " ";
     }
     bool accepted = true, pago_multiple = false;
     Xtring numeroagrupado = recibo->getValue( "NUMEROAGRUPADO" ).toString();

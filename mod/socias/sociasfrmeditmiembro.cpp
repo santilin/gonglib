@@ -137,7 +137,7 @@ if( ModuleInstance->getPagosModule() ) {
 
 void FrmEditMiembro::scatterFields()
 {
-    /*<<<<<FRMEDITMIEMBRO_SCATTER*/
+/*<<<<<FRMEDITMIEMBRO_SCATTER*/
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editProyectoCodigo;
 	editNumeroSocia->setText(getRecMiembro()->getValue("NUMEROSOCIA").toInt());
@@ -171,6 +171,8 @@ if( ModuleInstance->getPagosModule() ) {
     if( isInserting() || isDuplicating() ) {
         comboSociasEstado->setCurrentItemByValue( SociasModule::activo );
         editFechaAlta->setText( Date::currentDate() );
+		editFechaBaja->setText( Xtring::null );
+		editMotivoBaja->setText( Xtring::null );
         editFechaBaja->setEnabled( false );
         editMotivoBaja->setEnabled( false );
         if( isDuplicating() ) {
@@ -186,7 +188,10 @@ if( ModuleInstance->getPagosModule() ) {
             editProyectoCodigo->setJustEdited( true );
             validateFields( editProyectoCodigo, 0 );
         }
-    }
+    } else {
+        editFechaBaja->setEnabled( true );
+        editMotivoBaja->setEnabled( true );
+	}
 }
 
 void FrmEditMiembro::gatherFields()
