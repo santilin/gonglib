@@ -250,8 +250,13 @@ bool dbTableDefinition::createIndexes( dbConnection *conn, bool ignoreerrors )
     for ( unsigned int i = 0; i < getFieldDefinitions().size(); i++ ) {
         dbFieldDefinition *flddef = getFieldDefinition( i );
         if ( flddef->isUnique() && !flddef->isPrimaryKey() ) {
-			conn->exec( "ALTER TABLE " + getName() + " DROP INDEX (" + flddef->getName() + ")", true );
-            conn->exec( "ALTER TABLE " + getName() + " ADD UNIQUE INDEX (" + flddef->getName() + ")", true );
+			if( conn->isMySQL() ) {
+				conn->exec( "ALTER TABLE " + getName() + " DROP INDEX (" + flddef->getName() + ")", true );
+				conn->exec( "ALTER TABLE " + getName() + " ADD UNIQUE INDEX (" + flddef->getName() + ")", true );
+			} else if( conn->isSQLite() ) {
+				conn->exec( "DROP INDEX IF EXISTS " + getName() + "_" + flddef->getName(), true );
+				conn->exec( "CREATE UNIQUE INDEX " + getName() + "_" + flddef->getName(), true );
+			}
         }
     }
     for ( unsigned int i = 0; i < getIndexDefinitions().size(); i++ ) {
@@ -274,7 +279,10 @@ bool dbTableDefinition::dropIndexes( dbConnection *conn, bool removeall, bool ig
     for ( unsigned int i = 0; i < getFieldDefinitions().size(); i++ ) {
         dbFieldDefinition *flddef = getFieldDefinition( i );
         if ( flddef->isUnique() && !flddef->isPrimaryKey() ) {
-            conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + flddef->getName(), true );
+			if( conn->isSQLite() )
+				conn->exec( "DROP INDEX IF EXISTS " + getName() + "_" + flddef->getName(), ignoreerrors );
+			else
+				conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + flddef->getName(), ignoreerrors );
         }
     }
     for ( unsigned int i = 0; i < getIndexDefinitions().size(); i++ ) {
@@ -284,9 +292,14 @@ bool dbTableDefinition::dropIndexes( dbConnection *conn, bool removeall, bool ig
     // Remove any remaining index with _gong_ prefix
     dbResultSet *rsIndexes = conn->select( "SHOW INDEXES FROM " + getName() );
     while( rsIndexes->next() ) {
-        Xtring idxname = rsIndexes->toString( 2 );
-        if (( removeall || idxname.startsWith( _GONG_INDEX_PREFIX ) ) && idxname != "PRIMARY" )
-            conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + idxname, ignoreerrors );
+		int name_pos = conn->isSQLite() ? 0 : 2;
+        Xtring idxname = rsIndexes->toString( name_pos );
+        if (( removeall || idxname.startsWith( _GONG_INDEX_PREFIX ) ) && idxname != "PRIMARY" ) {
+			if( conn->isSQLite() )
+				conn->exec( "DROP INDEX IF EXISTS " + idxname, ignoreerrors );
+			else
+				conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + idxname, ignoreerrors );
+		}
     }
     /// FIXME: {autodelete} Check if this resultsets are deleted when an exception is issued
     delete rsIndexes;
@@ -310,7 +323,6 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
         tbldef->mFrom = tblname;
         while( rsFields->next() ) {
             fldname = rsFields->toString( 0 );
-            //		const char *column_type = rsFields->at(nrow).toString(1).c_str();
             t = dbConnection::extractSqlColumnType( rsFields->toString( 1 ).c_str(), &w, &d );
             dbFieldDefinition::Flags tmpflags = dbFieldDefinition::NONE;
             if ( rsFields->toString( 2 ) == "NO" )
@@ -330,7 +342,33 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             flddef->setDescription( tblname + "." + fldname );
             tbldef->addField( flddef );
         }
-    }
+    } else if( conn->isSQLite() ) {
+		std::auto_ptr<dbResultSet> rsFields( conn->select( "PRAGMA table_info(" + tblname + ")" ) );
+        tbldef = new dbTableDefinition( db, tblname );
+        tbldef->setDescSingular( db.getName() + "." + tblname + " from SQL Schema" );
+        tbldef->mFrom = tblname;
+        while( rsFields->next() ) { // pos|name|type(size)|null?|default|1
+// 			_GONG_DEBUG_PRINT(0, rsFields->toString(0) );
+// 			_GONG_DEBUG_PRINT(0, rsFields->toString(1) );
+// 			_GONG_DEBUG_PRINT(0, rsFields->toString(2) );
+// 			_GONG_DEBUG_PRINT(0, rsFields->toString(3) );
+// 			_GONG_DEBUG_PRINT(0, rsFields->toString(4) );
+            fldname = rsFields->toString( 1 );
+            t = dbConnection::extractSqlColumnType( rsFields->toString( 2 ).c_str(), &w, &d );
+            dbFieldDefinition::Flags tmpflags = dbFieldDefinition::NONE;
+            if ( rsFields->toString( 3 ) == "0" )
+                tmpflags |= dbFieldDefinition::NOTNULL;
+            dbFieldDefinition *flddef = new dbFieldDefinition(
+                tblname, fldname, t, w, d,
+                tmpflags, // null, primarykey, ...
+                rsFields->toString( 4 ) // default value
+            );
+            flddef->setCaption( fldname.proper() );
+            flddef->setDescription( tblname + "." + fldname );
+            tbldef->addField( flddef );
+        }
+
+	}
     return tbldef;
 }
 

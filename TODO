@@ -1,6 +1,8 @@
 == HECHO ==
+FIX: Creación y borrado de índices en SqLite3
 
 == HACIENDO ==
+* Dar más inteligencia a cambiar de empresa y ejercicio
 
 == gong-rtk ==
 * El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
@@ -44,6 +46,9 @@
 ** No funciona el ItemIsSelectable
 
 = PRESCINDIBLE =
+* Recargo de equivalencia, estilo como el total en las facturas
+* Que la suma en mc de las ventas coincida con la suma de las facturas
+* Formulario datos ventas y compras de artículos
 
 == Ofertas ==
 * No hace copia de seguridad

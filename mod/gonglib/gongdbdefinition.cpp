@@ -66,21 +66,15 @@ dbDefinition *dbDefinition::fromSQLSchema( dbConnection *conn, const Xtring &dbn
 {
     _GONG_DEBUG_ASSERT( conn );
     Xtring tblname;
-    dbDefinition *dbdef;
+    dbDefinition *dbdef = 0;
 
-    if( conn->isMySQL() ) {
-        dbdef = new dbDefinition( dbname, "Generated from MySQL Schema" );
-        std::auto_ptr<dbResultSet> rsTables(conn->select( "SHOW TABLES" ));
-        while( rsTables->next() ) {
-            tblname = rsTables->toString(0);
-            dbTableDefinition *tbldef = dbTableDefinition::fromSQLSchema( conn, *dbdef, tblname );
-            dbdef->addTable( tbldef );
-        }
-    } else if (conn->isPGSQL() ) {
-//		seltables = "SELECT * FROM pg_table";
-    } else {
-        return 0;
-    }
+	dbdef = new dbDefinition( dbname, "Generated from Schema" );
+	std::auto_ptr<dbResultSet> rsTables(conn->select( "SHOW TABLES" ));
+	while( rsTables->next() ) {
+		tblname = rsTables->toString(0);
+		dbTableDefinition *tbldef = dbTableDefinition::fromSQLSchema( conn, *dbdef, tblname );
+		dbdef->addTable( tbldef );
+	}
     return dbdef;
 }
 

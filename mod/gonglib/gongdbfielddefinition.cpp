@@ -120,14 +120,14 @@ Xtring dbFieldDefinition::sameSQLSchema( const dbFieldDefinition *other, dbConne
              || ( isPrimaryKey() != other->isPrimaryKey() )
              || ( isSequence() != other->isSequence() )
            )  {
-        _GONG_DEBUG_PRINT(3, Xtring::printf("Column type: %d, %d", getSqlColumnType(), other->getSqlColumnType() ) );
-        _GONG_DEBUG_PRINT(3, Xtring::printf("Primary key: %d, %d", isPrimaryKey(), other->isPrimaryKey() ) );
-        _GONG_DEBUG_PRINT(3, Xtring::printf("Sequence: %d, %d", isSequence(), other->isSequence() ) );
+        _GONG_DEBUG_PRINT(0, Xtring::printf("Column type: %d, %d", getSqlColumnType(), other->getSqlColumnType() ) );
+        _GONG_DEBUG_PRINT(0, Xtring::printf("Primary key: %d, %d", isPrimaryKey(), other->isPrimaryKey() ) );
+        _GONG_DEBUG_PRINT(0, Xtring::printf("Sequence: %d, %d", isSequence(), other->isSequence() ) );
         ret ="ALTER TABLE " + getTableName() + " CHANGE COLUMN " + other->getName() + " " + getName() + " " + toDDL(conn) + ";\n";
     }
     else if( !purging ) {
         if( canBeNull() != other->canBeNull() ) {
-            _GONG_DEBUG_PRINT(3, Xtring::printf("Null: %d, %d", canBeNull(), other->canBeNull() ) );
+            _GONG_DEBUG_PRINT(0, Xtring::printf("Null: %d, %d", canBeNull(), other->canBeNull() ) );
             ret ="ALTER TABLE " + getTableName() + " CHANGE COLUMN " + other->getName() + " " + getName() + " " + toDDL(conn) + ";\n";
         } else if( getSqlColumnType() != SQLFLOAT && // Float fields have no size
                    ( ((getSqlWidth() != 0) && (other->getSqlWidth() != 0) && (getSqlWidth() != other->getSqlWidth() ))
@@ -258,7 +258,10 @@ Xtring dbFieldDefinition::toDDL( dbConnection *conn) const
         ddl = "VARCHAR(" + Xtring::number(mSqlWidth?mSqlWidth:100) + ")";
         break;
     case SQLINTEGER:
-        ddl = "INTEGER(" + Xtring::number(mSqlWidth?mSqlWidth:10) + ")";
+		if( conn->isSQLite() && isPrimaryKey() )
+			ddl = "INTEGER";
+		else
+			ddl = "INTEGER(" + Xtring::number(mSqlWidth?mSqlWidth:10) + ")";
         break;
     case SQLDECIMAL:
         ddl = "DECIMAL(" + Xtring::number(mSqlWidth?mSqlWidth:10) + "," + Xtring::number(mDecimals) + ")";
@@ -285,12 +288,18 @@ Xtring dbFieldDefinition::toDDL( dbConnection *conn) const
         ddl = "LONGBLOB";
         break;
     }
+    // PostGres serials are unique and not null by default
+    /* In mysql and sqlite3, sequences must be primary keys, and can only consist of one field */
+    if( isPrimaryKey() )
+        ddl += " PRIMARY KEY";
     if( isSequence() )
     {
         if( conn->isMySQL() )
             ddl += " AUTO_INCREMENT";
         else if( conn->isPGSQL() )
             ddl += " SERIAL";
+		else if( conn->isSQLite() )
+			ddl += " AUTOINCREMENT";
     } else if( getDefaultValue().isEmpty() && !canBeNull() ) {
         switch( getSqlColumnType() ) {
         case SQLTEXT:
@@ -338,10 +347,6 @@ Xtring dbFieldDefinition::toDDL( dbConnection *conn) const
     else
         ddl += " NULL";
     // Other clauses
-    // PostGres serials are unique and not null by default
-    /* In mysql, sequences must be primary keys, and can only consists of one field */
-    if( isSequence() || isPrimaryKey() )
-        ddl += " PRIMARY KEY";
 #if 0
     /* Unique indexes are created later by createIndexes */
     if( isUnique() )

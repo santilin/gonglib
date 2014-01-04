@@ -51,6 +51,7 @@ namespace gong
 /**
  * Creates an index. Prepends its name with _gong_ so that the reindex function can drop
  * all these indexes while preserving user created ones
+ * SqlLite3: The index name must include the tablename, as the DROP INDEX cant delete from a given table
  * @param conn
  * @param tbldef
  * @param ignoreerrors
@@ -59,24 +60,31 @@ namespace gong
 bool dbIndexDefinition::create( dbConnection *conn, const dbTableDefinition *tbldef,
                                 bool ignoreerrors )
 {
-    Xtring select = "ALTER TABLE " + tbldef->getName() + " ADD";
+	Xtring ddl;
+	if( conn->isMySQL() )
+		ddl = "ALTER TABLE " + tbldef->getName() + " ADD";
+	else if( conn->isSQLite() )
+		ddl = "CREATE";
     if( isUnique() )
-        select += " UNIQUE";
-    select += " INDEX " _GONG_INDEX_PREFIX + getName() + " (";
+        ddl += " UNIQUE";
+    ddl += " INDEX " _GONG_INDEX_PREFIX;
+	if( conn->isSQLite() )
+		ddl += tbldef->getName() + "_";
+	ddl += getName() + " (";
     for( unsigned int i = 0; i < getFieldCount(); i++ ) {
         if( i > 0 )
-            select += ",";
+            ddl += ",";
         dbFieldDefinition *flddef = getFieldDefinition(i);
-        select += flddef->getName();
+        ddl += flddef->getName();
         if( flddef->getSqlWidth() )
-            select += "(" + conn->toSQL( flddef->getSqlWidth() ) + ")";
+            ddl += "(" + conn->toSQL( flddef->getSqlWidth() ) + ")";
         if( flddef->isAscendent() )
-            select += " ASC";
+            ddl += " ASC";
         else if( flddef->isAscendent() )
-            select += " DESC";
+            ddl += " DESC";
     }
-    select += ")";
-    return conn->exec( select , ignoreerrors );
+    ddl += ")";
+    return conn->exec( ddl, ignoreerrors );
 }
 
 
@@ -90,8 +98,12 @@ bool dbIndexDefinition::create( dbConnection *conn, const dbTableDefinition *tbl
 bool dbIndexDefinition::drop( dbConnection *conn, const dbTableDefinition *tbldef,
                               bool ignoreerrors )
 {
-    Xtring select = Xtring("ALTER TABLE ") + tbldef->getName() + " DROP INDEX " _GONG_INDEX_PREFIX + getName();
-    return conn->exec( select, ignoreerrors);
+    Xtring ddl;
+	if( conn->isSQLite() )
+		ddl = Xtring("DROP INDEX IF EXISTS ") + _GONG_INDEX_PREFIX + tbldef->getName() + "_" + getName();
+	else
+		ddl = Xtring("ALTER TABLE ") + tbldef->getName() + " DROP INDEX " _GONG_INDEX_PREFIX + getName();
+    return conn->exec( ddl, ignoreerrors);
 }
 
 dbFieldDefinition *dbIndexDefinition::addField(const dbFieldDefinition *fielddef)

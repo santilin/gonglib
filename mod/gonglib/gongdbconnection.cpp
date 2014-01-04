@@ -188,8 +188,8 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
     case DRIVER_MYSQL:
         if ( !::mysql_real_query( pMySql, query.c_str(), query.length() ) ) {
             ::MYSQL_RES * res = ::mysql_store_result( pMySql );
-            _GONG_DEBUG_PRINT(2, Xtring::printf( "Select(%lu rows):%s",
-                                                 ( unsigned long ) ::mysql_num_rows( res ), query.c_str(), ignoreerrors ) );
+            _GONG_DEBUG_PRINT(2, Xtring::printf( "My:(%lu rows):%s",
+                                                 ( unsigned long ) ::mysql_num_rows( res ), query.c_str() ) );
             return new dbResultSet( this, res );
         } else {
             setError( query );
@@ -200,10 +200,13 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
 #ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3: {
         if( query.upper().trim() ==  "SHOW TABLES" )
-            return select( "SELECT * FROM sqlite_master WHERE type='table'" );
+            return select( "SELECT name FROM sqlite_master WHERE type='table'" );
         else if( query.upper().trim() ==  "SHOW DATABASES" )
-            return select( "SELECT * FROM sqlite_master WHERE type='table'" );
+            return select( "PRAGMA database_list" );
+        else if( query.upper().trim().startsWith("SHOW INDEXES FROM" ) )
+			return select( "SELECT name FROM sqlite_master WHERE type='index' and name='" + query.trim().mid(18) + "'" );
         sqlite3_stmt *ppSmt = 0;
+		_GONG_DEBUG_PRINT(2, Xtring::printf( "S3:%s", query.c_str() ) );
         int ret = sqlite3_prepare_v2( pSqLite, query.c_str(), query.size() + 1, &ppSmt, 0 );
         if( ret == SQLITE_OK && ppSmt ) {
             return new dbResultSet( this, ppSmt );
@@ -248,7 +251,7 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
     switch( mSqlDriver ) {
     case DRIVER_MYSQL:
         if ( !::mysql_real_query( pMySql, query.c_str(), query.length() ) ) {
-            _GONG_DEBUG_PRINT(1, Xtring::printf( "Exec:(%lu rows):%s ", ( unsigned long ) ::mysql_affected_rows( pMySql ), query.c_str() ) );
+            _GONG_DEBUG_PRINT(1, Xtring::printf( "My:(%lu rows):%s ", ( unsigned long ) ::mysql_affected_rows( pMySql ), query.c_str() ) );
             mRowsAffected = ::mysql_affected_rows( pMySql );
         } else {
             setError( query );
@@ -271,7 +274,7 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
                 case SQLITE_BUSY:
                     break;
                 case SQLITE_DONE:
-                    _GONG_DEBUG_PRINT(1, Xtring::printf( "Exec:(%d rows):%s ", sqlite3_changes( pSqLite ), query.c_str() ) );
+                    _GONG_DEBUG_PRINT(1, Xtring::printf( "S3:(%d rows):%s ", sqlite3_changes( pSqLite ), query.c_str() ) );
                     ret = true;
                     break;
                 case SQLITE_ROW:
@@ -1146,7 +1149,8 @@ dbConnection::extractSqlColumnType(const char *sqldef, unsigned short int *size,
     if( (!strcasecmp(typebuf, "TINYINT") && *size==1)
             || !strcasecmp(typebuf, "BOOL") )
         return SQLBOOL;
-    else if( !strcasecmp(typebuf, "BIT") || !strcasecmp(typebuf, "TINYINT") || !strcasecmp(typebuf, "SMALLINT")
+    else if( !strcasecmp(typebuf, "INTEGER") || !strcasecmp(typebuf, "BIT")
+             || !strcasecmp(typebuf, "TINYINT") || !strcasecmp(typebuf, "SMALLINT")
              || !strcasecmp(typebuf, "INT") || !strcasecmp(typebuf, "BIGINT") )
         return SQLINTEGER;
     else if( !strcasecmp(typebuf, "FLOAT") || !strcasecmp(typebuf, "DOUBLE") )

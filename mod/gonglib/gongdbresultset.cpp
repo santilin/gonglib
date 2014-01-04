@@ -30,7 +30,7 @@ namespace gong {
 */
 
 dbResultSet::dbResultSet(dbConnection *dbconn, MYSQL_RES *result)
-    : pConnection( dbconn ), mRowNumber( 0 ), mRowCount( 0 ),  mPosition( atBeforeStart )
+    : pConnection( dbconn ), mRowNumber( -1 ), mRowCount( 0 ),  mPosition( atBeforeStart )
 {
     _data.mysql.pResult = result;
     _data.mysql.pFieldDefs = ::mysql_fetch_fields( result );
@@ -41,7 +41,7 @@ dbResultSet::dbResultSet(dbConnection *dbconn, MYSQL_RES *result)
 #ifdef HAVE_SQLITE3
 
 dbResultSet::dbResultSet(dbConnection* dbconn, sqlite3_stmt *result)
-    : pConnection( dbconn ), mRowNumber( 0 ), mRowCount( 0 ), mPosition( atBeforeStart )
+    : pConnection( dbconn ), mRowNumber( -1 ), mRowCount( 0 ), mPosition( atBeforeStart )
 {
     _data.sqlite3.pResult = result;
     _data.sqlite3.pRows = new std::vector<Variant>();
