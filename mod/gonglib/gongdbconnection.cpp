@@ -124,10 +124,15 @@ bool dbConnection::connect( enum SqlDriver driver, const Xtring &user, const Xtr
         } else {
             if( !dbname.isEmpty() )
                 setEncoding( selectString("show variables like 'character_set_database'", 1) );
+// 	#define MYSQL_VERSION_ID		50534
+#if MYSQL_VERSION_ID >= 50007
             // This is critical in order to have all the strings correctly saved on the server
+			mysql_set_character_set( pMySql, "utf8");
+#else
             exec( "SET character_set_connection = 'utf8'", true );
             exec( "SET character_set_results = 'utf8'", true );
             exec( "SET NAMES 'utf8'", true );
+#endif
         }
         mbRootUser = ( user == "root" );
         break;
@@ -213,7 +218,7 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
             return new dbResultSet( this, ppSmt );
         } else {
             setError( query );
-			_GONG_DEBUG_WARNING( mLastError.getWholeError());			
+			_GONG_DEBUG_WARNING( mLastError.getWholeError());
             if( ppSmt )
                 sqlite3_finalize( ppSmt );
             if ( !ignoreerrors )
@@ -257,6 +262,7 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
             mRowsAffected = ::mysql_affected_rows( pMySql );
         } else {
             setError( query );
+			_GONG_DEBUG_WARNING( mLastError.getWholeError() );
             ret = false;
             if ( !ignoreerrors )
                 throw mLastError;
@@ -284,11 +290,14 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
                     break;
                 case SQLITE_ERROR:
                     setError( query );
+					_GONG_DEBUG_WARNING( mLastError.getWholeError() );
                     ret = false;
                     break;
                 }
             } else {
+				_GONG_DEBUG_WARNING( mLastError.getWholeError() );
                 setError( query );
+				ret = false;
             }
             if( ppSmt )
                 sqlite3_finalize( ppSmt );
@@ -906,7 +915,17 @@ int dbConnection::selectNextInt( const Xtring & tablename, const Xtring & fldnam
             sql+= "WHERE (" + conds + ")";
         sql+= ") )";
     }
-    return selectInt( sql ) + 1;
+    try {
+		return selectInt( sql ) + 1;
+	} catch( dbError &e ) {
+		if( e.getNumber() == 1137 ) { // ERROR 1137 (HY000): Can't reopen table:
+			sql = "SELECT MAX(" + nameToSQL( fldname ) + ")";
+			sql+= " FROM " + nameToSQL( tablename );
+			if( !conds.isEmpty() )
+				sql+=" WHERE (" + conds + ")";
+			return selectInt( sql ) + 1;
+		} else throw;
+	}
 }
 
 /// \todo {0.4} Nested transactions

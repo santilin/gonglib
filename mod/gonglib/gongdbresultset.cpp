@@ -46,6 +46,7 @@ dbResultSet::dbResultSet(dbConnection* dbconn, sqlite3_stmt *result)
     _data.sqlite3.pResult = result;
     _data.sqlite3.pRows = new std::vector<Variant>();
     mColumnCount = sqlite3_column_count( _data.sqlite3.pResult );
+	_GONG_DEBUG_PRINT(0, mColumnCount );
 }
 
 #endif
@@ -189,7 +190,6 @@ double dbResultSet::toDouble(unsigned colnum) const
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
         return _data.sqlite3.pRows[mRowNumber][colnum].toString().toDoubleLocIndep();
-        break;
 #endif
 	case dbConnection::DRIVER_POSTGRESQL:
 		break;
@@ -315,7 +315,9 @@ bool dbResultSet::next()
         switch(res) {
         case SQLITE_ROW:
         {
-            for (uint i = 0; i < mColumnCount; ++i) {
+			mRowCount++;
+			mRowNumber++;
+			for (uint i = 0; i < mColumnCount; ++i) {
                 switch (sqlite3_column_type(_data.sqlite3.pResult, i)) {
                 case SQLITE_BLOB:
                     _data.sqlite3.pRows->push_back(
@@ -325,23 +327,9 @@ bool dbResultSet::next()
                 case SQLITE_INTEGER:
                     _data.sqlite3.pRows->push_back( sqlite3_column_int64(_data.sqlite3.pResult, i) );
                     break;
-#if 0
                 case SQLITE_FLOAT:
-                    switch(q->numericalPrecisionPolicy()) {
-                    case QSql::LowPrecisionInt32:
-                        values[i + idx] = sqlite3_column_int(_data.sqlite3.pResult, i);
-                        break;
-                    case QSql::LowPrecisionInt64:
-                        values[i + idx] = sqlite3_column_int64(_data.sqlite3.pResult, i);
-                        break;
-                    case QSql::LowPrecisionDouble:
-                    case QSql::HighPrecision:
-                    default:
-                        values[i + idx] = sqlite3_column_double(_data.sqlite3.pResult, i);
-                        break;
-                    };
-                    break;
-#endif
+                    _data.sqlite3.pRows->push_back( sqlite3_column_double(_data.sqlite3.pResult, i) );
+					break;
                 case SQLITE_NULL:
                     _data.sqlite3.pRows->push_back( Variant( Xtring::null ) );
                     break;
@@ -351,9 +339,8 @@ bool dbResultSet::next()
                     _data.sqlite3.pRows->push_back( s );
                     break;
                 }
+                _GONG_DEBUG_PRINT( 0, Xtring::number(i) + "-esimo valor: " + toString( i ) );
             }
-			mRowCount++;
-			mRowNumber++;
             return true;
         }
         case SQLITE_DONE:
@@ -392,6 +379,7 @@ const char *dbResultSet::getColumnName(unsigned int colnum) const
         return _data.mysql.pFieldDefs[colnum].name;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
+		throw;
 #endif
     default:
         return ""; /// TODO
@@ -410,8 +398,10 @@ SqlColumnType dbResultSet::getColumnType( unsigned int colnum ) const
     }
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
-		return SQLSTRING; /// TODO
-        break;
+	{
+        Variant::Type vt = dbConnection::SQLiteTypetoVariantType( sqlite3_column_decltype( _data.sqlite3.pResult, colnum ) );
+        return dbConnection::toSqlColumnType( vt );
+	}
 #endif
     default:
         return SQLSTRING; /// TODO
@@ -427,7 +417,7 @@ unsigned int dbResultSet::getColumnWidth( unsigned int colnum ) const
         return _data.mysql.pFieldDefs[colnum].length;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
-		return 0; /// TODO
+		throw;
         break;
 #endif
     default:
@@ -444,7 +434,7 @@ unsigned int dbResultSet::getColumnDecimals( unsigned int colnum ) const
         return _data.mysql.pFieldDefs[colnum].decimals;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
-		return 2; /// TODO
+		throw; /// TODO
         break;
 #endif
     default:

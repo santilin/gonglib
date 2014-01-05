@@ -51,9 +51,7 @@
 
 == Ofertas ==
 * No hace copia de seguridad
-* ¿Cobros y pagos?
-* DDD de los cobros y pagos
-* Probar a que la segunda conexión sea sqlite
+* No calcula bien los máximos contadores en pagos.
 
 == gong-factu ==
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto

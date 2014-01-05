@@ -433,7 +433,8 @@ bool dbRecord::INSERT()
         Xtring fldname = flddef->getName();
         dbFieldValue *fldval = mFieldValues[i];
         fields += "," + pConn->nameToSQL( fldname );
-        if ( flddef->canBeNull() && ( fldval->isNull() || fldval->isEmpty() ) )
+        if ( (flddef->canBeNull() || flddef->isPrimaryKey() )
+				&& ( fldval->isNull() || fldval->isEmpty() ) )
             values += ",NULL";
         else
             values += "," + flddef->toSQL ( pConn, *fldval, true /*inserting*/ );
