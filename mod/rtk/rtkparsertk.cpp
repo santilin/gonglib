@@ -367,127 +367,133 @@ bool ReportDefParser::parseReport( const char *wholetext, const char *defaultinp
                     pReport->addWarning( Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
                                          token.c_str(), "REPORT", pReport->name() );
                 /*<<<<<REPORT_READRTK*/
-                if( strcaseequal(token, "Title") )
-                    pReport->setOrigTitle( value.c_str() );
-                else if( strcaseequal(token, "Units") )
-                    pReport->setOrigUnits( value.c_str() );
-                else if( strcaseequal(token, "PageOrientation") )
-                    pReport->setOrigPageOrientation( value.c_str() );
-                else if( strcaseequal(token, "StylesPath") )
-                    pReport->setOrigStylesPath( value.c_str() );
-                else if( strcaseequal(token, "ImagesPath") )
-                    pReport->setOrigImagesPath( value.c_str() );
-                else if( strcaseequal(token, "IncludePath") )
-                    pReport->setOrigIncludePath( value.c_str() );
-                else if( strcaseequal(token, "ParamDelim") )
-                    pReport->setOrigParamDelim( value.c_str() );
-                else if( strcaseequal(token, "Order") )
-                    pReport->setOrigOrder( value.c_str() );
-                else if( strcaseequal(token, "Filter") )
-                    pReport->setOrigFilter( value.c_str() );
-                else if( strcaseequal(token, "Copies") )
-                    pReport->setOrigCopies( value.c_str() );
-                else if( strcaseequal(token, "PagesPerFolio") )
-                    pReport->setOrigPagesPerFolio( value.c_str() );
-                else if( strcaseequal(token, "Value") )
-                    pReport->setOrigValue( value.c_str() );
-                else if( strcaseequal(token, "FormulaBefore") )
-                    pReport->setOrigFormulaBefore( value.c_str() );
-                else if( strcaseequal(token, "FormulaAfter") )
-                    pReport->setOrigFormulaAfter( value.c_str() );
-                else if( strcaseequal(token, "Aggregate") )
-                    pReport->setOrigAggregate( value.c_str() );
-                else if( strcaseequal(token, "PosX") )
-                    pReport->setOrigPosX( value.c_str() );
-                else if( strcaseequal(token, "PosY") )
-                    pReport->setOrigPosY( value.c_str() );
-                else if( strcaseequal(token, "SizeX") )
-                    pReport->setOrigSizeX( value.c_str() );
-                else if( strcaseequal(token, "SizeY") )
-                    pReport->setOrigSizeY( value.c_str() );
-                else if( strcaseequal(token, "Style") )
-                    pReport->setOrigStyle( value.c_str() );
-                else if( strcaseequal(token, "Url") )
-                    pReport->setOrigUrl( value.c_str() );
-                else if( strcaseequal(token, "Tag") )
-                    pReport->setOrigTag( value.c_str() );
-                else if( strcaseequal(token, "MarginLeft") )
-                    pReport->setOrigMarginLeft( value.c_str() );
-                else if( strcaseequal(token, "MarginRight") )
-                    pReport->setOrigMarginRight( value.c_str() );
-                else if( strcaseequal(token, "MarginTop") )
-                    pReport->setOrigMarginTop( value.c_str() );
-                else if( strcaseequal(token, "MarginBottom") )
-                    pReport->setOrigMarginBottom( value.c_str() );
-                else if( strcaseequal(token, "Visible") )
-                    pReport->setOrigVisible( value.c_str() );
-                else if( strcaseequal(token, "Supressed") )
-                    pReport->setOrigSupressed( value.c_str() );
-                else if( strcaseequal(token, "SupressDup") )
-                    pReport->setOrigSupressDup( value.c_str() );
-                else if( strcaseequal(token, "FontFamily") )
-                    pReport->setOrigFontFamily( value.c_str() );
-                else if( strcaseequal(token, "FontSize") )
-                    pReport->setOrigFontSize( value.c_str() );
-                else if( strcaseequal(token, "FontWeight") )
-                    pReport->setOrigFontWeight( value.c_str() );
-                else if( strcaseequal(token, "FontItalic") )
-                    pReport->setOrigFontItalic( value.c_str() );
-                else if( strcaseequal(token, "MinFontSize") )
-                    pReport->setOrigMinFontSize( value.c_str() );
-                else if( strcaseequal(token, "Adjustment") )
-                    pReport->setOrigAdjustment( value.c_str() );
-                else if( strcaseequal(token, "MaxLines") )
-                    pReport->setOrigMaxLines( value.c_str() );
-                else if( strcaseequal(token, "Format") )
-                    pReport->setOrigFormat( value.c_str() );
-                else if( strcaseequal(token, "Mask") )
-                    pReport->setOrigMask( value.c_str() );
-                else if( strcaseequal(token, "Locale") )
-                    pReport->setOrigLocale( value.c_str() );
-                else if( strcaseequal(token, "HAlignment") )
-                    pReport->setOrigHAlignment( value.c_str() );
-                else if( strcaseequal(token, "VAlignment") )
-                    pReport->setOrigVAlignment( value.c_str() );
-                else if( strcaseequal(token, "FontColor") )
-                    pReport->setOrigFontColor( value.c_str() );
-                else if( strcaseequal(token, "BackColor") )
-                    pReport->setOrigBackColor( value.c_str() );
-                else if( strcaseequal(token, "BorderColor") )
-                    pReport->setOrigBorderColor( value.c_str() );
-                else if( strcaseequal(token, "BorderWidth") )
-                    pReport->setOrigBorderWidth( value.c_str() );
-                else if( strcaseequal(token, "BorderStyle") )
-                    pReport->setOrigBorderStyle( value.c_str() );
-                else if( strcaseequal(token, "BorderTopColor") )
-                    pReport->setOrigBorderTopColor( value.c_str() );
-                else if( strcaseequal(token, "BorderTopWidth") )
-                    pReport->setOrigBorderTopWidth( value.c_str() );
-                else if( strcaseequal(token, "BorderTopStyle") )
-                    pReport->setOrigBorderTopStyle( value.c_str() );
-                else if( strcaseequal(token, "BorderBottomColor") )
-                    pReport->setOrigBorderBottomColor( value.c_str() );
-                else if( strcaseequal(token, "BorderBottomWidth") )
-                    pReport->setOrigBorderBottomWidth( value.c_str() );
-                else if( strcaseequal(token, "BorderBottomStyle") )
-                    pReport->setOrigBorderBottomStyle( value.c_str() );
-                else if( strcaseequal(token, "BorderLeftColor") )
-                    pReport->setOrigBorderLeftColor( value.c_str() );
-                else if( strcaseequal(token, "BorderLeftWidth") )
-                    pReport->setOrigBorderLeftWidth( value.c_str() );
-                else if( strcaseequal(token, "BorderLeftStyle") )
-                    pReport->setOrigBorderLeftStyle( value.c_str() );
-                else if( strcaseequal(token, "BorderRightColor") )
-                    pReport->setOrigBorderRightColor( value.c_str() );
-                else if( strcaseequal(token, "BorderRightWidth") )
-                    pReport->setOrigBorderRightWidth( value.c_str() );
-                else if( strcaseequal(token, "BorderRightStyle") )
-                    pReport->setOrigBorderRightStyle( value.c_str() );
-                else if( strcaseequal(token, "BackgroundImage") )
-                    pReport->setOrigBackgroundImage( value.c_str() );
-                else if( strcaseequal(token, "ImageStyle") )
-                    pReport->setOrigImageStyle( value.c_str() );
-                /*>>>>>REPORT_READRTK*/
+				if( strcaseequal(token, "Title") )
+					pReport->setOrigTitle( value.c_str() );
+				else if( strcaseequal(token, "Units") )
+					pReport->setOrigUnits( value.c_str() );
+				else if( strcaseequal(token, "PageOrientation") )
+					pReport->setOrigPageOrientation( value.c_str() );
+				else if( strcaseequal(token, "StylesPath") )
+					pReport->setOrigStylesPath( value.c_str() );
+				else if( strcaseequal(token, "ImagesPath") )
+					pReport->setOrigImagesPath( value.c_str() );
+				else if( strcaseequal(token, "IncludePath") )
+					pReport->setOrigIncludePath( value.c_str() );
+				else if( strcaseequal(token, "ParamDelim") )
+					pReport->setOrigParamDelim( value.c_str() );
+				else if( strcaseequal(token, "Order") )
+					pReport->setOrigOrder( value.c_str() );
+				else if( strcaseequal(token, "Filter") )
+					pReport->setOrigFilter( value.c_str() );
+				else if( strcaseequal(token, "Copies") )
+					pReport->setOrigCopies( value.c_str() );
+				else if( strcaseequal(token, "PagesPerFolio") )
+					pReport->setOrigPagesPerFolio( value.c_str() );
+				else if( strcaseequal(token, "Value") )
+					pReport->setOrigValue( value.c_str() );
+				else if( strcaseequal(token, "FormulaBefore") )
+					pReport->setOrigFormulaBefore( value.c_str() );
+				else if( strcaseequal(token, "FormulaAfter") )
+					pReport->setOrigFormulaAfter( value.c_str() );
+				else if( strcaseequal(token, "Aggregate") )
+					pReport->setOrigAggregate( value.c_str() );
+				else if( strcaseequal(token, "PosX") )
+					pReport->setOrigPosX( value.c_str() );
+				else if( strcaseequal(token, "PosY") )
+					pReport->setOrigPosY( value.c_str() );
+				else if( strcaseequal(token, "SizeX") )
+					pReport->setOrigSizeX( value.c_str() );
+				else if( strcaseequal(token, "SizeY") )
+					pReport->setOrigSizeY( value.c_str() );
+				else if( strcaseequal(token, "Style") )
+					pReport->setOrigStyle( value.c_str() );
+				else if( strcaseequal(token, "Url") )
+					pReport->setOrigUrl( value.c_str() );
+				else if( strcaseequal(token, "Tag") )
+					pReport->setOrigTag( value.c_str() );
+				else if( strcaseequal(token, "MarginLeft") )
+					pReport->setOrigMarginLeft( value.c_str() );
+				else if( strcaseequal(token, "MarginRight") )
+					pReport->setOrigMarginRight( value.c_str() );
+				else if( strcaseequal(token, "MarginTop") )
+					pReport->setOrigMarginTop( value.c_str() );
+				else if( strcaseequal(token, "MarginBottom") )
+					pReport->setOrigMarginBottom( value.c_str() );
+				else if( strcaseequal(token, "Padding") )
+					pReport->setOrigPadding( value.c_str() );
+				else if( strcaseequal(token, "PaddingLeft") )
+					pReport->setOrigPaddingLeft( value.c_str() );
+				else if( strcaseequal(token, "PaddingTop") )
+					pReport->setOrigPaddingTop( value.c_str() );
+				else if( strcaseequal(token, "Visible") )
+					pReport->setOrigVisible( value.c_str() );
+				else if( strcaseequal(token, "Supressed") )
+					pReport->setOrigSupressed( value.c_str() );
+				else if( strcaseequal(token, "SupressDup") )
+					pReport->setOrigSupressDup( value.c_str() );
+				else if( strcaseequal(token, "FontFamily") )
+					pReport->setOrigFontFamily( value.c_str() );
+				else if( strcaseequal(token, "FontSize") )
+					pReport->setOrigFontSize( value.c_str() );
+				else if( strcaseequal(token, "FontWeight") )
+					pReport->setOrigFontWeight( value.c_str() );
+				else if( strcaseequal(token, "FontItalic") )
+					pReport->setOrigFontItalic( value.c_str() );
+				else if( strcaseequal(token, "MinFontSize") )
+					pReport->setOrigMinFontSize( value.c_str() );
+				else if( strcaseequal(token, "Adjustment") )
+					pReport->setOrigAdjustment( value.c_str() );
+				else if( strcaseequal(token, "MaxLines") )
+					pReport->setOrigMaxLines( value.c_str() );
+				else if( strcaseequal(token, "Format") )
+					pReport->setOrigFormat( value.c_str() );
+				else if( strcaseequal(token, "Mask") )
+					pReport->setOrigMask( value.c_str() );
+				else if( strcaseequal(token, "Locale") )
+					pReport->setOrigLocale( value.c_str() );
+				else if( strcaseequal(token, "HAlignment") )
+					pReport->setOrigHAlignment( value.c_str() );
+				else if( strcaseequal(token, "VAlignment") )
+					pReport->setOrigVAlignment( value.c_str() );
+				else if( strcaseequal(token, "FontColor") )
+					pReport->setOrigFontColor( value.c_str() );
+				else if( strcaseequal(token, "BackColor") )
+					pReport->setOrigBackColor( value.c_str() );
+				else if( strcaseequal(token, "BorderColor") )
+					pReport->setOrigBorderColor( value.c_str() );
+				else if( strcaseequal(token, "BorderWidth") )
+					pReport->setOrigBorderWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderStyle") )
+					pReport->setOrigBorderStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderTopColor") )
+					pReport->setOrigBorderTopColor( value.c_str() );
+				else if( strcaseequal(token, "BorderTopWidth") )
+					pReport->setOrigBorderTopWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderTopStyle") )
+					pReport->setOrigBorderTopStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomColor") )
+					pReport->setOrigBorderBottomColor( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomWidth") )
+					pReport->setOrigBorderBottomWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomStyle") )
+					pReport->setOrigBorderBottomStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftColor") )
+					pReport->setOrigBorderLeftColor( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftWidth") )
+					pReport->setOrigBorderLeftWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftStyle") )
+					pReport->setOrigBorderLeftStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderRightColor") )
+					pReport->setOrigBorderRightColor( value.c_str() );
+				else if( strcaseequal(token, "BorderRightWidth") )
+					pReport->setOrigBorderRightWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderRightStyle") )
+					pReport->setOrigBorderRightStyle( value.c_str() );
+				else if( strcaseequal(token, "BackgroundImage") )
+					pReport->setOrigBackgroundImage( value.c_str() );
+				else if( strcaseequal(token, "ImageStyle") )
+					pReport->setOrigImageStyle( value.c_str() );
+/*>>>>>REPORT_READRTK*/
                 else if( strcaseequal(token, "Include") ) {
                     if ( getNextToken( text ) != ";" ) {
                         pReport->addError( Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol, value.c_str(), "REPORT", pReport->name() );
@@ -597,129 +603,129 @@ Section *ReportDefParser::parseSection( Section::SectionType type, const char *s
                 pReport->addWarning( Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
                                      token.c_str(), "SECTION", sectname );
             /*<<<<<SECTION_READRTK*/
-            if( strcaseequal(token, "Columns") )
-                pSection->setOrigColumns( value.c_str() );
-            else if( strcaseequal(token, "PageBefore") )
-                pSection->setOrigPageBefore( value.c_str() );
-            else if( strcaseequal(token, "PageAfter") )
-                pSection->setOrigPageAfter( value.c_str() );
-            else if( strcaseequal(token, "ResetNPage") )
-                pSection->setOrigResetNPage( value.c_str() );
-            else if( strcaseequal(token, "SupIfBlank") )
-                pSection->setOrigSupIfBlank( value.c_str() );
-            else if( strcaseequal(token, "RepeatHeader") )
-                pSection->setOrigRepeatHeader( value.c_str() );
-            else if( strcaseequal(token, "PrintInFirstPage") )
-                pSection->setOrigPrintInFirstPage( value.c_str() );
-            else if( strcaseequal(token, "Padding") )
-                pSection->setOrigPadding( value.c_str() );
-            else if( strcaseequal(token, "PaddingLeft") )
-                pSection->setOrigPaddingLeft( value.c_str() );
-            else if( strcaseequal(token, "PaddingTop") )
-                pSection->setOrigPaddingTop( value.c_str() );
-            else if( strcaseequal(token, "Value") )
-                pSection->setOrigValue( value.c_str() );
-            else if( strcaseequal(token, "FormulaBefore") )
-                pSection->setOrigFormulaBefore( value.c_str() );
-            else if( strcaseequal(token, "FormulaAfter") )
-                pSection->setOrigFormulaAfter( value.c_str() );
-            else if( strcaseequal(token, "Aggregate") )
-                pSection->setOrigAggregate( value.c_str() );
-            else if( strcaseequal(token, "PosX") )
-                pSection->setOrigPosX( value.c_str() );
-            else if( strcaseequal(token, "PosY") )
-                pSection->setOrigPosY( value.c_str() );
-            else if( strcaseequal(token, "SizeX") )
-                pSection->setOrigSizeX( value.c_str() );
-            else if( strcaseequal(token, "SizeY") )
-                pSection->setOrigSizeY( value.c_str() );
-            else if( strcaseequal(token, "Style") )
-                pSection->setOrigStyle( value.c_str() );
-            else if( strcaseequal(token, "Url") )
-                pSection->setOrigUrl( value.c_str() );
-            else if( strcaseequal(token, "Tag") )
-                pSection->setOrigTag( value.c_str() );
-            else if( strcaseequal(token, "MarginLeft") )
-                pSection->setOrigMarginLeft( value.c_str() );
-            else if( strcaseequal(token, "MarginRight") )
-                pSection->setOrigMarginRight( value.c_str() );
-            else if( strcaseequal(token, "MarginTop") )
-                pSection->setOrigMarginTop( value.c_str() );
-            else if( strcaseequal(token, "MarginBottom") )
-                pSection->setOrigMarginBottom( value.c_str() );
-            else if( strcaseequal(token, "Visible") )
-                pSection->setOrigVisible( value.c_str() );
-            else if( strcaseequal(token, "Supressed") )
-                pSection->setOrigSupressed( value.c_str() );
-            else if( strcaseequal(token, "SupressDup") )
-                pSection->setOrigSupressDup( value.c_str() );
-            else if( strcaseequal(token, "FontFamily") )
-                pSection->setOrigFontFamily( value.c_str() );
-            else if( strcaseequal(token, "FontSize") )
-                pSection->setOrigFontSize( value.c_str() );
-            else if( strcaseequal(token, "FontWeight") )
-                pSection->setOrigFontWeight( value.c_str() );
-            else if( strcaseequal(token, "FontItalic") )
-                pSection->setOrigFontItalic( value.c_str() );
-            else if( strcaseequal(token, "MinFontSize") )
-                pSection->setOrigMinFontSize( value.c_str() );
-            else if( strcaseequal(token, "Adjustment") )
-                pSection->setOrigAdjustment( value.c_str() );
-            else if( strcaseequal(token, "MaxLines") )
-                pSection->setOrigMaxLines( value.c_str() );
-            else if( strcaseequal(token, "Format") )
-                pSection->setOrigFormat( value.c_str() );
-            else if( strcaseequal(token, "Mask") )
-                pSection->setOrigMask( value.c_str() );
-            else if( strcaseequal(token, "Locale") )
-                pSection->setOrigLocale( value.c_str() );
-            else if( strcaseequal(token, "HAlignment") )
-                pSection->setOrigHAlignment( value.c_str() );
-            else if( strcaseequal(token, "VAlignment") )
-                pSection->setOrigVAlignment( value.c_str() );
-            else if( strcaseequal(token, "FontColor") )
-                pSection->setOrigFontColor( value.c_str() );
-            else if( strcaseequal(token, "BackColor") )
-                pSection->setOrigBackColor( value.c_str() );
-            else if( strcaseequal(token, "BorderColor") )
-                pSection->setOrigBorderColor( value.c_str() );
-            else if( strcaseequal(token, "BorderWidth") )
-                pSection->setOrigBorderWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderStyle") )
-                pSection->setOrigBorderStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderTopColor") )
-                pSection->setOrigBorderTopColor( value.c_str() );
-            else if( strcaseequal(token, "BorderTopWidth") )
-                pSection->setOrigBorderTopWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderTopStyle") )
-                pSection->setOrigBorderTopStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderBottomColor") )
-                pSection->setOrigBorderBottomColor( value.c_str() );
-            else if( strcaseequal(token, "BorderBottomWidth") )
-                pSection->setOrigBorderBottomWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderBottomStyle") )
-                pSection->setOrigBorderBottomStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderLeftColor") )
-                pSection->setOrigBorderLeftColor( value.c_str() );
-            else if( strcaseequal(token, "BorderLeftWidth") )
-                pSection->setOrigBorderLeftWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderLeftStyle") )
-                pSection->setOrigBorderLeftStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderRightColor") )
-                pSection->setOrigBorderRightColor( value.c_str() );
-            else if( strcaseequal(token, "BorderRightWidth") )
-                pSection->setOrigBorderRightWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderRightStyle") )
-                pSection->setOrigBorderRightStyle( value.c_str() );
-            else if( strcaseequal(token, "BackgroundImage") )
-                pSection->setOrigBackgroundImage( value.c_str() );
-            else if( strcaseequal(token, "ImageStyle") )
-                pSection->setOrigImageStyle( value.c_str() );
-            /*>>>>>SECTION_READRTK*/
+				if( strcaseequal(token, "Columns") )
+					pSection->setOrigColumns( value.c_str() );
+				else if( strcaseequal(token, "PageBefore") )
+					pSection->setOrigPageBefore( value.c_str() );
+				else if( strcaseequal(token, "PageAfter") )
+					pSection->setOrigPageAfter( value.c_str() );
+				else if( strcaseequal(token, "ResetNPage") )
+					pSection->setOrigResetNPage( value.c_str() );
+				else if( strcaseequal(token, "SupIfBlank") )
+					pSection->setOrigSupIfBlank( value.c_str() );
+				else if( strcaseequal(token, "RepeatHeader") )
+					pSection->setOrigRepeatHeader( value.c_str() );
+				else if( strcaseequal(token, "PrintInFirstPage") )
+					pSection->setOrigPrintInFirstPage( value.c_str() );
+				else if( strcaseequal(token, "Value") )
+					pSection->setOrigValue( value.c_str() );
+				else if( strcaseequal(token, "FormulaBefore") )
+					pSection->setOrigFormulaBefore( value.c_str() );
+				else if( strcaseequal(token, "FormulaAfter") )
+					pSection->setOrigFormulaAfter( value.c_str() );
+				else if( strcaseequal(token, "Aggregate") )
+					pSection->setOrigAggregate( value.c_str() );
+				else if( strcaseequal(token, "PosX") )
+					pSection->setOrigPosX( value.c_str() );
+				else if( strcaseequal(token, "PosY") )
+					pSection->setOrigPosY( value.c_str() );
+				else if( strcaseequal(token, "SizeX") )
+					pSection->setOrigSizeX( value.c_str() );
+				else if( strcaseequal(token, "SizeY") )
+					pSection->setOrigSizeY( value.c_str() );
+				else if( strcaseequal(token, "Style") )
+					pSection->setOrigStyle( value.c_str() );
+				else if( strcaseequal(token, "Url") )
+					pSection->setOrigUrl( value.c_str() );
+				else if( strcaseequal(token, "Tag") )
+					pSection->setOrigTag( value.c_str() );
+				else if( strcaseequal(token, "MarginLeft") )
+					pSection->setOrigMarginLeft( value.c_str() );
+				else if( strcaseequal(token, "MarginRight") )
+					pSection->setOrigMarginRight( value.c_str() );
+				else if( strcaseequal(token, "MarginTop") )
+					pSection->setOrigMarginTop( value.c_str() );
+				else if( strcaseequal(token, "MarginBottom") )
+					pSection->setOrigMarginBottom( value.c_str() );
+				else if( strcaseequal(token, "Padding") )
+					pSection->setOrigPadding( value.c_str() );
+				else if( strcaseequal(token, "PaddingLeft") )
+					pSection->setOrigPaddingLeft( value.c_str() );
+				else if( strcaseequal(token, "PaddingTop") )
+					pSection->setOrigPaddingTop( value.c_str() );
+				else if( strcaseequal(token, "Visible") )
+					pSection->setOrigVisible( value.c_str() );
+				else if( strcaseequal(token, "Supressed") )
+					pSection->setOrigSupressed( value.c_str() );
+				else if( strcaseequal(token, "SupressDup") )
+					pSection->setOrigSupressDup( value.c_str() );
+				else if( strcaseequal(token, "FontFamily") )
+					pSection->setOrigFontFamily( value.c_str() );
+				else if( strcaseequal(token, "FontSize") )
+					pSection->setOrigFontSize( value.c_str() );
+				else if( strcaseequal(token, "FontWeight") )
+					pSection->setOrigFontWeight( value.c_str() );
+				else if( strcaseequal(token, "FontItalic") )
+					pSection->setOrigFontItalic( value.c_str() );
+				else if( strcaseequal(token, "MinFontSize") )
+					pSection->setOrigMinFontSize( value.c_str() );
+				else if( strcaseequal(token, "Adjustment") )
+					pSection->setOrigAdjustment( value.c_str() );
+				else if( strcaseequal(token, "MaxLines") )
+					pSection->setOrigMaxLines( value.c_str() );
+				else if( strcaseequal(token, "Format") )
+					pSection->setOrigFormat( value.c_str() );
+				else if( strcaseequal(token, "Mask") )
+					pSection->setOrigMask( value.c_str() );
+				else if( strcaseequal(token, "Locale") )
+					pSection->setOrigLocale( value.c_str() );
+				else if( strcaseequal(token, "HAlignment") )
+					pSection->setOrigHAlignment( value.c_str() );
+				else if( strcaseequal(token, "VAlignment") )
+					pSection->setOrigVAlignment( value.c_str() );
+				else if( strcaseequal(token, "FontColor") )
+					pSection->setOrigFontColor( value.c_str() );
+				else if( strcaseequal(token, "BackColor") )
+					pSection->setOrigBackColor( value.c_str() );
+				else if( strcaseequal(token, "BorderColor") )
+					pSection->setOrigBorderColor( value.c_str() );
+				else if( strcaseequal(token, "BorderWidth") )
+					pSection->setOrigBorderWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderStyle") )
+					pSection->setOrigBorderStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderTopColor") )
+					pSection->setOrigBorderTopColor( value.c_str() );
+				else if( strcaseequal(token, "BorderTopWidth") )
+					pSection->setOrigBorderTopWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderTopStyle") )
+					pSection->setOrigBorderTopStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomColor") )
+					pSection->setOrigBorderBottomColor( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomWidth") )
+					pSection->setOrigBorderBottomWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomStyle") )
+					pSection->setOrigBorderBottomStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftColor") )
+					pSection->setOrigBorderLeftColor( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftWidth") )
+					pSection->setOrigBorderLeftWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftStyle") )
+					pSection->setOrigBorderLeftStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderRightColor") )
+					pSection->setOrigBorderRightColor( value.c_str() );
+				else if( strcaseequal(token, "BorderRightWidth") )
+					pSection->setOrigBorderRightWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderRightStyle") )
+					pSection->setOrigBorderRightStyle( value.c_str() );
+				else if( strcaseequal(token, "BackgroundImage") )
+					pSection->setOrigBackgroundImage( value.c_str() );
+				else if( strcaseequal(token, "ImageStyle") )
+					pSection->setOrigImageStyle( value.c_str() );
+/*>>>>>SECTION_READRTK*/
             else if ( strcaseequal( token, "level" ) || strcaseequal( token, "grouplevel" ) ) {
-                Xtring errlevel;
-                pSection->setGroupLevel( stringTo<int>( value.c_str(), errlevel ) );
-                if ( !errlevel.isEmpty() ) {
+                bool isvalid;
+                pSection->setGroupLevel( stringTo<int>( value.c_str(), &isvalid ) );
+                if ( !isvalid ) {
                     pReport->addError( Error::ParseReportValue, __FUNCTION__, 0,
                                        pFileName, mLine, mCol, value.c_str(), token.c_str(),
                                        "SECTION", sectname );
@@ -770,104 +776,110 @@ Object *ReportDefParser::parseObject( Section *psect, const char *objectname, co
                 pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
                                     token.c_str(), "OBJECT", objectname );
 /*<<<<<OBJECT_READRTK*/
-            if( strcaseequal(token, "Value") )
-                pObject->setOrigValue( value.c_str() );
-            else if( strcaseequal(token, "FormulaBefore") )
-                pObject->setOrigFormulaBefore( value.c_str() );
-            else if( strcaseequal(token, "FormulaAfter") )
-                pObject->setOrigFormulaAfter( value.c_str() );
-            else if( strcaseequal(token, "Aggregate") )
-                pObject->setOrigAggregate( value.c_str() );
-            else if( strcaseequal(token, "PosX") )
-                pObject->setOrigPosX( value.c_str() );
-            else if( strcaseequal(token, "PosY") )
-                pObject->setOrigPosY( value.c_str() );
-            else if( strcaseequal(token, "SizeX") )
-                pObject->setOrigSizeX( value.c_str() );
-            else if( strcaseequal(token, "SizeY") )
-                pObject->setOrigSizeY( value.c_str() );
-            else if( strcaseequal(token, "Style") )
-                pObject->setOrigStyle( value.c_str() );
-            else if( strcaseequal(token, "Url") )
-                pObject->setOrigUrl( value.c_str() );
-            else if( strcaseequal(token, "Tag") )
-                pObject->setOrigTag( value.c_str() );
-            else if( strcaseequal(token, "MarginLeft") )
-                pObject->setOrigMarginLeft( value.c_str() );
-            else if( strcaseequal(token, "MarginRight") )
-                pObject->setOrigMarginRight( value.c_str() );
-            else if( strcaseequal(token, "MarginTop") )
-                pObject->setOrigMarginTop( value.c_str() );
-            else if( strcaseequal(token, "MarginBottom") )
-                pObject->setOrigMarginBottom( value.c_str() );
-            else if( strcaseequal(token, "Visible") )
-                pObject->setOrigVisible( value.c_str() );
-            else if( strcaseequal(token, "Supressed") )
-                pObject->setOrigSupressed( value.c_str() );
-            else if( strcaseequal(token, "SupressDup") )
-                pObject->setOrigSupressDup( value.c_str() );
-            else if( strcaseequal(token, "FontFamily") )
-                pObject->setOrigFontFamily( value.c_str() );
-            else if( strcaseequal(token, "FontSize") )
-                pObject->setOrigFontSize( value.c_str() );
-            else if( strcaseequal(token, "FontWeight") )
-                pObject->setOrigFontWeight( value.c_str() );
-            else if( strcaseequal(token, "FontItalic") )
-                pObject->setOrigFontItalic( value.c_str() );
-            else if( strcaseequal(token, "MinFontSize") )
-                pObject->setOrigMinFontSize( value.c_str() );
-            else if( strcaseequal(token, "Adjustment") )
-                pObject->setOrigAdjustment( value.c_str() );
-            else if( strcaseequal(token, "MaxLines") )
-                pObject->setOrigMaxLines( value.c_str() );
-            else if( strcaseequal(token, "Format") )
-                pObject->setOrigFormat( value.c_str() );
-            else if( strcaseequal(token, "Mask") )
-                pObject->setOrigMask( value.c_str() );
-            else if( strcaseequal(token, "Locale") )
-                pObject->setOrigLocale( value.c_str() );
-            else if( strcaseequal(token, "HAlignment") )
-                pObject->setOrigHAlignment( value.c_str() );
-            else if( strcaseequal(token, "VAlignment") )
-                pObject->setOrigVAlignment( value.c_str() );
-            else if( strcaseequal(token, "FontColor") )
-                pObject->setOrigFontColor( value.c_str() );
-            else if( strcaseequal(token, "BackColor") )
-                pObject->setOrigBackColor( value.c_str() );
-            else if( strcaseequal(token, "BorderColor") )
-                pObject->setOrigBorderColor( value.c_str() );
-            else if( strcaseequal(token, "BorderWidth") )
-                pObject->setOrigBorderWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderStyle") )
-                pObject->setOrigBorderStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderTopColor") )
-                pObject->setOrigBorderTopColor( value.c_str() );
-            else if( strcaseequal(token, "BorderTopWidth") )
-                pObject->setOrigBorderTopWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderTopStyle") )
-                pObject->setOrigBorderTopStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderBottomColor") )
-                pObject->setOrigBorderBottomColor( value.c_str() );
-            else if( strcaseequal(token, "BorderBottomWidth") )
-                pObject->setOrigBorderBottomWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderBottomStyle") )
-                pObject->setOrigBorderBottomStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderLeftColor") )
-                pObject->setOrigBorderLeftColor( value.c_str() );
-            else if( strcaseequal(token, "BorderLeftWidth") )
-                pObject->setOrigBorderLeftWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderLeftStyle") )
-                pObject->setOrigBorderLeftStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderRightColor") )
-                pObject->setOrigBorderRightColor( value.c_str() );
-            else if( strcaseequal(token, "BorderRightWidth") )
-                pObject->setOrigBorderRightWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderRightStyle") )
-                pObject->setOrigBorderRightStyle( value.c_str() );
-            else if( strcaseequal(token, "BackgroundImage") )
-                pObject->setOrigBackgroundImage( value.c_str() );
-            else if( strcaseequal(token, "ImageStyle") )
-                pObject->setOrigImageStyle( value.c_str() );
+				if( strcaseequal(token, "Value") )
+					pObject->setOrigValue( value.c_str() );
+				else if( strcaseequal(token, "FormulaBefore") )
+					pObject->setOrigFormulaBefore( value.c_str() );
+				else if( strcaseequal(token, "FormulaAfter") )
+					pObject->setOrigFormulaAfter( value.c_str() );
+				else if( strcaseequal(token, "Aggregate") )
+					pObject->setOrigAggregate( value.c_str() );
+				else if( strcaseequal(token, "PosX") )
+					pObject->setOrigPosX( value.c_str() );
+				else if( strcaseequal(token, "PosY") )
+					pObject->setOrigPosY( value.c_str() );
+				else if( strcaseequal(token, "SizeX") )
+					pObject->setOrigSizeX( value.c_str() );
+				else if( strcaseequal(token, "SizeY") )
+					pObject->setOrigSizeY( value.c_str() );
+				else if( strcaseequal(token, "Style") )
+					pObject->setOrigStyle( value.c_str() );
+				else if( strcaseequal(token, "Url") )
+					pObject->setOrigUrl( value.c_str() );
+				else if( strcaseequal(token, "Tag") )
+					pObject->setOrigTag( value.c_str() );
+				else if( strcaseequal(token, "MarginLeft") )
+					pObject->setOrigMarginLeft( value.c_str() );
+				else if( strcaseequal(token, "MarginRight") )
+					pObject->setOrigMarginRight( value.c_str() );
+				else if( strcaseequal(token, "MarginTop") )
+					pObject->setOrigMarginTop( value.c_str() );
+				else if( strcaseequal(token, "MarginBottom") )
+					pObject->setOrigMarginBottom( value.c_str() );
+				else if( strcaseequal(token, "Padding") )
+					pObject->setOrigPadding( value.c_str() );
+				else if( strcaseequal(token, "PaddingLeft") )
+					pObject->setOrigPaddingLeft( value.c_str() );
+				else if( strcaseequal(token, "PaddingTop") )
+					pObject->setOrigPaddingTop( value.c_str() );
+				else if( strcaseequal(token, "Visible") )
+					pObject->setOrigVisible( value.c_str() );
+				else if( strcaseequal(token, "Supressed") )
+					pObject->setOrigSupressed( value.c_str() );
+				else if( strcaseequal(token, "SupressDup") )
+					pObject->setOrigSupressDup( value.c_str() );
+				else if( strcaseequal(token, "FontFamily") )
+					pObject->setOrigFontFamily( value.c_str() );
+				else if( strcaseequal(token, "FontSize") )
+					pObject->setOrigFontSize( value.c_str() );
+				else if( strcaseequal(token, "FontWeight") )
+					pObject->setOrigFontWeight( value.c_str() );
+				else if( strcaseequal(token, "FontItalic") )
+					pObject->setOrigFontItalic( value.c_str() );
+				else if( strcaseequal(token, "MinFontSize") )
+					pObject->setOrigMinFontSize( value.c_str() );
+				else if( strcaseequal(token, "Adjustment") )
+					pObject->setOrigAdjustment( value.c_str() );
+				else if( strcaseequal(token, "MaxLines") )
+					pObject->setOrigMaxLines( value.c_str() );
+				else if( strcaseequal(token, "Format") )
+					pObject->setOrigFormat( value.c_str() );
+				else if( strcaseequal(token, "Mask") )
+					pObject->setOrigMask( value.c_str() );
+				else if( strcaseequal(token, "Locale") )
+					pObject->setOrigLocale( value.c_str() );
+				else if( strcaseequal(token, "HAlignment") )
+					pObject->setOrigHAlignment( value.c_str() );
+				else if( strcaseequal(token, "VAlignment") )
+					pObject->setOrigVAlignment( value.c_str() );
+				else if( strcaseequal(token, "FontColor") )
+					pObject->setOrigFontColor( value.c_str() );
+				else if( strcaseequal(token, "BackColor") )
+					pObject->setOrigBackColor( value.c_str() );
+				else if( strcaseequal(token, "BorderColor") )
+					pObject->setOrigBorderColor( value.c_str() );
+				else if( strcaseequal(token, "BorderWidth") )
+					pObject->setOrigBorderWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderStyle") )
+					pObject->setOrigBorderStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderTopColor") )
+					pObject->setOrigBorderTopColor( value.c_str() );
+				else if( strcaseequal(token, "BorderTopWidth") )
+					pObject->setOrigBorderTopWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderTopStyle") )
+					pObject->setOrigBorderTopStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomColor") )
+					pObject->setOrigBorderBottomColor( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomWidth") )
+					pObject->setOrigBorderBottomWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomStyle") )
+					pObject->setOrigBorderBottomStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftColor") )
+					pObject->setOrigBorderLeftColor( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftWidth") )
+					pObject->setOrigBorderLeftWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftStyle") )
+					pObject->setOrigBorderLeftStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderRightColor") )
+					pObject->setOrigBorderRightColor( value.c_str() );
+				else if( strcaseequal(token, "BorderRightWidth") )
+					pObject->setOrigBorderRightWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderRightStyle") )
+					pObject->setOrigBorderRightStyle( value.c_str() );
+				else if( strcaseequal(token, "BackgroundImage") )
+					pObject->setOrigBackgroundImage( value.c_str() );
+				else if( strcaseequal(token, "ImageStyle") )
+					pObject->setOrigImageStyle( value.c_str() );
 /*>>>>>OBJECT_READRTK*/
             // A few property sinonyms
             else if ( strcaseequal( token, "Alignment" ) || strcaseequal( token, "Align" ) || strcaseequal( token, "HAlign" ) )
@@ -908,93 +920,101 @@ Style *ReportDefParser::parseStyle( const char *stylename, const char **text, bo
                 pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
                                     token.c_str(), "STYLE", stylename );
 /*<<<<<STYLE_READRTK*/
-            if( strcaseequal(token, "Visible") )
-                pStyle->setOrigVisible( value.c_str() );
-            else if( strcaseequal(token, "Supressed") )
-                pStyle->setOrigSupressed( value.c_str() );
-            else if( strcaseequal(token, "SupressDup") )
-                pStyle->setOrigSupressDup( value.c_str() );
-            else if( strcaseequal(token, "FontFamily") )
-                pStyle->setOrigFontFamily( value.c_str() );
-            else if( strcaseequal(token, "FontSize") )
-                pStyle->setOrigFontSize( value.c_str() );
-            else if( strcaseequal(token, "FontWeight") )
-                pStyle->setOrigFontWeight( value.c_str() );
-            else if( strcaseequal(token, "FontItalic") )
-                pStyle->setOrigFontItalic( value.c_str() );
-            else if( strcaseequal(token, "MaxLines") )
-                pStyle->setOrigMaxLines( value.c_str() );
-            else if( strcaseequal(token, "MinFontSize") )
-                pStyle->setOrigMinFontSize( value.c_str() );
-            else if( strcaseequal(token, "Format") )
-                pStyle->setOrigFormat( value.c_str() );
-            else if( strcaseequal(token, "Mask") )
-                pStyle->setOrigMask( value.c_str() );
-            else if( strcaseequal(token, "Locale") )
-                pStyle->setOrigLocale( value.c_str() );
-            else if( strcaseequal(token, "HAlignment") )
-                pStyle->setOrigHAlignment( value.c_str() );
-            else if( strcaseequal(token, "VAlignment") )
-                pStyle->setOrigVAlignment( value.c_str() );
-            else if( strcaseequal(token, "Adjustment") )
-                pStyle->setOrigAdjustment( value.c_str() );
-            else if( strcaseequal(token, "FontColor") )
-                pStyle->setOrigFontColor( value.c_str() );
-            else if( strcaseequal(token, "BackColor") )
-                pStyle->setOrigBackColor( value.c_str() );
-            else if( strcaseequal(token, "BorderColor") )
-                pStyle->setOrigBorderColor( value.c_str() );
-            else if( strcaseequal(token, "BorderWidth") )
-                pStyle->setOrigBorderWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderStyle") )
-                pStyle->setOrigBorderStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderTopColor") )
-                pStyle->setOrigBorderTopColor( value.c_str() );
-            else if( strcaseequal(token, "BorderTopWidth") )
-                pStyle->setOrigBorderTopWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderTopStyle") )
-                pStyle->setOrigBorderTopStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderBottomColor") )
-                pStyle->setOrigBorderBottomColor( value.c_str() );
-            else if( strcaseequal(token, "BorderBottomWidth") )
-                pStyle->setOrigBorderBottomWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderBottomStyle") )
-                pStyle->setOrigBorderBottomStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderLeftColor") )
-                pStyle->setOrigBorderLeftColor( value.c_str() );
-            else if( strcaseequal(token, "BorderLeftWidth") )
-                pStyle->setOrigBorderLeftWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderLeftStyle") )
-                pStyle->setOrigBorderLeftStyle( value.c_str() );
-            else if( strcaseequal(token, "BorderRightColor") )
-                pStyle->setOrigBorderRightColor( value.c_str() );
-            else if( strcaseequal(token, "BorderRightWidth") )
-                pStyle->setOrigBorderRightWidth( value.c_str() );
-            else if( strcaseequal(token, "BorderRightStyle") )
-                pStyle->setOrigBorderRightStyle( value.c_str() );
-            else if( strcaseequal(token, "BackgroundImage") )
-                pStyle->setOrigBackgroundImage( value.c_str() );
-            else if( strcaseequal(token, "ImageStyle") )
-                pStyle->setOrigImageStyle( value.c_str() );
-            else if( strcaseequal(token, "PageBefore") )
-                pStyle->setOrigPageBefore( value.c_str() );
-            else if( strcaseequal(token, "PageAfter") )
-                pStyle->setOrigPageAfter( value.c_str() );
-            else if( strcaseequal(token, "ResetNPage") )
-                pStyle->setOrigResetNPage( value.c_str() );
-            else if( strcaseequal(token, "SupIfBlank") )
-                pStyle->setOrigSupIfBlank( value.c_str() );
-            else if( strcaseequal(token, "RepeatHeader") )
-                pStyle->setOrigRepeatHeader( value.c_str() );
-            else if( strcaseequal(token, "PrintInFirstPage") )
-                pStyle->setOrigPrintInFirstPage( value.c_str() );
-            else if( strcaseequal(token, "Padding") )
-                pStyle->setOrigPadding( value.c_str() );
-            else if( strcaseequal(token, "PaddingLeft") )
-                pStyle->setOrigPaddingLeft( value.c_str() );
-            else if( strcaseequal(token, "PaddingTop") )
-                pStyle->setOrigPaddingTop( value.c_str() );
-            /*>>>>>STYLE_READRTK*/
+				if( strcaseequal(token, "MarginLeft") )
+					pStyle->setOrigMarginLeft( value.c_str() );
+				else if( strcaseequal(token, "MarginRight") )
+					pStyle->setOrigMarginRight( value.c_str() );
+				else if( strcaseequal(token, "MarginTop") )
+					pStyle->setOrigMarginTop( value.c_str() );
+				else if( strcaseequal(token, "MarginBottom") )
+					pStyle->setOrigMarginBottom( value.c_str() );
+				else if( strcaseequal(token, "Padding") )
+					pStyle->setOrigPadding( value.c_str() );
+				else if( strcaseequal(token, "PaddingLeft") )
+					pStyle->setOrigPaddingLeft( value.c_str() );
+				else if( strcaseequal(token, "PaddingTop") )
+					pStyle->setOrigPaddingTop( value.c_str() );
+				else if( strcaseequal(token, "Visible") )
+					pStyle->setOrigVisible( value.c_str() );
+				else if( strcaseequal(token, "Supressed") )
+					pStyle->setOrigSupressed( value.c_str() );
+				else if( strcaseequal(token, "SupressDup") )
+					pStyle->setOrigSupressDup( value.c_str() );
+				else if( strcaseequal(token, "FontFamily") )
+					pStyle->setOrigFontFamily( value.c_str() );
+				else if( strcaseequal(token, "FontSize") )
+					pStyle->setOrigFontSize( value.c_str() );
+				else if( strcaseequal(token, "FontWeight") )
+					pStyle->setOrigFontWeight( value.c_str() );
+				else if( strcaseequal(token, "FontItalic") )
+					pStyle->setOrigFontItalic( value.c_str() );
+				else if( strcaseequal(token, "MaxLines") )
+					pStyle->setOrigMaxLines( value.c_str() );
+				else if( strcaseequal(token, "MinFontSize") )
+					pStyle->setOrigMinFontSize( value.c_str() );
+				else if( strcaseequal(token, "Format") )
+					pStyle->setOrigFormat( value.c_str() );
+				else if( strcaseequal(token, "Mask") )
+					pStyle->setOrigMask( value.c_str() );
+				else if( strcaseequal(token, "Locale") )
+					pStyle->setOrigLocale( value.c_str() );
+				else if( strcaseequal(token, "HAlignment") )
+					pStyle->setOrigHAlignment( value.c_str() );
+				else if( strcaseequal(token, "VAlignment") )
+					pStyle->setOrigVAlignment( value.c_str() );
+				else if( strcaseequal(token, "Adjustment") )
+					pStyle->setOrigAdjustment( value.c_str() );
+				else if( strcaseequal(token, "FontColor") )
+					pStyle->setOrigFontColor( value.c_str() );
+				else if( strcaseequal(token, "BackColor") )
+					pStyle->setOrigBackColor( value.c_str() );
+				else if( strcaseequal(token, "BorderColor") )
+					pStyle->setOrigBorderColor( value.c_str() );
+				else if( strcaseequal(token, "BorderWidth") )
+					pStyle->setOrigBorderWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderStyle") )
+					pStyle->setOrigBorderStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderTopColor") )
+					pStyle->setOrigBorderTopColor( value.c_str() );
+				else if( strcaseequal(token, "BorderTopWidth") )
+					pStyle->setOrigBorderTopWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderTopStyle") )
+					pStyle->setOrigBorderTopStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomColor") )
+					pStyle->setOrigBorderBottomColor( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomWidth") )
+					pStyle->setOrigBorderBottomWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderBottomStyle") )
+					pStyle->setOrigBorderBottomStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftColor") )
+					pStyle->setOrigBorderLeftColor( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftWidth") )
+					pStyle->setOrigBorderLeftWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderLeftStyle") )
+					pStyle->setOrigBorderLeftStyle( value.c_str() );
+				else if( strcaseequal(token, "BorderRightColor") )
+					pStyle->setOrigBorderRightColor( value.c_str() );
+				else if( strcaseequal(token, "BorderRightWidth") )
+					pStyle->setOrigBorderRightWidth( value.c_str() );
+				else if( strcaseequal(token, "BorderRightStyle") )
+					pStyle->setOrigBorderRightStyle( value.c_str() );
+				else if( strcaseequal(token, "BackgroundImage") )
+					pStyle->setOrigBackgroundImage( value.c_str() );
+				else if( strcaseequal(token, "ImageStyle") )
+					pStyle->setOrigImageStyle( value.c_str() );
+				else if( strcaseequal(token, "PageBefore") )
+					pStyle->setOrigPageBefore( value.c_str() );
+				else if( strcaseequal(token, "PageAfter") )
+					pStyle->setOrigPageAfter( value.c_str() );
+				else if( strcaseequal(token, "ResetNPage") )
+					pStyle->setOrigResetNPage( value.c_str() );
+				else if( strcaseequal(token, "SupIfBlank") )
+					pStyle->setOrigSupIfBlank( value.c_str() );
+				else if( strcaseequal(token, "RepeatHeader") )
+					pStyle->setOrigRepeatHeader( value.c_str() );
+				else if( strcaseequal(token, "PrintInFirstPage") )
+					pStyle->setOrigPrintInFirstPage( value.c_str() );
+/*>>>>>STYLE_READRTK*/
             else
                 pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "STYLE", stylename );
             if( getNextToken( text ) != ";" ) {
@@ -1072,13 +1092,13 @@ Image *ReportDefParser::parseImage( const char *imagename, const char **text, bo
                 pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
                                     token.c_str(), "IMAGE", imagename );
             /*<<<<<IMAGE_READRTK*/
-            if( strcaseequal(token, "Url") )
-                pImage->setOrigUrl( value.c_str() );
-            else if( strcaseequal(token, "MimeType") )
-                pImage->setOrigMimeType( value.c_str() );
-            else if( strcaseequal(token, "ImageStyle") )
-                pImage->setOrigImageStyle( value.c_str() );
-            /*>>>>>IMAGE_READRTK*/
+				if( strcaseequal(token, "Url") )
+					pImage->setOrigUrl( value.c_str() );
+				else if( strcaseequal(token, "MimeType") )
+					pImage->setOrigMimeType( value.c_str() );
+				else if( strcaseequal(token, "ImageStyle") )
+					pImage->setOrigImageStyle( value.c_str() );
+/*>>>>>IMAGE_READRTK*/
             else
                 pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "IMAGE", imagename );
             if( getNextToken( text ) != ";" ) {
@@ -1242,11 +1262,11 @@ InputField *ReportDefParser::parseInputField( Input *pInput, const char *ifname,
 
             if ( !skipping && pInputField ) {
                 /*<<<<<INPUTFIELD_READRTK*/
-                if( strcaseequal(token, "Source") )
-                    pInputField->setOrigSource( value.c_str() );
-                else if( strcaseequal(token, "ConstValue") )
-                    pInputField->setOrigConstValue( value.c_str() );
-                /*>>>>>INPUTFIELD_READRTK*/
+				if( strcaseequal(token, "Source") )
+					pInputField->setOrigSource( value.c_str() );
+				else if( strcaseequal(token, "ConstValue") )
+					pInputField->setOrigConstValue( value.c_str() );
+/*>>>>>INPUTFIELD_READRTK*/
                 else if( strcaseequal(token, "Type") )
                     pInputField->setOrigType( value.c_str() );
                 else
@@ -1339,83 +1359,83 @@ bool Report::readRtkString( const char *rtkstring, const char *defaultinput,
 #if 0
 // Move this to the Inputxxxx.cpp module
 /*<<<<<INPUTCSV_READRTK*/
-if( strcaseequal(token, "Filename") )
-    pInputCsv->setOrigFilename( value.c_str() );
-else if( strcaseequal(token, "Delimiters") )
-    pInputCsv->setOrigDelimiters( value.c_str() );
-else if( strcaseequal(token, "Quote") )
-    pInputCsv->setOrigQuote( value.c_str() );
-else if( strcaseequal(token, "HeaderLines") )
-    pInputCsv->setOrigHeaderLines( value.c_str() );
+				if( strcaseequal(token, "Filename") )
+					pInputCsv->setOrigFilename( value.c_str() );
+				else if( strcaseequal(token, "Delimiters") )
+					pInputCsv->setOrigDelimiters( value.c_str() );
+				else if( strcaseequal(token, "Quote") )
+					pInputCsv->setOrigQuote( value.c_str() );
+				else if( strcaseequal(token, "HeaderLines") )
+					pInputCsv->setOrigHeaderLines( value.c_str() );
 /*>>>>>INPUTCSV_READRTK*/
 /*<<<<<INPUTMYSQL_READRTK*/
-if( strcaseequal(token, "Host") )
-    pInputMySql->setOrigHost( value.c_str() );
-else if( strcaseequal(token, "Port") )
-    pInputMySql->setOrigPort( value.c_str() );
-else if( strcaseequal(token, "User") )
-    pInputMySql->setOrigUser( value.c_str() );
-else if( strcaseequal(token, "Password") )
-    pInputMySql->setOrigPassword( value.c_str() );
-else if( strcaseequal(token, "Database") )
-    pInputMySql->setOrigDatabase( value.c_str() );
-else if( strcaseequal(token, "From") )
-    pInputMySql->setOrigFrom( value.c_str() );
-else if( strcaseequal(token, "Where") )
-    pInputMySql->setOrigWhere( value.c_str() );
-else if( strcaseequal(token, "OrderBy") )
-    pInputMySql->setOrigOrderBy( value.c_str() );
-else if( strcaseequal(token, "GroupBy") )
-    pInputMySql->setOrigGroupBy( value.c_str() );
-else if( strcaseequal(token, "PreSQL") )
-    pInputMySql->setOrigPreSQL( value.c_str() );
-else if( strcaseequal(token, "PostSQL") )
-    pInputMySql->setOrigPostSQL( value.c_str() );
+				if( strcaseequal(token, "Host") )
+					pInputMySql->setOrigHost( value.c_str() );
+				else if( strcaseequal(token, "Port") )
+					pInputMySql->setOrigPort( value.c_str() );
+				else if( strcaseequal(token, "User") )
+					pInputMySql->setOrigUser( value.c_str() );
+				else if( strcaseequal(token, "Password") )
+					pInputMySql->setOrigPassword( value.c_str() );
+				else if( strcaseequal(token, "Database") )
+					pInputMySql->setOrigDatabase( value.c_str() );
+				else if( strcaseequal(token, "From") )
+					pInputMySql->setOrigFrom( value.c_str() );
+				else if( strcaseequal(token, "Where") )
+					pInputMySql->setOrigWhere( value.c_str() );
+				else if( strcaseequal(token, "OrderBy") )
+					pInputMySql->setOrigOrderBy( value.c_str() );
+				else if( strcaseequal(token, "GroupBy") )
+					pInputMySql->setOrigGroupBy( value.c_str() );
+				else if( strcaseequal(token, "PreSQL") )
+					pInputMySql->setOrigPreSQL( value.c_str() );
+				else if( strcaseequal(token, "PostSQL") )
+					pInputMySql->setOrigPostSQL( value.c_str() );
 /*>>>>>INPUTMYSQL_READRTK*/
 /*<<<<<INPUTPGSQL_READRTK*/
-if( strcaseequal(token, "Host") )
-    pInputPgSql->setOrigHost( value.c_str() );
-else if( strcaseequal(token, "Port") )
-    pInputPgSql->setOrigPort( value.c_str() );
-else if( strcaseequal(token, "User") )
-    pInputPgSql->setOrigUser( value.c_str() );
-else if( strcaseequal(token, "Password") )
-    pInputPgSql->setOrigPassword( value.c_str() );
-else if( strcaseequal(token, "Database") )
-    pInputPgSql->setOrigDatabase( value.c_str() );
-else if( strcaseequal(token, "From") )
-    pInputPgSql->setOrigFrom( value.c_str() );
-else if( strcaseequal(token, "Where") )
-    pInputPgSql->setOrigWhere( value.c_str() );
-else if( strcaseequal(token, "OrderBy") )
-    pInputPgSql->setOrigOrderBy( value.c_str() );
-else if( strcaseequal(token, "GroupBy") )
-    pInputPgSql->setOrigGroupBy( value.c_str() );
-else if( strcaseequal(token, "PreSQL") )
-    pInputPgSql->setOrigPreSQL( value.c_str() );
-else if( strcaseequal(token, "PostSQL") )
-    pInputPgSql->setOrigPostSQL( value.c_str() );
+				if( strcaseequal(token, "Host") )
+					pInputPgSql->setOrigHost( value.c_str() );
+				else if( strcaseequal(token, "Port") )
+					pInputPgSql->setOrigPort( value.c_str() );
+				else if( strcaseequal(token, "User") )
+					pInputPgSql->setOrigUser( value.c_str() );
+				else if( strcaseequal(token, "Password") )
+					pInputPgSql->setOrigPassword( value.c_str() );
+				else if( strcaseequal(token, "Database") )
+					pInputPgSql->setOrigDatabase( value.c_str() );
+				else if( strcaseequal(token, "From") )
+					pInputPgSql->setOrigFrom( value.c_str() );
+				else if( strcaseequal(token, "Where") )
+					pInputPgSql->setOrigWhere( value.c_str() );
+				else if( strcaseequal(token, "OrderBy") )
+					pInputPgSql->setOrigOrderBy( value.c_str() );
+				else if( strcaseequal(token, "GroupBy") )
+					pInputPgSql->setOrigGroupBy( value.c_str() );
+				else if( strcaseequal(token, "PreSQL") )
+					pInputPgSql->setOrigPreSQL( value.c_str() );
+				else if( strcaseequal(token, "PostSQL") )
+					pInputPgSql->setOrigPostSQL( value.c_str() );
 /*>>>>>INPUTPGSQL_READRTK*/
 /*<<<<<PARAMETER_READRTK*/
-if( strcaseequal(token, "Value") )
-    pParameter->setOrigValue( value.c_str() );
+				if( strcaseequal(token, "Value") )
+					pParameter->setOrigValue( value.c_str() );
 /*>>>>>PARAMETER_READRTK*/
 /*<<<<<INPUTXBASE_READRTK*/
-if( strcaseequal(token, "DatabasePath") )
-    pInputXBase->setOrigDatabasePath( value.c_str() );
-else if( strcaseequal(token, "CaseSensitive") )
-    pInputXBase->setOrigCaseSensitive( value.c_str() );
-else if( strcaseequal(token, "From") )
-    pInputXBase->setOrigFrom( value.c_str() );
-else if( strcaseequal(token, "Where") )
-    pInputXBase->setOrigWhere( value.c_str() );
-else if( strcaseequal(token, "OrderBy") )
-    pInputXBase->setOrigOrderBy( value.c_str() );
-else if( strcaseequal(token, "GroupBy") )
-    pInputXBase->setOrigGroupBy( value.c_str() );
-else if( strcaseequal(token, "PreSQL") )
-    pInputXBase->setOrigPreSQL( value.c_str() );
-else if( strcaseequal(token, "PostSQL") )
-    pInputXBase->setOrigPostSQL( value.c_str() );
+				if( strcaseequal(token, "DatabasePath") )
+					pInputXBase->setOrigDatabasePath( value.c_str() );
+				else if( strcaseequal(token, "CaseSensitive") )
+					pInputXBase->setOrigCaseSensitive( value.c_str() );
+				else if( strcaseequal(token, "From") )
+					pInputXBase->setOrigFrom( value.c_str() );
+				else if( strcaseequal(token, "Where") )
+					pInputXBase->setOrigWhere( value.c_str() );
+				else if( strcaseequal(token, "OrderBy") )
+					pInputXBase->setOrigOrderBy( value.c_str() );
+				else if( strcaseequal(token, "GroupBy") )
+					pInputXBase->setOrigGroupBy( value.c_str() );
+				else if( strcaseequal(token, "PreSQL") )
+					pInputXBase->setOrigPreSQL( value.c_str() );
+				else if( strcaseequal(token, "PostSQL") )
+					pInputXBase->setOrigPostSQL( value.c_str() );
 /*>>>>>INPUTXBASE_READRTK*/
 #endif

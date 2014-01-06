@@ -18,8 +18,8 @@ namespace gong {
 template<>
 dbFieldListOfValues<int>::dbFieldListOfValues(const dbFieldListOfValues<int> &other)
 	: dbFieldDefinition( other ),
-	pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
 	mListOfCaptions( other.mListOfCaptions ), mListOfValues( other.mListOfValues ),
+	pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
     mInsertAllowed( other.mInsertAllowed ), mIsRef( other.mIsRef )
 {
 }
@@ -27,8 +27,8 @@ dbFieldListOfValues<int>::dbFieldListOfValues(const dbFieldListOfValues<int> &ot
 template<>
 dbFieldListOfValues<Xtring>::dbFieldListOfValues(const dbFieldListOfValues<Xtring> &other)
 	: dbFieldDefinition( other ),
-	pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
 	mListOfCaptions( other.mListOfCaptions ), mListOfValues( other.mListOfValues ),
+	pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
     mInsertAllowed( other.mInsertAllowed ), mIsRef( other.mIsRef )
 {
 }

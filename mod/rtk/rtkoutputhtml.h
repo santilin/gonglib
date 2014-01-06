@@ -46,17 +46,13 @@ public:
 
     /*<<<<<OUTPUTHTML_PROPERTIES*/
 public:
-    const char * fileName() const {
-        return propFileName.get();
-    }
-    const char * encoding() const {
-        return propEncoding.get();
-    }
+	const char * fileName() const { return propFileName.get(); }
+	const char * encoding() const { return propEncoding.get(); }
 
 public:
-    Property<const char *> propFileName;
-    Property<const char *> propEncoding;
-    /*>>>>>OUTPUTHTML_PROPERTIES*/
+	Property<const char *> propFileName;
+	Property<const char *> propEncoding;
+/*>>>>>OUTPUTHTML_PROPERTIES*/
 
 private:
     std::ofstream *pFile;

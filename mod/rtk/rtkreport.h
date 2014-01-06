@@ -179,87 +179,43 @@ public:
 
     /*<<<<<REPORT_PROPERTIES*/
 public:
-    const char * title() const {
-        return propTitle.get();
-    }
-    void setOrigTitle(const char * title )		{
-        propTitle.setOrig(title);
-    }
-    UnitsType units() const {
-        return propUnits.get();
-    }
-    void setOrigUnits(const char * units )		{
-        propUnits.setOrig(units);
-    }
-    PageOrientation pageOrientation() const {
-        return propPageOrientation.get();
-    }
-    void setOrigPageOrientation(const char * pageorientation )		{
-        propPageOrientation.setOrig(pageorientation);
-    }
-    const char * stylesPath() const {
-        return propStylesPath.get();
-    }
-    void setOrigStylesPath(const char * stylespath )		{
-        propStylesPath.setOrig(stylespath);
-    }
-    const char * imagesPath() const {
-        return propImagesPath.get();
-    }
-    void setOrigImagesPath(const char * imagespath )		{
-        propImagesPath.setOrig(imagespath);
-    }
-    const char * includePath() const {
-        return propIncludePath.get();
-    }
-    void setOrigIncludePath(const char * includepath )		{
-        propIncludePath.setOrig(includepath);
-    }
-    const char * paramDelim() const {
-        return propParamDelim.get();
-    }
-    void setOrigParamDelim(const char * paramdelim )		{
-        propParamDelim.setOrig(paramdelim);
-    }
-    const char * order() const {
-        return propOrder.get();
-    }
-    void setOrigOrder(const char * order )		{
-        propOrder.setOrig(order);
-    }
-    const char * filter() const {
-        return propFilter.get();
-    }
-    void setOrigFilter(const char * filter )		{
-        propFilter.setOrig(filter);
-    }
-    int copies() const {
-        return propCopies.get();
-    }
-    void setOrigCopies(const char * copies )		{
-        propCopies.setOrig(copies);
-    }
-    int pagesPerFolio() const {
-        return propPagesPerFolio.get();
-    }
-    void setOrigPagesPerFolio(const char * pagesperfolio )		{
-        propPagesPerFolio.setOrig(pagesperfolio);
-    }
-    virtual void fixParameters(const ParametersList &parameters, const char *delim); // from Input
+	const char * title() const { return propTitle.get(); }
+	void setOrigTitle(const char * title )		{ propTitle.setOrig(title); }
+	UnitsType units() const { return propUnits.get(); }
+	void setOrigUnits(const char * units )		{ propUnits.setOrig(units); }
+	PageOrientation pageOrientation() const { return propPageOrientation.get(); }
+	void setOrigPageOrientation(const char * pageorientation )		{ propPageOrientation.setOrig(pageorientation); }
+	const char * stylesPath() const { return propStylesPath.get(); }
+	void setOrigStylesPath(const char * stylespath )		{ propStylesPath.setOrig(stylespath); }
+	const char * imagesPath() const { return propImagesPath.get(); }
+	void setOrigImagesPath(const char * imagespath )		{ propImagesPath.setOrig(imagespath); }
+	const char * includePath() const { return propIncludePath.get(); }
+	void setOrigIncludePath(const char * includepath )		{ propIncludePath.setOrig(includepath); }
+	const char * paramDelim() const { return propParamDelim.get(); }
+	void setOrigParamDelim(const char * paramdelim )		{ propParamDelim.setOrig(paramdelim); }
+	const char * order() const { return propOrder.get(); }
+	void setOrigOrder(const char * order )		{ propOrder.setOrig(order); }
+	const char * filter() const { return propFilter.get(); }
+	void setOrigFilter(const char * filter )		{ propFilter.setOrig(filter); }
+	int copies() const { return propCopies.get(); }
+	void setOrigCopies(const char * copies )		{ propCopies.setOrig(copies); }
+	int pagesPerFolio() const { return propPagesPerFolio.get(); }
+	void setOrigPagesPerFolio(const char * pagesperfolio )		{ propPagesPerFolio.setOrig(pagesperfolio); }
+	virtual void fixParameters(const ParametersList &parameters, const char *delim); // from Input
 
 public:
-    FixableProperty<const char *> propTitle;
-    FixableProperty<UnitsType> propUnits;
-    FixableProperty<PageOrientation> propPageOrientation;
-    FixableProperty<const char *> propStylesPath;
-    FixableProperty<const char *> propImagesPath;
-    FixableProperty<const char *> propIncludePath;
-    FixableProperty<const char *> propParamDelim;
-    FixableProperty<const char *> propOrder;
-    FixableProperty<const char *> propFilter;
-    FixableProperty<int> propCopies;
-    FixableProperty<int> propPagesPerFolio;
-    /*>>>>>REPORT_PROPERTIES*/
+	FixableProperty<const char *> propTitle;
+	FixableProperty<UnitsType> propUnits;
+	FixableProperty<PageOrientation> propPageOrientation;
+	FixableProperty<const char *> propStylesPath;
+	FixableProperty<const char *> propImagesPath;
+	FixableProperty<const char *> propIncludePath;
+	FixableProperty<const char *> propParamDelim;
+	FixableProperty<const char *> propOrder;
+	FixableProperty<const char *> propFilter;
+	FixableProperty<int> propCopies;
+	FixableProperty<int> propPagesPerFolio;
+/*>>>>>REPORT_PROPERTIES*/
 
 private:
     enum Passes { PASS_NONE = 0, PASS_ORDER = 1, PASS_GROUP_AHEAD = 1 << 1, PASS_PRINT = 1 << 2,

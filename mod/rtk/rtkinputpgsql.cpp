@@ -136,18 +136,18 @@ void InputPgSql::fixInputParameters(const ParametersList &parameters, const char
 {
     Input::fixInputParameters(parameters, delim);
     /*<<<<<INPUTPGSQL_FIXPARAMETERS*/
-    propHost.fix( parameters, delim );
-    propPort.fix( parameters, delim, 0 );
-    propUser.fix( parameters, delim );
-    propPassword.fix( parameters, delim );
-    propDatabase.fix( parameters, delim );
-    propFrom.fix( parameters, delim );
-    propWhere.fix( parameters, delim );
-    propOrderBy.fix( parameters, delim );
-    propGroupBy.fix( parameters, delim );
-    propPreSQL.fix( parameters, delim );
-    propPostSQL.fix( parameters, delim );
-    /*>>>>>INPUTPGSQL_FIXPARAMETERS*/
+	propHost.fix( parameters, delim );
+	propPort.fix( parameters, delim, 0 );
+	propUser.fix( parameters, delim );
+	propPassword.fix( parameters, delim );
+	propDatabase.fix( parameters, delim );
+	propFrom.fix( parameters, delim );
+	propWhere.fix( parameters, delim );
+	propOrderBy.fix( parameters, delim );
+	propGroupBy.fix( parameters, delim );
+	propPreSQL.fix( parameters, delim );
+	propPostSQL.fix( parameters, delim );
+/*>>>>>INPUTPGSQL_FIXPARAMETERS*/
 }
 
 } // namespace

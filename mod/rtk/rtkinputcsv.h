@@ -42,38 +42,22 @@ public:
 
     /*<<<<<INPUTCSV_PROPERTIES*/
 public:
-    const char * filename() const {
-        return propFilename.get();
-    }
-    void setOrigFilename(const char * filename )		{
-        propFilename.setOrig(filename);
-    }
-    const char * delimiters() const {
-        return propDelimiters.get();
-    }
-    void setOrigDelimiters(const char * delimiters )		{
-        propDelimiters.setOrig(delimiters);
-    }
-    const char * quote() const {
-        return propQuote.get();
-    }
-    void setOrigQuote(const char * quote )		{
-        propQuote.setOrig(quote);
-    }
-    int headerLines() const {
-        return propHeaderLines.get();
-    }
-    void setOrigHeaderLines(const char * headerlines )		{
-        propHeaderLines.setOrig(headerlines);
-    }
-    virtual void fixInputParameters(const ParametersList &parameters, const char *delim); // from Input
+	const char * filename() const { return propFilename.get(); }
+	void setOrigFilename(const char * filename )		{ propFilename.setOrig(filename); }
+	const char * delimiters() const { return propDelimiters.get(); }
+	void setOrigDelimiters(const char * delimiters )		{ propDelimiters.setOrig(delimiters); }
+	const char * quote() const { return propQuote.get(); }
+	void setOrigQuote(const char * quote )		{ propQuote.setOrig(quote); }
+	int headerLines() const { return propHeaderLines.get(); }
+	void setOrigHeaderLines(const char * headerlines )		{ propHeaderLines.setOrig(headerlines); }
+	virtual void fixInputParameters(const ParametersList &parameters, const char *delim); // from Input
 
 public:
-    FixableProperty<const char *> propFilename;
-    FixableProperty<const char *> propDelimiters;
-    FixableProperty<const char *> propQuote;
-    FixableProperty<int> propHeaderLines;
-    /*>>>>>INPUTCSV_PROPERTIES*/
+	FixableProperty<const char *> propFilename;
+	FixableProperty<const char *> propDelimiters;
+	FixableProperty<const char *> propQuote;
+	FixableProperty<int> propHeaderLines;
+/*>>>>>INPUTCSV_PROPERTIES*/
 
 private:
     std::ifstream *pFile;

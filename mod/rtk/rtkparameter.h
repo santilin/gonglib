@@ -34,25 +34,17 @@ public:
     }
     /*<<<<<PARAMETER_PROPERTIES*/
 public:
-    const char * name() const {
-        return propName.get();
-    }
-    const char * value() const {
-        return propValue.get();
-    }
-    Variant::Type type() const {
-        return propType.get();
-    }
-    const char * caption() const {
-        return propCaption.get();
-    }
+	const char * name() const { return propName.get(); }
+	const char * value() const { return propValue.get(); }
+	Variant::Type type() const { return propType.get(); }
+	const char * caption() const { return propCaption.get(); }
 
 public:
-    ReadOnlyProperty<const char *> propName;
-    Property<const char *> propValue;
-    Property<Variant::Type> propType;
-    Property<const char *> propCaption;
-    /*>>>>>PARAMETER_PROPERTIES*/
+	ReadOnlyProperty<const char *> propName;
+	Property<const char *> propValue;
+	Property<Variant::Type> propType;
+	Property<const char *> propCaption;
+/*>>>>>PARAMETER_PROPERTIES*/
 };
 
 typedef std::vector<Parameter *> ParametersList;

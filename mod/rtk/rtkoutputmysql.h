@@ -47,33 +47,21 @@ public:
 
     /*<<<<<OUTPUTMYSQL_PROPERTIES*/
 public:
-    bool createTables() const {
-        return propCreateTables.get();
-    }
-    const char * database() const {
-        return propDatabase.get();
-    }
-    const char * host() const {
-        return propHost.get();
-    }
-    const char * user() const {
-        return propUser.get();
-    }
-    const char * password() const {
-        return propPassword.get();
-    }
-    int port() const {
-        return propPort.get();
-    }
+	bool createTables() const { return propCreateTables.get(); }
+	const char * database() const { return propDatabase.get(); }
+	const char * host() const { return propHost.get(); }
+	const char * user() const { return propUser.get(); }
+	const char * password() const { return propPassword.get(); }
+	int port() const { return propPort.get(); }
 
 public:
-    Property<bool> propCreateTables;
-    Property<const char *> propDatabase;
-    Property<const char *> propHost;
-    Property<const char *> propUser;
-    Property<const char *> propPassword;
-    Property<int> propPort;
-    /*>>>>>OUTPUTMYSQL_PROPERTIES*/
+	Property<bool> propCreateTables;
+	Property<const char *> propDatabase;
+	Property<const char *> propHost;
+	Property<const char *> propUser;
+	Property<const char *> propPassword;
+	Property<int> propPort;
+/*>>>>>OUTPUTMYSQL_PROPERTIES*/
 
 private:
     MYSQL mMySql;

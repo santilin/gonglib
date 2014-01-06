@@ -40,87 +40,43 @@ public:
 
     /*<<<<<INPUTPGSQL_PROPERTIES*/
 public:
-    const char * host() const {
-        return propHost.get();
-    }
-    void setOrigHost(const char * host )		{
-        propHost.setOrig(host);
-    }
-    int port() const {
-        return propPort.get();
-    }
-    void setOrigPort(const char * port )		{
-        propPort.setOrig(port);
-    }
-    const char * user() const {
-        return propUser.get();
-    }
-    void setOrigUser(const char * user )		{
-        propUser.setOrig(user);
-    }
-    const char * password() const {
-        return propPassword.get();
-    }
-    void setOrigPassword(const char * password )		{
-        propPassword.setOrig(password);
-    }
-    const char * database() const {
-        return propDatabase.get();
-    }
-    void setOrigDatabase(const char * database )		{
-        propDatabase.setOrig(database);
-    }
-    const char * from() const {
-        return propFrom.get();
-    }
-    void setOrigFrom(const char * from )		{
-        propFrom.setOrig(from);
-    }
-    const char * where() const {
-        return propWhere.get();
-    }
-    void setOrigWhere(const char * where )		{
-        propWhere.setOrig(where);
-    }
-    const char * orderBy() const {
-        return propOrderBy.get();
-    }
-    void setOrigOrderBy(const char * orderby )		{
-        propOrderBy.setOrig(orderby);
-    }
-    const char * groupBy() const {
-        return propGroupBy.get();
-    }
-    void setOrigGroupBy(const char * groupby )		{
-        propGroupBy.setOrig(groupby);
-    }
-    const char * preSQL() const {
-        return propPreSQL.get();
-    }
-    void setOrigPreSQL(const char * presql )		{
-        propPreSQL.setOrig(presql);
-    }
-    const char * postSQL() const {
-        return propPostSQL.get();
-    }
-    void setOrigPostSQL(const char * postsql )		{
-        propPostSQL.setOrig(postsql);
-    }
-    virtual void fixInputParameters(const ParametersList &parameters, const char *delim); // from Input
+	const char * host() const { return propHost.get(); }
+	void setOrigHost(const char * host )		{ propHost.setOrig(host); }
+	int port() const { return propPort.get(); }
+	void setOrigPort(const char * port )		{ propPort.setOrig(port); }
+	const char * user() const { return propUser.get(); }
+	void setOrigUser(const char * user )		{ propUser.setOrig(user); }
+	const char * password() const { return propPassword.get(); }
+	void setOrigPassword(const char * password )		{ propPassword.setOrig(password); }
+	const char * database() const { return propDatabase.get(); }
+	void setOrigDatabase(const char * database )		{ propDatabase.setOrig(database); }
+	const char * from() const { return propFrom.get(); }
+	void setOrigFrom(const char * from )		{ propFrom.setOrig(from); }
+	const char * where() const { return propWhere.get(); }
+	void setOrigWhere(const char * where )		{ propWhere.setOrig(where); }
+	const char * orderBy() const { return propOrderBy.get(); }
+	void setOrigOrderBy(const char * orderby )		{ propOrderBy.setOrig(orderby); }
+	const char * groupBy() const { return propGroupBy.get(); }
+	void setOrigGroupBy(const char * groupby )		{ propGroupBy.setOrig(groupby); }
+	const char * preSQL() const { return propPreSQL.get(); }
+	void setOrigPreSQL(const char * presql )		{ propPreSQL.setOrig(presql); }
+	const char * postSQL() const { return propPostSQL.get(); }
+	void setOrigPostSQL(const char * postsql )		{ propPostSQL.setOrig(postsql); }
+	virtual void fixInputParameters(const ParametersList &parameters, const char *delim); // from Input
 
 public:
-    FixableProperty<const char *> propHost;
-    FixableProperty<int> propPort;
-    FixableProperty<const char *> propUser;
-    FixableProperty<const char *> propPassword;
-    FixableProperty<const char *> propDatabase;
-    FixableProperty<const char *> propFrom;
-    FixableProperty<const char *> propWhere;
-    FixableProperty<const char *> propOrderBy;
-    FixableProperty<const char *> propGroupBy;
-    FixableProperty<const char *> propPreSQL;
-    FixableProperty<const char *> propPostSQL;
-    /*>>>>>INPUTPGSQL_PROPERTIES*/
+	FixableProperty<const char *> propHost;
+	FixableProperty<int> propPort;
+	FixableProperty<const char *> propUser;
+	FixableProperty<const char *> propPassword;
+	FixableProperty<const char *> propDatabase;
+	FixableProperty<const char *> propFrom;
+	FixableProperty<const char *> propWhere;
+	FixableProperty<const char *> propOrderBy;
+	FixableProperty<const char *> propGroupBy;
+	FixableProperty<const char *> propPreSQL;
+	FixableProperty<const char *> propPostSQL;
+/*>>>>>INPUTPGSQL_PROPERTIES*/
 
 private:
     PGconn *pConn;

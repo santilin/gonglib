@@ -37,35 +37,21 @@ public:
 
     /*<<<<<IMAGE_PROPERTIES*/
 public:
-    const char * name() const {
-        return propName.get();
-    }
-    const char * url() const {
-        return propUrl.get();
-    }
-    void setOrigUrl(const char * url )		{
-        propUrl.setOrig(url);
-    }
-    const char * mimeType() const {
-        return propMimeType.get();
-    }
-    void setOrigMimeType(const char * mimetype )		{
-        propMimeType.setOrig(mimetype);
-    }
-    ImageStyle imageStyle() const {
-        return propImageStyle.get();
-    }
-    void setOrigImageStyle(const char * imagestyle )		{
-        propImageStyle.setOrig(imagestyle);
-    }
-    virtual void fixParameters(const ParametersList &parameters, const char *delim); // from Input
+	const char * name() const { return propName.get(); }
+	const char * url() const { return propUrl.get(); }
+	void setOrigUrl(const char * url )		{ propUrl.setOrig(url); }
+	const char * mimeType() const { return propMimeType.get(); }
+	void setOrigMimeType(const char * mimetype )		{ propMimeType.setOrig(mimetype); }
+	ImageStyle imageStyle() const { return propImageStyle.get(); }
+	void setOrigImageStyle(const char * imagestyle )		{ propImageStyle.setOrig(imagestyle); }
+	virtual void fixParameters(const ParametersList &parameters, const char *delim); // from Input
 
 public:
-    ReadOnlyProperty<const char *> propName;
-    FixableProperty<const char *> propUrl;
-    FixableProperty<const char *> propMimeType;
-    FixableProperty<ImageStyle> propImageStyle;
-    /*>>>>>IMAGE_PROPERTIES*/
+	ReadOnlyProperty<const char *> propName;
+	FixableProperty<const char *> propUrl;
+	FixableProperty<const char *> propMimeType;
+	FixableProperty<ImageStyle> propImageStyle;
+/*>>>>>IMAGE_PROPERTIES*/
 private:
     BaseImage *pBaseImage;
 };

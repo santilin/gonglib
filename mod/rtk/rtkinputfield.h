@@ -44,35 +44,21 @@ public:
 
     /*<<<<<INPUTFIELD_PROPERTIES*/
 public:
-    const char * name() const {
-        return propName.get();
-    }
-    const char * source() const {
-        return propSource.get();
-    }
-    void setOrigSource(const char * source )		{
-        propSource.setOrig(source);
-    }
-    Variant::Type type() const {
-        return propType.get();
-    }
-    void setOrigType(const char * type )		{
-        propType.setOrig(type);
-    }
-    const char * constValue() const {
-        return propConstValue.get();
-    }
-    void setOrigConstValue(const char * constvalue )		{
-        propConstValue.setOrig(constvalue);
-    }
-    virtual void fixParameters(const ParametersList &parameters, const char *delim); // from Input
+	const char * name() const { return propName.get(); }
+	const char * source() const { return propSource.get(); }
+	void setOrigSource(const char * source )		{ propSource.setOrig(source); }
+	Variant::Type type() const { return propType.get(); }
+	void setOrigType(const char * type )		{ propType.setOrig(type); }
+	const char * constValue() const { return propConstValue.get(); }
+	void setOrigConstValue(const char * constvalue )		{ propConstValue.setOrig(constvalue); }
+	virtual void fixParameters(const ParametersList &parameters, const char *delim); // from Input
 
 public:
-    ReadOnlyProperty<const char *> propName;
-    FixableProperty<const char *> propSource;
-    FixableProperty<Variant::Type> propType;
-    FixableProperty<const char *> propConstValue;
-    /*>>>>>INPUTFIELD_PROPERTIES*/
+	ReadOnlyProperty<const char *> propName;
+	FixableProperty<const char *> propSource;
+	FixableProperty<Variant::Type> propType;
+	FixableProperty<const char *> propConstValue;
+/*>>>>>INPUTFIELD_PROPERTIES*/
 
 
 private:

@@ -84,70 +84,35 @@ public:
 
     /*<<<<<SECTION_PROPERTIES*/
 public:
-    SectionType type() const {
-        return propType.get();
-    }
-    uint groupLevel() const {
-        return propGroupLevel.get();
-    }
-    int columns() const {
-        return propColumns.get();
-    }
-    void setOrigColumns(const char * columns )		{
-        propColumns.setOrig(columns);
-    }
-    bool pageBefore() const;
-    void setOrigPageBefore(const char * pagebefore )		{
-        propPageBefore.setOrig(pagebefore);
-    }
-    bool pageAfter() const;
-    void setOrigPageAfter(const char * pageafter )		{
-        propPageAfter.setOrig(pageafter);
-    }
-    bool resetNPage() const;
-    void setOrigResetNPage(const char * resetnpage )		{
-        propResetNPage.setOrig(resetnpage);
-    }
-    bool supIfBlank() const;
-    void setOrigSupIfBlank(const char * supifblank )		{
-        propSupIfBlank.setOrig(supifblank);
-    }
-    bool repeatHeader() const;
-    void setOrigRepeatHeader(const char * repeatheader )		{
-        propRepeatHeader.setOrig(repeatheader);
-    }
-    bool printInFirstPage() const;
-    void setOrigPrintInFirstPage(const char * printinfirstpage )		{
-        propPrintInFirstPage.setOrig(printinfirstpage);
-    }
-    Measure padding() const;
-    void setOrigPadding(const char * padding )		{
-        propPadding.setOrig(padding);
-    }
-    Measure paddingLeft() const;
-    void setOrigPaddingLeft(const char * paddingleft )		{
-        propPaddingLeft.setOrig(paddingleft);
-    }
-    Measure paddingTop() const;
-    void setOrigPaddingTop(const char * paddingtop )		{
-        propPaddingTop.setOrig(paddingtop);
-    }
-    virtual void fixParameters(const ParametersList &parameters, const char *delim); // from Input
+	SectionType type() const { return propType.get(); }
+	uint groupLevel() const { return propGroupLevel.get(); }
+	int columns() const { return propColumns.get(); }
+	void setOrigColumns(const char * columns )		{ propColumns.setOrig(columns); }
+	bool pageBefore() const;
+	void setOrigPageBefore(const char * pagebefore )		{ propPageBefore.setOrig(pagebefore); }
+	bool pageAfter() const;
+	void setOrigPageAfter(const char * pageafter )		{ propPageAfter.setOrig(pageafter); }
+	bool resetNPage() const;
+	void setOrigResetNPage(const char * resetnpage )		{ propResetNPage.setOrig(resetnpage); }
+	bool supIfBlank() const;
+	void setOrigSupIfBlank(const char * supifblank )		{ propSupIfBlank.setOrig(supifblank); }
+	bool repeatHeader() const;
+	void setOrigRepeatHeader(const char * repeatheader )		{ propRepeatHeader.setOrig(repeatheader); }
+	bool printInFirstPage() const;
+	void setOrigPrintInFirstPage(const char * printinfirstpage )		{ propPrintInFirstPage.setOrig(printinfirstpage); }
+	virtual void fixParameters(const ParametersList &parameters, const char *delim); // from Input
 
 public:
-    ReadOnlyProperty<SectionType> propType;
-    Property<uint> propGroupLevel;
-    FixableProperty<int> propColumns;
-    FixableProperty<bool> propPageBefore;
-    FixableProperty<bool> propPageAfter;
-    FixableProperty<bool> propResetNPage;
-    FixableProperty<bool> propSupIfBlank;
-    FixableProperty<bool> propRepeatHeader;
-    FixableProperty<bool> propPrintInFirstPage;
-    FixableProperty<Measure> propPadding;
-    FixableProperty<Measure> propPaddingLeft;
-    FixableProperty<Measure> propPaddingTop;
-    /*>>>>>SECTION_PROPERTIES*/
+	ReadOnlyProperty<SectionType> propType;
+	Property<uint> propGroupLevel;
+	FixableProperty<int> propColumns;
+	FixableProperty<bool> propPageBefore;
+	FixableProperty<bool> propPageAfter;
+	FixableProperty<bool> propResetNPage;
+	FixableProperty<bool> propSupIfBlank;
+	FixableProperty<bool> propRepeatHeader;
+	FixableProperty<bool> propPrintInFirstPage;
+/*>>>>>SECTION_PROPERTIES*/
 
 private:
     std::vector<Object *> mObjects;

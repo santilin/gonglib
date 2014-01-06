@@ -110,12 +110,12 @@ Variant InputCsv::getValue(uint i, Variant::Type type) const
 void InputCsv::fixInputParameters(const ParametersList &parameters, const char *delim)
 {
     Input::fixInputParameters(parameters, delim);
-    /*<<<<<INPUTCSV_FIXPARAMETERS*/
-    propFilename.fix( parameters, delim );
-    propDelimiters.fix( parameters, delim, "," );
-    propQuote.fix( parameters, delim, "\"" );
-    propHeaderLines.fix( parameters, delim, 0 );
-    /*>>>>>INPUTCSV_FIXPARAMETERS*/
+/*<<<<<INPUTCSV_FIXPARAMETERS*/
+	propFilename.fix( parameters, delim );
+	propDelimiters.fix( parameters, delim, "," );
+	propQuote.fix( parameters, delim, "\"" );
+	propHeaderLines.fix( parameters, delim, 0 );
+/*>>>>>INPUTCSV_FIXPARAMETERS*/
     if( propQuote.isEmpty() )
         propQuote.set("\"");
 }

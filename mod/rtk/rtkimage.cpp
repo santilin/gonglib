@@ -55,11 +55,11 @@ const BaseImage *Image::findBaseImage(const Xtring &paths, const Xtring &cwd)
 
 void Image::fixParameters(const ParametersList &parameters, const char *delim)
 {
-    /*<<<<<IMAGE_FIXPARAMETERS*/
-    propUrl.fix( parameters, delim );
-    propMimeType.fix( parameters, delim );
-    propImageStyle.fix( parameters, delim, RTK::ImageNone );
-    /*>>>>>IMAGE_FIXPARAMETERS*/
+/*<<<<<IMAGE_FIXPARAMETERS*/
+	propUrl.fix( parameters, delim );
+	propMimeType.fix( parameters, delim );
+	propImageStyle.fix( parameters, delim, RTK::ImageNone );
+/*>>>>>IMAGE_FIXPARAMETERS*/
 }
 
 } // Namespace RTK

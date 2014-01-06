@@ -42,25 +42,17 @@ public:
 
     /*<<<<<OUTPUTCSV_PROPERTIES*/
 public:
-    const char * fileName() const {
-        return propFileName.get();
-    }
-    const char * delimiters() const {
-        return propDelimiters.get();
-    }
-    const char * quote() const {
-        return propQuote.get();
-    }
-    bool columnNames() const {
-        return propColumnNames.get();
-    }
+	const char * fileName() const { return propFileName.get(); }
+	const char * delimiters() const { return propDelimiters.get(); }
+	const char * quote() const { return propQuote.get(); }
+	bool columnNames() const { return propColumnNames.get(); }
 
 public:
-    Property<const char *> propFileName;
-    Property<const char *> propDelimiters;
-    Property<const char *> propQuote;
-    Property<bool> propColumnNames;
-    /*>>>>>OUTPUTCSV_PROPERTIES*/
+	Property<const char *> propFileName;
+	Property<const char *> propDelimiters;
+	Property<const char *> propQuote;
+	Property<bool> propColumnNames;
+/*>>>>>OUTPUTCSV_PROPERTIES*/
 
 private:
     std::ofstream *pFile;

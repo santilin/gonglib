@@ -45,6 +45,7 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 		sizey = 5;
 		columns = 3;
 		marginright = 1;
+		borderstyle = dotted;
 
 		OBJECT PROYECTO_NOMBRE {
 			value = "=input.PROYECTO_NOMBRE";
@@ -59,6 +60,7 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 			value = "=input.MIEMBRO_NUMEROSOCIA";
 			halignment = "right";
 			posx = -1;
+			sizey = 1;
 			posy = 0;
 			sizex = 9;
 		}

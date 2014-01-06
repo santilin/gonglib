@@ -148,7 +148,7 @@ void ReportQtOutput::drawGraphics( const Object &object, int x0, int y0, int wid
             QPen linePen( toQColor(object.borderColor()), object.borderWidth(),
                           ( Qt::PenStyle ) object.borderStyle() );
             mPainter.setPen( linePen );
-            mPainter.drawRect( x0, y0, width, height );
+            mPainter.drawRect( x0, y0, width - object.borderWidth(), height- object.borderWidth() );
         } else { // Use the other borders instead
             if ( object.borderTopStyle() != BorderNone ) {
                 QPen linePen( toQColor(object.borderTopColor()), object.borderTopWidth(),
@@ -161,7 +161,7 @@ void ReportQtOutput::drawGraphics( const Object &object, int x0, int y0, int wid
                               object.borderBottomWidth(),
                               ( Qt::PenStyle ) object.borderBottomStyle() );
                 mPainter.setPen( linePen );
-                mPainter.drawLine( x0, y0 + height, x0 + width, y0 + height );
+                mPainter.drawLine( x0, y0 + height - object.borderBottomWidth(), x0 + width, y0 + height -object.borderBottomWidth() );
             }
             if ( object.borderLeftStyle() != BorderNone ) {
                 QPen linePen( toQColor(object.borderLeftColor()), object.borderLeftWidth(),
@@ -173,7 +173,7 @@ void ReportQtOutput::drawGraphics( const Object &object, int x0, int y0, int wid
                 QPen linePen( toQColor(object.borderRightColor()), object.borderRightWidth(),
                               ( Qt::PenStyle ) object.borderRightStyle() );
                 mPainter.setPen( linePen );
-                mPainter.drawLine( x0 + width, y0, x0 + width, y0 + height );
+                mPainter.drawLine( x0 + width - object.borderRightWidth(), y0, x0 + width - object.borderRightWidth(), y0 + height );
             }
         }
     }
@@ -227,7 +227,7 @@ Measure ReportQtOutput::printObject( const Object &object )
         return y0;
 
     clipMeasures( object, &x0, &y0, &width, &height);
-    _GONG_DEBUG_PRINT(0, Xtring::printf("Printing object %s(%s) at x=%d, y=%d, w=%d, h=%d)",
+    _GONG_DEBUG_PRINT(5, Xtring::printf("Printing object %s(%s) at x=%d, y=%d, w=%d, h=%d)",
                                         object.name(), Variant::typeToName(object.realValue().type()),
                                         x0, y0,width,height ) );
 

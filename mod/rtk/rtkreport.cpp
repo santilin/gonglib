@@ -521,7 +521,6 @@ void Report::fixAllProperties(const Output *out)
     propBorderRightWidth.set( out->defaultBorderRightWidth() );
     propBackgroundImage.set(0);
 
-    Xtring errmsg;
     // Now set the original properties
     fixParameters(mParameters, paramDelim());
     // Now fix the properties for the resf of objects
@@ -532,8 +531,8 @@ void Report::fixAllProperties(const Output *out)
 
     // Calc the sizes of the report in the reports units,
     // because we need them to fix the measures of the rest of the objects
-    Measure repsizex = stringTo<Measure>(propSizeX.getOrig(), errmsg);
-    Measure repsizey = stringTo<Measure>(propSizeY.getOrig(), errmsg);;
+    Measure repsizex = stringTo<Measure>(propSizeX.getOrig());
+    Measure repsizey = stringTo<Measure>(propSizeY.getOrig());
     if( repsizey == 0 ) // The sizey is calculated accordingly to the output's sizey and fontsize
         repsizey = ( out->sizeY() / ((fontSize()!=0.0?fontSize():out->defaultFontSize())*1.7) );
 
@@ -578,18 +577,18 @@ void Report::fixParameters(const ParametersList &parameters, const char *delim)
 {
     Object::fixParameters(parameters, delim);
     /*<<<<<REPORT_FIXPARAMETERS*/
-    propTitle.fix( parameters, delim );
-    propUnits.fix( parameters, delim, chars );
-    propPageOrientation.fix( parameters, delim, Portrait );
-    propStylesPath.fix( parameters, delim );
-    propImagesPath.fix( parameters, delim );
-    propIncludePath.fix( parameters, delim );
-    propParamDelim.fix( parameters, delim, "###" );
-    propOrder.fix( parameters, delim );
-    propFilter.fix( parameters, delim );
-    propCopies.fix( parameters, delim, 1 );
-    propPagesPerFolio.fix( parameters, delim, 1 );
-    /*>>>>>REPORT_FIXPARAMETERS*/
+	propTitle.fix( parameters, delim );
+	propUnits.fix( parameters, delim, chars );
+	propPageOrientation.fix( parameters, delim, Portrait );
+	propStylesPath.fix( parameters, delim );
+	propImagesPath.fix( parameters, delim );
+	propIncludePath.fix( parameters, delim );
+	propParamDelim.fix( parameters, delim, "###" );
+	propOrder.fix( parameters, delim );
+	propFilter.fix( parameters, delim );
+	propCopies.fix( parameters, delim, 1 );
+	propPagesPerFolio.fix( parameters, delim, 1 );
+/*>>>>>REPORT_FIXPARAMETERS*/
 }
 
 void Report::startScripting()
@@ -1733,27 +1732,29 @@ Variant Report::getPropValue(const Xtring & propname) const
     else if( strcasecmp(name, "Filter") == 0 )
         return propFilter.getOrig();
     /*<<<<<REPORT_GETPROPVALUE*/
-    else if( strcasecmp(name, "Title") == 0 )
-        return propTitle.get();
-    else if( strcasecmp(name, "Units") == 0 )
-        return propUnits.get();
-    else if( strcasecmp(name, "PageOrientation") == 0 )
-        return propPageOrientation.get();
-    else if( strcasecmp(name, "StylesPath") == 0 )
-        return propStylesPath.get();
-    else if( strcasecmp(name, "ImagesPath") == 0 )
-        return propImagesPath.get();
-    else if( strcasecmp(name, "IncludePath") == 0 )
-        return propIncludePath.get();
-    else if( strcasecmp(name, "ParamDelim") == 0 )
-        return propParamDelim.get();
-    else if( strcasecmp(name, "Order") == 0 )
-        return propOrder.get();
-    else if( strcasecmp(name, "Copies") == 0 )
-        return propCopies.get();
-    else if( strcasecmp(name, "PagesPerFolio") == 0 )
-        return propPagesPerFolio.get();
-    /*>>>>>REPORT_GETPROPVALUE*/
+	else if( strcasecmp(name, "Title") == 0 )
+		return propTitle.get();
+	else if( strcasecmp(name, "Units") == 0 )
+		return propUnits.get();
+	else if( strcasecmp(name, "PageOrientation") == 0 )
+		return propPageOrientation.get();
+	else if( strcasecmp(name, "StylesPath") == 0 )
+		return propStylesPath.get();
+	else if( strcasecmp(name, "ImagesPath") == 0 )
+		return propImagesPath.get();
+	else if( strcasecmp(name, "IncludePath") == 0 )
+		return propIncludePath.get();
+	else if( strcasecmp(name, "ParamDelim") == 0 )
+		return propParamDelim.get();
+	else if( strcasecmp(name, "Order") == 0 )
+		return propOrder.get();
+	else if( strcasecmp(name, "Filter") == 0 )
+		return propFilter.get();
+	else if( strcasecmp(name, "Copies") == 0 )
+		return propCopies.get();
+	else if( strcasecmp(name, "PagesPerFolio") == 0 )
+		return propPagesPerFolio.get();
+/*>>>>>REPORT_GETPROPVALUE*/
 // {capel} Eliminar el strcasecmp del filter
     else if( strcasecmp(name, "Date") == 0 )
         return reportDate();
@@ -1785,29 +1786,29 @@ bool Report::setPropValue(const Xtring & propname, const Variant &value)
     if( strcasecmp(name, "VALUE" ) == 0 )
         mRealValue = value;
     /*<<<<<REPORT_SETPROPVALUE*/
-    else if( strcasecmp(name, "Title") == 0 )
-        propTitle.set( value.toString().c_str());
-    else if( strcasecmp(name, "Units") == 0 )
-        propUnits.set( static_cast<UnitsType>( value.toInt() ));
-    else if( strcasecmp(name, "PageOrientation") == 0 )
-        propPageOrientation.set( static_cast<PageOrientation>( value.toInt() ));
-    else if( strcasecmp(name, "StylesPath") == 0 )
-        propStylesPath.set( value.toString().c_str());
-    else if( strcasecmp(name, "ImagesPath") == 0 )
-        propImagesPath.set( value.toString().c_str());
-    else if( strcasecmp(name, "IncludePath") == 0 )
-        propIncludePath.set( value.toString().c_str());
-    else if( strcasecmp(name, "ParamDelim") == 0 )
-        propParamDelim.set( value.toString().c_str());
-    else if( strcasecmp(name, "Order") == 0 )
-        propOrder.set( value.toString().c_str());
-    else if( strcasecmp(name, "Filter") == 0 )
-        propFilter.set( value.toString().c_str());
-    else if( strcasecmp(name, "Copies") == 0 )
-        propCopies.set( value.toInt());
-    else if( strcasecmp(name, "PagesPerFolio") == 0 )
-        propPagesPerFolio.set( value.toInt());
-    /*>>>>>REPORT_SETPROPVALUE*/
+	else if( strcasecmp(name, "Title") == 0 )
+		propTitle.set( value.toString().c_str());
+	else if( strcasecmp(name, "Units") == 0 )
+		propUnits.set( static_cast<UnitsType>( value.toInt() ));
+	else if( strcasecmp(name, "PageOrientation") == 0 )
+		propPageOrientation.set( static_cast<PageOrientation>( value.toInt() ));
+	else if( strcasecmp(name, "StylesPath") == 0 )
+		propStylesPath.set( value.toString().c_str());
+	else if( strcasecmp(name, "ImagesPath") == 0 )
+		propImagesPath.set( value.toString().c_str());
+	else if( strcasecmp(name, "IncludePath") == 0 )
+		propIncludePath.set( value.toString().c_str());
+	else if( strcasecmp(name, "ParamDelim") == 0 )
+		propParamDelim.set( value.toString().c_str());
+	else if( strcasecmp(name, "Order") == 0 )
+		propOrder.set( value.toString().c_str());
+	else if( strcasecmp(name, "Filter") == 0 )
+		propFilter.set( value.toString().c_str());
+	else if( strcasecmp(name, "Copies") == 0 )
+		propCopies.set( value.toInt());
+	else if( strcasecmp(name, "PagesPerFolio") == 0 )
+		propPagesPerFolio.set( value.toInt());
+/*>>>>>REPORT_SETPROPVALUE*/
     else if( strcasecmp(name, "Date") == 0 )
         mReportDate = value.toDateTime();
     else if( !Object::setPropValue(propname, value) ) {
@@ -1831,29 +1832,29 @@ bool Report::setPropOrigValue(const Xtring & propname, const Xtring &value)
     if( strcasecmp(name, "VALUE" ) == 0 )
         mRealValue = value;
     /*<<<<<REPORT_SETORIGPROPVALUE*/
-    else if( strcasecmp(name, "Title") == 0 )
-        propTitle.setOrig( value.c_str() );
-    else if( strcasecmp(name, "Units") == 0 )
-        propUnits.setOrig( value.c_str() );
-    else if( strcasecmp(name, "PageOrientation") == 0 )
-        propPageOrientation.setOrig( value.c_str() );
-    else if( strcasecmp(name, "StylesPath") == 0 )
-        propStylesPath.setOrig( value.c_str() );
-    else if( strcasecmp(name, "ImagesPath") == 0 )
-        propImagesPath.setOrig( value.c_str() );
-    else if( strcasecmp(name, "IncludePath") == 0 )
-        propIncludePath.setOrig( value.c_str() );
-    else if( strcasecmp(name, "ParamDelim") == 0 )
-        propParamDelim.setOrig( value.c_str() );
-    else if( strcasecmp(name, "Order") == 0 )
-        propOrder.setOrig( value.c_str() );
-    else if( strcasecmp(name, "Filter") == 0 )
-        propFilter.setOrig( value.c_str() );
-    else if( strcasecmp(name, "Copies") == 0 )
-        propCopies.setOrig( value.c_str() );
-    else if( strcasecmp(name, "PagesPerFolio") == 0 )
-        propPagesPerFolio.setOrig( value.c_str() );
-    /*>>>>>REPORT_SETORIGPROPVALUE*/
+	else if( strcasecmp(name, "Title") == 0 )
+		propTitle.setOrig( value.c_str() );
+	else if( strcasecmp(name, "Units") == 0 )
+		propUnits.setOrig( value.c_str() );
+	else if( strcasecmp(name, "PageOrientation") == 0 )
+		propPageOrientation.setOrig( value.c_str() );
+	else if( strcasecmp(name, "StylesPath") == 0 )
+		propStylesPath.setOrig( value.c_str() );
+	else if( strcasecmp(name, "ImagesPath") == 0 )
+		propImagesPath.setOrig( value.c_str() );
+	else if( strcasecmp(name, "IncludePath") == 0 )
+		propIncludePath.setOrig( value.c_str() );
+	else if( strcasecmp(name, "ParamDelim") == 0 )
+		propParamDelim.setOrig( value.c_str() );
+	else if( strcasecmp(name, "Order") == 0 )
+		propOrder.setOrig( value.c_str() );
+	else if( strcasecmp(name, "Filter") == 0 )
+		propFilter.setOrig( value.c_str() );
+	else if( strcasecmp(name, "Copies") == 0 )
+		propCopies.setOrig( value.c_str() );
+	else if( strcasecmp(name, "PagesPerFolio") == 0 )
+		propPagesPerFolio.setOrig( value.c_str() );
+/*>>>>>REPORT_SETORIGPROPVALUE*/
     else if( !Object::setPropOrigValue(propname, value) ) {
         if( propname.find(".") != Xtring::npos ) {
             Xtring sectname, pname;

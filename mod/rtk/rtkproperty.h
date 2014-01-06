@@ -152,25 +152,25 @@ public:
             delete pOrigValue;
         pOrigValue = (strempty(origvalue)?null_char_ptr:strdup(origvalue));
     }
-    Xtring fix(const ParametersList &parameters, const Xtring &delim, const ValueT &defaultvalue = ValueT())
+    bool fix(const ParametersList &parameters, const Xtring &delim, const ValueT &defaultvalue = ValueT())
     {
-        Xtring errmsg;
+		bool isvalid = true;
         ValueT tmpvalue = stringTo<ValueT>(
-                              replaceParams(pOrigValue, parameters, delim).c_str(), errmsg, &this->mIsNull);
+                              replaceParams(pOrigValue, parameters, delim).c_str(), &isvalid, &this->mIsNull);
         if( !this->mIsNull )
             this->set( tmpvalue );
         else {
             this->set( defaultvalue );
             this->mIsNull = true;
         }
-        return errmsg;
+        return isvalid;
     }
 private:
     const char *pOrigValue;
 };
 
 template<> inline
-Xtring FixableProperty<const char *>::fix(const ParametersList &parameters, const Xtring &delim,
+bool FixableProperty<const char *>::fix(const ParametersList &parameters, const Xtring &delim,
         const char *const &defaultvalue)
 {
     Xtring tmpvalue = replaceParams(pOrigValue, parameters, delim);
@@ -180,7 +180,7 @@ Xtring FixableProperty<const char *>::fix(const ParametersList &parameters, cons
         set( defaultvalue );
         mIsNull = true;
     }
-    return Xtring::null;
+    return true;
 }
 
 } // namespace RTK

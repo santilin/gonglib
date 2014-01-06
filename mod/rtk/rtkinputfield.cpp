@@ -15,10 +15,10 @@ InputField::InputField(const char * name)
 void InputField::fixParameters(const ParametersList &parameters, const char *delim)
 {
     /*<<<<<INPUTFIELD_FIXPARAMETERS*/
-    propSource.fix( parameters, delim );
-    propType.fix( parameters, delim, Variant::tInvalid );
-    propConstValue.fix( parameters, delim );
-    /*>>>>>INPUTFIELD_FIXPARAMETERS*/
+	propSource.fix( parameters, delim );
+	propType.fix( parameters, delim, Variant::tInvalid );
+	propConstValue.fix( parameters, delim );
+/*>>>>>INPUTFIELD_FIXPARAMETERS*/
     if( !propConstValue.isEmpty() )
         mSourcePos = -1;
     else {// TODO: Revisar esto porque falla

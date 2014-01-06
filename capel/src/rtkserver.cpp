@@ -297,6 +297,9 @@ GetSetArray gsObject[] = {
     { PROPERTY_FIX, "Measure", "MarginRight", "0", "", "Object's right margin" },
     { PROPERTY_FIX, "Measure", "MarginTop", "0", "", "Object's top margin" },
     { PROPERTY_FIX, "Measure", "MarginBottom", "0", "", "Object's bottom margin" },
+	{ PROPERTY_FIX, "Measure", "Padding", "0", "", "padding (inner margin) for the object" },
+	{ PROPERTY_FIX, "Measure", "PaddingLeft", "0", "", "padding left (inner margin) for the object" },
+	{ PROPERTY_FIX, "Measure", "PaddingTop", "0", "", "padding top (inner margin) for the object" },
     { PROPERTY_OBJECT_FULL, "bool", "Visible", "true", "", "visibility of the object (but still computed)" },
     { PROPERTY_OBJECT_FULL, "bool", "Supressed", "false", "", "supression of the object (not computed)" },
     { PROPERTY_OBJECT_STYLE, "bool", "SupressDup", "false", "", "supression of duplicated values" },
@@ -343,14 +346,18 @@ GetSetArray gsSection[] = {
                               { PROPERTY_OBJECT_STYLE, "bool", "SupIfBlank", "false", "", "whether this section is supressed if contains no data"},
                               { PROPERTY_OBJECT_STYLE, "bool", "RepeatHeader", "false", "", "whether the section's header is repeated on every page" },
                               { PROPERTY_OBJECT_STYLE, "bool", "PrintInFirstPage", "true", "", "whether the section's header is repeated on every page" },
-                              { PROPERTY_OBJECT_STYLE, "Measure", "Padding", "0", "", "padding (inner margin) for the section" },
-                              { PROPERTY_OBJECT_STYLE, "Measure", "PaddingLeft", "0", "", "padding left (inner margin) for the section" },
-                              { PROPERTY_OBJECT_STYLE, "Measure", "PaddingTop", "0", "", "padding top (inner margin) for the section" }
                           };
 
 GetSetArray gsStyle[] = {
     { PROPERTY_READONLY, "const char *", "Name", "", "", "" },
 // Las mismas que object
+    { PROPERTY_STYLE, "Measure", "MarginLeft", "0", "", "Object's left margin" },
+    { PROPERTY_STYLE, "Measure", "MarginRight", "0", "", "Object's right margin" },
+    { PROPERTY_STYLE, "Measure", "MarginTop", "0", "", "Object's top margin" },
+    { PROPERTY_STYLE, "Measure", "MarginBottom", "0", "", "Object's bottom margin" },
+	{ PROPERTY_STYLE, "Measure", "Padding", "0", "", "padding (inner margin) for the section" },
+	{ PROPERTY_STYLE, "Measure", "PaddingLeft", "0", "", "padding left (inner margin) for the section" },
+	{ PROPERTY_STYLE, "Measure", "PaddingTop", "0", "", "padding top (inner margin) for the section" },
     { PROPERTY_STYLE, "bool", "Visible", "true", "", "visibility of the object (but still computed)" },
     { PROPERTY_STYLE, "bool", "Supressed", "false", "", "supression of the object (not computed)" },
     { PROPERTY_STYLE, "bool", "SupressDup", "false", "", "supression of duplicated values" },
@@ -392,9 +399,6 @@ GetSetArray gsStyle[] = {
     { PROPERTY_STYLE, "bool", "SupIfBlank", "false", "", "whether this section is supressed if contains no data"},
     { PROPERTY_STYLE, "bool", "RepeatHeader", "false", "", "whether the section's header is repeated on every page" },
     { PROPERTY_STYLE, "bool", "PrintInFirstPage", "true", "", "whether the section's header is repeated on every page" },
-	{ PROPERTY_STYLE, "Measure", "Padding", "0", "", "padding (inner margin) for the section" },
-	{ PROPERTY_STYLE, "Measure", "PaddingLeft", "0", "", "padding left (inner margin) for the section" },
-	{ PROPERTY_STYLE, "Measure", "PaddingTop", "0", "", "padding top (inner margin) for the section" }
 };
 
 extern const char *shortlgpllicense;
@@ -508,12 +512,11 @@ void GenRTKCode::addGetSet( const Xtring &filename, const Xtring &classname,
                 s += "\tvoid setOrig" + array[i].sName + "( const char *" + array[i].sName.lower() + " );\n";
                 scpp += "void " + classname + "::setOrig" + array[i].sName + "( const char *" + array[i].sName.lower() + " )\n"
                         "{\n"
-
                         "\tmOrig" + array[i].sName + " = strdup(" + array[i].sName.lower() + ");\n";
                 // This function follows below
             } else  {
                 s += "\tvoid setOrig" + array[i].sName + "( const char *" + array[i].sName.lower() + " ) "
-                     " { mOrig" + array[i].sName + " = strdup(" + array[i].sName.lower() + "); }\n";
+                     "{ mOrig" + array[i].sName + " = strdup(" + array[i].sName.lower() + "); }\n";
                 scpp += "void " + classname + "::fixOrig" + array[i].sName + "()" + "\n"
                         "{\n";
             }
@@ -849,7 +852,7 @@ void GenRTKCode::addProperties(const Xtring &filename, const Xtring &classname,
             spublic += "\t" + array[i].getReturnType() + " " + array[i].sName.unproper() + "() const";
             spubget =" { return prop" + capitalize(array[i].sName) + ".get(); }\n";
             spubsetorig = "\tvoid setOrig" + capitalize(array[i].sName) + "(const char * " + array[i].sName.lower() + " )"
-                    "\t\t{ prop" + capitalize(array[i].sName) + ".setOrig(" + array[i].sName.lower() + "); }\n";
+                    " { prop" + capitalize(array[i].sName) + ".setOrig(" + array[i].sName.lower() + "); }\n";
             if( (array[i].flags & PROPERTY_STYLE) == PROPERTY_STYLE ) {
                 s+="\tFixableProperty<" + array[i].getReturnType() + "> prop" + capitalize(array[i].sName) + ";\n";
                 spublic += spubget + spubsetorig;
@@ -898,11 +901,20 @@ void GenRTKCode::addProperties(const Xtring &filename, const Xtring &classname,
                 (array[i].flags & PROPERTY_OBJECT_PARENT) == PROPERTY_OBJECT_PARENT ||
                 (array[i].flags & PROPERTY_STYLE) == PROPERTY_STYLE  ||
                 (array[i].flags & PROPERTY_OBJECT_STYLE) == PROPERTY_OBJECT_STYLE ) {
-                if( array[i].sDefValue.size() )
-                    s+="\tprop" + capitalize(array[i].sName) + ".fix( parameters, delim, "
-                    + array[i].sDefValue + " );\n";
-                else
-                    s+="\tprop" + capitalize(array[i].sName) + ".fix( parameters, delim );\n";
+				if( classname == "Object" || classname == "Section" ) {
+					if( array[i].sDefValue.size() )
+						s+="\tif( !prop" + capitalize(array[i].sName) + ".fix( parameters, delim, "
+						+ array[i].sDefValue + " ) )\n";
+					else
+						s+="\tif( !prop" + capitalize(array[i].sName) + ".fix( parameters, delim ) )\n";
+					s+="\t\treport()->addWarning( Error::InvalidArgument, 0, 0, prop" + capitalize(array[i].sName) + ".getOrig(), \"" + capitalize(array[i].sName) +"\");\n";
+				} else {
+					if( array[i].sDefValue.size() )
+						s+="\tprop" + capitalize(array[i].sName) + ".fix( parameters, delim, "
+						+ array[i].sDefValue + " );\n";
+					else
+						s+="\tprop" + capitalize(array[i].sName) + ".fix( parameters, delim );\n";
+				}
             }
         }
         cm->insert_extrusion(classname.upper() + "_FIXPARAMETERS", s, "\n\n}\n",

@@ -47,50 +47,54 @@ in that section.
 void Style::fixParameters(const ParametersList &parameters, const char *delim)
 {
 /*<<<<<STYLE_FIXPARAMETERS*/
-    propVisible.fix( parameters, delim, true );
-    propSupressed.fix( parameters, delim, false );
-    propSupressDup.fix( parameters, delim, false );
-    propFontFamily.fix( parameters, delim, "Helvetica" );
-    propFontSize.fix( parameters, delim, 10 );
-    propFontWeight.fix( parameters, delim, 0 );
-    propFontItalic.fix( parameters, delim, false );
-    propMaxLines.fix( parameters, delim, 0 );
-    propMinFontSize.fix( parameters, delim, 4 );
-    propFormat.fix( parameters, delim );
-    propMask.fix( parameters, delim );
-    propLocale.fix( parameters, delim );
-    propHAlignment.fix( parameters, delim, AlignAuto );
-    propVAlignment.fix( parameters, delim, AlignAuto );
-    propAdjustment.fix( parameters, delim, AdjustTrim );
-    propFontColor.fix( parameters, delim, Color::Black );
-    propBackColor.fix( parameters, delim, Color::White );
-    propBorderColor.fix( parameters, delim, Color::Black );
-    propBorderWidth.fix( parameters, delim, 0 );
-    propBorderStyle.fix( parameters, delim, BorderNone );
-    propBorderTopColor.fix( parameters, delim, Color::Black );
-    propBorderTopWidth.fix( parameters, delim, 0 );
-    propBorderTopStyle.fix( parameters, delim, BorderNone );
-    propBorderBottomColor.fix( parameters, delim, Color::Black );
-    propBorderBottomWidth.fix( parameters, delim, 0 );
-    propBorderBottomStyle.fix( parameters, delim, BorderNone );
-    propBorderLeftColor.fix( parameters, delim, Color::Black );
-    propBorderLeftWidth.fix( parameters, delim, 0 );
-    propBorderLeftStyle.fix( parameters, delim, BorderNone );
-    propBorderRightColor.fix( parameters, delim, Color::Black );
-    propBorderRightWidth.fix( parameters, delim, 0 );
-    propBorderRightStyle.fix( parameters, delim, BorderNone );
-    propBackgroundImage.fix( parameters, delim );
-    propImageStyle.fix( parameters, delim, RTK::ImageNone );
-    propPageBefore.fix( parameters, delim, false );
-    propPageAfter.fix( parameters, delim, false );
-    propResetNPage.fix( parameters, delim, false );
-    propSupIfBlank.fix( parameters, delim, false );
-    propRepeatHeader.fix( parameters, delim, false );
-    propPrintInFirstPage.fix( parameters, delim, true );
-    propPadding.fix( parameters, delim, 0 );
-    propPaddingLeft.fix( parameters, delim, 0 );
-    propPaddingTop.fix( parameters, delim, 0 );
-    /*>>>>>STYLE_FIXPARAMETERS*/
+	propMarginLeft.fix( parameters, delim, 0 );
+	propMarginRight.fix( parameters, delim, 0 );
+	propMarginTop.fix( parameters, delim, 0 );
+	propMarginBottom.fix( parameters, delim, 0 );
+	propPadding.fix( parameters, delim, 0 );
+	propPaddingLeft.fix( parameters, delim, 0 );
+	propPaddingTop.fix( parameters, delim, 0 );
+	propVisible.fix( parameters, delim, true );
+	propSupressed.fix( parameters, delim, false );
+	propSupressDup.fix( parameters, delim, false );
+	propFontFamily.fix( parameters, delim, "Helvetica" );
+	propFontSize.fix( parameters, delim, 10 );
+	propFontWeight.fix( parameters, delim, 0 );
+	propFontItalic.fix( parameters, delim, false );
+	propMaxLines.fix( parameters, delim, 0 );
+	propMinFontSize.fix( parameters, delim, 8 );
+	propFormat.fix( parameters, delim );
+	propMask.fix( parameters, delim );
+	propLocale.fix( parameters, delim );
+	propHAlignment.fix( parameters, delim, AlignAuto );
+	propVAlignment.fix( parameters, delim, AlignAuto );
+	propAdjustment.fix( parameters, delim, AdjustTrim );
+	propFontColor.fix( parameters, delim, Color::Black );
+	propBackColor.fix( parameters, delim, Color::White );
+	propBorderColor.fix( parameters, delim, Color::Black );
+	propBorderWidth.fix( parameters, delim, 0 );
+	propBorderStyle.fix( parameters, delim, BorderNone );
+	propBorderTopColor.fix( parameters, delim, Color::Black );
+	propBorderTopWidth.fix( parameters, delim, 0 );
+	propBorderTopStyle.fix( parameters, delim, BorderNone );
+	propBorderBottomColor.fix( parameters, delim, Color::Black );
+	propBorderBottomWidth.fix( parameters, delim, 0 );
+	propBorderBottomStyle.fix( parameters, delim, BorderNone );
+	propBorderLeftColor.fix( parameters, delim, Color::Black );
+	propBorderLeftWidth.fix( parameters, delim, 0 );
+	propBorderLeftStyle.fix( parameters, delim, BorderNone );
+	propBorderRightColor.fix( parameters, delim, Color::Black );
+	propBorderRightWidth.fix( parameters, delim, 0 );
+	propBorderRightStyle.fix( parameters, delim, BorderNone );
+	propBackgroundImage.fix( parameters, delim );
+	propImageStyle.fix( parameters, delim, RTK::ImageNone );
+	propPageBefore.fix( parameters, delim, false );
+	propPageAfter.fix( parameters, delim, false );
+	propResetNPage.fix( parameters, delim, false );
+	propSupIfBlank.fix( parameters, delim, false );
+	propRepeatHeader.fix( parameters, delim, false );
+	propPrintInFirstPage.fix( parameters, delim, true );
+/*>>>>>STYLE_FIXPARAMETERS*/
 }
 
 } // namespace RTK

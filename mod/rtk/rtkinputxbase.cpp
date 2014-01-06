@@ -200,15 +200,15 @@ void InputXBase::fixInputParameters(const ParametersList &parameters, const char
 {
     Input::fixInputParameters(parameters, delim);
     /*<<<<<INPUTXBASE_FIXPARAMETERS*/
-    propDatabasePath.fix( parameters, delim );
-    propCaseSensitive.fix( parameters, delim, true );
-    propFrom.fix( parameters, delim );
-    propWhere.fix( parameters, delim );
-    propOrderBy.fix( parameters, delim );
-    propGroupBy.fix( parameters, delim );
-    propPreSQL.fix( parameters, delim );
-    propPostSQL.fix( parameters, delim );
-    /*>>>>>INPUTXBASE_FIXPARAMETERS*/
+	propDatabasePath.fix( parameters, delim );
+	propCaseSensitive.fix( parameters, delim, true );
+	propFrom.fix( parameters, delim );
+	propWhere.fix( parameters, delim );
+	propOrderBy.fix( parameters, delim );
+	propGroupBy.fix( parameters, delim );
+	propPreSQL.fix( parameters, delim );
+	propPostSQL.fix( parameters, delim );
+/*>>>>>INPUTXBASE_FIXPARAMETERS*/
 }
 
 bool InputXBase::parseAttribute(const char *token, const char *value)

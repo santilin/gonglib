@@ -46,13 +46,11 @@ public:
 
     /*<<<<<OUTPUTPS_PROPERTIES*/
 public:
-    const char * fileName() const {
-        return propFileName.get();
-    }
+	const char * fileName() const { return propFileName.get(); }
 
 public:
-    Property<const char *> propFileName;
-    /*>>>>>OUTPUTPS_PROPERTIES*/
+	Property<const char *> propFileName;
+/*>>>>>OUTPUTPS_PROPERTIES*/
 
 
 private:

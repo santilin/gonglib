@@ -75,24 +75,16 @@ public:
 
     /*<<<<<INPUT_PROPERTIES*/
 public:
-    const char * name() const {
-        return propName.get();
-    }
-    const char * driver() const {
-        return propDriver.get();
-    }
-    const char * encoding() const {
-        return propEncoding.get();
-    }
-    void setOrigEncoding(const char * encoding )		{
-        propEncoding.setOrig(encoding);
-    }
+	const char * name() const { return propName.get(); }
+	const char * driver() const { return propDriver.get(); }
+	const char * encoding() const { return propEncoding.get(); }
+	void setOrigEncoding(const char * encoding )		{ propEncoding.setOrig(encoding); }
 
 public:
-    ReadOnlyProperty<const char *> propName;
-    ReadOnlyProperty<const char *> propDriver;
-    FixableProperty<const char *> propEncoding;
-    /*>>>>>INPUT_PROPERTIES*/
+	ReadOnlyProperty<const char *> propName;
+	ReadOnlyProperty<const char *> propDriver;
+	FixableProperty<const char *> propEncoding;
+/*>>>>>INPUT_PROPERTIES*/
 
 
 protected:

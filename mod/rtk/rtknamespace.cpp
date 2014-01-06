@@ -18,9 +18,9 @@ namespace RTK = gong;
 
 namespace gong {
 
-template<> bool stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> bool stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+	if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -37,16 +37,17 @@ template<> bool stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
                 || strcasecmp( origvalue, "on" ) == 0
                 || strcmp( origvalue, "1" ) == 0 )
             return true;
-
+		if( isvalid )
+			*isvalid = false;
     }
     *isnull = true;
     return false;
 }
 
 
-template<> const char *stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> const char *stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+	if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -58,9 +59,9 @@ template<> const char *stringTo(const char *origvalue, Xtring &errmsg, bool *isn
         return origvalue;
 }
 
-template<> Xtring stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> Xtring stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+	if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -72,9 +73,9 @@ template<> Xtring stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
         return origvalue;
 }
 
-template<> Alignment stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> Alignment stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+	if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -100,14 +101,16 @@ template<> Alignment stringTo(const char *origvalue, Xtring &errmsg, bool *isnul
             return AlignBottom;
         else if ( strcasecmp( origvalue, "auto" ) == 0 )
             return AlignAuto;
+		else if( isvalid )
+			*isvalid = false;
     }
     *isnull = true;
     return AlignAuto;
 }
 
-template<> AggregateType stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> AggregateType stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+	if( isvalid ) *isvalid = true;
     // There is no invalid value
     if( isnull )
         *isnull = false;
@@ -139,6 +142,8 @@ template<> AggregateType stringTo(const char *origvalue, Xtring &errmsg, bool *i
             return AggDistinctStdDv;
         else if ( strcasecmp( origvalue, "AggDistinctVariance" ) == 0 || strcasecmp( origvalue, "DistinctVariance" ) == 0 )
             return AggDistinctVariance;
+		else if( isvalid )
+			*isvalid = false;
     } else {
         *isnull = true;
     }
@@ -146,9 +151,9 @@ template<> AggregateType stringTo(const char *origvalue, Xtring &errmsg, bool *i
 }
 
 
-template<> PaperSize stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> PaperSize stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+	if( isvalid ) *isvalid = true;
     // There is no invalid value
     if( isnull )
         *isnull = false;
@@ -216,14 +221,15 @@ template<> PaperSize stringTo(const char *origvalue, Xtring &errmsg, bool *isnul
         return Ledger;
     else if ( strcasecmp( origvalue, "Tabloid" ) == 0 )
         return Tabloid;
-    else
-        return Custom;
+    else if( isvalid )
+		*isvalid = false;
+	return Custom;
 }
 
-template<> PageOrientation stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> PageOrientation stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
-    bool localnull;
+	if( isvalid ) *isvalid = true;
+	bool localnull;
     if( !isnull )
         isnull = &localnull;
     *isnull = false;
@@ -232,17 +238,18 @@ template<> PageOrientation stringTo(const char *origvalue, Xtring &errmsg, bool 
             return Portrait;
         else if ( strcasecmp( origvalue, "landscape" ) == 0 )
             return Landscape;
-        else
-            return DefaultOrientation;
+		else if( isvalid )
+			*isvalid = false;
+		return DefaultOrientation;
     }
     *isnull = true;
     return DefaultOrientation;
 }
 
 
-template<> int stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> int stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+    if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -262,6 +269,8 @@ template<> int stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
         return 100;
     else  {
         int fw = Xtring(origvalue).toInt(isnull);
+		if( isvalid )
+			*isvalid = *isnull;
         *isnull = !*isnull;
         return fw;
     }
@@ -271,9 +280,9 @@ template<> int stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
 /**
     Extract the measure value from the measure string
  */
-template<> Measure stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> Measure stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+    if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -281,7 +290,9 @@ template<> Measure stringTo(const char *origvalue, Xtring &errmsg, bool *isnull 
     if( origvalue && *origvalue ) {
         double d = Xtring(origvalue).toDoubleLocIndep(isnull);
         // strtod(origvalue, &badpos);
-        *isnull = !( *isnull );
+		if( isvalid )
+			*isvalid = *isnull;
+        *isnull = !( *isvalid );
         return d;
     } else {
         *isnull = true;
@@ -290,9 +301,9 @@ template<> Measure stringTo(const char *origvalue, Xtring &errmsg, bool *isnull 
 }
 
 
-template<> Adjustment stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> Adjustment stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+    if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -312,6 +323,8 @@ template<> Adjustment stringTo(const char *origvalue, Xtring &errmsg, bool *isnu
             return AdjustShrink;
         else if ( strcasecmp( origvalue, "trim" ) == 0 )
             return AdjustTrim;
+		else if( isvalid )
+			*isvalid = false;
     }
     *isnull = true;
     return AdjustTrim;
@@ -333,9 +346,9 @@ template<> Adjustment stringTo(const char *origvalue, Xtring &errmsg, bool *isnu
     The color is invalid if \a name cannot be parsed.
  */
 
-template<> Color stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> Color stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+    if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -343,6 +356,8 @@ template<> Color stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
     if( origvalue && *origvalue ) {
         Color c(origvalue);
         if( !c.isValid() ) {
+			if( isvalid )
+				*isvalid = false;
             *isnull = true;
             return Color::Black;
         } else
@@ -353,9 +368,8 @@ template<> Color stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
 }
 
 
-template<> BorderStyle stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> BorderStyle stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -381,6 +395,8 @@ template<> BorderStyle stringTo(const char *origvalue, Xtring &errmsg, bool *isn
             return BorderRaised3D;
         else if ( strcasecmp( origvalue, "Lowered3D" ) == 0 )
             return BorderLowered3D;
+		else if( isvalid )
+			*isvalid = false;
     }
     *isnull = true;
     return BorderNone;
@@ -391,9 +407,9 @@ template<> BorderStyle stringTo(const char *origvalue, Xtring &errmsg, bool *isn
     If the fontsize is in the form +2 or -4, it increases or decreases the fontsize
     sdefault is the current fontsize of the object
  */
-int stringToFontSize(const char *origvalue, Xtring &errmsg, bool *isnull )
+int stringToFontSize(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+    if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -406,10 +422,6 @@ int stringToFontSize(const char *origvalue, Xtring &errmsg, bool *isnull )
     } else {
         int fsinc = realsfs.toInt(isnull);
         *isnull = !*isnull;
-        if( *isnull == false ) {
-            if( realsfs[0] == '+' || realsfs[0] == '-' )
-                errmsg = "+ - in fontsize not implemented yet";
-        }
         return fsinc;
     }
 }
@@ -418,9 +430,9 @@ int stringToFontSize(const char *origvalue, Xtring &errmsg, bool *isnull )
     Extract the units from the measure string
  */
 
-template<> UnitsType stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> UnitsType stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+    if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -445,8 +457,9 @@ template<> UnitsType stringTo(const char *origvalue, Xtring &errmsg, bool *isnul
                     return chars;
                 else if( units=="p1" || units=="%" )
                     return p100;
-                else
-                    return dots;
+				else if( isvalid )
+					*isvalid = false;
+				return dots;
             }
         }
     }
@@ -455,9 +468,9 @@ template<> UnitsType stringTo(const char *origvalue, Xtring &errmsg, bool *isnul
 }
 
 
-template<> ImageStyle stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> ImageStyle stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+    if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
@@ -469,8 +482,9 @@ template<> ImageStyle stringTo(const char *origvalue, Xtring &errmsg, bool *isnu
             return ImageTile;
         else if ( strncasecmp( origvalue, "expand", 6 ) == 0 )
             return ImageExpand;
-        else
-            return ImageNone;
+		else if( isvalid )
+			*isvalid = false;
+		return ImageNone;
     }
     *isnull = true;
     return ImageNone;
@@ -478,17 +492,20 @@ template<> ImageStyle stringTo(const char *origvalue, Xtring &errmsg, bool *isnu
 
 
 
-template<> Variant::Type stringTo(const char *origvalue, Xtring &errmsg, bool *isnull )
+template<> Variant::Type stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
-    errmsg = Xtring::null;
+    if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
     *isnull = false;
     if( origvalue && *origvalue ) {
         Variant::Type t = Variant::nameToType(origvalue);
-        if( t == Variant::tInvalid )
-            errmsg = Xtring("Unknown type name: ") + origvalue + ". Assuming string";
+        if( t == Variant::tInvalid ) {
+			if( isvalid )
+				*isvalid = false;
+			t = Variant::tString;
+		}
         return t;
     }
     *isnull = true;
@@ -531,11 +548,10 @@ Measure fixOneMeasure(UnitsType objunit, Measure measure,
     return measure * ( outsize / repsize );
 }
 
-UnitsType extractUnits( const char *smeasure, UnitsType defaultunits, Xtring &errmsg )
+UnitsType extractUnits( const char *smeasure, UnitsType defaultunits, bool *isvalid )
 {
     bool isnull;
-    errmsg = Xtring::null;
-    UnitsType ret = stringTo<UnitsType>(smeasure, errmsg, &isnull);
+    UnitsType ret = stringTo<UnitsType>(smeasure, isvalid, &isnull);
     if( isnull )
         return defaultunits;
     else

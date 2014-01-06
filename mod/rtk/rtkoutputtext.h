@@ -47,13 +47,11 @@ public:
 
     /*<<<<<OUTPUTTEXT_PROPERTIES*/
 public:
-    const char * fileName() const {
-        return propFileName.get();
-    }
+	const char * fileName() const { return propFileName.get(); }
 
 public:
-    Property<const char *> propFileName;
-    /*>>>>>OUTPUTTEXT_PROPERTIES*/
+	Property<const char *> propFileName;
+/*>>>>>OUTPUTTEXT_PROPERTIES*/
 
 private:
     std::ofstream *pFile;

@@ -106,7 +106,7 @@ enum PaperSize {
     DLE, Folio, Ledger, Tabloid, Custom, NPageSize = Custom
 };
 
-UnitsType extractUnits(const char *smeasure, UnitsType defaultunits, Xtring &errmsg);
+UnitsType extractUnits(const char *smeasure, UnitsType defaultunits );
 Xtring strReplace(const char *constbuf, const Xtring &search, const Xtring &repl);
 Measure fixOneMeasure(UnitsType objunit, Measure measure,
                       UnitsType repunit, Measure repsize,  Measure outsize );
@@ -115,7 +115,7 @@ bool strcaseequal(const char *str1, const char *str2);
 bool strequal(const Xtring &s1, const char *str2);
 bool strcaseequal(const Xtring &s2, const char *str2);
 template<typename _ValueT>
-_ValueT stringTo(const char *origvalue, Xtring &errmsg, bool *isnull = 0 );
+_ValueT stringTo(const char *origvalue, bool *isvalid = 0, bool *isnull = 0 );
 } // namespace
 
 

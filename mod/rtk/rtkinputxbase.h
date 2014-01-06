@@ -46,66 +46,34 @@ public:
 
     /*<<<<<INPUTXBASE_PROPERTIES*/
 public:
-    const char * databasePath() const {
-        return propDatabasePath.get();
-    }
-    void setOrigDatabasePath(const char * databasepath )		{
-        propDatabasePath.setOrig(databasepath);
-    }
-    bool caseSensitive() const {
-        return propCaseSensitive.get();
-    }
-    void setOrigCaseSensitive(const char * casesensitive )		{
-        propCaseSensitive.setOrig(casesensitive);
-    }
-    const char * from() const {
-        return propFrom.get();
-    }
-    void setOrigFrom(const char * from )		{
-        propFrom.setOrig(from);
-    }
-    const char * where() const {
-        return propWhere.get();
-    }
-    void setOrigWhere(const char * where )		{
-        propWhere.setOrig(where);
-    }
-    const char * orderBy() const {
-        return propOrderBy.get();
-    }
-    void setOrigOrderBy(const char * orderby )		{
-        propOrderBy.setOrig(orderby);
-    }
-    const char * groupBy() const {
-        return propGroupBy.get();
-    }
-    void setOrigGroupBy(const char * groupby )		{
-        propGroupBy.setOrig(groupby);
-    }
-    const char * preSQL() const {
-        return propPreSQL.get();
-    }
-    void setOrigPreSQL(const char * presql )		{
-        propPreSQL.setOrig(presql);
-    }
-    const char * postSQL() const {
-        return propPostSQL.get();
-    }
-    void setOrigPostSQL(const char * postsql )		{
-        propPostSQL.setOrig(postsql);
-    }
-    virtual void fixInputParameters(const ParametersList &parameters, const char *delim); // from Input
+	const char * databasePath() const { return propDatabasePath.get(); }
+	void setOrigDatabasePath(const char * databasepath )		{ propDatabasePath.setOrig(databasepath); }
+	bool caseSensitive() const { return propCaseSensitive.get(); }
+	void setOrigCaseSensitive(const char * casesensitive )		{ propCaseSensitive.setOrig(casesensitive); }
+	const char * from() const { return propFrom.get(); }
+	void setOrigFrom(const char * from )		{ propFrom.setOrig(from); }
+	const char * where() const { return propWhere.get(); }
+	void setOrigWhere(const char * where )		{ propWhere.setOrig(where); }
+	const char * orderBy() const { return propOrderBy.get(); }
+	void setOrigOrderBy(const char * orderby )		{ propOrderBy.setOrig(orderby); }
+	const char * groupBy() const { return propGroupBy.get(); }
+	void setOrigGroupBy(const char * groupby )		{ propGroupBy.setOrig(groupby); }
+	const char * preSQL() const { return propPreSQL.get(); }
+	void setOrigPreSQL(const char * presql )		{ propPreSQL.setOrig(presql); }
+	const char * postSQL() const { return propPostSQL.get(); }
+	void setOrigPostSQL(const char * postsql )		{ propPostSQL.setOrig(postsql); }
+	virtual void fixInputParameters(const ParametersList &parameters, const char *delim); // from Input
 
 public:
-    FixableProperty<const char *> propDatabasePath;
-    FixableProperty<bool> propCaseSensitive;
-    FixableProperty<const char *> propFrom;
-    FixableProperty<const char *> propWhere;
-    FixableProperty<const char *> propOrderBy;
-    FixableProperty<const char *> propGroupBy;
-    FixableProperty<const char *> propPreSQL;
-    FixableProperty<const char *> propPostSQL;
-    /*>>>>>INPUTXBASE_PROPERTIES*/
+	FixableProperty<const char *> propDatabasePath;
+	FixableProperty<bool> propCaseSensitive;
+	FixableProperty<const char *> propFrom;
+	FixableProperty<const char *> propWhere;
+	FixableProperty<const char *> propOrderBy;
+	FixableProperty<const char *> propGroupBy;
+	FixableProperty<const char *> propPreSQL;
+	FixableProperty<const char *> propPostSQL;
+/*>>>>>INPUTXBASE_PROPERTIES*/
 
 private:
     XBaseSQL *pXBaseSQL;

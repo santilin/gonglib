@@ -78,121 +78,65 @@ public:
     }
     /*<<<<<OUTPUT_PROPERTIES*/
 public:
-    Measure unitsPerInchX() const {
-        return propUnitsPerInchX.get();
-    }
-    Measure unitsPerInchY() const {
-        return propUnitsPerInchY.get();
-    }
-    PaperSize paperSize() const {
-        return propPaperSize.get();
-    }
-    PageOrientation pageOrientation() const {
-        return propPageOrientation.get();
-    }
-    Measure sizeX() const {
-        return propSizeX.get();
-    }
-    Measure sizeY() const {
-        return propSizeY.get();
-    }
-    Measure marginLeft() const {
-        return propMarginLeft.get();
-    }
-    Measure marginRight() const {
-        return propMarginRight.get();
-    }
-    Measure marginTop() const {
-        return propMarginTop.get();
-    }
-    Measure marginBottom() const {
-        return propMarginBottom.get();
-    }
-    const char * defaultFontFamily() const {
-        return propDefaultFontFamily.get();
-    }
-    double defaultFontSize() const {
-        return propDefaultFontSize.get();
-    }
-    int defaultFontWeight() const {
-        return propDefaultFontWeight.get();
-    }
-    bool defaultFontItalic() const {
-        return propDefaultFontItalic.get();
-    }
-    double defaultMinFontSize() const {
-        return propDefaultMinFontSize.get();
-    }
-    Adjustment defaultAdjustment() const {
-        return propDefaultAdjustment.get();
-    }
-    Color defaultFontColor() const {
-        return propDefaultFontColor.get();
-    }
-    Color defaultBackColor() const {
-        return propDefaultBackColor.get();
-    }
-    Color defaultBorderColor() const {
-        return propDefaultBorderColor.get();
-    }
-    int defaultBorderWidth() const {
-        return propDefaultBorderWidth.get();
-    }
-    Color defaultBorderTopColor() const {
-        return propDefaultBorderTopColor.get();
-    }
-    int defaultBorderTopWidth() const {
-        return propDefaultBorderTopWidth.get();
-    }
-    Color defaultBorderBottomColor() const {
-        return propDefaultBorderBottomColor.get();
-    }
-    int defaultBorderBottomWidth() const {
-        return propDefaultBorderBottomWidth.get();
-    }
-    Color defaultBorderLeftColor() const {
-        return propDefaultBorderLeftColor.get();
-    }
-    int defaultBorderLeftWidth() const {
-        return propDefaultBorderLeftWidth.get();
-    }
-    Color defaultBorderRightColor() const {
-        return propDefaultBorderRightColor.get();
-    }
-    int defaultBorderRightWidth() const {
-        return propDefaultBorderRightWidth.get();
-    }
+	Measure unitsPerInchX() const { return propUnitsPerInchX.get(); }
+	Measure unitsPerInchY() const { return propUnitsPerInchY.get(); }
+	PaperSize paperSize() const { return propPaperSize.get(); }
+	PageOrientation pageOrientation() const { return propPageOrientation.get(); }
+	Measure sizeX() const { return propSizeX.get(); }
+	Measure sizeY() const { return propSizeY.get(); }
+	Measure marginLeft() const { return propMarginLeft.get(); }
+	Measure marginRight() const { return propMarginRight.get(); }
+	Measure marginTop() const { return propMarginTop.get(); }
+	Measure marginBottom() const { return propMarginBottom.get(); }
+	const char * defaultFontFamily() const { return propDefaultFontFamily.get(); }
+	double defaultFontSize() const { return propDefaultFontSize.get(); }
+	int defaultFontWeight() const { return propDefaultFontWeight.get(); }
+	bool defaultFontItalic() const { return propDefaultFontItalic.get(); }
+	double defaultMinFontSize() const { return propDefaultMinFontSize.get(); }
+	Adjustment defaultAdjustment() const { return propDefaultAdjustment.get(); }
+	Color defaultFontColor() const { return propDefaultFontColor.get(); }
+	Color defaultBackColor() const { return propDefaultBackColor.get(); }
+	Color defaultBorderColor() const { return propDefaultBorderColor.get(); }
+	int defaultBorderWidth() const { return propDefaultBorderWidth.get(); }
+	Color defaultBorderTopColor() const { return propDefaultBorderTopColor.get(); }
+	int defaultBorderTopWidth() const { return propDefaultBorderTopWidth.get(); }
+	Color defaultBorderBottomColor() const { return propDefaultBorderBottomColor.get(); }
+	int defaultBorderBottomWidth() const { return propDefaultBorderBottomWidth.get(); }
+	Color defaultBorderLeftColor() const { return propDefaultBorderLeftColor.get(); }
+	int defaultBorderLeftWidth() const { return propDefaultBorderLeftWidth.get(); }
+	Color defaultBorderRightColor() const { return propDefaultBorderRightColor.get(); }
+	int defaultBorderRightWidth() const { return propDefaultBorderRightWidth.get(); }
 
 public:
-    Property<Measure> propUnitsPerInchX;
-    Property<Measure> propUnitsPerInchY;
-    Property<PaperSize> propPaperSize;
-    Property<PageOrientation> propPageOrientation;
-    Property<Measure> propSizeX;
-    Property<Measure> propSizeY;
-    Property<Measure> propMarginLeft;
-    Property<Measure> propMarginRight;
-    Property<Measure> propMarginTop;
-    Property<Measure> propMarginBottom;
-    Property<const char *> propDefaultFontFamily;
-    Property<double> propDefaultFontSize;
-    Property<int> propDefaultFontWeight;
-    Property<bool> propDefaultFontItalic;
-    Property<double> propDefaultMinFontSize;
-    Property<Adjustment> propDefaultAdjustment;
-    Property<Color> propDefaultFontColor;
-    Property<Color> propDefaultBackColor;
-    Property<Color> propDefaultBorderColor;
-    Property<int> propDefaultBorderWidth;
-    Property<Color> propDefaultBorderTopColor;
-    Property<int> propDefaultBorderTopWidth;
-    Property<Color> propDefaultBorderBottomColor;
-    Property<int> propDefaultBorderBottomWidth;
-    Property<Color> propDefaultBorderLeftColor;
-    Property<int> propDefaultBorderLeftWidth;
-    Property<Color> propDefaultBorderRightColor;
-    Property<int> propDefaultBorderRightWidth;
-    /*>>>>>OUTPUT_PROPERTIES*/
+	Property<Measure> propUnitsPerInchX;
+	Property<Measure> propUnitsPerInchY;
+	Property<PaperSize> propPaperSize;
+	Property<PageOrientation> propPageOrientation;
+	Property<Measure> propSizeX;
+	Property<Measure> propSizeY;
+	Property<Measure> propMarginLeft;
+	Property<Measure> propMarginRight;
+	Property<Measure> propMarginTop;
+	Property<Measure> propMarginBottom;
+	Property<const char *> propDefaultFontFamily;
+	Property<double> propDefaultFontSize;
+	Property<int> propDefaultFontWeight;
+	Property<bool> propDefaultFontItalic;
+	Property<double> propDefaultMinFontSize;
+	Property<Adjustment> propDefaultAdjustment;
+	Property<Color> propDefaultFontColor;
+	Property<Color> propDefaultBackColor;
+	Property<Color> propDefaultBorderColor;
+	Property<int> propDefaultBorderWidth;
+	Property<Color> propDefaultBorderTopColor;
+	Property<int> propDefaultBorderTopWidth;
+	Property<Color> propDefaultBorderBottomColor;
+	Property<int> propDefaultBorderBottomWidth;
+	Property<Color> propDefaultBorderLeftColor;
+	Property<int> propDefaultBorderLeftWidth;
+	Property<Color> propDefaultBorderRightColor;
+	Property<int> propDefaultBorderRightWidth;
+/*>>>>>OUTPUT_PROPERTIES*/
 
 protected:
     int clipMeasures(const Object &object, int *x, int *y, int *w, int *h) const;

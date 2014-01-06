@@ -3,8 +3,9 @@
 == HACIENDO ==
 
 == gong-rtk ==
+* readfast
+* Añadir padding a los objetos también
 * El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
-* El borderbottom no funciona salvo que la siguiente sección tenga un margen top
 * Al hacer un informe apaisado, el alto de línea es demasiado pequeño
 * Cerrar informes con el escape
 * Peta si se añade al inicio de xxxx_comun.inc:
