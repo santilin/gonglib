@@ -42,7 +42,6 @@
 
 #include <fstream>
 #include <memory>
-
 #include "gonggettext.h"
 #include "gongdebug.h"
 #include "gongfileutils.h"
@@ -72,6 +71,10 @@ dbDefinition *dbDefinition::fromSQLSchema( dbConnection *conn, const Xtring &dbn
 	std::auto_ptr<dbResultSet> rsTables(conn->select( "SHOW TABLES" ));
 	while( rsTables->next() ) {
 		tblname = rsTables->toString(0);
+#ifdef HAVE_SQLITE3
+		if( tblname == "sqlite_sequence" )
+			continue;
+#endif
 		dbTableDefinition *tbldef = dbTableDefinition::fromSQLSchema( conn, *dbdef, tblname );
 		dbdef->addTable( tbldef );
 	}
@@ -192,7 +195,7 @@ Xtring dbDefinition::sameSQLSchema( const dbDefinition *other, dbConnection *con
         const dbTableDefinition *othertabledef = other->findTableDefinition( getTableDefinition(nt)->getName() );
         if( othertabledef )
             ret += getTableDefinition(nt)->sameSQLSchema( othertabledef, conn, purging );
-        else 
+        else
             ret += "# CREATE TABLE " + getTableDefinition(nt)->getName() + "\n";
     }
     return ret;

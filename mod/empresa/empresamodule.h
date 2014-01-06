@@ -77,6 +77,7 @@ public:
     int getEjercicio() const {
         return mEjercicio;
     }
+    int getEjercicios(IntList &ejercicios) const;
     Xtring getNombreEmpresa() const;
     RecEmpresa *getRecEmpresa() const;
     bool isReadOnly() const;
@@ -89,7 +90,7 @@ private:
     int mCodEmpresa, mEjercicio;
     XtringList mContadorTables;
 
-    /*<<<<<EMPRESAMODULE_RECORD_DEFINITIONS*/
+/*<<<<<EMPRESAMODULE_RECORD_DEFINITIONS*/
 public:
 	empresa::MasterTable *getFicEmpresa() const { return pFicEmpresa; }
 	empresa::MasterTable *getFicDepartamento() const { return pFicDepartamento; }
@@ -119,10 +120,12 @@ protected:
 	QAction *pMenuEmpresaProyecto;
 /*>>>>>EMPRESAMODULE_MENU_DEFINITIONS*/
     QMenu *pMenuEmpresa;
-    QAction *pMenuEmpresaCambiarEjercicio;
+    QAction *pMenuEmpresaCambiarEjercicio, *pMenuEmpresaEjercicioAnterior, *pMenuEmpresaEjercicioSiguiente;
 
 private slots:
     void slotMenuEmpresaCambiarEjercicio();
+	void slotMenuEmpresaEjercicioAnterior();
+	void slotMenuEmpresaEjercicioSiguiente();
 
     /*<<<<<EMPRESAMODULE_REQUIRES*/
 public:

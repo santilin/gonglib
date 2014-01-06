@@ -356,7 +356,7 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             fldname = rsFields->toString( 1 );
             t = dbConnection::extractSqlColumnType( rsFields->toString( 2 ).c_str(), &w, &d );
             dbFieldDefinition::Flags tmpflags = dbFieldDefinition::NONE;
-            if ( rsFields->toString( 3 ) == "0" )
+            if ( rsFields->toString( 3 ) == "1" )
                 tmpflags |= dbFieldDefinition::NOTNULL;
             dbFieldDefinition *flddef = new dbFieldDefinition(
                 tblname, fldname, t, w, d,

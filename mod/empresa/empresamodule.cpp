@@ -199,12 +199,26 @@ void EmpresaModule::slotMenuEmpresaCambiarEjercicio()
             : FrmCustom( 0, "FrmCambiarEjercicio" )
         {
             setTitle( caption );
+			pSearchEjercicios = addButton(0, _("¿Ejercicios?") );
             pSearchEmpresa = addSearchField( 0, "Empresa", "CODIGO", "NOMBRE" );
             pSearchEmpresa->getEditCode()->setWidthInChars(4);
-// 			pSearchEmpresa->setValue( codempresa );
+			pSearchEmpresa->setValue( codempresa );
+			pSearchEmpresa->getEditCode()->setSelectedOnEntry( true );
             pEditEjercicio = addInput( 0, _("Ejercicio"), Variant( ejercicio ), "INTEGER" );
+			pEditEjercicio->setSelectedOnEntry( true );
             pFocusWidget = pSearchEmpresa->getEditCode();
         }
+        void validate_input( QWidget *sender, bool *isvalid ) { // from FrmCustom
+			if( sender == pSearchEjercicios ) {
+				XtringList ejercicios;
+				ejercicios << "2010" << "2011" << "2012" << "2013" << "2014";
+				int elegido = msgXtringList( this, _("Elige uno de los ejercicios para los que hay datos"), ejercicios );
+				if( elegido != -1 ) {
+					elegido = 2010 + elegido;
+					pEditEjercicio->setText( elegido );
+				}
+			}
+		}
         int getCodEmpresa() const {
             return pSearchEmpresa->getEditCode()->toInt();
         }
@@ -212,6 +226,7 @@ void EmpresaModule::slotMenuEmpresaCambiarEjercicio()
             return pEditEjercicio->toInt();
         }
     private:
+		PushButton *pSearchEjercicios;
         LineEdit *pEditEjercicio;
         SearchBox *pSearchEmpresa;
     };
@@ -257,6 +272,26 @@ void EmpresaModule::slotMenuEmpresaCambiarEjercicio()
     }
 }
 
+
+void EmpresaModule::slotMenuEmpresaEjercicioAnterior()
+{
+	DBAPP->waitCursor( true );
+	DBAPP->setUserLocalSetting( "Ejercicio", getEjercicio() - 1);
+	DBAPP->login( PACKAGE_VERSION, false, true );
+	rereadEmpresa();
+	DBAPP->setTitle();
+	DBAPP->resetCursor();
+}
+
+void EmpresaModule::slotMenuEmpresaEjercicioSiguiente()
+{
+	DBAPP->waitCursor( true );
+	DBAPP->setUserLocalSetting( "Ejercicio", getEjercicio() + 1);
+	DBAPP->login( PACKAGE_VERSION, false, true );
+	rereadEmpresa();
+	DBAPP->setTitle();
+	DBAPP->resetCursor();
+}
 
 bool EmpresaModule::initDatabase( dbDefinition *db )
 {
@@ -435,15 +470,29 @@ bool EmpresaModule::initMainWindow( MainWindow *mainwin )
     pMainWindow = mainwin;
     pMenuEmpresa = new QMenu( pMainWindow );
     pMenuEmpresa->setObjectName( "MenuEmpresa" );
-    pMainWindow->menuBar()->insertItem( "&" + toGUI( DBAPP->getTableDescSingular("EMPRESA", "").c_str() ),
+    pMainWindow->menuBar()->insertItem( toGUI( "&" + DBAPP->getTableDescSingular("EMPRESA", "") ),
                                         pMenuEmpresa );
     {
-        QString text = QString::fromUtf8( Xtring::printf( _("Cambiar de %s y/o ejercicio"),
+        QString text = toGUI( Xtring::printf( _("Cambiar de %s y/o ejercicio"),
                                           DBAPP->getTableDescSingular("EMPRESA", "").c_str() ).c_str() );
         pMenuEmpresaCambiarEjercicio = new QAction(text + "...", 0, pMainWindow,0);
         pMenuEmpresaCambiarEjercicio->setStatusTip(text);
         pMainWindow->connect(pMenuEmpresaCambiarEjercicio, SIGNAL(activated()), this, SLOT(slotMenuEmpresaCambiarEjercicio()));
         pMenuEmpresaCambiarEjercicio->addTo(pMenuEmpresa);
+    }
+    {
+        QString text = toGUI( _("Ejercicio anterior") );
+        pMenuEmpresaEjercicioAnterior = new QAction(text + "...", 0, pMainWindow,0);
+        pMenuEmpresaEjercicioAnterior->setStatusTip(text);
+        pMainWindow->connect(pMenuEmpresaEjercicioAnterior, SIGNAL(activated()), this, SLOT(slotMenuEmpresaEjercicioAnterior()));
+        pMenuEmpresaEjercicioAnterior->addTo(pMenuEmpresa);
+    }
+    {
+        QString text = toGUI( _("Ejercicio siguiente") );
+        pMenuEmpresaEjercicioSiguiente = new QAction(text + "...", 0, pMainWindow,0);
+        pMenuEmpresaEjercicioSiguiente->setStatusTip(text);
+        pMainWindow->connect(pMenuEmpresaEjercicioSiguiente, SIGNAL(activated()), this, SLOT(slotMenuEmpresaEjercicioSiguiente()));
+        pMenuEmpresaEjercicioSiguiente->addTo(pMenuEmpresa);
     }
     /*<<<<<EMPRESAMODULE_INITMAINWINDOW_MENUS*/
 	{
