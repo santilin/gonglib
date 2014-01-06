@@ -1,11 +1,9 @@
 == HECHO ==
-TPV: ADD: Añadir modalidad: Rondas, mesas, vendedores, etc.
 
 == HACIENDO ==
 
 == gong-tpv ==
-* TPV: hay mucho espacio en el ticket después de los datos del cliente
-* TPV: Imprimir en el ticket el número de socia
+* No guarda ni recupera el registro MIEMBRO
 * TPV: Z: Sumar la entrega, no el total del ticket
 * TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
 * Si hay exactamente 2 x 5 familias, salen 3 filas porque añade el botón next.

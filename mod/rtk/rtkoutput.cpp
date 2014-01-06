@@ -153,7 +153,7 @@ Measure Output::startSection(const Section &section)
     mCurrY += section.posY() + section.marginTop();
     mCurrX += section.posX() + section.marginLeft();
     mColumnCurrY = mCurrY;
-    _GONG_DEBUG_PRINT(0, Xtring::printf("Printing section '%s' at x=%f, y=%f, w=%f, h=%f",
+    _GONG_DEBUG_PRINT(3, Xtring::printf("Printing section '%s' at x=%f, y=%f, w=%f, h=%f",
                                         section.name(), mCurrX, mCurrY, section.sizeX(), section.sizeY() ) );
     return 0;
 }

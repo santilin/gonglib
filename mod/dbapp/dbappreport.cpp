@@ -438,9 +438,9 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &prop
         setOrigOrder ( order.c_str() );
         for( Dictionary<Xtring>::const_iterator propit = properties.begin();
                 propit != properties.end(); ++ propit ) {
-            if( !setPropOrigValue( propit->first, propit->second ) ) {
-                _GONG_DEBUG_WARNING( "property " + propit->first + " not found in report" );
-            }
+            if( !setPropOrigValue( propit->first, propit->second ) )
+				if( !setParameterValue( propit->first, propit->second) )
+                _GONG_DEBUG_WARNING( "Neither property nor parameter '" + propit->first + "'  found in report" );
         }
         try {
             ret = Report::print ( pGongInput, salida );

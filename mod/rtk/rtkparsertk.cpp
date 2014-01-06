@@ -140,16 +140,14 @@ bool ReportDefParser::insertFile(const char *filename, const char ** wholetext,
 				code++; \
 			}
 
-			/**
-			 * @brief ...
-			 *
-			 * Handles preprocessor directives #ifdef, #else, etc.
-			 *
-			 * @param starttoken ...
-			 * @return Xtring
-			 **/
-
-
+/**
+* @brief ...
+*
+* Handles preprocessor directives #ifdef, #else, etc.
+*
+* @param starttoken ...
+* @return Xtring
+**/
 Xtring ReportDefParser::getNextToken( const char **starttoken )
 {
     const char * code = *starttoken;
@@ -228,8 +226,11 @@ Xtring ReportDefParser::getNextToken( const char **starttoken )
                 while( *code ) {
                     if( strncmp( code, "#ifdef", 6 ) == 0 ) {
                         ifdefs++;
-                    } else if( strncmp( code, "#ifndef", 6 ) == 0 ) {
+                    } else if( strncmp( code, "#ifndef", 7 ) == 0 ) {
                         ifdefs++;
+                    } else if( strncmp( code, "#else", 5 ) == 0 ) {
+                        if( ifdefs == 0 )
+							break;
                     } else if( strncmp( code, "#endif", 6 ) == 0 ) {
                         if( ifdefs-- == 0 ) {
                             break;
