@@ -372,7 +372,7 @@ void link_string_functions(dscript::context& ctx)
     ctx.link_function(
         "tomoney",
         &dscript::stdlib::tomoney,
-        1,2,"(%num)"
+        1,1,"(%num)"
     );
     ctx.link_function(
         "toupper",

@@ -292,7 +292,7 @@ template<> Measure stringTo(const char *origvalue, bool *isvalid, bool *isnull )
         // strtod(origvalue, &badpos);
 		if( isvalid )
 			*isvalid = *isnull;
-        *isnull = !( *isvalid );
+        *isnull = !( *isnull );
         return d;
     } else {
         *isnull = true;
@@ -384,9 +384,9 @@ template<> BorderStyle stringTo(const char *origvalue, bool *isvalid, bool *isnu
             return BorderNone;
         else if ( strcasecmp( origvalue, "Solid" ) == 0 )
             return BorderSolid;
-        else if ( strcasecmp( origvalue, "Dash" ) == 0 )
+        else if ( strcasecmp( origvalue, "Dash" ) == 0 || strcasecmp( origvalue, "Dashed" ) == 0)
             return BorderDash;
-        else if ( strcasecmp( origvalue, "Dot" ) == 0 )
+        else if ( strcasecmp( origvalue, "Dot" ) == 0 || strcasecmp( origvalue, "Dotted" ) == 0)
             return BorderDot;
         else if ( strcasecmp( origvalue, "DashDot" ) == 0 )
             return BorderDashDot;

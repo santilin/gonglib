@@ -66,7 +66,8 @@ private:
     const char *pFileName;
     int mLine, mCol;
     List<Xtring> mDefines;
-    List<Xtring> mIfdefs;
+	struct ifdefs_t { Xtring definition; bool isifdef; };
+    List<ifdefs_t> mIfdefs;
 
     static const bool skipping = true;
 };
@@ -139,6 +140,16 @@ bool ReportDefParser::insertFile(const char *filename, const char ** wholetext,
 				code++; \
 			}
 
+			/**
+			 * @brief ...
+			 *
+			 * Handles preprocessor directives #ifdef, #else, etc.
+			 *
+			 * @param starttoken ...
+			 * @return Xtring
+			 **/
+
+
 Xtring ReportDefParser::getNextToken( const char **starttoken )
 {
     const char * code = *starttoken;
@@ -175,21 +186,39 @@ Xtring ReportDefParser::getNextToken( const char **starttoken )
                 uint search;
                 SKIP_NOT_SPACES;
                 Xtring prep_name( *starttoken, code - *starttoken );
-                skip_code = true;
+				// push the ifdef identifier and see if it is defined
+				ifdefs_t t = { prep_name, true };
+				mIfdefs.push_back(t);
+                skip_code = true; // If it is not defined, skip the code
                 for( search=0; search < mDefines.size() && skip_code; search ++ )
                     if( mDefines[search] == prep_name )
-                        skip_code = false;
+                        skip_code = false; // found, so we dont skip the code
                 SKIP_LINE;
             } else if( directive == "ifndef" ) {
                 uint search;
                 SKIP_NOT_SPACES;
                 Xtring prep_name( *starttoken, code - *starttoken );
-                skip_code = false;
+				// push the ifndef identifier and see if it is defined
+				ifdefs_t t = { prep_name, false };
+				mIfdefs.push_back(t);
+                skip_code = false; // If it is not defined, dont skip the code
                 for( search=0; search < mDefines.size() && !skip_code; search ++ )
                     if( mDefines[search] == prep_name )
-                        skip_code = true;
+                        skip_code = true; // found, so skip the code
+                SKIP_LINE;
+            } else if( directive.lower() == "else" ) {
+                uint search;
+                SKIP_NOT_SPACES;
+				// See what is the last defined identifier and if it was 'def' or 'ndef'
+				ifdefs_t top = mIfdefs.back();
+                Xtring prep_name( top.definition );
+                skip_code = !top.isifdef;
+                for( search=0; search < mDefines.size() && skip_code == !top.isifdef; search ++ )
+                    if( mDefines[search] == prep_name )
+                        skip_code = top.isifdef;
                 SKIP_LINE;
             } else if( directive.lower() == "endif" ) {
+				mIfdefs.pop_back();
                 // Do nothing
             } else {
                 return directive;
@@ -199,9 +228,6 @@ Xtring ReportDefParser::getNextToken( const char **starttoken )
                 while( *code ) {
                     if( strncmp( code, "#ifdef", 6 ) == 0 ) {
                         ifdefs++;
-                    } else if( strncmp( code, "#else", 5 ) == 0 ) {
-                        if( --ifdefs < 0 )
-                            break;
                     } else if( strncmp( code, "#ifndef", 6 ) == 0 ) {
                         ifdefs++;
                     } else if( strncmp( code, "#endif", 6 ) == 0 ) {
