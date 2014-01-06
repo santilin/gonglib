@@ -46,7 +46,6 @@ dbResultSet::dbResultSet(dbConnection* dbconn, sqlite3_stmt *result)
     _data.sqlite3.pResult = result;
     _data.sqlite3.pRows = new std::vector<Variant>();
     mColumnCount = sqlite3_column_count( _data.sqlite3.pResult );
-	_GONG_DEBUG_PRINT(0, mColumnCount );
 }
 
 #endif
@@ -189,7 +188,7 @@ double dbResultSet::toDouble(unsigned colnum) const
         return Xtring( _data.mysql.mRow[colnum], _data.mysql.pLengths[colnum] ).toDoubleLocIndep();
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
-        return _data.sqlite3.pRows[mRowNumber][colnum].toString().toDoubleLocIndep();
+        return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].toDouble();
 #endif
 	case dbConnection::DRIVER_POSTGRESQL:
 		break;
@@ -339,7 +338,6 @@ bool dbResultSet::next()
                     _data.sqlite3.pRows->push_back( s );
                     break;
                 }
-                _GONG_DEBUG_PRINT( 0, Xtring::number(i) + "-esimo valor: " + toString( i ) );
             }
             return true;
         }
