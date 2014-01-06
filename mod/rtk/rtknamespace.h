@@ -106,7 +106,7 @@ enum PaperSize {
     DLE, Folio, Ledger, Tabloid, Custom, NPageSize = Custom
 };
 
-UnitsType extractUnits(const char *smeasure, UnitsType defaultunits );
+UnitsType extractUnits(const char *smeasure, UnitsType defaultunits, bool *isvalid = 0 );
 Xtring strReplace(const char *constbuf, const Xtring &search, const Xtring &repl);
 Measure fixOneMeasure(UnitsType objunit, Measure measure,
                       UnitsType repunit, Measure repsize,  Measure outsize );

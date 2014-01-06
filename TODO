@@ -2,41 +2,14 @@
 
 == HACIENDO ==
 
-== gong-rtk ==
-* readfast
-* Añadir padding a los objetos también
-* El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
-* Al hacer un informe apaisado, el alto de línea es demasiado pequeño
-* Cerrar informes con el escape
-* Peta si se añade al inicio de xxxx_comun.inc:
-#ifndef AGRUPAR
-	SizeX = 120;
-* pagesperfolio=2, no imprime el pie de página de la primera página
-=== Error en RTK ===
-* Esto falla miserablemente:
-		INPUTFIELD NOMBRE {
-			Source = T.NOMBRE;
-			Type = string;
-		}
-		INPUTFIELD IVA {
-* Comprobar los estilos de los campos de los informes, que se usen los de gonglib
-* Si en un pageheader se pone un objeto con un sizey que va al final y luego hay otros objetos que van al principio, el del final no sale
-* rtk: startpage.drawImages no cubre todo el painter
-
-
 == PARA MAÑANA ==
 * Envío de emails masivos Bare LF
-* Informe de etiquetas de socias.
-* Error biosegura.
 
 == CON INTERNET ==
 * Buscar macro AC para las PocoLib
 * C++. ¿Por qué el operador de copia no se virtualiza?
-* Calcular el máximo de una unión en SQL
-* ¿Cómo se saca una lista de las tablas temporales en mysql?
 
 == ERRORES ==
-* Modifico factura de jardines del mundo, cambio el email del contacto y me dice que lo ha creado, pero en realidad ya estaba creado
 * Ticket de los pájaros: quitar cif.
 ** Cambiar palabra ticket.
 
@@ -45,15 +18,16 @@
 ** No funciona el ItemIsSelectable
 
 = PRESCINDIBLE =
-* Recargo de equivalencia, estilo como el total en las facturas
 * Que la suma en mc de las ventas coincida con la suma de las facturas
 * Formulario datos ventas y compras de artículos
 
 == Ofertas ==
 * No hace copia de seguridad
 * No calcula bien los máximos contadores en pagos.
+* Peta al visualizar un pago
 
 == gong-factu ==
+* Calcular el máximo de una unión en SQL: SELECT SUM() FROM ( SELECT .... UNION ALL .... );
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 * Genera pagos de albaranes y luego en la factura, al facturarlo, también
 * Albaranes, facturas, etc. Añadir Cantidad asignada al proyecto
@@ -126,6 +100,7 @@
 ** Niveles del plan contable
 
 == gong-contactos ==
+* Modifico factura de jardines del mundo, cambio el email del contacto y me dice que lo ha creado, pero en realidad ya estaba creado
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Utilizar campo alternativo para buscar clientes, proveedoras y contactos
 * Mostrar nombres parecidos al dar de alta un nombre
@@ -177,6 +152,24 @@
 * La longitud del documento archivado no puede ser mayor de ...
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
+== gong-rtk ==
+* El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
+* Al hacer un informe apaisado, el alto de línea es demasiado pequeño
+* Cerrar informes con el escape
+* Peta si se añade al inicio de xxxx_comun.inc:
+#ifndef AGRUPAR
+	SizeX = 120;
+* pagesperfolio=2, no imprime el pie de página de la primera página
+=== Error en RTK ===
+* Esto falla miserablemente:
+		INPUTFIELD NOMBRE {
+			Source = T.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD IVA {
+* Comprobar los estilos de los campos de los informes, que se usen los de gonglib
+* Si en un pageheader se pone un objeto con un sizey que va al final y luego hay otros objetos que van al principio, el del final no sale
+* rtk: startpage.drawImages no cubre todo el painter
 
 == gong-qt4 ==
 * Checkboxes, que el ENTER no cambie el valor, sólo el espacio

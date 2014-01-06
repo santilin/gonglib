@@ -583,7 +583,6 @@ void AppReport::readAllReports( bool force )
     }
 }
 
-
 int AppReport::readReportsFromPath ( const Xtring &pathorig, ReportsList &reportslist )
 {
     RTK::Error::sErrorAbort = RTK::Error::AbortNever;
@@ -591,10 +590,8 @@ int AppReport::readReportsFromPath ( const Xtring &pathorig, ReportsList &report
     XtringList reports = FileUtils::getDirEntries ( pathorig );
     for ( XtringList::iterator it = reports.begin();
             it != reports.end();
-            ++it )
-    {
-        if ( FileUtils::extension ( *it ) == "rtk" )
-        {
+            ++it ) {
+        if ( FileUtils::extension ( *it ) == "rtk" ) {
             _GONG_DEBUG_PRINT ( 4, Xtring::printf ( "Informe: %s%s", pathorig.c_str(), ( *it ).c_str() ) );
             RTK::Report * r = new RTK::Report();
             ReportInput *inp = new ReportInput ( DBAPP->getConnection(), *r, 0 );
@@ -611,11 +608,8 @@ int AppReport::readReportsFromPath ( const Xtring &pathorig, ReportsList &report
                 ri.repWhere = inp->getOrigWhere();
                 ri.repOrderBy << inp->getOrigOrderBy();
                 reportslist.push_back ( ri );
-            }
-            else
-            {
-                for ( int e=0; e < r->errorsCount(); e++ )
-                {
+            } else {
+                for ( int e=0; e < r->errorsCount(); e++ ) {
                     _GONG_DEBUG_WARNING ( Xtring::printf ( "%s: %s: %s",
                                                            r->getError(e)->isWarning() ? "Warning":"Error",
                                                            r->getError(e)->location(),

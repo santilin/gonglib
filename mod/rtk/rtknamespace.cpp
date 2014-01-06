@@ -370,6 +370,7 @@ template<> Color stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 
 template<> BorderStyle stringTo(const char *origvalue, bool *isvalid, bool *isnull )
 {
+    if( isvalid ) *isvalid = true;
     bool localnull;
     if( !isnull )
         isnull = &localnull;
