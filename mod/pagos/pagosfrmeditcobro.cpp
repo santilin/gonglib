@@ -460,7 +460,7 @@ void FrmEditCobro::scatterFields()
         getRecCobro()->setValue( "ASIENTO_PAGO_ID", 0 );
 #endif
     }
-    /*<<<<<FRMEDITCOBRO_SCATTER*/
+/*<<<<<FRMEDITCOBRO_SCATTER*/
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editRemesaCobroNumero;
 	checkAutomatico->setChecked(getRecCobro()->getValue("AUTOMATICO").toBool());
@@ -493,7 +493,7 @@ if( ModuleInstance->getContabModule() ) {
             getRecRemesaCobro()->copyRecord( ModuleInstance->getRecRemesaCobroPadre( this ) );
             scatterRemesaCobro();
         }
-        comboEstadoRecibo->setCurrentItemByValue( ModuleInstance->getModuleSetting( "ESTADORECIBO.PENDIENTE" ).toInt() );
+        comboEstadoRecibo->setCurrentItemByValue( pagos::PagosModule::ReciboPendiente );
     }
     if( getRecCobro()->getValue("AUTOMATICO").toBool() ) {
         searchFacturaNumero->setMustBeReadOnly(true);

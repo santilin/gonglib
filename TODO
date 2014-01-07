@@ -1,14 +1,13 @@
 == HECHO ==
 
-== COMPOROBAR==
-* setTabOrder en completa
-
+== COMPROBAR==
 
 == HACIENDO ==
 * Si hay exactamente 2 x 5 familias, salen 3 filas porque añade el botón next.
 * Envío de emails masivos Bare LF
 * Ticket de los pájaros: quitar cif.
 * Si no encuentra las imágenes next y previos, peta.
+
 == Ofertas ==
 * No calcula bien los máximos contadores en pagos.
 * Peta al visualizar un pago

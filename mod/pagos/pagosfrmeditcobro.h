@@ -66,8 +66,7 @@ protected:
 /*>>>>>FRMEDITCOBRO_VIRTUALS_FROM_FRMEDITREC*/
 protected slots:
     virtual void pushPagar_clicked();
-
-    /*<<<<<FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
+/*<<<<<FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterRemesaCobro();
 	void scatterFactura();

@@ -441,7 +441,7 @@ void FrmEditPago::scatterFields()
         getRecPago()->setValue( "ASIENTO_PAGO_ID", 0 );
 #endif
     }
-    /*<<<<<FRMEDITPAGO_SCATTER*/
+/*<<<<<FRMEDITPAGO_SCATTER*/
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editFacturaNumero;
 	checkAutomatico->setChecked(getRecPago()->getValue("AUTOMATICO").toBool());
@@ -469,7 +469,7 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 /*>>>>>FRMEDITPAGO_SCATTER*/
     if( isInserting() )
-        comboEstadoRecibo->setCurrentItemByValue( ModuleInstance->getModuleSetting( "ESTADORECIBO.PENDIENTE" ).toInt() );
+        comboEstadoRecibo->setCurrentItemByValue( pagos::PagosModule::ReciboPendiente );
     if( getRecPago()->getValue("AUTOMATICO").toBool() ) {
         searchFacturaNumero->setMustBeReadOnly(true);
         editFechaEmision->setMustBeReadOnly(true);
@@ -498,7 +498,7 @@ if( ModuleInstance->getContabModule() ) {
 
 void FrmEditPago::gatherFields()
 {
-    /*<<<<<FRMEDITPAGO_GATHER*/
+/*<<<<<FRMEDITPAGO_GATHER*/
 	getRecPago()->setValue( "FACTURA_ID", getRecFactura()->getRecordID() );
 	getRecPago()->setValue( "TERCERO_ID", getRecTercero()->getRecordID() );
 	getRecPago()->setValue( "AUTOMATICO", checkAutomatico->isChecked());

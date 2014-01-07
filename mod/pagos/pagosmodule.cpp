@@ -39,18 +39,6 @@ PagosModule *ModuleInstance = 0;
 
 static dbModuleSetting _settings[] = {
     {
-        dbModuleSetting::Int,
-        "ESTADORECIBO.PENDIENTE",
-        _("Código del estado de recibo PENDIENTE"),
-        "1"
-    },
-    {
-        dbModuleSetting::Int,
-        "ESTADORECIBO.PAGADO",
-        _("Código del estado de recibo PAGADO"),
-        "1"
-    },
-    {
         dbModuleSetting::Bool,
         "USAR_REMESAS",
         _("Si se utilizarán remesas de recibos"),
