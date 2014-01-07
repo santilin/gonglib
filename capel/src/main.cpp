@@ -316,7 +316,7 @@ int main( int argc, char *argv[] )
 							modcpp.writeIfModified();
 							modh.writeIfModified();
 						} else {
-							_GONG_DEBUG_WARNING( Xtring( "Tipo no reconocido " + type ) );
+							std::cout << "Tipo no reconocido " << type << std::endl;
 						}
 					}
 				}

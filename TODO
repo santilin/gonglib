@@ -146,6 +146,7 @@
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
+* Implementar padding de los objetos
 * El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 * Al hacer un informe apaisado, el alto de línea es demasiado pequeño
 * Cerrar informes con el escape
