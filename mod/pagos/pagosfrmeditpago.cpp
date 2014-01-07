@@ -50,7 +50,6 @@
 #include <dbappdbapplication.h>
 #include "pagosfrmeditpago.h"
 /*>>>>>FRMEDITPAGO_INCLUDES*/
-#include "pagosfrmpagarrecibo.h"
 #include "pagosmodule.h"
 #include "pagosipagablerecord.h"
 
@@ -66,7 +65,7 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	if ( !name )
 	    setName( "FrmEditPago" );
 /*>>>>>FRMEDITPAGO_CONSTRUCTOR*/
-    /*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
+/*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
 	QHBoxLayout *tercerosLayout = new QHBoxLayout(0, 0, 6, "tercerosLayout");
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *descLayout = new QHBoxLayout(0, 0, 6, "descLayout");
@@ -131,12 +130,14 @@ if( ModuleInstance->getContabModule() ) {
     editContador->setMustBeReadOnly( true );
     editFechaPago->setMustBeReadOnly(true);
     searchFacturaNumero->setMustBeReadOnly(true);
+    editFacturaNumero->setWidthInChars(15);
     searchTerceroCodigo->setMustBeReadOnly(true);
 #ifdef HAVE_CONTABMODULE
     searchCuentaPagoCuenta->setMustBeReadOnly(true);
 #endif
     editDocumentoPago->setMustBeReadOnly(true);
     pushPagar = new QPushButton( toGUI( _("&Pagar o anular") ), this, "pushPagar" );
+    pushPagar->setDefault( true );
     connect ( pushPagar, SIGNAL ( clicked() ), this, SLOT ( pushPagar_clicked() ) );
     pButtonsLayout->addWidget( pushPagar );
     checkAutomatico->setMustBeReadOnly( true );
@@ -191,21 +192,24 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
 
         setTabOrder( editFacturaNumero, editTerceroCodigo );
         setTabOrder( editTerceroCodigo, editNumero );
-
     }
 }
 
 void FrmEditPago::scatterFactura()
 {
-    /*<<<<<FRMEDITPAGO_SCATTER_FACTURA*/
+#if 0
+/*<<<<<FRMEDITPAGO_SCATTER_FACTURA*/
 	editFacturaNumero->setText( getRecFactura()->getValue("NUMERO") );
 	editFacturaFecha->setText( getRecFactura()->getValue("FECHA") );
 /*>>>>>FRMEDITPAGO_SCATTER_FACTURA*/
+#endif
+    editFacturaNumero->setText( getRecFactura()->getValue( mFldFactCodigo ) );
+    editFacturaFecha->setText( getRecFactura()->getValue(mFldFactDesc) );
 }
 
 void FrmEditPago::pushFacturaNumero_clicked()
 {
-    /*<<<<<FRMEDITPAGO_PUSH_FACTURA_NUMERO_CLICKED*/
+/*<<<<<FRMEDITPAGO_PUSH_FACTURA_NUMERO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchFacturaNumero->mustBeReadOnly() )
 		action = 'E';
@@ -341,10 +345,14 @@ void FrmEditPago::pushCuentaPagoCuenta_clicked()
 
 void FrmEditPago::scatterTercero()
 {
-    /*<<<<<FRMEDITPAGO_SCATTER_TERCERO*/
+#if 0
+/*<<<<<FRMEDITPAGO_SCATTER_TERCERO*/
 	editTerceroCodigo->setText( getRecTercero()->getValue("CODIGO") );
 	editTerceroRazonSocial->setText( getRecTercero()->getValue("RAZONSOCIAL") );
 /*>>>>>FRMEDITPAGO_SCATTER_TERCERO*/
+#endif
+    editTerceroCodigo->setText( getRecTercero()->getValue( mFldTercCodigo ) );
+    editTerceroRazonSocial->setText( getRecTercero()->getValue(mFldTercDesc ) );
 }
 
 void FrmEditPago::pushTerceroCodigo_clicked()
@@ -478,6 +486,8 @@ if( ModuleInstance->getContabModule() ) {
 }
 #endif
 /*>>>>>FRMEDITPAGO_SCATTER*/
+    if( isInserting() )
+        comboEstadoRecibo->setCurrentItemByValue( ModuleInstance->getModuleSetting( "ESTADORECIBO.PENDIENTE" ).toInt() );
     if( getRecPago()->getValue("AUTOMATICO").toBool() ) {
         searchFacturaNumero->setMustBeReadOnly(true);
         editFechaEmision->setMustBeReadOnly(true);
@@ -531,6 +541,7 @@ if( ModuleInstance->getContabModule() ) {
 	getRecPago()->setValue( "CUENTAORIGEN", editCuentaOrigen->toString());
 	getRecPago()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITPAGO_GATHER*/
+    getRecPago()->setValue( "RAZONSOCIAL", getRecTercero()->getValue( mFldTercDesc ) );
 }
 
 void FrmEditPago::scatterMoneda()
@@ -540,9 +551,10 @@ void FrmEditPago::scatterMoneda()
 	editMonedaNombre->setText( getRecMoneda()->getValue("NOMBRE") );
 /*>>>>>FRMEDITPAGO_SCATTER_MONEDA*/
 }
+
 void FrmEditPago::pushMonedaCodigo_clicked()
 {
-    /*<<<<<FRMEDITPAGO_PUSH_MONEDA_CODIGO_CLICKED*/
+/*<<<<<FRMEDITPAGO_PUSH_MONEDA_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchMonedaCodigo->mustBeReadOnly() )
 		action = 'E';
@@ -604,26 +616,45 @@ void FrmEditPago::pushMonedaCodigo_clicked()
 
 void FrmEditPago::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
-    /*<<<<<FRMEDITPAGO_VALIDATE*/
+/*<<<<<FRMEDITPAGO_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
 	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
 			*isvalid = false;
-	if( focusWidget() != pushFacturaNumero) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaFecha,
-		getRecFactura(), "NUMERO", "FECHA", Xtring::null) )
-		scatterFactura();
-	if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroRazonSocial,
-		getRecTercero(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
-		scatterTercero();
 	if( focusWidget() != pushMonedaCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editMonedaCodigo, editMonedaNombre,
 		getRecMoneda(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterMoneda();
 /*>>>>>FRMEDITPAGO_VALIDATE*/
+// {capel} Eliminar los validSeekCode de Factura y Tercero
+    if( focusWidget() != pushFacturaNumero) // To avoid triggering the validating if the button is pressed
+        if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaFecha,
+                           getRecFactura(), mFldFactCodigo, mFldFactDesc, Xtring::null) ) {
+            getRecord()->setValue( "FACTURA_ID", 0 );
+            scatterFactura();
+        }
+    if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
+        if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroRazonSocial,
+                           getRecTercero(), mFldTercCodigo, mFldTercDesc, Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) ) {
+            getRecord()->setValue( "TERCERO_ID", 0 );
+            scatterTercero();
+        }
+    if( sender == editFechaEmision && editFechaValor->toDate().isNull() ) {
+        editFechaValor->setText( editFechaEmision->toDate() );
+    }
+    if( sender == editFechaEmision && editVencimiento->toDate().isNull() ) {
+        editVencimiento->setText( editFechaEmision->toDate() );
+    }
+    if( sender == editImporte && editImporte->isJustEdited() ) {
+        if( isInserting() || isDuplicating() ) {
+            editResto->setText( editImporte->toMoney() );
+        } else {
+            Money pagado = editImporte->getPreviousValue().toMoney() - editResto->toMoney();
+            editResto->setText( editImporte->toMoney() - pagado );
+        }
+    }
     if( !sender && isInserting() ) {
         int contador = empresa::ModuleInstance->getMaxContador();
         if( contador > editContador->toInt() ) {

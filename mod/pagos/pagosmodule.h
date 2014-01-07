@@ -75,7 +75,7 @@ public:
     empresa::RecProyecto *getRecProyectoPadre(const FrmEditRec *childfrm) const;
     RecRemesaCobro *getRecRemesaCobroPadre(const FrmEditRec *childfrm) const;
 
-    /*<<<<<PAGOSMODULE_RECORD_DEFINITIONS*/
+/*<<<<<PAGOSMODULE_RECORD_DEFINITIONS*/
 public:
 	pagos::MasterTable *getFicFormaPago() const { return pFicFormaPago; }
 	pagos::MasterTable *getFicRemesaCobro() const { return pFicRemesaCobro; }

@@ -40,6 +40,7 @@
 // FIELD Notas text - notas
 // TYPE FrmEditRecMaster pagos::Cobro
 /*>>>>>MODULE_INFO*/
+
 #include "config.h"
 #ifdef HAVE_CONTABMODULE
 #include <contabmodule.h>
@@ -50,10 +51,8 @@
 #include <dbappdbapplication.h>
 #include "pagosfrmeditcobro.h"
 /*>>>>>FRMEDITCOBRO_INCLUDES*/
-#include <empresamodule.h>
 #include "pagosmodule.h"
 #include "pagosipagablerecord.h"
-
 
 namespace gong {
 namespace pagos {
@@ -67,7 +66,7 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	if ( !name )
 	    setName( "FrmEditCobro" );
 /*>>>>>FRMEDITCOBRO_CONSTRUCTOR*/
-    /*<<<<<FRMEDITCOBRO_INIT_CONTROLS*/
+/*<<<<<FRMEDITCOBRO_INIT_CONTROLS*/
 	QHBoxLayout *remesaLayout = new QHBoxLayout(0, 0, 6, "remesaLayout");
 	QHBoxLayout *tercerosLayout = new QHBoxLayout(0, 0, 6, "tercerosLayout");
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
@@ -210,14 +209,13 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
         setTabOrder( editRemesaCobroNumero, editFacturaNumero );
         setTabOrder( editFacturaNumero, editTerceroCodigo );
         setTabOrder( editTerceroCodigo, editNumero );
-
     }
 }
 
 void FrmEditCobro::scatterFactura()
 {
 #if 0
-    /*<<<<<FRMEDITCOBRO_SCATTER_FACTURA*/
+/*<<<<<FRMEDITCOBRO_SCATTER_FACTURA*/
 	editFacturaNumero->setText( getRecFactura()->getValue("NUMERO") );
 	editFacturaFecha->setText( getRecFactura()->getValue("FECHA") );
 /*>>>>>FRMEDITCOBRO_SCATTER_FACTURA*/
@@ -228,7 +226,7 @@ void FrmEditCobro::scatterFactura()
 
 void FrmEditCobro::pushFacturaNumero_clicked()
 {
-    /*<<<<<FRMEDITCOBRO_PUSH_FACTURA_NUMERO_CLICKED*/
+/*<<<<<FRMEDITCOBRO_PUSH_FACTURA_NUMERO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchFacturaNumero->mustBeReadOnly() )
 		action = 'E';
@@ -458,7 +456,6 @@ if( ModuleInstance->getContabModule() ) {
 /*>>>>>FRMEDITCOBRO_SPECIALACTION*/
 }
 
-
 void FrmEditCobro::scatterFields()
 {
     if( getRecFactura() == 0 ) {
@@ -590,7 +587,7 @@ void FrmEditCobro::scatterMoneda()
 
 void FrmEditCobro::pushMonedaCodigo_clicked()
 {
-    /*<<<<<FRMEDITCOBRO_PUSH_MONEDA_CODIGO_CLICKED*/
+/*<<<<<FRMEDITCOBRO_PUSH_MONEDA_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchMonedaCodigo->mustBeReadOnly() )
 		action = 'E';

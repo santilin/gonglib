@@ -1,5 +1,8 @@
 == HECHO ==
-Perfeccionado el sameSQLSchema entre MySQL y Sqlite3
+
+== COMPOROBAR==
+* setTabOrder en completa
+
 
 == HACIENDO ==
 * Si hay exactamente 2 x 5 familias, salen 3 filas porque añade el botón next.
@@ -66,7 +69,6 @@ Perfeccionado el sameSQLSchema entre MySQL y Sqlite3
 * ¿Qué pasa si al meter una liquidación de un cliente los precios de los artículos han cambiado?
 
 == cobros ==
-* setTabOrder en completa
 * Pagos: Que pagar o anular sea el botón por defecto
 * Aplicar la tasa de cambio de la moneda en el pago/cobro
 * Agrupar, desagrupar, asociar a factura, disociar de factura, etc.
