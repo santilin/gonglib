@@ -1,15 +1,20 @@
 == HECHO ==
 
 == HACIENDO ==
+* Si hay exactamente 2 x 5 familias, salen 3 filas porque añade el botón next.
+* Envío de emails masivos Bare LF
+* Ticket de los pájaros: quitar cif.
+* Si no encuentra las imágenes next y previos, peta.
+== Ofertas ==
+* No calcula bien los máximos contadores en pagos.
+* Peta al visualizar un pago
 
 == gong-tpv ==
 * No guarda ni recupera el registro MIEMBRO
 * TPV: Z: Sumar la entrega, no el total del ticket
 * TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
-* Si hay exactamente 2 x 5 familias, salen 3 filas porque añade el botón next.
 
-* Fila de productos más vendidos
-* Si no encuentra las imágenes next y previos, peta.
+* Fila de productos favoritos
 * Tarifas por el tipo de mesa.
 * Al limpiar la mesa, lee registros
 * saveEstado intenta grabar siempre, ver la diferencia
@@ -17,27 +22,15 @@
 * Que se resalte la familia seleccionada
 ** No funciona el ItemIsSelectable
 
-== PARA MAÑANA ==
-* Envío de emails masivos Bare LF
-
 == CON INTERNET ==
 * Buscar macro AC para las PocoLib
 * C++. ¿Por qué el operador de copia no se virtualiza?
 
-== ERRORES ==
-* Ticket de los pájaros: quitar cif.
-** Cambiar palabra ticket.
-
 = PRESCINDIBLE =
-* Que la suma en mc de las ventas coincida con la suma de las facturas
-* Formulario datos ventas y compras de artículos
-
-== Ofertas ==
-* No hace copia de seguridad
-* No calcula bien los máximos contadores en pagos.
-* Peta al visualizar un pago
 
 == gong-factu ==
+* Que la suma en mc de las ventas coincida con la suma de las facturas
+* Formulario datos ventas y compras de artículos
 * Calcular el máximo de una unión en SQL: SELECT SUM() FROM ( SELECT .... UNION ALL .... );
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 * Genera pagos de albaranes y luego en la factura, al facturarlo, también

@@ -348,11 +348,6 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
         tbldef->setDescSingular( db.getName() + "." + tblname + " from SQL Schema" );
         tbldef->mFrom = tblname;
         while( rsFields->next() ) { // pos|name|type(size)|null?|default|1
-// 			_GONG_DEBUG_PRINT(0, rsFields->toString(0) );
-// 			_GONG_DEBUG_PRINT(0, rsFields->toString(1) );
-// 			_GONG_DEBUG_PRINT(0, rsFields->toString(2) );
-// 			_GONG_DEBUG_PRINT(0, rsFields->toString(3) );
-// 			_GONG_DEBUG_PRINT(0, rsFields->toString(4) );
             fldname = rsFields->toString( 1 );
             t = dbConnection::extractSqlColumnType( rsFields->toString( 2 ).c_str(), &w, &d );
             dbFieldDefinition::Flags tmpflags = dbFieldDefinition::NONE;

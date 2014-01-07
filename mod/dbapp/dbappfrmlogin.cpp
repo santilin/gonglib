@@ -124,7 +124,7 @@ void FrmLogin::updateConfig()
     else
         DBAPP->setUserLocalSetting ( "DBPASSWORD", "" );
     DBAPP->setUserLocalSetting ( "AUTOLOGIN", isAutoLogin() );
-    DBAPP->writeSettings();
+    DBAPP->getUserLocalSettings()->write();
 }
 
 void FrmLogin::gather()

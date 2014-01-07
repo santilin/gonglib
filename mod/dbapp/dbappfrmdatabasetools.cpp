@@ -207,11 +207,17 @@ void FrmDatabaseTools::backupDatabase(bool automatic)
             DBAPP->setUserLocalSetting( "SYSTEM.DBBACKUP.PATH", FileUtils::path( fname ) );
             DBAPP->setUserLocalSetting( "SYSTEM.DBBACKUP.AUTOMATIC", automatic );
             Xtring errors;
-            XtringList tables;
-            if( onlygongtables )
-                tables << "METADBDATA " << DBAPP->getMasterTables() << DBAPP->getDetailTables();
+            XtringList alltables, validtables;
+            if( onlygongtables ) {
+                alltables << "METADBDATA " << DBAPP->getMasterTables() << DBAPP->getDetailTables();
+ 				for( XtringList::const_iterator it = alltables.begin(); it != alltables.end(); ++ it ) {
+ 					dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( *it );
+					if( !tbldef || !tbldef->isTemporary() )
+						validtables << *it;
+				}
+			}
             if( !dump( fname, DBAPP->getDatabase()->getName(), DBAPP->getDbUser(),
-                       DBAPP->getDbHost(), password, tables, errors ) ) {
+                       DBAPP->getDbHost(), password, validtables, errors ) ) {
                 FrmBase::msgError( this, errors );
             } else {
                 Xtring message = Xtring::printf(_("Se ha generado la copia de seguridad en el fichero\n%s"), fname.c_str() );

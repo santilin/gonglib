@@ -43,7 +43,8 @@ void dbModule::readSettings()
 // 		DBAPP->readMachineSettings( mModuleGlobalDataDir
 //                         + DBAPP->getRegConfig()->getLanguage() + "_" + mUnixName + ".ddd" );
 // 	}
-    DBAPP->readMachineSettings( mModuleGlobalDataDir + "settings.rc" );
+    if( FileUtils::exists( (mModuleGlobalDataDir + "settings.rc").c_str() ) )
+		DBAPP->readMachineSettings( mModuleGlobalDataDir + "settings.rc" );
     if( FileUtils::exists( (mModuleGlobalDataDir + "informes").c_str() ) ) {
         DBAPP->addReportsPath( false,  mModuleGlobalDataDir + "informes/" );
         _GONG_DEBUG_PRINT(2, "Adding rtkpath: " + mModuleGlobalDataDir + "informes/" );

@@ -540,13 +540,10 @@ void Object::fixMeasures( Measure outsizex, Measure outsizey,
         } else
             propPosX = outsizex - posX();
     }
-
 }
-
 
 void Object::fixParameters(const ParametersList &parameters, const char *delim)
 {
-	bool isvalid;
 /*<<<<<OBJECT_FIXPARAMETERS*/
 	if( !propValue.fix( parameters, delim ) )
 		report()->addWarning( Error::InvalidArgument, 0, 0, propValue.getOrig(), "Value");
