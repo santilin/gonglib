@@ -431,7 +431,7 @@ int dbDefinition::readDescriptionsFromFile( const Xtring &filename )
 int dbDefinition::addViewFromString( const Xtring &caption, const Xtring &viewstr, const Xtring &origin)
 {
     dbViewDefinition *viewdef = new dbViewDefinition(Xtring::null, *this, viewstr, origin, caption );
-    _GONG_DEBUG_PRINT(4, Xtring::printf("Adding view %s from %s, caption %s:\n %s",
+    _GONG_DEBUG_PRINT(5, Xtring::printf("Adding view %s from %s, caption %s:\n %s",
                                         viewdef->getName().c_str(), origin.c_str(),
                                         caption.c_str(), viewstr.c_str() ) );
     if( !caption.isEmpty() )

@@ -115,7 +115,9 @@ Xtring dbFieldDefinition::sameSQLSchema( const dbFieldDefinition *other, dbConne
     Xtring ret;
     if( getName().upper() != other->getName().upper() )
         ret = "ALTER TABLE " + getTableName() + " ADD COLUMN " + getName() + " " + toDDL(conn) + ";\n";
-    else if( (getName() != other->getName()) // Puede que hayan cambiado las mayusculas del nombre
+    else if( getName().upper() == "ID" ) {
+		; // Ids are defined very differently in each dbrms
+	} else if( (getName() != other->getName()) // Puede que hayan cambiado las mayusculas del nombre
              || ( getSqlColumnType() != other->getSqlColumnType() )
              || ( isPrimaryKey() != other->isPrimaryKey() )
              || ( isSequence() != other->isSequence() )
@@ -136,14 +138,16 @@ Xtring dbFieldDefinition::sameSQLSchema( const dbFieldDefinition *other, dbConne
         } else if( getDefaultValue() != other->getDefaultValue() ) {
             bool changed = false;
             if( getSqlColumnType() == SQLDATE ) {
-                if( getDefaultValue().isEmpty() && other->getDefaultValue() != "0000-00-00" )
+                if( getDefaultValue().isEmpty() && other->getDefaultValue() != "0000-00-00" /*mysql*/
+					&& other->getDefaultValue() != "0" /*sqlite3*/ )
                     changed = true;
-                else if( other->getDefaultValue().isEmpty() && getDefaultValue() != "0000-00-00" )
+                else if( other->getDefaultValue().isEmpty() && getDefaultValue() != "0000-00-00" /*mysql*/
+					&& getDefaultValue() != "0" /*sqlite3*/ )
                     changed = true;
             }
             if( changed ) {
                 // Avoid changing column if one default value is empty and the other is "0"
-                _GONG_DEBUG_PRINT(10, Xtring::printf("Default value: %s, %s", getDefaultValue().c_str(), other->getDefaultValue().c_str() ) );
+                _GONG_DEBUG_PRINT(0, Xtring::printf("Default value: %s, %s", getDefaultValue().c_str(), other->getDefaultValue().c_str() ) );
                 ret ="ALTER TABLE " + getTableName() + " CHANGE COLUMN " + other->getName() + " " + getName() + " " + toDDL(conn) + ";\n";
             }
         }

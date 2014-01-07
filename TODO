@@ -1,4 +1,5 @@
 == HECHO ==
+Perfeccionado el sameSQLSchema entre MySQL y Sqlite3
 
 == HACIENDO ==
 * Si hay exactamente 2 x 5 familias, salen 3 filas porque añade el botón next.
