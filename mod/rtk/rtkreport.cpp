@@ -1748,8 +1748,6 @@ Variant Report::getPropValue(const Xtring & propname) const
 		return propParamDelim.get();
 	else if( strcasecmp(name, "Order") == 0 )
 		return propOrder.get();
-	else if( strcasecmp(name, "Filter") == 0 )
-		return propFilter.get();
 	else if( strcasecmp(name, "Copies") == 0 )
 		return propCopies.get();
 	else if( strcasecmp(name, "PagesPerFolio") == 0 )

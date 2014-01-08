@@ -645,8 +645,7 @@ ComboBoxXtring *FrmEditRec::addComboXtringField( QWidget * parent, const Xtring 
     dbFieldListOfValues<Xtring> *flddef = static_cast<dbFieldListOfValues<Xtring> *>
                                           (DBAPP->getDatabase()->findFieldDefinition( tablename, fldname ) );
     if( flddef ) {
-        combo = new ComboBoxXtring(
-            flddef->getListOfCaptions(), flddef->getListOfValues(),
+        combo = new ComboBoxXtring( flddef->getListOfCaptions(), flddef->getListOfValues(),
             parent ? parent : pControlsFrame, tablename + "_" + fldname, Xtring(), horizontal );
         applyFieldStyle( combo, flddef );
         applyFieldStyle( combo->getLabel(), flddef );
