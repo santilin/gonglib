@@ -80,216 +80,6 @@ bool AppReport::readString( const Xtring &rtkcode, const Xtring &initdefines, In
 }
 
 
-Xtring AppReport::fromViewDefinition( const dbViewDefinition* viewdef, bool totals ) const
-{
-    const int report_size = 100;
-
-    static Xtring page_header =
-        "\tPAGEHEADER page_header {\n"
-        "\t\tsizey = 4;\n"
-        "\t\tstyle = pageheader;\n"
-        "\t\tbackgroundimage = logo;\n"
-        "\t\tOBJECT subtitle {\n"
-        "\t\t\tstyle = footer ;\n"
-        "\t\t\tvalue=\"###subtitle###\";\n"
-        "\t\t\thalignment = left;\n"
-        "\t\t\tfontweight = bold;\n"
-        "\t\t\tsizey = 1;\n"
-        "\t\t\tposx = 0;\n"
-        "\t\t}\n"
-        "\t\tOBJECT reportdate {\n"
-        "\t\t\tstyle = pagenumber;\n"
-        "\t\t\tvalue=\"= const @report.Date\";\n"
-        "\t\t\tformat=\"%d/%m/%Y %H:%M\";\n"
-        "\t\t\tsizey = 1;\n"
-        "\t\t\tposx = " + Xtring::number(report_size - 28) + ";\n"
-        "\t\t\tsizex = 16;\n"
-        "\t\t}\n"
-        "\t\tOBJECT npagina_text {\n"
-        "\t\t\tstyle = pagenumber;\n"
-        "\t\t\thalignment = right;\n"
-        "\t\t\tvalue=\"Pág.\";\n"
-        "\t\t\tsizey = 1;\n"
-        "\t\t\tposx = " + Xtring::number(report_size - 10) + ";\n"
-        "\t\t\tsizex = 4 ;\n"
-        "\t\t}\n"
-        "\t\tOBJECT npagina {\n"
-        "\t\t\tstyle = pagenumber;\n"
-        "\t\t\tsizey = 1;\n"
-        "\t\t\tposx = " + Xtring::number(report_size - 5) + ";\n"
-        "\t\t\thalignment = right;\n"
-        "\t\t\tvalue=\"= @report.PageNumber\";\n"
-        "\t\t\tsizex = 5;\n"
-        "\t\t}\n"
-        "\t\tOBJECT titulo {\n"
-        "\t\t\tstyle = title;\n"
-        "\t\t\tvalue = \"= const @report.Title\";\n"
-        "\t\t\tposy = 1;\n"
-        "\t\t\tsizey = 2;\n"
-        "\t\t\thalignment = center;\n"
-        "\t\t\tfontsize = 14;\n"
-        "\t\t\tfontweight = bold;\n"
-        "\t\t}\n"
-        "\t\tOBJECT selection {\n"
-        "\t\t\tfontsize = 8;\n"
-        "\t\t\thalignment = right;\n"
-        "\t\t\tadjustment = none;\n"
-        "\t\t\tvalue=\"###selection###\";\n"
-        "\t\t\tposx = 0;\n"
-        "\t\t\tposy = 3;\n"
-        "\t\t\tsizey = 1;\n"
-        "\t\t}\n"
-        "\t}\n";
-
-    Xtring inputfields, header, details, footer;
-    int totalwidth = 0, posx = 0;
-    double scale = 1.0;
-    // Calculate total width of the report
-    for( unsigned int i=0; i<viewdef->getFieldDefinitions().size(); i++) {
-        dbFieldDefinition *flddef = viewdef->getFieldDefinitions()[i];
-        if( flddef->getName() == "ID" || !flddef->isVisible() )
-            continue;
-        dbFieldDefinition *origflddef = mdbApp.getDatabase()->findFieldDefinition( flddef->getFullName() );
-        int width = flddef->getStyleWidth( DBAPP->getDatabase() );
-        _GONG_DEBUG_PRINT( 4, Xtring::printf("fld: %s, viewwitdh= %d", flddef->getName().c_str(), width )  );
-        if( width == 0 )
-            width = origflddef->getStyleWidth( DBAPP->getDatabase() );
-        _GONG_DEBUG_PRINT( 4, Xtring::printf("fld: %s, origwitdh= %d", flddef->getName().c_str(), width )  );
-        if( width > 50 )
-            width = 50;
-        if( width == 0 )
-            width = 10;
-        totalwidth += width;
-    }
-    if( totalwidth != 0 )
-        scale = report_size / (double)totalwidth;
-    for( unsigned int i=0; i<viewdef->getFieldDefinitions().size(); i++) {
-        dbFieldDefinition *flddef = viewdef->getFieldDefinitions()[i];
-        if( flddef->getName() == "ID" || !flddef->isVisible() )
-            continue;
-        dbFieldDefinition *origflddef = mdbApp.getDatabase()->findFieldDefinition( flddef->getFullName() );
-        int width = flddef->getStyleWidth( DBAPP->getDatabase() );
-        if( width == 0 )
-            width = origflddef->getStyleWidth( DBAPP->getDatabase() );
-        if( width > 50 )
-            width = 50;
-        if( width == 0 )
-            width = 10;
-        width *= scale;
-        Xtring source = flddef->getFullName();
-        Xtring rtkfldname = source.upper();
-        rtkfldname.replace(".","_");
-        // Insert a dummy field so that the order of the view is correct
-        if( inputfields.isEmpty() ) {
-            inputfields += "\t\tINPUTFIELD " + rtkfldname  + "_dummy {\n"
-                           "\t\t\tSource = " + source + ";\n"
-                           "\t\t\tType = " + Variant::typeToName( flddef->getVariantType() ) + ";\n"
-                           "\t\t}\n";
-        }
-        inputfields += "\t\tINPUTFIELD " + rtkfldname + " {\n"
-                       "\t\t\tSource = " + source + ";\n"
-                       "\t\t\tType = " + Variant::typeToName( flddef->getVariantType() ) + ";\n"
-                       "\t\t}\n";
-        header += "\t\tOBJECT header_" + rtkfldname + " {\n"
-                  "\t\t\tvalue = \"" +  flddef->getCaption() + "\";\n"
-                  "\t\t\tposx = " + Xtring::number( posx ) + ";\n"
-                  "\t\t\tsizex = " + Xtring::number( width ) + ";\n"
-                  "\t\t}\n";
-        Xtring salign = "left";
-        dbFieldStyle *fldstyle = mdbApp.getDatabase()->findFieldStyle( flddef->getStyle() );
-        if( fldstyle ) {
-            switch( fldstyle->getHAlignment() ) {
-            case dbFieldStyle::AlignRight:
-                salign = "right";
-                break;
-            case dbFieldStyle::AlignHCenter:
-                salign = "center";
-                break;
-            default:
-                break;
-            }
-        } else {
-            if( flddef->getVariantType() == Variant::tBool )
-                salign = "center";
-            else if( Variant::isNumeric( flddef->getVariantType() ) ) {
-                salign = "right";
-            }
-        }
-        details += "\t\tOBJECT " + rtkfldname + " {\n"
-                   "\t\t\tvalue = \"=input." +  rtkfldname + "\";\n"
-                   "\t\t\thalignment = \"" + salign + "\";\n"
-                   "\t\t\tposx = " + Xtring::number( posx ) + ";\n"
-                   "\t\t\tsizex = " + Xtring::number( width ) + ";\n";
-        if( flddef->getVariantType() == Variant::tBool )
-            details+="\t\t\tformat=\"No|Sí\";\n";
-        details += "\t\t}\n";
-
-        if( totals ) {
-            if( Variant::isNumeric( flddef->getVariantType() ) && !flddef->isCode()
-                    && flddef->getVariantType() != Variant::tBool ) {
-                footer += "\t\tOBJECT suma_" + rtkfldname + " {\n"
-                          "\t\t\tvalue = \"=input." +  rtkfldname + "\";\n"
-                          "\t\t\thalignment = \"" + salign + "\";\n"
-                          "\t\t\tposx = " + Xtring::number( posx ) + ";\n"
-                          "\t\t\tsizex = " + Xtring::number( width ) + ";\n"
-                          "\t\t\taggregate = sum;\n"
-                          "\t\t}\n";
-            }
-        }
-        posx += (width + 1);
-    }
-    Xtring report_return = "REPORT " + Xtring(viewdef->getName()).replace(".","_") + "\n"
-                           "{\n"
-                           "\tTitle = \"" + viewdef->getCaption() + "\";\n"
-                           "\tUnits = chars;\n"
-                           "\tSizeX = " + Xtring::number(report_size) + ";\n"
-                           "\tSizeY = 60;\n"
-                           "\tPARAMETER subtitle {\n"
-                           "\t\ttype = text;\n"
-                           "\t\tvalue = \"" + sReportSubTitle + "\";\n"
-                           "\t}\n"
-                           "\tPARAMETER selection {\n"
-                           "\t\ttype = text;\n"
-                           "\t\tvalue = \"\";\n"
-                           "\t}\n"
-                           "\n"
-                           "\tINPUT default {\n"
-                           "\t\tdriver = mysql;\n"
-                           "\t\tfrom = \"" + viewdef->getFrom() + "\";\n"
-                           "\t\torderby = \"" + viewdef->getOrderBy() + "\";\n"
-                           "\n" + inputfields + "\n"
-                           "\t}\n"
-                           "\n" + page_header + "\n"
-                           "\tPAGEHEADER header_captions {\n"
-                           "\t\tsizey=1;\n"
-                           "\t\tfontweight = bold;\n"
-                           "\t\tborderbottomstyle = solid;\n"
-                           "\t\tborderbottomcolor = black;\n"
-                           "\t\tborderbottomwidth = 1;\n"
-                           "\n" + header + " \n"
-                           "\t}\n"
-                           "#ifndef RESUMIDO\n"
-                           "\tDETAILS details {\n"
-                           "\t\tposx = 0;\n"
-                           "\t\tlevel = 0;\n"
-                           "\t\tstyle = detail;\n"
-                           "\t\tsizey = 1;\n"
-                           "\t\tbackcolor = \"gray&white\";\n"
-                           "\n"
-                           "\n" + details + " \n"
-                           "\t}\n"
-                           "#endif\n"
-                           "\tREPORTFOOTER page_footer {\n"
-                           "\t\tsizey = 1.4;\n"
-                           "\t\tbordertopstyle = solid;\n"
-                           "\t\tpaddingtop = 0.4;\n"
-                           "\t\tstyle = pagefooter;\n"
-                           "\n"
-                           "\n" + footer + " \n"
-                           "\t}\n"
-                           "\n";
-    return report_return + "}\n";
-}
 
 /// \todo {refactor} {0.3.4} Función genérica para pedir un fichero y comprobar si se va a sobreescribir
 int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &properties,
@@ -723,6 +513,217 @@ Variant AppReport::callExternalFunction(const Xtring& _function, Variant& value1
 	}
 	_GONG_DEBUG_WARNING( "Function " + _function + " not found" );
 	return Report::callExternalFunction( _function, value1, value2 );
+}
+
+Xtring AppReport::fromViewDefinition( const dbViewDefinition* viewdef, bool totals ) const
+{
+    const int report_size = 100;
+
+    static Xtring page_header =
+        "\tPAGEHEADER page_header {\n"
+        "\t\tsizey = 4;\n"
+        "\t\tstyle = pageheader;\n"
+        "\t\tbackgroundimage = logo;\n"
+        "\t\tOBJECT subtitle {\n"
+        "\t\t\tstyle = footer ;\n"
+        "\t\t\tvalue=\"###subtitle###\";\n"
+        "\t\t\thalignment = left;\n"
+        "\t\t\tfontweight = bold;\n"
+        "\t\t\tsizey = 1;\n"
+        "\t\t\tposx = 0;\n"
+        "\t\t}\n"
+        "\t\tOBJECT reportdate {\n"
+        "\t\t\tstyle = pagenumber;\n"
+        "\t\t\tvalue=\"= const @report.Date\";\n"
+        "\t\t\tformat=\"%d/%m/%Y %H:%M\";\n"
+        "\t\t\tsizey = 1;\n"
+        "\t\t\tposx = " + Xtring::number(report_size - 28) + ";\n"
+        "\t\t\tsizex = 16;\n"
+        "\t\t}\n"
+        "\t\tOBJECT npagina_text {\n"
+        "\t\t\tstyle = pagenumber;\n"
+        "\t\t\thalignment = right;\n"
+        "\t\t\tvalue=\"Pág.\";\n"
+        "\t\t\tsizey = 1;\n"
+        "\t\t\tposx = " + Xtring::number(report_size - 10) + ";\n"
+        "\t\t\tsizex = 4 ;\n"
+        "\t\t}\n"
+        "\t\tOBJECT npagina {\n"
+        "\t\t\tstyle = pagenumber;\n"
+        "\t\t\tsizey = 1;\n"
+        "\t\t\tposx = " + Xtring::number(report_size - 5) + ";\n"
+        "\t\t\thalignment = right;\n"
+        "\t\t\tvalue=\"= @report.PageNumber\";\n"
+        "\t\t\tsizex = 5;\n"
+        "\t\t}\n"
+        "\t\tOBJECT titulo {\n"
+        "\t\t\tstyle = title;\n"
+        "\t\t\tvalue = \"= const @report.Title\";\n"
+        "\t\t\tposy = 1;\n"
+        "\t\t\tsizey = 2;\n"
+        "\t\t\thalignment = center;\n"
+        "\t\t\tfontsize = 14;\n"
+        "\t\t\tfontweight = bold;\n"
+        "\t\t}\n"
+        "\t\tOBJECT selection {\n"
+        "\t\t\tfontsize = 8;\n"
+        "\t\t\thalignment = right;\n"
+        "\t\t\tadjustment = none;\n"
+        "\t\t\tvalue=\"###selection###\";\n"
+        "\t\t\tposx = 0;\n"
+        "\t\t\tposy = 3;\n"
+        "\t\t\tsizey = 1;\n"
+        "\t\t}\n"
+        "\t}\n";
+
+    Xtring inputfields, header, details, footer;
+    int totalwidth = 0, posx = 0;
+    double scale = 1.0;
+    // Calculate total width of the report
+    for( unsigned int i=0; i<viewdef->getFieldDefinitions().size(); i++) {
+        dbFieldDefinition *flddef = viewdef->getFieldDefinitions()[i];
+        if( flddef->getName() == "ID" || !flddef->isVisible() )
+            continue;
+        dbFieldDefinition *origflddef = mdbApp.getDatabase()->findFieldDefinition( flddef->getFullName() );
+        int width = flddef->getStyleWidth( DBAPP->getDatabase() );
+        _GONG_DEBUG_PRINT( 4, Xtring::printf("fld: %s, viewwitdh= %d", flddef->getName().c_str(), width )  );
+        if( width == 0 )
+            width = origflddef->getStyleWidth( DBAPP->getDatabase() );
+        _GONG_DEBUG_PRINT( 4, Xtring::printf("fld: %s, origwitdh= %d", flddef->getName().c_str(), width )  );
+        if( width > 50 )
+            width = 50;
+        if( width == 0 )
+            width = 10;
+        totalwidth += width;
+    }
+    if( totalwidth != 0 )
+        scale = report_size / (double)totalwidth;
+    for( unsigned int i=0; i<viewdef->getFieldDefinitions().size(); i++) {
+        dbFieldDefinition *flddef = viewdef->getFieldDefinitions()[i];
+        if( flddef->getName() == "ID" || !flddef->isVisible() )
+            continue;
+        dbFieldDefinition *origflddef = mdbApp.getDatabase()->findFieldDefinition( flddef->getFullName() );
+        int width = flddef->getStyleWidth( DBAPP->getDatabase() );
+        if( width == 0 )
+            width = origflddef->getStyleWidth( DBAPP->getDatabase() );
+        if( width > 50 )
+            width = 50;
+        if( width == 0 )
+            width = 10;
+        width *= scale;
+        Xtring source = flddef->getFullName();
+        Xtring rtkfldname = source.upper();
+        rtkfldname.replace(".","_");
+        // Insert a dummy field so that the order of the view is correct
+        if( inputfields.isEmpty() ) {
+            inputfields += "\t\tINPUTFIELD " + rtkfldname  + "_dummy {\n"
+                           "\t\t\tSource = " + source + ";\n"
+                           "\t\t\tType = " + Variant::typeToName( flddef->getVariantType() ) + ";\n"
+                           "\t\t}\n";
+        }
+        inputfields += "\t\tINPUTFIELD " + rtkfldname + " {\n"
+                       "\t\t\tSource = " + source + ";\n"
+                       "\t\t\tType = " + Variant::typeToName( flddef->getVariantType() ) + ";\n"
+                       "\t\t}\n";
+        header += "\t\tOBJECT header_" + rtkfldname + " {\n"
+                  "\t\t\tvalue = \"" +  flddef->getCaption() + "\";\n"
+                  "\t\t\tposx = " + Xtring::number( posx ) + ";\n"
+                  "\t\t\tsizex = " + Xtring::number( width ) + ";\n"
+                  "\t\t}\n";
+        Xtring salign = "left";
+        dbFieldStyle *fldstyle = mdbApp.getDatabase()->findFieldStyle( flddef->getStyle() );
+        if( fldstyle ) {
+            switch( fldstyle->getHAlignment() ) {
+            case dbFieldStyle::AlignRight:
+                salign = "right";
+                break;
+            case dbFieldStyle::AlignHCenter:
+                salign = "center";
+                break;
+            default:
+                break;
+            }
+        } else {
+            if( flddef->getVariantType() == Variant::tBool )
+                salign = "center";
+            else if( Variant::isNumeric( flddef->getVariantType() ) ) {
+                salign = "right";
+            }
+        }
+        details += "\t\tOBJECT " + rtkfldname + " {\n"
+                   "\t\t\tvalue = \"=input." +  rtkfldname + "\";\n"
+                   "\t\t\thalignment = \"" + salign + "\";\n"
+                   "\t\t\tposx = " + Xtring::number( posx ) + ";\n"
+                   "\t\t\tsizex = " + Xtring::number( width ) + ";\n";
+        if( flddef->getVariantType() == Variant::tBool )
+            details+="\t\t\tformat=\"No|Sí\";\n";
+        details += "\t\t}\n";
+
+        if( totals ) {
+            if( Variant::isNumeric( flddef->getVariantType() ) && !flddef->isCode()
+                    && flddef->getVariantType() != Variant::tBool ) {
+                footer += "\t\tOBJECT suma_" + rtkfldname + " {\n"
+                          "\t\t\tvalue = \"=input." +  rtkfldname + "\";\n"
+                          "\t\t\thalignment = \"" + salign + "\";\n"
+                          "\t\t\tposx = " + Xtring::number( posx ) + ";\n"
+                          "\t\t\tsizex = " + Xtring::number( width ) + ";\n"
+                          "\t\t\taggregate = sum;\n"
+                          "\t\t}\n";
+            }
+        }
+        posx += (width + 1);
+    }
+    Xtring report_return = "REPORT " + Xtring(viewdef->getName()).replace(".","_") + "\n"
+                           "{\n"
+                           "\tTitle = \"" + viewdef->getCaption() + "\";\n"
+                           "\tUnits = chars;\n"
+                           "\tSizeX = " + Xtring::number(report_size) + ";\n"
+                           "\tSizeY = 60;\n"
+                           "\tPARAMETER subtitle {\n"
+                           "\t\ttype = text;\n"
+                           "\t\tvalue = \"" + sReportSubTitle + "\";\n"
+                           "\t}\n"
+                           "\tPARAMETER selection {\n"
+                           "\t\ttype = text;\n"
+                           "\t\tvalue = \"\";\n"
+                           "\t}\n"
+                           "\n"
+                           "\tINPUT default {\n"
+                           "\t\tdriver = mysql;\n"
+                           "\t\tfrom = \"" + viewdef->getFrom() + "\";\n"
+                           "\t\torderby = \"" + viewdef->getOrderBy() + "\";\n"
+                           "\n" + inputfields + "\n"
+                           "\t}\n"
+                           "\n" + page_header + "\n"
+                           "\tPAGEHEADER header_captions {\n"
+                           "\t\tsizey=1;\n"
+                           "\t\tfontweight = bold;\n"
+                           "\t\tborderbottomstyle = solid;\n"
+                           "\t\tborderbottomcolor = black;\n"
+                           "\t\tborderbottomwidth = 1;\n"
+                           "\n" + header + " \n"
+                           "\t}\n"
+                           "#ifndef RESUMIDO\n"
+                           "\tDETAILS details {\n"
+                           "\t\tposx = 0;\n"
+                           "\t\tlevel = 0;\n"
+                           "\t\tstyle = detail;\n"
+                           "\t\tsizey = 1;\n"
+                           "\t\tbackcolor = \"gray&white\";\n"
+                           "\n"
+                           "\n" + details + " \n"
+                           "\t}\n"
+                           "#endif\n"
+                           "\tREPORTFOOTER page_footer {\n"
+                           "\t\tsizey = 1.4;\n"
+                           "\t\tbordertopstyle = solid;\n"
+                           "\t\tpaddingtop = 0.4;\n"
+                           "\t\tstyle = pagefooter;\n"
+                           "\n"
+                           "\n" + footer + " \n"
+                           "\t}\n"
+                           "\n";
+    return report_return + "}\n";
 }
 
 

@@ -164,10 +164,11 @@ margintop = 0.1;
 			sizex = 18.0;
 		}
 //>>>>>GROUP_DETAILS_1
-formulaBefore = "$saldo_acumulado = 0.0; return 0;";
-fontsize = 14;
-sizey= 1.2;
-margintop = 0.1;
+	// Running total
+	formulaBefore = "$saldo_acumulado = 0.0; return 0;";
+	fontsize = 14;
+	sizey= 1.2;
+	margintop = 0.1;
 }
 
 //<<<<<GROUP_HEADER_CAPTIONS_0

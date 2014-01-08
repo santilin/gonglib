@@ -94,13 +94,15 @@ bool ReportDefParser::insertFile(const char *filename, const char ** wholetext,
                                  const char ** text, bool deleteoldbuffer)
 {
     std::ifstream f;
-    _GONG_DEBUG_PRINT(5, pReport->includePath() );
+    _GONG_DEBUG_PRINT(2, Xtring("Include path: ") + Xtring(pReport->includePath()).replace(":","\n") );
     Xtring realfile = FileUtils::findInPath( pReport->includePath(), filename, "informes" );
     f.open( realfile.c_str(), std::ios_base::binary | std::ios_base::in );
     if ( !f.is_open() || !f.good() ) {
-        _GONG_DEBUG_WARNING( Xtring("File ") + filename + " not found in " + pReport->includePath() );
+        _GONG_DEBUG_WARNING( Xtring("File ") + realfile + " not found in " + pReport->includePath() );
         return false;
-    }
+    } else {
+        _GONG_DEBUG_PRINT( 2, Xtring("Included File ") + realfile );
+	}
     f.seekg( 0, std::ios_base::end );
     long end_pos = f.tellg();
     f.seekg( 0, std::ios_base::beg );
@@ -1340,16 +1342,18 @@ bool Report::readRtkFile( const char *filename,
                           const char *defaultinput, Input *usethisinput, const Xtring &initdefines )
 {
     std::ifstream f;
+	Xtring rtkfilename(filename);
     f.open( filename, std::ios_base::binary | std::ios_base::in );
     if ( !f.is_open() || !f.good() ) {
-        Xtring rtkfilename = FileUtils::findInPath( includePath(), filename, "informes/" );
+        rtkfilename = FileUtils::findInPath( includePath(), filename, "informes/" );
         f.open( rtkfilename.c_str(), std::ios_base::binary | std::ios_base::in );
-        _GONG_DEBUG_PRINT( 0, rtkfilename );
-    }
+	}
     if ( !f.is_open() || !f.good() ) {
-        addError( Error::OpenFile, __FUNCTION__, 0, filename, strerror(errno) );
+        addError( Error::OpenFile, __FUNCTION__, 0, rtkfilename.c_str(), strerror(errno) );
         return false;
-    }
+    } else {
+		_GONG_DEBUG_PRINT(2, "Open report: " + rtkfilename );
+	}
     f.seekg( 0, std::ios_base::end );
     long end_pos = f.tellg();
     f.seekg( 0, std::ios_base::beg );

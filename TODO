@@ -1,21 +1,17 @@
 == HECHO ==
 
-== COMPROBAR==
-
-== HACIENDO ==
-* Si hay exactamente 2 x 5 familias, salen 3 filas porque añade el botón next.
+== LOS PAJAROS ==
 * Envío de emails masivos Bare LF
 * Ticket de los pájaros: quitar cif.
-* Si no encuentra las imágenes next y previos, peta.
 
-== Ofertas ==
-* No calcula bien los máximos contadores en pagos.
-* Peta al visualizar un pago
+== HACIENDO ==
 
 == gong-tpv ==
-* No guarda ni recupera el registro MIEMBRO
-* TPV: Z: Sumar la entrega, no el total del ticket
-* TPV: Imprimir en el ticket el nº de tpv, el cambio, la entrega, el resto y la forma de pago
+* TPV: Imprimir en el ticket el cambio, la entrega, el resto y la forma de pago
+** Si hay cambio, pasar un INC_HAYCAMBIO y dos parámetros: entrega y cambio
+** Imprimir la forma de pago si hay resto o es distinta de la normal.
+* Añadir forma de pago "Por cajón" y en la x, descontar los pagos de esa forma de pago.
+** Cuando se page algo con esa forma de pago, guardar la sesión tpv actual.
 
 * Fila de productos favoritos
 * Tarifas por el tipo de mesa.
@@ -24,12 +20,16 @@
 * Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
 * Que se resalte la familia seleccionada
 ** No funciona el ItemIsSelectable
+* Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == CON INTERNET ==
-* Buscar macro AC para las PocoLib
 * C++. ¿Por qué el operador de copia no se virtualiza?
 
 = PRESCINDIBLE =
+
+== Ofertas ==
+* No calcula bien los máximos contadores en pagos ni en ofertas.
+* Peta al visualizar un pago: no existe la relación de la moneda y hay que quitar el campo CUENTAORIGEN
 
 == gong-factu ==
 * Que la suma en mc de las ventas coincida con la suma de las facturas
@@ -193,7 +193,34 @@
 * dbRecord: save fields right trimmed
 
 == autotools, capel y gong.sh ==
-* AM_PROG_LIBTOOL, en anjuta sale como si fuera un error
+AC_ARG_WITH(poco,
+  AS_HELP_STRING([--with-poco=DIR],[location of Poco]),
+[
+        CPPFLAGS="$CPPFLAGS -I${withval}/include"
+        LDFLAGS="$LDFLAGS -L${withval}/lib"
+],[])
+
+AC_MSG_CHECKING(for Poco)
+        AC_TRY_COMPILE([
+                #include <Poco/Net/ServerSocket.h>
+                #include <Poco/Net/StreamSocket.h>
+                #include <Poco/Timestamp.h>
+                #include <Poco/DateTime.h>
+                #include <Poco/DateTimeParser.h>
+                #include <Poco/DateTimeFormatter.h>
+                #include <Poco/Net/NetException.h>
+                ],,
+                have_poco=yes, have_poco=no)
+        if test "$have_poco" = yes; then
+         AC_MSG_RESULT(yes)
+         AC_DEFINE(HAS_POCO, 1, [Define to 1 if Poco available])
+        else
+         AC_MSG_RESULT(no)
+                 echo
+                 echo "ERROR: Poco development libraries are required. Install and try again (see wiki:prerequisites)."
+                 echo
+                 exit 1
+        fi
 * Informe CUENTA.rtk: alignment de header debe y haber no funciona
 ** capel no genera el objeto ASIENTO.DESCRIPCION en el header del grupo
 * {configure} libboost si no está instalado, cambiar el mensaje para que diga utilizar --without-boost

@@ -153,13 +153,16 @@ void dbApplication::readSettings()
     if( ssread )
 		setStyleSheet( ss );
 	ssread = false;
-    mReportsGlobalPath = getGonglibDataDir() + "dbapp/informes/:" + getGlobalDataDir() + "informes/:";
+    mReportsGlobalPath = getGonglibDataDir() + "dbapp/informes/";
     // Now, each module's global and local settings
     for ( unsigned int i=0; i < mModules.size(); i++ )
         mModules[i]->readSettings();
     // Each module has added its reports path in readSettings
-    mReportsLocalPath += getLocalDataDir() + "informes/:";
-    // dbModules might set the stylesheet, so I read it again
+	mReportsGlobalPath += ":" + getGlobalDataDir() + "informes/";
+	if( !mReportsLocalPath.endsWith(":") )
+		mReportsLocalPath += ":";
+    mReportsLocalPath += getLocalDataDir() + "informes/";
+    // dbModules might have set the stylesheet, so I read it again
     ss = styleSheet();
     if( FileUtils::exists( (getGlobalDataDir() + "stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getGlobalDataDir() + "stylesheet.css" ).c_str();
@@ -201,7 +204,7 @@ bool dbApplication::readDatabaseSettings(const Xtring& tablename, const Xtring& 
 
 
 /**
- * @brief gets all the applications reports paths separated by :...
+ * @brief gets all the applications reports paths separated by :
  *
  * @param reversed if true, reverse the paths
  * @return Xtring
@@ -225,7 +228,7 @@ Xtring dbApplication::getReportsPath( bool reversed )
 /**
  * @brief Adds a path to the application's reports path
  *        Paths are added when reading each \a dbModule settings
- *
+ * @param local whether is a local path
  * @param path ...
  * @return void
  **/
@@ -244,10 +247,14 @@ void dbApplication::addReportsPath(bool local, const Xtring& path)
     }
 }
 
-/* TODO: Rethink all the login process, because we need that each module make a pre- and a
- * post-login, writing messages to the log, etc.
- * if startingapp == false, we are login from inside the application
-*/
+/**
+ * @brief Logs in the application and logs in each module
+ *
+ * @param version ...
+ * @param startingapp if false, we are login from inside the application
+ * @param autologin try to log in without showing the form
+ * @return bool
+ **/
 bool dbApplication::login( const Xtring &version, bool startingapp, bool autologin )
 {
     bool bAutoLogin;

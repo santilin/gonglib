@@ -45,6 +45,10 @@ public:
 /*>>>>>PAGO_CONSTRUCTOR*/
         , pRecFactura(0), pRecTercero(0)
     { };
+	RecPago(dbTableDefinition *tbldef, dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, tbldef, recid, user)
+        , pRecFactura(0), pRecTercero(0)
+    { };
     /*<<<<<PAGO_RELATIONS*/
 	empresa::RecMoneda *getRecMoneda() const;
 /*>>>>>PAGO_RELATIONS*/

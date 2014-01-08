@@ -1343,10 +1343,7 @@ bool dbRecord::setValuesFromRow( dbResultSet *rs, dbResultSet::size_type row )
 Xtring dbRecord::getFilter(const Xtring &where, const Xtring &addTo, const Xtring &condsSep) const
 {
     Xtring ret;
-    for ( XtringList::const_iterator it = mFilters.begin();
-            it!=mFilters.end();
-            ++ it )
-    {
+    for ( XtringList::const_iterator it = mFilters.begin(); it!=mFilters.end(); ++ it ) {
         if ( it != mFilters.begin() )
             ret += condsSep;
         if( it->startsWith("(") )
