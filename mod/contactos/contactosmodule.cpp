@@ -55,6 +55,12 @@ static dbModuleSetting _settings[] = {
     },
 	{
 		dbModuleSetting::String,
+		"SMTP_FROM",
+		_("Remitente de los envíos de emails masivos"),
+		""
+	},
+	{
+		dbModuleSetting::String,
 		"SMTP_HOST",
 		_("Host del servidor SMTP"),
 		""

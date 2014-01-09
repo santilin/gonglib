@@ -42,7 +42,8 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
 
     tabContenido = new QWidget( tabFrameEdit, "tabContenido" );
     QVBoxLayout *contLayout = new QVBoxLayout( tabContenido );
-	pFrom = addInput(tabContenido, _("Remitente"), Variant(), "STRING", 0, contLayout );
+	pFrom = addInput(tabContenido, _("Remitente"),
+					 ModuleInstance->getModuleSetting( "SMTP_FROM" ), "STRING", 0, contLayout );
     pSubject = addInput(tabContenido, _("Asunto"), Variant(), "STRING", 0, contLayout );
 	pBody = addTextEditBox( tabContenido, _("Cuerpo"), Xtring::null, 0, contLayout );
     pHTMLBody = addRichTextBox(tabContenido, _("Cuerpo HTML"), 0, contLayout );
@@ -171,7 +172,7 @@ void FrmMailing::accept()
 	pResultado->clear();
 	bool hubo_errores = false;
 	SMTPMailSender s( pHost->toString(), pPort->toInt(), pUser->toString(), pPassword->toString() );
-	if( s.open() ) { // Ojito
+	if( !s.open() ) {
 		addMessage( pErrors, _("Error: " + s.getError()) );
 	} else {
 		getEmailsList( emails, false );
@@ -190,13 +191,15 @@ void FrmMailing::accept()
 		}
 		s.close();
 		if( pCheckSaveSettings->isChecked() ) {
+			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_FROM", pFrom->toString() );
 			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_HOST", pHost->toString() );
 			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_USER", pUser->toString() );
 			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_PORT", pPort->toInt() );
 		} else {
-			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_HOST", pHost->toString() );
-			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_USER", pUser->toString() );
-			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_PORT", pPort->toInt() );
+			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_FROM", Xtring::null );
+			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_HOST", Xtring::null );
+			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_USER", Xtring::null );
+			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_PORT", 0 );
 		}
 		if( !hubo_errores ) {
 			msgOk( this, _("La operación se ha completado con éxito") );
