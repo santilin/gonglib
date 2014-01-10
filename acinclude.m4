@@ -1,3 +1,45 @@
+AC_DEFUN([GONG_CHECK_POCO], [
+	AC_MSG_CHECKING(for libpoco - version >= 1)
+	POCO_CPPFLAGS="-I/usr/include"
+	POCO_LIBS="-L/usr/lib -lPocoNet -lPocoXML -lPocoFoundation"
+	CPPFLAGS="$CPPFLAGS $POCO_CPPFLAGS"
+	LIBS="$LIBS $POCO_LIBS"
+	AC_MSG_RESULT( $POCO_CPPFLAGS $POCO_LIBS )
+	AC_DEFINE( [HAVE_POCOLIB], [1], [Define to 1 if you have the Poco library.] )
+
+dnl        AC_TRY_COMPILE([
+dnl                #include <Poco/Net/ServerSocket.h>
+dnl                #include <Poco/Net/StreamSocket.h>
+dnl                #include <Poco/Timestamp.h>
+dnl                #include <Poco/DateTime.h>
+dnl                #include <Poco/DateTimeParser.h>
+dnl                #include <Poco/DateTimeFormatter.h>
+dnl                #include <Poco/Net/NetException.h>
+dnl                ],[ echo *** The test compilation failed],
+dnl                have_poco=yes, have_poco=no)
+dnl        if test "$have_poco" = yes; then
+dnl			AC_MSG_RESULT(yes)
+dnl			AC_DEFINE( [HAVE_POCOLIB], [], [Define to 1 if you have the Poco library.] )
+dnl        else
+dnl			AC_MSG_RESULT(no)
+dnl                 echo
+dnl                 echo "ERROR: Poco development libraries are required. Install and try again (see wiki:prerequisites)."
+dnl                 echo
+dnl                 exit 1
+dnl				CPPFLAGS="$ac_save_CPPFLAGS"
+dnl				LIBS="$ac_save_LIBS"
+dnl        fi
+
+
+dnl     POCO_CPPFLAGS=""
+dnl     POCO_LIBS=""
+  AC_SUBST(POCO_CPPFLAGS)
+  AC_SUBST(POCO_LIBS)
+])
+
+
+
+
 # Check for Qt compiler flags, linker flags, and binary packages
 AC_DEFUN([GONG_CHECK_QT5],
 [
@@ -110,19 +152,25 @@ AC_SUBST(QT_TRANSLATIONS)
 ])
 
 
-
-
 AC_DEFUN([GONG_CHECK_RTK],
 [
-	GONG_CHECK_BDB
-
 	AC_ARG_WITH( [boost-spirit],
 		        AS_HELP_STRING([--with-boost-spirit], [Support for formulae with Boost::Spirit (default is YES)]),
 		        [ac_cv_use_boost_spirit=$withval],
 		        [ac_cv_use_boost_spirit=yes] )
+	AM_CONDITIONAL( [COMPILE_WITH_BOOST_SPIRIT], [ test "$ac_cv_use_boot_spirit" = yes ])
 	if test "$ac_cv_use_boost_spirit" = yes ; then
-			AX_BOOST_BASE(1.0)
-			AC_DEFINE( [HAVE_BOOST_SPIRIT], [], [Define to 1 if you have the Boost::Spirit library.] )
+		AX_BOOST_BASE(1.0)
+		AC_DEFINE( [HAVE_BOOST_SPIRIT], [], [Define to 1 if you have the Boost::Spirit library.] )
+	fi
+	AC_ARG_WITH( [bdb],
+		        AS_HELP_STRING([--with-bdb], [Support for the Berkeley Database (default is NO)]),
+		        [ac_cv_use_boost_bdb=$withval],
+		        [ac_cv_use_boost_bdb=no] )
+	AM_CONDITIONAL( [COMPILE_WITH_BDB], [ test "$ac_cv_use_bdb" = yes ])
+	if test "$ac_cv_use_boost_bdb" = yes ; then
+			GONG_CHECK_BDB
+			AC_DEFINE( [HAVE_BDB], [], [Define to 1 if you have the Berkeley Database library.] )
 	fi
 ])
 
@@ -741,7 +789,7 @@ if test "x$want_boost" = "xyes"; then
 
 	if test "$succeeded" != "yes" ; then
 		if test "$_version" = "0" ; then
-			AC_MSG_ERROR([[No se han detectado las bibliotecas de boost (version $boost_lib_version_req_shorten o superior). Si las has instalado en un lugar no estandard, usa la opción --with-boost[=DIR]. Si estás segura de que tienes boost instalada, comprueba la versión mirando en <boost/version.hpp>. Mira en http://randspringer.de/boost para documentación extra.  Para instalar boost: (Debian/K/Ubuntu: libboost-dev) (Mandriva: libboost1-dev)  ]])
+			AC_MSG_ERROR([[No se han detectado las bibliotecas de boost (version $boost_lib_version_req_shorten o superior). Utiliza --without-boost para no inclirlas. Si las has instalado en un lugar no estandard, usa la opción --with-boost[=DIR]. Si estás segura de que tienes boost instalada, comprueba la versión mirando en <boost/version.hpp>. Mira en http://randspringer.de/boost para documentación extra.  Para instalar boost: (Debian/K/Ubuntu: libboost-dev) (Mandriva: libboost1-dev)  ]])
 			AC_MSG_ERROR([[We could not detect the boost libraries (version $boost_lib_version_req_shorten or higher). If you have a staged boost library (still not installed) please specify \$BOOST_ROOT in your environment and do not give a PATH to --with-boost option.  If you are sure you have boost installed, then check your version number looking in <boost/version.hpp>. See http://randspringer.de/boost for more documentation.]])
 		else
 			AC_MSG_NOTICE([Your boost libraries seems to old (version $_version).])

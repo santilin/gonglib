@@ -29,7 +29,7 @@
 
 
 
-#ifdef HAVE_BOOSTSPIRIT
+#ifdef HAVE_BOOST_SPIRIT
 namespace dscript {
 class context;
 }
@@ -294,7 +294,7 @@ public:
 private:
     static RegisteredInputs mRegisteredInputs;
 
-#ifdef HAVE_BOOSTSPIRIT
+#ifdef HAVE_BOOST_SPIRIT
 public:
     class dscript::context *getFormulaContext() const {
             return pFormulaContext;

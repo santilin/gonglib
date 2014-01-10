@@ -15,6 +15,7 @@ public:
 		: QAbstractTableModel( parent ), dbRecordDataModel( record, vlist, filter ) {};
     void addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset);
 	bool setView( int view );
+	void refresh() { reset(); }
 protected:
 	int rowCount( const QModelIndex & parent = QModelIndex() ) const;
 	int columnCount( const QModelIndex & parent = QModelIndex() ) const;
@@ -139,7 +140,7 @@ bool ViewTable::setView(int nview)
 
 void ViewTable::refresh()
 {
-	pViewTableModel->reset();
+	pViewTableModel->refresh();
 }
 
 

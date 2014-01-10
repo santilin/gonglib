@@ -1,11 +1,11 @@
-#ifndef TESTEDITTABLE_H
-#define TESTEDITTABLE_H
+#ifndef TESTVIEWTABLE_H
+#define TESTVIEWTABLE_H
 
-class TestEditTable
+class TestViewTable
 {
 public:
-    TestEditTable();
-    ~TestEditTable();
+    TestViewTable();
+    ~TestViewTable();
 	void run();
 };
 

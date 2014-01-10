@@ -8,9 +8,6 @@
 #include "rtkoutputcached.h"
 #include "rtkreport.h"
 
-namespace gong {}
-namespace RTK = gong;
-
 namespace gong {
 
 
@@ -33,6 +30,7 @@ InputCached::~InputCached()
 
 bool InputCached::init()
 {
+#ifdef HAVE_BDB
     if( pDB == 0 ) {
         char filename[200];
         if( pBaseName == 0 )
@@ -47,15 +45,23 @@ bool InputCached::init()
         mDeleteDB = true;
     }
     return 1;
+#else
+	throw std::runtime_error("BDB is not compiled");
+#endif
+
 }
 
 bool InputCached::next()
 {
+#ifdef HAVE_BDB
     _GONG_DEBUG_ASSERT( pDB );
     if( !pDB->seq(pDB, &mKey, &mData, R_NEXT ) )
         return true;
     else
         return false;
+#else
+	throw std::runtime_error("BDB is not compiled");
+#endif
 }
 
 // This function is not called when printing the report.

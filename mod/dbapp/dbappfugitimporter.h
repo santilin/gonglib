@@ -45,10 +45,17 @@ protected:
     virtual bool importDetalle( const Xtring &tablename);
 
 private:
+#ifdef HAVE_POCOLIB
+	virtual void startElement( const Xtring &name, const Attributes &attrList );
+	virtual void endElement( const Xtring &name );
+	virtual void characters( const Xtring &characters );
+	virtual void error( const Xtring &message );
+#else
     virtual void startElement( const xmlChar *name, const xmlChar **attributes ); // From XmlParser
     virtual void endElement( const xmlChar *name ); // From XmlParser
     virtual void characters( const xmlChar *text, unsigned int len ); // From XmlParser
     virtual void error ( const char *msg, ... ); // From XmlParser
+#endif
 
     int validate(dbRecord *rec);
     int hayqueActualizar(dbRecord *rec);

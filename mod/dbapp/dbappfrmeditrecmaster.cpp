@@ -1372,6 +1372,7 @@ void FrmEditRecMaster::menuTableRemoveFilter_clicked()
 
 void FrmEditRecMaster::menuTableImport_clicked()
 {
+#ifdef HAVE_LIBXML2
     class FrmImport: public FrmCustom
     {
     public:
@@ -1534,6 +1535,9 @@ void FrmEditRecMaster::menuTableImport_clicked()
         }
         DBAPP->resetCursor();
     }
+#else
+	// FeatureNotCompiled("FrmImport", "LIBXML2");
+#endif
 }
 
 void FrmEditRecMaster::menuTableExport_clicked()

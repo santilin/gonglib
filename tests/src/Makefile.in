@@ -63,7 +63,8 @@ am_gonglibtest_OBJECTS = main.$(OBJEXT) testcommon.$(OBJEXT) \
 	testdate.$(OBJEXT) testfrmcustom.$(OBJEXT) \
 	testunicode.$(OBJEXT) testmoney.$(OBJEXT) testcsv.$(OBJEXT) \
 	testlistview.$(OBJEXT) testdbcalculator.$(OBJEXT) \
-	testdbnameslisttable.$(OBJEXT) testedittable.$(OBJEXT)
+	testdbnameslisttable.$(OBJEXT) testviewtable.$(OBJEXT) \
+	testxmlparser.$(OBJEXT)
 gonglibtest_OBJECTS = $(am_gonglibtest_OBJECTS)
 gonglibtest_DEPENDENCIES =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -164,6 +165,8 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+POCO_CPPFLAGS = @POCO_CPPFLAGS@
+POCO_LIBS = @POCO_LIBS@
 QT_CXXFLAGS = @QT_CXXFLAGS@
 QT_LDADD = @QT_LDADD@
 QT_TRANSLATIONS = @QT_TRANSLATIONS@
@@ -242,14 +245,16 @@ gonglibtest_SOURCES = main.cpp testcommon.cpp testdatabase.cpp \
 	testsettings.cpp testtabledatamodel.cpp testregconfig.cpp \
 	testlineedit.cpp testfrmbase.cpp testdate.cpp testfrmcustom.cpp \
 	testunicode.cpp testmoney.cpp testcsv.cpp testlistview.cpp \
-	testdbcalculator.cpp testdbnameslisttable.cpp testedittable.cpp
+	testdbcalculator.cpp testdbnameslisttable.cpp testviewtable.cpp \
+	testxmlparser.cpp
 
 noinst_HEADERS = testcommon.h testdatabase.h testdbconnection.h \
 	testdbdefinition.h testdbfieldvalue.h testdbrecord.h testdbschema.h testdbtabledef.h \
 	testintegrityresult.h testlibrary.h testscript.h testsettings.h testtabledatamodel.h \
 	testregconfig.h testlineedit.h testfrmbase.h testdate.h testfrmcustom.h \
 	testunicode.h testmoney.h testcsv.h testlistview.h \
-	testdbcalculator.h testdbnameslisttable.h testedittable.h
+	testdbcalculator.h testdbnameslisttable.h testviewtable.h \
+	testxmlparser.h
 
 all: all-am
 
@@ -351,7 +356,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbrecord.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbschema.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testdbtabledef.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testedittable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testfrmbase.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testfrmcustom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testintegrityresult.Po@am__quote@
@@ -363,6 +367,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testsettings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testtabledatamodel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testunicode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testviewtable.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testxmlparser.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

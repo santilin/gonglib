@@ -7,8 +7,7 @@ libgongdbapp_ladir = $(includedir)/gonglib
 
 libgongdbapp_la_SOURCES = dbappfrmlogin_gui.cpp dbappfrmlogin.cpp \
 	dbappdbapplication.cpp dbappdbmodule.cpp \
-	dbappfrmcustom.cpp dbappfrmeditrecmaster.cpp dbappfrmimport.cpp \
-	dbappfugitimporter.cpp dbappfrmimport_gui.cpp dbappsearchbox.cpp \
+	dbappfrmcustom.cpp dbappfrmeditrecmaster.cpp dbappsearchbox.cpp \
 	dbappfrmeditrec.cpp dbappfrmexport.cpp \
 	dbappfrmeditrecdetail.cpp dbappfrmexport_gui.cpp \
 	dbappfrmsqlselect.cpp dbappfrmviewedit.cpp dbappmainwindow.cpp \
@@ -20,9 +19,9 @@ libgongdbapp_la_SOURCES = dbappfrmlogin_gui.cpp dbappfrmlogin.cpp \
 
 libgongdbapp_la_HEADERS = dbappdbapplication.h dbappdbmodule.h \
 	dbappfrmcustom.h dbappfrmeditrec.h dbappsearchbox.h \
-	dbappfrmexport_gui.h dbappfrmimport.h dbappfugitimporter.h \
+	dbappfrmexport_gui.h \
 	dbappfrmeditrecmaster.h dbappfrmexport.h dbappfrmlogin_gui.h \
-	dbappfrmeditrecdetail.h dbappfrmimport_gui.h dbappfrmlogin.h \
+	dbappfrmeditrecdetail.h dbappfrmlogin.h \
 	dbappfrmsqlselect.h dbappfrmviewedit.h dbappmainwindow.h \
 	dbappfldstringautoinc.h dbappsettingstree.h dbappfrmsettingsedit.h \
 	dbappfrmdatabasetools.h dbappfrmintegrity.h dbappfrmeditrecbehavior.h \
@@ -33,11 +32,20 @@ libgongdbapp_la_HEADERS = dbappdbapplication.h dbappdbmodule.h \
 nodist_libgongdbapp_la_SOURCES = \
 	moc_dbappfrmcustom.cpp moc_dbappfrmeditrecdetail.cpp moc_dbappfrmeditrec.cpp \
 	moc_dbappfrmeditrecmaster.cpp moc_dbappfrmexport_gui.cpp moc_dbappfrmexport.cpp \
-	moc_dbappfrmimport_gui.cpp moc_dbappfrmimport.cpp moc_dbappfrmlogin_gui.cpp \
+	moc_dbappfrmlogin_gui.cpp \
 	moc_dbappfrmlogin.cpp moc_dbappfrmsettingsedit.cpp moc_dbappfrmsqlselect.cpp \
 	moc_dbappfrmviewedit.cpp moc_dbappmainwindow.cpp moc_dbappsettingstree.cpp \
 	moc_dbappfrmintegrity.cpp moc_dbappfrmcalculator.cpp moc_dbappsearchbox.cpp \
 	moc_dbappfrmabout.cpp
+
+if COMPILE_WITH_LIBXML2
+libgongdbapp_la_SOURCES += \
+	dbappfrmimport.cpp dbappfrmimport_gui.cpp dbappfugitimporter.cpp
+libgongdbapp_la_HEADERS += \
+	dbappfrmimport.h dbappfrmimport_gui.h dbappfugitimporter.h
+nodist_libgongdbapp_la_SOURCES += \
+	moc_dbappfrmimport_gui.cpp moc_dbappfrmimport.cpp
+endif
 
 if COMPILE_WITH_GONG_RTK
 libgongdbapp_la_SOURCES += \

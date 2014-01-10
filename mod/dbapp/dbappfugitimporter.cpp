@@ -45,28 +45,39 @@ void FugitImporter::addMessage(const Xtring &message) const
         if( TextEdit *te = dynamic_cast<TextEdit *>(pWidgetMessages) ) {
             /// TODO: rename appendPlainText to append
             te->appendPlainText( toGUI(message) );
+			DBAPP->processEvents();
         }
     }
     _GONG_DEBUG_PRINT( 4, message );
 }
 
+#ifdef HAVE_POCOLIB
+void FugitImporter::characters( const Xtring &data )
+#else
 void FugitImporter::characters(const xmlChar *text, unsigned int len)
+#endif
 {
     if( mCurTable.isEmpty() || mFldName.isEmpty() || !pRecord ) {
         _GONG_DEBUG_PRINT(7, Xtring::printf("table=%s,fld=%s: Skipping", mCurTable.c_str(), mFldName.c_str()) );
         return;
     } else {
+#ifndef HAVE_POCOLIB
         Xtring data( (const char *)text, len);
         _GONG_DEBUG_PRINT(7, Xtring::printf("[[{%s}]],%d fld=%s", data.c_str(), len, mFldName.c_str()) );
+#endif
         mFldData += data;
     }
 }
 
 
+#ifdef HAVE_POCOLIB
+void FugitImporter::startElement( const Xtring &name, const Attributes &attributes )
+#else
 void FugitImporter::startElement( const xmlChar *name, const xmlChar **attributes )
+#endif
 {
-    _GONG_DEBUG_PRINT(4, Xtring::printf("level=%d,%s,%s", mLevel, name,
-                                        (attributes)?((const char *)*attributes):"(null attributes)"));
+// // //     _GONG_DEBUG_PRINT(4, Xtring::printf("level=%d,%s,%s", mLevel, name,
+// // //                                         (attributes)?((const char *)*attributes):"(null attributes)"));
     const Xtring tagname = Xtring(name).upper();
     mFldData.clear();
     dbRecordID id = Xtring(getAttrValue("id", attributes)).toInt();
@@ -146,9 +157,13 @@ void FugitImporter::startElement( const xmlChar *name, const xmlChar **attribute
 }
 
 
+#ifdef HAVE_POCOLIB
+void FugitImporter::endElement( const Xtring &name )
+#else
 void FugitImporter::endElement( const xmlChar *name )
+#endif
 {
-    _GONG_DEBUG_PRINT(4, Xtring::printf("level=%d,%s", mLevel, name));
+//     _GONG_DEBUG_PRINT(4, Xtring::printf("level=%d,%s", mLevel, name));
     int  valid = 0; // Ignorar el registro
     const Xtring tagname = Xtring(name).upper();
     if( tagname == "FUGIT" ) {
@@ -411,6 +426,12 @@ void FugitImporter::actRelations(dbRecord *rec)
 }
 
 
+#ifdef HAVE_POCOLIB
+void FugitImporter::error( const Xtring &message )
+{
+    addMessage( message );
+}
+#else
 void FugitImporter::error( const char *msg, ... )
 {
     /// \todo {bug9} it looks like you can not nest va_list
@@ -423,6 +444,7 @@ void FugitImporter::error( const char *msg, ... )
     delete [] buffer;
     addMessage( ret );
 }
+#endif
 
 } // namespace gong
 

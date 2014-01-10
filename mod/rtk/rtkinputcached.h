@@ -14,12 +14,8 @@
  */
 /*>>>>>COPYLEFT*/
 
-#include <db_185.h>
 #include "rtkinput.h"
-
-
-namespace gong {}
-namespace RTK = gong;
+#include "rtkoutputcached.h" // defines DB y DBT
 
 namespace gong {
 
@@ -39,11 +35,10 @@ public:
     const void *data() const {
         return mData.data;
     };
-
 private:
-    char *pBaseName;
     DB *pDB;
     DBT mKey, mData;
+    char *pBaseName;
     bool mDeleteDB;
 };
 

@@ -39,12 +39,13 @@
 #include "empresafrmedittipoiva.h"
 #include "empresafrmeditproyecto.h"
 /*>>>>>EMPRESAMODULE_INCLUDES*/
-#include <dbappreport.h>
 #include <dbappfrmcustom.h>
 #include <contactosmodule.h>
 #include <gongdbfieldimage.h>
 #include "empresamastertable.h"
-
+#ifdef HAVE_RTKMODULE
+# include <dbappreport.h>
+#endif
 namespace gong {
 namespace empresa {
 
@@ -541,9 +542,11 @@ void EmpresaModule::rereadEmpresa()
                                        getCodEmpresa(), DBAPP->getPackageString().c_str() ), FrmBase::information );
         exit( 1 );
     }
+#ifdef HAVE_RTKMODULE
     AppReport::setReportAuthor( DBAPP->getPackageString() );
     AppReport::setReportCompany( getNombreEmpresa() );
     AppReport::setReportSubTitle( getNombreEmpresa() );
+#endif
     if ( !pRecEmpresa->getRecMoneda()->getRecordID() || !pRecEmpresa->getRecContacto()->getRecordID() ) {
         theGuiApp->waitCursor( true );
 		if ( !pRecEmpresa->getRecMoneda()->getRecordID() ) {

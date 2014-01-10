@@ -17,17 +17,30 @@ AC_ARG_WITH( [mysql],
 	[ac_cv_use_mysql=$withval],
 	[ac_cv_use_mysql=yes] )
 if test "$ac_cv_use_mysql" = yes ; then
-        GONG_CHECK_MYSQL
+	GONG_CHECK_MYSQL
 	if test "x$MYSQL_CPPFLAGS" = x ; then
 		AC_MSG_ERROR([[No se han detectado las bibliotecas de desarrollo de MySQL. Si las has instalado en un lugar no estandard, usa la opción --with-mysql-prefix=PFX. Para instalar las bibliotecas de MySQL: (Mandriva: libmysql-devel) (Debian/K/Ubuntu: libmysqlclient15-dev) ]])
 	fi
 fi
 AX_LIB_SQLITE3
 
-AC_ARG_WITH( [LIBXML2],
+AC_ARG_WITH( [poco],
+	AS_HELP_STRING([--with-poco], [Use the poco libraries]),
+	[ac_cv_use_poco=$withval],
+	[ac_cv_use_poco=yes] )
+AM_CONDITIONAL( [COMPILE_WITH_POCOLIB], [ test "$ac_cv_use_poco" = yes ])
+if test "$ac_cv_use_poco" = yes ; then
+        GONG_CHECK_POCO
+	if test "x$POCO_CPPFLAGS" = x ; then
+		AC_MSG_ERROR([[No se han detectado las bibliotecas de desarrollo de Poco. Si las has instalado en un lugar no estandard, usa la opción --with-poco=PFX. Para instalar las bibliotecas de MySQL: (Mandriva: libpoco-devel) (Debian/K/Ubuntu: libpoco-dev) ]])
+	fi
+fi
+
+AC_ARG_WITH( [libxml2],
 			AS_HELP_STRING([--with-libxml2], [Support for XML input and output (default is YES)]),
 			[ac_cv_use_libxml2=$withval],
-			[ac_cv_use_libxml2=yes] )
+			[ac_cv_use_libxml2=no] )
+AM_CONDITIONAL( [COMPILE_WITH_LIBXML2], [ test "$ac_cv_use_libxml2" = yes ])
 if test "$ac_cv_use_libxml2" = yes ; then
 	AC_DEFINE( [HAVE_LIBXML2], [], [Define to 1 if you have the Xml2 library.] )
 	m4_ifdef([AM_PATH_XML2], [AM_PATH_XML2([2.5.0])], [] )
@@ -63,16 +76,11 @@ AC_ARG_ENABLE(debug,
   esac],
   [debug=false])
 
-dnl >>>>>GONGLIB_MODULE_INIT
-
-dnl <<<<<GONGLIB_MODULE_GONGLIB
-GONGLIB_CPPFLAGS="-I../../gonglib $XML_CPPFLAGS $MYSQL_CPPFLAGS $SQLITE3_CFLAGS"
-GONGLIB_LIBS="-L../gonglib -lgonglib -lboost_system $MYSQL_LIBS $SQLITE3_LDFLAGS $BDB_LDADD $XML_LIBS"
-dnl >>>>>GONGLIB_MODULE_GONGLIB
+GONGLIB_CPPFLAGS="-I../../gonglib $XML_CPPFLAGS $MYSQL_CPPFLAGS $SQLITE3_CFLAGS $POCO_CPPFLAGS"
+GONGLIB_LIBS="-L../gonglib -lgonglib -lboost_system $MYSQL_LIBS $SQLITE3_LDFLAGS $BDB_LDADD $XML_LIBS $POCO_LIBS"
 
 
-dnl <<<<<GONGLIB_MODULE__MODULES
-AC_ARG_WITH( [GONG_RTK],
+AC_ARG_WITH( [gong-rtk],
 AS_HELP_STRING([--with-gong-rtk], [Support for the gong rtk module (default is YES)]),
 [ac_cv_use_gong_rtk=$withval],
 [ac_cv_use_gong_rtk=no] )
@@ -94,7 +102,7 @@ AM_CONDITIONAL( [COMPILE_WITH_GONG_RTK], [ test "$ac_cv_use_gong_rtk" = yes ])
 AC_SUBST(GONGRTK_CPPFLAGS)
 AC_SUBST(GONGRTK_LIBS)
 
-AC_ARG_WITH( [GONG_QT4],
+AC_ARG_WITH( [gong-qt4],
 AS_HELP_STRING([--with-gong-qt4], [Support for the gong qt4 module (default is YES)]),
 [ac_cv_use_gong_qt4=$withval],
 [ac_cv_use_gong_qt4=yes] )
@@ -115,7 +123,7 @@ fi
 AC_SUBST(GONGQT4_CPPFLAGS)
 AC_SUBST(GONGQT4_LIBS)
 
-AC_ARG_WITH( [GONG_DBAPP],
+AC_ARG_WITH( [gong-dbapp],
 AS_HELP_STRING([--with-gong-dbapp], [Support for the gong dbapp module (default is YES)]),
 [ac_cv_use_gong_dbapp=$withval],
 [ac_cv_use_gong_dbapp=yes] )

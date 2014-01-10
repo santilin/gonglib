@@ -5,17 +5,17 @@
 #include <gongdbviewdefinition.h>
 #include <gongviewtable.h>
 #include "testcommon.h"
-#include "testedittable.h"
+#include "testviewtable.h"
 
 
 using namespace gong;
 
-TestEditTable::TestEditTable()
+TestViewTable::TestViewTable()
 {
 }
 
 
-TestEditTable::~TestEditTable()
+TestViewTable::~TestViewTable()
 {
 }
 
@@ -27,7 +27,7 @@ public:
 		: dbRecord( conn, tabledef) {}
 };
 
-void TestEditTable::run()
+void TestViewTable::run()
 {
 	int argc = 1;
 	char *argv[] = { "gongcommontests", 0 };

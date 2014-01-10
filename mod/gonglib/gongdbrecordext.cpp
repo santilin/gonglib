@@ -1,3 +1,4 @@
+#include "config.h"
 #include "gonggettext.h"
 #include "gongregexp.h"
 #include "gongdbdefinition.h"
@@ -20,9 +21,15 @@ public:
     }
 
 private:
+#ifdef HAVE_POCOLIB
+	virtual void startElement( const Xtring &name, const Attributes &attrList );
+	virtual void endElement( const Xtring &name );
+	virtual void characters( const Xtring &characters );
+#else
     virtual void startElement( const xmlChar *name, const xmlChar **attributes ); // From XmlParser
     virtual void endElement( const xmlChar *name ); // From XmlParser
     virtual void characters( const xmlChar *text, unsigned int len ); // From XmlParser
+#endif
 
     int mLevel;
     Xtring mFldData;
@@ -32,20 +39,30 @@ private:
     dbDefinition *pdbDefinition;
 };
 
+#ifdef HAVE_POCOLIB
+void FugitRecordImporter::characters( const Xtring &data )
+#else
 void FugitRecordImporter::characters(const xmlChar *text, unsigned int len)
+#endif
 {
     if( mCurTable.isEmpty() || mFldName.isEmpty() ) {
 //		_GONG_DEBUG_PRINT(0, Xtring::printf("table=%s,fld=%s: Skipping", mCurTable.c_str(), mFldName.c_str()) );
         return;
     } else {
+#ifndef HAVE_POCOLIB
         Xtring data( (const char *)text, len);
+#endif
 //		_GONG_DEBUG_PRINT(0, Xtring::printf("[[{%s}]],%d fld=%s", data.c_str(), len, mFldName.c_str()) );
         mFldData += data;
     }
 }
 
 
+#ifdef HAVE_POCOLIB
+void FugitRecordImporter::startElement( const Xtring &name, const Attributes &attributes )
+#else
 void FugitRecordImporter::startElement( const xmlChar *name, const xmlChar **attributes )
+#endif
 {
 // 	_GONG_DEBUG_PRINT(0, Xtring::printf("level=%d,%s,%s", mLevel, name, (attributes)?((const char *)*attributes):"(null attributes)"));
     const Xtring tagname = Xtring(name).upper();
@@ -77,7 +94,11 @@ void FugitRecordImporter::startElement( const xmlChar *name, const xmlChar **att
     }
 }
 
+#ifdef HAVE_POCOLIB
+void FugitRecordImporter::endElement( const Xtring &name )
+#else
 void FugitRecordImporter::endElement( const xmlChar *name )
+#endif
 {
 //  	_GONG_DEBUG_PRINT(0, Xtring::printf("level=%d,%s", mLevel, name));
     const Xtring tagname = Xtring(name).upper();
@@ -371,8 +392,12 @@ bool dbRecord::fromString ( const Xtring &source, int format, const RegExp &incl
     }
     else if ( format == TOSTRING_FUGIT )
     {
+#if defined( HAVE_POCOLIB ) or defined( HAVE_LIBXML2 )
         FugitRecordImporter recimporter( this, &getTableDefinition()->getdbDefinition() );
         recimporter.parseString( source.c_str() );
+#else
+		throw std::runtime_error( "Xml not supported in dbRecord::toString()" );
+#endif
     }
     return true;
 }

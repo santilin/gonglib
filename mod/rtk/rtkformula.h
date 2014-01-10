@@ -43,7 +43,7 @@ FormulaToken getNextToken(const Xtring &code, Variant *value, int *pos);
 
 
 #endif
-#ifdef HAVE_BOOSTSPIRIT
+#ifdef HAVE_BOOST_SPIRIT
 #include "rtkcontext.h"
 #include "rtkstdlib.h"
 #endif

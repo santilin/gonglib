@@ -12,7 +12,9 @@
 #include "dbappdbapplication.h"
 #include "dbappfrmdatabasetools.h"
 #include "dbappfrmintegrity.h"
+#ifdef HAVE_LIBXML2
 #include "dbappfrmimport.h"
+#endif
 #include "dbappfrmexport.h"
 #ifdef HAVE_RTKMODULE
 #include "dbappfrmreports.h"
@@ -333,9 +335,13 @@ void MainWindow::slotMenuSystemExport()
 
 void MainWindow::slotMenuSystemImport()
 {
+#ifdef HAVE_LIBXML2
     FrmImport *frmimport = new FrmImport();
     frmimport->show();
     createClient( frmimport );
+#else
+	/// TODO FeatureNotCompiled( XML2 );
+#endif
 }
 
 void MainWindow::slotMenuOtherTables()

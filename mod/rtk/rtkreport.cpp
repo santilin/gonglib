@@ -9,8 +9,8 @@
 #include "rtkinput.h"
 #include "rtkreport.h"
 #include "rtkimage.h"
-#include "rtkoutputcached.h"
 #include "rtkinputcached.h"
+#include "rtkoutputcached.h"
 #include "rtkformula.h"
 
 /// \todo {rtk} Compile formulae code
@@ -58,7 +58,10 @@ Report::Report(RegConfig *prc)
     : Object(0, "Report"), propUnits(chars),
       mGroupLevels( uint( -1 ) ), mStarted( false ), mFinished(false),
       pDefaultInput( 0 ), pRegConfig (prc),
-      mDeleteRegConfig( false ), mPasses(PASS_NONE), pFormulaContext( 0 )
+      mDeleteRegConfig( false ), mPasses(PASS_NONE)
+#ifdef HAVE_BOOST_SPIRIT
+	  , pFormulaContext( 0 )
+#endif
 
 {
     if( !pRegConfig ) {
@@ -67,7 +70,7 @@ Report::Report(RegConfig *prc)
     }
     pFormatter = new Formatter(*pRegConfig);
     pFirstDetailsSection = 0;
-#ifdef HAVE_BOOSTSPIRIT
+#ifdef HAVE_BOOST_SPIRIT
     pFormulaContext = new dscript::context( this );
     dscript::link_stdlib( *pFormulaContext );
     pFormulaContext->enable_logging( &std::cout );

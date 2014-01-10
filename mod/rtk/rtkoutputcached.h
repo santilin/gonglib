@@ -14,13 +14,15 @@
  */
 /*>>>>>COPYLEFT*/
 
+#ifdef HAVE_BDB
 #include <db_185.h>
+#else
+typedef int DB;
+typedef struct { void *data; } DBT;
+#endif
 
 #include "rtkinput.h"
 #include "rtkoutput.h"
-
-namespace gong {}
-namespace RTK = gong;
 
 namespace gong {
 

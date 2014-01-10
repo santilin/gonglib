@@ -1,36 +1,20 @@
-#ifndef _GONG_XMLPARSER_H
-#define _GONG_XMLPARSER_H
-
-/** @file gongxmlparser.h A SAX2 parser for XML based on libxml2
- * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
- */
-
-#include "config.h"
-
-
-#ifdef HAVE_POCOLIB
-
+#include <gongdebug.h>
+#include <gongfileutils.h>
+#include <gongvariant.h>
+#include <gongxmlparser.h>
 #include <Poco/SAX/SAXParser.h>
 #include <Poco/SAX/Attributes.h>
 #include <Poco/SAX/SAXException.h>
 #include <Poco/SAX/DefaultHandler.h>
-#include <gongfileutils.h>
+#include "testxmlparser.h"
 
+using namespace gong;
 using namespace Poco::XML;
 
-namespace gong {
-
-class XmlParser: public SAXParser, public DefaultHandler
+class PocoXmlParser: public SAXParser, public DefaultHandler
 {
 public:
-	XmlParser() {
+	PocoXmlParser() {
 		setContentHandler( this );
 		setErrorHandler( this );
 	}
@@ -55,8 +39,8 @@ public:
 	// virtual void endDocument
 	virtual void startElement( const Xtring &name, const Attributes &attrList ) {}
 	virtual void endElement( const Xtring &name ) {}
-	virtual void characters( const Xtring &data ) {}
-	virtual void comment( const Xtring &data ) {}
+	virtual void characters( const Xtring &characters ) {}
+	virtual void comment( const Xtring &characters ) {}
 	virtual void error( const Xtring &message ) {}
 	virtual void warning( const Xtring &message ) {}
 	virtual void fatalError( const Xtring &message ) {}
@@ -100,45 +84,41 @@ private:
 	}
 };
 
-}; // namespace gong
 
-#elif defined (HAVE_LIBXML2)
 
-#include <libxml/parser.h>
-#include <libxml/xmlstring.h>
-
-namespace gong {
-
-class XmlParser
+TestXMLParser::TestXMLParser()
 {
-public:
-    XmlParser();
-    virtual ~XmlParser();
-    bool parseFile(const char *filename);
-    bool parseString(const char *string);
+}
 
-    virtual void characters(const xmlChar *text, unsigned int len);
-    virtual void comment(const xmlChar *text);
-    virtual void startDocument();
-    virtual void endDocument();
-    virtual void startElement(const xmlChar *name, const xmlChar **attributes);
-    virtual void endElement(const xmlChar *name);
-    virtual void error ( const char *msg, ... );
-    virtual void warning ( const char *msg, ... );
-    virtual void fatalError ( const char *msg, ... );
-    const xmlChar *getAttrValue( const char *name, const xmlChar **attributes);
+const char *xml1 = "<TAG1 attr1='value1' attr2='value2'>Texto</TAG1>";
+const char *xml2 = "<TAG1 attr1='value1' attr2='value2'>Texto</TAG2>";
 
-protected:
-    void stopParser(bool status);
-    const char *pFilename;
-    xmlParserCtxtPtr pXmlCtxtPtr;
-private:
-    bool mParseStatus;
-};
+void TestXMLParser::run()
+{
+	class simpleXmlParser: public PocoXmlParser
+	{
+		public:
+			simpleXmlParser() {}
+			virtual void startDocument() { _GONG_DEBUG_TRACE(0); }
+			virtual void endDocument() { _GONG_DEBUG_TRACE(0); }
+			virtual void startElement( const Xtring &name, const Attributes &attributes )
+			{
+				_GONG_DEBUG_PRINT(0, name );
+				_GONG_DEBUG_PRINT(0, getAttrValue( "attr1", attributes ) );
+				_GONG_DEBUG_PRINT(0, getAttrValue( "attr2", attributes ) );
+			}
+			virtual void endElement( const Xtring &name )
+			{
+				_GONG_DEBUG_PRINT(0, name );
+			}
+			virtual void characters( const Xtring &characters )
+			{
+				_GONG_DEBUG_PRINT(0, characters );
+			}
 
-}; // namespace gong
+	};
+	simpleXmlParser theparser;
+	theparser.parseString( xml1 );
+	theparser.parseString( xml2 );
+}
 
-#endif // ifdef HAVE_LIBXML2
-
-
-#endif // _GONG_XMLPARSER_H

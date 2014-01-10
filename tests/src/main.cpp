@@ -25,7 +25,8 @@
 // #include "testsearchisbn.h"
 #include "testhttpclient.h"
 #include "testdbnameslisttable.h"
-#include "testedittable.h"
+#include "testviewtable.h"
+#include "testxmlparser.h"
 
 #include <stdarg.h>      // addError
 
@@ -93,10 +94,10 @@ int main(int argc, char *argv[])
  	testdbcalculator.run("4 + PVP");
 	TestdbNamesListTable testdbnameslisttable;
 	testdbnameslisttable.run();
-#endif
-
 	TestEditTable testedittable;
 	testedittable.run();
+#endif
+
 
 // 	TestSearchISBN testisbnsearch;
 // 	testisbnsearch.run();
@@ -116,6 +117,8 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
+	TestXMLParser testxmlpaser;
+	testxmlpaser.run();
 
 }
 

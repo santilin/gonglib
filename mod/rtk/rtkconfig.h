@@ -15,26 +15,11 @@
 #include <config.h>
 
 #define USE_CXX_FORMULA 0
-#define HAVE_BOOSTSPIRIT 1
-//#define RTK_HAVE_XBASE
 
 #define RTK_VERSION "0.1-beta"
 
-#define RTK_JPEG_SUPPORT 1
+#define RTK_JPEG_SUPPORT 0
 #define RTK_PNG_SUPPORT 1
-
-#ifdef _GONG_DEBUG
-// Increase the value of the following constants to increase the debug output
-# define GONG_DEBUG_REPORT_INIT 0
-# define GONG_DEBUG_INPUT 0
-# define GONG_DEBUG_OUTPUT 10
-# define GONG_DEBUG_PRINT 3
-# define GONG_DEBUG_VALUES 0
-# define GONG_DEBUG_AGGREGATES 0
-# define GONG_DEBUG_FORMULA 10
-# define GONG_DEBUG_LOCALE 0
-# include <gongdebug.h>
-#endif
 
 #endif // RTKCONFIG_H
 

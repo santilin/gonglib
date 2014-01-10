@@ -220,10 +220,23 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 "\n"
 "AC_MSG_NOTICE( [" + modulename + " Custom configuration] )\n"
 "\n"
+"AC_ARG_WITH( [poco],\n"
+"	AS_HELP_STRING([--with-poco], [Use the poco library]),\n"
+"	[ac_cv_use_poco=$withval],\n"
+"	[ac_cv_use_poco=yes] )\n"
+"AM_CONDITIONAL( [COMPILE_WITH_POCOLIB], [ test \"$ac_cv_use_poco\" = yes ])\n"
+"if test \"$ac_cv_use_poco\" = yes ; then\n"
+"        GONG_CHECK_POCO\n"
+"	if test \"x$POCO_CPPFLAGS\" = x ; then\n"
+"		AC_MSG_ERROR([[No se han detectado las bibliotecas de desarrollo de Poco. Si las has instalado en un lugar no estandard, usa la opción --with-poco=PFX. Para instalar las bibliotecas de MySQL: (Mandriva: libpoco-devel) (Debian/K/Ubuntu: libpoco-dev) ]])\n"
+"	fi\n"
+"fi\n"
+"\n"
 "AC_ARG_WITH( [mysql], \n"
 "	AS_HELP_STRING([--with-mysql], [Support for input from MySQL (default is YES)]), \n"
 "	[ac_cv_use_mysql=$withval],\n"
 "	[ac_cv_use_mysql=yes] )\n"
+"AM_CONDITIONAL( [COMPILE_WITH_MYSQLLIB], [ test \"$ac_cv_use_mysql\" = yes ])\n"
 "if test \"$ac_cv_use_mysql\" = yes ; then\n"
 "        GONG_CHECK_MYSQL\n"
 "\tif test \"x$MYSQL_CPPFLAGS\" = x ; then\n"
@@ -232,10 +245,11 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 "fi\n"
 "AX_LIB_SQLITE3\n"
 "\n"
-"AC_ARG_WITH( [LIBXML2], \n"
+"AC_ARG_WITH( [libxml2], \n"
 "			AS_HELP_STRING([--with-libxml2], [Support for XML input and output (default is YES)]), \n"
 "			[ac_cv_use_libxml2=$withval],\n"
-"			[ac_cv_use_libxml2=yes] )\n"
+"			[ac_cv_use_libxml2=no] )\n"
+"AM_CONDITIONAL( [COMPILE_WITH_LIBXML2], [ test \"$ac_cv_use_libxml2\" = yes ])\n"
 "if test \"$ac_cv_use_libxml2\" = yes ; then\n"
 "\tAC_DEFINE( [HAVE_LIBXML2], [], [Define to 1 if you have the Xml2 library.] )\n"
 "\tm4_ifdef([AM_PATH_XML2], [AM_PATH_XML2([2.5.0])], [] )\n"
@@ -280,8 +294,8 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 	Xtring ac_inc_path = gonglib_path;
 	Xtring ac_lib_path = (isproject ? ".." : "../.." );
 	ac_gonglib +=
-"GONGLIB_CPPFLAGS=\"-I" + ac_inc_path + "/gonglib $XML_CPPFLAGS $MYSQL_CPPFLAGS $SQLITE3_CFLAGS\"\n"
-"GONGLIB_LIBS=\"-L" + ac_lib_path + "/gonglib -lgonglib -lboost_system $MYSQL_LIBS $SQLITE3_LDFLAGS $BDB_LDADD $XML_LIBS\"\n"; // FIXME: Solo si boost compiled
+"GONGLIB_CPPFLAGS=\"-I" + ac_inc_path + "/gonglib $MYSQL_CPPFLAGS $SQLITE3_CFLAGS $POCO_CPPFLAGS $XML_CPPFLAGS $BOOST_CPPFLAGS \"\n"
+"GONGLIB_LIBS=\"-L" + ac_lib_path + "/gonglib -lgonglib $MYSQL_LIBS $SQLITE3_LDFLAGS $POCO_LIBS $XML_LIBS $BOOST_LDFLAGS \"\n";
 	cpm->insert_extrusion( ext_prefix + "GONGLIB",
 	                      ac_gonglib);
 
@@ -298,7 +312,7 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 		if( !module_substs.isEmpty() )
 			module_substs += "\n";
 		module_substs +=
-			"AC_ARG_WITH( [GONG_" + modulename.upper() + "],\n"
+			"AC_ARG_WITH( [gong-" + modulename.lower() + "],\n"
 			"AS_HELP_STRING([--with-gong-" + modulename.lower() +
 				"], [Support for the gong " + modulename.lower() + " module (default is YES)]), \n"
 			"[ac_cv_use_gong_" + modulename.lower() + "=$withval],\n"

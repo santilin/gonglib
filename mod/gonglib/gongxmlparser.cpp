@@ -1,6 +1,8 @@
 #include "config.h"
 
-#ifdef HAVE_LIBXML2
+#ifdef HAVE_POCOLIB
+
+#elif defined( HAVE_LIBXML2 )
 #include "gonggettext.h"
 
 #include <fstream>

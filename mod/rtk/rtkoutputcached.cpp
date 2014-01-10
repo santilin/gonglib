@@ -21,12 +21,17 @@ OutputCached::OutputCached(Report &r, const Input *in, CacheType cachetype, cons
 
 OutputCached::~OutputCached()
 {
+#ifdef HAVE_BDB
     if( pDB )
         pDB->close(pDB);
+#else
+	throw std::runtime_error("BDB is not compiled");
+#endif
 }
 
 int OutputCached::startReport()
 {
+#ifdef HAVE_BDB
     _GONG_DEBUG_TRACE( 3 );
     char filename[200];
     if( pBaseName == 0 )
@@ -43,21 +48,29 @@ int OutputCached::startReport()
         return 1;
     }
     return 0;
+#else
+	throw std::runtime_error("BDB is not compiled");
+#endif
 }
 
 
 int OutputCached::endReport()
 {
+#ifdef HAVE_BDB
     _GONG_DEBUG_TRACE( 3 );
     if( pDB )
         if( pDB->sync(pDB, 0) ) // Don't close it as the InputCached might need it open
             perror("Cache Index sync");
     return 0;
+#else
+	throw std::runtime_error("BDB is not compiled");
+#endif
 }
 
 Measure OutputCached::endSection(const Section &section)
 {
     _GONG_DEBUG_TRACE( 3 );
+#ifdef HAVE_BDB
     // if next section is not details, write fields
     if( section.type() == Section::Details ) {
         bool serialize = false;
@@ -84,15 +97,22 @@ Measure OutputCached::endSection(const Section &section)
         }
     }
     return 0.0;
+#else
+	throw std::runtime_error("BDB is not compiled");
+#endif
 }
 
 int OutputCached::writeRecord(void *keyptr, int keylen, void *dataptr, int datalen)
 {
+#ifdef HAVE_BDB
     DBT key = { keyptr, keylen };
     DBT rec = { dataptr, datalen };
     if( pDB->put(pDB, &key, &rec, 0) )
         perror("put key");
     return 0;
+#else
+	throw std::runtime_error("BDB is not compiled");
+#endif
 }
 
 } // Namespace RTK
