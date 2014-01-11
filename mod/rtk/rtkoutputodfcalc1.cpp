@@ -1,6 +1,6 @@
 #include <config.h>
 
-#define HAVE_OPENDOCUMENT 1
+#define HAVE_OPENDOCUMENT
 #ifdef HAVE_OPENDOCUMENT
 
 #include <cstdio>

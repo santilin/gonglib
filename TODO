@@ -1,13 +1,8 @@
 == HECHO ==
-* {configure} libboost si no está instalado, cambiar el mensaje para que diga utilizar --without-boost
-* REF: Aíslo libmxl2 y utilizo PocoXML en su lugar
 
 == LOS PAJAROS ==
-* Envío de emails masivos Bare LF
-* Ticket de los pájaros: quitar cif.
 
 == HACIENDO ==
-* XmlReader: mejorar parseFile().
 
 == gong-tpv ==
 * TPV: Imprimir en el ticket el cambio, la entrega, el resto y la forma de pago
@@ -179,13 +174,11 @@
 * En campos deshabilitados no funciona ctrl+c
 
 == gonglib ==
+* XmlReader: mejorar parseFile().
 * editar fechas de nacimiento, si el año es mayor de 2100 y es multiplo de 100, es un 19xx
 * dbSettings::removeSetting no está acabado
-* Al inicio, da muchos errores de locale, intenta leer el locale en_US
-* 2002:Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'
 * stringInc: Cuando solo son letras, incrementa por la izquierda!
 * LineEdit::setText( DateTime::currentDate() ) => "dd/mm/yyyy 01:00:00";
-* reconectar mysql, no hace el SET NAMES utf8
 * dbFieldReferenceID: aggregate relations null
 	/// \todo {check} Esto se hacía solo para que los apuntes pudieran tener algunos datos incompletos
 * Locale ca falla porque está instalado el ca_ES.
@@ -198,6 +191,7 @@
 == autotools, capel y gong.sh ==
 * Informe CUENTA.rtk: alignment de header debe y haber no funciona
 ** capel no genera el objeto ASIENTO.DESCRIPCION en el header del grupo
+
 == Para más tarde ==
 * MsgYesNoDontAskAgain: aplicar a main.cpp, language
 * FrmEditRec Cuando está seleccionado el botón cancelar, si pulsamos ENTER no hace nada
@@ -324,7 +318,6 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * SENDBUG: No poder maximizar la ventana inactiva.
 * SENDBUG: el ctrl+e de un lineedit, no retoma el foco cuando se cierra la ventana (depurar con dos monitores)
 * SENDBUG: A pesar de poner un stylesheet con font-size:10px, los editlines salen muy grandes (fontinfo?)
-* SENDBUG: PocoLib, incluye un zlib.h que tiene conflictos con el del sistema.
 
 == .deb ==
 https://wiki.debian.org/IntroDebianPackaging

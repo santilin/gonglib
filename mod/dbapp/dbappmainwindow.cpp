@@ -12,7 +12,7 @@
 #include "dbappdbapplication.h"
 #include "dbappfrmdatabasetools.h"
 #include "dbappfrmintegrity.h"
-#ifdef HAVE_LIBXML2
+#ifdef HAVE_POCOLIB
 #include "dbappfrmimport.h"
 #endif
 #include "dbappfrmexport.h"
@@ -335,7 +335,7 @@ void MainWindow::slotMenuSystemExport()
 
 void MainWindow::slotMenuSystemImport()
 {
-#ifdef HAVE_LIBXML2
+#if defined( HAVE_POCOLIB ) or defined( HAVE_LIBXML2 )
     FrmImport *frmimport = new FrmImport();
     frmimport->show();
     createClient( frmimport );

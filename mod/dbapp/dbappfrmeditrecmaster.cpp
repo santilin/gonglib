@@ -1372,7 +1372,7 @@ void FrmEditRecMaster::menuTableRemoveFilter_clicked()
 
 void FrmEditRecMaster::menuTableImport_clicked()
 {
-#ifdef HAVE_LIBXML2
+#if defined( HAVE_POCOLIB ) or defined( HAVE_LIBXML2 )
     class FrmImport: public FrmCustom
     {
     public:

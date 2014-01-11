@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#define HAVE_GNUMERIC 1
+#define HAVE_GNUMERIC
 #ifdef HAVE_GNUMERIC
 
 #include <cstdio>

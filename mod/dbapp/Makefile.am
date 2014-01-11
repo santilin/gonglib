@@ -38,7 +38,7 @@ nodist_libgongdbapp_la_SOURCES = \
 	moc_dbappfrmintegrity.cpp moc_dbappfrmcalculator.cpp moc_dbappsearchbox.cpp \
 	moc_dbappfrmabout.cpp
 
-if COMPILE_WITH_LIBXML2
+if COMPILE_WITH_POCOLIB
 libgongdbapp_la_SOURCES += \
 	dbappfrmimport.cpp dbappfrmimport_gui.cpp dbappfugitimporter.cpp
 libgongdbapp_la_HEADERS += \
