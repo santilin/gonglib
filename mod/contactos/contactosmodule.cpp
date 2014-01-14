@@ -32,50 +32,58 @@ static dbModuleSetting _settings[] = {
         "FORMATO_NOMBRE",
         _("Formato de los nombres"),
         "0",
-        _("No formatear|Nombre Apellidos|Apellidos, Nombre|NOMBRE APELLIDOS|APELLIDOS, NOMBRE")
+        dbModuleSetting::Global,
+        _("No formatear|Nombre Apellidos|Apellidos, Nombre|NOMBRE APELLIDOS|APELLIDOS, NOMBRE"),
     },
     {
         dbModuleSetting::Bool,
         "USAR_TRATAMIENTOS",
         _("Usar tratamientos de los contactos"),
-        "0"
+        "0",
+        dbModuleSetting::Global
     },
     {
         dbModuleSetting::Int,
         "FORMATO_EMPRESA",
         _("Formato de las empresas"),
         "0",
-        _("No formatear|Programación Social, S.Coop|PROGRAMACIÓN SOCIAL, S.Coop")
+        dbModuleSetting::Global,
+        _("No formatear|Programación Social, S.Coop|PROGRAMACIÓN SOCIAL, S.Coop"),
     },
     {
         dbModuleSetting::Text,
         "FORMATO_DIRECCION",
         _("Formato de la dirección postal"),
-        "{direccion}, {barrio}\n{cp} {localidad}, {provincia}. {pais}\nTel: {telefono}, Fax: {fax}\n{email}"
+        "{direccion}, {barrio}\n{cp} {localidad}, {provincia}. {pais}\nTel: {telefono}, Fax: {fax}\n{email}",
+        dbModuleSetting::All
     },
 	{
 		dbModuleSetting::String,
 		"SMTP_FROM",
 		_("Remitente de los envíos de emails masivos"),
-		""
+		"",
+        dbModuleSetting::All
 	},
 	{
 		dbModuleSetting::String,
 		"SMTP_HOST",
 		_("Host del servidor SMTP"),
-		""
+		"",
+        dbModuleSetting::All
 	},
 	{
 		dbModuleSetting::String,
 		"SMTP_USER",
 		_("Usuaria del servidor SMTP"),
-		""
+		"",
+        dbModuleSetting::All
 	},
 	{
 		dbModuleSetting::Int,
 		"SMTP_PORT",
 		_("Puerto del servidor SMTP (25)"),
-		"25"
+		"25",
+        dbModuleSetting::All
 	},
 	{dbModuleSetting::None}
 };

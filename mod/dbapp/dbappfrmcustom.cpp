@@ -163,6 +163,8 @@ TextEdit* FrmCustom::addTextEditBox(QWidget* parent, const Xtring& caption,
 {
     TextBox *textbox = new TextBox( parent ? parent : pFrameEdit,
                                     name ? (Xtring("editTextBox_") + name).c_str() : "", "", false);
+    connect ( textbox, SIGNAL ( validate ( QWidget *, bool * ) ),
+              this, SLOT ( validate_input ( QWidget *, bool * ) ) );
     textbox->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     textbox->setText( value );
     QLabel *label = new QLabel ( parent ? parent : pFrameEdit,

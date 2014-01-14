@@ -45,24 +45,27 @@ Xtring ContabModule::mLastDocumento;
 
 ContabModule *ModuleInstance;
 
+static dbModuleSetting _settings[] = {
+	{
+		dbModuleSetting::Bool,
+		"SUPERVISAR_ASIENTOS",
+		_("Supervisar los asientos que se generan automáticamente"),
+		"true",
+		dbModuleSetting::All
+	},
+	// "TIPOASIENTO.VALUES"
+	// "CUENTA_CLIENTE"
+	// "CUENTA_PROVEEDORA"
+
+	{dbModuleSetting::None}
+};
+
+
 ContabModule::ContabModule()
     : dbModule( "contab" ), pMenuContabilidad( 0 )
 {
     _GONG_DEBUG_TRACE( 1 );
     ModuleInstance = this;
-    static dbModuleSetting _settings[] = {
-        {
-            dbModuleSetting::Bool,
-            "SUPERVISAR_ASIENTOS",
-            _("Supervisar los asientos que se generan automáticamente"),
-            "true"
-        },
-        // "TIPOASIENTO.VALUES"
-        // "CUENTA_CLIENTE"
-        // "CUENTA_PROVEEDORA"
-
-        {dbModuleSetting::None}
-    };
     pModuleSettings = _settings;
     pEmpresaModule = static_cast<empresa::EmpresaModule *>( DBAPP->findModule( "empresa" ) );
     _GONG_DEBUG_ASSERT( pEmpresaModule );

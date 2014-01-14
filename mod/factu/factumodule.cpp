@@ -93,19 +93,22 @@ static dbModuleSetting _settings[] = {
         dbModuleSetting::String,
         "IMGARTFILENAME",
         _("Plantilla del nombre del fichero de las imágenes de los artículos"),
-        "%s.jpg"
+        "%s.jpg",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::Bool,
         "FILTRARARTICULOSPORPROVEEDORA",
         _("Mostrar solo artículos de la proveedora al dar de alta albaranes, facturas, ..."),
-        "false"
+        "false",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::Long,
         "CODIGO_PROVEEDORA_GENERICA",
         _("Código de la proveedora genérica (utilizada en los filtros)"),
-        "0"
+        "0",
+		dbModuleSetting::All
     },
     {dbModuleSetting::None}
 };

@@ -1,4 +1,5 @@
 == HECHO ==
+mc: FIX: No calcula bien los máximos contadores en pagos ni en ofertas.
 
 == LOS PAJAROS ==
 
@@ -26,7 +27,6 @@
 = PRESCINDIBLE =
 
 == Ofertas ==
-* No calcula bien los máximos contadores en pagos ni en ofertas.
 * Peta al visualizar un pago: no existe la relación de la moneda y hay que quitar el campo CUENTAORIGEN
 
 == gong-factu ==
@@ -257,7 +257,6 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 
 * Settings: añadir null values
 * usar poco::string
-* Configuración: para qué conjunto de settings vale cada setting
 
 === gui ===
 * Crear interface gui::IControl

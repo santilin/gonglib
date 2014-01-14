@@ -38,7 +38,6 @@ public slots:
     void slotMenuSystemIntegrity();
     void slotMenuSystemConfigEditor();
     void slotMenuSystemModuleLocalUserSettingsEditor();
-    void slotMenuSystemModuleGlobalUserSettingsEditor();
     void slotMenuSystemModuleGlobalSettingsEditor();
     void slotMenuSystemImport();
     void slotMenuSystemExport();
@@ -54,7 +53,6 @@ protected:
             *pMenuWindowSaveGeometry, *pMenuWindowRemoveGeometry;
     QMenu *pMenuSystemConfig;
     QAction *pMenuSystemModuleLocalUserSettingsEditor,
-            *pMenuSystemModuleGlobalUserSettingsEditor,
             *pMenuSystemModuleGlobalSettingsEditor;
 };
 

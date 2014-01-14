@@ -272,21 +272,14 @@ void MainWindow::slotMenuSystemReports()
 
 void MainWindow::slotMenuSystemModuleLocalUserSettingsEditor()
 {
-    FrmModuleSettings *modulesettingseditor = new FrmModuleSettings( FrmModuleSettings::LocalUser );
+    FrmModuleSettings *modulesettingseditor = new FrmModuleSettings( dbModuleSetting::Local );
     modulesettingseditor->show();
     createClient( modulesettingseditor);
 }
 
 void MainWindow::slotMenuSystemModuleGlobalSettingsEditor()
 {
-    FrmModuleSettings *modulesettingseditor = new FrmModuleSettings( FrmModuleSettings::Global );
-    modulesettingseditor->show();
-    createClient( modulesettingseditor);
-}
-
-void MainWindow::slotMenuSystemModuleGlobalUserSettingsEditor()
-{
-    FrmModuleSettings *modulesettingseditor = new FrmModuleSettings( FrmModuleSettings::GlobalUser );
+    FrmModuleSettings *modulesettingseditor = new FrmModuleSettings( dbModuleSetting::Global );
     modulesettingseditor->show();
     createClient( modulesettingseditor);
 }

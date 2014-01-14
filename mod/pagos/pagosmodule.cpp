@@ -42,7 +42,8 @@ static dbModuleSetting _settings[] = {
         dbModuleSetting::Bool,
         "USAR_REMESAS",
         _("Si se utilizarán remesas de recibos"),
-        "false"
+        "false",
+		dbModuleSetting::Global
     },
     {dbModuleSetting::None}
 };

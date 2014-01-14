@@ -51,13 +51,22 @@ namespace empresa {
 
 EmpresaModule *ModuleInstance = 0;
 
+static dbModuleSetting _settings[] = {
+    {
+        dbModuleSetting::Bool,
+        "USAR_MAXCONTADOR",
+        _("Usar contador único para las compras y gastos"),
+        "false",
+        dbModuleSetting::Global
+    }
+};
+
 EmpresaModule::EmpresaModule()
     : dbModule( "empresa" ), pRecEmpresa( 0 ), mCodEmpresa( 0 ), mEjercicio( 0 )
 {
     ModuleInstance = this;
-    _GONG_DEBUG_TRACE( 1 );
-    pContactosModule = static_cast<contactos::ContactosModule *>( DBAPP->findModule( "contactos" ) );
-    _GONG_DEBUG_ASSERT( pContactosModule );
+     pModuleSettings = _settings;
+   _GONG_DEBUG_TRACE( 1 );
     mDescription = "Módulo de definición de la organización";
     /*<<<<<EMPRESAMODULE_PUBLIC_INFO*/
 	mModuleRequires << "contactos";
@@ -598,6 +607,8 @@ void EmpresaModule::addContadorTable(const Xtring& tablename)
 int EmpresaModule::getMaxContador() const
 {
     int max = 0;
+	if( getModuleSetting( "USAR_MAXCONTADOR" ).toBool() == false )
+		return max;
     if( mContadorTables.size() ) {
         for( XtringList::const_iterator it = mContadorTables.begin();
                 it != mContadorTables.end(); ++it ) {

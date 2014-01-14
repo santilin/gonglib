@@ -27,10 +27,12 @@ struct dbModuleSetting {
     enum Type { None, Bool, Int, Long, Double, String, Text, Date, Time, DateTime, Money, Image,
                 StringList, FileName, DirName, Password, dbRecordID
               };
+    enum Scope { Machine = 1, Global = 2, Local = 4, GAndL = 6, All = 7 };
     Type type;
     const char *key;
     const char *description;
     const char *defaultvalue;
+	Scope scope;
     const char *values;
 };
 

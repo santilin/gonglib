@@ -36,7 +36,7 @@ nodist_libgongdbapp_la_SOURCES = \
 	moc_dbappfrmlogin.cpp moc_dbappfrmsettingsedit.cpp moc_dbappfrmsqlselect.cpp \
 	moc_dbappfrmviewedit.cpp moc_dbappmainwindow.cpp moc_dbappsettingstree.cpp \
 	moc_dbappfrmintegrity.cpp moc_dbappfrmcalculator.cpp moc_dbappsearchbox.cpp \
-	moc_dbappfrmabout.cpp
+	moc_dbappfrmabout.cpp moc_dbappfrmmodulesettings.cpp
 
 if COMPILE_WITH_POCOLIB
 libgongdbapp_la_SOURCES += \
