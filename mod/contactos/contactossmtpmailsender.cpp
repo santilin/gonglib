@@ -16,7 +16,7 @@ namespace contactos {
 
 SMTPMailSender::SMTPMailSender(const Xtring& smtphost, UInt16 port,
 							   const Xtring& smtpuser, const Xtring& smtpassword)
-	: pSession(0), mHost( smtphost ), mPort( port ), mUser( smtpuser ), mPassword( smtpassword )
+	: pSession(0), mHost( smtphost ), mUser( smtpuser ), mPassword( smtpassword ), mPort( port )
 {
 }
 

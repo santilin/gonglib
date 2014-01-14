@@ -12,7 +12,7 @@ namespace gong {
 
 
 InputCached::InputCached(Report &r, const char *basename, const char *name)
-    : Input( r, name ), pBaseName ( const_cast<char *>(basename) ), pDB( 0 ), mDeleteDB( false )
+    : Input( r, name ), pDB( 0 ), pBaseName ( const_cast<char *>(basename) ), mDeleteDB( false )
 {
 }
 

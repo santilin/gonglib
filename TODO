@@ -1,4 +1,5 @@
 == HECHO ==
+* Compilo empresasgg en release
 
 == LOS PAJAROS ==
 
@@ -9,7 +10,7 @@
 ** Si hay cambio, pasar un INC_HAYCAMBIO y dos parámetros: entrega y cambio
 ** Imprimir la forma de pago si hay resto o es distinta de la normal.
 * Añadir forma de pago "Por cajón" y en la x, descontar los pagos de esa forma de pago.
-** Cuando se page algo con esa forma de pago, guardar la sesión tpv actual.
+** Cuando se pague algo con esa forma de pago, en pagos, guardar la sesión tpv actual.
 
 * Fila de productos favoritos
 * Tarifas por el tipo de mesa.
@@ -17,7 +18,7 @@
 * saveEstado intenta grabar siempre, ver la diferencia
 * Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
 * Que se resalte la familia seleccionada
-** No funciona el ItemIsSelectable
+** No funciona bien el ItemIsSelectable
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == CON INTERNET ==
