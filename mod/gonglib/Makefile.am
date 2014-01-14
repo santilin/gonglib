@@ -1,6 +1,6 @@
 localedir = $(datadir)/locale
 AM_CPPFLAGS = @AM_CPPFLAGS@ -DLOCALEDIR=\"$(localedir)\"
-AM_CXXFLAGS = @AM_CXXFLAGS@ @XML_CPPFLAGS@
+AM_CXXFLAGS = @AM_CXXFLAGS@
 
 libgonglib_la_LDFLAGS = -version-info 0:5:0
 libgonglib_ladir = $(includedir)/gonglib
@@ -19,7 +19,7 @@ libgonglib_la_SOURCES = gongcsvutils.cpp gongdate.cpp \
 	gongdbrecorddatamodel.cpp gongdbrecordlistdatamodel.cpp \
 	gongregconfig.cpp gongregexp.cpp gongsettings.cpp \
 	gongdbsettings.cpp gongtabledatamodel.cpp \
-	gongdbviewdefinition.cpp gongvariant.cpp gongxmlparser.cpp \
+	gongdbviewdefinition.cpp gongvariant.cpp \
 	gongxtring.cpp gongdbfieldemail.cpp  gongdbmastertable.cpp \
 	gongdbfieldimage.cpp gongdbresultsetdatamodel.cpp gongdbrecordbehavior.cpp \
 	gongdbrecordtimestampbehavior.cpp gongdbcalculator.cpp
@@ -39,9 +39,13 @@ libgonglib_la_HEADERS = gongcsvutils.h gongdate.h \
 	gongdbrecorddatamodel.h gongdbrecordlistdatamodel.h \
 	gongregconfig.h gongregexp.h \
 	gongsettings.h gongdbsettings.h gongdbviewdefinition.h \
-	gongtabledatamodel.h gongvariant.h gongxmlparser.h gongxtring.h \
+	gongtabledatamodel.h gongvariant.h gongxtring.h \
 	gonggettext.h gongdbcalculator.h \
 	gongdbfieldemail.h gongdbmastertable.h \
 	gongdbfieldimage.h gongdbresultsetdatamodel.h \
 	gongdbrecordbehavior.h gongdbrecordtimestampbehavior.h
 
+if COMPILE_WITH_POCOLIB
+libgonglib_la_SOURCES += gongxmlparser.cpp
+libgonglib_la_HEADERS += gongxmlparser.h
+endif

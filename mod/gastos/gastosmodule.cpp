@@ -19,7 +19,6 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Module gastos
 // RECORD Gasto FrmEditRecMaster Gastos
-// MODULE_REQUIRED Gastos
 // MODULE_OPTIONAL Pagos
 // MODULE_OPTIONAL Contab
 // MODULE_OPTIONAL Factu

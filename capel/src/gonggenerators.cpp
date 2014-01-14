@@ -245,19 +245,19 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 "fi\n"
 "AX_LIB_SQLITE3\n"
 "\n"
-"AC_ARG_WITH( [libxml2], \n"
-"			AS_HELP_STRING([--with-libxml2], [Support for XML input and output (default is YES)]), \n"
-"			[ac_cv_use_libxml2=$withval],\n"
-"			[ac_cv_use_libxml2=no] )\n"
-"AM_CONDITIONAL( [COMPILE_WITH_LIBXML2], [ test \"$ac_cv_use_libxml2\" = yes ])\n"
-"if test \"$ac_cv_use_libxml2\" = yes ; then\n"
-"\tAC_DEFINE( [HAVE_LIBXML2], [], [Define to 1 if you have the Xml2 library.] )\n"
-"\tm4_ifdef([AM_PATH_XML2], [AM_PATH_XML2([2.5.0])], [] )\n"
-"\tif test \"x$XML_CPPFLAGS\" = x ; then\n"
-"\t\tAC_MSG_ERROR([[No se han detectado las bibliotecas de desarrollo de XML2 (versión 2.5.0 o superior). Si las has instalado en un lugar no estandard, usa la opción --with-xml-prefix=PFX. Para instalar XML2 (Mandriva: libxml2-devel) (Debian/K/Ubuntu: libxml2-dev) ]])\n"
-"\tfi\n"
-"fi\n"
-"\n"
+// "AC_ARG_WITH( [libxml2], \n"
+// "			AS_HELP_STRING([--with-libxml2], [Support for XML input and output (default is YES)]), \n"
+// "			[ac_cv_use_libxml2=$withval],\n"
+// "			[ac_cv_use_libxml2=no] )\n"
+// "AM_CONDITIONAL( [COMPILE_WITH_LIBXML2], [ test \"$ac_cv_use_libxml2\" = yes ])\n"
+// "if test \"$ac_cv_use_libxml2\" = yes ; then\n"
+// "\tAC_DEFINE( [HAVE_LIBXML2], [], [Define to 1 if you have the Xml2 library.] )\n"
+// "\tm4_ifdef([AM_PATH_XML2], [AM_PATH_XML2([2.5.0])], [] )\n"
+// "\tif test \"x$XML_CPPFLAGS\" = x ; then\n"
+// "\t\tAC_MSG_ERROR([[No se han detectado las bibliotecas de desarrollo de XML2 (versión 2.5.0 o superior). Si las has instalado en un lugar no estandard, usa la opción --with-xml-prefix=PFX. Para instalar XML2 (Mandriva: libxml2-devel) (Debian/K/Ubuntu: libxml2-dev) ]])\n"
+// "\tfi\n"
+// "fi\n"
+// "\n"
 "AC_ARG_WITH( [boost],\n"
 "            AS_HELP_STRING([--with-boost], [Support for the Boost library (default is YES)]),\n"
 "            [ac_cv_use_boost=$withval],\n"
@@ -294,8 +294,8 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 	Xtring ac_inc_path = gonglib_path;
 	Xtring ac_lib_path = (isproject ? ".." : "../.." );
 	ac_gonglib +=
-"GONGLIB_CPPFLAGS=\"-I" + ac_inc_path + "/gonglib $MYSQL_CPPFLAGS $SQLITE3_CFLAGS $POCO_CPPFLAGS $XML_CPPFLAGS $BOOST_CPPFLAGS \"\n"
-"GONGLIB_LIBS=\"-L" + ac_lib_path + "/gonglib -lgonglib $MYSQL_LIBS $SQLITE3_LDFLAGS $POCO_LIBS $XML_LIBS $BOOST_LDFLAGS \"\n";
+"GONGLIB_CPPFLAGS=\"-I" + ac_inc_path + "/gonglib $MYSQL_CPPFLAGS $SQLITE3_CFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS \"\n"
+"GONGLIB_LIBS=\"-L" + ac_lib_path + "/gonglib -lgonglib $MYSQL_LIBS $SQLITE3_LDFLAGS $POCO_LIBS $BOOST_LDFLAGS \"\n";
 	cpm->insert_extrusion( ext_prefix + "GONGLIB",
 	                      ac_gonglib);
 
