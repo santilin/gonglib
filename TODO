@@ -1,4 +1,8 @@
 == HECHO ==
+REF: FldNamesListTable
+* Añado campo TIPO
+* FldNamesListTable: a qué NamesListTable está asociado el campo
+
 
 == QUEDA POR HACER DE ENVIO DE EMAILS ==
 * Adjuntos
@@ -80,6 +84,7 @@ resto: Comprobar los pagos y los cobros.
 * Si un pago es mayor que el total, y no hay más facturas, entonces ¿hay que crear un nuevo pago por el resto?
 
 == gong-contab ==
+* No genera el contador en los asientos nuevos
 * Comprobar el asiento cuando el tipo de forma de pago es ignorar el resto.
 * Asiento compuesto, poner en el concepto el código del artículo cuando es un solo artículo
 * Añadir campos: cuenta clientes, cuenta anticipos, cuenta proveedores, etc. a empresa y eliminar settings MODULE.CONTAB.CUENTA_CLIENTE, etc.
@@ -106,6 +111,7 @@ resto: Comprobar los pagos y los cobros.
 
 == gong-dbapp ==
 * Settings: booleanos, si el default es false, el local es false y el global es true, no sale el global en rojo
+** Añadir bool resetted a scinfo
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
 * QWidgetTab->strongFocus

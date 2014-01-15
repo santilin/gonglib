@@ -20,7 +20,7 @@ namespace contab {
 /*<<<<<APUNTE_RELATIONS*/
 RecCuenta *RecApunte::getRecCuenta() const
 {
-	return static_cast<RecCuenta*>(findRelatedRecord("APUNTE.CUENTA_ID"));
+	return static_cast<RecCuenta*>(findRelatedRecord("CUENTA_ID"));
 }
 
 /*>>>>>APUNTE_RELATIONS*/

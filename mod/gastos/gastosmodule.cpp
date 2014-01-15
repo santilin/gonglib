@@ -18,10 +18,11 @@
 /*>>>>>COPYLEFT*/
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Module gastos
-// RECORD Gasto FrmEditRecMaster Gastos
+// RECORD GastoDef FrmEditRecMaster Gastos
 // MODULE_OPTIONAL Pagos
 // MODULE_OPTIONAL Contab
 // MODULE_OPTIONAL Factu
+// NAMESLISTTABLE PedirCampo
 // NAMESLISTTABLE TipoGasto
 // NAMESLISTTABLE CategoriaGasto
 // TYPE GongModule gastos::GastosModule
@@ -35,7 +36,7 @@
 #include <dbappnameslisttable.h>
 #include <dbappfrmeditnameslisttable.h>
 #include "gastosmodule.h"
-#include "gastosfrmeditgasto.h"
+#include "gastosfrmeditgastodef.h"
 /*>>>>>GASTOSMODULE_INCLUDES*/
 
 namespace gong {
@@ -48,13 +49,15 @@ static dbModuleSetting _settings[] = {
         dbModuleSetting::String,
         "TIPODOC.GASTO",
         _("Tipo de documento de los gastos"),
-        "0"
+        "0",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::String,
         "TIPODOC.INGRESO",
         _("Tipo de documento de los ingresos"),
-        "0"
+        "0",
+		dbModuleSetting::All
     },
     {dbModuleSetting::None}
 };
@@ -67,10 +70,9 @@ GastosModule::GastosModule()
     _GONG_DEBUG_TRACE(1);
 	pModuleSettings = _settings;
 /*<<<<<GASTOSMODULE_PUBLIC_INFO*/
-	mModuleRequires << "gastos";
-	mMasterTables << "GASTO" << "TIPOGASTO" << "CATEGORIAGASTO";
+//	mModuleRequires
+	mMasterTables << "GASTODEF" << "PEDIRCAMPO" << "TIPOGASTO" << "CATEGORIAGASTO";
 //	mDetailTables
-	pGastosModule = static_cast< gastos::GastosModule * >(DBAPP->findModule( "Gastos" ));
 #ifdef HAVE_PAGOSMODULE
 	pPagosModule = static_cast< pagos::PagosModule * >(DBAPP->findModule( "Pagos" ));
 #endif
@@ -104,50 +106,51 @@ bool GastosModule::initDatabase(dbDefinition *db)
 	pMainDatabase = db;
 
 /*<<<<<GASTOSMODULE_INIT_DATABASE*/
+	pFicPedirCampo = new NamesListTable( *pMainDatabase, "PEDIRCAMPO" );
+	pMainDatabase->addTable( pFicPedirCampo->getTableDefinition() );
 	pFicTipoGasto = new NamesListTable( *pMainDatabase, "TIPOGASTO" );
 	pMainDatabase->addTable( pFicTipoGasto->getTableDefinition() );
 	pFicCategoriaGasto = new NamesListTable( *pMainDatabase, "CATEGORIAGASTO" );
 	pMainDatabase->addTable( pFicCategoriaGasto->getTableDefinition() );
 /*>>>>>GASTOSMODULE_INIT_DATABASE*/
 
-    pFicGasto = new empresa::MasterTable( *pMainDatabase, "GASTO" );
-    pFicGasto->addFieldRecordID();
-    pFicGasto->addFieldEmpresaID();
-    pFicGasto->addField<empresa::FldEjercicio>( "EJERCICIO" );
-	pFicGasto->addField<FldNamesListTable>("TIPOGASTO");
-	pFicGasto->addField<FldNamesListTable>("CATEGORIAGASTO");
-	pFicGasto->addFieldInt( "NUMERO" );
-	pFicGasto->addFieldDate( "FECHA" );
-	pFicGasto->addFieldEuro( "IMPORTE");
+    pFicGastoDef = new MasterTable( *pMainDatabase, "GASTODEF" );
+    pFicGastoDef->addFieldRecordID();
+	pFicGastoDef->addField<FldNamesListTable>("TIPOGASTO");
+	pFicGastoDef->addField<FldNamesListTable>("CATEGORIAGASTO");
+	pFicGastoDef->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRIMPORTE" );
+	pFicGastoDef->addFieldEuro( "IMPORTE" );
+	pFicGastoDef->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRTERCERO" );
 #ifdef HAVE_FACTUMODULE
-	pFicGasto->addFieldOne2OneRelation( "CLIENTE_ID", "CLIENTE.ID", true );
-	pFicGasto->addFieldOne2OneRelation( "PROVEEDORA_ID", "PROVEEDORA.ID", true );
+	pFicGastoDef->addFieldOne2OneRelation( "CLIENTE_ID", "CLIENTE.ID", true );
+	pFicGastoDef->addFieldOne2OneRelation( "PROVEEDORA_ID", "PROVEEDORA.ID", true );
 #elif defined( HAVE_CONTABMODULE )
-	pFicGasto->addFieldOne2OneRelation( "CUENTATERCERO_ID", "CUENTA.ID", true );
+	pFicGastoDef->addFieldOne2OneRelation( "CUENTATERCERO_ID", "CUENTA.ID", true );
 #else
-	pFicGasto->addFieldOne2OneRelation( "CONTACTO_ID", "CONTACTO.ID", true );
+	pFicGastoDef->addFieldOne2OneRelation( "CONTACTO_ID", "CONTACTO.ID", true );
 #endif
+	pFicGastoDef->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRCONCEPTO" );
 #ifdef HAVE_FACTUMODULE
-	pFicGasto->addFieldOne2OneRelation( "ARTICULO_ID", "ARTICULO.ID", false );
+	pFicGastoDef->addFieldOne2OneRelation( "ARTICULO_ID", "ARTICULO.ID", false );
 #elif defined( HAVE_CONTABMODULE )
-	pFicGasto->addFieldOne2OneRelation( "CUENTACONCEPTO_ID", "CUENTA.ID", false );
+	pFicGastoDef->addFieldOne2OneRelation( "CUENTACONCEPTO_ID", "CUENTA.ID", false );
 #else
-	pFicGasto->addFieldString( "CONCEPTO", 100 );
+	pFicGastoDef->addFieldString( "CONCEPTO", 100 );
 #endif
-	pFicGasto->addFieldText( "DESCRIPCION" );
+	pFicGastoDef->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRDESCRIPCION" );
+	pFicGastoDef->addFieldText( "DESCRIPCION" );
+	pFicGastoDef->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRPAGOS" );
+    pFicGastoDef->addFieldOne2OneRelation( "FORMAPAGO_ID", "FORMAPAGO.ID", true );
 #ifdef HAVE_CONTABMODULE
-	pFicGasto->addFieldReferenceID( "CUENTAPAGO_ID", "CUENTA.ID" );
+	pFicGastoDef->addFieldReferenceID( "CUENTAPAGO_ID", "CUENTA.ID" );
 #else
-	pFicGasto->addFieldString( "CUENTAPAGO", 50 );
+	pFicGastoDef->addFieldString( "CUENTAPAGO", 50 );
 #endif
-	pFicGasto->addFieldString( "DOCUMENTOPAGO", 100 );
-	pFicGasto->addFieldBool( "GENALBARAN" );
-	pFicGasto->addFieldBool( "GENASIENTO" );
-    pFicGasto->addFieldString( "NUMEROALBARAN", 30 );
-    pFicGasto->addFieldOne2OneRelation( "FORMAPAGO_ID", "FORMAPAGO.ID", true );
-	pFicGasto->addFieldNotas();
-	pFicGasto->addBehavior( DBAPP->getRecordTimestampBehavior() );
-	pMainDatabase->addTable( pFicGasto->getTableDefinition() );
+	pFicGastoDef->addFieldString( "DOCUMENTOPAGO", 100 );
+	pFicGastoDef->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRNOTAS" );
+	pFicGastoDef->addFieldNotas();
+	pFicGastoDef->addBehavior( DBAPP->getRecordTimestampBehavior() );
+	pMainDatabase->addTable( pFicGastoDef->getTableDefinition() );
 	return true;
 }
 
@@ -156,8 +159,10 @@ dbRecord *GastosModule::createRecord(const Xtring &tablename, dbRecordID recid, 
 {
 	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
 /*<<<<<GASTOSMODULE_CREATE_RECORD*/
-	if( tablename.upper() == "GASTO" )
-		return new RecGasto(getConnection(), recid, user);
+	if( tablename.upper() == "GASTODEF" )
+		return new RecGastoDef(getConnection(), recid, user);
+	if( tablename.upper() == "PEDIRCAMPO" )
+		return new RecNamesListTable("PEDIRCAMPO", getConnection(), recid, user);
 	if( tablename.upper() == "TIPOGASTO" )
 		return new RecNamesListTable("TIPOGASTO", getConnection(), recid, user);
 	if( tablename.upper() == "CATEGORIAGASTO" )
@@ -173,8 +178,10 @@ FrmEditRec *GastosModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec, d
 	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
 	Xtring tablename = rec->getTableName();
 /*<<<<<GASTOSMODULE_CREATE_EDITFORM*/
-	if( tablename.upper() == "GASTO" )
-		return new FrmEditGasto(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "GASTODEF" )
+		return new FrmEditGastoDef(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
+	if( tablename.upper() == "PEDIRCAMPO" )
+		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 	if( tablename.upper() == "TIPOGASTO" )
 		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 	if( tablename.upper() == "CATEGORIAGASTO" )
@@ -197,12 +204,12 @@ FrmEditRecDetail *GastosModule::createEditDetailForm(
 	return 0;
 }
 
-/*<<<<<GASTOSMODULE_SLOT_GASTOSGASTO*/
-void GastosModule::slotMenuGastosGasto()
+/*<<<<<GASTOSMODULE_SLOT_GASTOSGASTODEF*/
+void GastosModule::slotMenuGastosGastoDef()
 {
-	pMainWindow->slotMenuEditRecMaestro( "GASTO" );
+	pMainWindow->slotMenuEditRecMaestro( "GASTODEF" );
 }
-/*>>>>>GASTOSMODULE_SLOT_GASTOSGASTO*/
+/*>>>>>GASTOSMODULE_SLOT_GASTOSGASTODEF*/
 
 
 bool GastosModule::initMainWindow(MainWindow *mainwin)
@@ -228,13 +235,13 @@ bool GastosModule::initMainWindow(MainWindow *mainwin)
 
 /*<<<<<GASTOSMODULE_INITMAINWINDOW_MENUS*/
 	{
-		Xtring caption = DBAPP->getDatabase()->findTableDefinition("GASTO")->getDescPlural();
-		pMenuGastosGasto = new QAction( toGUI( caption ) + "...", pMainWindow );
-		pMenuGastosGasto->setObjectName( "MenuGastosGasto" );
-		pMenuGastosGasto->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-		pMenuGastosGasto->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-		pMainWindow->connect(pMenuGastosGasto, SIGNAL(activated()), this, SLOT(slotMenuGastosGasto()));
-		pMenuGastosGasto->addTo(pMenuGastos);
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("GASTODEF")->getDescPlural();
+		pMenuGastosGastoDef = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuGastosGastoDef->setObjectName( "MenuGastosGastoDef" );
+		pMenuGastosGastoDef->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuGastosGastoDef->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuGastosGastoDef, SIGNAL(activated()), this, SLOT(slotMenuGastosGastoDef()));
+		pMenuGastosGastoDef->addTo(pMenuGastos);
 	}
 /*>>>>>GASTOSMODULE_INITMAINWINDOW_MENUS*/
 	return true;

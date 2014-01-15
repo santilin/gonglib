@@ -30,17 +30,17 @@ void RecPedidoVenta::init()
 /*<<<<<PEDIDOVENTA_RELATIONS*/
 RecTipoDoc *RecPedidoVenta::getRecTipoDoc() const
 {
-	return static_cast<RecTipoDoc*>(findRelatedRecord("PEDIDOVENTA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("TIPODOC_ID"));
 }
 
 RecCliente *RecPedidoVenta::getRecCliente() const
 {
-	return static_cast<RecCliente*>(findRelatedRecord("PEDIDOVENTA.CLIENTE_ID"));
+	return static_cast<RecCliente*>(findRelatedRecord("CLIENTE_ID"));
 }
 
 RecAgente *RecPedidoVenta::getRecAgente() const
 {
-	return static_cast<RecAgente*>(findRelatedRecord("PEDIDOVENTA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("AGENTE_ID"));
 }
 
 RecPedidoVentaDet *RecPedidoVenta::getRecPedidoVentaDet( int pedidoventadet ) const

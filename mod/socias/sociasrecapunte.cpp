@@ -85,7 +85,7 @@ bool RecApunte::remove() throw( dbError )
 /*<<<<<APUNTE_RELATIONS*/
 RecPartidaProyecto *RecApunte::getRecPartidaProyecto() const
 {
-	return static_cast<RecPartidaProyecto*>(findRelatedRecord("APUNTE.PARTIDAPROYECTO_ID"));
+	return static_cast<RecPartidaProyecto*>(findRelatedRecord("PARTIDAPROYECTO_ID"));
 }
 
 /*>>>>>APUNTE_RELATIONS*/

@@ -17,12 +17,12 @@ namespace factu {
 /*<<<<<PRESUPUESTOVENTADET_RELATIONS*/
 RecArticulo *RecPresupuestoVentaDet::getRecArticulo() const
 {
-	return static_cast<RecArticulo*>(findRelatedRecord("PRESUPUESTOVENTADET.ARTICULO_ID"));
+	return static_cast<RecArticulo*>(findRelatedRecord("ARTICULO_ID"));
 }
 
 empresa::RecTipoIVA *RecPresupuestoVentaDet::getRecTipoIVA() const
 {
-	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("PRESUPUESTOVENTADET.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("TIPOIVA_ID"));
 }
 
 /*>>>>>PRESUPUESTOVENTADET_RELATIONS*/

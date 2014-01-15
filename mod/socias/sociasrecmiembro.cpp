@@ -32,26 +32,26 @@ int RecMiembro::getLastNumeroSocia(int proyecto_id) const
 /*<<<<<MIEMBRO_RELATIONS*/
 RecProyecto *RecMiembro::getRecProyecto() const
 {
-	return static_cast<RecProyecto*>(findRelatedRecord("MIEMBRO.PROYECTO_ID"));
+	return static_cast<RecProyecto*>(findRelatedRecord("PROYECTO_ID"));
 }
 
 #ifdef HAVE_PAGOSMODULE
 pagos::RecFormaPago *RecMiembro::getRecFormaPago() const
 {
-	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("MIEMBRO.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FORMAPAGO_ID"));
 }
 #endif
 
 #ifdef HAVE_FACTUMODULE
 factu::RecCliente *RecMiembro::getRecCliente() const
 {
-	return static_cast<factu::RecCliente*>(findRelatedRecord("MIEMBRO.CLIENTE_ID"));
+	return static_cast<factu::RecCliente*>(findRelatedRecord("CLIENTE_ID"));
 }
 #endif
 
 RecTipoSocia *RecMiembro::getRecTipoSocia() const
 {
-	return static_cast<RecTipoSocia*>(findRelatedRecord("MIEMBRO.TIPOSOCIA_ID"));
+	return static_cast<RecTipoSocia*>(findRelatedRecord("TIPOSOCIA_ID"));
 }
 
 /*>>>>>MIEMBRO_RELATIONS*/
@@ -59,7 +59,7 @@ RecTipoSocia *RecMiembro::getRecTipoSocia() const
 
 contactos::RecContacto *RecMiembro::getRecContacto() const
 {
-    return static_cast<contactos::RecContacto*>(findRelatedRecord("MIEMBRO.CONTACTO_ID"));
+    return static_cast<contactos::RecContacto*>(findRelatedRecord("CONTACTO_ID"));
 }
 
 /// \todo {0.3.4} Asegurarse de que no machacamos a otro miembro. Comprobar el contacto y todo lo que se pueda

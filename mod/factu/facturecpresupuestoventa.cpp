@@ -28,17 +28,17 @@ void RecPresupuestoVenta::init()
 /*<<<<<PRESUPUESTOVENTA_RELATIONS*/
 RecTipoDoc *RecPresupuestoVenta::getRecTipoDoc() const
 {
-	return static_cast<RecTipoDoc*>(findRelatedRecord("PRESUPUESTOVENTA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("TIPODOC_ID"));
 }
 
 RecCliente *RecPresupuestoVenta::getRecCliente() const
 {
-	return static_cast<RecCliente*>(findRelatedRecord("PRESUPUESTOVENTA.CLIENTE_ID"));
+	return static_cast<RecCliente*>(findRelatedRecord("CLIENTE_ID"));
 }
 
 RecAgente *RecPresupuestoVenta::getRecAgente() const
 {
-	return static_cast<RecAgente*>(findRelatedRecord("PRESUPUESTOVENTA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("AGENTE_ID"));
 }
 
 RecPresupuestoVentaDet *RecPresupuestoVenta::getRecPresupuestoVentaDet( int presupuestoventadet ) const

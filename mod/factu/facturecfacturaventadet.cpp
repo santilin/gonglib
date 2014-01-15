@@ -50,12 +50,12 @@ bool RecFacturaVentaDet::actStocks( dbRecord *facturaventa, bool saving ) const
 /*<<<<<FACTURAVENTADET_RELATIONS*/
 RecArticulo *RecFacturaVentaDet::getRecArticulo() const
 {
-	return static_cast<RecArticulo*>(findRelatedRecord("FACTURAVENTADET.ARTICULO_ID"));
+	return static_cast<RecArticulo*>(findRelatedRecord("ARTICULO_ID"));
 }
 
 empresa::RecTipoIVA *RecFacturaVentaDet::getRecTipoIVA() const
 {
-	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("FACTURAVENTADET.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("TIPOIVA_ID"));
 }
 
 /*>>>>>FACTURAVENTADET_RELATIONS*/

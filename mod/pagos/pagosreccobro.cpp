@@ -30,12 +30,12 @@ void RecCobro::init()
 /*<<<<<COBRO_RELATIONS*/
 empresa::RecMoneda *RecCobro::getRecMoneda() const
 {
-	return static_cast<empresa::RecMoneda*>(findRelatedRecord("COBRO.MONEDA_ID"));
+	return static_cast<empresa::RecMoneda*>(findRelatedRecord("MONEDA_ID"));
 }
 
 RecRemesaCobro *RecCobro::getRecRemesaCobro() const
 {
-	return static_cast<RecRemesaCobro*>(findRelatedRecord("COBRO.REMESACOBRO_ID"));
+	return static_cast<RecRemesaCobro*>(findRelatedRecord("REMESACOBRO_ID"));
 }
 
 /*>>>>>COBRO_RELATIONS*/
@@ -43,7 +43,7 @@ RecRemesaCobro *RecCobro::getRecRemesaCobro() const
 #ifdef HAVE_CONTABMODULE
 contab::RecCuentaPago *RecCobro::getRecCuentaPago() const
 {
-    return static_cast<contab::RecCuentaPago*>(findRelatedRecord("COBRO.CUENTAPAGO_ID"));
+    return static_cast<contab::RecCuentaPago*>(findRelatedRecord("CUENTAPAGO_ID"));
 }
 #endif
 

@@ -1,3 +1,5 @@
+
+
 #include "dbappnameslisttable.h"
 #include "dbappdbapplication.h"
 #include <boost/type_traits/detail/is_function_ptr_helper.hpp>
@@ -12,9 +14,19 @@ NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
     addFieldRecordID();
     addFieldIntCode( "CODIGO" )->setUnique( true );
     addFieldDesc( "NOMBRE" )->setUnique( true );
+    addFieldInt( "TIPO" )->setSqlWidth(4)->setDefaultValue("0");
     addBehavior( DBAPP->getRecordTimestampBehavior() );
 }
 
+/**
+ * @brief Sintax of the config string:
+ *     Only values:    "Yes|No|Cancel" => { 1, "Yes", 1},{2, "No", 2}, {3, "Cancel", 3}
+ *     Values and captions:  "1=Yes|3=No|6=Cancel" => { 1, "Yes", 1},{3, "No", 3}, {6, "Cancel", 6}
+ *     Values and captions:  "1=Yes,1|2=No,1|3=Cancel,4" => { 1, "Yes", 1},{3, "No", 1}, {3, "Cancel", 4}
+ *
+ * @param conn ...
+ * @return void
+ **/
 void NamesListTable::fillInfoList(dbConnection* conn)
 {
 	for( NamesListTable::InfoList::const_iterator itt = mNamesListTables.begin();
@@ -37,19 +49,30 @@ void NamesListTable::fillInfoList(dbConnection* conn)
 			XtringList valuesandcaptions;
 			Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + tablename + ".VALUES" ).toString();
 			values.tokenize( valuesandcaptions, "|" );
-			uint nitem = 0;
-			dbRecord *r = DBAPP->createRecord( tablename);
+			uint nitem = 1;
+			dbRecord *r = DBAPP->createRecord( tablename );
 			for( XtringList::const_iterator itv = valuesandcaptions.begin();
 					itv != valuesandcaptions.end();
 					++itv, ++nitem ) {
 				Xtring value, caption;
 				(*itv).splitIn2( value, caption, "=" );
-				if( caption.isEmpty() ) {// Only caption, so values are numbers
+				if( caption.isEmpty() ) { // Empty caption, so caption is also the value
 					info->values.push_back( nitem );
 					info->captions.push_back( value );
+					info->types.push_back( nitem );
 					r->setValue( "CODIGO", nitem );
 					r->setValue( "NOMBRE", value );
+					r->setValue( "TIPO", nitem );
 				} else {
+					Xtring scaption, stype;
+					caption.splitIn2( scaption, stype, "," );
+					if( stype.isEmpty() ) {
+						info->types.push_back( value.toInt() );
+						r->setValue( "TIPO", value.toInt() );
+					} else {
+						info->types.push_back( stype.toInt() );
+						r->setValue( "TIPO", stype.toInt() );
+					}
 					info->values.push_back( value.toInt() );
 					info->captions.push_back( caption );
 					r->setValue( "CODIGO", value.toInt() );
@@ -74,21 +97,38 @@ void NamesListTable::fillInfoList(dbConnection* conn)
  * @param flags ...
  * @param defaultvalue ...
  **/
-FldNamesListTable::FldNamesListTable(const Xtring& tablename, const Xtring& fldname,
+FldNamesListTable::FldNamesListTable(const Xtring &tablename, const Xtring& fldname,
+                                     dbFieldDefinition::Flags flags, const Xtring& defaultvalue)
+    : dbFieldListOfValues<int>( false, tablename, fldname,
+                                SQLINTEGER, 5, 0, flags, defaultvalue ),
+								mNamesListTableName( fldname )
+{
+	init();
+}
+
+FldNamesListTable::FldNamesListTable(const Variant &knameslisttable,
+									 const Xtring &tablename, const Xtring& fldname,
                                      dbFieldDefinition::Flags flags, const Xtring& defaultvalue)
     : dbFieldListOfValues<int>( false, tablename, fldname,
                                 SQLINTEGER, 5, 0, flags, defaultvalue )
 {
-	// TODO destructor to delete these infos
-	NamesListTable::Info *info = new NamesListTable::Info();
-	NamesListTable::InfoList::const_iterator it = NamesListTable::getNamesListTables().find( fldname );
+	mNamesListTableName = knameslisttable.toString();
+	if( mNamesListTableName.isEmpty() )
+		mNamesListTableName = fldname;
+	init();
+}
+
+void FldNamesListTable::init()
+{
+	// info must be a pointer because it can not be created on the stack, as its fields will disappear off
+	NamesListTable::InfoList::const_iterator it = NamesListTable::getNamesListTables().find( mNamesListTableName );
 	if(  it == NamesListTable::getNamesListTables().end() ) {
-		NamesListTable::getNamesListTables().insert( fldname, info );
-	} else {
-		info = (*it).second;
+		NamesListTable::Info *info = new NamesListTable::Info();
+		NamesListTable::getNamesListTables().insert( mNamesListTableName, info );
 	}
-	pListOfCaptions = &info->captions;
-	pListOfValues = &info->values;
+	it = NamesListTable::getNamesListTables().find( mNamesListTableName );
+	pListOfCaptions = const_cast<XtringList *>(&(*it).second->captions);
+	pListOfValues = const_cast<IntList *>(&(*it).second->values);
 }
 
 void FldNamesListTable::fill( dbConnection &conn )

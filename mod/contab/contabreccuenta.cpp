@@ -61,7 +61,7 @@ Xtring RecCuenta::toString(int format, const RegExp &includedFields) const
 /*<<<<<CUENTA_RELATIONS*/
 contactos::RecContacto *RecCuenta::getRecContacto() const
 {
-	return static_cast<contactos::RecContacto*>(findRelatedRecord("CUENTA.CONTACTO_ID"));
+	return static_cast<contactos::RecContacto*>(findRelatedRecord("CONTACTO_ID"));
 }
 
 /*>>>>>CUENTA_RELATIONS*/

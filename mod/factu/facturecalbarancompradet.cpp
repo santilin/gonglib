@@ -17,12 +17,12 @@ namespace factu {
 /*<<<<<ALBARANCOMPRADET_RELATIONS*/
 RecArticulo *RecAlbaranCompraDet::getRecArticulo() const
 {
-	return static_cast<RecArticulo*>(findRelatedRecord("ALBARANCOMPRADET.ARTICULO_ID"));
+	return static_cast<RecArticulo*>(findRelatedRecord("ARTICULO_ID"));
 }
 
 empresa::RecTipoIVA *RecAlbaranCompraDet::getRecTipoIVA() const
 {
-	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("ALBARANCOMPRADET.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("TIPOIVA_ID"));
 }
 
 /*>>>>>ALBARANCOMPRADET_RELATIONS*/

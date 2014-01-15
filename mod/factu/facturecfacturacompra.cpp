@@ -42,27 +42,27 @@ void RecFacturaCompra::init()
 /*<<<<<FACTURACOMPRA_RELATIONS*/
 pagos::RecFormaPago *RecFacturaCompra::getRecFormaPago() const
 {
-	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FACTURACOMPRA.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FORMAPAGO_ID"));
 }
 
 empresa::RecProyecto *RecFacturaCompra::getRecProyecto() const
 {
-	return static_cast<empresa::RecProyecto*>(findRelatedRecord("FACTURACOMPRA.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("PROYECTO_ID"));
 }
 
 RecTipoDoc *RecFacturaCompra::getRecTipoDoc() const
 {
-	return static_cast<RecTipoDoc*>(findRelatedRecord("FACTURACOMPRA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("TIPODOC_ID"));
 }
 
 RecProveedora *RecFacturaCompra::getRecProveedora() const
 {
-	return static_cast<RecProveedora*>(findRelatedRecord("FACTURACOMPRA.PROVEEDORA_ID"));
+	return static_cast<RecProveedora*>(findRelatedRecord("PROVEEDORA_ID"));
 }
 
 RecAgente *RecFacturaCompra::getRecAgente() const
 {
-	return static_cast<RecAgente*>(findRelatedRecord("FACTURACOMPRA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("AGENTE_ID"));
 }
 
 RecFacturaCompraDet *RecFacturaCompra::getRecFacturaCompraDet( int facturacompradet ) const

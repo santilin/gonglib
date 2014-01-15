@@ -34,7 +34,7 @@ bool RecRemesaCobro::save(bool saverelated) throw( dbError )
 /*<<<<<REMESACOBRO_RELATIONS*/
 empresa::RecProyecto *RecRemesaCobro::getRecProyecto() const
 {
-	return static_cast<empresa::RecProyecto*>(findRelatedRecord("REMESACOBRO.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("PROYECTO_ID"));
 }
 
 /*>>>>>REMESACOBRO_RELATIONS*/

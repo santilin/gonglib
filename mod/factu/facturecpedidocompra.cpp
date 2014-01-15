@@ -28,17 +28,17 @@ void RecPedidoCompra::init()
 /*<<<<<PEDIDOCOMPRA_RELATIONS*/
 RecTipoDoc *RecPedidoCompra::getRecTipoDoc() const
 {
-	return static_cast<RecTipoDoc*>(findRelatedRecord("PEDIDOCOMPRA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("TIPODOC_ID"));
 }
 
 RecProveedora *RecPedidoCompra::getRecProveedora() const
 {
-	return static_cast<RecProveedora*>(findRelatedRecord("PEDIDOCOMPRA.PROVEEDORA_ID"));
+	return static_cast<RecProveedora*>(findRelatedRecord("PROVEEDORA_ID"));
 }
 
 RecAgente *RecPedidoCompra::getRecAgente() const
 {
-	return static_cast<RecAgente*>(findRelatedRecord("PEDIDOCOMPRA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("AGENTE_ID"));
 }
 
 RecPedidoCompraDet *RecPedidoCompra::getRecPedidoCompraDet( int pedidocompradet ) const

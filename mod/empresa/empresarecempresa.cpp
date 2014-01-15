@@ -17,12 +17,12 @@ namespace empresa {
 /*<<<<<EMPRESA_RELATIONS*/
 contactos::RecContacto *RecEmpresa::getRecContacto() const
 {
-	return static_cast<contactos::RecContacto*>(findRelatedRecord("EMPRESA.CONTACTO_ID"));
+	return static_cast<contactos::RecContacto*>(findRelatedRecord("CONTACTO_ID"));
 }
 
 RecMoneda *RecEmpresa::getRecMoneda() const
 {
-	return static_cast<RecMoneda*>(findRelatedRecord("EMPRESA.MONEDA_ID"));
+	return static_cast<RecMoneda*>(findRelatedRecord("MONEDA_ID"));
 }
 
 /*>>>>>EMPRESA_RELATIONS*/

@@ -151,6 +151,7 @@ public:
                                          dbFieldDefinition::Flags flags = dbFieldDefinition::NONE ) {
         return addFieldString( name, 254, flags );
     }
+
     dbRelationDefinition *addRelation( const dbRelationDefinition::Type& type,
                                        const Xtring &lefttable, const Xtring &leftfield,
                                        const Xtring &righttable, const Xtring &rightfield ) {
@@ -166,12 +167,18 @@ public:
         return pTableDefinition->addMultipleIndex(name, fields, unique);
     }
 
-    // This allows you to add any kind of dbFieldDefinition
+    // These allow you to add any kind of dbFieldDefinition
     template <class T> T* addField( const Xtring &name,
                                     dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
                                     const Xtring &defaultvalue = Xtring::null ) {
         return static_cast<T *>
                ( pTableDefinition->addField( new T( pTableDefinition->getName(), name, flags, defaultvalue ) ) );
+    }
+    template <class T> T* addField( const Variant &extraarg, const Xtring &name,
+                                    dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
+                                    const Xtring &defaultvalue = Xtring::null ) {
+        return static_cast<T *>
+               ( pTableDefinition->addField( new T( extraarg, pTableDefinition->getName(), name, flags, defaultvalue ) ) );
     }
 
 protected:

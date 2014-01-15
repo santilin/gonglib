@@ -17,17 +17,17 @@ namespace factu {
 /*<<<<<PROVEEDORA_RELATIONS*/
 contactos::RecContacto *RecProveedora::getRecContacto() const
 {
-	return static_cast<contactos::RecContacto*>(findRelatedRecord("PROVEEDORA.CONTACTO_ID"));
+	return static_cast<contactos::RecContacto*>(findRelatedRecord("CONTACTO_ID"));
 }
 
 RecAgente *RecProveedora::getRecAgente() const
 {
-	return static_cast<RecAgente*>(findRelatedRecord("PROVEEDORA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("AGENTE_ID"));
 }
 
 pagos::RecFormaPago *RecProveedora::getRecFormaPago() const
 {
-	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("PROVEEDORA.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FORMAPAGO_ID"));
 }
 
 /*>>>>>PROVEEDORA_RELATIONS*/

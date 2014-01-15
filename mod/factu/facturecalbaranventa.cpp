@@ -42,27 +42,27 @@ void RecAlbaranVenta::init()
 /*<<<<<ALBARANVENTA_RELATIONS*/
 RecTipoDoc *RecAlbaranVenta::getRecTipoDoc() const
 {
-	return static_cast<RecTipoDoc*>(findRelatedRecord("ALBARANVENTA.TIPODOC_ID"));
+	return static_cast<RecTipoDoc*>(findRelatedRecord("TIPODOC_ID"));
 }
 
 RecCliente *RecAlbaranVenta::getRecCliente() const
 {
-	return static_cast<RecCliente*>(findRelatedRecord("ALBARANVENTA.CLIENTE_ID"));
+	return static_cast<RecCliente*>(findRelatedRecord("CLIENTE_ID"));
 }
 
 RecAgente *RecAlbaranVenta::getRecAgente() const
 {
-	return static_cast<RecAgente*>(findRelatedRecord("ALBARANVENTA.AGENTE_ID"));
+	return static_cast<RecAgente*>(findRelatedRecord("AGENTE_ID"));
 }
 
 pagos::RecFormaPago *RecAlbaranVenta::getRecFormaPago() const
 {
-	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("ALBARANVENTA.FORMAPAGO_ID"));
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FORMAPAGO_ID"));
 }
 
 empresa::RecProyecto *RecAlbaranVenta::getRecProyecto() const
 {
-	return static_cast<empresa::RecProyecto*>(findRelatedRecord("ALBARANVENTA.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("PROYECTO_ID"));
 }
 
 RecAlbaranVentaDet *RecAlbaranVenta::getRecAlbaranVentaDet( int albaranventadet ) const

@@ -173,7 +173,7 @@ void FrmMailing::accept()
 		msgError( this, _("Falta rellenar la configuración del servidor SMTP") );
 		return;
 	}
-	int grouping = pGrouping->toInt();
+	uint grouping = static_cast<uint>(pGrouping->toInt());
     if(  grouping < 1 || grouping > 100 ) {
 		msgError( this, _("El número de direcciones por email tiene que estar entre 1 y 100") );
 		return;
@@ -189,7 +189,7 @@ void FrmMailing::accept()
 		addMessage( pErrors, _("Error: " + s.getError()) );
 	} else {
 		getEmailsList( emails, false );
-		int groupcount = 0, totalcount = 0, okcount = 0, errorcount = 0;
+		uint groupcount = 0, totalcount = 0, okcount = 0, errorcount = 0;
 		bool isHTML = !pHTMLBody->toString().isEmpty();
 		Poco::Net::MailMessage *message = 0;
 		bool do_send = false;

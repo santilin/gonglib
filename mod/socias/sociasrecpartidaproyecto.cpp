@@ -14,7 +14,7 @@ namespace socias {
 /*<<<<<PARTIDAPROYECTO_RELATIONS*/
 RecProyecto *RecPartidaProyecto::getRecProyecto() const
 {
-	return static_cast<RecProyecto*>(findRelatedRecord("PARTIDAPROYECTO.PROYECTO_ID"));
+	return static_cast<RecProyecto*>(findRelatedRecord("PROYECTO_ID"));
 }
 
 /*>>>>>PARTIDAPROYECTO_RELATIONS*/

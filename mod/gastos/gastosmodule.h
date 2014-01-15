@@ -25,11 +25,6 @@ class QAction;
 class QMenu;
 
 class NamesListTable;
-#ifdef HAVE_GASTOSMODULE
-#include <gastosmodule.h>
-#else
-#error El módulo 'gastos::GastosModule' requiere el módulo 'Gastos'
-#endif
 #ifdef HAVE_PAGOSMODULE
 #include <pagosmodule.h>
 #endif
@@ -70,23 +65,23 @@ public:
 /*>>>>>GASTOSMODULE_CLASS_DEFINITION*/
 /*<<<<<GASTOSMODULE_RECORD_DEFINITIONS*/
 public:
-	gastos::MasterTable *getFicGasto() const { return pFicGasto; }
+	gastos::MasterTable *getFicGastoDef() const { return pFicGastoDef; }
+	NamesListTable *pFicPedirCampo;
 	NamesListTable *pFicTipoGasto;
 	NamesListTable *pFicCategoriaGasto;
 
 private:
-	gastos::MasterTable *pFicGasto;
+	gastos::MasterTable *pFicGastoDef;
 /*>>>>>GASTOSMODULE_RECORD_DEFINITIONS*/
 /*<<<<<GASTOSMODULE_MENU_DEFINITIONS*/
 private slots:
-	void slotMenuGastosGasto();
+	void slotMenuGastosGastoDef();
 protected:
-	QAction *pMenuGastosGasto;
+	QAction *pMenuGastosGastoDef;
 /*>>>>>GASTOSMODULE_MENU_DEFINITIONS*/
 	QMenu *pMenuGastos;
 /*<<<<<GASTOSMODULE_REQUIRES*/
 public:
-	gastos::GastosModule *getGastosModule() const { return pGastosModule; }
 #ifdef HAVE_PAGOSMODULE
 	pagos::PagosModule *getPagosModule() const { return pPagosModule; }
 #endif
@@ -97,7 +92,6 @@ public:
 	factu::FactuModule *getFactuModule() const { return pFactuModule; }
 #endif
 private:
-	gastos::GastosModule *pGastosModule;
 #ifdef HAVE_PAGOSMODULE
 	pagos::PagosModule *pPagosModule;
 #endif

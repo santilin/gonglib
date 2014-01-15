@@ -20,22 +20,22 @@ namespace factu {
 /*<<<<<ARTICULO_RELATIONS*/
 RecFamilia *RecArticulo::getRecFamilia() const
 {
-	return static_cast<RecFamilia*>(findRelatedRecord("ARTICULO.FAMILIA_ID"));
+	return static_cast<RecFamilia*>(findRelatedRecord("FAMILIA_ID"));
 }
 
 empresa::RecTipoIVA *RecArticulo::getRecTipoIVA() const
 {
-	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("ARTICULO.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("TIPOIVA_ID"));
 }
 
 RecProveedora *RecArticulo::getRecProveedora() const
 {
-	return static_cast<RecProveedora*>(findRelatedRecord("ARTICULO.PROVEEDORA_ID"));
+	return static_cast<RecProveedora*>(findRelatedRecord("PROVEEDORA_ID"));
 }
 
 RecArticuloImagen *RecArticulo::getRecArticuloImagen() const
 {
-	return static_cast<RecArticuloImagen*>(findRelatedRecord("ARTICULO.ARTICULOIMAGEN_ID"));
+	return static_cast<RecArticuloImagen*>(findRelatedRecord("ARTICULOIMAGEN_ID"));
 }
 
 /*>>>>>ARTICULO_RELATIONS*/

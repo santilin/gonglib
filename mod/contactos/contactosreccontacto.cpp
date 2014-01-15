@@ -49,7 +49,7 @@ Xtring normalizaPalabra(const Xtring &palabra, int npalabra)
 /*<<<<<CONTACTO_RELATIONS*/
 RecContactoImagen *RecContacto::getRecContactoImagen() const
 {
-	return static_cast<RecContactoImagen*>(findRelatedRecord("CONTACTO.CONTACTOIMAGEN_ID"));
+	return static_cast<RecContactoImagen*>(findRelatedRecord("CONTACTOIMAGEN_ID"));
 }
 
 /*>>>>>CONTACTO_RELATIONS*/

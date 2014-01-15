@@ -15,7 +15,7 @@ namespace factu {
 /*<<<<<AGENTE_RELATIONS*/
 contactos::RecContacto *RecAgente::getRecContacto() const
 {
-	return static_cast<contactos::RecContacto*>(findRelatedRecord("AGENTE.CONTACTO_ID"));
+	return static_cast<contactos::RecContacto*>(findRelatedRecord("CONTACTO_ID"));
 }
 
 /*>>>>>AGENTE_RELATIONS*/

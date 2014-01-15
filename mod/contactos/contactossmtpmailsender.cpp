@@ -71,7 +71,6 @@ int SMTPMailSender::open()
 MailMessage *SMTPMailSender::createMessage(const Xtring& from, const Xtring& to, const Xtring& subject,
 						   const Xtring &content, bool html)
 {
-	int ret = 0;
 	clearError();
     Xtring enc_subject = MailMessage::encodeWord(subject, "UTF-8");
     MailMessage *message = new MailMessage();

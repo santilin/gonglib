@@ -5,14 +5,14 @@ AM_CXXFLAGS = @AM_CXXFLAGS@
 lib_LTLIBRARIES = libgonggastos.la
 libgonggastos_ladir = $(includedir)/gonglib
 libgonggastos_la_SOURCES = gastosmodule.cpp \
- 	gastosrecgasto.cpp \
- 	gastosfrmeditgasto.cpp
+ 	gastosrecgastodef.cpp \
+ 	gastosfrmeditgastodef.cpp
 
 libgonggastos_la_HEADERS = gastosmodule.h gastosmastertable.h \
- 	gastosrecgasto.h gastosfrmeditgasto.h
+ 	gastosrecgastodef.h gastosfrmeditgastodef.h
 
 nodist_libgonggastos_la_SOURCES = moc_gastosmodule.cpp \
- 	moc_gastosfrmeditgasto.cpp
+ 	moc_gastosfrmeditgastodef.cpp
 
 moc_%.cpp: %.h
 	moc $< -o \$@

@@ -1,0 +1,5 @@
+DBDEF.TABLE.PEDIRCAMPO.VALUES(string)="1=No pedir|2=Pedir|3=Fijar";
+
+DBDEF.TABLE.GASTODEF.DESC_SINGULAR= "Definición de gasto";
+DBDEF.TABLE.GASTODEF.DESC_PLURAL= "Definiciones de gastos";
+DBDEF.TABLE.GASTODEF.FEMENINA= "true";

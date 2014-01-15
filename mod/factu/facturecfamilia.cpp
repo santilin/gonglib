@@ -15,7 +15,7 @@ namespace factu {
 /*<<<<<FAMILIA_RELATIONS*/
 empresa::RecTipoIVA *RecFamilia::getRecTipoIVA() const
 {
-	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("FAMILIA.TIPOIVA_ID"));
+	return static_cast<empresa::RecTipoIVA*>(findRelatedRecord("TIPOIVA_ID"));
 }
 
 /*>>>>>FAMILIA_RELATIONS*/

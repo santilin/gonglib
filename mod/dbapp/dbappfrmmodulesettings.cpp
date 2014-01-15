@@ -20,6 +20,8 @@ FrmModuleSettings::FrmModuleSettings(dbModuleSetting::Scope scope, QWidget* pare
     case dbModuleSetting::Global:
         pSettings = DBAPP->getGlobalSettings();
         break;
+	default:
+		throw std::runtime_error( "Wrong parameter scope in FrmModuleSettings" );
     }
     setTitle( pSettings->getDescription() );
     pTabWidget = new QTabWidget( pFrameEdit );
@@ -66,13 +68,12 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
 		else
 			scinfo.modulename = "";
         scinfo.edited = false;
-		bool isdefault = false;
-        Variant value = pSettings->getValue( scinfo.modulename.upper() + pms->key,
-                                             scinfo.settinginfo->defaultvalue);
-        if( value.toString() == scinfo.settinginfo->defaultvalue ) {
-			isdefault = true;
-            value = Variant();
-		}
+        Variant value = pSettings->getValue( scinfo.modulename.upper() + pms->key, Variant() );
+		_GONG_DEBUG_PRINT(0, value.toString() );
+		if( value.type() == Variant::tInvalid )
+			scinfo.resetted = true;
+		else
+			scinfo.resetted = false;
         switch( pms->type ) {
         case dbModuleSetting::Bool:
             scinfo.w = addCheckBox(this, pms->description, value.toBool(), 0, hboxlayout );
@@ -160,6 +161,7 @@ void FrmModuleSettings::resetButton_clicked()
 		if( ci.resetButton == rb ) {
 			setControlValue( ci.w, ci.settinginfo->defaultvalue );
 			ci.w->setStyleSheet( "" );
+			ci.resetted = true;
 		}
 	}
 }
@@ -287,6 +289,7 @@ void FrmModuleSettings::validate_input(QWidget *control , bool* )
             if( it->w == control ) {
 				setControlColor( &(*it), value );
                 it->edited = true;
+				it->resetted = false;
                 return;
             }
         }
@@ -349,20 +352,20 @@ void FrmModuleSettings::setControlColor(FrmModuleSettings::ControlInfo* ci, cons
 {
 	_GONG_DEBUG_PRINT(0, value.toString() );
 	_GONG_DEBUG_PRINT(0, ci->modulename.upper() + ci->settinginfo->key );
-	if( value.toString().isEmpty() || value.toString() == ci->settinginfo->defaultvalue )
+	if( ci->resetted )
+		/*|| value.toString().isEmpty()*/
+		/*|| value.toString() == ci->settinginfo->defaultvalue */
 		ci->w->setStyleSheet( "color:black" );
 	else if( mSettingsScope == dbModuleSetting::Local )
 		ci->w->setStyleSheet( "color:green" );
 	else {
-		Xtring s( DBAPP->getGlobalSetting( ci->modulename.upper() + ci->settinginfo->key, Variant() ).toString() );
+		Xtring s( DBAPP->getUserLocalSetting( ci->modulename.upper() + ci->settinginfo->key, Variant() ).toString() );
 		if( s.isEmpty() || ci->settinginfo->defaultvalue == s )
 			ci->w->setStyleSheet( "color:green" );
 		else
 			ci->w->setStyleSheet( "color:red" );
 	}
 }
-
-
 
 void FrmModuleSettings::accept()
 {

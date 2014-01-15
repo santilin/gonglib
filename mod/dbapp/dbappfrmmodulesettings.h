@@ -23,7 +23,7 @@ class FrmModuleSettings: public FrmCustom
 public:
 	typedef struct {
 		QWidget *w;
-		bool edited;
+		bool edited, resetted;
 		Xtring modulename;
 		const dbModuleSetting *settinginfo;
 		QPushButton *resetButton;

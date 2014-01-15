@@ -25,7 +25,7 @@ void RecAsiento::init()
 /*<<<<<ASIENTO_RELATIONS*/
 empresa::RecProyecto *RecAsiento::getRecProyecto() const
 {
-	return static_cast<empresa::RecProyecto*>(findRelatedRecord("ASIENTO.PROYECTO_ID"));
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("PROYECTO_ID"));
 }
 
 RecApunte *RecAsiento::getRecApunte( int apunte ) const

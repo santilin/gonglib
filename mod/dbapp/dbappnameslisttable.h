@@ -21,8 +21,8 @@ namespace gong {
 class NamesListTable: public dbMasterTable
 {
 public:
-	struct Info {XtringList captions; IntList values;};
-	typedef Dictionary<Info*> InfoList;
+	struct Info {XtringList captions; IntList values; IntList types;};
+	typedef Dictionary<Info *> InfoList;
 
 	NamesListTable(dbDefinition &db, const Xtring &name);
     static InfoList &getNamesListTables() {
@@ -37,15 +37,21 @@ private:
 class FldNamesListTable: public dbFieldListOfValues<int>
 {
 public:
+    FldNamesListTable( const Variant &extraarg, const Xtring &tablename, const Xtring& fldname,
+                       dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
+                       const Xtring &defaultvalue = Xtring::null );
     FldNamesListTable( const Xtring &tablename, const Xtring& fldname,
                        dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
                        const Xtring &defaultvalue = Xtring::null );
+	void init();
     virtual bool isValid( dbRecord *r, dbFieldValue *value,
                           ValidResult::Context context, ValidResult *integres) const; // from dbFieldDefinition
     void fill( dbConnection &conn );
     void fill( XtringList &mCaptions, List<int> &mValues );
     void fill( const XtringList &mCaptions, const List<int> &mValues );
     int findCode( const Xtring &name ) const;
+private:
+	Xtring mNamesListTableName;
 };
 
 class RecNamesListTable: public dbRecord
