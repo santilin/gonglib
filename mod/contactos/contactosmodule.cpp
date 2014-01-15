@@ -57,34 +57,6 @@ static dbModuleSetting _settings[] = {
         "{direccion}, {barrio}\n{cp} {localidad}, {provincia}. {pais}\nTel: {telefono}, Fax: {fax}\n{email}",
         dbModuleSetting::All
     },
-	{
-		dbModuleSetting::String,
-		"SMTP_FROM",
-		_("Remitente de los envíos de emails masivos"),
-		"",
-        dbModuleSetting::All
-	},
-	{
-		dbModuleSetting::String,
-		"SMTP_HOST",
-		_("Host del servidor SMTP"),
-		"",
-        dbModuleSetting::All
-	},
-	{
-		dbModuleSetting::String,
-		"SMTP_USER",
-		_("Usuaria del servidor SMTP"),
-		"",
-        dbModuleSetting::All
-	},
-	{
-		dbModuleSetting::Int,
-		"SMTP_PORT",
-		_("Puerto del servidor SMTP (25)"),
-		"25",
-        dbModuleSetting::All
-	},
 	{dbModuleSetting::None}
 };
 

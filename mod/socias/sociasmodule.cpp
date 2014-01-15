@@ -268,11 +268,13 @@ bool SociasModule::initMainWindow(MainWindow *mainwin)
         pMainWindow->connect(pMenuGenerarRecibos, SIGNAL(activated()), this, SLOT(slotMenuGenerarRecibos()));
         pMenuGenerarRecibos->addTo(pMenuSocias);
     }
+#if 0
     QAction *menuContactosMailing = pMainWindow->findAction( "MenuContactosMailing" );
     pMainWindow->disconnect( menuContactosMailing, SIGNAL( activated() ), 0, 0 );
     pMainWindow->connect( menuContactosMailing,
                           SIGNAL( activated() ), this,
                           SLOT( slotMenuSociasFrmMailing() ) );
+#endif
     return true;
 }
 

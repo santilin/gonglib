@@ -1,9 +1,15 @@
 == HECHO ==
-mc: FIX: No calcula bien los máximos contadores en pagos ni en ofertas.
 
-== LOS PAJAROS ==
+== QUEDA POR HACER DE ENVIO DE EMAILS ==
+* Adjuntos
+* Probar HTML
+* Eliminar sociasfrmemails, porque ya no se necesita
 
 == HACIENDO ==
+mc: FIX: No calcula bien los máximos contadores en pagos ni en ofertas.
+mc: Peta al visualizar un pago de oferta: no existe la relación de la moneda y hay que quitar el campo CUENTAORIGEN
+mc: Comprobar los cobros
+resto: Comprobar los pagos y los cobros.
 
 == gong-tpv ==
 * TPV: Imprimir en el ticket el cambio, la entrega, el resto y la forma de pago
@@ -27,7 +33,6 @@ mc: FIX: No calcula bien los máximos contadores en pagos ni en ofertas.
 = PRESCINDIBLE =
 
 == Ofertas ==
-* Peta al visualizar un pago: no existe la relación de la moneda y hay que quitar el campo CUENTAORIGEN
 
 == gong-factu ==
 * Que la suma en mc de las ventas coincida con la suma de las facturas
@@ -100,6 +105,7 @@ mc: FIX: No calcula bien los máximos contadores en pagos ni en ofertas.
 * 	struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Settings: booleanos, si el default es false, el local es false y el global es true, no sale el global en rojo
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
 * QWidgetTab->strongFocus
@@ -143,6 +149,8 @@ mc: FIX: No calcula bien los máximos contadores en pagos ni en ofertas.
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
+* Los botones del visor están en inglés
+* Añadir opción enviar por correo
 * Implementar padding de los objetos
 * El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 * Al hacer un informe apaisado, el alto de línea es demasiado pequeño
@@ -303,8 +311,6 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * Quitar última fecha y añadir a frmeditrec la posibilidad de bloquear cualquier campo
 * Crear un FrmCondicionesInformes: public FrmCustom.
 ** Esto es una barbaridad Xtring FrmCustom::readRTK( const Xtring &_template )
-* dbModule::readSettings( local/global ) y en dbapplication::readSettings, llamar primero al global,
-	luego leer las globales de la aplicación y luego llamar al local y luego las locales de la aplicación, igual con los reportspath
 
 == optimizaciones ==
 * CreateRecord: hacerlo en el readrelations

@@ -238,15 +238,17 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
     if( numeroagrupado.isEmpty() )
         numeroagrupado = recibo->getValue( "NUMERO" ).toString();
 #ifdef HAVE_CONTABMODULE
-    dbRecord *cuentapago = recibo->findRelatedRecord( "CUENTAPAGO_ID" );
-    has_contab = contab::ModuleInstance->isContabActive();
-    dbRecordID cuentapago_id;
-    contab::Cuenta cuenta_pago( contab::ModuleInstance->getDigitosTrabajo() );
-    contab::Cuenta cuenta_pago_contraida( cuenta_pago );
-    contab::RecCuenta *cuenta_origen = 0;
-    dbRecordID proyecto_id = 0;
-    proyecto_id = getProyectoID();
+    has_contab = contab::ModuleInstance->isContabActive()
+		&& recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
+	dbRecord *cuentapago = 0;
+	dbRecordID cuentapago_id;
+	contab::Cuenta cuenta_pago( contab::ModuleInstance->getDigitosTrabajo() );
+	contab::Cuenta cuenta_pago_contraida( cuenta_pago );
+	contab::RecCuenta *cuenta_origen = 0;
+	dbRecordID proyecto_id = 0;
     if( has_contab ) {
+		cuentapago = recibo->findRelatedRecord( "CUENTAPAGO_ID" );
+		proyecto_id = getProyectoID();
         contab::Cuenta str_cuenta_origen( recibo->getValue( "CUENTAORIGEN" ).toString(),
                                           contab::ModuleInstance->getDigitosTrabajo() );
         str_cuenta_origen.expandir();
@@ -641,29 +643,37 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                                        dbRecord* recibo )
 {
     if( recibo->getValue( "ESTADORECIBO" ).toInt() == PagosModule::ReciboPagado ) {
+		bool has_contab = false;
+		bool pideanularpago = true;
+		bool anularpago = false;
 #ifdef HAVE_CONTABMODULE
-        bool has_contab = contab::ModuleInstance->isContabActive();
-        dbRecord *cuentapago;
-        if( mTipo == pagos ) {
-            cuentapago = static_cast<RecPago *>(recibo)->getRecCuentaPago();
-        } else {
-            cuentapago = static_cast<RecCobro *>(recibo)->getRecCuentaPago();
-        }
-        if( FrmBase::msgYesNoCancel( parent,
-                                     Xtring::printf( _("¿Estás segura de borrar este pago realizado el día %s por un importe de %f,\n"
-                                             " por la cuenta '%s' y mediante el documento '%s'?"),
-                                             recibo->getValue( "FECHAPAGO" ).toDate().toString().c_str(),
-                                             recibo->getValue( "IMPORTE" ).toMoney().toDouble(),
-                                             cuentapago->getValue( "DESCRIPCION" ).toString().c_str(),
-                                             recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes ) {
-#else
-        if( FrmBase::msgYesNoCancel( parent,
+        has_contab = contab::ModuleInstance->isContabActive()
+			&& recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
+		if( has_contab ) {
+			dbRecord *cuentapago;
+			if( mTipo == pagos ) {
+				cuentapago = static_cast<RecPago *>(recibo)->getRecCuentaPago();
+			} else {
+				cuentapago = static_cast<RecCobro *>(recibo)->getRecCuentaPago();
+			}
+			anularpago = FrmBase::msgYesNoCancel( parent,
+						Xtring::printf( _("¿Estás segura de borrar este pago realizado el día %s por un importe de %f,\n"
+											" por la cuenta '%s' y mediante el documento '%s'?"),
+											recibo->getValue( "FECHAPAGO" ).toDate().toString().c_str(),
+											recibo->getValue( "IMPORTE" ).toMoney().toDouble(),
+											cuentapago->getValue( "DESCRIPCION" ).toString().c_str(),
+											recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes;
+			pideanularpago = false;
+		}
+#endif
+		if( pideanularpago )
+			anularpago = FrmBase::msgYesNoCancel( parent,
                                      Xtring::printf( _("¿Estás segura de borrar este pago realizado el día %s por un importe de %f,\n"
                                              "y mediante el documento '%s'?"),
                                              recibo->getValue( "FECHAPAGO" ).toDate().toString().c_str(),
                                              recibo->getValue( "IMPORTE" ).toMoney().toDouble(),
-                                             recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes ) {
-#endif
+                                             recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes;
+		if( anularpago ) {
             bool anulapago = true;
             int npagosagrupados = recibo->getConnection()->selectInt(
                                       "SELECT COUNT(*) FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName()) +
@@ -715,12 +725,15 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                 recibo->setNullValue( "FECHAPAGO" );
                 recibo->setNullValue( "DOCUMENTOPAGO" );
 #ifdef HAVE_CONTABMODULE
-                if( mTipo == pagos )
-                    PagosModule::sLastCuentaPago = static_cast<RecPago *>(recibo)->getRecCuentaPago()->getValue( "CUENTA" ).toString();
-                else
-                    PagosModule::sLastCuentaPago = static_cast<RecCobro *>(recibo)->getRecCuentaPago()->getValue( "CUENTA" ).toString();
-                recibo->setNullValue( "ASIENTO_PAGO_ID" );
-                recibo->setNullValue( "CUENTAPAGO_ID" );
+				// Puede que dé error de que no existen, pero mejor que lo de a que se quede un valor erróneo
+				recibo->setNullValue( "ASIENTO_PAGO_ID" );
+				recibo->setNullValue( "CUENTAPAGO_ID" );
+				if( has_contab ) {
+					if( mTipo == pagos )
+						PagosModule::sLastCuentaPago = static_cast<RecPago *>(recibo)->getRecCuentaPago()->getValue( "CUENTA" ).toString();
+					else
+						PagosModule::sLastCuentaPago = static_cast<RecCobro *>(recibo)->getRecCuentaPago()->getValue( "CUENTA" ).toString();
+				}
 #endif
                 try {
                     if( recibo->save(false) )

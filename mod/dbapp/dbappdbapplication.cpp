@@ -30,7 +30,8 @@ static dbModuleSetting _settings[] = {
         dbModuleSetting::Bool,
         "AUTOLOGIN",
         _("Conectar automáticamente a la base de datos al iniciar el programa"),
-        "false"
+        "false",
+		dbModuleSetting::Local
     },
 // TODO
 //     {
@@ -44,57 +45,93 @@ static dbModuleSetting _settings[] = {
         dbModuleSetting::Int,
         "RTK.PATH",
         _("Ruta de búsqueda de informes"),
-        ""
+        "",
+		dbModuleSetting::Local
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.SCREEN.MARGINLEFT",
         _("Margen izquierdo de los informes en pantalla"),
-        "20"
+        "20",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.SCREEN.MARGINRIGHT",
         _("Margen derecho de los informes en pantalla"),
-        "20"
+        "20",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.SCREEN.MARGINTOP",
         _("Margen superior de los informes en pantalla"),
-        "20"
+        "20",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.SCREEN.MARGININFERIOR",
         _("Margen inferior de los informes en pantalla"),
-        "20"
+        "20",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PDF.MARGINLEFT",
         _("Margen izquierdo de los informes en PDF"),
-        "20"
+        "20",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PDF.MARGINRIGHT",
         _("Margen derecho de los informes en PDF"),
-        "20"
+        "20",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PDF.MARGINTOP",
         _("Margen superior de los informes en PDF"),
-        "20"
+        "20",
+		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PDF.MARGININFERIOR",
         _("Margen inferior de los informes en PDF"),
-        "20"
+        "20",
+		dbModuleSetting::All
     },
-
+	{
+		dbModuleSetting::String,
+		"SMTP_FROM",
+		_("Remitente de los envíos de emails masivos"),
+		"",
+        dbModuleSetting::All
+	},
+	{
+		dbModuleSetting::String,
+		"SMTP_HOST",
+		_("Host del servidor SMTP"),
+		"",
+        dbModuleSetting::All
+	},
+	{
+		dbModuleSetting::String,
+		"SMTP_USER",
+		_("Usuaria del servidor SMTP"),
+		"",
+        dbModuleSetting::All
+	},
+	{
+		dbModuleSetting::Int,
+		"SMTP_PORT",
+		_("Puerto del servidor SMTP (25)"),
+		"25",
+        dbModuleSetting::All
+	},
     {dbModuleSetting::None}
 };
 

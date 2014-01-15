@@ -37,11 +37,12 @@ private:
     QWidget *tabSeleccion, *tabContenido, *tabConfiguracion, *tabResultado;
     LineEdit *pFrom, *pSubject;
     class RichTextBox *pHTMLBody;
-    LineEdit *pHost, *pUser, *pPassword, *pPort;
+    LineEdit *pHost, *pUser, *pPassword, *pPort, *pGrouping;
     List<SearchBox *> mSearchBoxes;
     PushButton *pushShowEMails, *pushShowEMailsAndNames;
-	TextEdit *pBody, *pResultado, *pErrors;
+	TextEdit *pBody, *pResultado, *pOks, *pErrors;
 	QCheckBox *pCheckSaveSettings;
+	QLabel *lblProgreso;
 };
 
 } // namespace contactos

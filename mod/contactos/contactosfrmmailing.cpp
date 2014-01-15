@@ -1,4 +1,5 @@
 #include "config.h"
+#include <Poco/Net/MailRecipient.h>
 #include <gonggettext.h>
 #include <gongdbdefinition.h>
 #include <gongdbfieldemail.h>
@@ -7,6 +8,8 @@
 #include "contactossmtpmailsender.h"
 #include "contactosmodule.h"
 #include "contactosfrmmailing.h"
+
+using Poco::Net::MailRecipient;
 
 namespace gong {
 namespace contactos {
@@ -34,6 +37,7 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
             Xtring desc = tbldef->findFieldByFlags(dbFieldDefinition::DESCRIPTION) ?
                           tbldef->findFieldByFlags(dbFieldDefinition::DESCRIPTION)->getName() : "DESCRIPCION";
             mSearchBoxes << addMultipleSearchField( tabSeleccion, tbldef->getName(), code, desc, selLayout );
+			_GONG_DEBUG_PRINT(0, "Añado " + tbldef->getName() );
         }
     }
 	pushShowEMails = addButton( tabFrameEdit, _("Mostrar emails" ), 0, selLayout );
@@ -58,14 +62,19 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     pPassword = addInput(tabConfiguracion, _("Contraseña"), Variant(), "PASSWORD", 0, confLayout );
     pPort = addInput(tabConfiguracion, _("Puerto"),
 					 ModuleInstance->getModuleSetting( "SMTP_PORT").toInt(), "INTEGER", 0, confLayout );
+    pGrouping = addInput(tabConfiguracion, _("Número de direcciones a agregar en cada email"),
+					 0, "INTEGER", 0, confLayout );
 	pCheckSaveSettings = addCheckBox( this, _("Guardar datos de conexión"), true, 0, confLayout );
     tabFrameEdit->addTab( tabConfiguracion, _("&Servidor SMTP") );
 
 	tabResultado = new QWidget( tabFrameEdit, "tabResultado" );
     QVBoxLayout *resLayout = new QVBoxLayout( tabResultado );
 	pResultado = addTextEditBox( tabResultado, _("Resultado"), Xtring::null, 0, resLayout );
+	pOks = addTextEditBox( tabResultado, _("Correctos"), Xtring::null, 0, resLayout );
 	pErrors = addTextEditBox( tabResultado, _("Errores"), Xtring::null, 0, resLayout );
 	tabFrameEdit->addTab( tabResultado, _("Resultado") );
+	lblProgreso = new QLabel( tabResultado );
+	resLayout->addWidget( lblProgreso );
 #if !HAVE_POCOLIB
 	msgError( this, _("No se pueden enviar emails, la biblioteca POCO no está instalada") );
 	pushAccept->setEnabled( false );
@@ -84,7 +93,7 @@ void FrmMailing::validate_input(QWidget* sender, bool* isvalid)
         getEmailsList( emails, true );
         msgOkLarge( this, Xtring::printf( _("%d emails seleccionados"), emails.size() ),
                     emails.join("\n") );
-    }
+	}
     FrmCustom::validate_input( sender, isvalid );
 }
 
@@ -164,29 +173,67 @@ void FrmMailing::accept()
 		msgError( this, _("Falta rellenar la configuración del servidor SMTP") );
 		return;
 	}
+	int grouping = pGrouping->toInt();
+    if(  grouping < 1 || grouping > 100 ) {
+		msgError( this, _("El número de direcciones por email tiene que estar entre 1 y 100") );
+		return;
+	}
 	tabFrameEdit->setCurrentIndex( 3 );
 	DBAPP->processEvents();
 	DBAPP->waitCursor( true );
 	XtringList emails;
 	pErrors->clear();
 	pResultado->clear();
-	bool hubo_errores = false;
 	SMTPMailSender s( pHost->toString(), pPort->toInt(), pUser->toString(), pPassword->toString() );
 	if( !s.open() ) {
 		addMessage( pErrors, _("Error: " + s.getError()) );
 	} else {
 		getEmailsList( emails, false );
+		int groupcount = 0, totalcount = 0, okcount = 0, errorcount = 0;
+		bool isHTML = !pHTMLBody->toString().isEmpty();
+		Poco::Net::MailMessage *message = 0;
+		bool do_send = false;
+		Xtring recipients;
 		for( XtringList::const_iterator it = emails.begin(); it != emails.end(); ++ it ) {
-			int ret = 0;
-			if( pHTMLBody->toString().isEmpty() )
-				ret = s.send( pFrom->toString(), *it, pSubject->toString(), pBody->toString() );
-			else
-				ret = s.sendHTML( pFrom->toString(), *it, pSubject->toString(), pHTMLBody->toString() );
-			if( ret ) {
-				addMessage( pResultado, Xtring::printf( _("%s: Ok\n"), (*it).c_str() ) );
+			++totalcount;
+			bool sent = false;
+			if( grouping <= 1 ) {
+				message = s.createMessage( pFrom->toString(), *it, pSubject->toString(),
+					isHTML ? pHTMLBody->toString() : pBody->toString() );
+				recipients = *it;
+				do_send = true;
 			} else {
-				hubo_errores = true;
-				addMessage( pErrors, Xtring::printf( _("%s: Error: %s\n"), (*it).c_str(), s.getError().c_str() ) );
+				if( message == 0 ) {
+					message = s.createMessage( pFrom->toString(), Xtring::null, pSubject->toString(),
+						isHTML ? pHTMLBody->toString() : pBody->toString() );
+				}
+				_GONG_DEBUG_PRINT(0, *it );
+				message->addRecipient( MailRecipient(MailRecipient::BCC_RECIPIENT, *it ) );
+				if( !recipients.isEmpty() )
+					recipients.append( ";" );
+				recipients.append( *it );
+				if( ++groupcount == grouping || totalcount == emails.size() ) {
+					groupcount = 0;
+					do_send = true;
+				}
+			}
+			if( do_send ) {
+				sent = s.sendMessage( message );
+				delete message;
+				message = 0;
+				do_send = false;
+				if( sent ) {
+					okcount++;
+					addMessage( pResultado, Xtring::printf( _("%s: Ok\n"), recipients.c_str() ) );
+					addMessage( pOks, Xtring::printf( _("%s\n"), recipients.c_str() ) );
+				} else {
+					errorcount++;
+					addMessage( pErrors, Xtring::printf( _("%s: Error: %s\n"), recipients.c_str(), s.getError().c_str() ) );
+					addMessage( pErrors, Xtring::printf( _("%s\n"), recipients.c_str() ) );
+				}
+				recipients.clear();
+				lblProgreso->setText( toGUI( Xtring::printf( _("Enviando correos a %d destinatarios. %d correos correctos, %d correos con errores"),
+														  emails.size(), okcount, errorcount ) ) );
 			}
 		}
 		s.close();
@@ -201,7 +248,7 @@ void FrmMailing::accept()
 			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_USER", Xtring::null );
 			DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_PORT", 0 );
 		}
-		if( !hubo_errores ) {
+		if( errorcount == 0) {
 			msgOk( this, _("La operación se ha completado con éxito") );
 			pushAccept->setEnabled( false );
 		} else {

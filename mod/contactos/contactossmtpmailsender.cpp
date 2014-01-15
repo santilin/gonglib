@@ -64,63 +64,34 @@ int SMTPMailSender::open()
 	return ret;
 }
 
-int SMTPMailSender::send(const Xtring& from, const Xtring& to, const Xtring &subject, const Xtring& content)
+// 	std::string logo(reinterpret_cast<const char*>(PocoLogo), sizeof(PocoLogo));
+// 	message.addContent(new StringPartSource(content));
+// 	message.addAttachment("logo", new StringPartSource(logo, "image/gif"));
+
+MailMessage *SMTPMailSender::createMessage(const Xtring& from, const Xtring& to, const Xtring& subject,
+						   const Xtring &content, bool html)
 {
 	int ret = 0;
 	clearError();
     Xtring enc_subject = MailMessage::encodeWord(subject, "UTF-8");
-    MailMessage message;
-    message.setSender(from);
-    message.addRecipient(MailRecipient(MailRecipient::PRIMARY_RECIPIENT, to));
-    message.setSubject(enc_subject);
-    message.setContentType("text/plain; charset=UTF-8");
-    message.setContent(content, MailMessage::ENCODING_8BIT);
-    try {
-		pSession->sendMessage(message);
-		ret = 1;
-	} catch (SMTPException &e) {
-		cerr << "SMTPException: " << e.displayText() << endl;
-		setError( e.displayText() );
-		ret = 0;
-	} catch( ConnectionResetException &e ) {
-		cerr << "SMTPException: " << e.displayText() << endl;
-		setError( e.displayText() );
-		ret = 0;
-	}
-    return ret;
+    MailMessage *message = new MailMessage();
+    message->setSender(from);
+	if( !to.isEmpty() )
+		message->addRecipient(MailRecipient(MailRecipient::PRIMARY_RECIPIENT, to));
+    message->setSubject(enc_subject);
+	if( html )
+		message->setContentType("text/html; charset=UTF-8");
+	else
+		message->setContentType("text/plain; charset=UTF-8");
+    message->setContent(content, MailMessage::ENCODING_8BIT);
+	return message;
 }
 
-int SMTPMailSender::sendHTML(const Xtring& from, const Xtring& to, const Xtring& subject, const Xtring& content)
+int SMTPMailSender::sendMessage( MailMessage *message )
 {
-
-	const char *c = content.c_str();
-	const char *n = 0, *r = 0;
-	while( *c ) {
-		if( *c == '\n' )
-			n = c;
-		if( *c == '\r' ) {
-			r = c;
-			if( n + 1 != r ) {
-				_GONG_DEBUG_PRINT(0, "Bare LF!");
-				_GONG_DEBUG_PRINT(0, n );
-			}
-		}
-		c++;
-	}
-
 	int ret = 0;
-	clearError();
-    Xtring enc_subject = MailMessage::encodeWord(subject, "UTF-8");
-    MailMessage message;
-    message.setSender(from);
-    message.addRecipient(MailRecipient(MailRecipient::PRIMARY_RECIPIENT, to));
-    message.setSubject(enc_subject);
-    message.setContentType("text/html; charset=UTF-8");
-	Xtring lf_content(content);
-	lf_content.replace("\x0a", "\x0d\x0a");
-    message.setContent(lf_content, MailMessage::ENCODING_7BIT);
     try {
-		pSession->sendMessage(message);
+		pSession->sendMessage(*message);
 		ret = 1;
 	} catch (SMTPException &e) {
 		cerr << "SMTPException: " << e.displayText() << endl;
@@ -129,11 +100,9 @@ int SMTPMailSender::sendHTML(const Xtring& from, const Xtring& to, const Xtring&
 	} catch( ConnectionResetException &e ) {
 		cerr << "SMTPException: " << e.displayText() << endl;
 		setError( e.displayText() );
-		open();
 		ret = 0;
 	}
     return ret;
-
 }
 
 
@@ -142,7 +111,6 @@ int SMTPMailSender::close()
 	int ret = 0;
     try {
 		pSession->close();
-		pSession = 0;
 		ret = 1;
     } catch (NetException &e) {
 		setError( e.displayText() );

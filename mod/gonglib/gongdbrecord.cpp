@@ -976,12 +976,10 @@ dbRecord *dbRecord::getRelatedRecord( unsigned int index ) const
 dbRecord *dbRecord::findRelatedRecord ( const Xtring &relname ) const
 {
     int relindex = getRelationIndex( relname );
-#ifdef _GONG_DEBUG
-    if( __gong_debug::_gong_debug_level >= 2 && relindex == -1 ) {
-        _GONG_DEBUG_PRINT(2, "Relation " + relname + " not found for record " + getTableName() );
-        std::cout << *getTableDefinition() << std::endl;
-    }
-#endif
+	if( relindex == -1 ) {
+		_GONG_DEBUG_WARNING( "Relation " + relname + " not found for record " + getTableName() );
+		throw std::runtime_error( "Relation " + relname + " not found for record " + getTableName() );
+	}
     return getRelatedRecord ( relindex );
 }
 

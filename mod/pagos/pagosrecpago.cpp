@@ -30,7 +30,7 @@ void RecPago::init()
 /*<<<<<PAGO_RELATIONS*/
 empresa::RecMoneda *RecPago::getRecMoneda() const
 {
-	return static_cast<empresa::RecMoneda*>(findRelatedRecord("PAGO.MONEDA_ID"));
+	return static_cast<empresa::RecMoneda*>(findRelatedRecord("MONEDA_ID"));
 }
 
 /*>>>>>PAGO_RELATIONS*/
@@ -38,7 +38,7 @@ empresa::RecMoneda *RecPago::getRecMoneda() const
 #ifdef HAVE_CONTABMODULE
 contab::RecCuentaPago *RecPago::getRecCuentaPago() const
 {
-    return static_cast<contab::RecCuentaPago*>(findRelatedRecord("PAGO.CUENTAPAGO_ID"));
+    return static_cast<contab::RecCuentaPago*>(findRelatedRecord("CUENTAPAGO_ID"));
 }
 #endif
 

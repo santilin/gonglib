@@ -254,10 +254,12 @@ void FrmEditPago::pushFacturaNumero_clicked()
 void FrmEditPago::scatterCuentaPago()
 {
 #define getRecCuenta getRecCuentaPago
+	if( getRecord()->getTableDefinition()->findFieldDefinition("CUENTAPAGO_ID") ) {
     /*<<<<<FRMEDITPAGO_SCATTER_CUENTAPAGO*/
 	editCuentaPagoCuenta->setText( getRecCuentaPago()->getValue("CUENTA") );
 	editCuentaPagoDescripcion->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
 /*>>>>>FRMEDITPAGO_SCATTER_CUENTAPAGO*/
+	}
 #undef getRecCuenta
 }
 #endif

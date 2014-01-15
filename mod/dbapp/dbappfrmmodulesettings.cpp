@@ -351,12 +351,15 @@ void FrmModuleSettings::setControlColor(FrmModuleSettings::ControlInfo* ci, cons
 	_GONG_DEBUG_PRINT(0, ci->modulename.upper() + ci->settinginfo->key );
 	if( value.toString().isEmpty() || value.toString() == ci->settinginfo->defaultvalue )
 		ci->w->setStyleSheet( "color:black" );
-	else if( mSettingsScope == dbModuleSetting::Global )
+	else if( mSettingsScope == dbModuleSetting::Local )
 		ci->w->setStyleSheet( "color:green" );
-	else if( ci->settinginfo->defaultvalue != DBAPP->getGlobalSetting( ci->modulename.upper() + ci->settinginfo->key, Variant() ).toString() )
-		ci->w->setStyleSheet( "color:red" );
-	else
-		ci->w->setStyleSheet( "color:green" );
+	else {
+		Xtring s( DBAPP->getGlobalSetting( ci->modulename.upper() + ci->settinginfo->key, Variant() ).toString() );
+		if( s.isEmpty() || ci->settinginfo->defaultvalue == s )
+			ci->w->setStyleSheet( "color:green" );
+		else
+			ci->w->setStyleSheet( "color:red" );
+	}
 }
 
 

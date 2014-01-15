@@ -116,8 +116,11 @@ void addRecordDefinition(CppModule *cpcpp, CppModule *cph, const Xtring &fullrec
 			cpprelations +=
 				relationnamespace + "Rec" + relationname + " *Rec" + recname + "::getRec" + relationname + "() const\n"
 				"{\n"
-				"\treturn static_cast<" + relationnamespace + "Rec" + relationname + "*>(findRelatedRecord(\""
-					+ (inherit.isEmpty() ? recname : inherit).upper() + "." + relationname.upper() + "_ID\"));\n"
+				"\treturn static_cast<" + relationnamespace + "Rec" + relationname + "*>(findRelatedRecord(\"";
+			// No incluir el nombre de la tabla para que funcionen los registros derivados
+			if( !inherit.isEmpty() )
+				cpprelations += inherit.upper() + ".";
+			cpprelations += relationname.upper() + "_ID\"));\n"
 				"}\n\n";
 			hrelations += ceh;
 			cpprelations += cecpp;

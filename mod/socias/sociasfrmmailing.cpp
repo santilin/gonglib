@@ -39,8 +39,6 @@ int FrmMailing::getEmailsList( XtringList &emails, bool include_names ) const
     return emails.size();
 }
 
-
-
-} // namespace contactos
+} // namespace socias
 } // namespace gong
 
