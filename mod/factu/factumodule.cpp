@@ -1107,6 +1107,8 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
         return false;
     Xtring tablename = tables[choosen];
     dbRecord *source = DBAPP->createRecord( tablename );
+	source->removeFilter( source->getTableName()
+		+ ".EJERCICIO=" + source->getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
     dbRecordID source_id = DBAPP->choose( detailform, source );
     if( !source_id )
         return false;

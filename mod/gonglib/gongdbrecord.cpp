@@ -1381,16 +1381,12 @@ bool dbRecord::removeFilter ( const Xtring & filter )
         mFilters.erase ( mFilters.end() );
         return true;
     }
-    else for ( XtringList::iterator it = mFilters.begin();
-                   it!=mFilters.end();
-                   ++ it )
-        {
-            if ( *it == filter )
-            {
-                mFilters.erase ( it );
-                return true;
-            }
-        }
+    else for ( XtringList::iterator it = mFilters.begin(); it!=mFilters.end(); ++ it ) {
+		if ( *it == filter || *it == "(1 AND(" + filter + "))" ) {
+			mFilters.erase ( it );
+			return true;
+		}
+	}
     return false;
 }
 
