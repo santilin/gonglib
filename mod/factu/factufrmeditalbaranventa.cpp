@@ -5,6 +5,7 @@
 // FIELD Contador int - cabecera
 // FIELD Numero string - cabecera
 // FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
+// FIELD CuentaTercero_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2 if(hasFactu())
 // FIELD IVADetallado comboint - cabecera2
 // FIELD Facturado bool - cabecera2
 // FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbApplication::InsertIfNotFound) - cabecera3

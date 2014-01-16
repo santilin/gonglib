@@ -93,6 +93,12 @@ bool GastosTipoModule::initDatabase(dbDefinition *db)
 
     pFicGastoTipo = new MasterTable( *pMainDatabase, "GASTOTIPO" );
     pFicGastoTipo->addFieldRecordID();
+	pFicGastoTipo->addFieldDesc( "NOMBRE" );
+	pFicGastoTipo->addFieldBool( "ESGASTO" )->setDefaultValue("1");
+	pFicGastoTipo->addFieldBool( "REVISAR")->setDefaultValue("1");
+	XtringList tables;
+	tables << "ALBARANVENTA" << "ALBARANCOMPRA" << "FACTURAVENTA" << "FACTURACOMPRA" << "ASIENTO";
+	pFicGastoTipo->addFieldListOfValues<Xtring>( false, tables, tables, "TABLENAME" );
 	pFicGastoTipo->addField<FldNamesListTable>("CATEGORIAGASTO");
 	pFicGastoTipo->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRIMPORTE" );
 	pFicGastoTipo->addFieldEuro( "IMPORTE" );

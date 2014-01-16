@@ -18,7 +18,7 @@
 
 #define RTK_VERSION "0.1-beta"
 
-#define RTK_JPEG_SUPPORT
+// #define RTK_JPEG_SUPPORT
 #define RTK_PNG_SUPPORT
 
 #endif // RTKCONFIG_H

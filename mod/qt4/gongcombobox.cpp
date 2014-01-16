@@ -36,8 +36,12 @@ ComboBoxInt::ComboBoxInt( XtringList &captions, IntList &values,
         pLayout = (QBoxLayout *)new QHBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
     else
         pLayout = (QBoxLayout *)new QVBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
-    pLabel = new QLabel( parent, ("label_" + name).c_str() );
-    pLabel->setText( toGUI(caption) );
+	if( caption.isEmpty() )
+		pLabel = 0;
+	else {
+		pLabel = new QLabel( parent, ("label_" + name).c_str() );
+		pLabel->setText( toGUI(caption) );
+	}
     pLayout->addWidget( pLabel );
     pLayout->addWidget( this );
 }
