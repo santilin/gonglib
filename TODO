@@ -1,36 +1,32 @@
 == HECHO ==
 
-== QUEDA POR HACER DE ENVIO DE EMAILS ==
+== HACER EN LOS PAJAROS ==
+* Borrar los tipos de formas de pago
 * Enviar adjuntos
 * Probar HTML
 
-== HACIENDO ==
+== HACER EN MC ==
+* Comprobar, no actualiza el nombre de la vista cuando se cambia de vistas en los browses
 
 == gong-tpv ==
-* TPV: Imprimir en el ticket el cambio, la entrega, el resto y la forma de pago
-** Si hay cambio, pasar un INC_HAYCAMBIO y dos parámetros: entrega y cambio
-** Imprimir la forma de pago si hay resto o es distinta de la normal.
-* Añadir forma de pago "Por cajón" y en la x, descontar los pagos de esa forma de pago.
-** Cuando se pague algo con esa forma de pago, en pagos, guardar la sesión tpv actual.
-
 * Fila de productos favoritos
 * Tarifas por el tipo de mesa.
 * Al limpiar la mesa, lee registros
 * saveEstado intenta grabar siempre, ver la diferencia
 * Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
+
+* ???? Añadir forma de pago "Por cajón" y en la x, descontar los pagos de esa forma de pago.
+** Cuando se pague algo con esa forma de pago, en pagos, guardar la sesión tpv actual.
 * Que se resalte la familia seleccionada
 ** No funciona bien el ItemIsSelectable
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
-
-== CON INTERNET ==
-* C++. ¿Por qué el operador de copia no se virtualiza?
 
 = PRESCINDIBLE =
 
 == Ofertas ==
 * OFERTACOMPRA.rtk, OFERTAVENTA.rtk, etc.
 * Insertar oferta de compra no inserta nada
-* Ejercicios
+* Estadísticas
 * Probar: Crear la base de datos desde el principio, a ver si da error de copia de seguridad de base de datos
 
 == gong-factu ==
@@ -106,7 +102,6 @@
 
 == gong-dbapp ==
 * FrmCambiarEmpresa, terminar de implementar ¿Ejercicios?
-* No actualiza el nombre de la vista cuando se cambia de vistas en los browses
 * Settings: booleanos, si el default es false, el local es false y el global es true, no sale el global en rojo
 ** Añadir bool resetted a scinfo
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.

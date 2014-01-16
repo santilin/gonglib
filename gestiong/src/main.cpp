@@ -42,8 +42,8 @@
 #ifdef HAVE_FACTUMODULE
 #	include <factumodule.h>
 #endif
-#ifdef HAVE_GASTOSMODULE
-#	include <gastosmodule.h>
+#ifdef HAVE_GASTOSTIPOMODULE
+#	include <gastostipomodule.h>
 #endif
 #ifdef HAVE_SOCIASMODULE
 #	include <sociasmodule.h>
@@ -90,8 +90,8 @@ int main( int argc, char *argv[] )
 #ifdef HAVE_FACTUMODULE
 		DBAPP->addModule( new factu::FactuModule() );
 #endif
-#ifdef HAVE_GASTOSMODULE
-		DBAPP->addModule( new gastos::GastosModule() );
+#ifdef HAVE_GASTOSTIPOMODULE
+		DBAPP->addModule( new gastostipo::GastosTipoModule() );
 #endif
 #ifdef HAVE_SOCIASMODULE
 		DBAPP->addModule( new socias::SociasModule() );
