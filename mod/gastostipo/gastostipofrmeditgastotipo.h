@@ -1,5 +1,5 @@
 /*<<<<<COPYLEFT*/
-/** @file gastosfrmeditgastodef.h Fichero de edición de definiciones de gastos e ingresos
+/** @file gastostipofrmeditgastotipo.h Fichero de edición de definiciones de gastos e ingresos
  * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
@@ -10,39 +10,38 @@
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
 /*>>>>>COPYLEFT*/
-/*<<<<<FRMEDITGASTODEF_PREAMBLE*/
-#ifndef _GASTOS_GASTOSFRMEDITGASTODEF_H
-#define _GASTOS_GASTOSFRMEDITGASTODEF_H
-/*>>>>>FRMEDITGASTODEF_PREAMBLE*/
-/*<<<<<FRMEDITGASTODEF_INCLUDES*/
+/*<<<<<FRMEDITGASTOTIPO_PREAMBLE*/
+#ifndef _GASTOSTIPO_GASTOSTIPOFRMEDITGASTOTIPO_H
+#define _GASTOSTIPO_GASTOSTIPOFRMEDITGASTOTIPO_H
+/*>>>>>FRMEDITGASTOTIPO_PREAMBLE*/
+/*<<<<<FRMEDITGASTOTIPO_INCLUDES*/
 #include <gongfrmbase.h>
 #include <dbappfrmeditrecmaster.h>
-#include "gastosrecgastodef.h"
-/*>>>>>FRMEDITGASTODEF_INCLUDES*/
+#include "gastostiporecgastotipo.h"
+/*>>>>>FRMEDITGASTOTIPO_INCLUDES*/
 
 namespace gong {
-namespace gastos {
+namespace gastostipo {
 
-/*<<<<<FRMEDITGASTODEF_CLASS*/
-class FrmEditGastoDef: public FrmEditRecMaster
+/*<<<<<FRMEDITGASTOTIPO_CLASS*/
+class FrmEditGastoTipo: public FrmEditRecMaster
 {
 	Q_OBJECT
 
 public:
-	FrmEditGastoDef(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
+	FrmEditGastoTipo(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
 		EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
 		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-	RecGastoDef *getRecGastoDef() const { return (RecGastoDef *)getRecord(); }
-/*>>>>>FRMEDITGASTODEF_CLASS*/
-/*<<<<<FRMEDITGASTODEF_VIRTUALS_FROM_FRMEDITREC*/
+	RecGastoTipo *getRecGastoTipo() const { return (RecGastoTipo *)getRecord(); }
+/*>>>>>FRMEDITGASTOTIPO_CLASS*/
+/*<<<<<FRMEDITGASTOTIPO_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-/*>>>>>FRMEDITGASTODEF_VIRTUALS_FROM_FRMEDITREC*/
-/*<<<<<FRMEDITGASTODEF_CONTROLS*/
+/*>>>>>FRMEDITGASTOTIPO_VIRTUALS_FROM_FRMEDITREC*/
+/*<<<<<FRMEDITGASTOTIPO_CONTROLS*/
 protected:
-	gong::ComboBoxInt *comboTipoGasto;
 	gong::ComboBoxInt *comboCategoriaGasto;
 	gong::ComboBoxInt *comboPedirImporte;
 	gong::EditBox *editImporte;
@@ -50,11 +49,11 @@ protected:
 	gong::EditBox *editDescripcion;
 	gong::ComboBoxInt *comboPedirNotas;
 	gong::TextBox *editNotas;
-/*>>>>>FRMEDITGASTODEF_CONTROLS*/
+/*>>>>>FRMEDITGASTOTIPO_CONTROLS*/
 };
-/*<<<<<FRMEDITGASTODEF_POSTAMBLE*/
-} // namespace gastos
+/*<<<<<FRMEDITGASTOTIPO_POSTAMBLE*/
+} // namespace gastostipo
 } // namespace gong
-#endif // GASTOS_GASTOSFRMEDITGASTODEF_H
-/*>>>>>FRMEDITGASTODEF_POSTAMBLE*/
+#endif // GASTOSTIPO_GASTOSTIPOFRMEDITGASTOTIPO_H
+/*>>>>>FRMEDITGASTOTIPO_POSTAMBLE*/
 

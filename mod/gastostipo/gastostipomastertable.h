@@ -4,7 +4,7 @@
 #include <empresamastertable.h>
 
 namespace gong {
-namespace gastos {
+namespace gastostipo {
 
 class MasterTable: public empresa::MasterTable
 {

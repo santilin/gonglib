@@ -1,5 +1,5 @@
 /*<<<<<COPYLEFT*/
-/** @file gastosrecgastodef.h Registro de definición de gastos e ingresos
+/** @file gastostiporecgastotipo.h Registro de definición de gastos e ingresos
  * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
@@ -10,31 +10,31 @@
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
 /*>>>>>COPYLEFT*/
-/*<<<<<GASTODEF_PREAMBLE*/
-#ifndef _GASTOS_GASTOSRECGASTODEF_H
-#define _GASTOS_GASTOSRECGASTODEF_H
-/*>>>>>GASTODEF_PREAMBLE*/
+/*<<<<<GASTOTIPO_PREAMBLE*/
+#ifndef _GASTOSTIPO_GASTOSTIPORECGASTOTIPO_H
+#define _GASTOSTIPO_GASTOSTIPORECGASTOTIPO_H
+/*>>>>>GASTOTIPO_PREAMBLE*/
 
-/*<<<<<GASTODEF_INCLUDES*/
+/*<<<<<GASTOTIPO_INCLUDES*/
 #include <dbappdbapplication.h>
 
-/*>>>>>GASTODEF_INCLUDES*/
+/*>>>>>GASTOTIPO_INCLUDES*/
 
 namespace gong {
-namespace gastos {
+namespace gastostipo {
 
-/*<<<<<GASTODEF_CONSTRUCTOR*/
-class RecGastoDef: public dbRecord
+/*<<<<<GASTOTIPO_CONSTRUCTOR*/
+class RecGastoTipo: public dbRecord
 {
 public:
-	RecGastoDef(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("GASTODEF"), recid, user)
-/*>>>>>GASTODEF_CONSTRUCTOR*/
+	RecGastoTipo(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("GASTOTIPO"), recid, user)
+/*>>>>>GASTOTIPO_CONSTRUCTOR*/
 	{};
 }; // end class
 
-/*<<<<<GASTODEF_POSTAMBLE*/
-} // namespace gastos
+/*<<<<<GASTOTIPO_POSTAMBLE*/
+} // namespace gastostipo
 } // namespace gong
-#endif // GASTOS_GASTOSRECGASTODEF_H
-/*>>>>>GASTODEF_POSTAMBLE*/
+#endif // GASTOSTIPO_GASTOSTIPORECGASTOTIPO_H
+/*>>>>>GASTOTIPO_POSTAMBLE*/
