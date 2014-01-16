@@ -137,7 +137,6 @@ private:
 
 private slots:
     void slotMenuGenerarRecibos();
-    void slotMenuSociasFrmMailing();
 private:
     QMenu *pMenuSocias;
     QAction *pMenuGenerarRecibos;

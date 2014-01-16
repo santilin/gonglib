@@ -57,10 +57,11 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
 		layout->addLayout( hboxlayout );
         ControlInfo scinfo;
 		scinfo.resetButton = new QPushButton( this );
-		scinfo.resetButton->setText( "R" );
 		scinfo.resetButton->setFocusPolicy( Qt::ClickFocus );
-		scinfo.resetButton->setMaximumWidth( 40 );
+		scinfo.resetButton->setIcon( QIcon::fromTheme("edit-clear-locationbar-ltr", QIcon(":/edit-clear-locationbar-ltr.png")) );
+		scinfo.resetButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
 		connect( scinfo.resetButton, SIGNAL( clicked() ), this, SLOT( resetButton_clicked() ) );
+
 		hboxlayout->addWidget( scinfo.resetButton );
         scinfo.settinginfo = pms;
 		if( module )

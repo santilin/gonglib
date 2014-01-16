@@ -21,10 +21,6 @@ nodist_libgongcontactos_la_SOURCES = \
 	moc_contactosfrmeditcontacto.cpp moc_contactosmodule.cpp \
 	moc_contactosfrmeditcontactobehavior.cpp
 
-if COMPILE_WITH_POCOLIB
-libgongcontactos_la_SOURCES += contactossmtpmailsender.cpp
-libgongcontactos_la_HEADERS += contactossmtpmailsender.h
-endif
 
 moc_%.cpp: %.h
 	moc $< -o $@

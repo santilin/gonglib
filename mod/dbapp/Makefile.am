@@ -40,9 +40,11 @@ nodist_libgongdbapp_la_SOURCES = \
 
 if COMPILE_WITH_POCOLIB
 libgongdbapp_la_SOURCES += \
-	dbappfrmimport.cpp dbappfrmimport_gui.cpp dbappfugitimporter.cpp
+	dbappfrmimport.cpp dbappfrmimport_gui.cpp dbappfugitimporter.cpp \
+	dbappsmtpmailsender.cpp
 libgongdbapp_la_HEADERS += \
-	dbappfrmimport.h dbappfrmimport_gui.h dbappfugitimporter.h
+	dbappfrmimport.h dbappfrmimport_gui.h dbappfugitimporter.h \
+	dbappsmtpmailsender.h
 nodist_libgongdbapp_la_SOURCES += \
 	moc_dbappfrmimport_gui.cpp moc_dbappfrmimport.cpp
 endif

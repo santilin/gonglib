@@ -1,13 +1,13 @@
-#ifndef CONTACTOSSMTPMAILSENDER_H
-#define CONTACTOSSMTPMAILSENDER_H
+#ifndef DBAPPSMTPMAILSENDER_H
+#define DBAPPSMTPMAILSENDER_H
 
 #include <gongxtring.h>
 #include <Poco/Types.h>
 #include <Poco/Net/SMTPClientSession.h>
 #include <Poco/Net/MailMessage.h>
+#include <Poco/Net/MailRecipient.h>
 
 namespace gong {
-namespace contactos {
 
 class SMTPMailSender
 {
@@ -31,7 +31,6 @@ private:
 	Xtring mError;
 };
 
-} // namespace contactos
 } // namespace gong
 
-#endif // CONTACTOSSMTPMAILSENDER_H
+#endif // DBAPPSMTPMAILSENDER_H

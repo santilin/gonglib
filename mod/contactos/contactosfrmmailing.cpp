@@ -1,11 +1,10 @@
 #include "config.h"
-#include <Poco/Net/MailRecipient.h>
 #include <gonggettext.h>
 #include <gongdbdefinition.h>
 #include <gongdbfieldemail.h>
 #include <gongcsvutils.h>
 #include <dbappdbapplication.h>
-#include "contactossmtpmailsender.h"
+#include <dbappsmtpmailsender.h>
 #include "contactosmodule.h"
 #include "contactosfrmmailing.h"
 
@@ -44,6 +43,14 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     pushShowEMailsAndNames = addButton( tabFrameEdit, _("Mostrar nombres y emails" ), 0, selLayout );
     tabFrameEdit->addTab( tabSeleccion, _("&Destinatarias") );
 
+	tabMailsExtra = new QWidget( tabFrameEdit, "tabMailsExtra" );
+	QVBoxLayout *extraLayout = new QVBoxLayout( tabMailsExtra );
+	pMailsExtra = addTextEditBox( tabMailsExtra, _("Mails extra"), Xtring::null, 0, extraLayout );
+	QLabel *me_instrucciones = new QLabel( tabMailsExtra );
+	me_instrucciones->setText( toGUI( _("Escribe o pega aquí otras direcciones de correo, una por línea") ) );
+	extraLayout->addWidget( me_instrucciones );
+    tabFrameEdit->addTab( tabMailsExtra, toGUI( _("&Más emails") ) );
+
     tabContenido = new QWidget( tabFrameEdit, "tabContenido" );
     QVBoxLayout *contLayout = new QVBoxLayout( tabContenido );
 	pFrom = addInput(tabContenido, _("Remitente"),
@@ -51,7 +58,8 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     pSubject = addInput(tabContenido, _("Asunto"), Variant(), "STRING", 0, contLayout );
 	pBody = addTextEditBox( tabContenido, _("Cuerpo"), Xtring::null, 0, contLayout );
     pHTMLBody = addRichTextBox(tabContenido, _("Cuerpo HTML"), 0, contLayout );
-    tabFrameEdit->addTab( tabContenido, _("&Contenido") );
+	pAttachment = addFileNameBox( tabContenido, _("Adjunto"), 0, contLayout );
+    tabFrameEdit->addTab( tabContenido, toGUI( _("&Contenido") ) );
 
     tabConfiguracion = new QWidget( tabFrameEdit, "tabConfiguracion" );
     QVBoxLayout *confLayout = new QVBoxLayout( tabConfiguracion );
@@ -65,16 +73,16 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     pGrouping = addInput(tabConfiguracion, _("Número de direcciones a agregar en cada email"),
 					 0, "INTEGER", 0, confLayout );
 	pCheckSaveSettings = addCheckBox( this, _("Guardar datos de conexión"), true, 0, confLayout );
-    tabFrameEdit->addTab( tabConfiguracion, _("&Servidor SMTP") );
+    tabFrameEdit->addTab( tabConfiguracion, toGUI( _("&Servidor SMTP") ) );
 
 	tabResultado = new QWidget( tabFrameEdit, "tabResultado" );
     QVBoxLayout *resLayout = new QVBoxLayout( tabResultado );
 	pResultado = addTextEditBox( tabResultado, _("Resultado"), Xtring::null, 0, resLayout );
 	pOks = addTextEditBox( tabResultado, _("Correctos"), Xtring::null, 0, resLayout );
 	pErrors = addTextEditBox( tabResultado, _("Errores"), Xtring::null, 0, resLayout );
-	tabFrameEdit->addTab( tabResultado, _("Resultado") );
 	lblProgreso = new QLabel( tabResultado );
 	resLayout->addWidget( lblProgreso );
+	tabFrameEdit->addTab( tabResultado, toGUI( _("Resultado") ) );
 #if !HAVE_POCOLIB
 	msgError( this, _("No se pueden enviar emails, la biblioteca POCO no está instalada") );
 	pushAccept->setEnabled( false );
@@ -122,6 +130,20 @@ int FrmMailing::getEmailsList( XtringList &list, bool include_names ) const
             delete rs;
         }
     }
+    // Extra emails
+    XtringList extraemails;
+	pMailsExtra->toString().tokenize( extraemails, ",;\n" );
+	for( XtringList::const_iterator it = extraemails.begin(); it != extraemails.end(); ++ it ) {
+		Xtring email, contact;
+		Xtring(*it).trim().splitIn2( contact, email, "<" );
+		if( email.isEmpty() ) {
+			addEmailToList( list, contact, Xtring::null, false );
+		} else {
+			if( email.endsWith(">") )
+				email = email.mid( 0, contact.size() - 1 );
+			addEmailToList( list, email, contact, include_names );
+		}
+	}
 	DBAPP->resetCursor();
     return list.size();
 }

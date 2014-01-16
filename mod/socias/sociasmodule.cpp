@@ -31,7 +31,6 @@
 /*>>>>>SOCIASMODULE_INCLUDES*/
 #include "sociasfrmgenerarrecibos.h"
 #include <contactosmodule.h>
-#include "sociasfrmmailing.h"
 #include "sociasfrmeditcobrobehavior.h"
 #include "sociasfrmeditremesacobrobehavior.h"
 #ifdef HAVE_CONTABMODULE
@@ -278,13 +277,6 @@ bool SociasModule::initMainWindow(MainWindow *mainwin)
     return true;
 }
 
-
-void SociasModule::slotMenuSociasFrmMailing()
-{
-    FrmMailing *frmmailing = new FrmMailing(0);
-    frmmailing->show();
-    pMainWindow->createClient( frmmailing );
-}
 
 dbRecord *SociasModule::createRecord(const Xtring &tablename, dbRecordID recid, dbUser *user)
 {

@@ -10,7 +10,7 @@ libgongsocias_la_SOURCES = sociasmodule.cpp \
 	sociasfrmedittiposocia.cpp sociasfrmgenerarrecibos.cpp \
 	sociasrecmiembro.cpp sociasrecproyecto.cpp \
 	sociasipagables.cpp sociascobrobehavior.cpp \
-	sociasrectiposocia.cpp sociasrecpartidaproyecto.cpp sociasfrmmailing.cpp \
+	sociasrectiposocia.cpp sociasrecpartidaproyecto.cpp \
 	sociasfrmeditcobrobehavior.cpp sociasfrmeditremesacobrobehavior.cpp
 
 libgongsocias_la_HEADERS = sociasmodule.h sociasfrmeditmiembro.h \
@@ -18,7 +18,7 @@ libgongsocias_la_HEADERS = sociasmodule.h sociasfrmeditmiembro.h \
 	sociasfrmedittiposocia.h sociasfrmgenerarrecibos.h \
 	sociasmastertable.h sociascobrobehavior.h \
 	sociasrecmiembro.h sociasrecproyecto.h sociasipagables.h \
-	sociasrectiposocia.h sociasrecpartidaproyecto.h sociasfrmmailing.h \
+	sociasrectiposocia.h sociasrecpartidaproyecto.h  \
 	sociasfrmeditcobrobehavior.h sociasfrmeditremesacobrobehavior.h
 
 nodist_libgongsocias_la_SOURCES = \

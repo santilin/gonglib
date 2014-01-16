@@ -1,19 +1,11 @@
 == HECHO ==
-REF: FldNamesListTable
-* Añado campo TIPO
-* FldNamesListTable: a qué NamesListTable está asociado el campo
-
 
 == QUEDA POR HACER DE ENVIO DE EMAILS ==
-* Adjuntos
+* Enviar adjuntos
 * Probar HTML
-* Eliminar sociasfrmemails, porque ya no se necesita
 
 == HACIENDO ==
-mc: FIX: No calcula bien los máximos contadores en pagos ni en ofertas.
-mc: Peta al visualizar un pago de oferta: no existe la relación de la moneda y hay que quitar el campo CUENTAORIGEN
-mc: Comprobar los cobros
-resto: Comprobar los pagos y los cobros.
+* Insertar pedidos de otros ejercicios
 
 == gong-tpv ==
 * TPV: Imprimir en el ticket el cambio, la entrega, el resto y la forma de pago
@@ -37,6 +29,10 @@ resto: Comprobar los pagos y los cobros.
 = PRESCINDIBLE =
 
 == Ofertas ==
+* OFERTACOMPRA.rtk, OFERTAVENTA.rtk, etc.
+* Insertar oferta de compra no inserta nada
+* Ejercicios
+* Probar: Crear la base de datos desde el principio, a ver si da error de copia de seguridad de base de datos
 
 == gong-factu ==
 * Que la suma en mc de las ventas coincida con la suma de las facturas
@@ -110,6 +106,8 @@ resto: Comprobar los pagos y los cobros.
 * 	struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* FrmCambiarEmpresa, terminar de implementar ¿Ejercicios?
+* No actualiza el nombre de la vista cuando se cambia de vistas en los browses
 * Settings: booleanos, si el default es false, el local es false y el global es true, no sale el global en rojo
 ** Añadir bool resetted a scinfo
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
@@ -177,6 +175,7 @@ resto: Comprobar los pagos y los cobros.
 * rtk: startpage.drawImages no cubre todo el painter
 
 == gong-qt4 ==
+* Botones Aceptar y Cancelar en RichTextBox
 * Checkboxes, que el ENTER no cambie el valor, sólo el espacio
 * El enter de los textboxes es confuso, mejor añadirlo pero si se pulsa otra vez, saltar y borrarlo?
 * No sale en español el Qt el mensaje de overwrite a file

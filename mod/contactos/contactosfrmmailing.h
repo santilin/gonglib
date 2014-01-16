@@ -34,13 +34,14 @@ protected:
 	void addMessage( TextEdit *dest, const Xtring &message );
 private:
     QTabWidget *tabFrameEdit;
-    QWidget *tabSeleccion, *tabContenido, *tabConfiguracion, *tabResultado;
+    QWidget *tabSeleccion, *tabContenido, *tabMailsExtra, *tabConfiguracion, *tabResultado;
     LineEdit *pFrom, *pSubject;
     class RichTextBox *pHTMLBody;
+	class FileNameBox *pAttachment;
     LineEdit *pHost, *pUser, *pPassword, *pPort, *pGrouping;
     List<SearchBox *> mSearchBoxes;
     PushButton *pushShowEMails, *pushShowEMailsAndNames;
-	TextEdit *pBody, *pResultado, *pOks, *pErrors;
+	TextEdit *pMailsExtra, *pBody, *pResultado, *pOks, *pErrors;
 	QCheckBox *pCheckSaveSettings;
 	QLabel *lblProgreso;
 };

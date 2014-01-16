@@ -5,14 +5,13 @@
 #include <Poco/Net/NetException.h>
 #include <gongdebug.h>
 
-#include "contactossmtpmailsender.h"
+#include "dbappsmtpmailsender.h"
 
 using namespace std;
 using namespace Poco::Net;
 using namespace Poco;
 
 namespace gong {
-namespace contactos {
 
 SMTPMailSender::SMTPMailSender(const Xtring& smtphost, UInt16 port,
 							   const Xtring& smtpuser, const Xtring& smtpassword)
@@ -118,6 +117,4 @@ int SMTPMailSender::close()
     return ret;
 }
 
-
-} // namespace contactos
 } // namespace gong
