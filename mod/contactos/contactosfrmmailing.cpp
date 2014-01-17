@@ -200,7 +200,7 @@ void FrmMailing::accept()
 		msgError( this, _("El número de direcciones por email tiene que estar entre 1 y 100") );
 		return;
 	}
-	tabFrameEdit->setCurrentIndex( 3 );
+	tabFrameEdit->setCurrentIndex( 4 );
 	DBAPP->processEvents();
 	DBAPP->waitCursor( true );
 	XtringList emails;

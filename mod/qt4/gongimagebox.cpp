@@ -64,6 +64,14 @@ ImageBox::ImageBox( QWidget *parent, const Xtring &name, const Xtring &caption, 
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 }
 
+void ImageBox::clear()
+{
+	pImageLabel->clear();
+	displayInfo();
+	setEdited( true );
+	setJustEdited( true );
+}
+
 void ImageBox::displayInfo( const Xtring &errmsg )
 {
     if( !errmsg.isEmpty() ) {
@@ -90,6 +98,9 @@ void ImageBox::slot_button_clicked()
     } else if( sender() == pushPaste ) {
 		theGuiApp->waitCursor( true );
         pImageLabel->setPixmap( QPixmap::fromImage(QApplication::clipboard()->image()) );
+        displayInfo();
+		setEdited( true );
+		setJustEdited( true );
 		theGuiApp->resetCursor();
     } else if( sender() == pushCopy ) {
 		theGuiApp->waitCursor( true );
@@ -107,6 +118,11 @@ void ImageBox::slot_button_clicked()
         FrmImgAdvanced *advform = new FrmImgAdvanced(
             this, "convert", parentWidget(), "FrmImgAdvanced");
         advform->showModalFor( parentWidget(), false, true );
+		if( !advform->wasCancelled() ) {
+			displayInfo();
+			setEdited( true );
+			setJustEdited( true );
+		}
 		delete advform;
     }
 }
@@ -120,9 +136,11 @@ bool ImageBox::loadFromFile( const Xtring &filename )
         pImageLabel->setPixmap( *pixmap );
         delete pixmap;
         pImageLabel->update();
-        ret = true;
         mByteCount = FileUtils( filename ).size();
         displayInfo();
+		setEdited( true );
+		setJustEdited( true );
+        ret = true;
     } else
         displayInfo( Xtring::printf(_("Fichero %s no encontrado o erróneo"), filename.c_str() ) );
     theGuiApp->resetCursor();
@@ -135,6 +153,7 @@ bool ImageBox::setImage(QPixmap* image)
     pImageLabel->update();
     displayInfo();
     setEdited( true );
+	setJustEdited( true );
 	return true;
 }
 
@@ -144,6 +163,8 @@ bool ImageBox::setImageData( const Variant &data )
     if( mByteCount == 0 ) {
         pImageLabel->clear();
         displayInfo();
+		setEdited( true );
+		setJustEdited( true );
         return true;
     }
     QImage imagefromdata;
@@ -165,6 +186,7 @@ bool ImageBox::setImageData( const Variant &data )
     pImageLabel->update();
     displayInfo();
     setEdited( true );
+	setJustEdited( true );
     return true;
 }
 

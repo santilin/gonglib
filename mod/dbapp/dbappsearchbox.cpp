@@ -155,4 +155,16 @@ void SearchBox::slotSpecialControlKeyPressed(QWidget* , char key)
         slotClicked();
 }
 
+void SearchBox::setVisible(bool visible)
+{
+	QWidget::setVisible( visible );
+	if( pLabelCode )
+		pLabelCode->setVisible( visible );
+	pEditCode->setVisible( visible );
+	if( pLabelDesc )
+		pLabelDesc->setVisible( visible );
+	pEditDesc->setVisible( visible );
+}
+
+
 } // namespace

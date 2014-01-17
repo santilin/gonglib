@@ -125,13 +125,13 @@ if(hasContab()){
 	connect( pushUtilizar, SIGNAL( clicked() ), this, SLOT( slotUtilizar() ) );
 	comboPedirConcepto->getLabel()->setText( "" );
 	comboPedirConcepto->setMaximumWidth( 100 );
-// 	delete comboPedirDescripcion->getLabel();
+	comboPedirDescripcion->getLabel()->setText( "" );
 	comboPedirDescripcion->setMaximumWidth( 100 );
-// 	delete comboPedirImporte->getLabel();
+	comboPedirImporte->getLabel()->setText( "" );
 	comboPedirImporte->setMaximumWidth( 100 );
-// 	delete comboPedirNotas->getLabel();
+	comboPedirNotas->getLabel()->setText( "" );
 	comboPedirNotas->setMaximumWidth( 100 );
-// 	delete comboPedirTercero->getLabel();
+	comboPedirTercero->getLabel()->setText( "" );
 	comboPedirTercero->setMaximumWidth( 100 );
 }
 
@@ -216,121 +216,6 @@ if(hasContab()){
 	getRecGastoTipo()->setValue( "PEDIRNOTAS", comboPedirNotas->getCurrentItemValue());
 	getRecGastoTipo()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITGASTOTIPO_GATHER*/
-}
-
-void FrmEditGastoTipo::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
-{
-/*<<<<<FRMEDITGASTOTIPO_VALIDATE*/
-	bool v=true;
-	if( !isvalid )
-		isvalid = &v;
-	ValidResult *validresult = ( ir ? ir : new ValidResult() );
-	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-			*isvalid = false;
-if(hasFactu()){
-	if( focusWidget() != pushClienteCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editClienteCodigo, editClienteRazonSocial,
-		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
-		scatterCliente();
-}
-if(hasFactu()){
-	if( focusWidget() != pushProveedoraCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editProveedoraCodigo, editProveedoraRazonSocial,
-		getRecProveedora(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
-		scatterProveedora();
-}
-if(hasContab()){
-	if( focusWidget() != pushCuentaTerceroCuenta) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editCuentaTerceroCuenta, editCuentaTerceroDescripcion,
-		getRecCuentaTercero(), "CUENTA", "DESCRIPCION", Xtring::null) )
-		scatterCuentaTercero();
-}
-if(hasFactu()){
-	if( focusWidget() != pushArticuloCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editArticuloCodigo, editArticuloNombre,
-		getRecArticulo(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::FindCodeInDesc )) )
-		scatterArticulo();
-}
-if(hasContab()){
-	if( focusWidget() != pushCuentaConceptoCuenta) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editCuentaConceptoCuenta, editCuentaConceptoDescripcion,
-		getRecCuentaConcepto(), "CUENTA", "DESCRIPCION", Xtring::null) )
-		scatterCuentaConcepto();
-}
-/*>>>>>FRMEDITGASTOTIPO_VALIDATE*/
-	if( !ir ) {
-		showValidMessages(isvalid, *validresult, sender);
-		delete validresult;
-	}
-}
-
-enum Pedir { NOPEDIR = 1, PEDIR = 2, FIJAR = 3 };
-
-void FrmEditGastoTipo::slotUtilizar()
-{
-	if( mMustRead )
-		read();
-	FrmCustom *frmgasto = new FrmCustom( this );
-	frmgasto->setTitle( getRecord()->getValue( "NOMBRE" ).toString() );
-	frmgasto->addInput( 0, "Fecha", Date::currentDate() );
-	SearchBox *sbTercero = 0;
-	Xtring tablename = getRecord()->getValue( "TABLENAME" ).toString();
-	dbRecord *r = DBAPP->createRecord( tablename );
-	switch( getRecord()->getValue( "PEDIRTERCERO" ).toInt() ) {
-	case PEDIR:
-		if( tablename == "ALBARANVENTA" || tablename == "FACTURAVENTA" )
-			sbTercero = frmgasto->addSearchField( 0, "CLIENTE", "CODIGO", "RAZONSOCIAL" );
-		else if( tablename == "ALBARANCOMPRA" || tablename == "FACTURACOMPRA" )
-			sbTercero = frmgasto->addSearchField( 0, "PROVEEDORA", "CODIGO", "RAZONSOCIAL" );
-	break;
-	case FIJAR:
-		if( tablename == "ALBARANVENTA" || tablename == "FACTURAVENTA" )
-			r->setValue( "CLIENTE_ID", getRecord()->getValue( "CLIENTE_ID" ) );
-		else if( tablename == "ALBARANCOMPRA" || tablename == "FACTURACOMPRA" )
-			r->setValue( "PROVEEDORA_ID", getRecord()->getValue( "PROVEEDORA_ID" ) );
-	}
-
-	SearchBox *sbConcepto = 0;
-	switch( getRecord()->getValue( "PEDIRCONCEPTO" ).toInt() ) {
-	case PEDIR:
-		if( tablename == "ALBARANVENTA" || tablename == "FACTURAVENTA"
-			|| tablename == "ALBARANCOMPRA" || tablename == "FACTURACOMPRA" )
-			sbConcepto = frmgasto->addSearchField( 0, "ARTICULO", "CODIGO", "NOMBRE" );
-	break;
-	case FIJAR:
-		if( tablename == "ALBARANVENTA" || tablename == "FACTURAVENTA"
-			|| tablename == "ALBARANCOMPRA" || tablename == "FACTURACOMPRA" )
-			r->setValue( "ARTICULO_ID", getRecord()->getValue( "ARTICULO_ID" ) );
-	}
-	LineEdit *editImporte = 0;
-	switch( getRecord()->getValue( "PEDIRIMPORTE" ).toInt() ) {
-		case PEDIR:
-			editImporte = frmgasto->addInput(0, "Importe", 0.0 );
-			break;
-	}
-	frmgasto->showModalFor( this, true, true );
-	if( !frmgasto->wasCancelled() ) {
-		FrmEditRecMaster *frm = static_cast<FrmEditRecMaster *>
-			( DBAPP->createEditForm( this, r, 0, DataTable::inserting, dbApplication::simpleEdition ) );
-		frm->show();
-		frm->updateFromDetails(0);
-		frm->hide();
-		DBAPP->getMainWindow()->createClient ( frm );
-	}
-}
-
-bool FrmEditGastoTipo::hasContab() const
-{
-#ifdef HAVE_CONTABMODULE
-	return !hasFactu() && contab::ModuleInstance->isContabActive();
-#else
-	return false;
-#endif
-}
-
-bool FrmEditGastoTipo::hasFactu() const
-{
-	return true;
 }
 
 void FrmEditGastoTipo::scatterCliente()
@@ -724,6 +609,150 @@ contab::RecCuentaConcepto* FrmEditGastoTipo::getRecCuentaConcepto() const
 contab::RecCuentaTercero* FrmEditGastoTipo::getRecCuentaTercero() const
 {
 	return static_cast<contab::RecCuentaTercero *>( getRecord()->findRelatedRecord( "CUENTATERCERO_ID" ) );
+}
+
+void FrmEditGastoTipo::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
+{
+/*<<<<<FRMEDITGASTOTIPO_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+if(hasFactu()){
+	if( focusWidget() != pushClienteCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editClienteCodigo, editClienteRazonSocial,
+		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		scatterCliente();
+}
+if(hasFactu()){
+	if( focusWidget() != pushProveedoraCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editProveedoraCodigo, editProveedoraRazonSocial,
+		getRecProveedora(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		scatterProveedora();
+}
+if(hasContab()){
+	if( focusWidget() != pushCuentaTerceroCuenta) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editCuentaTerceroCuenta, editCuentaTerceroDescripcion,
+		getRecCuentaTercero(), "CUENTA", "DESCRIPCION", Xtring::null) )
+		scatterCuentaTercero();
+}
+if(hasFactu()){
+	if( focusWidget() != pushArticuloCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editArticuloCodigo, editArticuloNombre,
+		getRecArticulo(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::FindCodeInDesc )) )
+		scatterArticulo();
+}
+if(hasContab()){
+	if( focusWidget() != pushCuentaConceptoCuenta) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editCuentaConceptoCuenta, editCuentaConceptoDescripcion,
+		getRecCuentaConcepto(), "CUENTA", "DESCRIPCION", Xtring::null) )
+		scatterCuentaConcepto();
+}
+/*>>>>>FRMEDITGASTOTIPO_VALIDATE*/
+	if( sender == comboTableName && comboTableName->isJustEdited() ) {
+		Xtring tablename = comboTableName->getCurrentItemValue();
+		if( tablename == "ALBARANVENTA" || tablename == "FACTURAVENTA" ) {
+			checkEsGasto->setChecked( false );
+			checkEsGasto->setJustEdited (false );
+			searchProveedoraCodigo->setVisible( false );
+			searchClienteCodigo->setVisible( true );
+		} else if( tablename == "ALBARANCOMPRA" || tablename == "FACTURACOMPRA" ) {
+			checkEsGasto->setChecked( true );
+			checkEsGasto->setJustEdited (false );
+			searchProveedoraCodigo->setVisible( true );
+			searchClienteCodigo->setVisible( false );
+		} else if( checkEsGasto->isOn() ) {
+			searchProveedoraCodigo->setVisible( true );
+			searchClienteCodigo->setVisible( false );
+		} else {
+			searchProveedoraCodigo->setVisible( false );
+			searchClienteCodigo->setVisible( true );
+		}
+	}
+	if( sender == checkEsGasto && checkEsGasto->isJustEdited() ) {
+		if( checkEsGasto->isOn() ) {
+			searchProveedoraCodigo->setVisible( true );
+			searchClienteCodigo->setVisible( false );
+		} else {
+			searchProveedoraCodigo->setVisible( false );
+			searchClienteCodigo->setVisible( true );
+		}
+	}
+	if( !ir ) {
+		showValidMessages(isvalid, *validresult, sender);
+		delete validresult;
+	}
+}
+
+enum Pedir { NOPEDIR = 1, PEDIR = 2, FIJAR = 3 };
+
+void FrmEditGastoTipo::slotUtilizar()
+{
+	if( mMustRead )
+		read();
+	FrmCustom *frmgasto = new FrmCustom( this );
+	frmgasto->setTitle( getRecord()->getValue( "NOMBRE" ).toString() );
+	frmgasto->addInput( 0, "Fecha", Date::currentDate() );
+	SearchBox *sbTercero = 0;
+	Xtring tablename = getRecord()->getValue( "TABLENAME" ).toString();
+	dbRecord *r = DBAPP->createRecord( tablename );
+	switch( getRecord()->getValue( "PEDIRTERCERO" ).toInt() ) {
+	case PEDIR:
+		if( tablename == "ALBARANVENTA" || tablename == "FACTURAVENTA" )
+			sbTercero = frmgasto->addSearchField( 0, "CLIENTE", "CODIGO", "RAZONSOCIAL" );
+		else if( tablename == "ALBARANCOMPRA" || tablename == "FACTURACOMPRA" )
+			sbTercero = frmgasto->addSearchField( 0, "PROVEEDORA", "CODIGO", "RAZONSOCIAL" );
+	break;
+	case FIJAR:
+		if( tablename == "ALBARANVENTA" || tablename == "FACTURAVENTA" )
+			r->setValue( "CLIENTE_ID", getRecord()->getValue( "CLIENTE_ID" ) );
+		else if( tablename == "ALBARANCOMPRA" || tablename == "FACTURACOMPRA" )
+			r->setValue( "PROVEEDORA_ID", getRecord()->getValue( "PROVEEDORA_ID" ) );
+	}
+
+	SearchBox *sbConcepto = 0;
+	switch( getRecord()->getValue( "PEDIRCONCEPTO" ).toInt() ) {
+	case PEDIR:
+		if( tablename == "ALBARANVENTA" || tablename == "FACTURAVENTA"
+			|| tablename == "ALBARANCOMPRA" || tablename == "FACTURACOMPRA" )
+			sbConcepto = frmgasto->addSearchField( 0, "ARTICULO", "CODIGO", "NOMBRE" );
+	break;
+	case FIJAR:
+		if( tablename == "ALBARANVENTA" || tablename == "FACTURAVENTA"
+			|| tablename == "ALBARANCOMPRA" || tablename == "FACTURACOMPRA" )
+			r->setValue( "ARTICULO_ID", getRecord()->getValue( "ARTICULO_ID" ) );
+	}
+	LineEdit *editImporte = 0;
+	switch( getRecord()->getValue( "PEDIRIMPORTE" ).toInt() ) {
+		case PEDIR:
+			editImporte = frmgasto->addInput(0, "Importe", 0.0 );
+			break;
+	}
+	frmgasto->showModalFor( this, true, true );
+	if( !frmgasto->wasCancelled() ) {
+		FrmEditRecMaster *frm = static_cast<FrmEditRecMaster *>
+			( DBAPP->createEditForm( this, r, 0, DataTable::inserting, dbApplication::simpleEdition ) );
+		frm->show();
+		frm->updateFromDetails(0);
+		frm->hide();
+		DBAPP->getMainWindow()->createClient ( frm );
+	}
+}
+
+bool FrmEditGastoTipo::hasContab() const
+{
+#ifdef HAVE_CONTABMODULE
+	return !hasFactu() && contab::ModuleInstance->isContabActive();
+#else
+	return false;
+#endif
+}
+
+bool FrmEditGastoTipo::hasFactu() const
+{
+	return true;
 }
 
 

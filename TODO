@@ -1,18 +1,21 @@
-== MARATON ==
-* Buscar un dj con linux.
-
-
-
-
 == HECHO ==
+* OFERTACOMPRA.rtk, OFERTAVENTA.rtk, etc.
 
 == HACER EN LOS PAJAROS ==
+* Quitar módulo ventasweb por ahora
 * Borrar los tipos de formas de pago
 * Enviar adjuntos
 * Probar HTML
 
 == HACER EN MC ==
 * Comprobar, no actualiza el nombre de la vista cuando se cambia de vistas en los browses
+
+= PRESCINDIBLE =
+
+== Ofertas ==
+* Insertar oferta de compra no inserta nada
+* Estadísticas
+* Probar: Crear la base de datos desde el principio, a ver si da error de copia de seguridad de base de datos
 
 == gong-tpv ==
 * Fila de productos favoritos
@@ -26,14 +29,6 @@
 * Que se resalte la familia seleccionada
 ** No funciona bien el ItemIsSelectable
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
-
-= PRESCINDIBLE =
-
-== Ofertas ==
-* OFERTACOMPRA.rtk, OFERTAVENTA.rtk, etc.
-* Insertar oferta de compra no inserta nada
-* Estadísticas
-* Probar: Crear la base de datos desde el principio, a ver si da error de copia de seguridad de base de datos
 
 == gong-factu ==
 * Que la suma en mc de las ventas coincida con la suma de las facturas
@@ -175,14 +170,11 @@
 * rtk: startpage.drawImages no cubre todo el painter
 
 == gong-qt4 ==
-* Botones Aceptar y Cancelar en RichTextBox
 * Checkboxes, que el ENTER no cambie el valor, sólo el espacio
 * El enter de los textboxes es confuso, mejor añadirlo pero si se pulsa otra vez, saltar y borrarlo?
 * No sale en español el Qt el mensaje de overwrite a file
 * ImageBox: Recibir un parámetro: convert_path
 * Cuando un editline da error, el cursor se vuelve un caracter a la izda.
-* Falta propiedad justEdited a ImageBox y RichTextBox
-* Añadir propiedad edited a richtextedit
 * Tamaño de los listboxes ajustado al máximo del listbox
 * En campos deshabilitados no funciona ctrl+c
 

@@ -98,7 +98,10 @@ bool GastosTipoModule::initDatabase(dbDefinition *db)
 	pFicGastoTipo->addFieldBool( "REVISAR")->setDefaultValue("1");
 	XtringList tables;
 	tables << "ALBARANVENTA" << "ALBARANCOMPRA" << "FACTURAVENTA" << "FACTURACOMPRA" << "ASIENTO";
-	pFicGastoTipo->addFieldListOfValues<Xtring>( false, tables, tables, "TABLENAME" );
+	XtringList captions;
+	for( XtringList::const_iterator it = tables.begin(); it != tables.end(); ++ it )
+		captions << DBAPP->getDatabase()->findTableDefinition( *it )->getName();
+	pFicGastoTipo->addFieldListOfValues<Xtring>( false, captions, tables, "TABLENAME" );
 	pFicGastoTipo->addField<FldNamesListTable>("CATEGORIAGASTO");
 	pFicGastoTipo->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRIMPORTE" );
 	pFicGastoTipo->addFieldEuro( "IMPORTE" );

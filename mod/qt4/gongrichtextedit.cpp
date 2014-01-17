@@ -22,10 +22,12 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QPrintPreviewDialog>
+#include <QMdiSubWindow>
 
 #include <algorithm>
 #include <gonggettext.h>
 #include "gongfrmbase.h"
+#include "gongguimainwindow.h"
 #include "gongguiapplication.h"
 #include "gongrichtextedit.h"
 
@@ -33,7 +35,7 @@ namespace gong {
 
 RichTextEdit::RichTextEdit(Xtring &text, QWidget *parent)
     : QMainWindow(parent), sourceTextLabel(0), mPlainText( toGUI(text) ),
-      mIsModal( false )
+      mIsModal( false ), mWasCancelled( true )
 {
     setup();
     setText( mPlainText );
@@ -41,7 +43,7 @@ RichTextEdit::RichTextEdit(Xtring &text, QWidget *parent)
 
 RichTextEdit::RichTextEdit(QLabel *txtlabel, QWidget *parent, bool modal)
     : QMainWindow(parent), sourceTextLabel( txtlabel ),
-      mIsModal( modal )
+      mIsModal( modal ), mWasCancelled( true )
 {
     setup();
     setText( txtlabel->text() );
@@ -62,13 +64,31 @@ void RichTextEdit::setup()
     setupEditActions();
     setupTextActions();
 
-    textEdit = new QTextEdit(this);
+	QFrame *mainFrame = new QFrame( this );
+	QVBoxLayout *mainLayout = new QVBoxLayout( mainFrame );
+
+    textEdit = new QTextEdit(mainFrame);
     connect(textEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
             this, SLOT(currentCharFormatChanged(QTextCharFormat)));
-    connect(textEdit, SIGNAL(cursorPositionChanged()),
-            this, SLOT(cursorPositionChanged()));
+    connect(textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
+    connect(textEdit, SIGNAL(textChanged()), this, SLOT(textHasChanged()));
 
-    setCentralWidget(textEdit);
+	mainLayout->addWidget( textEdit );
+
+	pushAccept = new QPushButton ( toGUI ( _ ( "&Aceptar" ) ), this, "pushAccept" );
+    pushAccept->setIcon( pushAccept->style()->standardIcon( QStyle::SP_DialogYesButton ) );
+    pushAccept->setDefault ( true );
+    pushCancel = new QPushButton ( toGUI ( _ ( "&Cancelar" ) ), this, "pushCancel" );
+    pushCancel->setIcon( pushAccept->style()->standardIcon( QStyle::SP_DialogCancelButton ) );
+    connect ( pushAccept, SIGNAL ( clicked() ), this, SLOT ( accept_clicked() ) );
+    connect ( pushCancel, SIGNAL ( clicked() ), this, SLOT ( cancel_clicked() ) );
+	QHBoxLayout *buttonsLayout = new QHBoxLayout();
+	buttonsLayout->addWidget( pushAccept );
+	buttonsLayout->addWidget( pushCancel );
+
+	mainLayout->addLayout( buttonsLayout );
+
+    setCentralWidget(mainFrame);
     textEdit->setFocus();
     setCurrentFileName(QString());
 
@@ -110,9 +130,22 @@ void RichTextEdit::setup()
     fileNew();
 }
 
+void RichTextEdit::accept_clicked()
+{
+	mWasCancelled = false;
+	close();
+}
+
+void RichTextEdit::cancel_clicked()
+{
+	mWasCancelled = true;
+	close();
+}
+
 void RichTextEdit::setText(const QString &text)
 {
     textEdit->setText( text );
+	mJustEdited = false;
 }
 
 QString RichTextEdit::getText() const
@@ -124,7 +157,7 @@ void RichTextEdit::closeEvent(QCloseEvent *e)
 {
     if (maybeSave()) {
         mPlainText = textEdit->document()->toHtml();
-        if( sourceTextLabel ) {
+        if( sourceTextLabel && !mWasCancelled ) {
             sourceTextLabel->setText( mPlainText );
             if( RichTextBox *rte = dynamic_cast<RichTextBox *>(sourceTextLabel) )
                 rte->setEdited( true );
@@ -136,9 +169,15 @@ void RichTextEdit::closeEvent(QCloseEvent *e)
             if( p )
                 p->setEnabled(true);
         }
+        if( theGuiApp->getMainWindow() ) {
+			QMdiSubWindow *pw = theGuiApp->getMainWindow()->findClient( this );
+			if( pw ) {
+				pw->deleteLater();
+				pw->close();
+			}
+		}
         e->accept();
-    }
-    else
+    } else
         e->ignore();
 }
 
@@ -397,8 +436,6 @@ void RichTextEdit::setupTextActions()
                                .pointSize())));
 }
 
-
-
 bool RichTextEdit::load(const QString &f)
 {
     if (!QFile::exists(f))
@@ -416,7 +453,6 @@ bool RichTextEdit::load(const QString &f)
         str = QString::fromLocal8Bit(data);
         textEdit->setPlainText(str);
     }
-
     setCurrentFileName(f);
     return true;
 }
@@ -756,5 +792,38 @@ void RichTextEdit::textCustomStyle(int customStyleIndex)
     textEdit->setTextCursor( cursor );
 }
 
+void RichTextEdit::textHasChanged()
+{
+	mJustEdited = true;
+}
+
+bool RichTextEdit::isEdited() const
+{
+	return textEdit->document()->isModified();
+}
+
+bool RichTextEdit::isJustEdited() const
+{
+	return mJustEdited;
+}
+
+void RichTextEdit::setEdited(bool e)
+{
+	textEdit->document()->setModified( e );
+}
+
+void RichTextEdit::focusInEvent(QFocusEvent* event)
+{
+    QWidget::focusInEvent(event);
+	mJustEdited = false;
+}
+
+void RichTextEdit::focusOutEvent(QFocusEvent* event)
+{
+	bool isvalid = true;
+	emit validate( this, &isvalid );
+	if( isvalid )
+		QWidget::focusOutEvent(event);
+}
 
 } // namespace

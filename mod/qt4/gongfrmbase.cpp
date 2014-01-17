@@ -27,7 +27,7 @@ FrmBase::FrmBase ( QWidget *parent, const Xtring &name, WidgetFlags f )
     _GONG_DEBUG_PRINT(4, Xtring("Creating ") + name );
     // Para que no tome el foco el formulario
     setFocusPolicy ( Qt::ClickFocus);
-    setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Minimum );
+//    setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Minimum );
     // Las clases derivadas se encargarán de situar estos botones en layouts
     pushAccept = new QPushButton ( toGUI ( _ ( "&Aceptar" ) ), this, "pushAccept" );
     pushAccept->setIcon( pushAccept->style()->standardIcon( QStyle::SP_DialogYesButton ) );

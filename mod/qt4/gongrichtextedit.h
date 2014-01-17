@@ -41,11 +41,21 @@ public:
     void setCustomStyles( const XtringList &customstyles );
     QString getText() const;
     void setText( const QString &text );
+	bool wasCancelled() const { return mWasCancelled; }
+	bool isEdited() const;
+	void setEdited( bool e );
+	bool isJustEdited() const;
+	void setJustEdited( bool je ) { mJustEdited = je; }
 
 protected:
     virtual void closeEvent(QCloseEvent *e);
     virtual QSize sizeHint() const; // from QWidget
+    virtual void focusInEvent( QFocusEvent *event ); // from QWidget
+    virtual void focusOutEvent( QFocusEvent *event ); // from QWidget
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+
+signals:
+	void validate(QWidget *sender, bool *isvalid);
 
 private:
     void setup();
@@ -80,6 +90,10 @@ private slots:
 
     void clipboardDataChanged();
     void printPreview(QPrinter *);
+	void textHasChanged();
+
+	void accept_clicked();
+	void cancel_clicked();
 
 private:
     void fontChanged(const QFont &f);
@@ -108,9 +122,10 @@ private:
     QToolBar *tb;
     QString fileName;
     QTextEdit *textEdit;
+    QPushButton *pushCancel, *pushAccept;
     QLabel *sourceTextLabel;
     QString mPlainText;
-    bool mIsModal;
+    bool mIsModal, mWasCancelled, mJustEdited;
 };
 
 }; // namespace

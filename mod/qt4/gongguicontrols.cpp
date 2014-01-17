@@ -113,7 +113,7 @@ void RichTextBox::slotBeginEdit()
 
 void RichTextBox::slotBeginEditHTML()
 {
-    RichTextEdit *te = new RichTextEdit( this, static_cast<QWidget *>( parent() ), true );
+    RichTextEdit *te = new RichTextEdit( this, static_cast<QWidget *>( parent() ), true /* modal */);
     te->setCustomStyles( mCustomStyles );
     theGuiApp->getMainWindow()->createClient( te );
     adjustSize();

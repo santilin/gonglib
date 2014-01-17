@@ -38,10 +38,11 @@ public:
     bool setImageData( const Variant &data );
     bool loadFromFile( const Xtring &filename );
     Variant toData() const;
-    void clear() { pImageLabel->clear(); }
+    void clear();
     void setProposedFileName( const Xtring &name ) { mProposedFileName = name; }
     const Xtring &getProposedFileName() const { return mProposedFileName; }
     void displayInfo( const Xtring &errmessage = Xtring::null );
+
 
 protected slots:
     virtual void slot_button_clicked();
