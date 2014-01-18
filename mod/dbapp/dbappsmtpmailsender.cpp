@@ -81,7 +81,11 @@ MailMessage *SMTPMailSender::createMessage(const Xtring& from, const Xtring& to,
 		message->setContentType("text/html; charset=UTF-8");
 	else
 		message->setContentType("text/plain; charset=UTF-8");
-    message->setContent(content, MailMessage::ENCODING_8BIT);
+	Xtring content_without_0a = content;
+	content_without_0a.replace( "\x0a", "\x0d" );
+    message->setContent(content_without_0a, MailMessage::ENCODING_8BIT);
+	const char *s = content.c_str();
+	const char *s2 = content_without_0a.c_str();
 	return message;
 }
 

@@ -283,7 +283,7 @@ void FrmEstadCompraVenta::accept()
     else
         rtkstring = createRTK("estadcompraventa.inc", from, where, Xtring::null, Xtring::null, titulo);
     if( !rtkstring.isEmpty() ) {
-        AppReport *report = new AppReport(*DBAPP);
+        AppReport *report = new AppReport(*DBAPP, ModuleInstance->getConnection());
         report->readString( rtkstring.c_str() );
         Dictionary<Xtring> properties;
         properties.insert( "TITLE", titulo );

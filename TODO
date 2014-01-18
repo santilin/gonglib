@@ -1,11 +1,14 @@
 == HECHO ==
-* OFERTACOMPRA.rtk, OFERTAVENTA.rtk, etc.
 
 == HACER EN LOS PAJAROS ==
 * Quitar módulo ventasweb por ahora
 * Borrar los tipos de formas de pago
 * Enviar adjuntos
 * Probar HTML
+
+== HACIENDO ==
+* FrmMailing: Elegir contacto-> CTRL+A -> Escape: cierra la ventana y el control de los contactos se queda dehabilitado
+* Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
 
 == HACER EN MC ==
 * Comprobar, no actualiza el nombre de la vista cuando se cambia de vistas en los browses
@@ -46,7 +49,6 @@
 * Añadir a clientes y proveedoras: dia(s) de pago, mes no pago. Al generar los pagos, tenerlo en cuenta.
 * Buscador de documentos por número
 * Cambios masivos de precios: Sumar una cantidad fija
-* Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
 
 == gong-socias ==
 * Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo

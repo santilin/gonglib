@@ -20,6 +20,7 @@
 
 namespace gong {
 
+class dbConnection;
 class dbApplication;
 class ReportViewer;
 class ReportInput;
@@ -41,7 +42,7 @@ enum RTK_Output_Type { RTK_Screen = 0, RTK_Printer_Without_Dialog, RTK_Printer_W
 class AppReport : public RTK::Report
 {
 public:
-    AppReport(const dbApplication &dbapp);
+    AppReport(const dbApplication &dbapp, dbConnection *conn);
     ~AppReport();
     bool readFile(const Xtring &rtkfilename, const Xtring &initdefines = Xtring(), Input *input = 0);
     bool readString(const Xtring &rtkfilename, const Xtring &initdefines = Xtring(), Input *input = 0);
@@ -74,6 +75,7 @@ public:
 private:
     ReportViewer *mViewer;
     static ReportsList mReportsList;
+	dbConnection *pConnection;
     RTK::Input *pGongInput;
     const dbApplication &mdbApp;
     static Xtring sReportAuthor, sReportCompany, sReportSubTitle;

@@ -1278,7 +1278,7 @@ void FrmEditRecMaster::printReport( const Xtring &reportname, const Dictionary<X
     DBAPP->waitCursor(true);
     try {
         bool ret;
-        AppReport *report = new AppReport( *DBAPP );
+        AppReport *report = new AppReport( *DBAPP, getRecord()->getConnection() );
         if( isafilename ) {
             _GONG_DEBUG_PRINT(2, "Printing report " + reportname );
             ret = report->readFile( reportname, defines );

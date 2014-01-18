@@ -89,7 +89,7 @@ void FrmMod303::accept()
         rtkstring += "\t}" // Si esto no se añade, peta el report->fixInputParameters
                      "}\n"; // y si no se añade esto, da error de syntaxis en la última línea
 
-        AppReport *report = new AppReport(*DBAPP);
+        AppReport *report = new AppReport(*DBAPP, ModuleInstance->getConnection());
         report->readString( rtkstring.c_str() );
         report->setParameterValue( "EMPRESA", empresa::ModuleInstance->getNombreEmpresa() );
         report->setParameterValue( "IVADETALLADO_RECARGO", Xtring::number( FldIVADetallado::con_recargo ) );

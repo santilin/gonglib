@@ -255,7 +255,7 @@ void FrmBalanceCliPro::accept()
     Xtring from, where, titulo;
     Xtring rtkstring = createRTK(from, where, titulo);
     if( !rtkstring.isEmpty() ) {
-        AppReport *report = new AppReport(*DBAPP);
+        AppReport *report = new AppReport(*DBAPP, ModuleInstance->getConnection());
         report->readString( rtkstring.c_str() );
         report->setParameterValue( "EMPRESA", empresa::ModuleInstance->getNombreEmpresa() );
         Dictionary<Xtring> properties;

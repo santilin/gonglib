@@ -39,6 +39,7 @@ private:
 
 void ReportViewer::keyPressEvent( QKeyEvent *ke )
 {
+	_GONG_DEBUG_PRINT(0, ke->key() );
     if( !(ke->state() & (Qt::ControlModifier | Qt::ShiftModifier | Qt::MetaModifier | Qt::AltModifier )) )
         if( ke->key() == Qt::Key_Escape ) {
             close();
@@ -47,8 +48,8 @@ void ReportViewer::keyPressEvent( QKeyEvent *ke )
     ReportQtViewer::keyPressEvent( ke );
 }
 
-AppReport::AppReport( const dbApplication &dbapp )
-    : gong::Report ( dbapp.getRegConfig() ), pGongInput ( 0 ),
+AppReport::AppReport( const dbApplication &dbapp, dbConnection *conn )
+    : gong::Report ( dbapp.getRegConfig() ), pConnection(conn), pGongInput ( 0 ),
       mdbApp( dbapp )
 {
     Xtring paths = DBAPP->getReportsPath( true );
@@ -67,7 +68,7 @@ bool AppReport::readFile( const Xtring &rtkfilename, const Xtring &initdefines, 
 {
     pGongInput = input;
     if( !pGongInput )
-        pGongInput = new ReportInput ( DBAPP->getConnection(), *this, 0 );
+        pGongInput = new ReportInput ( pConnection, *this, 0 );
     return readRtkFile ( rtkfilename.c_str(), 0, pGongInput, initdefines );
 }
 
@@ -75,7 +76,7 @@ bool AppReport::readString( const Xtring &rtkcode, const Xtring &initdefines, In
 {
     pGongInput = input;
     if( !pGongInput )
-        pGongInput = new ReportInput ( DBAPP->getConnection(), *this, 0 );
+        pGongInput = new ReportInput ( pConnection, *this, 0 );
     return readRtkString ( rtkcode.c_str(), 0, "From String", pGongInput, initdefines );
 }
 

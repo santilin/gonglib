@@ -91,6 +91,7 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
 
 void FrmMailing::validate_input(QWidget* sender, bool* isvalid)
 {
+	pushAccept->setEnabled( true );
     if( sender == pushShowEMails ) {
         XtringList emails;
         getEmailsList( emails, false );
@@ -206,6 +207,8 @@ void FrmMailing::accept()
 	XtringList emails;
 	pErrors->clear();
 	pResultado->clear();
+	pOks->clear();
+	DBAPP->processEvents();
 	SMTPMailSender s( pHost->toString(), pPort->toInt(), pUser->toString(), pPassword->toString() );
 	if( !s.open() ) {
 		addMessage( pErrors, _("Error: " + s.getError()) );
@@ -221,15 +224,14 @@ void FrmMailing::accept()
 			bool sent = false;
 			if( grouping <= 1 ) {
 				message = s.createMessage( pFrom->toString(), *it, pSubject->toString(),
-					isHTML ? pHTMLBody->toString() : pBody->toString() );
+					isHTML ? pHTMLBody->toString() : pBody->toString(), isHTML );
 				recipients = *it;
 				do_send = true;
 			} else {
 				if( message == 0 ) {
 					message = s.createMessage( pFrom->toString(), Xtring::null, pSubject->toString(),
-						isHTML ? pHTMLBody->toString() : pBody->toString() );
+						isHTML ? pHTMLBody->toString() : pBody->toString(), isHTML );
 				}
-				_GONG_DEBUG_PRINT(0, *it );
 				message->addRecipient( MailRecipient(MailRecipient::BCC_RECIPIENT, *it ) );
 				if( !recipients.isEmpty() )
 					recipients.append( ";" );
@@ -247,11 +249,11 @@ void FrmMailing::accept()
 				if( sent ) {
 					okcount++;
 					addMessage( pResultado, Xtring::printf( _("%s: Ok\n"), recipients.c_str() ) );
-					addMessage( pOks, Xtring::printf( _("%s\n"), recipients.c_str() ) );
+					addMessage( pOks, Xtring::printf( _("%s\n"), Xtring(recipients).replace(";","\n").c_str() ) );
 				} else {
 					errorcount++;
-					addMessage( pErrors, Xtring::printf( _("%s: Error: %s\n"), recipients.c_str(), s.getError().c_str() ) );
-					addMessage( pErrors, Xtring::printf( _("%s\n"), recipients.c_str() ) );
+					addMessage( pResultado, Xtring::printf( _("%s: Error: %s\n"), recipients.c_str(), s.getError().c_str() ) );
+					addMessage( pErrors, Xtring::printf( _("%s\n"), Xtring(recipients).replace(";","\n").c_str() ) );
 				}
 				recipients.clear();
 				lblProgreso->setText( toGUI( Xtring::printf( _("Enviando correos a %d destinatarios. %d correos correctos, %d correos con errores"),

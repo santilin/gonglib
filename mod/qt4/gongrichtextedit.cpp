@@ -39,6 +39,7 @@ RichTextEdit::RichTextEdit(Xtring &text, QWidget *parent)
 {
     setup();
     setText( mPlainText );
+	textEdit->setFocus();
 }
 
 RichTextEdit::RichTextEdit(QLabel *txtlabel, QWidget *parent, bool modal)
@@ -496,6 +497,7 @@ void RichTextEdit::fileNew()
 {
     if (maybeSave()) {
         textEdit->clear();
+		textEdit->setFocus();
         setCurrentFileName(QString());
     }
 }

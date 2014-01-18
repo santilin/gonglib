@@ -148,7 +148,7 @@ void FrmAdvancedPrint::accept()
     bool isafilename;
     AppReport *report = 0;
     if( pComboTemplates->currentIndex() == 2 ) { // Crear a partir de la vista
-        report = new AppReport( *DBAPP );
+        report = new AppReport( *DBAPP, pTheForm->getRecord()->getConnection() );
         Xtring rtk = report->fromViewDefinition(
                          pTheForm->getDataTable()->getDataModel()->getCurrentView(),
                          pIncTotals->isOn() );

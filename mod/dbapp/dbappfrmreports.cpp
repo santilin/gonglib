@@ -130,7 +130,7 @@ void FrmReports::refresh()
 void FrmReports::accept()
 {
     if( mSelectedItem ) {
-        AppReport *report = new AppReport(*DBAPP);
+        AppReport *report = new AppReport(*DBAPP, DBAPP->getConnection());
         report->readFile(mSelectedItem->getValue().repPath.c_str(), chkResumido->isChecked() ? "RESUMIDO":"");
         Dictionary<Xtring> properties;
         properties.insert( "TITLE", txtTitulo->toString() );
