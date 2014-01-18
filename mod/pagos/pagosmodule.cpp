@@ -338,7 +338,7 @@ bool PagosModule::initMainWindow(MainWindow *mainwin)
 		pMainWindow->connect(pMenuPagosPago, SIGNAL(activated()), this, SLOT(slotMenuPagosPago()));
 	}
 /*>>>>>PAGOSMODULE_INITMAINWINDOW_MENUS*/
-// {capel} eliminar:  pMenuVentasCobro->addTo(pMenuVentas); (esos menús son de factu::) y con las compras igual
+// {capel} eliminar:  pMenuPagosCobro->addTo(pMenuPagos); (esos menús son de factu::) y con las compras igual
     return true;
 }
 

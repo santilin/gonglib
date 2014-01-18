@@ -263,8 +263,8 @@ void FrmEditRecDetail::beginEdit(DataTable *dt, EditMode newmode,
 				DBAPP->resetCursor();
                 detailfrm->showModalFor(getFrmMaster(), true, true ); // Centered
 				DBAPP->waitCursor();
-            }
-            dt->setFocus();
+			}
+			setWiseFocus(dt);
             int r = dt->currentRow(), c = dt->currentColumn();
             if( detailfrm->isSaved() ) {
                 getFrmMaster()->setEdited( true );

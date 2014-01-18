@@ -257,7 +257,7 @@ void FrmEditCuenta::pushContactoCIF_clicked()
 				setEdited(true);
 				scatterContacto();
 				editContactoCIF->setJustEdited( true );
-				editContactoCIF->setFocus();
+				setWiseFocus(editContactoCIF);
 			}
 			break;
 		case 'M':
@@ -270,7 +270,7 @@ void FrmEditCuenta::pushContactoCIF_clicked()
 						editContactoCIF->setJustEdited( true );
 						scatterContacto();
 					}
-					editContactoCIF->setFocus();
+				setWiseFocus(editContactoCIF);
 				}
 			}
 			break;
@@ -295,7 +295,7 @@ void FrmEditCuenta::pushContactoCIF_clicked()
 					getRecContacto()->copyRecord( tmprec );
 					scatterContacto();
 				}
-				editContactoCIF->setFocus();
+				setWiseFocus(editContactoCIF);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

@@ -261,7 +261,7 @@ void FrmViewEdit::validate( QWidget *sender, bool *is_valid )
                 || caption.find("|") != Xtring::npos ) {
             msgError( this, _("Los encabezados no pueden contener los símbolos \":\" ni \"|\".") );
             txtCaption->setText( caption.replace(":", "_").replace("|","_") );
-            txtCaption->setFocus();
+            setWiseFocus(txtCaption);
         }
         previtem->getItemInfo().fielddef->setCaption( txtCaption->toString() );
         pViewDefinition->setModified( true );
@@ -494,7 +494,7 @@ bool FrmViewEdit::canClose()
     if( !wasCancelled() ) {
         if( txtViewName->toString().isEmpty() ) {
             msgError( this, _("El nombre de la vista no puede estar vacío") );
-            txtViewName->setFocus();
+            setWiseFocus(txtViewName);
             return false;
         }
         Xtring origin = pViewDefinition->getOrigin();

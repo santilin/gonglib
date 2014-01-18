@@ -383,7 +383,7 @@ void FrmEditFacturaVenta::pushTipoDocCodigo_clicked()
 				setEdited(true);
 				scatterTipoDoc();
 				editTipoDocCodigo->setJustEdited( true );
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 			}
 			break;
 		case 'M':
@@ -396,7 +396,7 @@ void FrmEditFacturaVenta::pushTipoDocCodigo_clicked()
 						editTipoDocCodigo->setJustEdited( true );
 						scatterTipoDoc();
 					}
-					editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				}
 			}
 			break;
@@ -421,7 +421,7 @@ void FrmEditFacturaVenta::pushTipoDocCodigo_clicked()
 					getRecTipoDoc()->copyRecord( tmprec );
 					scatterTipoDoc();
 				}
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -440,7 +440,6 @@ void FrmEditFacturaVenta::scatterCliente()
 	if( editClienteCodigo->isJustEdited() ) {
 		if( getRecCliente()->getRecFormaPago()->getValue("CODIGO").toInt() != 0 )
 			searchFormaPagoCodigo->setValue( getRecCliente()->getRecFormaPago()->getValue("CODIGO") );
-		_GONG_DEBUG_PRINT(0, getRecCliente()->getValue("IVADetallado").toInt() );
 		if( getRecCliente()->getValue("IVADetallado").toInt() != 0 )
 			comboIVADetallado->setCurrentItemByValue( getRecCliente()->getValue("IVADetallado").toInt() );
 		if( getRecCliente()->getRecAgente()->getRecordID() != 0 )
@@ -464,7 +463,7 @@ void FrmEditFacturaVenta::pushClienteCodigo_clicked()
 				setEdited(true);
 				scatterCliente();
 				editClienteCodigo->setJustEdited( true );
-				editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 			}
 			break;
 		case 'M':
@@ -477,7 +476,7 @@ void FrmEditFacturaVenta::pushClienteCodigo_clicked()
 						editClienteCodigo->setJustEdited( true );
 						scatterCliente();
 					}
-					editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 				}
 			}
 			break;
@@ -502,7 +501,7 @@ void FrmEditFacturaVenta::pushClienteCodigo_clicked()
 					getRecCliente()->copyRecord( tmprec );
 					scatterCliente();
 				}
-				editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -546,7 +545,7 @@ void FrmEditFacturaVenta::pushFormaPagoCodigo_clicked()
 				setEdited(true);
 				scatterFormaPago();
 				editFormaPagoCodigo->setJustEdited( true );
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 			}
 			break;
 		case 'M':
@@ -559,7 +558,7 @@ void FrmEditFacturaVenta::pushFormaPagoCodigo_clicked()
 						editFormaPagoCodigo->setJustEdited( true );
 						scatterFormaPago();
 					}
-					editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				}
 			}
 			break;
@@ -584,7 +583,7 @@ void FrmEditFacturaVenta::pushFormaPagoCodigo_clicked()
 					getRecFormaPago()->copyRecord( tmprec );
 					scatterFormaPago();
 				}
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -615,7 +614,7 @@ void FrmEditFacturaVenta::pushAgenteCodigo_clicked()
 				setEdited(true);
 				scatterAgente();
 				editAgenteCodigo->setJustEdited( true );
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 			}
 			break;
 		case 'M':
@@ -628,7 +627,7 @@ void FrmEditFacturaVenta::pushAgenteCodigo_clicked()
 						editAgenteCodigo->setJustEdited( true );
 						scatterAgente();
 					}
-					editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				}
 			}
 			break;
@@ -653,7 +652,7 @@ void FrmEditFacturaVenta::pushAgenteCodigo_clicked()
 					getRecAgente()->copyRecord( tmprec );
 					scatterAgente();
 				}
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -688,7 +687,7 @@ void FrmEditFacturaVenta::pushCuentaPagoCuenta_clicked()
 				setEdited(true);
 				scatterCuentaPago();
 				editCuentaPagoCuenta->setJustEdited( true );
-				editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 			}
 			break;
 		case 'M':
@@ -701,7 +700,7 @@ void FrmEditFacturaVenta::pushCuentaPagoCuenta_clicked()
 						editCuentaPagoCuenta->setJustEdited( true );
 						scatterCuentaPago();
 					}
-					editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 				}
 			}
 			break;
@@ -726,7 +725,7 @@ void FrmEditFacturaVenta::pushCuentaPagoCuenta_clicked()
 					getRecCuentaPago()->copyRecord( tmprec );
 					scatterCuentaPago();
 				}
-				editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -758,7 +757,7 @@ void FrmEditFacturaVenta::pushProyectoCodigo_clicked()
 				setEdited(true);
 				scatterProyecto();
 				editProyectoCodigo->setJustEdited( true );
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 			}
 			break;
 		case 'M':
@@ -771,7 +770,7 @@ void FrmEditFacturaVenta::pushProyectoCodigo_clicked()
 						editProyectoCodigo->setJustEdited( true );
 						scatterProyecto();
 					}
-					editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				}
 			}
 			break;
@@ -796,7 +795,7 @@ void FrmEditFacturaVenta::pushProyectoCodigo_clicked()
 					getRecProyecto()->copyRecord( tmprec );
 					scatterProyecto();
 				}
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -993,7 +992,7 @@ void FrmEditFacturaVenta::numeraLineas()
 	dbRecordList *reclst = getRecFacturaVenta()->getListFacturaVentaDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecFacturaVentaDet *detalle = static_cast<RecFacturaVentaDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITFACTURAVENTA_CABECERA_NUMERALINEAS*/

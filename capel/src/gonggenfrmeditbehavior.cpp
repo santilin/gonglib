@@ -386,7 +386,7 @@ void addFrmEditBehaviorFields(CppModule *cpcpp, CppModule *cph, const Xtring &fr
 		if( !multiplereference )
 			pushrefclicked += "\t\t\t\t" + ctrlcode + "->setJustEdited( true );\n";
 		pushrefclicked +=
-"\t\t\t\t" + ctrlcode + "->setFocus();\n"
+"\t\t\t\tpTheForm->setWiseFocus(" + ctrlcode + ");\n"
 "\t\t\t}\n"
 "\t\t\tbreak;\n"
 "\t\tcase 'M':\n"
@@ -399,7 +399,7 @@ void addFrmEditBehaviorFields(CppModule *cpcpp, CppModule *cph, const Xtring &fr
 "\t\t\t\t\t\t" + ctrlcode + "->setJustEdited( true );\n"
 "\t\t\t\t\t\tscatter" + referredfield + "();\n"
 "\t\t\t\t\t}\n"
-"\t\t\t\t\t" + ctrlcode + "->setFocus();\n"
+"\t\t\t\t\tpTheForm->setWiseFocus(" + ctrlcode + ");\n"
 "\t\t\t\t}\n"
 "\t\t\t}\n"
 "\t\t\tbreak;\n"
@@ -423,7 +423,7 @@ void addFrmEditBehaviorFields(CppModule *cpcpp, CppModule *cph, const Xtring &fr
 "\t\t\t\t\tgetRec" + referredfield + "()->copyRecord( tmprec );\n"
 "\t\t\t\t\tscatter" + referredfield + "();\n"
 "\t\t\t\t}\n"
-"\t\t\t\t" + ctrlcode + "->setFocus();\n"
+"\t\t\t\tpTheForm->setWiseFocus(" + ctrlcode + ");\n"
 "\t\t\t\tDBAPP->setCodeNotFound( Xtring() );\n"
 "\t\t\t}\n"
 "\t\t\tbreak;\n"

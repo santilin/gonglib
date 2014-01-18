@@ -22,7 +22,7 @@
 #include "sociasfrmeditmiembro.h"
 #include "sociasfrmeditpartidaproyecto.h"
 /*>>>>>FRMEDITPROYECTO_INCLUDES*/
-
+//{capel} quitar sociasfrmeditremesacobro .h
 #include <pagosfrmeditremesacobro.h>
 
 namespace gong {

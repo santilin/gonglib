@@ -5,7 +5,6 @@
 // FIELD Contador int - cabecera
 // FIELD Numero string - cabecera
 // FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
-// FIELD CuentaTercero_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2 if(hasFactu())
 // FIELD IVADetallado comboint - cabecera2
 // FIELD Facturado bool - cabecera2
 // FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbApplication::InsertIfNotFound) - cabecera3
@@ -372,7 +371,7 @@ void FrmEditAlbaranVenta::pushTipoDocCodigo_clicked()
 				setEdited(true);
 				scatterTipoDoc();
 				editTipoDocCodigo->setJustEdited( true );
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 			}
 			break;
 		case 'M':
@@ -385,7 +384,7 @@ void FrmEditAlbaranVenta::pushTipoDocCodigo_clicked()
 						editTipoDocCodigo->setJustEdited( true );
 						scatterTipoDoc();
 					}
-					editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				}
 			}
 			break;
@@ -410,7 +409,7 @@ void FrmEditAlbaranVenta::pushTipoDocCodigo_clicked()
 					getRecTipoDoc()->copyRecord( tmprec );
 					scatterTipoDoc();
 				}
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -451,7 +450,7 @@ void FrmEditAlbaranVenta::pushClienteCodigo_clicked()
 				setEdited(true);
 				scatterCliente();
 				editClienteCodigo->setJustEdited( true );
-				editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 			}
 			break;
 		case 'M':
@@ -464,7 +463,7 @@ void FrmEditAlbaranVenta::pushClienteCodigo_clicked()
 						editClienteCodigo->setJustEdited( true );
 						scatterCliente();
 					}
-					editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 				}
 			}
 			break;
@@ -489,7 +488,7 @@ void FrmEditAlbaranVenta::pushClienteCodigo_clicked()
 					getRecCliente()->copyRecord( tmprec );
 					scatterCliente();
 				}
-				editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -547,7 +546,7 @@ void FrmEditAlbaranVenta::pushAgenteCodigo_clicked()
 				setEdited(true);
 				scatterAgente();
 				editAgenteCodigo->setJustEdited( true );
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 			}
 			break;
 		case 'M':
@@ -560,7 +559,7 @@ void FrmEditAlbaranVenta::pushAgenteCodigo_clicked()
 						editAgenteCodigo->setJustEdited( true );
 						scatterAgente();
 					}
-					editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				}
 			}
 			break;
@@ -585,7 +584,7 @@ void FrmEditAlbaranVenta::pushAgenteCodigo_clicked()
 					getRecAgente()->copyRecord( tmprec );
 					scatterAgente();
 				}
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -621,7 +620,7 @@ void FrmEditAlbaranVenta::pushCuentaPagoCuenta_clicked()
 				setEdited(true);
 				scatterCuentaPago();
 				editCuentaPagoCuenta->setJustEdited( true );
-				editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 			}
 			break;
 		case 'M':
@@ -634,7 +633,7 @@ void FrmEditAlbaranVenta::pushCuentaPagoCuenta_clicked()
 						editCuentaPagoCuenta->setJustEdited( true );
 						scatterCuentaPago();
 					}
-					editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 				}
 			}
 			break;
@@ -659,7 +658,7 @@ void FrmEditAlbaranVenta::pushCuentaPagoCuenta_clicked()
 					getRecCuentaPago()->copyRecord( tmprec );
 					scatterCuentaPago();
 				}
-				editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -691,7 +690,7 @@ void FrmEditAlbaranVenta::pushProyectoCodigo_clicked()
 				setEdited(true);
 				scatterProyecto();
 				editProyectoCodigo->setJustEdited( true );
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 			}
 			break;
 		case 'M':
@@ -704,7 +703,7 @@ void FrmEditAlbaranVenta::pushProyectoCodigo_clicked()
 						editProyectoCodigo->setJustEdited( true );
 						scatterProyecto();
 					}
-					editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				}
 			}
 			break;
@@ -729,7 +728,7 @@ void FrmEditAlbaranVenta::pushProyectoCodigo_clicked()
 					getRecProyecto()->copyRecord( tmprec );
 					scatterProyecto();
 				}
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -774,7 +773,7 @@ void FrmEditAlbaranVenta::pushFormaPagoCodigo_clicked()
 				setEdited(true);
 				scatterFormaPago();
 				editFormaPagoCodigo->setJustEdited( true );
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 			}
 			break;
 		case 'M':
@@ -787,7 +786,7 @@ void FrmEditAlbaranVenta::pushFormaPagoCodigo_clicked()
 						editFormaPagoCodigo->setJustEdited( true );
 						scatterFormaPago();
 					}
-					editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				}
 			}
 			break;
@@ -812,7 +811,7 @@ void FrmEditAlbaranVenta::pushFormaPagoCodigo_clicked()
 					getRecFormaPago()->copyRecord( tmprec );
 					scatterFormaPago();
 				}
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -1059,5 +1058,6 @@ void FrmEditAlbaranVenta::slotCobrar()
 } // namespace factu
 } // namespace gong
 /*>>>>>FRMEDITALBARANVENTA_FIN*/
+
 
 

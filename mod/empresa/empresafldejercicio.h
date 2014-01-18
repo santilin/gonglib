@@ -36,7 +36,7 @@ public:
 /*<<<<<DBFIELD_EJERCICIO_MEMBERS*/
 	virtual bool isValid( dbRecord *r, dbFieldValue *value,
 		ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
-	virtual Variant customDefaultValue() const; // from dbFieldDefinition
+	virtual Variant customDefaultValue() const; // from dbFieldDefinition 
 /*>>>>>DBFIELD_EJERCICIO_MEMBERS*/
     virtual FldEjercicio *clone() const { return new FldEjercicio( *this ); }
 }; // class

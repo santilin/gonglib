@@ -307,19 +307,15 @@ void GuiMainWindow::slotUpdateMenus( QMdiSubWindow *activatedwindow )
 
 void GuiMainWindow::removeUnusedSubWindows()
 {
-	_GONG_DEBUG_PRINT( 0, Xtring("Lista de ventanas: ") );
     QList<QMdiSubWindow *> list = pWorkspace->subWindowList();
     for( int i = 0; i < list.size(); ++i ) {
         QMdiSubWindow *aw = list[i];
 		_GONG_DEBUG_PRINT( 0, aw->name() );
         if( aw && (!aw->widget() || !aw->isVisible() ) ) {
-			_GONG_DEBUG_PRINT( 0, Xtring("Borraría ") + aw->name() );
+			_GONG_DEBUG_WARNING( Xtring("Borraría ") + aw->name() );
             pWorkspace->removeSubWindow( aw );
 		}
     }
-    if( activeClient() ) {
-		_GONG_DEBUG_PRINT(0, Xtring("Active client: ") + activeClient()->name() );
-	}
 }
 
 void GuiMainWindow::slotUpdateMenuWindow()

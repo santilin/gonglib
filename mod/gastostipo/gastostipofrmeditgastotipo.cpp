@@ -240,7 +240,7 @@ void FrmEditGastoTipo::pushClienteCodigo_clicked()
 				setEdited(true);
 				scatterCliente();
 				editClienteCodigo->setJustEdited( true );
-				editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 			}
 			break;
 		case 'M':
@@ -253,7 +253,7 @@ void FrmEditGastoTipo::pushClienteCodigo_clicked()
 						editClienteCodigo->setJustEdited( true );
 						scatterCliente();
 					}
-					editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 				}
 			}
 			break;
@@ -278,7 +278,7 @@ void FrmEditGastoTipo::pushClienteCodigo_clicked()
 					getRecCliente()->copyRecord( tmprec );
 					scatterCliente();
 				}
-				editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -308,7 +308,7 @@ void FrmEditGastoTipo::pushProveedoraCodigo_clicked()
 				setEdited(true);
 				scatterProveedora();
 				editProveedoraCodigo->setJustEdited( true );
-				editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 			}
 			break;
 		case 'M':
@@ -321,7 +321,7 @@ void FrmEditGastoTipo::pushProveedoraCodigo_clicked()
 						editProveedoraCodigo->setJustEdited( true );
 						scatterProveedora();
 					}
-					editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 				}
 			}
 			break;
@@ -346,7 +346,7 @@ void FrmEditGastoTipo::pushProveedoraCodigo_clicked()
 					getRecProveedora()->copyRecord( tmprec );
 					scatterProveedora();
 				}
-				editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -376,7 +376,7 @@ void FrmEditGastoTipo::pushCuentaTerceroCuenta_clicked()
 				setEdited(true);
 				scatterCuentaTercero();
 				editCuentaTerceroCuenta->setJustEdited( true );
-				editCuentaTerceroCuenta->setFocus();
+				setWiseFocus(editCuentaTerceroCuenta);
 			}
 			break;
 		case 'M':
@@ -389,7 +389,7 @@ void FrmEditGastoTipo::pushCuentaTerceroCuenta_clicked()
 						editCuentaTerceroCuenta->setJustEdited( true );
 						scatterCuentaTercero();
 					}
-					editCuentaTerceroCuenta->setFocus();
+				setWiseFocus(editCuentaTerceroCuenta);
 				}
 			}
 			break;
@@ -414,7 +414,7 @@ void FrmEditGastoTipo::pushCuentaTerceroCuenta_clicked()
 					getRecCuentaTercero()->copyRecord( tmprec );
 					scatterCuentaTercero();
 				}
-				editCuentaTerceroCuenta->setFocus();
+				setWiseFocus(editCuentaTerceroCuenta);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -444,7 +444,7 @@ void FrmEditGastoTipo::pushArticuloCodigo_clicked()
 				setEdited(true);
 				scatterArticulo();
 				editArticuloCodigo->setJustEdited( true );
-				editArticuloCodigo->setFocus();
+				setWiseFocus(editArticuloCodigo);
 			}
 			break;
 		case 'M':
@@ -457,7 +457,7 @@ void FrmEditGastoTipo::pushArticuloCodigo_clicked()
 						editArticuloCodigo->setJustEdited( true );
 						scatterArticulo();
 					}
-					editArticuloCodigo->setFocus();
+				setWiseFocus(editArticuloCodigo);
 				}
 			}
 			break;
@@ -482,7 +482,7 @@ void FrmEditGastoTipo::pushArticuloCodigo_clicked()
 					getRecArticulo()->copyRecord( tmprec );
 					scatterArticulo();
 				}
-				editArticuloCodigo->setFocus();
+				setWiseFocus(editArticuloCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -512,7 +512,7 @@ void FrmEditGastoTipo::pushCuentaConceptoCuenta_clicked()
 				setEdited(true);
 				scatterCuentaConcepto();
 				editCuentaConceptoCuenta->setJustEdited( true );
-				editCuentaConceptoCuenta->setFocus();
+				setWiseFocus(editCuentaConceptoCuenta);
 			}
 			break;
 		case 'M':
@@ -525,7 +525,7 @@ void FrmEditGastoTipo::pushCuentaConceptoCuenta_clicked()
 						editCuentaConceptoCuenta->setJustEdited( true );
 						scatterCuentaConcepto();
 					}
-					editCuentaConceptoCuenta->setFocus();
+				setWiseFocus(editCuentaConceptoCuenta);
 				}
 			}
 			break;
@@ -550,7 +550,7 @@ void FrmEditGastoTipo::pushCuentaConceptoCuenta_clicked()
 					getRecCuentaConcepto()->copyRecord( tmprec );
 					scatterCuentaConcepto();
 				}
-				editCuentaConceptoCuenta->setFocus();
+				setWiseFocus(editCuentaConceptoCuenta);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

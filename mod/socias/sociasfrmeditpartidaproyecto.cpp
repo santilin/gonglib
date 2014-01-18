@@ -86,7 +86,7 @@ void FrmEditPartidaProyecto::pushProyectoCodigo_clicked()
 				setEdited(true);
 				scatterProyecto();
 				editProyectoCodigo->setJustEdited( true );
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 			}
 			break;
 		case 'M':
@@ -99,7 +99,7 @@ void FrmEditPartidaProyecto::pushProyectoCodigo_clicked()
 						editProyectoCodigo->setJustEdited( true );
 						scatterProyecto();
 					}
-					editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				}
 			}
 			break;
@@ -124,7 +124,7 @@ void FrmEditPartidaProyecto::pushProyectoCodigo_clicked()
 					getRecProyecto()->copyRecord( tmprec );
 					scatterProyecto();
 				}
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

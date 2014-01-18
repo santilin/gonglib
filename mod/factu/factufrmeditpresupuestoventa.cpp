@@ -63,13 +63,13 @@ FrmEditPresupuestoVenta::FrmEditPresupuestoVenta(FrmEditRec *parentfrm, dbRecord
 	editTipoDocNombre = searchTipoDocCodigo->getEditDesc();
 	editContador = addEditField( pControlsFrame, "PRESUPUESTOVENTA", "CONTADOR", cabeceraLayout );
 	editNumero = addEditField( pControlsFrame, "PRESUPUESTOVENTA", "NUMERO", cabeceraLayout );
-	comboIVADetallado = addComboIntField( pControlsFrame, "PRESUPUESTOVENTA", "IVADETALLADO", cabeceraLayout );
 
 	searchClienteCodigo = addSearchField( pControlsFrame, "CLIENTE_ID", "CLIENTE", "CODIGO", "RAZONSOCIAL", cabecera2Layout );
 	pushClienteCodigo = searchClienteCodigo->getButton();
 	connect( pushClienteCodigo, SIGNAL( clicked() ), this, SLOT( pushClienteCodigo_clicked() ) );
 	editClienteCodigo = searchClienteCodigo->getEditCode();
 	editClienteRazonSocial = searchClienteCodigo->getEditDesc();
+	comboIVADetallado = addComboIntField( pControlsFrame, "PRESUPUESTOVENTA", "IVADETALLADO", cabeceraLayout );
 
 	searchAgenteCodigo = addSearchField( pControlsFrame, "AGENTE_ID", "AGENTE", "CODIGO", "RAZONSOCIAL", cabecera2Layout );
 	pushAgenteCodigo = searchAgenteCodigo->getButton();
@@ -185,8 +185,8 @@ void FrmEditPresupuestoVenta::gatherFields()
 	getRecPresupuestoVenta()->setValue( "TIPODOC_ID", getRecTipoDoc()->getRecordID() );
 	getRecPresupuestoVenta()->setValue( "CONTADOR", editContador->toInt());
 	getRecPresupuestoVenta()->setValue( "NUMERO", editNumero->toString());
-	getRecPresupuestoVenta()->setValue( "IVADETALLADO", comboIVADetallado->getCurrentItemValue());
 	getRecPresupuestoVenta()->setValue( "CLIENTE_ID", getRecCliente()->getRecordID() );
+	getRecPresupuestoVenta()->setValue( "IVADETALLADO", comboIVADetallado->getCurrentItemValue());
 	getRecPresupuestoVenta()->setValue( "AGENTE_ID", getRecAgente()->getRecordID() );
 	getRecPresupuestoVenta()->setValue( "SUMAIMPORTES", editSumaImportes->toMoney());
 	getRecPresupuestoVenta()->setValue( "DTOP100", editDtoP100->toDouble());
@@ -232,7 +232,7 @@ void FrmEditPresupuestoVenta::pushClienteCodigo_clicked()
 				setEdited(true);
 				scatterCliente();
 				editClienteCodigo->setJustEdited( true );
-				editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 			}
 			break;
 		case 'M':
@@ -245,7 +245,7 @@ void FrmEditPresupuestoVenta::pushClienteCodigo_clicked()
 						editClienteCodigo->setJustEdited( true );
 						scatterCliente();
 					}
-					editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 				}
 			}
 			break;
@@ -270,7 +270,7 @@ void FrmEditPresupuestoVenta::pushClienteCodigo_clicked()
 					getRecCliente()->copyRecord( tmprec );
 					scatterCliente();
 				}
-				editClienteCodigo->setFocus();
+				setWiseFocus(editClienteCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -300,7 +300,7 @@ void FrmEditPresupuestoVenta::pushAgenteCodigo_clicked()
 				setEdited(true);
 				scatterAgente();
 				editAgenteCodigo->setJustEdited( true );
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 			}
 			break;
 		case 'M':
@@ -313,7 +313,7 @@ void FrmEditPresupuestoVenta::pushAgenteCodigo_clicked()
 						editAgenteCodigo->setJustEdited( true );
 						scatterAgente();
 					}
-					editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				}
 			}
 			break;
@@ -338,7 +338,7 @@ void FrmEditPresupuestoVenta::pushAgenteCodigo_clicked()
 					getRecAgente()->copyRecord( tmprec );
 					scatterAgente();
 				}
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -394,7 +394,7 @@ void FrmEditPresupuestoVenta::pushTipoDocCodigo_clicked()
 				setEdited(true);
 				scatterTipoDoc();
 				editTipoDocCodigo->setJustEdited( true );
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 			}
 			break;
 		case 'M':
@@ -407,7 +407,7 @@ void FrmEditPresupuestoVenta::pushTipoDocCodigo_clicked()
 						editTipoDocCodigo->setJustEdited( true );
 						scatterTipoDoc();
 					}
-					editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				}
 			}
 			break;
@@ -432,7 +432,7 @@ void FrmEditPresupuestoVenta::pushTipoDocCodigo_clicked()
 					getRecTipoDoc()->copyRecord( tmprec );
 					scatterTipoDoc();
 				}
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -535,7 +535,7 @@ void FrmEditPresupuestoVenta::numeraLineas()
 	dbRecordList *reclst = getRecPresupuestoVenta()->getListPresupuestoVentaDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecPresupuestoVentaDet *detalle = static_cast<RecPresupuestoVentaDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITPRESUPUESTOVENTA_CABECERA_NUMERALINEAS*/

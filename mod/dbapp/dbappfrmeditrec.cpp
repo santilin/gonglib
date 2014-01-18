@@ -51,6 +51,7 @@ FrmEditRec::FrmEditRec( FrmEditRec *parentfrm, dbRecord *arecord,
     pControlsFrame->setObjectName("ControlsFrame");
     pControlsLayout = new QVBoxLayout(pControlsFrame);
     pControlsLayout->setObjectName("ControlsLayout");
+	pTabWidget->setFocusPolicy( Qt::ClickFocus );
 //   	pControlsLayout->setSizeConstraint(QLayout::SetFixedSize);
     pTabWidget->addTab( pControlsFrame, "&General" );
     showTabs( false );
@@ -457,9 +458,15 @@ void FrmEditRec::showValidMessages( bool *isvalid, const ValidResult &validresul
 /// \todo {qt} Este set focus causa conflictos con el del choose
     if ( (messages.isEmpty() || validresult.count()) && !sender ) {
 //		if( focusWidget() == pushAccept || focusWidget() == pushCancel ) {
-        QWidget *focusfield = findControl( validresult.getMessageInfo( 0 ).wrongfield );
-        if ( focusfield )
-            focusfield->setFocus();
+	_GONG_DEBUG_PRINT(0, "Setting error focus to " + Xtring( validresult.getMessageInfo( 0 ).wrongfield ) );
+        QWidget *focusw = findControl( validresult.getMessageInfo( 0 ).wrongfield );
+        if ( focusw ) {
+			if( SearchBox *sb = dynamic_cast<SearchBox *>(focusw) ) {
+				setWiseFocus( sb->getEditCode() );
+			} else {
+				setWiseFocus(focusw);
+			}
+		}
 //		}
     }
     return;
@@ -540,6 +547,7 @@ RichTextBox *FrmEditRec::addRichTextField( QWidget *parent, const Xtring &tablen
         layout->addLayout( rich->getLayout() );
     else
         pControlsLayout->addLayout( rich->getLayout() );
+    connect( rich, SIGNAL( validate( QWidget *, bool * ) ), this, SLOT( validate( QWidget *, bool * ) ) );
     const dbFieldDefinition *flddef = DBAPP->getDatabase()->findFieldDefinition( tablename, fldname );
     applyFieldStyle( rich->getLabel(), flddef );
     applyFieldStyle( rich, flddef );
@@ -1380,7 +1388,7 @@ bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & v
                 if( recid )  {
                     ret = true;
                     if( fw )
-                        fw->setFocus();
+                        setWiseFocus(fw);
                 } else {
                     validresult.addError( Xtring::printf( _("No se ha encontrado %1$s con %2$s \"%3$s\""),
                                                           DBAPP->getTableDescSingular(record->getTableName(), "la" ).c_str(),
@@ -1394,7 +1402,7 @@ bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & v
                             *isvalid = false;
                     } else {
                         if( fw )
-                            fw->setFocus();
+							setWiseFocus(fw);
                     }
                 }
             } else if ( sender == editDesc && editDesc ) {
@@ -1402,7 +1410,7 @@ bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & v
                                                 descripcion, cond, flags ) ) ) {
                     ret = true;
                     if( fw )
-                        fw->setFocus();
+                        setWiseFocus(fw);
                 } else {
                     dbFieldDefinition *flddesc = DBAPP->getDatabase()->findFieldDefinition( record->getTableName(), flddescname );
                     validresult.addError( Xtring::printf( _("No se ha encontrado %1$s con %2$s \"%3$s\""),
@@ -1415,7 +1423,7 @@ bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & v
                             *isvalid = false;
                     } else {
                         if( fw )
-                            fw->setFocus();
+							setWiseFocus(fw);
                     }
                 }
             }

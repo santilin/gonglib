@@ -249,7 +249,7 @@ void FrmEditPedidoCompra::pushTipoDocCodigo_clicked()
 				setEdited(true);
 				scatterTipoDoc();
 				editTipoDocCodigo->setJustEdited( true );
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 			}
 			break;
 		case 'M':
@@ -262,7 +262,7 @@ void FrmEditPedidoCompra::pushTipoDocCodigo_clicked()
 						editTipoDocCodigo->setJustEdited( true );
 						scatterTipoDoc();
 					}
-					editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				}
 			}
 			break;
@@ -287,7 +287,7 @@ void FrmEditPedidoCompra::pushTipoDocCodigo_clicked()
 					getRecTipoDoc()->copyRecord( tmprec );
 					scatterTipoDoc();
 				}
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -325,7 +325,7 @@ void FrmEditPedidoCompra::pushProveedoraCodigo_clicked()
 				setEdited(true);
 				scatterProveedora();
 				editProveedoraCodigo->setJustEdited( true );
-				editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 			}
 			break;
 		case 'M':
@@ -338,7 +338,7 @@ void FrmEditPedidoCompra::pushProveedoraCodigo_clicked()
 						editProveedoraCodigo->setJustEdited( true );
 						scatterProveedora();
 					}
-					editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 				}
 			}
 			break;
@@ -363,7 +363,7 @@ void FrmEditPedidoCompra::pushProveedoraCodigo_clicked()
 					getRecProveedora()->copyRecord( tmprec );
 					scatterProveedora();
 				}
-				editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -425,15 +425,9 @@ void FrmEditPedidoCompra::validateFields( QWidget *sender, bool *isvalid, ValidR
 	}
 	if( sender == comboIVADetallado ) {
 		if( comboIVADetallado->getCurrentItemValue() == factu::FldIVADetallado::con_recargo ) {
-			if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == false )
-				validresult->addWarning( Xtring::printf( _("%s no está en el régimen de recargo de equivalencia."),
-														 DBAPP->getTableDescSingular("EMPRESA", "La").c_str()),  "IVADETALLADO" );
 			editRecargoEquivalencia->setVisible( true );
 			editRecargoEquivalencia->getLabel()->setVisible( true );
 		} else {
-			if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == true 	)
-				validresult->addWarning( Xtring::printf( _("%s está en el régimen de recargo de equivalencia."),
-														 DBAPP->getTableDescSingular("EMPRESA", "La").c_str()),  "IVADETALLADO" );
 			editRecargoEquivalencia->setVisible( false );
 			editRecargoEquivalencia->getLabel()->setVisible( false );
 		}
@@ -490,7 +484,7 @@ void FrmEditPedidoCompra::numeraLineas()
 	dbRecordList *reclst = getRecPedidoCompra()->getListPedidoCompraDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecPedidoCompraDet *detalle = static_cast<RecPedidoCompraDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITPEDIDOCOMPRA_CABECERA_NUMERALINEAS*/

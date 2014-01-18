@@ -150,7 +150,7 @@ void FrmEditAlbaranVentaDet::pushArticuloCodigo_clicked()
 				setEdited(true);
 				scatterArticulo();
 				editArticuloCodigo->setJustEdited( true );
-				editArticuloCodigo->setFocus();
+				setWiseFocus(editArticuloCodigo);
 			}
 			break;
 		case 'M':
@@ -163,7 +163,7 @@ void FrmEditAlbaranVentaDet::pushArticuloCodigo_clicked()
 						editArticuloCodigo->setJustEdited( true );
 						scatterArticulo();
 					}
-					editArticuloCodigo->setFocus();
+				setWiseFocus(editArticuloCodigo);
 				}
 			}
 			break;
@@ -188,7 +188,7 @@ void FrmEditAlbaranVentaDet::pushArticuloCodigo_clicked()
 					getRecArticulo()->copyRecord( tmprec );
 					scatterArticulo();
 				}
-				editArticuloCodigo->setFocus();
+				setWiseFocus(editArticuloCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -219,7 +219,7 @@ void FrmEditAlbaranVentaDet::pushTipoIVACodigo_clicked()
 				setEdited(true);
 				scatterTipoIVA();
 				editTipoIVACodigo->setJustEdited( true );
-				editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 			}
 			break;
 		case 'M':
@@ -232,7 +232,7 @@ void FrmEditAlbaranVentaDet::pushTipoIVACodigo_clicked()
 						editTipoIVACodigo->setJustEdited( true );
 						scatterTipoIVA();
 					}
-					editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 				}
 			}
 			break;
@@ -257,7 +257,7 @@ void FrmEditAlbaranVentaDet::pushTipoIVACodigo_clicked()
 					getRecTipoIVA()->copyRecord( tmprec );
 					scatterTipoIVA();
 				}
-				editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

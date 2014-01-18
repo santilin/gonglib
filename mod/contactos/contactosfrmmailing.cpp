@@ -36,7 +36,6 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
             Xtring desc = tbldef->findFieldByFlags(dbFieldDefinition::DESCRIPTION) ?
                           tbldef->findFieldByFlags(dbFieldDefinition::DESCRIPTION)->getName() : "DESCRIPCION";
             mSearchBoxes << addMultipleSearchField( tabSeleccion, tbldef->getName(), code, desc, selLayout );
-			_GONG_DEBUG_PRINT(0, "Añado " + tbldef->getName() );
         }
     }
 	pushShowEMails = addButton( tabFrameEdit, _("Mostrar emails" ), 0, selLayout );
@@ -83,6 +82,8 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
 	lblProgreso = new QLabel( tabResultado );
 	resLayout->addWidget( lblProgreso );
 	tabFrameEdit->addTab( tabResultado, toGUI( _("Resultado") ) );
+	if( mSearchBoxes.size() )
+		pFocusWidget = pFrom; // mSearchBoxes[0]->getEditCode();
 #if !HAVE_POCOLIB
 	msgError( this, _("No se pueden enviar emails, la biblioteca POCO no está instalada") );
 	pushAccept->setEnabled( false );

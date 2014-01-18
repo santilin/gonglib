@@ -221,7 +221,7 @@ void FrmEditCobro::pushFacturaNumero_clicked()
 				setEdited(true);
 				scatterFactura();
 				editFacturaNumero->setJustEdited( true );
-				editFacturaNumero->setFocus();
+				setWiseFocus(editFacturaNumero);
 			}
 			break;
 		case 'M':
@@ -234,7 +234,7 @@ void FrmEditCobro::pushFacturaNumero_clicked()
 						editFacturaNumero->setJustEdited( true );
 						scatterFactura();
 					}
-					editFacturaNumero->setFocus();
+				setWiseFocus(editFacturaNumero);
 				}
 			}
 			break;
@@ -259,7 +259,7 @@ void FrmEditCobro::pushFacturaNumero_clicked()
 					getRecFactura()->copyRecord( tmprec );
 					scatterFactura();
 				}
-				editFacturaNumero->setFocus();
+				setWiseFocus(editFacturaNumero);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -295,7 +295,7 @@ void FrmEditCobro::pushCuentaPagoCuenta_clicked()
 				setEdited(true);
 				scatterCuentaPago();
 				editCuentaPagoCuenta->setJustEdited( true );
-				editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 			}
 			break;
 		case 'M':
@@ -308,7 +308,7 @@ void FrmEditCobro::pushCuentaPagoCuenta_clicked()
 						editCuentaPagoCuenta->setJustEdited( true );
 						scatterCuentaPago();
 					}
-					editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 				}
 			}
 			break;
@@ -333,7 +333,7 @@ void FrmEditCobro::pushCuentaPagoCuenta_clicked()
 					getRecCuentaPago()->copyRecord( tmprec );
 					scatterCuentaPago();
 				}
-				editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -369,7 +369,7 @@ void FrmEditCobro::pushTerceroCodigo_clicked()
 				setEdited(true);
 				scatterTercero();
 				editTerceroCodigo->setJustEdited( true );
-				editTerceroCodigo->setFocus();
+				setWiseFocus(editTerceroCodigo);
 			}
 			break;
 		case 'M':
@@ -382,7 +382,7 @@ void FrmEditCobro::pushTerceroCodigo_clicked()
 						editTerceroCodigo->setJustEdited( true );
 						scatterTercero();
 					}
-					editTerceroCodigo->setFocus();
+				setWiseFocus(editTerceroCodigo);
 				}
 			}
 			break;
@@ -407,7 +407,7 @@ void FrmEditCobro::pushTerceroCodigo_clicked()
 					getRecTercero()->copyRecord( tmprec );
 					scatterTercero();
 				}
-				editTerceroCodigo->setFocus();
+				setWiseFocus(editTerceroCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -582,7 +582,7 @@ void FrmEditCobro::pushMonedaCodigo_clicked()
 				setEdited(true);
 				scatterMoneda();
 				editMonedaCodigo->setJustEdited( true );
-				editMonedaCodigo->setFocus();
+				setWiseFocus(editMonedaCodigo);
 			}
 			break;
 		case 'M':
@@ -595,7 +595,7 @@ void FrmEditCobro::pushMonedaCodigo_clicked()
 						editMonedaCodigo->setJustEdited( true );
 						scatterMoneda();
 					}
-					editMonedaCodigo->setFocus();
+				setWiseFocus(editMonedaCodigo);
 				}
 			}
 			break;
@@ -620,7 +620,7 @@ void FrmEditCobro::pushMonedaCodigo_clicked()
 					getRecMoneda()->copyRecord( tmprec );
 					scatterMoneda();
 				}
-				editMonedaCodigo->setFocus();
+				setWiseFocus(editMonedaCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -651,7 +651,7 @@ void FrmEditCobro::pushRemesaCobroNumero_clicked()
 				setEdited(true);
 				scatterRemesaCobro();
 				editRemesaCobroNumero->setJustEdited( true );
-				editRemesaCobroNumero->setFocus();
+				setWiseFocus(editRemesaCobroNumero);
 			}
 			break;
 		case 'M':
@@ -664,7 +664,7 @@ void FrmEditCobro::pushRemesaCobroNumero_clicked()
 						editRemesaCobroNumero->setJustEdited( true );
 						scatterRemesaCobro();
 					}
-					editRemesaCobroNumero->setFocus();
+				setWiseFocus(editRemesaCobroNumero);
 				}
 			}
 			break;
@@ -689,7 +689,7 @@ void FrmEditCobro::pushRemesaCobroNumero_clicked()
 					getRecRemesaCobro()->copyRecord( tmprec );
 					scatterRemesaCobro();
 				}
-				editRemesaCobroNumero->setFocus();
+				setWiseFocus(editRemesaCobroNumero);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -710,6 +710,14 @@ void FrmEditCobro::validateFields(QWidget *sender, bool *isvalid, ValidResult *i
 	if( validSeekCode( sender, isvalid, *validresult, editRemesaCobroNumero, editRemesaCobroDescripcion,
 		getRecRemesaCobro(), "NUMERO", "DESCRIPCION", Xtring::null) )
 		scatterRemesaCobro();
+	if( focusWidget() != pushFacturaNumero) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaFecha,
+		getRecFactura(), "NUMERO", "FECHA", Xtring::null) )
+		scatterFactura();
+	if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroRazonSocial,
+		getRecTercero(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		scatterTercero();
 	if( focusWidget() != pushMonedaCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editMonedaCodigo, editMonedaNombre,
 		getRecMoneda(), "CODIGO", "NOMBRE", Xtring::null) )

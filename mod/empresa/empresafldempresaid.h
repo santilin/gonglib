@@ -32,7 +32,7 @@ public:
 /*<<<<<DBFIELD_EMPRESAID_MEMBERS*/
 	virtual bool isValid( dbRecord *r, dbFieldValue *value,
 		ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
-	virtual Variant customDefaultValue() const; // from dbFieldDefinition
+	virtual Variant customDefaultValue() const; // from dbFieldDefinition 
 /*>>>>>DBFIELD_EMPRESAID_MEMBERS*/
     virtual FldEmpresaID *clone() const { return new FldEmpresaID( *this ); }
 }; // class

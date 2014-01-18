@@ -161,7 +161,7 @@ void FrmEditFamilia::pushTipoIVACodigo_clicked()
 				setEdited(true);
 				scatterTipoIVA();
 				editTipoIVACodigo->setJustEdited( true );
-				editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 			}
 			break;
 		case 'M':
@@ -174,7 +174,7 @@ void FrmEditFamilia::pushTipoIVACodigo_clicked()
 						editTipoIVACodigo->setJustEdited( true );
 						scatterTipoIVA();
 					}
-					editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 				}
 			}
 			break;
@@ -199,7 +199,7 @@ void FrmEditFamilia::pushTipoIVACodigo_clicked()
 					getRecTipoIVA()->copyRecord( tmprec );
 					scatterTipoIVA();
 				}
-				editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

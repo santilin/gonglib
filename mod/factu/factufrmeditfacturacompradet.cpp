@@ -166,7 +166,7 @@ void FrmEditFacturaCompraDet::pushTipoIVACodigo_clicked()
 				setEdited(true);
 				scatterTipoIVA();
 				editTipoIVACodigo->setJustEdited( true );
-				editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 			}
 			break;
 		case 'M':
@@ -179,7 +179,7 @@ void FrmEditFacturaCompraDet::pushTipoIVACodigo_clicked()
 						editTipoIVACodigo->setJustEdited( true );
 						scatterTipoIVA();
 					}
-					editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 				}
 			}
 			break;
@@ -204,7 +204,7 @@ void FrmEditFacturaCompraDet::pushTipoIVACodigo_clicked()
 					getRecTipoIVA()->copyRecord( tmprec );
 					scatterTipoIVA();
 				}
-				editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -234,7 +234,7 @@ void FrmEditFacturaCompraDet::pushArticuloCodigo_clicked()
 				setEdited(true);
 				scatterArticulo();
 				editArticuloCodigo->setJustEdited( true );
-				editArticuloCodigo->setFocus();
+				setWiseFocus(editArticuloCodigo);
 			}
 			break;
 		case 'M':
@@ -247,7 +247,7 @@ void FrmEditFacturaCompraDet::pushArticuloCodigo_clicked()
 						editArticuloCodigo->setJustEdited( true );
 						scatterArticulo();
 					}
-					editArticuloCodigo->setFocus();
+				setWiseFocus(editArticuloCodigo);
 				}
 			}
 			break;
@@ -272,7 +272,7 @@ void FrmEditFacturaCompraDet::pushArticuloCodigo_clicked()
 					getRecArticulo()->copyRecord( tmprec );
 					scatterArticulo();
 				}
-				editArticuloCodigo->setFocus();
+				setWiseFocus(editArticuloCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

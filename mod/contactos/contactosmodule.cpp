@@ -147,7 +147,6 @@ void ContactosModule::slotMenuContactosContacto()
 void ContactosModule::slotMenuContactosMailing()
 {
     FrmMailing *frmmailing = new FrmMailing(0);
-    frmmailing->show();
     pMainWindow->createClient( frmmailing );
 }
 

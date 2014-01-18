@@ -775,7 +775,6 @@ bool dbApplication::chooseMulti( List<dbRecordID> &v,
 {
     bool ret = false;
     _GONG_DEBUG_ASSERT ( rec );
-    QWidget *fw = focusWidget();
     FrmEditRecMaster *choosemaster = static_cast<FrmEditRecMaster *>
                                      ( createEditForm ( parentfrm, rec, dm, DataTable::choosing, editflags, 0,
                                              ( name?name:Xtring ( "choose_Rec" + rec->getTableName() ).c_str() ), fl ) );
@@ -794,11 +793,6 @@ bool dbApplication::chooseMulti( List<dbRecordID> &v,
             ret = true;
         }
         delete choosemaster;
-        if ( fw && fw != focusWidget() )
-        {
-            _GONG_DEBUG_PRINT ( 6, Xtring::printf ( "Setting focus to %s", fw->name() ) );
-            fw->setFocus();
-        }
     } else {
         FrmBase::msgError( getPackageName(),
                            Xtring::printf( _("No se ha podido crear un formulario para la tabla de %s"),

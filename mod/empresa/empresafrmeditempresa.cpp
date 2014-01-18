@@ -169,7 +169,7 @@ void FrmEditEmpresa::pushMonedaCodigo_clicked()
 				setEdited(true);
 				scatterMoneda();
 				editMonedaCodigo->setJustEdited( true );
-				editMonedaCodigo->setFocus();
+				setWiseFocus(editMonedaCodigo);
 			}
 			break;
 		case 'M':
@@ -182,7 +182,7 @@ void FrmEditEmpresa::pushMonedaCodigo_clicked()
 						editMonedaCodigo->setJustEdited( true );
 						scatterMoneda();
 					}
-					editMonedaCodigo->setFocus();
+				setWiseFocus(editMonedaCodigo);
 				}
 			}
 			break;
@@ -207,7 +207,7 @@ void FrmEditEmpresa::pushMonedaCodigo_clicked()
 					getRecMoneda()->copyRecord( tmprec );
 					scatterMoneda();
 				}
-				editMonedaCodigo->setFocus();
+				setWiseFocus(editMonedaCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

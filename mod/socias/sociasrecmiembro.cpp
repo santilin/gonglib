@@ -48,7 +48,6 @@ factu::RecCliente *RecMiembro::getRecCliente() const
 	return static_cast<factu::RecCliente*>(findRelatedRecord("CLIENTE_ID"));
 }
 #endif
-
 RecTipoSocia *RecMiembro::getRecTipoSocia() const
 {
 	return static_cast<RecTipoSocia*>(findRelatedRecord("TIPOSOCIA_ID"));

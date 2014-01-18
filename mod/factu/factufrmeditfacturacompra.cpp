@@ -379,7 +379,7 @@ void FrmEditFacturaCompra::pushTipoDocCodigo_clicked()
 				setEdited(true);
 				scatterTipoDoc();
 				editTipoDocCodigo->setJustEdited( true );
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 			}
 			break;
 		case 'M':
@@ -392,7 +392,7 @@ void FrmEditFacturaCompra::pushTipoDocCodigo_clicked()
 						editTipoDocCodigo->setJustEdited( true );
 						scatterTipoDoc();
 					}
-					editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				}
 			}
 			break;
@@ -417,7 +417,7 @@ void FrmEditFacturaCompra::pushTipoDocCodigo_clicked()
 					getRecTipoDoc()->copyRecord( tmprec );
 					scatterTipoDoc();
 				}
-				editTipoDocCodigo->setFocus();
+				setWiseFocus(editTipoDocCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -456,7 +456,7 @@ void FrmEditFacturaCompra::pushProveedoraCodigo_clicked()
 				setEdited(true);
 				scatterProveedora();
 				editProveedoraCodigo->setJustEdited( true );
-				editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 			}
 			break;
 		case 'M':
@@ -469,7 +469,7 @@ void FrmEditFacturaCompra::pushProveedoraCodigo_clicked()
 						editProveedoraCodigo->setJustEdited( true );
 						scatterProveedora();
 					}
-					editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 				}
 			}
 			break;
@@ -494,7 +494,7 @@ void FrmEditFacturaCompra::pushProveedoraCodigo_clicked()
 					getRecProveedora()->copyRecord( tmprec );
 					scatterProveedora();
 				}
-				editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -538,7 +538,7 @@ void FrmEditFacturaCompra::pushFormaPagoCodigo_clicked()
 				setEdited(true);
 				scatterFormaPago();
 				editFormaPagoCodigo->setJustEdited( true );
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 			}
 			break;
 		case 'M':
@@ -551,7 +551,7 @@ void FrmEditFacturaCompra::pushFormaPagoCodigo_clicked()
 						editFormaPagoCodigo->setJustEdited( true );
 						scatterFormaPago();
 					}
-					editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				}
 			}
 			break;
@@ -576,7 +576,7 @@ void FrmEditFacturaCompra::pushFormaPagoCodigo_clicked()
 					getRecFormaPago()->copyRecord( tmprec );
 					scatterFormaPago();
 				}
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -612,7 +612,7 @@ void FrmEditFacturaCompra::pushCuentaPagoCuenta_clicked()
 				setEdited(true);
 				scatterCuentaPago();
 				editCuentaPagoCuenta->setJustEdited( true );
-				editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 			}
 			break;
 		case 'M':
@@ -625,7 +625,7 @@ void FrmEditFacturaCompra::pushCuentaPagoCuenta_clicked()
 						editCuentaPagoCuenta->setJustEdited( true );
 						scatterCuentaPago();
 					}
-					editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 				}
 			}
 			break;
@@ -650,7 +650,7 @@ void FrmEditFacturaCompra::pushCuentaPagoCuenta_clicked()
 					getRecCuentaPago()->copyRecord( tmprec );
 					scatterCuentaPago();
 				}
-				editCuentaPagoCuenta->setFocus();
+				setWiseFocus(editCuentaPagoCuenta);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -681,7 +681,7 @@ void FrmEditFacturaCompra::pushProyectoCodigo_clicked()
 				setEdited(true);
 				scatterProyecto();
 				editProyectoCodigo->setJustEdited( true );
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 			}
 			break;
 		case 'M':
@@ -694,7 +694,7 @@ void FrmEditFacturaCompra::pushProyectoCodigo_clicked()
 						editProyectoCodigo->setJustEdited( true );
 						scatterProyecto();
 					}
-					editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				}
 			}
 			break;
@@ -719,7 +719,7 @@ void FrmEditFacturaCompra::pushProyectoCodigo_clicked()
 					getRecProyecto()->copyRecord( tmprec );
 					scatterProyecto();
 				}
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -817,15 +817,9 @@ if(empresa::ModuleInstance->usaProyectos()){
 	}
 	if( sender == comboIVADetallado ) {
 		if( comboIVADetallado->getCurrentItemValue() == factu::FldIVADetallado::con_recargo ) {
-			if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == false )
-				validresult->addWarning( Xtring::printf( _("%s no está en el régimen de recargo de equivalencia."),
-														 DBAPP->getTableDescSingular("EMPRESA", "La").c_str()),  "IVADETALLADO" );
 			editRecargoEquivalencia->setVisible( true );
 			editRecargoEquivalencia->getLabel()->setVisible( true );
 		} else {
-			if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == true 	)
-				validresult->addWarning( Xtring::printf( _("%s está en el régimen de recargo de equivalencia."),
-														 DBAPP->getTableDescSingular("EMPRESA", "La").c_str()),  "IVADETALLADO" );
 			editRecargoEquivalencia->setVisible( false );
 			editRecargoEquivalencia->getLabel()->setVisible( false );
 		}
@@ -927,7 +921,7 @@ void FrmEditFacturaCompra::numeraLineas()
 	dbRecordList *reclst = getRecFacturaCompra()->getListFacturaCompraDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecFacturaCompraDet *detalle = static_cast<RecFacturaCompraDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITFACTURACOMPRA_CABECERA_NUMERALINEAS*/

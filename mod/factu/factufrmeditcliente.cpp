@@ -203,7 +203,7 @@ void FrmEditCliente::pushFormaPagoCodigo_clicked()
 				setEdited(true);
 				scatterFormaPago();
 				editFormaPagoCodigo->setJustEdited( true );
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 			}
 			break;
 		case 'M':
@@ -216,7 +216,7 @@ void FrmEditCliente::pushFormaPagoCodigo_clicked()
 						editFormaPagoCodigo->setJustEdited( true );
 						scatterFormaPago();
 					}
-					editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				}
 			}
 			break;
@@ -241,7 +241,7 @@ void FrmEditCliente::pushFormaPagoCodigo_clicked()
 					getRecFormaPago()->copyRecord( tmprec );
 					scatterFormaPago();
 				}
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -272,7 +272,7 @@ void FrmEditCliente::pushAgenteCodigo_clicked()
 				setEdited(true);
 				scatterAgente();
 				editAgenteCodigo->setJustEdited( true );
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 			}
 			break;
 		case 'M':
@@ -285,7 +285,7 @@ void FrmEditCliente::pushAgenteCodigo_clicked()
 						editAgenteCodigo->setJustEdited( true );
 						scatterAgente();
 					}
-					editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				}
 			}
 			break;
@@ -310,7 +310,7 @@ void FrmEditCliente::pushAgenteCodigo_clicked()
 					getRecAgente()->copyRecord( tmprec );
 					scatterAgente();
 				}
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

@@ -1,5 +1,5 @@
 /*<<<<<COPYLEFT*/
-/** @file facturectipodoc.h Registro de tipos de facturas
+/** @file facturectipodoc.h Registro de tipos de documentos
  * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or

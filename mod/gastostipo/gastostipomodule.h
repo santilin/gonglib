@@ -74,9 +74,9 @@ private:
 /*>>>>>GASTOSTIPOMODULE_RECORD_DEFINITIONS*/
 /*<<<<<GASTOSTIPOMODULE_MENU_DEFINITIONS*/
 private slots:
-	void slotMenuGastosTipoGastoTipo();
+	void slotMenuGastosTipoGastoTipoGastoTipo();
 protected:
-	QAction *pMenuGastosTipoGastoTipo;
+	QAction *pMenuGastosTipoGastoTipoGastoTipo;
 /*>>>>>GASTOSTIPOMODULE_MENU_DEFINITIONS*/
 	QMenu *pMenuGastosTipo;
 /*<<<<<GASTOSTIPOMODULE_REQUIRES*/

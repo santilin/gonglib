@@ -187,7 +187,7 @@ void FrmEditContactoBehavior::pushContactoCIF_clicked()
 				pTheForm->setEdited(true);
 				scatterContacto();
 				editContactoCIF->setJustEdited( true );
-				editContactoCIF->setFocus();
+				pTheForm->setWiseFocus(editContactoCIF);
 			}
 			break;
 		case 'M':
@@ -200,7 +200,7 @@ void FrmEditContactoBehavior::pushContactoCIF_clicked()
 						editContactoCIF->setJustEdited( true );
 						scatterContacto();
 					}
-					editContactoCIF->setFocus();
+					pTheForm->setWiseFocus(editContactoCIF);
 				}
 			}
 			break;
@@ -224,7 +224,7 @@ void FrmEditContactoBehavior::pushContactoCIF_clicked()
 					getRecContacto()->copyRecord( tmprec );
 					scatterContacto();
 				}
-				editContactoCIF->setFocus();
+				pTheForm->setWiseFocus(editContactoCIF);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

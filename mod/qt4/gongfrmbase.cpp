@@ -192,8 +192,6 @@ void FrmBase::cancel()
 	mClosingExternally = false;
 	close();
 	mClosingExternally = true;
-	if( pEventLoop )
-		pEventLoop->exit( 1 ); // mWasCancelled = true
 }
 
 /**
@@ -216,7 +214,9 @@ void FrmBase::closeEvent ( QCloseEvent *e )
                 pw->close();
             }
         }
-        if ( pShowModalFor ) {
+		if( pEventLoop )
+			pEventLoop->exit( mWasCancelled );
+		if ( pShowModalFor ) {
 //  			_GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
             pShowModalFor->setEnabled( true );
             if ( pShowModalFor->isMinimized() )
@@ -244,18 +244,52 @@ void FrmBase::refresh()
 
 void FrmBase::setInitialFocus()
 {
-	if( focusWidget() )
-		_GONG_DEBUG_PRINT(0, focusWidget()->name() );
     if( pFocusWidget && pFocusWidget != focusWidget() ) {
-        _GONG_DEBUG_PRINT(3, pFocusWidget->name() );
-        pFocusWidget->setFocus( Qt::OtherFocusReason );
-        if( LineEdit *le = dynamic_cast<LineEdit *>(pFocusWidget) ) {
-            if( le->getValueType() == Variant::tDouble
-                    || le->getValueType() == Variant::tMoney )
-                le->setCursorAtDecPoint();
-        }
+        _GONG_DEBUG_PRINT(0, pFocusWidget->name() );
+		setWiseFocus( pFocusWidget );
     }
 }
+
+/**
+ * @brief Sets focus to widget w.
+ * If the widget is in a hiden tab wihtin a QTabWidget, activates the tab
+ *
+ * @param w ...
+ * @return void
+ **/
+void FrmBase::setWiseFocus(QWidget *w)
+{
+	QWidget *pa, *grandpa = static_cast<QWidget *>(w->parentWidget());
+	bool exit = false;
+	while( grandpa && !exit ) {
+		pa = grandpa;
+		if( QTabWidget *tabwidget = dynamic_cast<QTabWidget *>(grandpa) ) {
+			for( uint i = 0; i < tabwidget->count() && !exit; ++i ) {
+				QWidget *tab = tabwidget->widget(i);
+				if( tab == tabwidget->currentWidget() )
+					break;
+				/// TODO: Look up a function QWidget->child( QWidget *)
+				QList<QWidget *>allwidgets = tab->findChildren<QWidget *>();
+				for( QList<QWidget *>::const_iterator wit = allwidgets.begin();
+                    wit != allwidgets.end(); ++wit ) {
+					if( *wit == w ) {
+						tabwidget->setCurrentWidget( tab );
+						exit = true;
+						break;
+					}
+				}
+			}
+		}
+		grandpa = static_cast<QWidget *>(grandpa->parentWidget());
+	}
+	w->setFocus( Qt::OtherFocusReason );
+	if( LineEdit *le = dynamic_cast<LineEdit *>(w) ) {
+		if( le->getValueType() == Variant::tDouble
+				|| le->getValueType() == Variant::tMoney )
+			le->setCursorAtDecPoint();
+	}
+}
+
 
 /*
  * When in MDI, if the parent is maximized, here parentWidget() is also maximized,

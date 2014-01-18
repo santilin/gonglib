@@ -162,7 +162,7 @@ void FrmEditTipoDoc::pushFormaPagoCodigo_clicked()
 				setEdited(true);
 				scatterFormaPago();
 				editFormaPagoCodigo->setJustEdited( true );
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 			}
 			break;
 		case 'M':
@@ -175,7 +175,7 @@ void FrmEditTipoDoc::pushFormaPagoCodigo_clicked()
 						editFormaPagoCodigo->setJustEdited( true );
 						scatterFormaPago();
 					}
-					editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				}
 			}
 			break;
@@ -200,7 +200,7 @@ void FrmEditTipoDoc::pushFormaPagoCodigo_clicked()
 					getRecFormaPago()->copyRecord( tmprec );
 					scatterFormaPago();
 				}
-				editFormaPagoCodigo->setFocus();
+				setWiseFocus(editFormaPagoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -230,7 +230,7 @@ void FrmEditTipoDoc::pushAgenteCodigo_clicked()
 				setEdited(true);
 				scatterAgente();
 				editAgenteCodigo->setJustEdited( true );
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 			}
 			break;
 		case 'M':
@@ -243,7 +243,7 @@ void FrmEditTipoDoc::pushAgenteCodigo_clicked()
 						editAgenteCodigo->setJustEdited( true );
 						scatterAgente();
 					}
-					editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				}
 			}
 			break;
@@ -268,7 +268,7 @@ void FrmEditTipoDoc::pushAgenteCodigo_clicked()
 					getRecAgente()->copyRecord( tmprec );
 					scatterAgente();
 				}
-				editAgenteCodigo->setFocus();
+				setWiseFocus(editAgenteCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -302,7 +302,7 @@ void FrmEditTipoDoc::pushProyectoCodigo_clicked()
 				setEdited(true);
 				scatterProyecto();
 				editProyectoCodigo->setJustEdited( true );
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 			}
 			break;
 		case 'M':
@@ -315,7 +315,7 @@ void FrmEditTipoDoc::pushProyectoCodigo_clicked()
 						editProyectoCodigo->setJustEdited( true );
 						scatterProyecto();
 					}
-					editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				}
 			}
 			break;
@@ -340,7 +340,7 @@ void FrmEditTipoDoc::pushProyectoCodigo_clicked()
 					getRecProyecto()->copyRecord( tmprec );
 					scatterProyecto();
 				}
-				editProyectoCodigo->setFocus();
+				setWiseFocus(editProyectoCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

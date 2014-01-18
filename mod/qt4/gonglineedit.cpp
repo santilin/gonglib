@@ -493,7 +493,6 @@ void LineEdit::focusOutEvent( QFocusEvent *e )
         }
         mGettingFocus = true;
         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::como no es valido, retomo el foco", name() ) );
-//		parentWidget()->setFocus();  // Tab changed
         _GONG_DEBUG_PRINT(10, Xtring::printf("Setting focus to %s", this->name() ) );
         setFocus();
         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::ya he retomado el foco", name() ) );

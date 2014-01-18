@@ -198,7 +198,7 @@ void FrmEditApunte::pushCuentaCuenta_clicked()
 				setEdited(true);
 				scatterCuenta();
 				editCuentaCuenta->setJustEdited( true );
-				editCuentaCuenta->setFocus();
+				setWiseFocus(editCuentaCuenta);
 			}
 			break;
 		case 'M':
@@ -211,7 +211,7 @@ void FrmEditApunte::pushCuentaCuenta_clicked()
 						editCuentaCuenta->setJustEdited( true );
 						scatterCuenta();
 					}
-					editCuentaCuenta->setFocus();
+				setWiseFocus(editCuentaCuenta);
 				}
 			}
 			break;
@@ -236,7 +236,7 @@ void FrmEditApunte::pushCuentaCuenta_clicked()
 					getRecCuenta()->copyRecord( tmprec );
 					scatterCuenta();
 				}
-				editCuentaCuenta->setFocus();
+				setWiseFocus(editCuentaCuenta);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

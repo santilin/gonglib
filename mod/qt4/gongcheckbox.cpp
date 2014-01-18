@@ -18,10 +18,10 @@ void CheckBox::keyPressEvent( QKeyEvent *e )
         case Qt::Key_Return:
         case Qt::Key_Enter:
         {
-            mJustEdited = true;
-            toggle();
-            mJustEdited = false;
-            mEdited = true;
+//             mJustEdited = true;
+//             toggle();
+//             mJustEdited = false;
+//             mEdited = true;
             // focusNextPrevChild(true); No funciona
             // See QApplication::sendEvent in the qt documentation
             QKeyEvent * tabevent = new QKeyEvent( e->type(), Qt::Key_Tab,

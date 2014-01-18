@@ -729,7 +729,7 @@ void FrmEditRecMaster::ensureBrowseView()
         pDataTable->setVisible( true );
         mBrowsing = true;
         if ( mEditStatus != never_shown ) {
-            pDataTable->setFocus();
+            setWiseFocus(pDataTable);
             updateStatus();
         }
         if ( mEditFlags & dbApplication::embedded )
@@ -749,7 +749,7 @@ void FrmEditRecMaster::refresh()
         return;
     mRefreshing = true;
     dbRecordID actid = mLastID ? mLastID : getTableRecordID();
-    pDataTable->setFocus();
+    setWiseFocus(pDataTable);
     setView( pDataTable->getDataModel()->getCurrentViewIndex(), true );
     if( actid != mLastID  )
         pDataTable->sync( actid );
@@ -1761,7 +1761,7 @@ void FrmEditRecMaster::saveBrowseStatus() const
 void FrmEditRecMaster::focusInEvent(QFocusEvent* event)
 {
     if( ( isBrowsing() || isChoosing() ) && pDataTable && focusWidget() != pDataTable )
-        pDataTable->setFocus();
+        setWiseFocus(pDataTable);
     else
         QWidget::focusInEvent( event );
 }

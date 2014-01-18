@@ -1,25 +1,20 @@
 == HECHO ==
 
 == HACER EN LOS PAJAROS ==
-* Quitar módulo ventasweb por ahora
 * Borrar los tipos de formas de pago
 * Enviar adjuntos
-* Probar HTML
+* FrmCambio: Sin ticket, imprime el ticket
 
-== HACIENDO ==
-* FrmMailing: Elegir contacto-> CTRL+A -> Escape: cierra la ventana y el control de los contactos se queda dehabilitado
-* FrmMailing: Al elegir la segunda pestaña, el cursor está en remitente, pero no se puede escribir ahí
-* Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
+
+== QT ==
 * El richtextbox no envía el evento validate
+* Checkboxes, que el ENTER no cambie el valor, sólo el espacio
 * No consigo pillar el keypressevent en el reportviewer
-* QWidgetTab->strongFocus
-* qt_tabwidget_tabbar toma el foco cuando pasamos con el tabulador
-* FrmImport no se cierra al darle a cerrar porque no es un FrmBase
 * Teclas cursor en la visualización de los informes
+* Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
+* FrmImport no se cierra al darle a cerrar porque no es un FrmBase
 * No funciona f5 en frmeditrecdetail
 * FrmEditRecDetail->Toma el foco el datatable siempre
-* FrmEditRec: Al dar un error en un campo con tabs y poner el foco en ese campo, activar el tab correspondiente
-* Checkboxes, que el ENTER no cambie el valor, sólo el espacio
 * El enter de los textboxes es confuso, mejor añadirlo pero si se pulsa otra vez, saltar y borrarlo?
 * No sale en español el Qt el mensaje de overwrite a file
 * Cuando un editline da error, el cursor se vuelve un caracter a la izda.

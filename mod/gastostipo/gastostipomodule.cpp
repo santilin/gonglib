@@ -18,7 +18,7 @@
 /*>>>>>COPYLEFT*/
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Module gastos
-// RECORD GastoTipo FrmEditRecMaster GastosTipoGastoTipo
+// RECORD GastoTipo FrmEditRecMaster GastosTipo
 // MODULE_OPTIONAL Pagos
 // MODULE_OPTIONAL Contab
 // MODULE_OPTIONAL Factu
@@ -186,12 +186,12 @@ FrmEditRecDetail *GastosTipoModule::createEditDetailForm(
 }
 
 
-/*<<<<<GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPO*/
-void GastosTipoModule::slotMenuGastosTipoGastoTipo()
+/*<<<<<GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPOGASTOTIPO*/
+void GastosTipoModule::slotMenuGastosTipoGastoTipoGastoTipo()
 {
 	pMainWindow->slotMenuEditRecMaestro( "GASTOTIPO" );
 }
-/*>>>>>GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPO*/
+/*>>>>>GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPOGASTOTIPO*/
 
 bool GastosTipoModule::initMainWindow(MainWindow *mainwin)
 {
@@ -217,12 +217,12 @@ bool GastosTipoModule::initMainWindow(MainWindow *mainwin)
 /*<<<<<GASTOSTIPOMODULE_INITMAINWINDOW_MENUS*/
 	{
 		Xtring caption = DBAPP->getDatabase()->findTableDefinition("GASTOTIPO")->getDescPlural();
-		pMenuGastosTipoGastoTipo = new QAction( toGUI( caption ) + "...", pMainWindow );
-		pMenuGastosTipoGastoTipo->setObjectName( "MenuGastosTipoGastoTipo" );
-		pMenuGastosTipoGastoTipo->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-		pMenuGastosTipoGastoTipo->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-		pMainWindow->connect(pMenuGastosTipoGastoTipo, SIGNAL(activated()), this, SLOT(slotMenuGastosTipoGastoTipo()));
-		pMenuGastosTipoGastoTipo->addTo(pMenuGastosTipo);
+		pMenuGastosTipoGastoTipoGastoTipo = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuGastosTipoGastoTipoGastoTipo->setObjectName( "MenuGastosTipoGastoTipoGastoTipo" );
+		pMenuGastosTipoGastoTipoGastoTipo->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuGastosTipoGastoTipoGastoTipo->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuGastosTipoGastoTipoGastoTipo, SIGNAL(activated()), this, SLOT(slotMenuGastosTipoGastoTipoGastoTipo()));
+		pMenuGastosTipoGastoTipoGastoTipo->addTo(pMenuGastosTipo);
 	}
 /*>>>>>GASTOSTIPOMODULE_INITMAINWINDOW_MENUS*/
 	return true;
@@ -232,3 +232,4 @@ bool GastosTipoModule::initMainWindow(MainWindow *mainwin)
 } // namespace gong
 
 /*>>>>>GASTOSTIPOMODULE_FIN*/
+

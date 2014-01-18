@@ -205,8 +205,8 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 	editArticuloImagen_Imagen->setImageData(getRecArticulo()->getValue("ARTICULOIMAGEN.IMAGEN"));
 	if( isInserting() && !isDuplicating() && !DBAPP->codeNotFound().isEmpty() ) {
-		editCodigo->setText( DBAPP->codeNotFound() );
-		editCodigo->setJustEdited( true );
+		editNombre->setText( DBAPP->codeNotFound() );
+		editNombre->setJustEdited( true );
 	}
 	scatterFamilia();
 	scatterProveedora();
@@ -282,7 +282,7 @@ void FrmEditArticulo::pushTipoIVACodigo_clicked()
 				setEdited(true);
 				scatterTipoIVA();
 				editTipoIVACodigo->setJustEdited( true );
-				editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 			}
 			break;
 		case 'M':
@@ -295,7 +295,7 @@ void FrmEditArticulo::pushTipoIVACodigo_clicked()
 						editTipoIVACodigo->setJustEdited( true );
 						scatterTipoIVA();
 					}
-					editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 				}
 			}
 			break;
@@ -320,7 +320,7 @@ void FrmEditArticulo::pushTipoIVACodigo_clicked()
 					getRecTipoIVA()->copyRecord( tmprec );
 					scatterTipoIVA();
 				}
-				editTipoIVACodigo->setFocus();
+				setWiseFocus(editTipoIVACodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -351,7 +351,7 @@ void FrmEditArticulo::pushProveedoraCodigo_clicked()
 				setEdited(true);
 				scatterProveedora();
 				editProveedoraCodigo->setJustEdited( true );
-				editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 			}
 			break;
 		case 'M':
@@ -364,7 +364,7 @@ void FrmEditArticulo::pushProveedoraCodigo_clicked()
 						editProveedoraCodigo->setJustEdited( true );
 						scatterProveedora();
 					}
-					editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 				}
 			}
 			break;
@@ -389,7 +389,7 @@ void FrmEditArticulo::pushProveedoraCodigo_clicked()
 					getRecProveedora()->copyRecord( tmprec );
 					scatterProveedora();
 				}
-				editProveedoraCodigo->setFocus();
+				setWiseFocus(editProveedoraCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;
@@ -439,7 +439,7 @@ void FrmEditArticulo::pushFamiliaCodigo_clicked()
 				setEdited(true);
 				scatterFamilia();
 				editFamiliaCodigo->setJustEdited( true );
-				editFamiliaCodigo->setFocus();
+				setWiseFocus(editFamiliaCodigo);
 			}
 			break;
 		case 'M':
@@ -452,7 +452,7 @@ void FrmEditArticulo::pushFamiliaCodigo_clicked()
 						editFamiliaCodigo->setJustEdited( true );
 						scatterFamilia();
 					}
-					editFamiliaCodigo->setFocus();
+				setWiseFocus(editFamiliaCodigo);
 				}
 			}
 			break;
@@ -477,7 +477,7 @@ void FrmEditArticulo::pushFamiliaCodigo_clicked()
 					getRecFamilia()->copyRecord( tmprec );
 					scatterFamilia();
 				}
-				editFamiliaCodigo->setFocus();
+				setWiseFocus(editFamiliaCodigo);
 				DBAPP->setCodeNotFound( Xtring() );
 			}
 			break;

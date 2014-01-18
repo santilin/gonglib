@@ -129,7 +129,6 @@ void TextEdit::focusOutEvent( QFocusEvent *e)
     if( !isvalid )
     {
         mGettingFocus = true;
-        //    parentWidget()->setFocus();  // Tab changed
         setFocus();
         mGettingFocus = false;
     }

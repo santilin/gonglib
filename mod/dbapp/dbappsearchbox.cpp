@@ -133,8 +133,7 @@ void SearchBox::slotValidate(QWidget *sender , bool *isvalid )
                 pEditCode->setText( pRecord->getValue( mFldCode ) );
                 pEditDesc->setText( pRecord->getValue( mFldDesc ) );
             }
-            if( fw )
-                fw->setFocus();
+            if( fw ) fw->setFocus();
         } else {
             mRecordIDs.clear();
             FrmBase::msgWarning( 0, Xtring::printf( _("No se ha encontrado %1$s con código \"%2$s\""),

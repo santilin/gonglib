@@ -46,7 +46,7 @@ public:
             if( mode == unlock ) {
                 pEditLockDesc->setReadOnly( true );
                 pEditLockUser->setReadOnly( true );
-                pEditLockPassword->setFocus();
+                pFocusWidget = pEditLockPassword;
             }
         }
     }

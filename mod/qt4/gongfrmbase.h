@@ -60,6 +60,7 @@ public:
         return pRealParent;
     }
     void setInitialFocus();
+	void setWiseFocus(QWidget *w);
     QWidget *saveFocusWidget();
     QWidget *restoreFocusWidget();
     void alignLayout( QBoxLayout *layout, bool totheleft = true );

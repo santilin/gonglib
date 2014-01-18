@@ -84,11 +84,11 @@ protected:
 	gong::LineEdit *editTipoDocNombre;
 	gong::EditBox *editContador;
 	gong::EditBox *editNumero;
-	gong::ComboBoxInt *comboIVADetallado;
 	gong::SearchBox *searchClienteCodigo;
 	QPushButton *pushClienteCodigo;
 	gong::LineEdit *editClienteCodigo;
 	gong::LineEdit *editClienteRazonSocial;
+	gong::ComboBoxInt *comboIVADetallado;
 	gong::SearchBox *searchAgenteCodigo;
 	QPushButton *pushAgenteCodigo;
 	gong::LineEdit *editAgenteCodigo;
