@@ -68,8 +68,6 @@ GuiFrmExport::GuiFrmExport( QWidget* parent, const char* name, WidgetFlags fl )
     layout12->addLayout( accept_cancel_layout );
     FrmExportLayout->addLayout( layout12 );
     languageChange();
-    resize( QSize(658, 481).expandedTo(minimumSizeHint()) );
-    setAttribute( Qt::WA_WState_Polished, false );
 
     // signals and slots connections
     connect( pushBuscarFichero, SIGNAL( clicked() ), this, SLOT( slotBuscarFicheroClicked() ) );

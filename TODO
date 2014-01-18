@@ -8,6 +8,7 @@
 
 == HACIENDO ==
 * FrmMailing: Elegir contacto-> CTRL+A -> Escape: cierra la ventana y el control de los contactos se queda dehabilitado
+* FrmMailing: Al elegir la segunda pestaña, el cursor está en remitente, pero no se puede escribir ahí
 * Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
 * El richtextbox no envía el evento validate
 * No consigo pillar el keypressevent en el reportviewer
@@ -197,6 +198,7 @@
 * dbRecord: save fields right trimmed
 
 == autotools, capel y gong.sh ==
+* init_project Debug: Genera el makefile completo, no solo los modulos definidos en el configure.ac
 * Informe CUENTA.rtk: alignment de header debe y haber no funciona
 ** capel no genera el objeto ASIENTO.DESCRIPCION en el header del grupo
 

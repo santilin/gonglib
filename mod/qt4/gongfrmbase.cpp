@@ -244,9 +244,11 @@ void FrmBase::refresh()
 
 void FrmBase::setInitialFocus()
 {
+	if( focusWidget() )
+		_GONG_DEBUG_PRINT(0, focusWidget()->name() );
     if( pFocusWidget && pFocusWidget != focusWidget() ) {
         _GONG_DEBUG_PRINT(3, pFocusWidget->name() );
-        pFocusWidget->setFocus();
+        pFocusWidget->setFocus( Qt::OtherFocusReason );
         if( LineEdit *le = dynamic_cast<LineEdit *>(pFocusWidget) ) {
             if( le->getValueType() == Variant::tDouble
                     || le->getValueType() == Variant::tMoney )

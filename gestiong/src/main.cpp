@@ -33,27 +33,6 @@
 #ifdef HAVE_EMPRESAMODULE
 #	include <empresamodule.h>
 #endif
-#ifdef HAVE_CONTABMODULE
-#	include <contabmodule.h>
-#endif
-#ifdef HAVE_PAGOSMODULE
-#	include <pagosmodule.h>
-#endif
-#ifdef HAVE_FACTUMODULE
-#	include <factumodule.h>
-#endif
-#ifdef HAVE_GASTOSTIPOMODULE
-#	include <gastostipomodule.h>
-#endif
-#ifdef HAVE_SOCIASMODULE
-#	include <sociasmodule.h>
-#endif
-#ifdef HAVE_SINPAPELESMODULE
-#	include <sinpapelesmodule.h>
-#endif
-#ifdef HAVE_RECCOLORMODULE
-#	include <reccolormodule.h>
-#endif
 /*>>>>>MODULES_INCLUDES*/
 #include "gestiongmodule.h"
 
@@ -74,33 +53,12 @@ int main( int argc, char *argv[] )
 // 									language?language:"", setlocale(LC_MESSAGES, NULL) ), FrmBase::information );
 // 		}
         DBAPP->init();
-        /*<<<<<LOAD_MODULES*/
+/*<<<<<LOAD_MODULES*/
 #ifdef HAVE_CONTACTOSMODULE
 		DBAPP->addModule( new contactos::ContactosModule() );
 #endif
 #ifdef HAVE_EMPRESAMODULE
 		DBAPP->addModule( new empresa::EmpresaModule() );
-#endif
-#ifdef HAVE_CONTABMODULE
-		DBAPP->addModule( new contab::ContabModule() );
-#endif
-#ifdef HAVE_PAGOSMODULE
-		DBAPP->addModule( new pagos::PagosModule() );
-#endif
-#ifdef HAVE_FACTUMODULE
-		DBAPP->addModule( new factu::FactuModule() );
-#endif
-#ifdef HAVE_GASTOSTIPOMODULE
-		DBAPP->addModule( new gastostipo::GastosTipoModule() );
-#endif
-#ifdef HAVE_SOCIASMODULE
-		DBAPP->addModule( new socias::SociasModule() );
-#endif
-#ifdef HAVE_SINPAPELESMODULE
-		DBAPP->addModule( new sinpapeles::SinPapelesModule() );
-#endif
-#ifdef HAVE_RECCOLORMODULE
-		DBAPP->addModule( new reccolor::RecColorModule() );
 #endif
 /*>>>>>LOAD_MODULES*/
         DBAPP->addModule( new gestiong::GestiongModule() );

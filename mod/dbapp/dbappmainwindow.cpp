@@ -50,6 +50,7 @@ QMdiSubWindow *MainWindow::createClient(QWidget *widget, bool force )
     } catch( std::exception &e ) {
         _GONG_DEBUG_WARNING( e.what() );
     }
+    removeUnusedSubWindows();
     DBAPP->resetCursor();
     return ret;
 }
@@ -273,14 +274,14 @@ void MainWindow::slotMenuSystemReports()
 void MainWindow::slotMenuSystemModuleLocalUserSettingsEditor()
 {
     FrmModuleSettings *modulesettingseditor = new FrmModuleSettings( dbModuleSetting::Local );
-    modulesettingseditor->show();
+//     modulesettingseditor->show();
     createClient( modulesettingseditor);
 }
 
 void MainWindow::slotMenuSystemModuleGlobalSettingsEditor()
 {
     FrmModuleSettings *modulesettingseditor = new FrmModuleSettings( dbModuleSetting::Global );
-    modulesettingseditor->show();
+//     modulesettingseditor->show();
     createClient( modulesettingseditor);
 }
 

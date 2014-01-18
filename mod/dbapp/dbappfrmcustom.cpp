@@ -118,8 +118,7 @@ LineEdit *FrmCustom::addInput ( QWidget *parent, const Xtring &caption,
         FrmEditRec::applyBasicStyle ( edit, style );
     if ( value.toString() == "today()" )
         edit->setText ( DateTime::currentDateTime() );
-    else if ( value.type() == Variant::tDate || value.type() == Variant::tDateTime )
-    {
+    else if ( value.type() == Variant::tDate || value.type() == Variant::tDateTime ) {
         if ( value.isEmpty() )
             edit->setText ( DateTime::currentDateTime() );
     }

@@ -42,7 +42,7 @@ static dbModuleSetting _settings[] = {
 //     },
 	// INFORMES
     {
-        dbModuleSetting::Int,
+        dbModuleSetting::DirName,
         "RTK.PATH",
         _("Ruta de búsqueda de informes"),
         "",
@@ -176,7 +176,7 @@ dbApplication::~dbApplication()
  **/
 void dbApplication::readSettings()
 {
-    _GONG_DEBUG_PRINT(0, "Reading settings for the application" );
+    _GONG_DEBUG_PRINT(1, "Reading settings for the application" );
     // Local machine settings are read before everything else
     QString ss( styleSheet() );
 	bool ssread = false;

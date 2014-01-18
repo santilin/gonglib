@@ -134,14 +134,14 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
         break;
         case dbModuleSetting::DirName:
         {
-            FileNameBox *fnbox = addDirNameBox(this, pms->description, 0, hboxlayout );
-            fnbox->setFileName( value.toString() );
-            scinfo.w = fnbox;
+             FileNameBox *fnbox = addDirNameBox(this, pms->description, 0, hboxlayout );
+             fnbox->setFileName( value.toString() );
+             scinfo.w = fnbox;
         }
         break;
+        case dbModuleSetting::Image: /// TODO
         case dbModuleSetting::StringList:
         case dbModuleSetting::dbRecordID:
-        case dbModuleSetting::Image: /// TODO
         case dbModuleSetting::None:
             break;
         }

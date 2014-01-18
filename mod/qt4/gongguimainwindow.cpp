@@ -307,12 +307,19 @@ void GuiMainWindow::slotUpdateMenus( QMdiSubWindow *activatedwindow )
 
 void GuiMainWindow::removeUnusedSubWindows()
 {
+	_GONG_DEBUG_PRINT( 0, Xtring("Lista de ventanas: ") );
     QList<QMdiSubWindow *> list = pWorkspace->subWindowList();
     for( int i = 0; i < list.size(); ++i ) {
         QMdiSubWindow *aw = list[i];
-        if( aw && (!aw->widget() || !aw->isVisible() ) )
+		_GONG_DEBUG_PRINT( 0, aw->name() );
+        if( aw && (!aw->widget() || !aw->isVisible() ) ) {
+			_GONG_DEBUG_PRINT( 0, Xtring("Borraría ") + aw->name() );
             pWorkspace->removeSubWindow( aw );
+		}
     }
+    if( activeClient() ) {
+		_GONG_DEBUG_PRINT(0, Xtring("Active client: ") + activeClient()->name() );
+	}
 }
 
 void GuiMainWindow::slotUpdateMenuWindow()
@@ -327,6 +334,7 @@ void GuiMainWindow::slotUpdateMenuWindow()
     removeUnusedSubWindows();
     QList<QMdiSubWindow *> windows = pWorkspace->subWindowList();
     pMenuWindowSeparator->setVisible( !windows.isEmpty() );
+	QWidget *activeclient = activeClient();
     for ( int i = 0; i < windows.size(); ++i ) {
         QWidget *child = windows.at( i )->widget();
         if( !child )
@@ -340,7 +348,7 @@ void GuiMainWindow::slotUpdateMenuWindow()
         }
         QAction *action  = pMenuWindow->addAction( text );
         action->setCheckable( true );
-        action->setChecked( child == activeClient() );
+        action->setChecked( child == activeclient );
         connect( action, SIGNAL( triggered() ), pWindowMapper, SLOT( map() ) );
         pWindowMapper->setMapping( action, windows.at( i ) );
     }
@@ -349,6 +357,7 @@ void GuiMainWindow::slotUpdateMenuWindow()
 
 void GuiMainWindow::slotSetActiveSubWindow( QWidget *window )
 {
+	_GONG_DEBUG_TRACE(0);
     if ( !window )
         return;
     pWorkspace->setActiveSubWindow( qobject_cast<QMdiSubWindow *>( window ) );
@@ -356,8 +365,9 @@ void GuiMainWindow::slotSetActiveSubWindow( QWidget *window )
 
 QWidget *GuiMainWindow::activeClient() const
 {
-    if ( QMdiSubWindow *activeSubWindow = pWorkspace->activeSubWindow() )
+    if ( QMdiSubWindow *activeSubWindow = pWorkspace->activeSubWindow() ) {
         return activeSubWindow->widget();
+	}
     return 0;
 }
 
@@ -567,16 +577,16 @@ void GuiMainWindow::slotWindowStateChanged(Qt::WindowStates oldState, Qt::Window
                 _GONG_DEBUG_WARNING( Xtring("Esta ventana ") + w->name() + " no es un widget" );
                 return;
             }
-            _GONG_DEBUG_PRINT(3, Xtring("Window: ") + w->name() + "(" + w->widget()->name() + ") activada." );
+            _GONG_DEBUG_PRINT(0, Xtring("Window: ") + w->name() + "(" + w->widget()->name() + ") activada." );
             if( !w->widget()->isEnabled() ) {
-                _GONG_DEBUG_PRINT(3, Xtring( w->name() ) + " no está enabled" );
+                _GONG_DEBUG_PRINT(0, Xtring( w->name() ) + " no está enabled" );
                 if( pLastWindowDeactivated ) {
                     if( newState == Qt::WindowMaximized ) {
                         donothing = true;
                         pLastWindowDeactivated->showNormal();
                         donothing = false;
                     }
-                    _GONG_DEBUG_PRINT(3, Xtring("Voy a activar ") + pLastWindowDeactivated->name() );
+                    _GONG_DEBUG_PRINT(0, Xtring("Voy a activar ") + pLastWindowDeactivated->name() );
                     QMdiSubWindow *activaresta = pLastWindowDeactivated;
                     pLastWindowDeactivated = 0;
                     QRect r = activaresta->geometry();
@@ -589,13 +599,13 @@ void GuiMainWindow::slotWindowStateChanged(Qt::WindowStates oldState, Qt::Window
 // 						fb->restoreFocusWidget();
                 }
             } else {
-                _GONG_DEBUG_PRINT(3, Xtring("La ventana ") + w->name() + "(" + w->widget()->name() + ") estaba enabled" );
+                _GONG_DEBUG_PRINT(0, Xtring("La ventana ") + w->name() + "(" + w->widget()->name() + ") estaba enabled" );
             }
         } else {
             pLastWindowDeactivated = w;
 // 			if( FrmBase *fb = dynamic_cast<FrmBase *>(w->widget() ) )
 // 				fb->saveFocusWidget();
-            _GONG_DEBUG_PRINT(3, Xtring("Window ") + w->name() + " deactivated" );
+            _GONG_DEBUG_PRINT(0, Xtring("Window ") + w->name() + " deactivated" );
         }
     } else {
         _GONG_DEBUG_WARNING( Xtring("Window") + w->name() + " is not a mdisubwindow" );
