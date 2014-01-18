@@ -68,9 +68,9 @@ dbViewDefinition::dbViewDefinition(const Xtring &name, dbDefinition &dbdef,
             const dbFieldDefinition *flddeforig;
             _GONG_DEBUG_PRINT(6, "Buscando campo " + firstfrom + "." + fldname);
             if( fldname.find(".") != Xtring::npos )
-                flddeforig = dbdef.findFieldDefinition( fldname );
+                flddeforig = dbdef.findFieldDefinition( fldname, false );
             else
-                flddeforig = dbdef.findFieldDefinition( firstfrom + "." + fldname );
+                flddeforig = dbdef.findFieldDefinition( firstfrom + "." + fldname, false );
             if( flddeforig ) {
                 // Copy the field definition as it will be owned by the view
                 dbFieldDefinition *flddef = flddeforig->clone();
@@ -85,11 +85,11 @@ dbViewDefinition::dbViewDefinition(const Xtring &name, dbDefinition &dbdef,
                         flddef->setStyle( fldattrs[i].mid(2) );
                     }
                 }
-                _GONG_DEBUG_PRINT(5, Xtring::printf("Añadiendo campo %p,%s con caption=%s y width=%d a la vista %p,%s",
+                _GONG_DEBUG_PRINT(5, Xtring::printf("Adding field %p,%s with caption=%s & width=%d to view %p,%s",
                                                     flddef, flddef->getFullName().c_str(), flddef->getCaption().c_str(), flddef->getDisplayWidth(), this, getName().c_str() ) );
                 addField ( flddef );
             } else {
-                _GONG_DEBUG_WARNING( Xtring::printf("Campo %s de la vista %s no encontrado",
+                _GONG_DEBUG_WARNING( Xtring::printf("Field %s of the view %s not found",
                                                     fldname.c_str(), origin.c_str() ) );
             }
             if( mCaption.isEmpty() )

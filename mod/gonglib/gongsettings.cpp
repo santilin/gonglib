@@ -75,7 +75,7 @@ bool Settings::write(const Xtring &filename)
 {
     const char *cfilename = filename.isEmpty() ? mFilename.c_str() : filename.c_str();
     if( mIsReadOnly ) {
-        _GONG_DEBUG_PRINT(1, Xtring::printf("NOT writing readonly settings to %s", cfilename) );
+        _GONG_DEBUG_PRINT(2, Xtring::printf("NOT writing readonly settings to %s", cfilename) );
         return true;
     }
 

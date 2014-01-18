@@ -70,7 +70,6 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
 			scinfo.modulename = "";
         scinfo.edited = false;
         Variant value = pSettings->getValue( scinfo.modulename.upper() + pms->key, Variant() );
-		_GONG_DEBUG_PRINT(0, value.toString() );
 		if( value.type() == Variant::tInvalid )
 			scinfo.resetted = true;
 		else
@@ -351,8 +350,6 @@ void FrmModuleSettings::setControlValue(QWidget* control, const Variant& value)
  **/
 void FrmModuleSettings::setControlColor(FrmModuleSettings::ControlInfo* ci, const Variant& value)
 {
-	_GONG_DEBUG_PRINT(0, value.toString() );
-	_GONG_DEBUG_PRINT(0, ci->modulename.upper() + ci->settinginfo->key );
 	if( ci->resetted )
 		/*|| value.toString().isEmpty()*/
 		/*|| value.toString() == ci->settinginfo->defaultvalue */
