@@ -9,6 +9,20 @@
 == HACIENDO ==
 * FrmMailing: Elegir contacto-> CTRL+A -> Escape: cierra la ventana y el control de los contactos se queda dehabilitado
 * Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
+* El richtextbox no envía el evento validate
+* No consigo pillar el keypressevent en el reportviewer
+* QWidgetTab->strongFocus
+* qt_tabwidget_tabbar toma el foco cuando pasamos con el tabulador
+* FrmImport no se cierra al darle a cerrar porque no es un FrmBase
+* Teclas cursor en la visualización de los informes
+* No funciona f5 en frmeditrecdetail
+* FrmEditRecDetail->Toma el foco el datatable siempre
+* FrmEditRec: Al dar un error en un campo con tabs y poner el foco en ese campo, activar el tab correspondiente
+* Checkboxes, que el ENTER no cambie el valor, sólo el espacio
+* El enter de los textboxes es confuso, mejor añadirlo pero si se pulsa otra vez, saltar y borrarlo?
+* No sale en español el Qt el mensaje de overwrite a file
+* Cuando un editline da error, el cursor se vuelve un caracter a la izda.
+* En campos deshabilitados no funciona ctrl+c
 
 == HACER EN MC ==
 * Comprobar, no actualiza el nombre de la vista cuando se cambia de vistas en los browses
@@ -105,12 +119,8 @@
 
 == gong-dbapp ==
 * FrmCambiarEmpresa, terminar de implementar ¿Ejercicios?
-* Settings: booleanos, si el default es false, el local es false y el global es true, no sale el global en rojo
-** Añadir bool resetted a scinfo
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
-* QWidgetTab->strongFocus
-* qt_tabwidget_tabbar toma el foco cuando pasamos con el tabulador
 * Tras "Asistente de acceso" no añade nombre empresa a título ventana principal
 * Importar: que no refresque el formulario maestro en cada registro
 * El refrescar del frmeditrecmaster desde el menú principal debería refrescar solo en modo browsing
@@ -121,24 +131,22 @@
 * No busca la Ñ el browse:
 ** El problema es:     else if( ke->text()[ 0 ].isPrint() )
 * FrmEditRecMaster: Exportar como fugit
-* FrmImport no se cierra al darle a cerrar porque no es un FrmBase
 * FrmAdvancedPrint:
 ** Pedir el ancho del informe
 ** Pedir salida
 ** El logo no sale
-* Teclas cursor en la visualización de los informes
 * Altura de los lineedit no es fija
 * FrmEditRecMaster::Show, cuando es simpleEdition, no llama al beginEdit, con lo cual no se comprueban los permisos
-* No funciona f5 en frmeditrecdetail
 * FrmImport::addMessage no salen los acentos
 * Crear y borrar la usuaria en la base de datos
 * Al grabar un registro, refrescar los formularios de las relaciones
 * FrmDatabasetools, al pulsar un botón, comprobar que no hay otras ventanas
 * Crear estilos para edición y otros para vistas? (VIEW:INTEGER e INTEGER)
-* FrmEditRecDetail->Toma el foco el datatable siempre
 * No funciona duplicar detalles
 * Recordar tamaño y posición de la ventana principal
-* FrmEditRec: Al dar un error en un campo con tabs y poner el foco en ese campo, activar el tab correspondiente
+* Los botones del visor están en inglés
+* Cerrar informes con el escape
+* FrmEditRec Cuando está seleccionado el botón cancelar, si pulsamos ENTER no hace nada
 
 == ventasweb ==
 * Subir por ftp, el mensaje de error no está vacío cuando no hay error
@@ -150,12 +158,10 @@
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
-* Los botones del visor están en inglés
 * Añadir opción enviar por correo
 * Implementar padding de los objetos
 * El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 * Al hacer un informe apaisado, el alto de línea es demasiado pequeño
-* Cerrar informes con el escape
 * Peta si se añade al inicio de xxxx_comun.inc:
 #ifndef AGRUPAR
 	SizeX = 120;
@@ -172,13 +178,8 @@
 * rtk: startpage.drawImages no cubre todo el painter
 
 == gong-qt4 ==
-* Checkboxes, que el ENTER no cambie el valor, sólo el espacio
-* El enter de los textboxes es confuso, mejor añadirlo pero si se pulsa otra vez, saltar y borrarlo?
-* No sale en español el Qt el mensaje de overwrite a file
 * ImageBox: Recibir un parámetro: convert_path
-* Cuando un editline da error, el cursor se vuelve un caracter a la izda.
 * Tamaño de los listboxes ajustado al máximo del listbox
-* En campos deshabilitados no funciona ctrl+c
 
 == gonglib ==
 * XmlReader: mejorar parseFile().
@@ -201,7 +202,6 @@
 
 == Para más tarde ==
 * MsgYesNoDontAskAgain: aplicar a main.cpp, language
-* FrmEditRec Cuando está seleccionado el botón cancelar, si pulsamos ENTER no hace nada
 
 == Refactoring ==
 * Eliminar enablesearchboxes
@@ -254,10 +254,10 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 == gonglib 0.6.0 ==
 
 === dbRecord ===
+* Añadir validErrors y un saveNoValidate()
 * Crear un objeto Query con métodos para formar una query
 * Añadir: List<IntegrityResult> mErrors, mWarnings;
 * isValid( context ) => rellena el array de IntegrityResult
-* Añadir validErrors y un saveNoValidate()
 * Al guardar un registro, que el resto de registros de las relaciones se pongan mIsRead = false, esto implica tener una lista de registros en memoria
 * dbRecordBehavior se tiene que añadir a los registros, no a la tabledefinition
 * Mastertable: SemanticProperties, pConnection

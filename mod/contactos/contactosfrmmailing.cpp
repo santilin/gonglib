@@ -70,7 +70,7 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     pPassword = addInput(tabConfiguracion, _("Contraseña"), Variant(), "PASSWORD", 0, confLayout );
     pPort = addInput(tabConfiguracion, _("Puerto"),
 					 ModuleInstance->getModuleSetting( "SMTP_PORT").toInt(), "INTEGER", 0, confLayout );
-    pGrouping = addInput(tabConfiguracion, _("Número de direcciones a agregar en cada email"),
+    pGrouping = addInput(tabConfiguracion, _("Número de destinatarios a agregar en cada email"),
 					 0, "INTEGER", 0, confLayout );
 	pCheckSaveSettings = addCheckBox( this, _("Guardar datos de conexión"), true, 0, confLayout );
     tabFrameEdit->addTab( tabConfiguracion, toGUI( _("&Servidor SMTP") ) );
@@ -256,8 +256,8 @@ void FrmMailing::accept()
 					addMessage( pErrors, Xtring::printf( _("%s\n"), Xtring(recipients).replace(";","\n").c_str() ) );
 				}
 				recipients.clear();
-				lblProgreso->setText( toGUI( Xtring::printf( _("Enviando correos a %d destinatarios. %d correos correctos, %d correos con errores"),
-														  emails.size(), okcount, errorcount ) ) );
+				lblProgreso->setText( toGUI( Xtring::printf( _("Enviando %d correos a %d destinatarios. %d correos correctos, %d correos con errores"),
+														  emails.size(), emails.size()/grouping, okcount, errorcount ) ) );
 			}
 		}
 		s.close();
