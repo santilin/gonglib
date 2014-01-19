@@ -133,8 +133,15 @@ void RichTextEdit::setup()
 
 void RichTextEdit::accept_clicked()
 {
-	mWasCancelled = false;
-	close();
+	_GONG_DEBUG_TRACE(0);
+	bool isvalid = true;
+	emit validate( this, &isvalid );
+	if( isvalid ) {
+		mWasCancelled = false;
+		close();
+	} else {
+		mWasCancelled = true; // For if later on the form is closed from the window close button
+	}
 }
 
 void RichTextEdit::cancel_clicked()
@@ -822,10 +829,7 @@ void RichTextEdit::focusInEvent(QFocusEvent* event)
 
 void RichTextEdit::focusOutEvent(QFocusEvent* event)
 {
-	bool isvalid = true;
-	emit validate( this, &isvalid );
-	if( isvalid )
-		QWidget::focusOutEvent(event);
+    QWidget::focusOutEvent(event);
 }
 
 } // namespace

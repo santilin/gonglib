@@ -107,8 +107,9 @@ void RichTextBox::setReadOnly(bool readonly)
 void RichTextBox::slotBeginEdit()
 {
     Xtring text = getText();
-    if( FrmBase::inputBoxText(text, _("Texto"), fromGUI(getLabel()->text()), this) )
-        setText( text );
+    if( FrmBase::inputBoxText(text, _("Texto"), fromGUI(getLabel()->text()), this) ) {
+		setText( text );
+	}
 }
 
 void RichTextBox::slotBeginEditHTML()

@@ -92,6 +92,7 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
 
 void FrmMailing::validate_input(QWidget* sender, bool* isvalid)
 {
+	_GONG_DEBUG_TRACE(0);
 	pushAccept->setEnabled( true );
     if( sender == pushShowEMails ) {
         XtringList emails;

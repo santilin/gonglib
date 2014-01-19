@@ -188,7 +188,8 @@ RichTextBox* FrmCustom::addRichTextBox(QWidget* parent, const Xtring& caption,
     RichTextBox *rich = new RichTextBox( parent ? parent : pFrameEdit,
                                          name ? (Xtring("editRich_") + name).c_str() : "", "", false);
     rich->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
-    QLabel *label = new QLabel ( parent ? parent : pFrameEdit,
+    connect( rich, SIGNAL ( validate ( QWidget *, bool * ) ),
+              this, SLOT ( validate_input ( QWidget *, bool * ) ) );    QLabel *label = new QLabel ( parent ? parent : pFrameEdit,
                                  ( "label_" + Xtring(name) ).c_str() );
     label->setText ( toGUI(caption) );
     QHBoxLayout *hlay = new QHBoxLayout();

@@ -1,3 +1,7 @@
+MensSana: Quitar Aceites de arvensis, poner de menssana. Correos a Naturalize.
+Menssana: error: no está activado lo del tratamiento y me da error de que el cif de las empresas....
+   Como generar código del artículo no admite el valor 1
+
 == HECHO ==
 
 == HACER EN LOS PAJAROS ==
@@ -7,8 +11,11 @@
 
 
 == QT ==
-* El richtextbox no envía el evento validate
-* Checkboxes, que el ENTER no cambie el valor, sólo el espacio
+* PushButton: una propiedad que diga qué hacer con el INTRO
+* El richtextedit no envía el evento validate.
+** Complicado: El evento lo tiene que enviar el richtextbox que es un QLabel
+** Ahora el RichTextEdit modifica el contenido del QLabel, pero esto no debería ser así, además
+** debería de ser un FrmCustom, no una QMainWindow para que se pueda hacer un showModalFor.
 * No consigo pillar el keypressevent en el reportviewer
 * Teclas cursor en la visualización de los informes
 * Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.

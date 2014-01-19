@@ -245,7 +245,6 @@ void FrmBase::refresh()
 void FrmBase::setInitialFocus()
 {
     if( pFocusWidget && pFocusWidget != focusWidget() ) {
-        _GONG_DEBUG_PRINT(0, pFocusWidget->name() );
 		setWiseFocus( pFocusWidget );
     }
 }
@@ -259,12 +258,13 @@ void FrmBase::setInitialFocus()
  **/
 void FrmBase::setWiseFocus(QWidget *w)
 {
-	QWidget *pa, *grandpa = static_cast<QWidget *>(w->parentWidget());
+	if( !w )
+		return;
+	QWidget *grandpa = static_cast<QWidget *>(w->parentWidget());
 	bool exit = false;
 	while( grandpa && !exit ) {
-		pa = grandpa;
 		if( QTabWidget *tabwidget = dynamic_cast<QTabWidget *>(grandpa) ) {
-			for( uint i = 0; i < tabwidget->count() && !exit; ++i ) {
+			for( int i = 0; i < tabwidget->count() && !exit; ++i ) {
 				QWidget *tab = tabwidget->widget(i);
 				if( tab == tabwidget->currentWidget() )
 					break;
