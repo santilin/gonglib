@@ -1,12 +1,13 @@
 MensSana: Quitar Aceites de arvensis, poner de menssana. Correos a Naturalize.
-Menssana: error: no está activado lo del tratamiento y me da error de que el cif de las empresas....
-   Como generar código del artículo no admite el valor 1
+
+* 'Como generar código del artículo' no admite el valor 1
+* El contador de los albaranes de compra se queda a 0
+* Facturar albarán sin elegir cliente primero, no rellena los datos de la cabecera.
 
 == HECHO ==
 
 == HACER EN LOS PAJAROS ==
 * Borrar los tipos de formas de pago
-* Enviar adjuntos
 * FrmCambio: Sin ticket, imprime el ticket
 
 
@@ -121,6 +122,7 @@ Menssana: error: no está activado lo del tratamiento y me da error de que el ci
 * 	struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Enviar adjuntos por email
 * FrmCambiarEmpresa, terminar de implementar ¿Ejercicios?
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto

@@ -8,6 +8,7 @@
 /*<<<<<DBFIELD_CIF_INCLUDES*/
 #include "contactosfldcif.h"
 /*>>>>>DBFIELD_CIF_INCLUDES*/
+#include "contactosmodule.h"
 
 namespace gong {
 namespace contactos {
@@ -132,6 +133,9 @@ void Cif::eliminarCharControl()
 
 Xtring Cif::validate( RecContacto::Tratamiento tratamiento, bool fixme )
 {
+	// Si no se utilizan los tratamientos, no dar errores si hubiera grabado un tratamiento
+	if( ModuleInstance->getModuleSetting( "USAR_TRATAMIENTOS" ).toBool() == false )
+		tratamiento = RecContacto::TratamientoNo;
     Xtring ret;
     unsigned int i;
     if( fixme ) {
@@ -193,7 +197,6 @@ Xtring Cif::validate( RecContacto::Tratamiento tratamiento, bool fixme )
                 return Xtring::printf("falta el dígito o letra de control '%c'", digcontrol);
             }
         }
-
     }
     return ret;
 }
