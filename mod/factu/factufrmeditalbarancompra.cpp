@@ -274,8 +274,6 @@ if( ModuleInstance->getContabModule() ) {
         pFocusWidget = pFrmAlbaranCompraDet;
     }
     pFrmAlbaranCompraDet->addDetailIfNeeded();
-    if( editContador->toInt() == 0 )
-        editContador->setText( empresa::ModuleInstance->getMaxContador() );
     searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
     searchFormaPagoCodigo->setMustBeReadOnly( mHasPagos );
     editFecha->setMustBeReadOnly( mHasPagos );
@@ -846,15 +844,6 @@ if(empresa::ModuleInstance->usaProyectos()){
                                    "NUMERO" );
         }
     }
-    if( !sender && isInserting() ) {
-        int contador = empresa::ModuleInstance->getMaxContador();
-        if( contador > editContador->toInt() ) {
-            editContador->setText( contador );
-            validresult->addWarning( Xtring::printf(
-                                         _("El contador ha cambiado durante la edición de este registro. El nuevo contador es %d"),
-                                         contador ), "CONTADOR" );
-        }
-    }
     if( mHasPagos && mOldTotal != editTotal->toMoney() ) {
         validresult->addError( Xtring::printf( _("No puedes modificar el total de %s porque tiene pagos ya pagados"),
                                                DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str() ), "TIPODOC_ID" );
@@ -880,7 +869,7 @@ void FrmEditAlbaranCompra::numeraLineas()
 	dbRecordList *reclst = getRecAlbaranCompra()->getListAlbaranCompraDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecAlbaranCompraDet *detalle = static_cast<RecAlbaranCompraDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITALBARANCOMPRA_CABECERA_NUMERALINEAS*/

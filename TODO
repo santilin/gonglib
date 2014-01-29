@@ -1,9 +1,4 @@
-Borrar usuario de mysql: REVOKE ALL PRIVILEGES, GRANT OPTION FROM vduser@localhost;
-
-MensSana: Quitar Aceites de arvensis, poner de menssana. Correos a Naturalize.
-
-* El contador de los albaranes de compra se queda a 0
-* Facturar albarán sin elegir cliente primero, no rellena los datos de la cabecera.
+MensSana: Poner aceite de menssana
 
 == HECHO ==
 * FrmCambio: Sin ticket, imprime el ticket
@@ -190,6 +185,7 @@ MensSana: Quitar Aceites de arvensis, poner de menssana. Correos a Naturalize.
 * Tamaño de los listboxes ajustado al máximo del listbox
 
 == gonglib ==
+* Borrar usuario de mysql: REVOKE ALL PRIVILEGES, GRANT OPTION FROM vduser@localhost;
 * XmlReader: mejorar parseFile().
 * editar fechas de nacimiento, si el año es mayor de 2100 y es multiplo de 100, es un 19xx
 * dbSettings::removeSetting no está acabado
