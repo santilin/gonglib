@@ -1,15 +1,18 @@
+Borrar usuario de mysql: REVOKE ALL PRIVILEGES, GRANT OPTION FROM vduser@localhost;
+
 MensSana: Quitar Aceites de arvensis, poner de menssana. Correos a Naturalize.
 
-* 'Como generar código del artículo' no admite el valor 1
 * El contador de los albaranes de compra se queda a 0
 * Facturar albarán sin elegir cliente primero, no rellena los datos de la cabecera.
 
 == HECHO ==
+* FrmCambio: Sin ticket, imprime el ticket
 
 == HACER EN LOS PAJAROS ==
 * Borrar los tipos de formas de pago
-* FrmCambio: Sin ticket, imprime el ticket
 
+== tpvg: módulo tienda ecológica ==
+* Añadir campos AVAL, PESONETO, UNIDADESCAJA
 
 == QT ==
 * PushButton: una propiedad que diga qué hacer con el INTRO

@@ -68,10 +68,8 @@ bool ComboBoxInt::insertItems()
         QComboBox::insertItem( toGUI( *itcaptions ) );
         if( (*itcaptions).isEmpty() )
             oneempty = true;
-		if( !mIsRef ) {
-			if( mValues.size() <= (uint)i )
-				mValues.push_back( i );
-		}
+		if( mRefValues.size() <= (uint)i ) // \todo refcounting?
+			const_cast<IntList &>(mRefValues).push_back( i );
         i++;
     }
     return oneempty;

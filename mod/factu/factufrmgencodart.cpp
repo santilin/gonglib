@@ -12,8 +12,8 @@ FrmGenCodArt::FrmGenCodArt ( RecArticulo *articulo,
 {
     pRecArticulo = articulo;
     setTitle( _("Generar código del artículo") );
-    pComboOperacion = addComboBoxInt(true, 0, _("Modalidad"), RecArticulo::sModalidades,
-                                  IdentityIntList );
+    pComboOperacion = addComboBoxInt(true, 0, _("Modalidad"),
+									 RecArticulo::sModalidades, IdentityIntList );
     pEditFormat = addInput(0, _("Formato"), "", "STRING");
 }
 

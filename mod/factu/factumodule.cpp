@@ -238,8 +238,8 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicProveedora->addFieldString("ENTIDADBANCO", 80);
     pFicProveedora->addField<empresa::FldCuentaBanco>( "CUENTABANCO" );
     pFicProveedora->addField<FldIVADetallado>( "IVADETALLADO" );
-    pFicProveedora->addFieldListOfValues<int>( false, RecArticulo::sModalidades,
-            IdentityIntList, "GENCODARTICULO" )->setCanBeNull(true);
+    pFicProveedora->addFieldListOfValues<int>( false, &RecArticulo::sModalidades,
+            &IdentityIntList, "GENCODARTICULO" )->setCanBeNull(true);
     pFicProveedora->addFieldString( "FORMATCODARTICULO", 100 );
 #ifdef HAVE_CONTABMODULE
     if ( pContabModule )

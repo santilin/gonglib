@@ -1,3 +1,11 @@
+gestiong (0.5.1-beta-0ubuntu1) precise; urgency=low
+
+  * Mejoras tras el primer lanzamiento
+
+
+ -- santilín <gestiong@programacionsocial.net>  Mon, 20 Jan 2014 14:21:22 +0200
+
+
 gestiong (0.5.0-beta1-0ubuntu1) precise; urgency=low
 
   * Initial release
