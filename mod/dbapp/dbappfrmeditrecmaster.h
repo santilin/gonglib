@@ -128,7 +128,7 @@ protected:
     QMenu *pMenuView;
     QAction *pMenuViewAdd, *pMenuViewModify, *pMenuViewDup, *pMenuViewDelete;
     DataTable* pDataTable;
-    QPushButton *pushMiddle;
+    QPushButton *pushMiddle, *pushRemoveFilter;
 
     bool mBrowsing, mChoosing, mWasBrowsing, mMustRead;
     bool mMustRefresh, mRefreshing, mMultipleDeleting;

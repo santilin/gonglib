@@ -62,10 +62,16 @@ FrmEditRecMaster::FrmEditRecMaster( FrmEditRec *parentfrm, dbRecord *maestro, db
         setTabOrder( pushAccept, pushCancel );
     }
     pushMiddle = new QPushButton( this, "pushMiddle" );
-    // signals and slots connections
     connect( pushMiddle, SIGNAL( clicked() ), this, SLOT( pushMiddle_clicked() ) );
     pButtonsLayout->insertWidget( 2, pushMiddle );
     pushMiddle->setVisible( false );
+
+	pushRemoveFilter = new QPushButton( this, "pushRemoveFilter" );
+    pushRemoveFilter->setIcon( QIcon::fromTheme("edit-clear", QIcon(":/edit-clear.png")) );
+	pushRemoveFilter->setText( toGUI( _("Quitar filtro") ) );
+    connect( pushRemoveFilter, SIGNAL( clicked() ), this, SLOT( menuTableRemoveFilter_clicked() ) );
+    pButtonsLayout->insertWidget( 2, pushRemoveFilter );
+    pushRemoveFilter->setVisible( false );
 }
 
 /*
@@ -421,6 +427,7 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
             pushMiddle->setVisible( true );
             pushMiddle->setText( toGUI( _( "&Añadir" ) ) );
         }
+        pushRemoveFilter->setVisible( !getWholeFilter().isEmpty() );
     }
     if( callbehaviors ) {
         for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
@@ -848,14 +855,14 @@ void FrmEditRecMaster::initMenus()
 
     text = toGUI( _( "&Información" ) );
     pMenuRecordInfo = new QAction( text, QKeySequence( "CTRL+I" ), this, 0 );
-    pMenuRecordInfo->setStatusTip( "&Info" );
+    pMenuRecordInfo->setStatusTip( text );
     pMenuRecordInfo->setWhatsThis( toGUI( _( "Muestra información sobre este fichero" ) ) );
     connect( pMenuRecordInfo, SIGNAL( activated() ), this, SLOT( menuRecordInfo_clicked() ) );
     pMenuRecordInfo->addTo( pMenuRecord );
 
     text = toGUI( _( "&Reabrir" ) );
     pMenuRecordReopen = new QAction( text, QKeySequence( "CTRL+2" ), this, 0 );
-    pMenuRecordReopen->setStatusTip( "Reabrir" );
+    pMenuRecordReopen->setStatusTip( text );
     pMenuRecordReopen->setWhatsThis( toGUI( _( "Abre una nueva ventana de este fichero" ) ) );
     connect( pMenuRecordReopen, SIGNAL( activated() ), this, SLOT( menuRecordReopen_clicked() ) );
     pMenuRecordReopen->addTo( pMenuRecord );
@@ -864,21 +871,21 @@ void FrmEditRecMaster::initMenus()
     // Opciones del menú Tabla
     text = toGUI( _( "&Reordenar" ) );
     pMenuTableReorder = new QAction( text, QKeySequence( "CTRL+R" ), this, 0 );
-    pMenuTableReorder->setStatusTip( "Reordenar" );
+    pMenuTableReorder->setStatusTip( text );
     pMenuTableReorder->setWhatsThis( toGUI( _( "Cambia el orden de los registros" ) ) );
     connect( pMenuTableReorder, SIGNAL( activated() ), this, SLOT( menuTableReorder_clicked() ) );
     pMenuTableReorder->addTo( pMenuTable );
 
     text = toGUI( _( "&Filtrar" ) );
     pMenuTableFilter = new QAction( text, QKeySequence( "CTRL+F" ), this, 0 );
-    pMenuTableFilter->setStatusTip( "Filtrar" );
+    pMenuTableFilter->setStatusTip( text );
     pMenuTableFilter->setWhatsThis( toGUI( _( "Filtra los registros de este fichero" ) ) );
     connect( pMenuTableFilter, SIGNAL( activated() ), this, SLOT( menuTableFilter_clicked() ) );
     pMenuTableFilter->addTo( pMenuTable );
 
-    text = toGUI( _( "&Limpiar filtro" ) );
+    text = toGUI( _( "Quitar fi&ltro" ) );
     pMenuTableRemoveFilter = new QAction( text, QKeySequence( "CTRL+L" ), this, 0 );
-    pMenuTableRemoveFilter->setStatusTip( "Limpiar filtro" );
+    pMenuTableRemoveFilter->setStatusTip( text );
     pMenuTableRemoveFilter->setWhatsThis( toGUI( _( "Elimina el filtro de este fichero" ) ) );
     connect( pMenuTableRemoveFilter, SIGNAL( activated() ), this, SLOT( menuTableRemoveFilter_clicked() ) );
     pMenuTableRemoveFilter->addTo( pMenuTable );

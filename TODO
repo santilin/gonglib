@@ -1,7 +1,11 @@
+== HECHO ==
+
 MensSana: Poner aceite de menssana
 
-== HECHO ==
-* FrmCambio: Sin ticket, imprime el ticket
+== MC ==
+* El resto de las ofertas siempre se queda como el total
+* doy de alta un cliente en 2014 y no aparece en 2013?
+* no hace copias de seguridad cuando no está activo el modulo ofertas
 
 == HACER EN LOS PAJAROS ==
 * Borrar los tipos de formas de pago
@@ -25,9 +29,6 @@ MensSana: Poner aceite de menssana
 * No sale en español el Qt el mensaje de overwrite a file
 * Cuando un editline da error, el cursor se vuelve un caracter a la izda.
 * En campos deshabilitados no funciona ctrl+c
-
-== HACER EN MC ==
-* Comprobar, no actualiza el nombre de la vista cuando se cambia de vistas en los browses
 
 = PRESCINDIBLE =
 
@@ -110,7 +111,6 @@ MensSana: Poner aceite de menssana
 ** Niveles del plan contable
 
 == gong-contactos ==
-* Modifico factura de jardines del mundo, cambio el email del contacto y me dice que lo ha creado, pero en realidad ya estaba creado
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Utilizar campo alternativo para buscar clientes, proveedoras y contactos
 * Mostrar nombres parecidos al dar de alta un nombre

@@ -368,7 +368,8 @@ bool FrmEditRec::save()
         if( pParentForm )
             pParentForm->refresh();
         DBAPP->showStickyOSD( getRecord()->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
-                              _("Se ha grabado correctamente")  );
+                              Xtring::printf( _("%s se ha grabado correctamente"),
+								  DBAPP->getTableDescSingular(getRecord()->getTableName(), "La" ).c_str() ) );
         if( DBAPP->getMainWindow() ) /// TODO: Refrescar solo los browses de esta tabla y las relacionadas
             DBAPP->getMainWindow()->refreshByName(name(), "");
     }

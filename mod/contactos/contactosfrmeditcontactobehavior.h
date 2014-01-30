@@ -35,12 +35,12 @@ public:
 		: FrmEditRecBehavior( theform )
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_CLASS*/
         , pFrameContactos(0), editRazonSocial(0)
-        , mSetContactoIDNoNullAgain(false), mCreating(true), mSearching(0) {}
+        , mSetContactoIDNoNullAgain(false), mSearching(0) {}
 	virtual void _initGUI();
     RecContacto *getRecContacto() const;
     FrmEditContactoBehavior( FrmEditRec *theform, QTabWidget *holder, gong::LineEdit *razonsocial ):
         FrmEditRecBehavior( theform ), pFrameContactos( holder ), editRazonSocial( razonsocial ),
-        mSetContactoIDNoNullAgain(false), mCreating(false), mSearching(0) {};
+        mSetContactoIDNoNullAgain(false), mSearching(0) {};
     LineEdit *getEditCIF() const {
         return editContactoCIF;
     }
@@ -49,9 +49,7 @@ public:
     }
     bool setCIFAndLookForIt( const Xtring &cif );
     void setTabOrders( QWidget *pre, QWidget *post );
-    bool isCreating() const {
-        return mCreating;
-    }
+    bool isCreating() const { return getRecContacto()->isNew(); }
 
 protected slots:
     void slotSearchCP_clicked();
@@ -108,7 +106,7 @@ protected:
     gong::LineEdit *editRazonSocial;
     QPushButton *pushLimpiaDatos, *pushSearchCP, *pushARazonSocial, *pushEditFull;
 private:
-    bool mSetContactoIDNoNullAgain, mCreating;
+    bool mSetContactoIDNoNullAgain;
     int mSearching;
 };
 /*<<<<<FRMEDITCONTACTOBEHAVIOR_POSTAMBLE*/

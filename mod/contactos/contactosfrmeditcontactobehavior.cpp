@@ -143,7 +143,6 @@ void FrmEditContactoBehavior::_initGUI()
     tabContactoLayout->insertLayout(0, pushLayout );
     mUsarTratamiento = ModuleInstance->getModuleSetting( "USAR_TRATAMIENTOS" ).toBool();
     comboContacto_TratamientoContacto->setVisible( mUsarTratamiento );
-    mCreating = true;
 }
 
 void FrmEditContactoBehavior::setTabOrders(QWidget* pre, QWidget* post)
@@ -307,12 +306,10 @@ bool FrmEditContactoBehavior::setCIFAndLookForIt(const Xtring& cif)
                                  getRecContacto(), "CIF", "NOMBRE", Xtring::null,
                                  dbApplication::SeekCodeFlags( dbApplication::AllowNotFound + dbApplication::DontShowBrowse )) ) {
         scatterContacto();
-        mCreating = false;
         mSearching = 0;
         return true;
     } else {
         mSearching = 1;
-        mCreating = true;
         getRecContacto()->setNew( true );
         getRecContacto()->clear( true );
         getRecContacto()->setValue( "NOMBRE", cif );
@@ -429,7 +426,6 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
                                                  getRecContacto(), "CIF", "NOMBRE", Xtring::null,
                                                  dbApplication::SeekCodeFlags( dbApplication::AllowNotFound + dbApplication::AskIfFoundOne )) ) {
                         scatterContacto();
-                        mCreating = false;
                         mSearching = 0;
                         cif_error = Xtring::null;
                     }
@@ -449,7 +445,6 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
                                 getRecContacto()->read( otherid );
                                 scatterContacto();
                                 mSearching = 0;
-                                mCreating = false;
                                 cif_error = Xtring::null;
                                 copied = true;
                             } else {
@@ -469,7 +464,6 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
                                 getRecContacto()->read( otherid );
                                 scatterContacto();
                                 mSearching = 0;
-                                mCreating = false;
                                 cif_error = Xtring::null;
                                 copied = true;
                             }
@@ -558,7 +552,8 @@ dbRecordID FrmEditContactoBehavior::findDupCIFOrName( QWidget *sender,
 
 bool FrmEditContactoBehavior::save()
 {
-    if( mCreating ) {
+    bool wasCreating = getRecContacto()->isNew();
+    if( wasCreating ) {
         if( getRecContacto()->getValue( "CODIGO" ).toInt() == 0 )
             getRecContacto()->setValue( "CODIGO", getRecContacto()->selectNextInt("CODIGO", Xtring::null, true ) );
     }
@@ -568,7 +563,7 @@ bool FrmEditContactoBehavior::save()
         return false;
     }
     if( modified ) {
-        if( mCreating ) {
+        if( wasCreating ) {
             DBAPP->showOSD( pTheForm->getRecord()->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
                             Xtring::printf( _("Se ha creado un nuevo contacto: %s"), getRecContacto()->toString( TOSTRING_CODE_AND_DESC ).c_str() ) );
         } else {
@@ -577,7 +572,6 @@ bool FrmEditContactoBehavior::save()
         }
     }
     pTheForm->getRecord()->setValue( "CONTACTO_ID", getRecContacto()->getRecordID() );
-    mCreating = true;
     return true;
 }
 
@@ -591,7 +585,6 @@ void FrmEditContactoBehavior::slotLimpiaDatos_clicked()
     getRecContacto()->setValue( "CODIGO", getRecContacto()->selectNextInt("CODIGO", Xtring::null, true ) );
     scatterContacto(); // Todos los campos
     mSearching = 1;
-    mCreating = true;
 }
 
 void FrmEditContactoBehavior::slotSearchCP_clicked()
