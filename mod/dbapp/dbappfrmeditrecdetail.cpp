@@ -32,7 +32,6 @@ FrmEditRecDetail::FrmEditRecDetail(
     connect( pButtonDetailDown, SIGNAL( clicked() ), this, SLOT( slotDetailDownClicked() ) );
     pButtonsLayout->insertWidget( 3, pButtonDetailDown );
     pButtonDetailDown->setText( _("Bajar") );
-	pMenuTable->hide();
 }
 
 FrmEditRecDetail::~FrmEditRecDetail()
@@ -48,7 +47,6 @@ void FrmEditRecDetail::slotFocusChanged(DataTable* dt, QFocusEvent* ev)
         return;
     if( ev->gotFocus() ) {
         pMenuRecord->setEnabled( true );
-        pMenuTable->setEnabled(true);
         pMenuView->setEnabled(true);
         updateStatus(); // To restore the enabled menus
     } else {
@@ -61,8 +59,6 @@ void FrmEditRecDetail::slotFocusChanged(DataTable* dt, QFocusEvent* ev)
         pMenuRecordView->setEnabled(false);
         pMenuRecordDup->setEnabled(false);
         pMenuRecordReopen->setEnabled(false);
-        pMenuTableFilter->setEnabled(false);
-        pMenuTable->setEnabled(false);
         pMenuView->setEnabled(false);
     }
 }
@@ -98,7 +94,7 @@ void FrmEditRecDetail::slotDetailUpClicked()
 void FrmEditRecDetail::updateStatus( bool callbehaviors )
 {
     FrmEditRecMaster::updateStatus( callbehaviors );
-	pushRemoveFilter->setVisible( false );
+	pMenuTable->setEnabled( false );
     if( pDataTable && pDataTable->isVisible() && !isReadOnly() ) {
         bool down = false;
         bool up = false;
@@ -222,7 +218,6 @@ void FrmEditRecDetail::beginEdit(DataTable *dt, EditMode newmode,
         pMenuRecordDup->setEnabled(false);
         pMenuRecordModify->setEnabled(false);
         pMenuRecordDelete->setEnabled(false);
-        pMenuTableImport->setEnabled(false);
         if( newmode == DataTable::deleting )
             FrmBase::msgError( this, _("No se puede borrar detalles al visualizar") );
         else if( newmode == DataTable::inserting )

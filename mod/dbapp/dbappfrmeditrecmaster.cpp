@@ -394,7 +394,6 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
             else
                 aceptar_text = _( "&Grabar" );
             pushCancel->setText( toGUI( _( "&Cancelar" ) ) );
-            // 		pMenuTable->setEnabled( false );
             pMenuViewReorder->setEnabled( false );
             pMenuTableFilter->setEnabled( false );
             pMenuTableRemoveFilter->setEnabled( false );
