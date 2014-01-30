@@ -32,6 +32,7 @@ FrmEditRecDetail::FrmEditRecDetail(
     connect( pButtonDetailDown, SIGNAL( clicked() ), this, SLOT( slotDetailDownClicked() ) );
     pButtonsLayout->insertWidget( 3, pButtonDetailDown );
     pButtonDetailDown->setText( _("Bajar") );
+	pMenuTable->hide();
 }
 
 FrmEditRecDetail::~FrmEditRecDetail()
@@ -97,6 +98,7 @@ void FrmEditRecDetail::slotDetailUpClicked()
 void FrmEditRecDetail::updateStatus( bool callbehaviors )
 {
     FrmEditRecMaster::updateStatus( callbehaviors );
+	pushRemoveFilter->setVisible( false );
     if( pDataTable && pDataTable->isVisible() && !isReadOnly() ) {
         bool down = false;
         bool up = false;

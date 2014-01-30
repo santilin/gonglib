@@ -122,11 +122,11 @@ protected:
 
     QAction *pMenuRecordAdd, *pMenuRecordDelete, *pMenuRecordModify, *pMenuRecordDup,
             *pMenuRecordView, *pMenuRecordPrint, *pMenuRecordReopen, *pMenuRecordInfo;
-    QAction *pMenuTableReorder, *pMenuTableFilter, *pMenuTableRemoveFilter,
+    QAction *pMenuTableFilter, *pMenuTableRemoveFilter,
             *pMenuTablePrint, *pMenuTableImport, *pMenuTableExport,
             *pMenuTableSelectAll, *pMenuTableUpdate;
     QMenu *pMenuView;
-    QAction *pMenuViewAdd, *pMenuViewModify, *pMenuViewDup, *pMenuViewDelete;
+    QAction *pMenuViewReorder, *pMenuViewAdd, *pMenuViewModify, *pMenuViewDup, *pMenuViewDelete;
     DataTable* pDataTable;
     QPushButton *pushMiddle, *pushRemoveFilter;
 

@@ -33,7 +33,7 @@ FrmEditRecMaster::FrmEditRecMaster( FrmEditRec *parentfrm, dbRecord *maestro, db
     : FrmEditRec( parentfrm, maestro, editmode, editflags, parent, name, fl ),
       pMenuRecordAdd( 0 ), pMenuRecordDelete( 0 ), pMenuRecordModify( 0 ), pMenuRecordDup( 0 ),
       pMenuRecordView( 0 ), pMenuRecordPrint( 0 ), pMenuRecordReopen( 0 ), pMenuRecordInfo( 0 ),
-      pMenuTableReorder( 0 ), pMenuTableFilter( 0 ), pMenuTableRemoveFilter( 0 ), pMenuTablePrint(0),
+      pMenuViewReorder( 0 ), pMenuTableFilter( 0 ), pMenuTableRemoveFilter( 0 ), pMenuTablePrint(0),
       pMenuTableImport(0), pMenuTableExport( 0 ), pMenuTableSelectAll( 0 ), pMenuTableUpdate(0),
       pMenuView( 0 ), pMenuViewAdd( 0 ), pMenuViewModify( 0 ), pMenuViewDup( 0 ), pMenuViewDelete( 0 ),
       pDataTable( 0 ), mBrowsing( false ), mChoosing( false ), mWasBrowsing( false ),
@@ -333,7 +333,7 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
         pMenuRecordModify->setEnabled( false );
         pMenuRecordView->setEnabled( false );
         pMenuRecordPrint->setEnabled( false );
-        pMenuTableReorder->setEnabled( false );
+        pMenuViewReorder->setEnabled( false );
         pMenuTableFilter->setEnabled( false );
         pMenuTableRemoveFilter->setEnabled( false );
         pMenuTableExport->setEnabled( false );
@@ -341,6 +341,7 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
         pMenuTable->setEnabled( false );
         pMenuView->setEnabled( false );
     } else {
+		pushRemoveFilter->setVisible( false );
         dbRecordPermissions r = getPermissions();
         if (( mEditMode == DataTable::browsing || mEditMode == DataTable::choosing ) ) {
             pDataTable->setReadOnly( isReadOnly() );
@@ -357,8 +358,10 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
             else {
                 title += getRecord()->getTableDefinition()->getDescPlural();
             }
-            if ( !pDataModel->getFilter("").isEmpty() )
+            if ( !pDataModel->getFilter("").isEmpty() ) {
                 title += _( " [Filtrado]" );
+				pushRemoveFilter->setVisible( true );
+			}
             setTitle( title );
             if ( mChoosing && mEditMode == DataTable::choosing ) {
                 if ( pDataModel->getRowCount() == 0 && r.canAdd )
@@ -378,7 +381,7 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
             }
             pMenuView->setEnabled( true );
             pMenuTable->setEnabled( true );
-            pMenuTableReorder->setEnabled( true );
+            pMenuViewReorder->setEnabled( true );
             pMenuTableFilter->setEnabled( true );
             pMenuTableRemoveFilter->setEnabled( true );
             pMenuTableExport->setEnabled( true );
@@ -392,7 +395,7 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
                 aceptar_text = _( "&Grabar" );
             pushCancel->setText( toGUI( _( "&Cancelar" ) ) );
             // 		pMenuTable->setEnabled( false );
-            pMenuTableReorder->setEnabled( false );
+            pMenuViewReorder->setEnabled( false );
             pMenuTableFilter->setEnabled( false );
             pMenuTableRemoveFilter->setEnabled( false );
             pMenuTableExport->setEnabled( false );
@@ -405,7 +408,7 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
         pMenuRecordModify->setEnabled( r.canEdit );
         pMenuRecordView->setEnabled( r.canView );
         pMenuRecordPrint->setEnabled( r.canView && isBrowsing() );
-        pMenuTableReorder->setEnabled( isBrowsing() || isChoosing() );
+        pMenuViewReorder->setEnabled( isBrowsing() || isChoosing() );
         pMenuTableImport->setEnabled( r.canAdd );
         if (( mEditFlags & dbApplication::embedded ) && isBrowsing() ) {
             pushCancel->hide();
@@ -427,7 +430,6 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
             pushMiddle->setVisible( true );
             pushMiddle->setText( toGUI( _( "&Añadir" ) ) );
         }
-        pushRemoveFilter->setVisible( !getWholeFilter().isEmpty() );
     }
     if( callbehaviors ) {
         for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
@@ -869,13 +871,6 @@ void FrmEditRecMaster::initMenus()
 
 
     // Opciones del menú Tabla
-    text = toGUI( _( "&Reordenar" ) );
-    pMenuTableReorder = new QAction( text, QKeySequence( "CTRL+R" ), this, 0 );
-    pMenuTableReorder->setStatusTip( text );
-    pMenuTableReorder->setWhatsThis( toGUI( _( "Cambia el orden de los registros" ) ) );
-    connect( pMenuTableReorder, SIGNAL( activated() ), this, SLOT( menuTableReorder_clicked() ) );
-    pMenuTableReorder->addTo( pMenuTable );
-
     text = toGUI( _( "&Filtrar" ) );
     pMenuTableFilter = new QAction( text, QKeySequence( "CTRL+F" ), this, 0 );
     pMenuTableFilter->setStatusTip( text );
@@ -928,6 +923,12 @@ void FrmEditRecMaster::initMenus()
     pMenuView = new QMenu( this );
     pMenuBar->insertItem( QString::fromUtf8( _( "&Vistas" ) ), pMenuView );
 
+	text = toGUI( _( "&Reordenar" ) );
+    pMenuViewReorder = new QAction( text, QKeySequence( "CTRL+R" ), this, 0 );
+    pMenuViewReorder->setStatusTip( text );
+    pMenuViewReorder->setWhatsThis( toGUI( _( "Cambia el orden de los registros" ) ) );
+    connect( pMenuViewReorder, SIGNAL( activated() ), this, SLOT( menuTableReorder_clicked() ) );
+    pMenuViewReorder->addTo( pMenuView );
     text = toGUI( _( "&Añadir" ) );
     pMenuViewAdd = new QAction( text, this );
     pMenuViewAdd->setStatusTip( text );
