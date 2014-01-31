@@ -952,7 +952,7 @@ void Report::resetAggregateValues( uint level )
 {
     if( level == 0 )
         return;
-    _GONG_DEBUG_PRINT(4, Xtring::printf("Reseting aggregates for level=%d", level) );
+    _GONG_DEBUG_PRINT(5, Xtring::printf("Reseting aggregates for level=%d", level) );
     for ( uint ns = 0; ns < mSections.size(); ns++ ) {
         for ( uint no = 0; no < mSections[ns]->objectsCount(); no++ ) {
             Object *object = mSections[ns]->getObject(no);
@@ -976,6 +976,13 @@ void Report::calcAggregateValues( uint level )
     for ( uint ns = 0; ns < mSections.size(); ns++ ) {
         for ( uint no = 0; no < mSections[ns]->objectsCount(); no++ ) {
             Object *object = mSections[ns]->getObject(no);
+			if( object->aggregate() != AggNone ) {
+				_GONG_DEBUG_PRINT(5, Xtring::printf("%s:%s.realValue=%s, prevValue=%s",
+												object->parent()->name(),
+												object->name(),
+												object->parent()->mRealValue.toString().c_str(),
+												object->parent()->mPrevRealValue.toString().c_str() ) );
+			}
             switch ( object->aggregate() ) {
             case AggCount:
                 for ( uint i = level; i <= mGroupLevels; i++ ) {
@@ -987,21 +994,16 @@ void Report::calcAggregateValues( uint level )
                 break;
             case AggDistinctCount:
                 for ( uint i = level; i <= mGroupLevels; i++ ) {
-                    _GONG_DEBUG_PRINT(10, Xtring::printf("%s:%s.realValue=%s, prevValue=%s",
-                                                        object->parent()->name(),
-                                                        object->name(),
-                                                        object->parent()->mRealValue.toString().c_str(),
-                                                        object->parent()->mPrevRealValue.toString().c_str() ) );
                     if( object->parent()->realValueChanged() ) {
                         object->mPrevAggregateValues[i] = object->mAggregateValues[i];
                         object->mAggregateValues[i] += 1;
-                        _GONG_DEBUG_PRINT(10, Xtring::printf("Distinct counting object: %s of section %s for level %d, value=%d",
+                        _GONG_DEBUG_PRINT(5, Xtring::printf("Distinct counting object: %s of section %s for level %d, value=%d",
                                                             object->name(), object->parent()->name(), i, object->mAggregateValues[i].toInt() ) );
                     }
                 }
                 break;
             case AggSum:
-                for ( uint i = 0; i <= mGroupLevels; i++ ) {
+                for ( uint i = level; i <= mGroupLevels; i++ ) {
                     object->mPrevAggregateValues[i] = object->mAggregateValues[i];
                     object->mAggregateValues[i] += object->mRealValue; // Not realValue()
                     _GONG_DEBUG_PRINT(5, Xtring::printf("Sum=%f of object '%s' of section '%s' for level %d, value=%f",
@@ -1009,7 +1011,7 @@ void Report::calcAggregateValues( uint level )
                 }
                 break;
             case AggDistinctSum:
-                for ( uint i = 0; i <= mGroupLevels; i++ ) {
+                for ( uint i = level; i <= mGroupLevels; i++ ) {
                     _GONG_DEBUG_PRINT(5, Xtring::printf("%s:%s.realValue=%s, prevValue=%s",
                                                         object->parent()->name(),
                                                         object->name(),
@@ -1505,7 +1507,7 @@ uint Report::printGroup( Passes whatpass, Input *in, Output *out, uint level, In
                 ++mRecordNumber;
                 ++mRecordCount;
                 swapNonConstValues();
-//				swapAggregateValues( level - 1 );
+				swapAggregateValues( level - 1 );
                 // The aggregate values now must be reset from this level upwards,
                 // but the aggregates where computed from the last record read
                 // which belonged to the new group. So, we first reset the aggregates

@@ -1,12 +1,15 @@
 AC_DEFUN([GONG_CHECK_POCO], [
-	AC_MSG_CHECKING(for libpoco - version >= 1)
+	AC_MSG_CHECKING([for libpoco...])
 	POCO_CPPFLAGS="-I/usr/include"
 	POCO_LIBS="-L/usr/lib -lPocoNet -lPocoXML -lPocoFoundation"
-	CPPFLAGS="$CPPFLAGS $POCO_CPPFLAGS"
-	LIBS="$LIBS $POCO_LIBS"
 	AC_MSG_RESULT( $POCO_CPPFLAGS $POCO_LIBS )
 	AC_DEFINE( [HAVE_POCOLIB], [1], [Define to 1 if you have the Poco library.] )
 
+dnl	ac_save_CPPFLAGS=$CPPFLAGS
+dnl	ac_save_LIBS=$LIBS
+dnl	CPPFLAGS="$CPPFLAGS $POCO_CPPFLAGS"
+dnl	LIBS="$LIBS $POCO_LIBS"
+dnl
 dnl        AC_TRY_COMPILE([
 dnl                #include <Poco/Net/ServerSocket.h>
 dnl                #include <Poco/Net/StreamSocket.h>
@@ -28,11 +31,10 @@ dnl                 echo
 dnl                 exit 1
 dnl				CPPFLAGS="$ac_save_CPPFLAGS"
 dnl				LIBS="$ac_save_LIBS"
+dnl     		POCO_CPPFLAGS=""
+dnl     		POCO_LIBS=""
 dnl        fi
-
-
-dnl     POCO_CPPFLAGS=""
-dnl     POCO_LIBS=""
+dnl
   AC_SUBST(POCO_CPPFLAGS)
   AC_SUBST(POCO_LIBS)
 ])
