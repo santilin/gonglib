@@ -1,10 +1,9 @@
 == HACER ==
 MensSana: Poner aceite de menssana
-* Peta al darle a editar imagen
-* Sumas de ventas en estadísticas: No añade el recargo.
 * No funciona borrar múltiple, se corta en el primero.
 * Estadísticas de compras y ventas: Opción: incluir facturas, albaranes, facturas y albaranes.
 * No coincide informe de ventas con total facturas: Mirar mc.
+* Sumas de ventas en estadísticas: No añade el recargo.
 
 == MC ==
 * Comprobar: no pasa aquí. El resto de las ofertas siempre se queda como el total

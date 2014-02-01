@@ -138,7 +138,8 @@ void ComboBoxInt::setText(const Xtring& caption)
 void ComboBoxInt::setVisible( bool visible )
 {
     QComboBox::setVisible( visible );
-    pLabel->setVisible( visible );
+	if( pLabel )
+    	pLabel->setVisible( visible );
 }
 
 void ComboBoxInt::keyPressEvent( QKeyEvent *e )
