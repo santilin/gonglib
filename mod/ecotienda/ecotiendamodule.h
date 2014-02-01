@@ -23,6 +23,11 @@
 
 class QAction;
 class QMenu;
+#ifdef HAVE_FACTUMODULE
+#include <factumodule.h>
+#else
+#error El módulo 'ecotienda::EcoTiendaModule' requiere el módulo 'Factu'
+#endif
 /*>>>>>ECOTIENDAMODULE_INCLUDES*/
 
 namespace gong {
@@ -52,6 +57,13 @@ public:
 		QWidget *parent = 0, const char* name = 0,
 		WidgetFlags fl = WidgetFlags(0) );
 /*>>>>>ECOTIENDAMODULE_CLASS_DEFINITION*/
+	virtual void afterCreateEditForm( FrmEditRec *frm, dbRecord *rec ); // from dbModule
+/*<<<<<ECOTIENDAMODULE_REQUIRES*/
+public:
+	factu::FactuModule *getFactuModule() const { return pFactuModule; }
+private:
+	factu::FactuModule *pFactuModule;
+/*>>>>>ECOTIENDAMODULE_REQUIRES*/
 };
 
 extern EcoTiendaModule *ModuleInstance;
