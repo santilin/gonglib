@@ -23,7 +23,7 @@ public:
             pEditBackupPath->setFileName( DBAPP->getAppSetting( "SYSTEM.DBBACKUP.PATH" ).toString() );
         }
         if( mode == restore ) {
-            pEditBackupPath = addFileNameBox( parent, _("Fichero a restaurar") );
+            pEditBackupPath = addFileNameBox( parent, _("Carpeta de las copias") );
             pEditBackupPath->setFileName( DBAPP->getAppSetting( "SYSTEM.DBBACKUP.PATH" ).toString() );
         }
         if( mode == backup || mode == restore || mode == lock ) {
@@ -212,7 +212,7 @@ void FrmDatabaseTools::backupDatabase(bool automatic)
                 alltables << "METADBDATA " << DBAPP->getMasterTables() << DBAPP->getDetailTables();
  				for( XtringList::const_iterator it = alltables.begin(); it != alltables.end(); ++ it ) {
  					dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( *it );
-					if( !tbldef || !tbldef->isTemporary() )
+					if( tbldef && !tbldef->isTemporary() )
 						validtables << *it;
 				}
 			}
