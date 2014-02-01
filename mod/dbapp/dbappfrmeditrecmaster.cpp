@@ -596,10 +596,6 @@ void FrmEditRecMaster::accept()
                             ensureBrowseView();
                         else
                             ensureEditView();
-                        /// \todo {0.4} Al grabar, refrescar solo los formularios de tablas relacionadas
-                        /// \todo {bug2} refreshByName cambia el zlevel: Proyectos->Miembros->Añadir->Elegir tipo de socia->Añadir->grabar
-                        // if( DBAPP->getMainWindow() )
-                        // DBAPP->getMainWindow()->refreshByName( Xtring::null );
                     }
                 } else if (( mEditFlags & dbApplication::simpleEdition ) && mEditStatus == saved && ( mEditFlags & dbApplication::editContinuous ) ) {
                     pRecord->setNew( true );
@@ -753,7 +749,7 @@ void FrmEditRecMaster::refresh()
 {
     if ( !pDataTable || !pDataTable->getDataModel() )
         return;
-    if ( mRefreshing )
+    if ( mRefreshing || (!mBrowsing & !mChoosing) )
         return;
     mRefreshing = true;
     dbRecordID actid = mLastID ? mLastID : getTableRecordID();

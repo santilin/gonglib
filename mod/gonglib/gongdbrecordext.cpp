@@ -406,7 +406,7 @@ bool dbRecord::isValid(ValidResult::Context context, ValidResult *result)
 {
     _GONG_DEBUG_PRINT(10, toString ( TOSTRING_DEBUG_COMPLETE ) );
     if( context == ValidResult::saving ) {
-        if ( getRecordID() ==0 && !mIsNew ) {
+        if ( getRecordID() == 0 && !mIsNew && !mIsDeleted ) {
             // If this happens, the record is seriously damaged
             // Moreover, it cant be read by other related records
             if ( result )

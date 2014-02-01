@@ -698,8 +698,6 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                             try {
                                 if( !asiento->remove() )
                                     anulapago = false;
-                                else
-                                    DBAPP->getMainWindow()->refreshByName( Xtring::null, Xtring::null );
                             } catch( dbError &e ) {
                                 FrmBase::msgError( parent,
                                                    Xtring(e.what()) + _(". Borra el asiento a mano y vuelve a intentarlo."));

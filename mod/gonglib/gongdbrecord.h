@@ -51,9 +51,15 @@ public:
 
     bool copyRecord(dbRecord *other, bool deep = true, const Xtring &inc_fields = Xtring::null,
                     const Xtring &noinc_fields = Xtring::null);
-    dbConnection *getConnection() const {
-        return pConn;
-    }
+    dbConnection *getConnection() const { return pConn; }
+    bool isRead() const { return mIsRead; }
+    bool isDeleted() const { return mIsDeleted; }
+    /** returns whether the record is empty */
+    virtual bool isEmpty( const Xtring &nocheck_fields = Xtring::null) const;
+    /** @return whether this record is new (not in the database) */
+    bool isNew() const { return mIsNew; }
+    /** @return whether any field of this record has changed */
+    bool isModified() const;
 
     virtual bool read(const Xtring &where);
     bool readWithFilter(const Xtring &where);
@@ -68,9 +74,6 @@ public:
     virtual bool remove();
     /** Remove the related records */
     bool removeRelated( bool updating );
-    bool isRead() const {
-        return mIsRead;
-    }
 
     /** Gets the value of a field. If the field doesn't exists, returns a Variant() */
     Variant getValue(unsigned int nfield) const;
@@ -101,20 +104,8 @@ public:
     			false- it has been read from the database
     */
     void setNew(bool isnew = true);
-
-    /** returns whether the record is empty */
-    virtual bool isEmpty( const Xtring &nocheck_fields = Xtring::null) const;
-
     /** Clear the values of the fields but setModified(false) */
     virtual void clear( bool setcustomvalues );
-
-    /** @return whether this record is new (not in the database) */
-    bool isNew() const {
-        return mIsNew;
-    }
-
-    /** @return whether any field of this record has changed */
-    bool isModified() const;
 
     /// \todo {add} look for primary keys in the table definition
     /** @return the ID of the record. This is usually the first field in the table definition, of type INTEGER */
@@ -125,19 +116,13 @@ public:
     Xtring getIDSqlCond( List<dbRecordID> recids ) const;
 
     /** @return the user of this record (who created it in memory) */
-    dbUser *getUser() const {
-        return pUser;
-    }
+    dbUser *getUser() const { return pUser; }
     /** Sets the user of this record (who created it) */
-    void setUser(dbUser *puser) {
-        pUser = puser;
-    }
-
+    void setUser(dbUser *puser) { pUser = puser; }
 
     /** Helper function to see if a given record exists with field=strvalue */
     dbRecordID existsAnother(const Xtring &cond) const;
-    dbRecordID existsAnother(const Xtring &field, const Variant &value) const
-    {
+    dbRecordID existsAnother(const Xtring &field, const Variant &value) const {
         return existsAnother(field + "=" + pConn->toSQL(value));
     }
     virtual bool findMatchingRecord(dbRecordID *matchingid) const;
@@ -160,12 +145,8 @@ public:
     dbRecord *getRelatedRecord(unsigned int index) const;
     dbRecord *findRelatedRecord(const Xtring &relname) const;
     /** Gets the list of relations */
-    const dbRecordRelationsList &getRelationsList() const {
-        return mRecordRelations;
-    }
-    dbRecordRelationsList &getRelationsList() {
-        return mRecordRelations;
-    }
+    const dbRecordRelationsList &getRelationsList() const { return mRecordRelations; }
+    dbRecordRelationsList &getRelationsList() { return mRecordRelations; }
     /** Returns whether the record has enabled relations */
     bool hasEnabledRelations() const;
     /** Adds a detail record to a one2many relation */
@@ -181,9 +162,7 @@ public:
     void addStructuralFilter(const Xtring &filter);
     bool isStructuralFilter(const Xtring &filter);
     bool removeFilter(const Xtring &filter = Xtring::null);
-    XtringList &getFilters() {
-        return mFilters;
-    }
+    XtringList &getFilters() { return mFilters; }
 
     /** Creates a string representation of the record */
     virtual Xtring toString(int format = TOSTRING_DEBUG,
@@ -196,45 +175,24 @@ public:
     virtual bool isValid(ValidResult::Context context, ValidResult *result=0 );
 
     /** Meta-information about the table, based upon the Data Dictionary */
-    const dbTableDefinition* getTableDefinition() const {
-        return pTableDef;
-    }
-    const dbFieldDefinition *getFieldDefinition(unsigned int nfield) const {
-        return pTableDef->getFieldDefinition(nfield);
-    }
-    const dbFieldDefinition *findFieldDefinition(const Xtring &fldname) const {
-        return pTableDef->findFieldDefinition(fldname);
-    }
+    const dbTableDefinition* getTableDefinition() const { return pTableDef; }
+    const dbFieldDefinition *getFieldDefinition(unsigned int nfield) const { return pTableDef->getFieldDefinition(nfield); }
+    const dbFieldDefinition *findFieldDefinition(const Xtring &fldname) const { return pTableDef->findFieldDefinition(fldname); }
 // 	int getFieldPos(const Xtring &fldname) const;
     /** @return the name of the database table */
-    const Xtring &getTableName() const {
-        return pTableDef->getName();
-    }
+    const Xtring &getTableName() const { return pTableDef->getName(); }
     /** @return the number of fields in the table definition */
-    unsigned int getFieldCount() const {
-        return pTableDef->getFieldCount();
-    }
+    unsigned int getFieldCount() const { return pTableDef->getFieldCount(); }
 
-    const XtringList &getSemanticProperties() const {
-        return mSemanticProperties;
-    }
-    void addSemanticProperty( const Xtring &property ) {
-        mSemanticProperties << property;
-    }
-    bool hasSemanticProperty( const Xtring &property ) {
-        return mSemanticProperties.contains( property );
-    }
+    const XtringList &getSemanticProperties() const { return mSemanticProperties; }
+    void addSemanticProperty( const Xtring &property ) { mSemanticProperties << property; }
+    bool hasSemanticProperty( const Xtring &property ) { return mSemanticProperties.contains( property ); }
 
 protected:
     /** Executes a SELECT statement to read the record from the database */
     bool SELECT(const Xtring &/*where*/);
-    bool SELECT() {
-        return SELECT(getRecordID());
-    }
-    bool SELECT(dbRecordID recid) {
-        return SELECT(Xtring("id=") + pConn->toSQL(recid) );
-    }
-
+    bool SELECT() { return SELECT(getRecordID()); }
+    bool SELECT(dbRecordID recid) { return SELECT(Xtring("id=") + pConn->toSQL(recid) ); }
     /** Executes an INSERT statement to insert the record to the database */
     bool INSERT();
     /** Executes an UPDATE statement to update the record in the database */
@@ -245,14 +203,8 @@ protected:
     void setModified(bool changed);
     /** Chance to update a related record before saving or deleting the master */
     virtual void beforeSaveOrDeleteRelated(dbRecord *master, bool saving) {}
-    void beforeSaveRelated(dbRecord *master)
-    {
-        beforeSaveOrDeleteRelated( master, true );
-    }
-    void beforeDeleteRelated(dbRecord *master)
-    {
-        beforeSaveOrDeleteRelated( master, false);
-    }
+    void beforeSaveRelated(dbRecord *master) { beforeSaveOrDeleteRelated( master, true ); }
+    void beforeDeleteRelated(dbRecord *master) { beforeSaveOrDeleteRelated( master, false); }
     void setRelatedID( int nfield, const Variant &id );
 
 protected:
@@ -263,7 +215,7 @@ private:
     void init_record();
     void clearRelations();
     dbConnection *pConn;
-    bool mIsNew, mIsRead;
+    struct { unsigned short int mIsNew:1; unsigned short int mIsRead; unsigned short int mIsDeleted; };
     XtringList mFilters;
     dbRecordRelationsList mRecordRelations;
     /* This dictionary is indexed only by the name of the fields, without the table name */

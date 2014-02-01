@@ -370,8 +370,17 @@ bool FrmEditRec::save()
         DBAPP->showStickyOSD( getRecord()->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
                               Xtring::printf( _("%s se ha grabado correctamente"),
 								  DBAPP->getTableDescSingular(getRecord()->getTableName(), "La" ).c_str() ) );
-        if( DBAPP->getMainWindow() ) /// TODO: Refrescar solo los browses de esta tabla y las relacionadas
-            DBAPP->getMainWindow()->refreshByName(name(), "");
+        if( DBAPP->getMainWindow() ) {
+			/// TODO: Refresh the browses of this record and its related ones
+			// The other way round
+// 			for( dbRecordRelationsList::const_iterator it = getRecord()->getRelationsList().begin();
+// 				it != getRecord()->getRelationsList().end(); ++it ) {
+// 				if( it->second->isEnabled() ) {
+// 					dbRelationDefinition *reldef = it->second->getRelationDefinition();
+// 					DBAPP->getMainWindow()->refreshByName(name(), reldef->getRightTable());
+// 				}
+// 			}
+		}
     }
     return ret;
 }
@@ -391,12 +400,11 @@ bool FrmEditRec::remove()
         return false;
     }
     bool ret;
-    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-            bit != mBehaviors.end();
-            ++ bit ) {
+    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin(); bit != mBehaviors.end(); ++ bit ) {
         ret = (*bit)->remove();
         if( !ret )
-            break;
+			DBAPP->showStickyOSD( getRecord()->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
+                              _("Fallo al borrar algún componente")  );
     }
     if( (ret = getRecord()->remove()) ) {
         pOrigRecord->copyRecord( getRecord(), true ); // deep copy

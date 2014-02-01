@@ -1,15 +1,16 @@
-== HECHO ==
+== HACER ==
 MensSana: Poner aceite de menssana
+* Peta al darle a editar imagen
+* Sumas de ventas en estadísticas: No añade el recargo.
+* No funciona borrar múltiple, se corta en el primero.
+* Estadísticas de compras y ventas: Opción: incluir facturas, albaranes, facturas y albaranes.
+* No coincide informe de ventas con total facturas: Mirar mc.
 
 == MC ==
-* El resto de las ofertas siempre se queda como el total
-* doy de alta un cliente en 2014 y no aparece en 2013?
+* Comprobar: no pasa aquí. El resto de las ofertas siempre se queda como el total
 
 == HACER EN LOS PAJAROS ==
 * Borrar los tipos de formas de pago
-
-== tpvg: módulo tienda ecológica ==
-* Añadir campos AVAL, PESONETO, UNIDADESCAJA
 
 == QT ==
 * PushButton: una propiedad que diga qué hacer con el INTRO
@@ -123,8 +124,6 @@ MensSana: Poner aceite de menssana
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
 * Tras "Asistente de acceso" no añade nombre empresa a título ventana principal
-* Importar: que no refresque el formulario maestro en cada registro
-* El refrescar del frmeditrecmaster desde el menú principal debería refrescar solo en modo browsing
 * Formulario de gestión de módulos en dbapp
 * Elegir registro cuando hay un filtro, añades y si no coincide con el filtro, no aparece
 ** Comprobarlo y mostrar mensaje diciendo que el registro no se verá

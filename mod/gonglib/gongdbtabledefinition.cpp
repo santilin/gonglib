@@ -251,6 +251,7 @@ bool dbTableDefinition::createIndexes( dbConnection *conn, bool ignoreerrors )
         dbFieldDefinition *flddef = getFieldDefinition( i );
         if ( flddef->isUnique() && !flddef->isPrimaryKey() ) {
 			if( conn->isMySQL() ) {
+				// The index may not exists
 				conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + flddef->getName(), true );
 				conn->exec( "ALTER TABLE " + getName() + " ADD UNIQUE INDEX (" + flddef->getName() + ")", true );
 			} else if( conn->isSQLite() ) {

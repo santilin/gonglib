@@ -9,7 +9,7 @@
 namespace gong {
 
 dbRecord::dbRecord ( dbConnection *conn, const dbTableDefinition *tbldef, dbRecordID recid, dbUser *puser )
-    : pTableDef ( tbldef ), pUser ( puser ), pConn ( conn ), mIsNew ( true ), mIsRead ( false )
+    : pTableDef ( tbldef ), pUser ( puser ), pConn ( conn ), mIsNew ( true ), mIsRead ( false ), mIsDeleted( false )
 {
     _GONG_DEBUG_ASSERT ( pConn );
     _GONG_DEBUG_ASSERT ( tbldef );
@@ -21,7 +21,7 @@ dbRecord::dbRecord ( dbConnection *conn, const dbTableDefinition *tbldef, dbReco
 // Preguntar en la lista.
 
 dbRecord::dbRecord ( dbConnection *conn, dbTableDefinition *tbldef, dbRecordID recid, dbUser *puser )
-    : pTableDef ( tbldef ), pUser ( puser ), pConn ( conn ), mIsNew ( true ), mIsRead ( false )
+    : pTableDef ( tbldef ), pUser ( puser ), pConn ( conn ), mIsNew ( true ), mIsRead ( false ), mIsDeleted( false )
 {
     _GONG_DEBUG_ASSERT ( tbldef );
     init_record();
@@ -64,7 +64,6 @@ void dbRecord::init_record()
             rel = new dbRecordRelation ( reldef, true, 0, 0 );
         mRecordRelations.insert ( rel->getName(), rel );
     }
-    mIsRead = false;
 }
 
 // Virtual constructor
@@ -120,13 +119,13 @@ void dbRecord::setRecordID(dbRecordID recid)
             mIsRead = false;
         }
         if( recid != 0 )
-            mIsNew = false;
+            mIsNew = mIsDeleted = false;
     }
 }
 
 bool dbRecord::isEmpty( const Xtring &nocheckfields ) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     XtringList nocheck_list;
     nocheckfields.tokenize( nocheck_list, ",");
@@ -189,6 +188,7 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
         /* If the records are from the same table, copy everything */
         mFilters = other->mFilters;
         mIsNew = other->mIsNew;
+		mIsDeleted = other->mIsDeleted;
         mIsRead = true; // Avoid reading this record
         pUser = other->pUser;
         if( deep ) {
@@ -329,6 +329,7 @@ void dbRecord::clear( bool setcustomvalues )
 
 void dbRecord::setNew( bool isnew )
 {
+	mIsDeleted = false;
     if ( isnew != mIsNew ) {
         mIsNew = isnew;
         setModified ( true );
@@ -418,7 +419,9 @@ bool dbRecord::SELECT ( const Xtring &where )
         setNew ( false );
         setModified ( false );
         return true;
-    }
+    } else {
+		mIsRead = false;
+	}
     return false;
 }
 
@@ -439,17 +442,16 @@ bool dbRecord::INSERT()
         else
             values += "," + flddef->toSQL ( pConn, *fldval, true /*inserting*/ );
     }
-    if ( !values.isEmpty() )
-    {
+    if ( !values.isEmpty() ) {
         fields[0]=' ';
         values[0]=' ';
         ret = pConn->exec ( "INSERT INTO " + pConn->nameToSQL ( getTableName() ) + "(" + fields + ")VALUES(" + values + ")" );
-        if ( ret )
-        {
+        if ( ret ) {
             setRecordID ( pConn->getLastInsertID ( getTableName(), getTableDefinition()->getFldIDName() ) );
             setNew ( false );
             setModified ( false ); // after setNew, because setNew calls setModified(true)
             mIsRead = true;
+			mIsDeleted = false;
         }
     }
     return ret;
@@ -511,8 +513,10 @@ bool dbRecord::DELETE()
             cond += pConn->nameToSQL(getTableDefinition()->getFldIDName()) + "=" + pConn->toSQL ( getRecordID() );
         }
         ret = pConn->exec ( "DELETE FROM " + pConn->nameToSQL ( getTableName() ) + " WHERE " + cond );
-        if ( ret )
-            setNew();
+        if ( ret ) {
+			mIsRead = false;
+			mIsDeleted = true;
+		}
     }
     return ret;
 }
@@ -761,8 +765,7 @@ bool dbRecord::remove()
 {
     _GONG_DEBUG_ASSERT ( pConn );
     bool ret = false;
-    try
-    {
+    try {
         if ( hasEnabledRelations() )
             pConn->beginTransaction();
         for( dbRecordBehaviorsList::const_iterator bit = getTableDefinition()->getRecordBehaviors().begin();
@@ -776,14 +779,16 @@ bool dbRecord::remove()
         ret = removeRelated( false );
         if ( ret ) // Remove this record
             ret = DELETE();
-        for( dbRecordBehaviorsList::const_iterator bit = getTableDefinition()->getRecordBehaviors().begin();
-                bit != getTableDefinition()->getRecordBehaviors().end();
-                ++ bit ) {
-            if( !(*bit)->remove( this, BEHAVIOR_POST ) ) {
-                ret = false;
-                break;
-            }
-        }
+		if( ret ) {
+			for( dbRecordBehaviorsList::const_iterator bit = getTableDefinition()->getRecordBehaviors().begin();
+					bit != getTableDefinition()->getRecordBehaviors().end();
+					++ bit ) {
+				if( !(*bit)->remove( this, BEHAVIOR_POST ) ) {
+					ret = false;
+					break;
+				}
+			}
+		}
         if ( hasEnabledRelations() ) {
             if ( ret )
                 pConn->commitTransaction();
@@ -796,7 +801,6 @@ bool dbRecord::remove()
             pConn->rollbackTransaction();
         throw;
     }
-    mIsRead = false;
     return ret;
 }
 
@@ -1004,7 +1008,7 @@ bool dbRecord::addRelatedDetailRecord ( const Xtring &reltable, const dbRecord *
 
 Variant dbRecord::getValue ( unsigned int nfield ) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mFieldValues.size() ) {
         return mFieldValues[nfield]->toVariant();
@@ -1017,7 +1021,7 @@ Variant dbRecord::getValue ( unsigned int nfield ) const
 
 Variant dbRecord::getOrigValue(unsigned int nfield) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mOrigFieldValues.size() ) {
         return mOrigFieldValues[nfield]->toVariant();
@@ -1030,7 +1034,7 @@ Variant dbRecord::getOrigValue(unsigned int nfield) const
 
 bool dbRecord::isNullValue ( unsigned int nfield ) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mFieldValues.size() ) {
         return mFieldValues[nfield]->isNull();
@@ -1043,7 +1047,7 @@ bool dbRecord::isNullValue ( unsigned int nfield ) const
 
 bool dbRecord::isNullOrigValue(unsigned int nfield) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mOrigFieldValues.size() ) {
         return mOrigFieldValues[nfield]->isNull();
@@ -1056,7 +1060,7 @@ bool dbRecord::isNullOrigValue(unsigned int nfield) const
 
 bool dbRecord::isNullValue ( const Xtring &fullfldname ) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
@@ -1087,7 +1091,7 @@ bool dbRecord::isNullValue ( const Xtring &fullfldname ) const
 
 bool dbRecord::isNullOrigValue(const Xtring& fullfldname) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
@@ -1106,7 +1110,7 @@ bool dbRecord::isNullOrigValue(const Xtring& fullfldname) const
 
 Variant dbRecord::getValue( const Xtring &fullfldname ) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
@@ -1143,7 +1147,7 @@ Variant dbRecord::getValue( const Xtring &fullfldname ) const
 
 Variant dbRecord::getOrigValue(const Xtring& fullfldname) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
@@ -1162,14 +1166,14 @@ Variant dbRecord::getOrigValue(const Xtring& fullfldname) const
 
 Variant dbRecord::calcValue(const Xtring &fldname) const
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     return Variant();
 }
 
 bool dbRecord::setNullValue ( unsigned int nfield )
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         read( getRecordID() );
     if ( nfield < mFieldValues.size() )
     {
@@ -1198,7 +1202,7 @@ void dbRecord::setRelatedID( int nfield, const Variant &id )
 
 bool dbRecord::setNullValue ( const Xtring &fullfldname )
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         read( getRecordID() );
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
@@ -1232,7 +1236,7 @@ bool dbRecord::setNullValue ( const Xtring &fullfldname )
 
 bool dbRecord::setValue( unsigned int nfield, const Variant &value )
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         read( getRecordID() );
 //  	_GONG_DEBUG_PRINT(0, Xtring::printf( "field(%d):%s, value=%s", nfield, getTableDefinition()->getFieldDefinition(nfield)->getName().c_str(), value.toString().c_str() ) );
     if ( nfield < getFieldCount() )
@@ -1267,7 +1271,7 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
 
 bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
 {
-    if( !mIsRead && getRecordID() != 0 )
+    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         read( getRecordID() );
 // 	_GONG_DEBUG_PRINT(0, Xtring::printf ( "table=%s, fld=%s, value=%s", getTableName().c_str(), fullfldname.c_str(), value.toString().c_str() ) );
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
@@ -1325,6 +1329,7 @@ bool dbRecord::setValuesFromRow( dbResultSet *rs, dbResultSet::size_type row )
 {
     bool ret = false;
     mIsRead = true;
+	mIsDeleted = false;
     for( unsigned int nf = 0; nf < rs->getColumnCount(); nf++ ) {
 // 		_GONG_DEBUG_PRINT(10, Xtring::printf("%s=%s", rs->getFieldName(nf), rs->getRow(row).getValue(nf).toString().c_str() ) );
         ret |= setValue( rs->getColumnName(nf), rs->getValue(nf) );
