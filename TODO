@@ -1,7 +1,8 @@
+== HECHO ==
+
 == HACER ==
 MensSana: Poner aceite de menssana
 * No funciona borrar múltiple, se corta en el primero.
-* Estadísticas de compras y ventas: Opción: incluir facturas, albaranes, facturas y albaranes.
 * No coincide informe de ventas con total facturas: Mirar mc.
 * Sumas de ventas en estadísticas: No añade el recargo.
 
@@ -55,8 +56,7 @@ MensSana: Poner aceite de menssana
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 * Genera pagos de albaranes y luego en la factura, al facturarlo, también
 * Albaranes, facturas, etc. Añadir Cantidad asignada al proyecto
-* FrmEstadCompraVenta: Filtrar por agentes y por familias y por forma de pago
-** Revisar la reducción de la fuente número de documento en el informe
+* FrmEstadCompraVenta: Revisar la reducción de la fuente número de documento en el informe
 * Artículos: Iva de compra e iva de venta
 * Crear clientes múltiples ya no es posible (si lo vuelvo a hacer, también para proveedoras)
 * Generar códigos de los artículos:

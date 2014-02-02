@@ -28,9 +28,10 @@ protected:
         return Xtring::null;
     }
     DateRangeBox *pDateRange;
-    SearchBox *pSearchArticulo, *pSearchTipoDoc, *pSearchCliente, *pSearchProveedora;
-    ComboBoxXtring *pComboAgruparPor, *pComboComprasOVentas;
-    CheckBox *pCheckPreciosConIVA, *pCheckIncNotas, *pCheckMostrarAlbaranes, *pCheckCSV;
+    SearchBox *pSearchArticulo, *pSearchTipoDoc, *pSearchCliente, *pSearchProveedora,
+		*pSearchFamilia, *pSearchAgente, *pSearchFormaPago;
+    ComboBoxXtring *pComboAgruparPor, *pComboComprasOVentas, *pComboAlbaranesFacturas;
+    CheckBox *pCheckPreciosConIVA, *pCheckIncNotas, *pCheckCSV;
     CheckBox *pCheckResumido, *pCheckTodasLasEmpresas, *pCheckGranTotal;
     LineEdit *pEditTitulo;
 };
@@ -40,7 +41,9 @@ protected:
 #define ESTAD_COMPRAS (pComboComprasOVentas->currentIndex() == 0 || pComboComprasOVentas->currentIndex() == 1)
 #define ESTAD_VENTAS (pComboComprasOVentas->currentIndex() == 0 || pComboComprasOVentas->currentIndex() == 2)
 #define ESTAD_COMPRASYVENTAS (pComboComprasOVentas->currentIndex() == 0)
-
+#define ESTAD_ALBARANESYFACTURAS (pComboAlbaranesFacturas->currentIndex() == 0 )
+#define ESTAD_SOLOFACTURAS (pComboAlbaranesFacturas->currentIndex() == 1 )
+#define ESTAD_SOLOALBARANES (pComboAlbaranesFacturas->currentIndex() == 2 )
 } // namespace factu
 } // namespace gong
 #endif // FACTUFRMESTADCOMPRAVENTA
