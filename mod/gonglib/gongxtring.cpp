@@ -691,6 +691,15 @@ int Xtring::splitIn2( Xtring &first, Xtring &second, const Xtring &sep) const
     }
 }
 
+Xtring &Xtring::appendOrCreate(const Xtring &what, const Xtring& ifnotempty)
+{
+	if( isEmpty() )
+		append( ifnotempty );
+	append( what );
+	return *this;
+}
+
+
 } // namespace gong
 
 

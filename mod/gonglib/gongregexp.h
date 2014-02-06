@@ -12,12 +12,27 @@
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
 
-#include "gongxtring.h"
+#include "config.h"
 
-namespace gong {
+#ifdef HAVE_POCOLIB
+#include <Poco/RegularExpression.h>
 
-typedef Xtring RegExp;
+namespace gong {	
 
+typedef Poco::RegularExpression RegExp;
+typedef Poco::RegularExpression::Match RegExpMatch;
 }; // namespace gong
+
+
+#else
+
+#include "gongxtring.h"
+typedef struct { int offset; int length; } RegExpMatch;
+class RegExp {
+public:
+	RegExp() {};
+};
+
+#endif
 
 #endif

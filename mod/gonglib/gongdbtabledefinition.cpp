@@ -34,6 +34,7 @@
 
 #include <memory> // auto_ptr<>
 #include "gongdebug.h"
+#include "gongregexp.h"
 #include "gongdbfieldlistofvalues.h"
 #include "gongdbresultset.h"
 #include "gongdbdefinition.h"
@@ -342,6 +343,16 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             flddef->setCaption( fldname.proper() );
             flddef->setDescription( tblname + "." + fldname );
             tbldef->addField( flddef );
+			// Read primary keys to get the relations
+			Xtring createtablesql = conn->selectString( "SHOW CREATE TABLE " + conn->nameToSQL( tblname ) );
+			RegExp r("/FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+([^\\(^\\s]+)\\s*\\(([^\\)]+)\\)/mi");
+			Xtring::size_type pos = 0;
+			RegExpMatch m;
+			while( r.match( createtablesql, pos, m ) ) {
+				pos = m.offset;
+				Xtring matched = createtablesql.mid( pos, m.length );
+				_GONG_DEBUG_PRINT(0, matched );
+			}
         }
     } else if( conn->isSQLite() ) {
 		std::auto_ptr<dbResultSet> rsFields( conn->select( "PRAGMA table_info(" + tblname + ")" ) );

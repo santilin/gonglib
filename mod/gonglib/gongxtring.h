@@ -50,6 +50,7 @@ public:
     Xtring lower() const;
     Xtring proper() const;
     Xtring unproper() const;
+	Xtring &appendOrCreate( const Xtring &what, const Xtring &ifnotempty);
 
     bool toBool() const;
     int toInt(bool *ok = 0, int base = 10) const;
