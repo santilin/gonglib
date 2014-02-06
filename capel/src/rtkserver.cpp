@@ -1,13 +1,9 @@
-
-
-
 #include <cstdio>
 #include <iostream>
 #include <cstdlib>
+#include <gongfileutils.h>
 #include "rtkcppclass.h"
-#include "gonglib_inc.h"
 #include "capelcppmodule.h"
-
 
 using namespace gong;
 
@@ -29,66 +25,6 @@ const char *RTKProject = "RTK The report toolkit. Copyright (C) 2003-2013 Franci
 #define RTKTESTSPATH DEVELPATH "reports/trunk/tests/"
 
 #define ISRTKOBJECT (classname=="Object" || classname=="Section" || classname=="Report")
-
-static const char *upper_table[][2] =
-{
-	// Utf8
-	{ "Á", "á" },
-	{ "É", "é" },
-	{ "Í", "í" },
-	{ "Ó", "ó" },
-	{ "Ú", "ú" },
-	{ "Ñ", "ñ" },
-	{ "Ç", "ç" },
-	{ "Ä", "ä" },
-	{ "Ë", "ë" },
-	{ "Ï", "ï" },
-	{ "Ö", "ö" },
-	{ "Ü", "ü" },
-	{ "À", "à" },
-	{ "È", "è" },
-	{ "Ì", "ì" },
-	{ "Ò", "ò" },
-	{ "Ù", "ù" },
-	{ "Â", "â" },
-	{ "Ê", "ê" },
-	{ "Î", "î" },
-	{ "Ô", "ô" },
-	{ "Û", "û" },
-	{ "Ŕ", "ŕ" }
-};
-
-
-Xtring capitalize( const Xtring &str )
-{
-	const char *pos = str.c_str();
-	Xtring ret;
-	// First letter, upper
-	if( *pos ) {
-		uint i;
-		for ( i = 0; i < sizeof ( upper_table ) /sizeof ( upper_table[0] ); i++ )
-		{
-			if( !strncmp( upper_table[i][1], pos, strlen( upper_table[i][1]  ) ) )
-			{
-				ret += upper_table[i][0];
-				pos += strlen( upper_table[i][1] );
-				break;
-			}
-		}
-		if ( i == sizeof ( upper_table ) /sizeof ( upper_table[0] ) ) {
-			ret += ::toupper ( *pos );
-			++pos;
-		}
-	}
-	// Next letters, no touch
-	while( *pos ) {
-		ret += *pos;
-		++pos;
-	}
-	return ret;
-}
-
-
 
 class GenRTKCode : public RTKCppClass {
     public:
@@ -487,8 +423,8 @@ void GenRTKCode::addGetSet( const Xtring &filename, const Xtring &classname,
                     "\tif( mNull" + array[i].sName + ") {\n";
             if ( (array[i].flags & PROPERTY_STYLE) == PROPERTY_STYLE) {
                 scpp += "\t\tStyle *styledef = report()->findStyle(style());\n"
-                        "\t\tif( styledef && !styledef->prop" + capitalize(array[i].sName) + ".isNull()) {\n"
-                        "\t\t\treturn styledef->prop" + capitalize(array[i].sName) + ".get();\n"
+                        "\t\tif( styledef && !styledef->prop" + cmcpp->capitalize(array[i].sName) + ".isNull()) {\n"
+                        "\t\t\treturn styledef->prop" + cmcpp->capitalize(array[i].sName) + ".get();\n"
                         "\t\t}\n";
                 if ( !((array[i].flags & PROPERTY_OBJECT_PARENT) == PROPERTY_OBJECT_PARENT) )
                     scpp += "\t\treturn " + array[i].sDefValue + ";\n";
@@ -521,7 +457,7 @@ void GenRTKCode::addGetSet( const Xtring &filename, const Xtring &classname,
                         "{\n";
             }
             if( array[i].isNullable() ) {
-                scpp += "\t" + array[i].getReturnType() + " tmp" + capitalize(array[i].sName)
+                scpp += "\t" + array[i].getReturnType() + " tmp" + cmcpp->capitalize(array[i].sName)
                         + " = " + array[i].getStringToFunc() + "( ";
                 if( classname != "Style" )
                     scpp += "report()->replaceParams( ";
@@ -530,7 +466,7 @@ void GenRTKCode::addGetSet( const Xtring &filename, const Xtring &classname,
                     scpp += " ).c_str()";
                 scpp += ", &mNull" + array[i].sName + " );\n"
                         "\tif( !isNull" + array[i].sName + "() )\n"
-                        "\t\tset" + array[i].sName + "( tmp" + capitalize(array[i].sName) + " );\n";
+                        "\t\tset" + array[i].sName + "( tmp" + cmcpp->capitalize(array[i].sName) + " );\n";
             } else {
                 scpp += "\tset" + array[i].sName + "( ";
                 if( array[i].sType != "const char *" )
@@ -638,7 +574,7 @@ void GenRTKCode::genReadRtk( bool create, const Xtring &filename,
                 s += "\t\t\t\tif";
             }
             s += "( strcaseequal(token, \"" + array[i].sName + "\") )\n"
-                    "\t\t\t\t\tp" + classname + "->setOrig" + capitalize(array[i].sName) + "( value.c_str() );\n";
+                    "\t\t\t\t\tp" + classname + "->setOrig" + cm->capitalize(array[i].sName) + "( value.c_str() );\n";
 //          } else {
 //                s += "\t\t" + simplename + "->set" + array[i].sName + "(";
         }
@@ -850,30 +786,30 @@ void GenRTKCode::addProperties(const Xtring &filename, const Xtring &classname,
         // Property
         if( array[i].isProperty() ) {
             spublic += "\t" + array[i].getReturnType() + " " + array[i].sName.unproper() + "() const";
-            spubget =" { return prop" + capitalize(array[i].sName) + ".get(); }\n";
-            spubsetorig = "\tvoid setOrig" + capitalize(array[i].sName) + "(const char * " + array[i].sName.lower() + " )"
-                    " { prop" + capitalize(array[i].sName) + ".setOrig(" + array[i].sName.lower() + "); }\n";
+            spubget =" { return prop" + cm->capitalize(array[i].sName) + ".get(); }\n";
+            spubsetorig = "\tvoid setOrig" + cm->capitalize(array[i].sName) + "(const char * " + array[i].sName.lower() + " )"
+                    " { prop" + cm->capitalize(array[i].sName) + ".setOrig(" + array[i].sName.lower() + "); }\n";
             if( (array[i].flags & PROPERTY_STYLE) == PROPERTY_STYLE ) {
-                s+="\tFixableProperty<" + array[i].getReturnType() + "> prop" + capitalize(array[i].sName) + ";\n";
+                s+="\tFixableProperty<" + array[i].getReturnType() + "> prop" + cm->capitalize(array[i].sName) + ";\n";
                 spublic += spubget + spubsetorig;
                 hayfixables = true;
             } else if( (array[i].flags & PROPERTY_FIX) == PROPERTY_FIX ) {
-                s+="\tFixableProperty<" + array[i].getReturnType() + "> prop" + capitalize(array[i].sName) + ";\n";
+                s+="\tFixableProperty<" + array[i].getReturnType() + "> prop" + cm->capitalize(array[i].sName) + ";\n";
                 spublic += spubget + spubsetorig;
                 hayfixables = true;
             } else if( (array[i].flags & PROPERTY_OBJECT_PARENT) == PROPERTY_OBJECT_PARENT ) {
-                s+="\tFixableProperty<" + array[i].getReturnType() + "> prop" + capitalize(array[i].sName) + ";\n";
+                s+="\tFixableProperty<" + array[i].getReturnType() + "> prop" + cm->capitalize(array[i].sName) + ";\n";
                 spublic += ";\n" + spubsetorig;
                 hayfixables = true;
             } else if( (array[i].flags & PROPERTY_OBJECT_STYLE) == PROPERTY_OBJECT_STYLE ) {
-                s+="\tFixableProperty<" + array[i].getReturnType() + "> prop" + capitalize(array[i].sName) + ";\n";
+                s+="\tFixableProperty<" + array[i].getReturnType() + "> prop" + cm->capitalize(array[i].sName) + ";\n";
                 spublic += ";\n" + spubsetorig;
                 hayfixables = true;
             } else if( (array[i].flags & PROPERTY_READONLY) == PROPERTY_READONLY ) {
-                s+="\tReadOnlyProperty<" + array[i].getReturnType() + "> prop" + capitalize(array[i].sName) + ";\n";
+                s+="\tReadOnlyProperty<" + array[i].getReturnType() + "> prop" + cm->capitalize(array[i].sName) + ";\n";
                 spublic += spubget;
             } else {
-                s+="\tProperty<" + array[i].getReturnType() + "> prop" + capitalize(array[i].sName) + ";\n";
+                s+="\tProperty<" + array[i].getReturnType() + "> prop" + cm->capitalize(array[i].sName) + ";\n";
                 spublic += spubget;
             }
 
@@ -903,17 +839,18 @@ void GenRTKCode::addProperties(const Xtring &filename, const Xtring &classname,
                 (array[i].flags & PROPERTY_OBJECT_STYLE) == PROPERTY_OBJECT_STYLE ) {
 				if( classname == "Object" || classname == "Section" ) {
 					if( array[i].sDefValue.size() )
-						s+="\tif( !prop" + capitalize(array[i].sName) + ".fix( parameters, delim, "
+						s+="\tif( !prop" + cm->capitalize(array[i].sName) + ".fix( parameters, delim, "
 						+ array[i].sDefValue + " ) )\n";
 					else
-						s+="\tif( !prop" + capitalize(array[i].sName) + ".fix( parameters, delim ) )\n";
-					s+="\t\treport()->addWarning( Error::InvalidArgument, 0, 0, prop" + capitalize(array[i].sName) + ".getOrig(), \"" + capitalize(array[i].sName) +"\");\n";
+						s+="\tif( !prop" + cm->capitalize(array[i].sName) + ".fix( parameters, delim ) )\n";
+					s+="\t\treport()->addWarning( Error::InvalidArgument, 0, 0, prop" 
+						+ cm->capitalize(array[i].sName) + ".getOrig(), \"" + cm->capitalize(array[i].sName) +"\");\n";
 				} else {
 					if( array[i].sDefValue.size() )
-						s+="\tprop" + capitalize(array[i].sName) + ".fix( parameters, delim, "
+						s+="\tprop" + cm->capitalize(array[i].sName) + ".fix( parameters, delim, "
 						+ array[i].sDefValue + " );\n";
 					else
-						s+="\tprop" + capitalize(array[i].sName) + ".fix( parameters, delim );\n";
+						s+="\tprop" + cm->capitalize(array[i].sName) + ".fix( parameters, delim );\n";
 				}
             }
         }
@@ -942,8 +879,8 @@ void GenRTKCode::addPropertiesGet( const Xtring &filename, const Xtring &classna
                     "\tif( prop" + array[i].sName + ".isNull() ) {\n";
             if ( (array[i].flags & PROPERTY_OBJECT_STYLE) == PROPERTY_OBJECT_STYLE) {
                 scpp += "\t\tStyle *styledef = report()->findStyle(style());\n"
-                        "\t\tif( styledef && !styledef->prop" + capitalize(array[i].sName) + ".isNull()) {\n"
-                        "\t\t\treturn styledef->prop" + capitalize(array[i].sName) + ".get();\n"
+                        "\t\tif( styledef && !styledef->prop" + cmcpp->capitalize(array[i].sName) + ".isNull()) {\n"
+                        "\t\t\treturn styledef->prop" + cmcpp->capitalize(array[i].sName) + ".get();\n"
                         "\t\t}\n";
 /*
                 if ( !((array[i].flags & PROPERTY_OBJECT_PARENT) == PROPERTY_OBJECT_PARENT) )

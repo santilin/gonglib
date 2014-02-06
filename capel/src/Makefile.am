@@ -1,10 +1,19 @@
+AM_CPPFLAGS=@GONGLIB_CPPFLAGS@
+LIBS=@GONGLIB_LIBS@
+
 bin_PROGRAMS = capel
-capel_SOURCES = capelcppmodule.cpp capelmodule.cpp capelrtkmodule.cpp \
+
+capel_SOURCES = main.cpp capelcppmodule.cpp capelmodule.cpp \
+	capelrtkmodule.cpp capelphpmodule.cpp \
+	gonggenerators.cpp generalgenerator.cpp \
 	gonggenfrmeditrecmaestro.cpp gonggendbmodule.cpp gonggenrecords.cpp \
-	gonglib_inc.cpp main.cpp rtkcppclass.cpp rtkserver.cpp  gonggenerators.cpp \
-	gonggenfrmeditbehavior.cpp
+	gonggenfrmeditbehavior.cpp \
+	rtkcppclass.cpp rtkserver.cpp \
+	ventadirecta.cpp
 
-noinst_HEADERS = capelcppmodule.h capelrtkmodule.h gonggenfrmeditrecmaestro.h gonglib_inc.h \
-	capelmodule.h gonggendbmodule.h rtkcppclass.h \
-	capelphpmodule.h gonggenerators.h gonggenrecords.h
-
+noinst_HEADERS = capelmodule.h capelcppmodule.h \
+	capelrtkmodule.h capelphpmodule.h \
+	gonggenerators.h generalgenerator.h \
+	gonggendbmodule.h \
+	gonggenfrmeditrecmaestro.h gonggenrecords.h \
+	rtkcppclass.h ventadirecta.h 

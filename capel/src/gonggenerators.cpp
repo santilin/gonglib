@@ -1,4 +1,6 @@
 #include <fstream>
+#include <gongdebug.h>
+#include <gongfileutils.h>
 #include "gonggenerators.h"
 
 using namespace gong;
@@ -26,7 +28,7 @@ void capel::getConditionalCode( const Xtring &moreprops, Xtring &csh, Xtring &cs
 		XtringList modparts;
 		moreprops.tokenize(modparts, "(,)");
 		if( modparts.size() < 2 ) {
-			std::cout << moreprops << std::endl;
+			_GONG_DEBUG_PRINT(0, moreprops);
 			exit(2);
 		}
 		Xtring Module = modparts[1];

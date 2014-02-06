@@ -1,6 +1,5 @@
-
+#include <gongdebug.h>
 #include <fstream>
-#include "gonglib_inc.h"
 #include "capelmodule.h"
 
 #define DEBUG_CAPELMODULE 3
@@ -382,6 +381,64 @@ Xtring &CapelModule::replace_in_extrusion(const Xtring &extrusion_name,
 Xtring::size_type CapelModule::find_global(const Xtring &search)
 {
 	return mBuffer.find(search);
+}
+
+static const char *upper_table[][2] =
+{
+	// Utf8
+	{ "Á", "á" },
+	{ "É", "é" },
+	{ "Í", "í" },
+	{ "Ó", "ó" },
+	{ "Ú", "ú" },
+	{ "Ñ", "ñ" },
+	{ "Ç", "ç" },
+	{ "Ä", "ä" },
+	{ "Ë", "ë" },
+	{ "Ï", "ï" },
+	{ "Ö", "ö" },
+	{ "Ü", "ü" },
+	{ "À", "à" },
+	{ "È", "è" },
+	{ "Ì", "ì" },
+	{ "Ò", "ò" },
+	{ "Ù", "ù" },
+	{ "Â", "â" },
+	{ "Ê", "ê" },
+	{ "Î", "î" },
+	{ "Ô", "ô" },
+	{ "Û", "û" },
+	{ "Ŕ", "ŕ" }
+};
+
+
+Xtring CapelModule::capitalize( const Xtring &str )
+{
+	const char *pos = str.c_str();
+	Xtring ret;
+	// First letter, upper
+	if( *pos ) {
+		uint i;
+		for ( i = 0; i < sizeof ( upper_table ) /sizeof ( upper_table[0] ); i++ )
+		{
+			if( !strncmp( upper_table[i][1], pos, strlen( upper_table[i][1]  ) ) )
+			{
+				ret += upper_table[i][0];
+				pos += strlen( upper_table[i][1] );
+				break;
+			}
+		}
+		if ( i == sizeof ( upper_table ) /sizeof ( upper_table[0] ) ) {
+			ret += ::toupper ( *pos );
+			++pos;
+		}
+	}
+	// Next letters, no touch
+	while( *pos ) {
+		ret += *pos;
+		++pos;
+	}
+	return ret;
 }
 
 

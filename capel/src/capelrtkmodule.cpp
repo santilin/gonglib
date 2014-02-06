@@ -1,7 +1,6 @@
-
-#include "gonglib_inc.h"
+#include <gongdebug.h>
+#include <gongfileutils.h>
 #include "capelrtkmodule.h"
-
 
 using namespace gong;
 

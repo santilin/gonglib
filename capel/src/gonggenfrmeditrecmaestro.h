@@ -1,5 +1,3 @@
-
-#include "gonglib_inc.h"
 #include "capelcppmodule.h"
 
 namespace capel {

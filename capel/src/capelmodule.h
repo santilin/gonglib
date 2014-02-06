@@ -2,7 +2,7 @@
 #ifndef CAPELCAPELMODULE_H_
 #define CAPELCAPELMODULE_H_
 
-#include "gonglib_inc.h"
+#include <gongxtring.h>
 
 using gong::Xtring;
 
@@ -52,8 +52,9 @@ public:
     void set_current_extrusion(const Xtring &extrusion_name) { mCurrentExtrusion = extrusion_name; };
     CapelModule &operator<<(const Xtring &);
     CapelModule &operator<<(int);
-public:
+	Xtring capitalize( const Xtring &str );
     Xtring mBuffer;
+
 protected:
     Xtring mFilename;
     Xtring mBeginComment;
@@ -67,8 +68,7 @@ protected:
     Xtring::size_type lookup_extrusion_begin(const Xtring &extrusion_name);
     Xtring::size_type lookup_extrusion_code(const Xtring &extrusion_name);
     Xtring::size_type lookup_extrusion_end(const Xtring &extrusion_name);
-    Xtring::size_type insert_text(int begin, const Xtring &text, bool addnewline=true);
-    
+    Xtring::size_type insert_text(int begin, const Xtring &text, bool addnewline=true);    
 };
 
 }
