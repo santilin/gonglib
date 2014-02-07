@@ -1,9 +1,10 @@
-REPORT MIEMBRO_LISTADO_DE_SOCIAS
+REPORT MIEMBRO_LISTADO_DE_SOCIAS_EXTENSO
 {
 	Title = "Listado de socias";
 	Units = chars;
 	SizeX = 125;
 	SizeY = 60;
+	PageOrientation = "Landscape";
 
 	INPUT default {
 		driver = mysql;
@@ -62,6 +63,26 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			Source = CONTACTO.TELEFONO;
 			Type = string;
 		}
+		INPUTFIELD CONTACTO_DIRECCION {
+			Source = CONTACTO.DIRECCION;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_BARRIO {
+			Source = CONTACTO.BARRIO;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_CP {
+			Source = CONTACTO.CP;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_LOCALIDAD {
+			Source = CONTACTO.LOCALIDAD;
+			Type = string;
+		}
+		INPUTFIELD CONTACTO_PROVINCIA {
+			Source = CONTACTO.PROVINCIA;
+			Type = string;
+		}
 		INPUTFIELD TIPOSOCIA_NOMBRE {
 			Source = TIPOSOCIA.NOMBRE;
 			Type = string;
@@ -71,6 +92,7 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			Type = string;
 		}
 		ORDERBY=CONTACTO.NOMBRE;
+
 	}
 
 	include = "default_pageheader.inc";
@@ -90,7 +112,7 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 		OBJECT header_PROYECTO_CODIGO {
 			value = "= const @DDD.PROYECTO_DESCSINGULAR;";
 			posx = 0.0;
-			sizex = 10.0;
+			sizex = 6.0;
 		}
 		OBJECT header_PROYECTO_NOMBRE {
 			value = "= const @DDD.PROYECTO_NOMBRE_CAPTION;";
@@ -125,7 +147,7 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			halignment = "right";
 			value = "=input.PROYECTO_CODIGO;";
 			posx = 0.0;
-			sizex = 10;
+			sizex = 6;
 		}
 		OBJECT PROYECTO_NOMBRE {
 			value = "=input.PROYECTO_NOMBRE;";
@@ -157,48 +179,63 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 		borderbottomcolor = black;
 		borderbottomwidth = 1;
 
-		OBJECT header_CONTACTO_NOMBRE {
-			value = "Nombre";
-			posx = 0;
-			sizex = 35;
-		}
 		OBJECT header_MIEMBRO_NUMEROSOCIA {
 			value = "Número";
-			posx = -1;
-			sizex = 8;
+			posx = 0;
+			sizex = 4;
+			fontsize = 8;
 		}
 		OBJECT header_MIEMBRO_FECHAALTA {
 			value = "Fecha de alta";
 			posx = -1;
-			sizex = 10;
+			sizex = 6;
 		}
 		OBJECT header_MIEMBRO_SOCIASESTADO {
 			value = "Estado";
 			posx = -1;
-			sizex = 3;
+			sizex = 2;
+		}
+		OBJECT header_CONTACTO_NOMBRE {
+			value = "Nombre";
+			posx = -1;
+			sizex = 25;
 		}
 		OBJECT header_CONTACTO_CIF {
 			value = "CIF";
 			posx = -1;
-			sizex = 12;
+			sizex = 8;
 		}
 		OBJECT header_CONTACTO_EMAIL {
 			value = "Email";
 			posx = -1;
-			sizex = 39;
+			sizex = 28;
 		}
 		OBJECT header_CONTACTO_TELEFONO {
-			value = "Teléfono";
+			value = "Teléfonos";
+			posx = -1;
+			sizex = 8;
+		}
+		OBJECT header_CONTACTO_DIRECCION {
+			value = "Dirección";
+			posx = -1;
+			sizex = 18;
+		}
+		OBJECT header_CONTACTO_BARRIO {
+			value = "Localidad";
 			posx = -1;
 			sizex = 12;
 		}
-#ifdef NO
 		OBJECT header_TIPOSOCIA_NOMBRE {
 			value = "Tipo";
 			posx = -1;
 			sizex = 5;
 		}
-#endif
+		OBJECT header_FORMAPAGO_NOMBRE {
+			value = "FormaPago";
+			posx = -1;
+			sizex = 5;
+			visible = false;
+		}
 	}
 
 #ifndef RESUMIDO
@@ -209,51 +246,64 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 		sizey = 1;
 		backcolor = "gray&white";
 
-		OBJECT CONTACTO_NOMBRE {
-			value = "=input.CONTACTO_NOMBRE";
-			halignment = "left";
-			posx = 0;
-			sizex = 35;
-			adjustment = reducefont;
-		}
 		OBJECT MIEMBRO_NUMEROSOCIA {
 			value = "=input.MIEMBRO_NUMEROSOCIA";
 			halignment = "right";
-			posx = -1;
-			sizex = 8;
+			posx = 0;
+			sizex = 4;
 		}
 		OBJECT MIEMBRO_FECHAALTA {
 			value = "=input.MIEMBRO_FECHAALTA";
 			halignment = "left";
 			posx = -1;
-			sizex = 10;
+			sizex = 6;
 		}
 		OBJECT MIEMBRO_SOCIASESTADO {
 			value = "= return callFunction( \"getDisplayValue\", \"MIEMBRO.SOCIASESTADO\", @input.MIEMBRO_SOCIASESTADO );";
 			posx = -1;
-			sizex = 3;
+			sizex = 2;
+		}
+		OBJECT CONTACTO_NOMBRE {
+			value = "=input.CONTACTO_NOMBRE";
+			halignment = "left";
+			posx = -1;
+			sizex = 25;
+			adjustment = grow;
 		}
 		OBJECT CONTACTO_CIF {
 			value = "=input.CONTACTO_CIF";
 			halignment = "left";
 			posx = -1;
-			sizex = 12;
+			sizex = 8;
 		}
 		OBJECT CONTACTO_EMAIL {
 			value = "=input.CONTACTO_EMAIL";
 			halignment = "left";
 			posx = -1;
-			sizex = 39;
+			sizex = 28;
 			adjustment=grow;
 		}
 		OBJECT CONTACTO_TELEFONO {
 			value = "=input.CONTACTO_TELEFONO";
 			halignment = "left";
 			posx = -1;
-			sizex = 12;
+			sizex = 8;
 			adjustment=grow;
 		}
-#ifdef NO
+		OBJECT CONTACTO_DIRECCION {
+			value = "= @input.CONTACTO_DIRECCION + \" \" +  @input.CONTACTO_BARRIO;";
+			halignment = "left";
+			posx = -1;
+			sizex = 18;
+			adjustment = reducefont;
+		}
+		OBJECT CONTACTO_BARRIO {
+			value = "= @input.CONTACTO_CP + \" \" + @input.CONTACTO_LOCALIDAD + \" \" + @input.CONTACTO_PROVINCIA;";
+			halignment = "left";
+			posx = -1;
+			sizex = 12;
+			adjustment = reducefont;
+		}
 		OBJECT TIPOSOCIA_NOMBRE {
 			value = "=input.TIPOSOCIA_NOMBRE";
 			halignment = "left";
@@ -261,7 +311,13 @@ REPORT MIEMBRO_LISTADO_DE_SOCIAS
 			sizex = 5;
 			adjustment = reducefont;
 		}
-#endif
+		OBJECT FORMAPAGO_NOMBRE {
+			value = "=input.FORMAPAGO_NOMBRE";
+			halignment = "left";
+			posx = -1;
+			sizex = 5;
+			visible = false;
+		}
 	}
 #endif
 

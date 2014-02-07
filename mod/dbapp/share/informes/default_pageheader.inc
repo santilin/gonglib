@@ -38,17 +38,17 @@
 			format="%d/%m/%Y %H:%M";
 			sizey = 1;
 			posy = 0;
-			posx = -24 ;
-			sizex = 13;
+			posx = -28 ;
+			sizex = 17;
 		}
 		OBJECT npagina_text  {
 			style = pagenumber ;
 			halignment = right ;
-			value="Pág." ;
+			value=" Pág." ;
 			posy = 0;
 			sizey = 1;
 			posx = -1;
-			sizex = 4 ;
+			sizex = 5 ;
 		}
 		OBJECT npagina {
 			style = pagenumber ;

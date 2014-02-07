@@ -50,5 +50,6 @@ dist_socias_informes_DATA = $(srcdir)/share/informes/firmasproyecto.rtk \
 	$(srcdir)/share/informes/recibi.rtk \
 	$(srcdir)/share/informes/recibosdemiembros.rtk \
 	$(srcdir)/share/informes/recibosproyectocompleto.rtk \
-	$(srcdir)/share/informes/MIEMBRO_LISTADO_DE_SOCIAS.rtk
+	$(srcdir)/share/informes/MIEMBRO_LISTADO_DE_SOCIAS.rtk \
+	$(srcdir)/share/informes/MIEMBRO_LISTADO_DE_SOCIAS_EXTENSO.rtk
 

@@ -1,6 +1,7 @@
 #include <QBoxLayout>
 #include <gongdebug.h>
 #include <gongfrmbase.h>
+#include "dbapprecordcompleter.h"
 #include "dbappdbapplication.h"
 #include "dbappsearchbox.h"
 
@@ -11,7 +12,8 @@ SearchBox::SearchBox( const Xtring &caption, const Xtring &tablename,
                       QWidget *parent, enum Flags flags )
     : QPushButton( parent, ("push_" + tablename + "_id_" + fldcode ).c_str() ),
       mFlags(flags), mMustBeReadOnly(false),
-      mTableName( tablename ), mFldCode( fldcode ), mFldDesc( flddesc )
+      mTableName( tablename ), mFldCode( fldcode ), mFldDesc( flddesc ),
+      pRecordCompleter(0)
 {
     setIcon( QIcon::fromTheme("edit-find", QIcon(":/edit-find.png")) );
     pLayout = (QBoxLayout *)new QHBoxLayout( 0, 0, 6, ("layout_" + mTableName).c_str() );
@@ -36,6 +38,7 @@ SearchBox::SearchBox( const Xtring &caption, const Xtring &tablename,
     pLayout->addWidget( pEditDesc );
     setFocusPolicy( Qt::ClickFocus );
     pRecord = DBAPP->createRecord( mTableName );
+	setCompleter( true );
 }
 
 SearchBox::~SearchBox()
@@ -44,6 +47,8 @@ SearchBox::~SearchBox()
     delete pEditDesc;
     if( pRecord )
         delete pRecord;
+	if( pRecordCompleter )
+		delete pRecordCompleter;
 }
 
 void SearchBox::setValue(const Variant& value)
@@ -165,5 +170,18 @@ void SearchBox::setVisible(bool visible)
 	pEditDesc->setVisible( visible );
 }
 
+void SearchBox::setCompleter(bool wantit)
+{
+	return;
+	if( pRecordCompleter ) {
+		delete pRecordCompleter;
+		pRecordCompleter = 0;
+	}
+	if( wantit ) {
+		getEditCode()->setCompleter( new RecordCompleter( getRecord(), getFldDesc(), this ) );
+	} else {
+		getEditCode()->setCompleter( 0 );
+	}
+}
 
 } // namespace

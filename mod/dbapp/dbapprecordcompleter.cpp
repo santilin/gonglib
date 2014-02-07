@@ -29,7 +29,7 @@ QVariant RecordCompleterModel::data(const QModelIndex& index, int role) const
 {
 	if (!index.isValid())
 		return QVariant();
-	else if( role == Qt::EditRole ) {
+	else if( role == Qt::EditRole || role == Qt::DisplayRole ) {
 		_GONG_DEBUG_PRINT( 0, pResultSet->getValue( index.row(), 0 ).toString() );
 		return QVariant( toGUI( pResultSet->getValue( index.row(), 0 ).toString() ) );
     }

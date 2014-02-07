@@ -201,9 +201,12 @@ void EmpresaModule::slotMenuEmpresaCambiarEjercicio()
         }
         void validate_input( QWidget *sender, bool *isvalid ) { // from FrmCustom
 			if( sender == pSearchEjercicios ) {
-				XtringList ejercicios;
-				ejercicios << "2010" << "2011" << "2012" << "2013" << "2014";
-				int elegido = msgXtringList( this, _("Elige uno de los ejercicios para los que hay datos"), ejercicios );
+				IntList ejercicios;
+				ModuleInstance->getEjercicios( ejercicios );
+				XtringList sejercicios;
+				for( IntList::const_iterator it = ejercicios.begin(); it!=ejercicios.end();++it)
+					sejercicios << Xtring::number( *it );
+				int elegido = msgXtringList( this, _("Elige uno de los ejercicios para los que hay datos"), sejercicios );
 				if( elegido != -1 ) {
 					elegido = 2010 + elegido;
 					pEditEjercicio->setText( elegido );
@@ -625,6 +628,35 @@ int EmpresaModule::getMaxContador() const
         }
     }
     return max;
+}
+
+int EmpresaModule::getEjercicios(IntList& ejercicios) const
+{
+	// Buscar todas las tablas que tienen ejercicio
+	DBAPP->waitCursor( true );
+	uint eje_min = Date::currentDate().getYear(), eje_max = eje_min;
+	dbTableDefinitionsList tables = DBAPP->getDatabase()->getTables();
+	for( dbTableDefinitionsList::const_iterator it = tables.begin(); it != tables.end(); ++it ) {
+		dbTableDefinition *tbldef = it->second;
+		FldEjercicio *fldeje = dynamic_cast<FldEjercicio *>(tbldef->findFieldDefinition( "EJERCICIO" ));
+		if( fldeje ) {
+			Variant min = 0, max = 0;
+			if( DBAPP->getConnection()->selectValues(
+				"SELECT MIN(" + DBAPP->getConnection()->nameToSQL("EJERCICIO") + "),"
+				" MAX(" + DBAPP->getConnection()->nameToSQL("EJERCICIO") + ")"
+				" FROM " + DBAPP->getConnection()->nameToSQL( tbldef->getName() ),
+				&min, &max ) ) {
+				if( min.toInt() != 0 && min.toInt() < eje_min )
+					eje_min = min.toInt();
+				if( max.toInt() != 0 && max.toInt() < eje_max )
+					eje_max = max.toInt();
+			}
+		}
+	}
+	ejercicios.clear();
+	for( uint eje = eje_min; eje <= eje_max; ++eje )
+		ejercicios << eje;
+	DBAPP->resetCursor();
 }
 
 

@@ -20,6 +20,8 @@ class QBoxLayout;
 
 namespace gong {
 
+class RecordCompleter;
+
 class SearchBox: public QPushButton
 {
     Q_OBJECT
@@ -48,6 +50,7 @@ public:
     List<dbRecordID> &getRecordIDs() { return mRecordIDs; }
     Flags getFlags() const { return mFlags; }
 	void setVisible( bool visible );
+	void setCompleter( bool wantit );
 
 public slots:
     void slotClicked();
@@ -63,6 +66,7 @@ private:
     Xtring mTableName, mFldCode, mFldDesc;
     dbRecord *pRecord;
     List<dbRecordID>mRecordIDs;
+	RecordCompleter *pRecordCompleter;
 };
 
 } // namespace gong

@@ -1,48 +1,31 @@
 == HECHO ==
 
-== HACER ==
-MensSana: Poner aceite de menssana
-* No funciona borrar múltiple, se corta en el primero.
-* No coincide informe de ventas con total facturas: Mirar mc.
-* Sumas de ventas en estadísticas: No añade el recargo.
+== Imprescindible ==
+* Los iconos en los pájaros del report no salen
+
+== NUEVA FUNCIONALIDAD ==
+* tpv: Fila de productos favoritos
+* tpv: Pagos por rondas
+* factu: Formulario datos ventas y compras de artículos
+* Enviar adjuntos por email
+* RecordCompleter: Crearlo cuando el texto sea mayor de tres letras, no al principio,
+** por lo tanto, en el validate del searchbox.
+** Configuración: [ ] Completar campos de búsqueda
 
 == MC ==
 * Comprobar: no pasa aquí. El resto de las ofertas siempre se queda como el total
-
-== HACER EN LOS PAJAROS ==
-* Borrar los tipos de formas de pago
-
-== QT ==
-* PushButton: una propiedad que diga qué hacer con el INTRO
-* El richtextedit no envía el evento validate.
-** Complicado: El evento lo tiene que enviar el richtextbox que es un QLabel
-** Ahora el RichTextEdit modifica el contenido del QLabel, pero esto no debería ser así, además
-** debería de ser un FrmCustom, no una QMainWindow para que se pueda hacer un showModalFor.
-* No consigo pillar el keypressevent en el reportviewer
-* Teclas cursor en la visualización de los informes
-* Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
-* FrmImport no se cierra al darle a cerrar porque no es un FrmBase
-* No funciona f5 en frmeditrecdetail
-* FrmEditRecDetail->Toma el foco el datatable siempre
-* El enter de los textboxes es confuso, mejor añadirlo pero si se pulsa otra vez, saltar y borrarlo?
-* No sale en español el Qt el mensaje de overwrite a file
-* Cuando un editline da error, el cursor se vuelve un caracter a la izda.
-* En campos deshabilitados no funciona ctrl+c
 
 = PRESCINDIBLE =
 
 == Ofertas ==
 * Insertar oferta de compra no inserta nada
 * Estadísticas
-* Probar: Crear la base de datos desde el principio, a ver si da error de copia de seguridad de base de datos
 
 == gong-tpv ==
-* Fila de productos favoritos
 * Tarifas por el tipo de mesa.
 * Al limpiar la mesa, lee registros
 * saveEstado intenta grabar siempre, ver la diferencia
 * Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
-
 * ???? Añadir forma de pago "Por cajón" y en la x, descontar los pagos de esa forma de pago.
 ** Cuando se pague algo con esa forma de pago, en pagos, guardar la sesión tpv actual.
 * Que se resalte la familia seleccionada
@@ -50,10 +33,10 @@ MensSana: Poner aceite de menssana
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
-* Que la suma en mc de las ventas coincida con la suma de las facturas
-* Formulario datos ventas y compras de artículos
+* Que la suma en mc de las ventas coincida con la suma de las facturas:
+** Buscar el correo que le envié al pedro para añadirlo al manual
+** No añade el recargo ni los descuentos
 * Calcular el máximo de una unión en SQL: SELECT SUM() FROM ( SELECT .... UNION ALL .... );
-* Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 * Genera pagos de albaranes y luego en la factura, al facturarlo, también
 * Albaranes, facturas, etc. Añadir Cantidad asignada al proyecto
 * FrmEstadCompraVenta: Revisar la reducción de la fuente número de documento en el informe
@@ -63,7 +46,7 @@ MensSana: Poner aceite de menssana
 ** Funciona solo el caso de un prefijo e incremento, falta probar los otros
 * Añadir a clientes y proveedoras: dia(s) de pago, mes no pago. Al generar los pagos, tenerlo en cuenta.
 * Buscador de documentos por número
-* Cambios masivos de precios: Sumar una cantidad fija
+* Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 
 == gong-socias ==
 * Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
@@ -114,12 +97,10 @@ MensSana: Poner aceite de menssana
 * Mostrar nombres parecidos al dar de alta un nombre
 
 == gong-empresa ==
-* Cuando se modifica la base de datos, en el login dice que no exite la empresa y acaba el programa
-* 	struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
+* struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
-* Enviar adjuntos por email
-* FrmCambiarEmpresa, terminar de implementar ¿Ejercicios?
+* No funciona borrar múltiple, se corta en el primero.
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
 * Tras "Asistente de acceso" no añade nombre empresa a título ventana principal
@@ -146,6 +127,8 @@ MensSana: Poner aceite de menssana
 * Los botones del visor están en inglés
 * Cerrar informes con el escape
 * FrmEditRec Cuando está seleccionado el botón cancelar, si pulsamos ENTER no hace nada
+* Nueva instalación con sqlite3
+** WARNING: (CREATE UNIQUE INDEX TRATAMIENTOCONTACTO_CODIGO):1:near "TRATAMIENTOCONTACTO_CODIGO": syntax error [void gong::dbConnection::setError(const gong::Xtring&)]
 
 == ventasweb ==
 * Subir por ftp, el mensaje de error no está vacío cuando no hay error
@@ -179,6 +162,21 @@ MensSana: Poner aceite de menssana
 == gong-qt4 ==
 * ImageBox: Recibir un parámetro: convert_path
 * Tamaño de los listboxes ajustado al máximo del listbox
+* PushButton: una propiedad que diga qué hacer con el INTRO
+* El richtextedit no envía el evento validate.
+** Complicado: El evento lo tiene que enviar el richtextbox que es un QLabel
+** Ahora el RichTextEdit modifica el contenido del QLabel, pero esto no debería ser así, además
+** debería de ser un FrmCustom, no una QMainWindow para que se pueda hacer un showModalFor.
+* No consigo pillar el keypressevent en el reportviewer
+* Teclas cursor en la visualización de los informes
+* Cuando pulso CTRL+M en cliente en añadir albaran de venta la primera vez sale modificar el detalle.
+* FrmImport no se cierra al darle a cerrar porque no es un FrmBase
+* No funciona f5 en frmeditrecdetail
+* FrmEditRecDetail->Toma el foco el datatable siempre
+* El enter de los textboxes es confuso, mejor añadirlo pero si se pulsa otra vez, saltar y borrarlo?
+* No sale en español el Qt el mensaje de overwrite a file
+* Cuando un editline da error, el cursor se vuelve un caracter a la izda.
+* En campos deshabilitados no funciona ctrl+c
 
 == gonglib ==
 * Borrar usuario de mysql: REVOKE ALL PRIVILEGES, GRANT OPTION FROM vduser@localhost;
