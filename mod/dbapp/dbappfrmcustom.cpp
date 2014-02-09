@@ -511,20 +511,4 @@ void FrmCustom::combo_activated( int )
     }
 }
 
-
-#ifdef HAVE_RTKMODULE
-Xtring FrmCustom::readRTK( const Xtring &_template )
-{
-    Xtring paths = DBAPP->getReportsPath( true );
-    Xtring filename = FileUtils::findInPath( paths, _template );
-    Xtring rtkstring = FileUtils::readFile( filename );
-    if( rtkstring.isEmpty() ) {
-        FrmBase::msgError(this, Xtring::printf(_("Imposible encontrar el fichero %s en\n%s"),
-                                               _template.c_str(), paths.c_str() ));
-        return Xtring();
-    }
-    return rtkstring;
-}
-#endif
-
 }

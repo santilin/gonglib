@@ -15,7 +15,8 @@ libgongdbapp_la_SOURCES = dbappfrmlogin_gui.cpp dbappfrmlogin.cpp \
 	dbappfrmdatabasetools.cpp dbappfrmintegrity.cpp dbappfrmeditrecbehavior.cpp \
 	dbappfrmadvancedprint.cpp dbappnameslisttable.cpp dbappfrmeditnameslisttable.cpp \
 	dbapprecmetadbdata.cpp dbappfrmcalculator.cpp dbappfrmmultiupdate.cpp \
-	dbappfrmmodulesettings.cpp dbappfrmabout.cpp dbapprecordcompleter.cpp
+	dbappfrmmodulesettings.cpp dbappfrmabout.cpp dbapprecordcompleter.cpp \
+	dbappfrmreportconds.cpp
 
 libgongdbapp_la_HEADERS = dbappdbapplication.h dbappdbmodule.h \
 	dbappfrmcustom.h dbappfrmeditrec.h dbappsearchbox.h \
@@ -27,7 +28,8 @@ libgongdbapp_la_HEADERS = dbappdbapplication.h dbappdbmodule.h \
 	dbappfrmdatabasetools.h dbappfrmintegrity.h dbappfrmeditrecbehavior.h \
 	dbappfrmadvancedprint.h dbappnameslisttable.h dbappfrmeditnameslisttable.h \
 	dbapprecmetadbdata.h dbappfrmcalculator.h dbappfrmmultiupdate.h \
-	dbappfrmmodulesettings.h dbappfrmabout.h dbapprecordcompleter.h
+	dbappfrmmodulesettings.h dbappfrmabout.h dbapprecordcompleter.h \
+	dbappfrmreportconds.h
 
 nodist_libgongdbapp_la_SOURCES = \
 	moc_dbappfrmcustom.cpp moc_dbappfrmeditrecdetail.cpp moc_dbappfrmeditrec.cpp \

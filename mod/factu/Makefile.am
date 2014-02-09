@@ -30,7 +30,7 @@ libgongfactu_la_SOURCES = factumodule.cpp \
 	factufrmestadcompraventa.cpp factufrmgenpedidocompra.cpp \
 	factufrmcopiardocumento.cpp factufrmpagar.cpp \
 	factufrmbalanceclipro.cpp factufrmcambiosmasivosarticulos.cpp \
-	factufrmmod303.cpp factufrmgencodart.cpp \
+	factufrmgencodart.cpp \
 	factuipagables.cpp factuiivadesglosable.cpp factuiasentables.cpp \
 	factuitotalizablerecord.cpp
 
@@ -59,7 +59,7 @@ libgongfactu_la_HEADERS = factumodule.h factumastertable.h \
 	factufrmestadcompraventa.h factufrmgenpedidocompra.h \
 	factufrmcopiardocumento.h factufrmpagar.h \
 	factufrmbalanceclipro.h factufrmcambiosmasivosarticulos.h \
-	factufrmmod303.h factufrmgencodart.h \
+	factufrmgencodart.h \
 	factuipagables.h factuiivadesglosable.h factuiasentables.h \
 	factuitotalizablerecord.h
 

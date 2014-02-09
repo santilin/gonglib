@@ -151,11 +151,10 @@ private slots:
     void slotMenuFactuCambiosMasivosArticulos();
     void slotMenuFactuBalanceCliPro();
     void slotMenuFactuEstadCompraVenta();
-    void slotMenuFactuMod303();
     void slotMenuFactuGenPedidosCompras();
     void slotMenuFactuRegenAsientos();
     void slotMenuFactuCopiarDocumento();
-    /*<<<<<FACTUMODULE_MENU_DEFINITIONS*/
+/*<<<<<FACTUMODULE_MENU_DEFINITIONS*/
 private slots:
 	void slotMenuFacturacionArticulo();
 	void slotMenuFacturacionCliente();

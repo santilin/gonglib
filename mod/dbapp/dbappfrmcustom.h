@@ -12,13 +12,8 @@
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
 
-#include "config.h"
-#include <qlayout.h>
-#include <qwidget.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
-#include <Q3Frame>
-#include <Q3HBoxLayout>
+#include <QVBoxLayout>
+#include <QFrame>
 #include <gongfrmbase.h>
 #include <gonglineedit.h>
 #include <gongrichtextedit.h>
@@ -122,9 +117,6 @@ protected slots:
     void button_clicked();
 
 protected:
-#ifdef HAVE_RTKMODULE
-    Xtring readRTK( const Xtring &_template );
-#endif
     QFrame* pFrameEdit;
     QVBoxLayout* pFrmCustomLayout;
     QVBoxLayout* pFormLayout;

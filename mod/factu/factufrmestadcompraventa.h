@@ -1,15 +1,12 @@
 #ifndef FACTUFRMESTADCOMPRAVENTA_H
 #define FACTUFRMESTADCOMPRAVENTA_H
 
-#include <dbappfrmcustom.h>
-#include <QVBoxLayout>
-
-class QVBoxLayout;
+#include <dbappfrmreportconds.h>
 
 namespace gong {
 namespace factu {
 
-class FrmEstadCompraVenta: public FrmCustom
+class FrmEstadCompraVenta: public FrmReportConds
 {
     Q_OBJECT
 public:
@@ -24,15 +21,12 @@ protected:
         ComprasAlbaranesWhere, VentasAlbaranesWhere, ComprasFacturasWhere, VentasFacturasWhere,
         AnotherUnionAll
     };
-    virtual Xtring getExtraSQL( ExtraSQLWhat what ) {
-        return Xtring::null;
-    }
+    virtual Xtring getExtraSQL( ExtraSQLWhat what ) { return Xtring::null; }
     DateRangeBox *pDateRange;
     SearchBox *pSearchArticulo, *pSearchTipoDoc, *pSearchCliente, *pSearchProveedora,
 		*pSearchFamilia, *pSearchAgente, *pSearchFormaPago;
     ComboBoxXtring *pComboAgruparPor, *pComboComprasOVentas, *pComboAlbaranesFacturas;
-    CheckBox *pCheckPreciosConIVA, *pCheckIncNotas, *pCheckCSV;
-    CheckBox *pCheckResumido, *pCheckTodasLasEmpresas, *pCheckGranTotal;
+    CheckBox *pCheckPreciosConIVA, *pCheckIncNotas, *pCheckTodasLasEmpresas, *pCheckGranTotal;
     LineEdit *pEditTitulo;
 };
 

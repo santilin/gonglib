@@ -9,12 +9,9 @@ namespace gong {
 namespace factu {
 
 FrmEstadCompraVenta::FrmEstadCompraVenta(QWidget * parent, WidgetFlags fl)
-    : FrmCustom(parent, "FrmEstadCompraVenta", fl)
+    : FrmReportConds( _("Estadísticas de compras y ventas"), parent, fl)
 {
-    Xtring titulo = _("Estadísticas de compras y ventas");
-    setTitle( titulo );
-    pEditTitulo = addInput( 0, "Título", titulo );
-
+	setObjectName( "FrmEstadCompraVenta" );
     XtringList comprasoventas;
     comprasoventas << _("Compras y ventas") << _("Sólo compras") << _("Sólo ventas");
     pComboComprasOVentas = addComboBoxXtring(false, 0, _("Compras o ventas"), comprasoventas );
@@ -35,11 +32,9 @@ FrmEstadCompraVenta::FrmEstadCompraVenta(QWidget * parent, WidgetFlags fl)
 	XtringList albaranesofacturas;
 	albaranesofacturas << _("Albaranes y facturas") << _("Sólo facturas") << _("Sólo albaranes");
     pComboAlbaranesFacturas = addComboBoxXtring( false, 0, _("Albaranes/facturas"), albaranesofacturas );
-    pCheckResumido = addCheckBox( 0, _("Resumido"), false );
     pCheckTodasLasEmpresas = addCheckBox(0, _("Todas las empresas"), false );
     pCheckGranTotal = addCheckBox( 0, _("Incluir gran total"), true );
     pCheckIncNotas = addCheckBox( 0, _("Incluir notas"), false );
-    pCheckCSV = addCheckBox( 0, _("Salida a CSV, OpenOffice Calc, etc."), false );
 }
 
 Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
@@ -441,7 +436,7 @@ void FrmEstadCompraVenta::pushFilter_clicked()
 
 #endif
 
-} // namespace cats
+} // namespace factu
 } // namespace gong
 
 

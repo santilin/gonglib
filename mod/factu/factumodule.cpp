@@ -69,7 +69,6 @@
 #include "factufrmbalanceclipro.h"
 #include "factufrmcambiosmasivosarticulos.h"
 #include "factufrmedittipodoc.h"
-#include "factufrmmod303.h"
 #include "factufrmgencodart.h"
 
 #ifdef HAVE_CONTABMODULE
@@ -434,7 +433,6 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicFacturaVenta->addFieldReferenceID( "ASIENTO_ID", "ASIENTO.ID" );
 #endif
     pFicFacturaVenta->addFieldsDesgloseIVA();
-    pFicFacturaVenta->addFieldDate( "FECHAIVA" );
     pFicFacturaVenta->addFieldNotas();
     pFicFacturaVenta->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pFicFacturaVenta->addRelation( dbRelationDefinition::one2many, "FACTURAVENTA", "ID", "FACTURAVENTADET", "FACTURAVENTA_ID" );
@@ -545,7 +543,6 @@ bool FactuModule::initDatabase( dbDefinition *db )
     }
 #endif
     pFicFacturaCompra->addFieldsDesgloseIVA();
-    pFicFacturaCompra->addFieldDate( "FECHAIVA" );
 
     pFicFacturaCompra->addFieldNotas();
     pFicFacturaCompra->addBehavior( DBAPP->getRecordTimestampBehavior() );
@@ -1004,13 +1001,6 @@ void FactuModule::slotMenuFactuBalanceCliPro()
     FrmBalanceCliPro *frmbal = new FrmBalanceCliPro ( 0, "BalanceCliPro" );
     frmbal->show();
     pMainWindow->createClient ( frmbal );
-}
-
-void FactuModule::slotMenuFactuMod303()
-{
-    FrmMod303 *frm303 = new FrmMod303 ();
-    frm303->show();
-    pMainWindow->createClient ( frm303 );
 }
 
 void FactuModule::slotMenuFactuCambiosMasivosArticulos()

@@ -1,17 +1,18 @@
 == HECHO ==
 
+== A MEDIO ==
+* Crear un FrmReportConds: public FrmCustom.
+** Esto es una barbaridad Xtring FrmCustom::readRTK( const Xtring &_template )
+
 == Imprescindible ==
-* Los iconos en los pájaros del report no salen
-* En los pájaros sale versión 0.5.1.1 y en mc 0.5.1
+* Los iconos del report en los pájaros no salen
 
 == NUEVA FUNCIONALIDAD ==
 * tpv: Fila de productos favoritos
 * tpv: Pagos por rondas: buscar un FrmList animado
 * factu: Formulario datos ventas y compras de artículos
+** Crear un formulario base de estadísticas con condiciones y una consulta que genere un informe.
 * Enviar adjuntos por email
-* RecordCompleter: Crearlo cuando el texto sea mayor de tres letras, no al principio,
-** por lo tanto, en el validate del searchbox.
-** Configuración: [ ] Completar campos de búsqueda
 
 == MC ==
 * Comprobar: no pasa aquí. El resto de las ofertas siempre se queda como el total
@@ -101,6 +102,9 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* RecordCompleter: Crearlo cuando el texto sea mayor de tres letras, no al principio,
+** por lo tanto, en el validate del searchbox.
+** Configuración: [ ] Completar campos de búsqueda
 * No funciona borrar múltiple, se corta en el primero.
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
@@ -291,14 +295,13 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 ** ContextMenu de la pDataTable: Usar el menu del frmeditrecmaster
 
 === dbapp ===
+* En modo release, duplicar vista se cuelga
 * Opción en configuración: Guardar la sesión o no, quitar lo de guardar posición de la ventana, que se guarde siempre dentro de la sesión.
 ** Necesita una forma de que cuando se cierre un FrmBase, se ejecute algo en DBAPP
 ** Se necesita un refactoring para que FrmBase se una FrmMdiWindow
 * canBeginEdit( EditMode &newmode )
 * Definición de las vistas: +SELECT BLA,BLA FROM INNER JOIN
 * Añadir a herramientas de la base de datos información sobre la conexión como etiquetas en el propio formulario
-* Separar mod303, quitar fechaiva de facturas de factu
-* Eliminar el setting USEWORKINGDATE, usar bloqueo de campos
 * Formulario de edición de la configuración:
 ** Añadir botón "Buscar clave" y "Añadir clave"
 ** Crear editor específico para los valores.
@@ -308,8 +311,7 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * FrmEditRec: Posibilidad de añadir controles dinámicamente a partir de una lista de campos,
   así se evitaría tener que crear behaviors para campos muy sencillos.
 * Quitar última fecha y añadir a frmeditrec la posibilidad de bloquear cualquier campo
-* Crear un FrmCondicionesInformes: public FrmCustom.
-** Esto es una barbaridad Xtring FrmCustom::readRTK( const Xtring &_template )
+** Eliminar el setting USEWORKINGDATE, usar bloqueo de campos
 
 == optimizaciones ==
 * CreateRecord: hacerlo en el readrelations
