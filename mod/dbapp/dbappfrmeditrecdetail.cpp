@@ -95,6 +95,7 @@ void FrmEditRecDetail::updateStatus( bool callbehaviors )
 {
     FrmEditRecMaster::updateStatus( callbehaviors );
 	pMenuTable->setEnabled( false );
+	pushRemoveFilter->setVisible( false );
     if( pDataTable && pDataTable->isVisible() && !isReadOnly() ) {
         bool down = false;
         bool up = false;

@@ -8,9 +8,13 @@ FrmAbout::FrmAbout(QWidget* parent, WidgetFlags fl)
     QHBoxLayout *descLayout = new QHBoxLayout();
     QLabel *descLabel = new QLabel( this );
     descLabel->setText( toGUI( _( "Una bonita aplicación desarrollada por Santilín (gestiong@programacionsocial.net).\n\n"
-                                  "\nVersión de construcción del 19/1/2014"	) ) );
+                                  "\nVersión de construcción del 9/2/2014"	) ) );
     descLayout->addWidget( descLabel );
     pInputsLayout->addLayout( descLayout );
+
+    QLabel *iconthemeLabel = new QLabel( this );
+    iconthemeLabel->setText( _("Tema de los iconos: ") + QIcon::themeName() );
+    pInputsLayout->addWidget( iconthemeLabel );
 
     QHBoxLayout *dlsLayout = new QHBoxLayout();
     QLabel *dlsLabel = new QLabel( this );

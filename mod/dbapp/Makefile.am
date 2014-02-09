@@ -83,3 +83,6 @@ dist_dbapp_share_DATA = $(srcdir)/share/logogestiong.jpg \
 	$(srcdir)/share/settings.rc \
 	$(srcdir)/share/stylesheet.css
 
+dbapp_share_informesdir = $(datadir)/gestiong/dbapp/informes
+dist_dbapp_share_informes_DATA = $(srcdir)/share/informes/default_pageheader.inc \
+	$(srcdir)/share/informes/default_pagefooter.inc

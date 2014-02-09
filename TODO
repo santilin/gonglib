@@ -2,10 +2,11 @@
 
 == Imprescindible ==
 * Los iconos en los pájaros del report no salen
+* En los pájaros sale versión 0.5.1.1 y en mc 0.5.1
 
 == NUEVA FUNCIONALIDAD ==
 * tpv: Fila de productos favoritos
-* tpv: Pagos por rondas
+* tpv: Pagos por rondas: buscar un FrmList animado
 * factu: Formulario datos ventas y compras de artículos
 * Enviar adjuntos por email
 * RecordCompleter: Crearlo cuando el texto sea mayor de tres letras, no al principio,
