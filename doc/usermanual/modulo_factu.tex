@@ -105,4 +105,40 @@ El resto de columnas no es obligatorio rellenarlas:
 % 
 % 
 
+\section{Informes}
+
+He estudiado el tema del informe de ventas y he "descubierto" lo 
+siguiente: 
+
+* El informe va factura por factura viendo los artículos, y sumando el 
+precio al que se han vendido (incluyendo el descuento en ese 
+artículo). Va sumando el precio sin iva y el precio con iva. 
+* Luego muestra el total de esa suma. 
+
+Pero en la factura se añaden otros datos que están fuera de cada 
+artículo, que son el recargo de equivalencia y el descuento total que 
+se hace en la factura. Estos dos valores no se tienen en cuenta en el 
+listado de artículos. Para tenerlos en cuenta, tendría que hacer lo 
+siguiente: 
+
+* Para cada artículo que se ha vendido, ver en su factura si había 
+recargo de equivalencia y sumárselo (esto es un coñazo pero se puede 
+hacer). 
+* Para cada artículo que se ha vendido, ver si se ha hecho descuento 
+en su factura. Entonces, si hay descuento, aplicárselo a cada artículo 
+proporcionalmente (el porcentaje). También es un coñazo, y también se 
+puede hacer. 
+
+Pero yo me pregunto si es necesario que salga lo mismo. A ver, en el 
+listado que sacas de las facturas de venta, tienes precisamente lo que 
+has facturado, que incluye recargos, iva y descuentos. En el informe 
+de ventas, tienes datos globales sobre ventas de artículos, sin tener 
+en cuenta si luego ha habido descuentos por otros conceptos que ya no 
+tienen que ver con el artículo. 
+
+En fin, esto sirve para aclararnos. Si crees que es necesario que en 
+ambos listados coincida la cantidad, puedo hacerlo, poniendo una 
+casiila que diga [ ] incluir descuentos y recargos de la factura. 
+
+
 

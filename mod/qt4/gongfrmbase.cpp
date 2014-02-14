@@ -784,7 +784,7 @@ bool FrmBase::inputBoxString(Xtring& value, const Xtring& prompt, const Xtring& 
     buttonsLayout->addWidget( frm->getAcceptButton() );
     frmlayout->addLayout( buttonsLayout );
     frm->pFocusWidget = edit;
-    frm->showModalFor(parent, true, false );
+    frm->showModalFor(parent, true, true );
     if( !frm->wasCancelled() ) {
         value = edit->toString();
         return true;

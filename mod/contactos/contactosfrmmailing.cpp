@@ -20,8 +20,8 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     setTitle( titulo );
 	pushAccept->setText( _("Enviar") );
 
-    tabFrameEdit = new QTabWidget( pFrameEdit );
-    pInputsLayout->addWidget( tabFrameEdit );
+    tabFrameEdit = new QTabWidget( pControlsFrame );
+    pControlsLayout->addWidget( tabFrameEdit );
     tabSeleccion = new QWidget( tabFrameEdit, "tabSeleccion" );
     QVBoxLayout *selLayout = new QVBoxLayout( tabSeleccion );
     mSearchBoxes << addMultipleSearchField( tabSeleccion, "CONTACTO", "CIF", "NOMBRE", selLayout );

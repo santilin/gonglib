@@ -179,11 +179,11 @@ Xtring Cif::validate( RecContacto::Tratamiento tratamiento, bool fixme )
                 || tratamiento == RecContacto::TratamientoDon
                 || tratamiento == RecContacto::TratamientoAutonoma ) {
             if( isalpha( at(0) ) && strchr( "XYZxyz", at(0) ) == NULL  ) {
-                return _("el CIF de una persona no puede comenzar por letra, salvo la X, Y y Z.\n");
+                return _("el DNI de una persona no puede comenzar por letra, salvo la X, Y y Z");
             }
         } else if( tratamiento != RecContacto::TratamientoNo ) {
             if( !isalpha( at(0) ) ) {
-                return _("el CIF de las sociedades debe comenzar por una letra.\n");
+                return _("el CIF de las sociedades debe comenzar por una letra");
             }
         }
         char digcontrol = calcularCharControl();
@@ -192,9 +192,9 @@ Xtring Cif::validate( RecContacto::Tratamiento tratamiento, bool fixme )
                 eliminarCharControl();
                 *this += digcontrol;
             } else if( length() == 9 && at(8) != digcontrol ) {
-                return Xtring::printf("el último dígito o letra '%c' es errónea, debería ser '%c'", at(8), digcontrol );
+                return Xtring::printf(_("el último dígito o letra '%c' es errónea, debería ser '%c'"), at(8), digcontrol );
             } else if( length() == 8  ) {
-                return Xtring::printf("falta el dígito o letra de control '%c'", digcontrol);
+                return Xtring::printf(_("falta el dígito o letra de control '%c'"), digcontrol);
             }
         }
     }

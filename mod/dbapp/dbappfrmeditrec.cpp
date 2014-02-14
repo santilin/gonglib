@@ -29,7 +29,6 @@ FrmEditRec::FrmEditRec( FrmEditRec *parentfrm, dbRecord *arecord,
     pFormLayout = new QVBoxLayout(this);
     pFormLayout->setObjectName( "FormLayout" );
     pMainLayout = new QVBoxLayout();
-//   	pMainLayout->setSizeConstraint(QLayout::SetMaximumSize);
     pMainLayout->setObjectName( "MainLayout" );
 
     pMenuBar = new QMenuBar( this, "MainMenuBar" );
@@ -52,7 +51,6 @@ FrmEditRec::FrmEditRec( FrmEditRec *parentfrm, dbRecord *arecord,
     pControlsLayout = new QVBoxLayout(pControlsFrame);
     pControlsLayout->setObjectName("ControlsLayout");
 	pTabWidget->setFocusPolicy( Qt::ClickFocus );
-//   	pControlsLayout->setSizeConstraint(QLayout::SetFixedSize);
     pTabWidget->addTab( pControlsFrame, "&General" );
     showTabs( false );
     pMainLayout->addWidget(pTabWidget);

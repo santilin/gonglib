@@ -27,7 +27,7 @@ FrmGenerarRecibos::FrmGenerarRecibos ( QWidget * parent, WidgetFlags fl )
     connect( editRemesaCobroNumero, SIGNAL( validate(QWidget *, bool *) ),
              this, SLOT(validate(QWidget*, bool*) ) );
     editRemesaCobroDescripcion = searchRemesaCobroNumero->getEditDesc();
-    pInputsLayout->addLayout( layoutremesa );
+    pControlsLayout->addLayout( layoutremesa );
 
     QHBoxLayout *layoutrangofechas = new QHBoxLayout ( 0, 0, 6, "layoutrangofechas" );
     QLabel *lblfechaini = new QLabel ( QString::fromUtf8( _("Periodo de los recibos: desde ") ), this, "lblfechaini" );
@@ -40,7 +40,7 @@ FrmGenerarRecibos::FrmGenerarRecibos ( QWidget * parent, WidgetFlags fl )
     editfechafin = new LineEdit ( this, "txtfechafin" );
     editfechafin->setValueType ( Variant::tDate );
     layoutrangofechas->addWidget ( editfechafin );
-    pInputsLayout->addLayout ( layoutrangofechas );
+    pControlsLayout->addLayout ( layoutrangofechas );
 
     QHBoxLayout *layoutfechasrecibos = new QHBoxLayout ( 0, 0, 6, "layoutfechasrecibos" );
     QLabel *lblfechaemi = new QLabel ( QString::fromUtf8( _("Fechas de los recibos: Emisión") ), this, "lblfechaemi" );
@@ -58,12 +58,12 @@ FrmGenerarRecibos::FrmGenerarRecibos ( QWidget * parent, WidgetFlags fl )
     editfechacargo = new LineEdit ( this, "txtfechacargo" );
     editfechacargo->setValueType ( Variant::tDate );
     layoutfechasrecibos->addWidget ( editfechacargo );
-    pInputsLayout->addLayout ( layoutfechasrecibos );
+    pControlsLayout->addLayout ( layoutfechasrecibos );
 #if 0
     QHBoxLayout *layoutinforme = new QHBoxLayout ( 0, 0, 6, "layoutinforme" );
     checkinforme = new QCheckBox ( QString::fromUtf8 ( "Informe" ), this, "checkinforme" );
     layoutinforme->addWidget ( checkinforme );
-    pInputsLayout->addLayout ( layoutinforme );
+    pControlsLayout->addLayout ( layoutinforme );
 #endif
 
     QHBoxLayout *layoutgenasiento = new QHBoxLayout ( 0, 0, 6, "layoutgenasiento" );
@@ -72,7 +72,7 @@ FrmGenerarRecibos::FrmGenerarRecibos ( QWidget * parent, WidgetFlags fl )
     checkgenasiento->setChecked( false );
     checkgenasiento->setVisible( false );
     layoutgenasiento->addWidget ( checkgenasiento );
-    pInputsLayout->addLayout ( layoutgenasiento );
+    pControlsLayout->addLayout ( layoutgenasiento );
 
     QHBoxLayout *layoutsupervisar = new QHBoxLayout ( 0, 0, 6, "layoutsupervisar" );
     checkSupervisar = new QCheckBox ( QString::fromUtf8 ( "Supervisar los recibos generados" ),
@@ -81,7 +81,7 @@ FrmGenerarRecibos::FrmGenerarRecibos ( QWidget * parent, WidgetFlags fl )
     checkSupervisar->setChecked( true );
     checkSupervisar->setChecked( false );
     checkSupervisar->setVisible( false );
-    pInputsLayout->addLayout ( layoutsupervisar );
+    pControlsLayout->addLayout ( layoutsupervisar );
 
 
     QHBoxLayout *layoutpartida = new QHBoxLayout ( 0, 0, 6, "layoutpartida" );
@@ -91,7 +91,7 @@ FrmGenerarRecibos::FrmGenerarRecibos ( QWidget * parent, WidgetFlags fl )
     connect( pushPartidaCodigo, SIGNAL( clicked() ), this, SLOT( pushPartidaCodigo_clicked() ) );
     editPartidaCodigo = searchPartidaCodigo->getEditCode();
     editPartidaDescripcion = searchPartidaCodigo->getEditDesc();
-    pInputsLayout->addLayout( layoutpartida );
+    pControlsLayout->addLayout( layoutpartida );
 
     QHBoxLayout *layoutcondiciones = new QHBoxLayout ( 0, 0, 6, "layoutfechasrecibos" );
     pushCondiciones = new QPushButton( toGUI( _("Condiciones") ), this, "pushCondiciones" );
@@ -99,7 +99,7 @@ FrmGenerarRecibos::FrmGenerarRecibos ( QWidget * parent, WidgetFlags fl )
     layoutcondiciones->addWidget( pushCondiciones );
     editCondiciones = new TextEdit ( this );
     layoutcondiciones->addWidget ( editCondiciones );
-    pInputsLayout->addLayout( layoutcondiciones );
+    pControlsLayout->addLayout( layoutcondiciones );
 
 //	QPushButton *pushGrabar = new QPushButton ( QString::fromUtf8( _( "&Grabar" ) ), this, "pushGrabar" );
     // signals and slots connections

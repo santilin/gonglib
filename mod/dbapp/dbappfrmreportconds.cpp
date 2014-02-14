@@ -11,25 +11,24 @@ FrmReportConds::FrmReportConds(const Xtring &titulo,
 {
 	setTitle( titulo );
     pEditTitulo = addInput( 0, "Título", titulo );
+	showTabs( true );
 
-
-	QFrame *frameOptions = new QFrame( this );
-
+	QWidget *tabOptions = new QWidget( this, "tabOpciones" );
+	/*QVBoxLayout *tabOptionsLayout = */new QVBoxLayout(tabOptions);
     XtringList soutputs;
     soutputs << _("Pantalla")
-		<< _("Impresora")
+		<< _("Impresora (directo)")
+		<< _("Impresora (con diálogo)")
 		<< _("PDF")
 		<< _("LibreOffice Calc")
 		<< _("CSV (OpenOffice, Excel, ...)" )
 		<< _("PostScript")
 		<< _("Fichero de texto")
-		<< _("GNUmeric")
-		<< _("HTML")
-		<< _("XML");
-    pComboOutputs = addComboBoxInt(false, frameOptions, _("Destino: "), soutputs, IntList() );
-    pCheckResumido = addCheckBox( frameOptions, _("Resumido"), false );
-    pCheckCSV = addCheckBox( frameOptions, _("Salida a CSV, OpenOffice Calc, etc."), false );
-	pInputsLayout->addWidget( frameOptions );
+		<< _("GNUmeric");
+    pComboOutputs = addComboBoxInt(false, tabOptions, _("Destino: "), soutputs, IntList() );
+    pCheckResumido = addCheckBox( tabOptions, _("Resumido"), false );
+    pCheckApaisado = addCheckBox( tabOptions, _("Apaisado"), false );
+    pTabWidget->insertTab( tabOptions, toGUI( _( "&Destino" ) ) );
 }
 
 Xtring FrmReportConds::readRTK( const Xtring &_template )

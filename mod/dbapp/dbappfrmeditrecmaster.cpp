@@ -33,9 +33,9 @@ FrmEditRecMaster::FrmEditRecMaster( FrmEditRec *parentfrm, dbRecord *maestro, db
     : FrmEditRec( parentfrm, maestro, editmode, editflags, parent, name, fl ),
       pMenuRecordAdd( 0 ), pMenuRecordDelete( 0 ), pMenuRecordModify( 0 ), pMenuRecordDup( 0 ),
       pMenuRecordView( 0 ), pMenuRecordPrint( 0 ), pMenuRecordReopen( 0 ), pMenuRecordInfo( 0 ),
-      pMenuViewReorder( 0 ), pMenuTableFilter( 0 ), pMenuTableRemoveFilter( 0 ), pMenuTablePrint(0),
+      pMenuTableFilter( 0 ), pMenuTableRemoveFilter( 0 ), pMenuTablePrint(0),
       pMenuTableImport(0), pMenuTableExport( 0 ), pMenuTableSelectAll( 0 ), pMenuTableUpdate(0),
-      pMenuView( 0 ), pMenuViewAdd( 0 ), pMenuViewModify( 0 ), pMenuViewDup( 0 ), pMenuViewDelete( 0 ),
+      pMenuView( 0 ), pMenuViewReorder( 0 ), pMenuViewAdd( 0 ), pMenuViewModify( 0 ), pMenuViewDup( 0 ), pMenuViewDelete( 0 ),
       pDataTable( 0 ), mBrowsing( false ), mChoosing( false ), mWasBrowsing( false ),
       mMustRead( false ), mMustRefresh( false ), mRefreshing( false ), mMultipleDeleting(false),
       pDataModel( dm )

@@ -14,6 +14,7 @@
 
 #include "gongfrmbase.h"
 #include "dbappsettingstree.h"
+class PushButton;
 
 namespace gong {
 
@@ -27,9 +28,14 @@ public:
 
 protected:
     virtual bool canClose(); // from FrmBase
+protected slots:
+	void slotSearch();
 
 private:
+	SettingsTree *pSettingsTree;
+	PushButton *pushSearch;
     QVBoxLayout *mainLayout, *settingsLayout;
+	QTreeWidgetItem *mLastMatchItem;
 };
 
 }

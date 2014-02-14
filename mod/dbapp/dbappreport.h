@@ -37,7 +37,8 @@ struct stReportInfo {
     XtringList repFields;
 };
 typedef std::vector<stReportInfo> ReportsList;
-enum RTK_Output_Type { RTK_Screen = 0, RTK_Printer_Without_Dialog, RTK_Printer_With_Dialog, RTK_PDF, RTK_OpenOffice_Calc, RTK_PostScript, RTK_Text, RTK_GNumeric, RTK_CSV };
+enum RTK_Output_Type { RTK_Screen = 0, RTK_Printer_Without_Dialog, RTK_Printer_With_Dialog,
+	RTK_PDF, RTK_OpenOffice_Calc, RTK_CSV, RTK_PostScript, RTK_Text, RTK_GNumeric,  };
 
 class AppReport : public RTK::Report
 {

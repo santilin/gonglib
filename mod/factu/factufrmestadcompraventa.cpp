@@ -332,13 +332,10 @@ void FrmEstadCompraVenta::accept()
         report->readString( rtkstring.c_str() );
         Dictionary<Xtring> properties;
         properties.insert( "TITLE", titulo );
-        if( pCheckCSV->isChecked() )
-            report->print(RTK_CSV, properties, Xtring(), Xtring(),
-                          DBAPP->getAppSetting( "RTK.LANDSCAPE" ).toBool() ? Landscape : DefaultOrientation, false);
-        else
-            report->print(RTK_Screen, properties, Xtring(), Xtring(),
-                          DBAPP->getAppSetting( "RTK.LANDSCAPE" ).toBool() ? Landscape : DefaultOrientation,
-                          false);
+        report->print( static_cast<RTK_Output_Type>(pComboOutputs->currentItem()),
+                       properties, Xtring(), Xtring(),
+                       pCheckApaisado->isOn() ? Landscape : DefaultOrientation,
+                       false /*chkAskParameters->isChecked()*/)			;
     }
 }
 

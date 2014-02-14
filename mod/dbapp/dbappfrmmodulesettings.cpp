@@ -24,8 +24,8 @@ FrmModuleSettings::FrmModuleSettings(dbModuleSetting::Scope scope, QWidget* pare
 		throw std::runtime_error( "Wrong parameter scope in FrmModuleSettings" );
     }
     setTitle( pSettings->getDescription() );
-    pTabWidget = new QTabWidget( pFrameEdit );
-    pInputsLayout->addWidget(pTabWidget);
+    pTabWidget = new QTabWidget( pControlsFrame );
+    pControlsLayout->addWidget(pTabWidget);
 	QLabel *lbl1 = new QLabel( this );
 	lbl1->setStyleSheet( "color:black" );
 	lbl1->setText( toGUI( _("Valores en negro = Valores por defecto") ) );
@@ -35,9 +35,9 @@ FrmModuleSettings::FrmModuleSettings(dbModuleSetting::Scope scope, QWidget* pare
 	QLabel *lbl3 = new QLabel( this );
 	lbl3->setStyleSheet( "color:red" );
 	lbl3->setText( toGUI( _("Valores en rojo = cambiados pero no se usarán porque tienen preferencia otros valores") ) );
-	pInputsLayout->addWidget( lbl1 );
-	pInputsLayout->addWidget( lbl2 );
-	pInputsLayout->addWidget( lbl3 );
+	pControlsLayout->addWidget( lbl1 );
+	pControlsLayout->addWidget( lbl2 );
+	pControlsLayout->addWidget( lbl3 );
     scatter();
 }
 

@@ -2,6 +2,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QFrame>
+#include <QTabWidget>
 #include <gonggettext.h>
 #include <gongfileutils.h>
 #include <gongvariant.h>
@@ -76,41 +77,70 @@ DateTime DateRangeBox::getDateTimeTo() const
 FrmCustom::FrmCustom ( QWidget *parent, const char *name, WidgetFlags f )
     : FrmBase ( parent, name, f )
 {
-    pFrmCustomLayout = new QVBoxLayout( this );
-    pFormLayout = new QVBoxLayout();
+    pFormLayout = new QVBoxLayout(this);
+    pFormLayout->setObjectName( "FormLayout" );
+    pMainLayout = new QVBoxLayout();
+    pMainLayout->setObjectName( "MainLayout" );
 
-    pFrameEdit = new QFrame( this );
-    pFrameEdit->setObjectName( "FrameEdit" );
-    pFrameEdit->setFrameShape ( QFrame::StyledPanel );
-    pFrameEdit->setFrameShadow ( QFrame::Raised );
-
-    pFrameEditLayout = new QVBoxLayout( pFrameEdit );
-    pInputsLayout = new QVBoxLayout();
-    pInputsLayout->setObjectName( "InputsLayout" );
-
-    // controles de edicion, se generan despues
-
-    // Resto de layouts
-    pFrameEditLayout->addLayout ( pInputsLayout );
-    pFormLayout->addWidget ( pFrameEdit );
+    pTabWidget = new QTabWidget(this);
+    pControlsFrame = new QWidget(pTabWidget);
+    pControlsFrame->setObjectName("ControlsFrame");
+    pControlsLayout = new QVBoxLayout(pControlsFrame);
+    pControlsLayout->setObjectName("ControlsLayout");
+	pTabWidget->setFocusPolicy( Qt::ClickFocus );
+    pTabWidget->addTab( pControlsFrame, "&General" );
+    showTabs( false );
+    pMainLayout->addWidget(pTabWidget);
 
 //  	QSpacerItem* spacer = new QSpacerItem ( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
-//  	pFrameEditLayout->addItem ( spacer );
+//  	pControlsFrameLayout->addItem ( spacer );
 
     pButtonsLayout = new QHBoxLayout();
     pButtonsLayout->setObjectName( "ButtonsLayout" );
     pButtonsLayout->addWidget ( pushAccept );
     pButtonsLayout->addWidget ( pushCancel );
 
-    pFormLayout->addLayout ( pButtonsLayout );
-    pFrmCustomLayout->addLayout ( pFormLayout );
+    pMainLayout->addLayout ( pButtonsLayout );
+    pFormLayout->addLayout ( pMainLayout );
+}
+
+void FrmCustom::showTabs(bool show)
+{
+    QTabBar *tb = pTabWidget->findChild<QTabBar *>();
+    if( tb )
+        tb->setVisible( show );
+}
+
+QWidget *FrmCustom::insertTab(QWidget* tab, const Xtring& label, int index)
+{
+    if( !tab )
+        tab = new QWidget( this );
+    pTabWidget->insertTab( index, tab, toGUI(label) );
+    return tab;
+}
+
+/**
+ * @brief Sets the label text of a tab widget. There is no easy way of doing this from the widget itself
+ *
+ * @param tab ...
+ * @param title ...
+ * @return void
+ **/
+void FrmCustom::setTabTitle(QWidget* tab, const Xtring& title)
+{
+    for( int index = 0; index < pTabWidget->count(); ++index ) {
+        if( pTabWidget->widget( index ) == tab ) {
+            pTabWidget->setTabText( index, toGUI( title ) );
+            break;
+        }
+    }
 }
 
 LineEdit *FrmCustom::addInput ( QWidget *parent, const Xtring &caption,
                                 const Variant &value, const Xtring &style,
                                 const char *name, QBoxLayout *layout )
 {
-    LineEdit *edit = new LineEdit ( parent ? parent : pFrameEdit,
+    LineEdit *edit = new LineEdit ( parent ? parent : pControlsFrame,
                                     "edit_" + Xtring(name), value.type() );
     connect ( edit, SIGNAL ( validate ( QWidget *, bool * ) ),
               this, SLOT ( validate_input ( QWidget *, bool * ) ) );
@@ -124,7 +154,7 @@ LineEdit *FrmCustom::addInput ( QWidget *parent, const Xtring &caption,
     }
     else
         edit->setText ( value );
-    QLabel *label = new QLabel ( parent ? parent : pFrameEdit,
+    QLabel *label = new QLabel ( parent ? parent : pControlsFrame,
                                  ( "label_" + Xtring(name) ).c_str() );
     label->setText ( toGUI ( caption ) );
     QHBoxLayout *hlay = new QHBoxLayout();
@@ -133,7 +163,7 @@ LineEdit *FrmCustom::addInput ( QWidget *parent, const Xtring &caption,
     if( layout )
         layout->addLayout( hlay );
     else
-        pInputsLayout->addLayout( hlay);
+        pControlsLayout->addLayout( hlay);
     if ( !pFocusWidget )
         pFocusWidget = edit;
     return edit;
@@ -143,8 +173,8 @@ QLabel *FrmCustom::addLabel( QWidget *parent, const Xtring &caption,
                              const Variant &value, const Xtring &style,
                              const char *name, QBoxLayout *layout )
 {
-    QLabel *label = new QLabel( toGUI( value.toString() ), parent ? parent : pFrameEdit );
-    QLabel *cap_label = new QLabel ( toGUI( caption ), parent ? parent : pFrameEdit );
+    QLabel *label = new QLabel( toGUI( value.toString() ), parent ? parent : pControlsFrame );
+    QLabel *cap_label = new QLabel ( toGUI( caption ), parent ? parent : pControlsFrame );
     if( name )
         label->setObjectName( name );
     QHBoxLayout *hlay = new QHBoxLayout();
@@ -153,20 +183,20 @@ QLabel *FrmCustom::addLabel( QWidget *parent, const Xtring &caption,
     if( layout )
         layout->addLayout( hlay );
     else
-        pInputsLayout->addLayout( hlay);
+        pControlsLayout->addLayout( hlay);
     return label;
 }
 
 TextEdit* FrmCustom::addTextEditBox(QWidget* parent, const Xtring& caption,
                                     const Xtring& value, const char* name, QBoxLayout* layout)
 {
-    TextBox *textbox = new TextBox( parent ? parent : pFrameEdit,
+    TextBox *textbox = new TextBox( parent ? parent : pControlsFrame,
                                     name ? (Xtring("editTextBox_") + name).c_str() : "", "", false);
     connect ( textbox, SIGNAL ( validate ( QWidget *, bool * ) ),
               this, SLOT ( validate_input ( QWidget *, bool * ) ) );
     textbox->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     textbox->setText( value );
-    QLabel *label = new QLabel ( parent ? parent : pFrameEdit,
+    QLabel *label = new QLabel ( parent ? parent : pControlsFrame,
                                  ( "label_" + Xtring(name) ).c_str() );
     label->setText( toGUI(caption) );
     QHBoxLayout *hlay = new QHBoxLayout();
@@ -175,7 +205,7 @@ TextEdit* FrmCustom::addTextEditBox(QWidget* parent, const Xtring& caption,
     if( layout )
         layout->addLayout( hlay );
     else
-        pInputsLayout->addLayout ( hlay );
+        pControlsLayout->addLayout ( hlay );
     if ( !pFocusWidget )
         pFocusWidget = textbox;
     return textbox;
@@ -185,11 +215,11 @@ TextEdit* FrmCustom::addTextEditBox(QWidget* parent, const Xtring& caption,
 RichTextBox* FrmCustom::addRichTextBox(QWidget* parent, const Xtring& caption,
                                        const char* name, QBoxLayout *layout )
 {
-    RichTextBox *rich = new RichTextBox( parent ? parent : pFrameEdit,
+    RichTextBox *rich = new RichTextBox( parent ? parent : pControlsFrame,
                                          name ? (Xtring("editRich_") + name).c_str() : "", "", false);
     rich->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     connect( rich, SIGNAL ( validate ( QWidget *, bool * ) ),
-              this, SLOT ( validate_input ( QWidget *, bool * ) ) );    QLabel *label = new QLabel ( parent ? parent : pFrameEdit,
+              this, SLOT ( validate_input ( QWidget *, bool * ) ) );    QLabel *label = new QLabel ( parent ? parent : pControlsFrame,
                                  ( "label_" + Xtring(name) ).c_str() );
     label->setText ( toGUI(caption) );
     QHBoxLayout *hlay = new QHBoxLayout();
@@ -198,7 +228,7 @@ RichTextBox* FrmCustom::addRichTextBox(QWidget* parent, const Xtring& caption,
     if( layout )
         layout->addLayout( hlay );
     else
-        pInputsLayout->addLayout ( hlay );
+        pControlsLayout->addLayout ( hlay );
     if ( !pFocusWidget )
         pFocusWidget = rich;
     return rich;
@@ -207,11 +237,11 @@ RichTextBox* FrmCustom::addRichTextBox(QWidget* parent, const Xtring& caption,
 CheckBox* FrmCustom::addCheckBox(QWidget *parent, const Xtring& caption,
                                  bool value, const char *name, QBoxLayout *layout)
 {
-    CheckBox *chkbox = new CheckBox( parent ? parent : pFrameEdit, name, caption );
+    CheckBox *chkbox = new CheckBox( parent ? parent : pControlsFrame, name, caption );
     chkbox->setChecked( value );
     if( !layout ) {
         layout = new QHBoxLayout();
-        pInputsLayout->addLayout ( layout );
+        pControlsLayout->addLayout ( layout );
     }
     layout->addWidget( chkbox );
     chkbox->setEdited( false );
@@ -222,11 +252,11 @@ CheckBox* FrmCustom::addCheckBox(QWidget *parent, const Xtring& caption,
 PushButton* FrmCustom::addButton(QWidget* parent, const Xtring& caption,
                                  const char *name, QBoxLayout* layout)
 {
-    PushButton *button = new PushButton( parent ? parent : pFrameEdit, caption );
+    PushButton *button = new PushButton( parent ? parent : pControlsFrame, caption );
     button->setObjectName( name );
     if( !layout ) {
         layout = new QHBoxLayout();
-        pInputsLayout->addLayout ( layout );
+        pControlsLayout->addLayout ( layout );
     }
     layout->addWidget( button );
     connect( button, SIGNAL( clicked() ), this, SLOT( button_clicked() ) );
@@ -248,15 +278,15 @@ ComboBoxXtring *FrmCustom::addComboBoxXtring(bool byref, QWidget* parent, const 
         name = "combo_" + Xtring(caption).replace(" ", "_");
     ComboBoxXtring *combo;
 	if( byref )
-		combo = new ComboBoxXtring( captions, values, parent ? parent : pFrameEdit, name.c_str(), caption );
+		combo = new ComboBoxXtring( captions, values, parent ? parent : pControlsFrame, name.c_str(), caption );
 	else
-		combo = new ComboBoxXtring( const_cast<XtringList &>(captions), const_cast<XtringList&>(values), parent ? parent : pFrameEdit, name.c_str(), caption );
+		combo = new ComboBoxXtring( const_cast<XtringList &>(captions), const_cast<XtringList&>(values), parent ? parent : pControlsFrame, name.c_str(), caption );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, "", 0 );
         combo->setCurrentIndex( 0 );
     }
     if ( !layout )
-        layout = pInputsLayout;
+        layout = pControlsLayout;
 // 		layout->addWidget( combo->getLabel() );
 // 		layout->setAlignment( combo->getLabel(), Qt::AlignRight );
 // 		layout->addWidget( combo );
@@ -282,9 +312,9 @@ ComboBoxInt *FrmCustom::addComboBoxInt( bool byref, QWidget *parent, const Xtrin
 {
 	ComboBoxInt *combo;
 	if( byref )
-		combo = new ComboBoxInt( captions, values, parent ? parent : pFrameEdit, name, caption );
+		combo = new ComboBoxInt( captions, values, parent ? parent : pControlsFrame, name, caption );
 	else
-		combo = new ComboBoxInt( const_cast<XtringList &>(captions), const_cast<IntList &>(values), parent ? parent : pFrameEdit, name, caption );
+		combo = new ComboBoxInt( const_cast<XtringList &>(captions), const_cast<IntList &>(values), parent ? parent : pControlsFrame, name, caption );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, -1, 0 );
         combo->setCurrentIndex( 0 );
@@ -296,7 +326,7 @@ ComboBoxInt *FrmCustom::addComboBoxInt( bool byref, QWidget *parent, const Xtrin
         if( combo->maximumWidth() != 16777215 )
             layout->setAlignment( combo, Qt::AlignLeft );
     } else
-        pInputsLayout->addLayout( combo->getLayout() );
+        pControlsLayout->addLayout( combo->getLayout() );
     connect( combo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( combo_activated( int ) ) );
     return combo;
 }
@@ -306,12 +336,12 @@ GroupBox* FrmCustom::addGroupBox(QWidget* parent, XtringList& options, const Xtr
                                  int selected, bool horiz, QBoxLayout* layout)
 {
     GroupBox *grpbox = new GroupBox( options, caption,
-                                     parent ? parent : pFrameEdit, horiz );
+                                     parent ? parent : pControlsFrame, horiz );
     grpbox->setSelectedPos( selected );
     if( !layout )
         layout = new QHBoxLayout();
     layout->addWidget( grpbox );
-    pInputsLayout->addLayout ( layout );
+    pControlsLayout->addLayout ( layout );
     connect( grpbox, SIGNAL( radio_clicked( int ) ), this, SLOT( combo_activated( int ) ) );
     return grpbox;
 }
@@ -319,9 +349,9 @@ GroupBox* FrmCustom::addGroupBox(QWidget* parent, XtringList& options, const Xtr
 FileNameBox* FrmCustom::addFileNameBox(QWidget* parent, const Xtring& caption, bool horiz,
                                        QBoxLayout* layout)
 {
-    FileNameBox *fnbox= new FileNameBox( parent ? parent : pFrameEdit, "", caption, false /*choosedir*/, horiz );
+    FileNameBox *fnbox= new FileNameBox( parent ? parent : pControlsFrame, "", caption, false /*choosedir*/, horiz );
     if ( !layout )
-        layout = pInputsLayout;
+        layout = pControlsLayout;
     layout->addLayout( fnbox->getLayout() );
     return fnbox;
 }
@@ -330,9 +360,9 @@ FileNameBox* FrmCustom::addFileNameBox(QWidget* parent, const Xtring& caption, b
 FileNameBox* FrmCustom::addDirNameBox(QWidget* parent, const Xtring& caption, bool horiz,
                                       QBoxLayout* layout)
 {
-    FileNameBox *fnbox= new FileNameBox( parent ? parent : pFrameEdit, "", caption, true /*choosedir*/, horiz );
+    FileNameBox *fnbox= new FileNameBox( parent ? parent : pControlsFrame, "", caption, true /*choosedir*/, horiz );
     if ( !layout )
-        layout = pInputsLayout;
+        layout = pControlsLayout;
     layout->addLayout( fnbox->getLayout() );
     return fnbox;
 }
@@ -343,10 +373,10 @@ DateRangeBox* FrmCustom::addDateRangeBox( QWidget *parent, const Xtring& caption
         const Xtring &caption_from, const Xtring &caption_to,
         const char *name, QBoxLayout *layout )
 {
-    DateRangeBox *drbox = new DateRangeBox( parent ? parent : pFrameEdit, name, caption,
+    DateRangeBox *drbox = new DateRangeBox( parent ? parent : pControlsFrame, name, caption,
                                             Variant::tDate, date_from, date_to,
                                             caption_from, caption_to, layout );
-    pInputsLayout->addLayout ( drbox->getLayout() );
+    pControlsLayout->addLayout ( drbox->getLayout() );
     return drbox;
 }
 
@@ -356,9 +386,9 @@ LineEdit *FrmCustom::addInputField( QWidget *parent, const Xtring &acaption,
 {
     Xtring name = "input_" + tablename + "_" + fldname;
     if( !layout )
-        layout = pInputsLayout;
+        layout = pControlsLayout;
     QHBoxLayout* anInputLayout = new QHBoxLayout();
-    LineEdit *edit = new LineEdit ( pFrameEdit, "edit_" + name, value.type() );
+    LineEdit *edit = new LineEdit ( pControlsFrame, "edit_" + name, value.type() );
     dbFieldDefinition *flddef = DBAPP->getDatabase()->findFieldDefinition( tablename, fldname );
     if( flddef ) {
         Xtring caption = acaption;
@@ -366,7 +396,7 @@ LineEdit *FrmCustom::addInputField( QWidget *parent, const Xtring &acaption,
             caption = flddef->getCaption();
         if ( !flddef->getStyle().isEmpty() )
             FrmEditRec::applyBasicStyle ( edit, flddef->getStyle() );
-        QLabel *lblField = new QLabel( toGUI( caption), pFrameEdit, ( "label_" + name ).c_str() );
+        QLabel *lblField = new QLabel( toGUI( caption), pControlsFrame, ( "label_" + name ).c_str() );
         anInputLayout->addWidget ( lblField );
     }
     if ( value == "today()" )
@@ -441,9 +471,9 @@ SearchBox *FrmCustom::addSearchField( QWidget *parent, const Xtring &tablename,
         }
     }
     SearchBox *search = new SearchBox( "", tablename, fldnamecodigo,
-                                       fldnamedesc, parent ? parent : pFrameEdit, flags );
+                                       fldnamedesc, parent ? parent : pControlsFrame, flags );
     if ( !layout )
-        layout = pInputsLayout;
+        layout = pControlsLayout;
     layout->addLayout( search->getLayout() );
     FrmEditRec::applyFieldStyle( search->getButton(), namefld );
     // Change the text into the table description instead of the field caption

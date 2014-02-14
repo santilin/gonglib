@@ -37,7 +37,7 @@ FrmCambiosMasivosArticulos::FrmCambiosMasivosArticulos(QWidget * parent, const c
     for( XtringList::const_iterator it = campos.begin(); it != campos.end(); ++ it )
         campos_captions << art_def->findFieldDefinition( *it )->getDescription();
     QFrame *frameCambioPrecios = new QFrame( this );
-    pInputsLayout->addWidget( frameCambioPrecios );
+    pControlsLayout->addWidget( frameCambioPrecios );
     QHBoxLayout *frameCambioPreciosLayout = new QHBoxLayout( frameCambioPrecios );
     pComboCampoPrecioCambio = addComboBoxXtring( true, frameCambioPrecios, _("Cambiar:"),
                                            campos_captions, campos, Xtring::null,

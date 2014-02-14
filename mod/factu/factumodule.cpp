@@ -975,8 +975,6 @@ bool FactuModule::initMainWindow( MainWindow *mainwin )
     pMenuFactuBalanceCliPro = new QAction( toGUI("Balances de clientes y proveedoras..."), 0, pMainWindow,0);
     pMainWindow->connect(pMenuFactuBalanceCliPro, SIGNAL(activated()), this, SLOT(slotMenuFactuBalanceCliPro()));
     pMenuFactuBalanceCliPro->addTo(pMenuInformes);
-    pMenuFactuMod303 = new QAction( toGUI("Modelo 303..."), 0, pMainWindow,0);
-    pMainWindow->connect(pMenuFactuMod303, SIGNAL(activated()), this, SLOT(slotMenuFactuMod303()));
 // 	pMenuFactuMod303->addTo(pMenuInformes);
 
 #ifdef HAVE_PAGOSMODULE

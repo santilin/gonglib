@@ -53,6 +53,10 @@ class FrmCustom: public FrmBase
     Q_OBJECT
 public:
     FrmCustom( QWidget *parent=0, const char *name=0, WidgetFlags fl = 0 );
+	// Tab widget
+    void showTabs(bool show = true );
+    QWidget *insertTab(QWidget *tab, const Xtring &label, int index = -1);
+    void setTabTitle( QWidget *tab, const Xtring &title );
     // Independent controls
     QLabel *addLabel( QWidget *parent, const Xtring &caption, const Variant &value,
                       const Xtring &style = Xtring::null, const char *name = 0, QBoxLayout *layout = 0 );
@@ -110,19 +114,15 @@ public:
 
 protected slots:
     virtual void validate_input( QWidget *, bool * );
-    virtual bool validate() {
-        return true;
-    }
+    virtual bool validate() { return true; }
     void combo_activated( int );
     void button_clicked();
 
 protected:
-    QFrame* pFrameEdit;
-    QVBoxLayout* pFrmCustomLayout;
-    QVBoxLayout* pFormLayout;
-    QVBoxLayout* pFrameEditLayout;
-    QVBoxLayout* pInputsLayout;
-    QHBoxLayout* pButtonsLayout;
+    QTabWidget *pTabWidget;
+    QWidget* pControlsFrame;
+    QVBoxLayout *pFormLayout, *pMainLayout, *pControlsLayout;
+    QHBoxLayout *pButtonsLayout;
 };
 
 } // namespace gong

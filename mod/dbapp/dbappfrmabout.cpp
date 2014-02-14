@@ -10,11 +10,11 @@ FrmAbout::FrmAbout(QWidget* parent, WidgetFlags fl)
     descLabel->setText( toGUI( _( "Una bonita aplicación desarrollada por Santilín (gestiong@programacionsocial.net).\n\n"
                                   "\nVersión de construcción del 9/2/2014"	) ) );
     descLayout->addWidget( descLabel );
-    pInputsLayout->addLayout( descLayout );
+    pControlsLayout->addLayout( descLayout );
 
     QLabel *iconthemeLabel = new QLabel( this );
     iconthemeLabel->setText( _("Tema de los iconos: ") + QIcon::themeName() );
-    pInputsLayout->addWidget( iconthemeLabel );
+    pControlsLayout->addWidget( iconthemeLabel );
 
     QHBoxLayout *dlsLayout = new QHBoxLayout();
     QLabel *dlsLabel = new QLabel( this );
@@ -22,7 +22,7 @@ FrmAbout::FrmAbout(QWidget* parent, WidgetFlags fl)
     dlsLayout->addWidget( dlsLabel );
     pushDirLocalSettings = addButton( this, "Abrir", 0, dlsLayout );
     alignLayout( dlsLayout, true );
-    pInputsLayout->addLayout( dlsLayout );
+    pControlsLayout->addLayout( dlsLayout );
 
     QHBoxLayout *dgsLayout = new QHBoxLayout();
     QLabel *dgsLabel = new QLabel( this );
@@ -30,7 +30,7 @@ FrmAbout::FrmAbout(QWidget* parent, WidgetFlags fl)
     dgsLayout->addWidget( dgsLabel );
     pushDirGlobalSettings = addButton( this, "Abrir", 0, dgsLayout );
     alignLayout( dgsLayout, true );
-    pInputsLayout->addLayout( dgsLayout );
+    pControlsLayout->addLayout( dgsLayout );
 
     QHBoxLayout *licenceLayout = new QHBoxLayout();
     QLabel *licenceLabel = new QLabel( this );
@@ -46,7 +46,7 @@ FrmAbout::FrmAbout(QWidget* parent, WidgetFlags fl)
                                       " Lesser General Public License for more details\n"
                                   ) ) );
     licenceLayout->addWidget( licenceLabel );
-    pInputsLayout->addLayout( licenceLayout );
+    pControlsLayout->addLayout( licenceLayout );
 }
 
 

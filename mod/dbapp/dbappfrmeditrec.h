@@ -180,16 +180,14 @@ protected:
     void enableSearchBoxes(bool enabled);
     void msgInputError(const Xtring &errorText);
     void showValidMessages(bool *isvalid, const ValidResult &validerror, QWidget *sender);
-    Xtring getFrom() {
-        return getRecord()->getTableName();
-    }
+    Xtring getFrom() { return getRecord()->getTableName(); }
     void fixFocusWidgetText();
     void addSpacersToTabs();
 
 protected:
+    QTabWidget *pTabWidget;
     QVBoxLayout *pFormLayout;
     QVBoxLayout *pMainLayout;
-    QTabWidget *pTabWidget;
     QWidget *pControlsFrame;
     QVBoxLayout *pControlsLayout;
     QHBoxLayout *pButtonsLayout;

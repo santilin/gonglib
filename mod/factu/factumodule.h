@@ -204,11 +204,8 @@ public:
     QAction *getMenuFactuBalanceCliPro() const {
         return pMenuFactuBalanceCliPro;
     }
-    QAction *getMenuFactuMod303() const {
-        return pMenuFactuMod303;
-    }
 
-    /*<<<<<FACTUMODULE_REQUIRES*/
+/*<<<<<FACTUMODULE_REQUIRES*/
 public:
 	empresa::EmpresaModule *getEmpresaModule() const { return pEmpresaModule; }
 	pagos::PagosModule *getPagosModule() const { return pPagosModule; }

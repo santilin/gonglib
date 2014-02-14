@@ -5,7 +5,6 @@
 ** Esto es una barbaridad Xtring FrmCustom::readRTK( const Xtring &_template )
 
 == Imprescindible ==
-* Los iconos del report en los pájaros no salen
 
 == NUEVA FUNCIONALIDAD ==
 * tpv: Fila de productos favoritos
@@ -13,6 +12,7 @@
 * factu: Formulario datos ventas y compras de artículos
 ** Crear un formulario base de estadísticas con condiciones y una consulta que genere un informe.
 * Enviar adjuntos por email
+* Clientes especiales, con un porcentaje extra.
 
 == MC ==
 * Comprobar: no pasa aquí. El resto de las ofertas siempre se queda como el total
@@ -102,6 +102,7 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Refactoring: Derivar FrmEditRec de FrmCustom y eliminar showtabs de FrmEditRec
 * RecordCompleter: Crearlo cuando el texto sea mayor de tres letras, no al principio,
 ** por lo tanto, en el validate del searchbox.
 ** Configuración: [ ] Completar campos de búsqueda
@@ -303,8 +304,8 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * Definición de las vistas: +SELECT BLA,BLA FROM INNER JOIN
 * Añadir a herramientas de la base de datos información sobre la conexión como etiquetas en el propio formulario
 * Formulario de edición de la configuración:
+** Diccionario de datos, no repetir "DBDEF.FIELD...."
 ** Añadir botón "Buscar clave" y "Añadir clave"
-** Crear editor específico para los valores.
 * Shortcuts para los menus en la configuración
 * AppReport::fromViewDefinition: Estrechar más los campos más largos (difícil)
 * Opción en FrmEditRecMaster para mostrar/ocultar los ids

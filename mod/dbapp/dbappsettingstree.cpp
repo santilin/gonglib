@@ -209,4 +209,21 @@ void SettingsTree::moveItemForward(QTreeWidgetItem *parent, int oldIndex,
         delete childAt(parent, newIndex);
 }
 
+QTreeWidgetItem *SettingsTree::findText( const Xtring &text, uint column, QTreeWidgetItem *start )
+{
+	QList<QTreeWidgetItem*> founditems = findItems( toGUI(text),
+		static_cast<Qt::MatchFlags>(Qt::MatchContains + Qt::MatchRecursive), 0 );
+	for( QList<QTreeWidgetItem*>::const_iterator it = founditems.begin();
+		it != founditems.end(); ++it ) {
+		if( *it == start ) {
+			++it;
+			if( it == founditems.end() )
+				return 0;
+			else
+				return *it;
+		}
+	}
+	return 0;
+}
+
 } // namespace gong

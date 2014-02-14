@@ -17,7 +17,7 @@ protected:
 
 	LineEdit *pEditTitulo;
 	ComboBoxInt *pComboOutputs;
-    CheckBox *pCheckResumido, *pCheckCSV;
+    CheckBox *pCheckResumido, *pCheckApaisado;
 };
 
 } // namespace gong

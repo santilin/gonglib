@@ -646,10 +646,10 @@ int EmpresaModule::getEjercicios(IntList& ejercicios) const
 				" MAX(" + DBAPP->getConnection()->nameToSQL("EJERCICIO") + ")"
 				" FROM " + DBAPP->getConnection()->nameToSQL( tbldef->getName() ),
 				&min, &max ) ) {
-				if( min.toInt() != 0 && min.toInt() < eje_min )
-					eje_min = min.toInt();
-				if( max.toInt() != 0 && max.toInt() < eje_max )
-					eje_max = max.toInt();
+				if( min.toUInt() != 0 && min.toUInt() < eje_min )
+					eje_min = min.toUInt();
+				if( max.toUInt() != 0 && max.toUInt() < eje_max )
+					eje_max = max.toUInt();
 			}
 		}
 	}
@@ -657,6 +657,7 @@ int EmpresaModule::getEjercicios(IntList& ejercicios) const
 	for( uint eje = eje_min; eje <= eje_max; ++eje )
 		ejercicios << eje;
 	DBAPP->resetCursor();
+	return ejercicios.size();
 }
 
 
