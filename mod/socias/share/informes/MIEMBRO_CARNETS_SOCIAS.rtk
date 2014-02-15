@@ -27,12 +27,16 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 			Type = string;
 		}
 		INPUTFIELD CONTACTO_NOMBRE {
-			Source = CONTACTO.NOMBRE;
+			Source = CONTACTO.NOMBRECOMPLETO;
 			Type = string;
 		}
 		INPUTFIELD MIEMBRO_FECHAALTA {
 			Source = MIEMBRO.FECHAALTA;
 			Type = date;
+		}
+		INPUTFIELD CONTACTO_TRATAMIENTO {
+			Source = CONTACTO.TRATAMIENTOCONTACTO;
+			Type = integer;
 		}
 
 	}
@@ -42,48 +46,53 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 		sizex = 30;
 		level = 0;
 		style = detail;
-		sizey = 5;
+		sizey = 5.2;
 		columns = 3;
 		marginright = 1;
-		borderstyle = dotted;
+//		borderstyle = dotted;
+		fontsize=12;
 
-		OBJECT PROYECTO_NOMBRE {
-			value = "=input.PROYECTO_NOMBRE";
-			halignment = "left";
+
+		OBJECT SOCIA_SOCIO_NUMERO_CAPTION {
+			value = '= if( @input.CONTACTO_TRATAMIENTO == 1 ) { return "Socia nº"; } else { return "Socio nº"; }';
 			posx = 0;
-			posy = 0;
-			sizex = 20;
-			fontsize = "+8";
-			fontfamily = "Dented BRK";
-		}
-		OBJECT MIEMBRO_NUMEROSOCIA {
-			value = "=input.MIEMBRO_NUMEROSOCIA";
-			halignment = "right";
-			posx = -1;
-			sizey = 1;
-			posy = 0;
-			sizex = 9;
-		}
-		OBJECT CONTACTO_CIF {
-			value = "=input.CONTACTO_CIF";
-			halignment = "left";
-			posy = 2;
-			posx = 0;
+			posy = 1;
 			sizex = 10;
 		}
+
+		OBJECT MIEMBRO_NUMEROSOCIA {
+			value = "=input.MIEMBRO_NUMEROSOCIA";
+			halignment = "left";
+			posx = 8;
+			sizey = 1;
+			posy = 1;
+			sizex = 6;
+		}
+
 		OBJECT CONTACTO_NOMBRE {
 			value = "=input.CONTACTO_NOMBRE";
 			halignment = "left";
-			posy = 2;
-			posx = -1;
-			sizex = 19;
-			adjustment = "grow";
+			fontweight = "bold";
+			posy = 2.3;
+			posx = 0;
+			sizex = 30;
+			adjustment = "reducefont";
 		}
+
+		OBJECT MIEMBRO_FECHAALTA_CAPTION {
+			value = "Fecha de alta:";
+			halignment = "left";
+			posy = 3.6;
+			posx = 0;
+			sizex = 13;
+		}
+
 		OBJECT MIEMBRO_FECHAALTA {
 			value = "=input.MIEMBRO_FECHAALTA";
 			halignment = "left";
-			posy = 3;
-			posx = 0;
+			format = "%d/%m/%Y";
+			posy = 3.6;
+			posx = 14;
 			sizex = 10;
 		}
 

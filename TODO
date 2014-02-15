@@ -4,7 +4,12 @@
 * Crear un FrmReportConds: public FrmCustom.
 ** Esto es una barbaridad Xtring FrmCustom::readRTK( const Xtring &_template )
 
+== Los pajaros ==
+* Están mal los socios 624, 625, 626
+
 == Imprescindible ==
+* Duplicar vistas: error del printf %N$
+* Ticked normal, tiene poco espacio para el total
 
 == NUEVA FUNCIONALIDAD ==
 * tpv: Fila de productos favoritos

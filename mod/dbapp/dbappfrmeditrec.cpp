@@ -100,7 +100,9 @@ QWidget *FrmEditRec::insertTab(QWidget* tab, const Xtring& label, int index)
 }
 
 /**
- * @brief Sets the label text of a tab widget. There is no easy way of doing this from the widget itself
+ * @brief Sets the label text of a tab widget by its pointer.
+ *        There is no easy way of doing this from the widget itself
+ * 		  If you know the index, you can just use setTabText
  *
  * @param tab ...
  * @param title ...

@@ -10,11 +10,11 @@ FrmReportConds::FrmReportConds(const Xtring &titulo,
     : FrmCustom(parent, "FrmReportConds", fl)
 {
 	setTitle( titulo );
-    pEditTitulo = addInput( 0, "Título", titulo );
+	pTabWidget->setTabText( 0, toGUI( _("&Condiciones") ) );
 	showTabs( true );
 
 	QWidget *tabOptions = new QWidget( this, "tabOpciones" );
-	/*QVBoxLayout *tabOptionsLayout = */new QVBoxLayout(tabOptions);
+	QVBoxLayout *tabOptionsLayout = new QVBoxLayout(tabOptions);
     XtringList soutputs;
     soutputs << _("Pantalla")
 		<< _("Impresora (directo)")
@@ -25,10 +25,14 @@ FrmReportConds::FrmReportConds(const Xtring &titulo,
 		<< _("PostScript")
 		<< _("Fichero de texto")
 		<< _("GNUmeric");
-    pComboOutputs = addComboBoxInt(false, tabOptions, _("Destino: "), soutputs, IntList() );
-    pCheckResumido = addCheckBox( tabOptions, _("Resumido"), false );
-    pCheckApaisado = addCheckBox( tabOptions, _("Apaisado"), false );
-    pTabWidget->insertTab( tabOptions, toGUI( _( "&Destino" ) ) );
+    pEditTitulo = addInput( 0, "Título", titulo, Xtring::null, 0, tabOptionsLayout);
+    pComboOutputs = addComboBoxInt(false, tabOptions, _("Destino: "), soutputs, IntList(),
+		Xtring::null, 0, tabOptionsLayout, true );
+    pCheckResumido = addCheckBox( tabOptions, _("Resumido"), false, 0, tabOptionsLayout );
+    pCheckApaisado = addCheckBox( tabOptions, _("Apaisado"), false, 0, tabOptionsLayout );
+	QSpacerItem *vertSpacer = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+	tabOptionsLayout->addItem(vertSpacer);
+    pTabWidget->insertTab( tabOptions, toGUI( _( "&Opciones" ) ) );
 }
 
 Xtring FrmReportConds::readRTK( const Xtring &_template )

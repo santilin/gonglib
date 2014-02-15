@@ -271,27 +271,24 @@ void FrmCustom::button_clicked()
 
 ComboBoxXtring *FrmCustom::addComboBoxXtring(bool byref, QWidget* parent, const Xtring& caption,
         const XtringList& captions, const XtringList& values,
-        const Xtring& empty, const char *_name, QBoxLayout* layout)
+        const Xtring& empty, const char *_name, QBoxLayout* layout, bool horiz)
 {
     Xtring name = _name;
     if( name.isEmpty() )
         name = "combo_" + Xtring(caption).replace(" ", "_");
     ComboBoxXtring *combo;
 	if( byref )
-		combo = new ComboBoxXtring( captions, values, parent ? parent : pControlsFrame, name.c_str(), caption );
+		combo = new ComboBoxXtring( captions, values, parent ? parent : pControlsFrame,
+									name.c_str(), caption, horiz );
 	else
-		combo = new ComboBoxXtring( const_cast<XtringList &>(captions), const_cast<XtringList&>(values), parent ? parent : pControlsFrame, name.c_str(), caption );
+		combo = new ComboBoxXtring( const_cast<XtringList &>(captions), const_cast<XtringList&>(values),
+									parent ? parent : pControlsFrame, name.c_str(), caption, horiz );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, "", 0 );
         combo->setCurrentIndex( 0 );
     }
     if ( !layout )
         layout = pControlsLayout;
-// 		layout->addWidget( combo->getLabel() );
-// 		layout->setAlignment( combo->getLabel(), Qt::AlignRight );
-// 		layout->addWidget( combo );
-// 		if( combo->maximumWidth() != 16777215 )
-// 			layout->setAlignment( combo, Qt::AlignLeft );
     layout->addLayout( combo->getLayout() );
     connect( combo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( combo_activated( int ) ) );
     return combo;
@@ -300,33 +297,29 @@ ComboBoxXtring *FrmCustom::addComboBoxXtring(bool byref, QWidget* parent, const 
 
 ComboBoxXtring *FrmCustom::addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
         const XtringList &captions_values, const Xtring &empty,
-        const char *name, QBoxLayout* layout )
+        const char *name, QBoxLayout* layout, bool horiz )
 {
-    return addComboBoxXtring( byref, parent, caption, captions_values, captions_values, empty, name, layout );
+    return addComboBoxXtring( byref, parent, caption, captions_values, captions_values,
+							  empty, name, layout, horiz );
 }
-
 
 ComboBoxInt *FrmCustom::addComboBoxInt( bool byref, QWidget *parent, const Xtring &caption,
 	const XtringList &captions, const IntList &values, const Xtring &empty,
-	const char *name, QBoxLayout * layout )
+	const char *name, QBoxLayout * layout, bool horiz )
 {
 	ComboBoxInt *combo;
 	if( byref )
-		combo = new ComboBoxInt( captions, values, parent ? parent : pControlsFrame, name, caption );
+		combo = new ComboBoxInt( captions, values, parent ? parent : pControlsFrame, name, caption, horiz );
 	else
-		combo = new ComboBoxInt( const_cast<XtringList &>(captions), const_cast<IntList &>(values), parent ? parent : pControlsFrame, name, caption );
+		combo = new ComboBoxInt( const_cast<XtringList &>(captions), const_cast<IntList &>(values),
+								 parent ? parent : pControlsFrame, name, caption, horiz );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, -1, 0 );
         combo->setCurrentIndex( 0 );
     }
-    if ( layout ) {
-        layout->addWidget( combo->getLabel() );
-        layout->setAlignment( combo->getLabel(), Qt::AlignRight );
-        layout->addWidget( combo );
-        if( combo->maximumWidth() != 16777215 )
-            layout->setAlignment( combo, Qt::AlignLeft );
-    } else
-        pControlsLayout->addLayout( combo->getLayout() );
+    if ( !layout )
+        layout = pControlsLayout;
+	layout->addLayout( combo->getLayout() );
     connect( combo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( combo_activated( int ) ) );
     return combo;
 }

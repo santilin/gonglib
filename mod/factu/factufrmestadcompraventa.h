@@ -27,7 +27,6 @@ protected:
 		*pSearchFamilia, *pSearchAgente, *pSearchFormaPago;
     ComboBoxXtring *pComboAgruparPor, *pComboComprasOVentas, *pComboAlbaranesFacturas;
     CheckBox *pCheckPreciosConIVA, *pCheckIncNotas, *pCheckTodasLasEmpresas, *pCheckGranTotal;
-    LineEdit *pEditTitulo;
 };
 
 #define ESTAD_SOLOCOMPRAS (pComboComprasOVentas->currentIndex() == 1)

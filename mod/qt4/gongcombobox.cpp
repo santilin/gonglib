@@ -14,9 +14,9 @@ ComboBoxInt::ComboBoxInt( const XtringList &captions, const IntList &values,
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     insertItems();
     if( mHorizontal )
-        pLayout = (QBoxLayout *)new QHBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
+        pLayout = (QBoxLayout *)new QHBoxLayout();
     else
-        pLayout = (QBoxLayout *)new QVBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
+        pLayout = (QBoxLayout *)new QVBoxLayout();
     pLabel = new QLabel( parent, ("label_" + name).c_str() );
     pLabel->setText( toGUI(caption) );
     pLayout->addWidget( pLabel );

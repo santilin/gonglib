@@ -57,7 +57,7 @@ public:
     void showTabs(bool show = true );
     QWidget *insertTab(QWidget *tab, const Xtring &label, int index = -1);
     void setTabTitle( QWidget *tab, const Xtring &title );
-    // Independent controls
+    // Independent controls. The name is necessary in these controls
     QLabel *addLabel( QWidget *parent, const Xtring &caption, const Variant &value,
                       const Xtring &style = Xtring::null, const char *name = 0, QBoxLayout *layout = 0 );
     LineEdit *addInput ( QWidget *parent, const Xtring &caption, const Variant &value,
@@ -68,13 +68,13 @@ public:
                            bool value, const char *name = 0, QBoxLayout *layout = 0 );
     ComboBoxXtring *addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
                                    const XtringList &captions, const XtringList &values, const Xtring &empty = Xtring::null,
-                                   const char *name = 0, QBoxLayout * layout = 0 );
+                                   const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
     ComboBoxXtring *addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
                                    const XtringList &captions_values, const Xtring &empty = Xtring::null,
-                                   const char *name = 0, QBoxLayout * layout = 0 );
+                                   const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
     ComboBoxInt *addComboBoxInt( bool byref, QWidget *parent, const Xtring &caption,
                                 const XtringList &captions, const IntList &values, const Xtring &empty = Xtring::null,
-                                const char *name = 0, QBoxLayout * layout = 0 );
+                                const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
     GroupBox *addGroupBox( QWidget *parent, XtringList &options, const Xtring &caption,
                            int selected, bool horiz = true, QBoxLayout *layout = 0 );
     DateRangeBox *addDateRangeBox( QWidget *parent, const Xtring &caption,
