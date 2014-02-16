@@ -185,30 +185,29 @@ FrmViewEdit::FrmViewEdit(DataTable::EditMode editmode,
     txtViewName->setText( viewdef->getCaption() );
     txtViewOrigin->setText( viewdef->getOrigin() );
     txtOrderBy->setText( viewdef->getOrderBy() );
-    Xtring title;
-
+    Xtring title,
+		arg = viewdef->getOrigin().startsWith("DEFAULT:") || pViewDefinition->getName().endsWith(".DEFAULT")
+              ? _( "por defecto" ) : pViewDefinition->getCaption().c_str();
     switch( mEditMode ) {
     case DataTable::inserting:
         pFocusWidget = txtViewName;
         txtOrderBy->setText("2");
-        title = _("Añadiendo una nueva vista a la tabla de %2$s");
+        title = _("Añadiendo una nueva vista a la tabla de %s");
+		arg = pRecord->getTableDefinition()->getDescPlural();
         break;
     case DataTable::updating:
-        title = _("Modificando la vista '%1$s'");
+        title = _("Modificando la vista '%s'");
         txtViewName->setEnabled( false );
 		comboSetting->setCurrentIndex( 2 );
         break;
     case DataTable::deleting:
-        title = _("Eliminando la vista '%1$s'");
+        title = _("Eliminando la vista '%1s'");
         break;
     default:
         throw std::runtime_error("Invalid editmode in FrmViewEdit");
     }
     mSaveSettingIndex = comboSetting->currentIndex();
-    setCaption( toGUI(Xtring::printf( title,
-                                      viewdef->getOrigin().startsWith("DEFAULT:") || pViewDefinition->getName().endsWith(".DEFAULT")
-                                      ? _( "por defecto" ) : pViewDefinition->getCaption().c_str(),
-                                      pRecord->getTableDefinition()->getDescPlural().c_str() ) ) );
+    setCaption( toGUI( Xtring::printf( title, arg.c_str() ) ) );
 }
 
 int FrmViewEdit::addFieldToList ( const Xtring &text, ViewEditListItemInfo &iteminfo )
