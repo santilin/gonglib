@@ -48,7 +48,7 @@
 			posy = 0;
 			sizey = 1;
 			posx = -1;
-			sizex = 5 ;
+			sizex = 4.6;
 		}
 		OBJECT npagina {
 			style = pagenumber ;
@@ -58,14 +58,14 @@
 			halignment = right ;
 			value="= @report.pagenumber;";
 			mask = "0000" ;
-			sizex = 3.5;
+			sizex = 3.6;
 		}
 
 		OBJECT titulo {
 			style = title;
 			value = "= const @report.title;";
 			posx = 0;
-			posy = 1;
+			posy = 1.1;
 			sizey = 1.2;
 			halignment = center;
 			fontsize = 13;

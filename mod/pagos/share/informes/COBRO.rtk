@@ -1,0 +1,316 @@
+REPORT COBRO_POR_RAZÓN_SOCIAL
+{
+	Title = "Recibí";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
+	Tag = "Pagos";
+
+	INPUT default {
+		driver = mysql;
+		from = "COBRO";
+		orderby = "2,3";
+
+		INPUTFIELD COBRO_RAZONSOCIAL {
+			Source = COBRO.RAZONSOCIAL;
+			Type = string;
+		}
+		INPUTFIELD COBRO_NUMERO {
+			Source = COBRO.NUMERO;
+			Type = int;
+		}
+		INPUTFIELD COBRO_AUTOMATICO {
+			Source = COBRO.AUTOMATICO;
+			Type = bool;
+		}
+		INPUTFIELD COBRO_DESCRIPCION {
+			Source = COBRO.DESCRIPCION;
+			Type = string;
+		}
+		INPUTFIELD COBRO_FECHAEMISION {
+			Source = COBRO.FECHAEMISION;
+			Type = date;
+		}
+		INPUTFIELD COBRO_VENCIMIENTO {
+			Source = COBRO.VENCIMIENTO;
+			Type = date;
+		}
+		INPUTFIELD COBRO_RESTO {
+			Source = COBRO.RESTO;
+			Type = money;
+		}
+		INPUTFIELD COBRO_ESTADORECIBO {
+			Source = COBRO.ESTADORECIBO;
+			Type = int;
+		}
+		INPUTFIELD COBRO_IMPORTE {
+			Source = COBRO.IMPORTE;
+			Type = money;
+		}
+		INPUTFIELD COBRO_FECHAPAGO {
+			Source = COBRO.FECHAPAGO;
+			Type = date;
+		}
+		INPUTFIELD COBRO_DOCUMENTOPAGO {
+			Source = COBRO.DOCUMENTOPAGO;
+			Type = string;
+		}
+		INPUTFIELD COBRO_CUENTAPAGO {
+			Source = COBRO.DOCUMENTOPAGO;
+			Type = string;
+		}
+		INPUTFIELD COBRO_CUENTAORIGEN {
+			Source = COBRO.CUENTAORIGEN;
+			Type = string;
+		}
+		INPUTFIELD COBRO_NUMEROAGRUPADO {
+			Source = COBRO.NUMEROAGRUPADO;
+			Type = string;
+		}
+
+	}
+
+	Include = "default_pageheader.inc";
+
+#ifdef INCLUIR
+	PAGEHEADER header_captions {
+		sizey=1;
+		fontweight = bold;
+		borderbottomstyle = solid;
+		borderbottomcolor = black;
+		borderbottomwidth = 1;
+
+		OBJECT header_COBRO_RAZONSOCIAL {
+			value = "Razón social";
+			posx = 0;
+			sizex = 9;
+		}
+		OBJECT header_COBRO_NUMERO {
+			value = "Número";
+			posx = 10;
+			sizex = 7;
+		}
+		OBJECT header_COBRO_AUTOMATICO {
+			value = "Automático";
+			posx = 18;
+			sizex = 1;
+		}
+		OBJECT header_COBRO_DESCRIPCION {
+			value = "Descripción";
+			posx = 20;
+			sizex = 18;
+		}
+		OBJECT header_COBRO_FECHAEMISION {
+			value = "Fecha emisión";
+			posx = 39;
+			sizex = 7;
+		}
+		OBJECT header_COBRO_VENCIMIENTO {
+			value = "Vencimiento";
+			posx = 47;
+			sizex = 7;
+		}
+		OBJECT header_COBRO_RESTO {
+			value = "Resto";
+			posx = 55;
+			sizex = 10;
+		}
+		OBJECT header_COBRO_ESTADORECIBO {
+			value = "Estado";
+			posx = 66;
+			sizex = 3;
+		}
+		OBJECT header_COBRO_IMPORTE {
+			value = "Importe";
+			posx = 70;
+			sizex = 10;
+		}
+		OBJECT header_COBRO_FECHAPAGO {
+			value = "Fecha pago";
+			posx = 81;
+			sizex = 7;
+		}
+		OBJECT header_COBRO_DOCUMENTOPAGO {
+			value = "Documento pago";
+			posx = 89;
+			sizex = 9;
+		}
+		OBJECT header_COBRO_NUMEROAGRUPADO {
+			value = "Número agrupado";
+			posx = 99;
+			sizex = 7;
+		}
+
+	}
+#endif
+
+    DETAILS details_pago {
+        style = detail;
+        sizey = 8;
+//        formulabefore = "= if( @input.CONTACTO_NOMBRE != \"\" ) @this.visible = 1; else @this.visible = 0; return 0;";
+        fontweight = "bold";
+        fontsize = 14;
+
+        OBJECT recibi_de_text {
+            value = "Recibí de:";
+            posx = 0;
+            posy = 0;
+            sizey = 1;
+        }
+
+        OBJECT recibi_de {
+            value = "=@input.COBRO_RAZONSOCIAL";
+            posx = 20;
+            posy = 0;
+            sizey = 1;
+        }
+
+        OBJECT eldia_text {
+            value = "El día:";
+            posx = 0;
+            posy = 2;
+            sizey = 1;
+        }
+
+        OBJECT eldia {
+            value = "=input.COBRO_FECHAPAGO";
+            posx = 20;
+            posy = 2;
+            sizey = 1;
+            format = "%x";
+        }
+
+        OBJECT importe_text {
+            value = "Un importe de:";
+            posx = 0;
+            posy = 4;
+            sizey = 1;
+        }
+
+        OBJECT importe {
+            value = "=input.COBRO_IMPORTE";
+            posx = 20;
+            sizex = 12;
+            posy = 4;
+            sizey = 1;
+        }
+
+        OBJECT cuenta_text {
+            value = "A la cuenta:";
+            posx = 0;
+            posy = 6;
+            sizey = 1;
+        }
+
+        OBJECT cuenta {
+			value = "= if( @input.COBRO_CUENTAPAGO != \"\" ) { return @input.COBRO_CUENTAPAGO; } else { return @input.COBRO_CUENTAORIGEN; };";
+            posx = 20;
+            sizex = 60;
+            posy = 6;
+            sizey = 1;
+        }
+
+        OBJECT concepto_text {
+            value = "En concepto de:";
+            posx = 0;
+            posy = 8;
+            sizey = 1;
+        }
+
+        OBJECT concepto {
+            value = "=input.COBRO_DESCRIPCION";
+            posx = 20;
+            sizex = 60;
+            posy = 8;
+            sizey = 1;
+        }
+    }
+
+#ifdef INCLUIR
+	DETAILS details {
+		posx = 0;
+		level = 0;
+		style = detail;
+		sizey = 1;
+		backcolor = "gray&white";
+
+
+		OBJECT COBRO_RAZONSOCIAL {
+			value = "=input.COBRO_RAZONSOCIAL";
+			halignment = "left";
+			posx = 0;
+			sizex = 9;
+		}
+		OBJECT COBRO_NUMERO {
+			value = "=input.COBRO_NUMERO";
+			halignment = "right";
+			posx = 10;
+			sizex = 7;
+		}
+		OBJECT COBRO_AUTOMATICO {
+			value = "=input.COBRO_AUTOMATICO";
+			halignment = "center";
+			posx = 18;
+			sizex = 1;
+			format="No|Sí";
+		}
+		OBJECT COBRO_DESCRIPCION {
+			value = "=input.COBRO_DESCRIPCION";
+			halignment = "left";
+			posx = 20;
+			sizex = 18;
+		}
+		OBJECT COBRO_FECHAEMISION {
+			value = "=input.COBRO_FECHAEMISION";
+			halignment = "left";
+			posx = 39;
+			sizex = 7;
+		}
+		OBJECT COBRO_VENCIMIENTO {
+			value = "=input.COBRO_VENCIMIENTO";
+			halignment = "left";
+			posx = 47;
+			sizex = 7;
+		}
+		OBJECT COBRO_RESTO {
+			value = "=input.COBRO_RESTO";
+			halignment = "right";
+			posx = 55;
+			sizex = 10;
+		}
+		OBJECT COBRO_ESTADORECIBO {
+			value = "=input.COBRO_ESTADORECIBO";
+			halignment = "left";
+			posx = 66;
+			sizex = 3;
+		}
+		OBJECT COBRO_IMPORTE {
+			value = "=input.COBRO_IMPORTE";
+			halignment = "right";
+			posx = 70;
+			sizex = 10;
+		}
+		OBJECT COBRO_FECHAPAGO {
+			value = "=input.COBRO_FECHAPAGO";
+			halignment = "left";
+			posx = 81;
+			sizex = 7;
+		}
+		OBJECT COBRO_DOCUMENTOPAGO {
+			value = "=input.COBRO_DOCUMENTOPAGO";
+			halignment = "left";
+			posx = 89;
+			sizex = 9;
+		}
+		OBJECT COBRO_NUMEROAGRUPADO {
+			value = "=input.COBRO_NUMEROAGRUPADO";
+			halignment = "left";
+			posx = 99;
+			sizex = 7;
+		}
+	}
+#endif
+
+	Include = "default_pagefooter.inc";
+
+}
