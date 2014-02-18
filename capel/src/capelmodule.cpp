@@ -117,7 +117,6 @@ Xtring CapelModule::fill_end_extrusion(const Xtring &extrusion_name)
 */  
 Xtring::size_type CapelModule::lookup_extrusion_begin(const Xtring &extrusion_name)
 {
-	_GONG_DEBUG_PRINT(0, mBuffer);
 	Xtring fullname = fill_begin_extrusion(extrusion_name);
 	Xtring::size_type pos = mBuffer.find(fullname + mEndComment);
 	if( pos == Xtring::npos )

@@ -50,9 +50,17 @@ if test "$ac_cv_use_mysql" = yes ; then
 	fi
 fi
 
+AC_ARG_WITH( [boost],
+            AS_HELP_STRING([--with-boost], [Support for the Boost library (default is YES)]),
+            [ac_cv_use_boost=$withval],
+            [ac_cv_use_boost=yes] )
+if test "$ac_cv_use_boost" = yes ; then
+		AX_BOOST_BASE(1.0)
+		AX_BOOST_REGEX
+fi
 
-GONGLIB_CPPFLAGS="-I../../gonglib $MYSQL_CPPFLAGS $POCO_CPPFLAGS "
-GONGLIB_LIBS="-L../gonglib -lgonglib $MYSQL_LIBS $POCO_LIBS "
+GONGLIB_CPPFLAGS="-I../../gonglib $MYSQL_CPPFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS"
+GONGLIB_LIBS="-L../gonglib -lgonglib $MYSQL_LIBS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB"
 
 AC_SUBST(GONGLIB_CPPFLAGS)
 AC_SUBST(GONGLIB_LIBS)

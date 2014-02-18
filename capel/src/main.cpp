@@ -109,7 +109,7 @@ void genventadirecta();
 int main( int argc, char *argv[] )
 {
 #ifdef _GONG_DEBUG
-	::__gong_debug::_gong_debug_level = 2;
+	::__gong_debug::_gong_debug_level = 1;
 #endif
 	if( argc == 2 && strcasecmp(argv[1], "rtk") == 0 ) {
 		capel::genrtk();

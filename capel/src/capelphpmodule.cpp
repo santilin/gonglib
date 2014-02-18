@@ -7,7 +7,6 @@ namespace capel {
 
 Xtring PhpModule::getPHPTypeFromMysqlType(SqlColumnType mysqltype)
 {
-	_GONG_DEBUG_PRINT( 0, mysqltype );
 	switch( mysqltype ) {
 		case SQLSTRING:
 		case SQLTEXT:
@@ -16,10 +15,11 @@ Xtring PhpModule::getPHPTypeFromMysqlType(SqlColumnType mysqltype)
 		case SQLINTEGER:
 			return "integer";
 		case SQLDATE:
-		case SQLDATETIME:
 		case SQLTIME:
+			return "date";
+		case SQLDATETIME:
 		case SQLTIMESTAMP:
-			return "integer";
+			return "datetime";
 		case SQLBOOL:
 			return "bool";
 		case SQLDECIMAL:
@@ -28,6 +28,22 @@ Xtring PhpModule::getPHPTypeFromMysqlType(SqlColumnType mysqltype)
 	}
 }
 	
+/**
+	* @brief converts an identifer like identifier_word to a model name like IdentifierWord
+	* 
+	* @param identifier ...
+	* @return Xtring
+	*/
+Xtring PhpModule::modelize(const Xtring& identifier)
+{
+	Xtring ret;
+	XtringList parts;
+	identifier.tokenize( parts, "_" );
+	for( XtringList::const_iterator it = parts.begin(); it != parts.end(); ++it ) {
+		ret += it->proper();
+	}
+	return ret;
+}
 	
 	
 }

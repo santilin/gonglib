@@ -343,17 +343,27 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             flddef->setCaption( fldname.proper() );
             flddef->setDescription( tblname + "." + fldname );
             tbldef->addField( flddef );
-			// Read primary keys to get the relations
-			Xtring createtablesql = conn->selectString( "SHOW CREATE TABLE " + conn->nameToSQL( tblname ) );
-			RegExp r("/FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+([^\\(^\\s]+)\\s*\\(([^\\)]+)\\)/mi");
-			Xtring::size_type pos = 0;
-			RegExpMatch m;
-			while( r.match( createtablesql, pos, m ) ) {
-				pos = m.offset;
-				Xtring matched = createtablesql.mid( pos, m.length );
-				_GONG_DEBUG_PRINT(0, matched );
-			}
         }
+		Xtring createtablesql = conn->selectString( "SHOW CREATE TABLE " + conn->nameToSQL( tblname ), 1 );
+		// Esta expresión regular da error ocasionalmente
+//		RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+");
+		// Esta es la original
+		RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+([^\\(^\\s]+)\\s*\\(([^\\)]+)\\)");
+		// Read primary keys to get the relations
+//		RegExp r("FOREIGN KEY\\s\\([^\\)]+\\)");
+		Xtring::size_type pos = 0;
+		RegExpMatchList matches;
+		_GONG_DEBUG_PRINT(0, tblname);
+		RegExpIterator res(createtablesql.begin(), createtablesql.end(), r), end;
+		for (; res != end; ++res) {
+			Xtring kname = (*res)[1].str();
+			Xtring kreftable = (*res)[2].str();
+			Xtring kreffield = (*res)[3].str();
+			_GONG_DEBUG_PRINT(0, Xtring::printf("Matched %s, %s,%s,%s", 
+												(*res)[0].str().c_str(), kname.c_str(), 
+												kreftable.c_str(), kreffield.c_str()));
+		}
+		exit(1);
     } else if( conn->isSQLite() ) {
 		std::auto_ptr<dbResultSet> rsFields( conn->select( "PRAGMA table_info(" + tblname + ")" ) );
         tbldef = new dbTableDefinition( db, tblname );

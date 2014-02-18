@@ -54,14 +54,18 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 	Dictionary< Xtring >lengths;
 	
 	for( uint i = 0; i < tbldef.getFieldCount(); ++i ) {
-		Xtring relation_name;
 		const dbFieldDefinition *flddef = tbldef.getFieldDefinition(i);
+		Xtring relation_name;
 		// class comments
 		Xtring phpfldtype = phpmodule->getPHPTypeFromMysqlType( flddef->getSqlColumnType() );
-		fields_comments += " * @property " + phpfldtype + " @" + flddef->getName() + "\n";
+		fields_comments += " * @property " + phpfldtype + " $" + flddef->getName() + "\n";
+		if( flddef->getName() == "created_at" || flddef->getName() == "updated_at"
+			|| flddef->getName() == "created_by" || flddef->getName() == "updated_by" )
+			continue;
 		if( flddef->getName().startsWith("id_") ) {
 			relation_name = flddef->getName().mid(3);
-			relations_comments += " * @property " + phpmodule->capitalize(relation_name) + "[] $" + relation_name + "s\n";
+			// 1:1 relations
+			relations_comments += " * @property " + phpmodule->modelize(relation_name) + " $id" + phpmodule->modelize(relation_name) + "\n";
 		}
 		// rules
 		if( !search_rules.isEmpty() )
@@ -70,19 +74,19 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 		if( !flddef->isSequence() ) {
 			bool required = !flddef->canBeNull() && flddef->getDefaultValue().isEmpty();
 			if( required ) 
-				required_fields.appendOrCreate( flddef->getName(), "," );
+				required_fields.appendWithSeparator( flddef->getName(), "," );
 			if( phpfldtype == "integer" ) {
-				integer_fields.appendOrCreate( flddef->getName(), ",");
+				integer_fields.appendWithSeparator( flddef->getName(), ",");
 			} else if( phpfldtype == "double" ) {
-				numerical_fields.appendOrCreate( flddef->getName(), ",");
+				numerical_fields.appendWithSeparator( flddef->getName(), ",");
 			} else if( phpfldtype == "string" && flddef->getSqlWidth() > 0 ) {
 				Xtring slength = Xtring::number( flddef->getSqlWidth() );
 				if( lengths[ slength].isEmpty() )
-					lengths.insert( slength, "'" + flddef->getName() + "'" );
+					lengths.insert( slength, flddef->getName()  );
 				else
-					lengths[ slength ] += ", '" + flddef->getName() + "'";
+					lengths[ slength ] += "," + flddef->getName();
 			} else if( !flddef->isPrimaryKey() ) {
-				safe_fields.appendOrCreate( flddef->getName(), ",");
+				safe_fields.appendWithSeparator( flddef->getName(), ",");
 			}
 		}
 			
@@ -118,10 +122,11 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 real_info,
 // before								   
 "<?php\n"
-"\n"
 "/**\n"
 " * Clase modelo para la tabla \"" + Xtring(md.pTableName) + "\".\n"
-" */\n");
++ mProgramDefinition.pPackageDocBlock +
+" */\n"
+"\n" ); 
 	
 	Xtring construction = 
 "\t/**\n"
@@ -143,15 +148,9 @@ real_info,
 "\t	return parent::model('" + Xtring(md.pModuleName) + "');\n"
 "\t}\n"
 "\n"
-+ record_search_begin + criteria_compare + record_search_end +
-"\tpublic function __construct($scenario = 'search')\n"
-"\t{\n"
-"\t\tparent::__construct($scenario);\n";
++ record_search_begin + criteria_compare + record_search_end;
 
-	phpmodule->insert_extrusion( "CONSTRUCTION", construction, 
-"\t\t$this->info = " + Xtring(md.pModuleName) + "::$real_info;\n"
-"\t}\n"
-"\n");
+	phpmodule->insert_extrusion( "CONSTRUCTION", construction );
 
 	Xtring rules = 
 "\t/**\n"
@@ -171,10 +170,10 @@ real_info,
 	Xtring length_rules;
 	for( Dictionary< Xtring >::const_iterator it = lengths.begin();
 		it != lengths.end(); ++ it ) {
-		length_rules += Xtring("\t\t\tarray(") + it->second + ", 'length', 'max'=>" + it->first + "),\n";
+		length_rules += Xtring("\t\t\tarray('") + it->second + "', 'length', 'max'=>" + it->first + "),\n";
 	}
 	if( !safe_fields.isEmpty() )
-		safe_fields = "\t\t\tarray(" + safe_fields + ", 'safe'),\n";
+		safe_fields = "\t\t\tarray('" + safe_fields + "', 'safe'),\n";
 		
 	phpmodule->insert_extrusion( "RULES", 
 					rules + required_fields + integer_fields + numerical_fields + length_rules + safe_fields +
@@ -199,6 +198,7 @@ real_info,
 "\t\t/* Modifica las etiquetas a tu gusto aquí */\n"
 "\t\treturn $ret;\n"
 "\t}\n"
+"} // class\n"
 "\n");
 	phpmodule->writeIfModified();
 
@@ -218,15 +218,120 @@ Xtring(
 "\t\t$model = " + Xtring(md.pModuleName) + "::model()->findByPk((int)$id);\n"
 "\t\tif($model===null) {\n"
 "\t\t\tthrow new CHttpException(404,'No se pudo crear el modelo " + Xtring(md.pModuleName) + "');\n"
-"\t\t}\n"
+"\t\t}\n",
+
 "\t\treturn $model;\n"
 "\t}\n"
 "}\n"
-"\n", Xtring::null, "<?php\n");
+"\n", 
+
+"<?php\n"
+"/**\n"
+" * " + Xtring(md.pModuleName) + "Controller.php hmbasemvc\\AdminController para el modelo " + md.pModuleName + "\n"
++ mProgramDefinition.pPackageDocBlock +
+" */\n"
+"\n" ); 
 	
 	phpcontroller->writeIfModified();
 	
+	if( Xtring(md.pRecordClass) == "TablaTipoRecord" ) {
+		generateTablaTipoViews( md );
+	} else if( Xtring(md.pRecordClass) == "InformedRecord" ) {
+		generateInformedRecordViews( md, tbldef );
+	}
 }
+	
+	
+int GeneralGenerator::generateTablaTipoViews(const GeneralGenerator::ModuleDefinition& md)
+{
+	Xtring mv_path = Xtring(mProgramDefinition.pDestPath) + "/protected/views/" + Xtring(md.pModuleName).unproper();
+	if( !FileUtils::isDir( mv_path.c_str() ) )
+		FileUtils::makePath( mv_path );
+	PhpModule *phpviewadmin = new PhpModule( mv_path + "/_admin.php");
+	PhpModule *phpviewformfields = new PhpModule( mv_path + "/_form_fields.php");
+
+	phpviewadmin->insert_extrusion_at( 0, "BASIC",
+"$this->widget('hmbasemvc.widgets.grid.GridView', array(\n"
+"\t'id'=> get_class($model) . '-grid',\n"
+"\t'dataProvider'=>$model->search(),\n"
+"\t'filter'=>$model,\n"
+"\t'columns'=>array(\n"
+"\t\tarray( 'name' => 'id', 'class' => 'MainColumn' ),\n"
+"\t\tarray( 'name' => 'nombre', 'class' => 'MainColumn' ),\n",
+	   
+"\t\t// Añade el resto de columnas aquí\n"
+"\t\tarray( 'class'=>'ButtonColumn' ),\n"
+"\t)\n"
+"));\n",
+
+"<?php\n"
+"/**\n"
+" * " + Xtring(md.pModuleName).unproper() + "/_admin.php vista de administración para el modelo " + md.pModuleName + "\n"
++ mProgramDefinition.pPackageDocBlock +
+" */\n" 
+"\n" ); 
+	phpviewadmin->writeIfModified();
+	
+	phpviewformfields->insert_extrusion_at( 0, "BASIC",
+"\techo $form->textControl(\"nombre\");\n", 
+	   Xtring::null, 
+"<?php\n"
+"/**\n"
+" * " + Xtring(md.pModuleName).unproper() + "/_form_fields.php formulario para el modelo " + md.pModuleName + "\n"
++ mProgramDefinition.pPackageDocBlock + 
+" */\n" 
+"\n" ); 		
+	phpviewformfields->writeIfModified();
+}
+	
+
+int GeneralGenerator::generateInformedRecordViews(const GeneralGenerator::ModuleDefinition& md, 
+												  const dbTableDefinition &tbldef )
+{
+	generateTablaTipoViews( md );
+	XtringList excluded_fields;
+	Xtring md_excluded_fields( md.pFormExcludedFields );
+	md_excluded_fields.tokenize( excluded_fields, "," );
+	Xtring control_code;
+	for( uint i = 0; i < tbldef.getFieldCount(); ++i ) {
+		const dbFieldDefinition *flddef = tbldef.getFieldDefinition(i);
+		if( flddef->getName() == "id" 
+			|| flddef->getName() == "created_at" || flddef->getName() == "updated_at"
+			|| flddef->getName() == "created_by" || flddef->getName() == "updated_by" )
+			continue;
+		if( excluded_fields.contains( flddef->getName() ) )
+			continue;
+		Xtring phpfldtype = PhpModule::getPHPTypeFromMysqlType( flddef->getSqlColumnType() );
+		Xtring relation_name;
+		if( flddef->getName().startsWith("id_") ) {
+			relation_name = flddef->getName().mid(3);
+			Xtring relation_model = PhpModule::modelize( relation_name );
+		// 1:1 relations
+			control_code += 
+"\techo $form->listControl('" + flddef->getName() + "',\n"
+"\t\tCHtml::listData(" + relation_model + "::model()->findAll(array('order' => " + relation_model + "::getOrderField())), \n"
+"\t\t\t" + relation_model + "::getCodeField(), " + relation_model + "::getDescField()));\n";
+		} else {
+			if( phpfldtype == "string" || phpfldtype == "integer" ) {
+				control_code += "\techo $form->textControl('" + flddef->getName() + "');\n";
+			} else if( phpfldtype == "bool" ) {
+				control_code += "\techo $form->checkControl('" + flddef->getName() + "');\n";
+			} else if( phpfldtype == "date" ) {
+				control_code += "\techo $form->dateControl('" + flddef->getName() + "');\n";
+			} else if( phpfldtype == "datetime" ) {
+				control_code += "\techo $form->dateTimeControl('" + flddef->getName() + "');\n";
+			}
+		}
+	}
+	
+	Xtring mv_path = Xtring(mProgramDefinition.pDestPath) + "/protected/views/" + Xtring(md.pModuleName).unproper();
+	if( !FileUtils::isDir( mv_path.c_str() ) )
+		FileUtils::makePath( mv_path );
+	PhpModule *phpviewformfields = new PhpModule( mv_path + "/_form_fields.php");
+	phpviewformfields->insert_extrusion( "BASIC", control_code );
+	phpviewformfields->writeIfModified();
+}
+	
 	
 int GeneralGenerator::generateMVC(const GeneralGenerator::ModuleDefinition& md)
 {

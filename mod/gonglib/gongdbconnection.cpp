@@ -794,7 +794,8 @@ XtringList dbConnection::selectStringList( int nfields, const Xtring &sql )
 Xtring dbConnection::selectString( const Xtring & sql, int nfield )
 {
     std::auto_ptr<dbResultSet> rs( select( sql ) );
-    if ( rs->next() )
+	_GONG_DEBUG_ASSERT( nfield < rs->getColumnCount() );
+    if ( rs->next() && nfield < rs->getColumnCount() )
         return rs->toString( nfield );
     else
         return Xtring();

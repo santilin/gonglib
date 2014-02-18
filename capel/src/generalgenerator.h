@@ -40,6 +40,7 @@ public:
 		const char *pRecordClass;
 		const char *pTableName;
 		bool mUsesDatabase;
+		const char *pFormExcludedFields;
 	} ModuleDefinition;	
 
 	typedef struct {
@@ -50,13 +51,16 @@ public:
 		const char *pDatabaseUser;
 		const char *pDatabasePassword;
 		const char *pDatabaseHost;
+		const char *pPackageDocBlock;
 		ModuleDefinition *mModulos;
 	} ProgramDefinition;
 
-	GeneralGenerator( const ProgramDefinition &pd);
+	GeneralGenerator( const ProgramDefinition &pd );
 	int generate();
-	int generateMVC( const ModuleDefinition &pd );
-	int generateYiiMVC( const ModuleDefinition &pd, const dbTableDefinition &tbldef);
+	int generateMVC( const ModuleDefinition &md );
+	int generateYiiMVC( const ModuleDefinition &md, const dbTableDefinition &tbldef);
+	int generateTablaTipoViews( const ModuleDefinition &md );
+	int generateInformedRecordViews( const ModuleDefinition &md, const dbTableDefinition &tbldef );
 	
 protected:
 	const ProgramDefinition &mProgramDefinition;

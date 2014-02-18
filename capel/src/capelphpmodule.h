@@ -26,8 +26,8 @@ public:
 	void addHeaderProtect(const Xtring &fullclassname);
 	Xtring getHeaderProtect(const Xtring &fullclassname) const;
 	
-	Xtring getPHPTypeFromMysqlType( gong::SqlColumnType mysqltype );
-	
+	static Xtring getPHPTypeFromMysqlType( gong::SqlColumnType mysqltype );
+	static Xtring modelize(const Xtring &identifier);
 	static Xtring extractClassname(const Xtring &fullclassname);
 	static Xtring extractNamespace(const Xtring &fullclassname);
 protected:
