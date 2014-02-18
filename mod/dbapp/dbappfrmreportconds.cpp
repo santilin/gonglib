@@ -29,7 +29,8 @@ FrmReportConds::FrmReportConds(const Xtring &titulo,
     pComboOutputs = addComboBoxInt(false, tabOptions, _("Destino: "), soutputs, IntList(),
 		Xtring::null, 0, tabOptionsLayout, true );
     pCheckResumido = addCheckBox( tabOptions, _("Resumido"), false, 0, tabOptionsLayout );
-    pCheckApaisado = addCheckBox( tabOptions, _("Apaisado"), false, 0, tabOptionsLayout );
+    pCheckApaisado = addCheckBox( tabOptions, _("Apaisado"),
+								  DBAPP->getAppSetting( "RTK.LANDSCAPE" ).toBool(), 0, tabOptionsLayout );
 	QSpacerItem *vertSpacer = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 	tabOptionsLayout->addItem(vertSpacer);
     pTabWidget->insertTab( tabOptions, toGUI( _( "&Opciones" ) ) );
@@ -41,9 +42,12 @@ Xtring FrmReportConds::readRTK( const Xtring &_template )
     Xtring filename = FileUtils::findInPath( paths, _template );
     Xtring rtkstring = FileUtils::readFile( filename );
     if( rtkstring.isEmpty() ) {
-        FrmBase::msgError(this, Xtring::printf(_("Imposible encontrar el fichero %s en\n%s"),
+		filename = FileUtils::findInPath( paths, _template + ".inc" );
+		rtkstring = FileUtils::readFile( filename );
+	}
+    if( rtkstring.isEmpty() ) {
+        FrmBase::msgError(this, Xtring::printf(_("Imposible encontrar el fichero '%s' en\n%s"),
                                                _template.c_str(), paths.c_str() ));
-        return Xtring();
     }
     return rtkstring;
 }

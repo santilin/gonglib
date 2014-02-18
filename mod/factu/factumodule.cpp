@@ -996,7 +996,7 @@ void FactuModule::slotMenuFactuEstadCompraVenta()
 
 void FactuModule::slotMenuFactuBalanceCliPro()
 {
-    FrmBalanceCliPro *frmbal = new FrmBalanceCliPro ( 0, "BalanceCliPro" );
+    FrmBalanceCliPro *frmbal = new FrmBalanceCliPro();
     frmbal->show();
     pMainWindow->createClient ( frmbal );
 }

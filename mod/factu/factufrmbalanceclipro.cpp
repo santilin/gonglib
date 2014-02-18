@@ -27,15 +27,10 @@ namespace factu {
 #define BALANCE_CLIENTES (pComboCliOPro->currentIndex() == 0 )
 
 
-FrmBalanceCliPro::FrmBalanceCliPro(QWidget * parent, const char * name,
-                                   WidgetFlags fl)
-    : FrmCustom(parent, name, fl)
+FrmBalanceCliPro::FrmBalanceCliPro(QWidget * parent, WidgetFlags fl)
+    : FrmReportConds(_("Balances de clientes y proveedoras"), parent, fl)
 {
-    if ( !name )
-        setName( "FrmBalanceCliPro" );
-    Xtring titulo = _("Balances de clientes y proveedoras");
-    setTitle( titulo );
-    pEditTitulo = addInput( 0, "Título", titulo );
+	setObjectName( "FrmBalanceCliPro" );
     XtringList comprasoventas;
     comprasoventas << "Clientes" << "Proveedoras";
     pComboCliOPro = addComboBoxXtring(true, 0, "Clientes o proveedoras", comprasoventas );
@@ -49,15 +44,14 @@ FrmBalanceCliPro::FrmBalanceCliPro(QWidget * parent, const char * name,
     agrupar_por << "No agrupar" << "Cliente o proveedora";
     pComboAgruparPor = addComboBoxXtring( true, 0, "Agrupar  por", agrupar_por );
     pCheckIncCobros = addCheckBox( 0, "Incluir cobros", false );
-    pCheckResumido = addCheckBox( 0, "Resumido", false );
     pCheckTodasLasEmpresas = addCheckBox(0, "Todas las empresas", false );
     pCheckGranTotal = addCheckBox( 0, "Incluir gran total", true );
     pCheckIncNotas = addCheckBox( 0, "Incluir notas", false );
-    pCheckCSV = addCheckBox( 0, _("Salida a CSV, OpenOffice Calc, ..."), false );
 }
 
 
-Xtring FrmBalanceCliPro::createRTK(Xtring &from, Xtring &where, Xtring &titulo)
+Xtring FrmBalanceCliPro::createRTK(const Xtring &_template,
+								   Xtring &from, Xtring &where, Xtring &titulo)
 {
     Xtring compras_where, ventas_where;
     titulo = pEditTitulo->toString();
@@ -68,8 +62,8 @@ Xtring FrmBalanceCliPro::createRTK(Xtring &from, Xtring &where, Xtring &titulo)
         defines += "#define NOTAS\n";
     if( pCheckResumido->isOn() )
         defines += "#define RESUMIDO\n";
-    if( pCheckCSV->isOn() )
-        defines += "#define CSV\n";
+//     if( pCheckCSV->isOn() )
+//         defines += "#define CSV\n";
     bool inc_cobros = false;
     if( pCheckIncCobros->isOn() ) {
         inc_cobros = true;
@@ -198,16 +192,9 @@ Xtring FrmBalanceCliPro::createRTK(Xtring &from, Xtring &where, Xtring &titulo)
 
     Xtring paths = DBAPP->getReportsPath( true );
     Xtring filename;
-    if( inc_cobros )
-        filename = FileUtils::findInPath( paths, "balanceclipro_cobros.inc", "informes/" );
-    else
-        filename = FileUtils::findInPath( paths, "balanceclipro.inc", "informes/" );
-    Xtring rtkstring = FileUtils::readFile( filename );
-    if( rtkstring.isEmpty() ) {
-        FrmBase::msgError(this,
-                          Xtring::printf("Imposible encontrar el fichero balanceclipro.inc en\n%s", paths.c_str() ));
+    Xtring rtkstring = readRTK( _template );
+    if( rtkstring.isEmpty() )
         return Xtring();
-    }
     Xtring orderby;
     if( inc_cobros ) {
         orderby = "VT.FACTURA_ID,VT.FECHAPAGO";
@@ -253,80 +240,26 @@ void FrmBalanceCliPro::accept()
 #endif
 #ifdef HAVE_RTKMODULE
     Xtring from, where, titulo;
-    Xtring rtkstring = createRTK(from, where, titulo);
-    if( !rtkstring.isEmpty() ) {
+	Xtring _template = "balanceclipro";
+    if( pCheckIncCobros->isOn() )
+		_template += "_cobros";
+	if( pCheckResumido->isOn() )
+        _template += "_resumido";
+	Xtring rtkstring = createRTK( _template, from, where, titulo);
+	if( !rtkstring.isEmpty() ) {
         AppReport *report = new AppReport(*DBAPP, ModuleInstance->getConnection());
         report->readString( rtkstring.c_str() );
         report->setParameterValue( "EMPRESA", empresa::ModuleInstance->getNombreEmpresa() );
         Dictionary<Xtring> properties;
         properties.insert( "TITLE", titulo );
-        if( pCheckCSV->isOn() )
-            report->print(RTK_CSV, properties, Xtring(), Xtring(),
-                          DBAPP->getAppSetting( "RTK.LANDSCAPE" ).toBool() ? Landscape : DefaultOrientation, false);
-        else
-            report->print(RTK_Screen, properties, Xtring(), Xtring(),
-                          DBAPP->getAppSetting( "RTK.LANDSCAPE" ).toBool() ? Landscape : DefaultOrientation, false);
+		report->print(RTK_Screen, properties, Xtring(), Xtring(),
+						DBAPP->getAppSetting( "RTK.LANDSCAPE" ).toBool() ? Landscape : DefaultOrientation, false);
     }
 #else
     FrmBase::msgOk(this, Xtring("Error"), "Lo siento, en este ordenador no se puede hacer informes" );
 #endif
 }
 
-#if 0
-void FrmBalanceCliPro::pushGrabar_clicked()
-{
-    Xtring from, titulo, where, valor_grupo, desc_grupo, valor_grupo3, desc_grupo3;
-    Xtring rtkstring = createRTK(from, where, titulo, valor_grupo, desc_grupo, valor_grupo3, desc_grupo3);
-    msgOkLarge(this, "Informe", "Este es el informe generado", rtkstring);
-    return;
-    QString fn = QFileDialog::getSaveFileName( QString::null, tr( "Informes de RTK (*.rtk);;Todos (*)" ), this,
-                 titulo.c_str(), tr("Elige el fichero de destino") );
-    if( !fn.isEmpty() ) {
-        Xtring filename = fn.latin1();
-        if( FileUtils::extension(filename) != "rtk" )
-            filename += ".rtk";
-        std::ifstream in(filename.c_str());
-        if( in ) {
-            if( !FrmBase::msgYesNo(this,
-                                   Xtring::printf("El fichero %s ya existe. ¿Desea sobreescribirlo?", filename.c_str() ) ) ) {
-                in.close();
-                return;
-            }
-            in.close();
-        }
-        std::ofstream out(filename.c_str());
-        if( !out ) {
-            FrmBase::msgOk(this, "Error", strerror( errno ) );
-            return;
-        } else {
-            DBAPP->waitCursor(true);
-            rtkstring.replace( "###TITULO###", titulo );
-            rtkstring.replace( "###seleccion###", where.replace("ATENCION.", "").replace(")AND(", " y ").replace("23:59:59","") );
-            rtkstring.replace( "###VALOR_GRUPO###", valor_grupo);
-            rtkstring.replace( "###DESCRIPCION_GRUPO###", desc_grupo);
-            rtkstring.replace( "###VALOR_GRUPO3###", valor_grupo3);
-            rtkstring.replace( "###DESCRIPCION_GRUPO3###", desc_grupo3);
-            out << rtkstring;
-            out.close();
-            DBAPP->resetCursor();
-            FrmBase::msgOk(this, fromGUI(this->caption()), Xtring("El informe se ha guardado correctamente"));
-        }
-    }
-}
-
-void FrmBalanceCliPro::pushFilter_clicked()
-{
-    FrmSQLSelect *sel = new FrmSQLSelect(DBAPP->getConnection(),
-                                         DBAPP->getDatabase(), this, "filtrar" );
-    XtringList tables;
-    tables << "ATENCION" << "PRINCESA" << "LUGARTRABAJO" << "TIPOATENCION";
-    if( sel->exec(tables, editFilter->toString() ) == QDialog::Accepted )
-        editFilter->setText(sel->getSqlExpression());
-    delete sel;
-}
-
-#endif
-
-} // namespace cats
+} // namespace factu
 } // namespace gong
 

@@ -324,9 +324,9 @@ void FrmEstadCompraVenta::accept()
     Xtring from, where, titulo;
     Xtring rtkstring;
     if( pCheckResumido->isOn() )
-        rtkstring = createRTK("estadcompraventa_resumido.inc", from, where, Xtring::null, Xtring::null, titulo);
+        rtkstring = createRTK("estadcompraventa_resumido", from, where, Xtring::null, Xtring::null, titulo);
     else
-        rtkstring = createRTK("estadcompraventa.inc", from, where, Xtring::null, Xtring::null, titulo);
+        rtkstring = createRTK("estadcompraventa", from, where, Xtring::null, Xtring::null, titulo);
     if( !rtkstring.isEmpty() ) {
         AppReport *report = new AppReport(*DBAPP, ModuleInstance->getConnection());
         report->readString( rtkstring.c_str() );
