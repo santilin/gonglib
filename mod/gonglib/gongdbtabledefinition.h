@@ -70,7 +70,7 @@ public:
     bool deleteField( const dbFieldDefinition *fielddef );
     bool deleteField( const Xtring &name );
 
-    dbRelationDefinition *addRelation( const dbRelationDefinition::Type& type,
+    dbRelationDefinition *addRelationDefinition( const dbRelationDefinition::Type& type,
                                        const Xtring &lefttable, const Xtring &leftfield,
                                        const Xtring &righttable, const Xtring &rightfield );
     dbIndexDefinition *addIndex( const dbIndexDefinition *idxdef );

@@ -62,10 +62,28 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 		if( flddef->getName() == "created_at" || flddef->getName() == "updated_at"
 			|| flddef->getName() == "created_by" || flddef->getName() == "updated_by" )
 			continue;
-		if( flddef->getName().startsWith("id_") ) {
+		if( flddef->isReference() ) {
 			relation_name = flddef->getName().mid(3);
 			// 1:1 relations
 			relations_comments += " * @property " + phpmodule->modelize(relation_name) + " $id" + phpmodule->modelize(relation_name) + "\n";
+			for( dbRelationDefinitionsList::const_iterator it = tbldef->getRelationDefinitions().begin();
+				it!=tbldef->getRelationDefinitions().end(); ++ it ) {
+				dbRelationDefinition *reldef = *it;
+					Xtring refTable = reldef->getRightTable(); // Table name that current fk references to
+					Xtring refKey= reldef->getRightField();   // Key in that table being referenced
+					Xtring refClassName = PhpModule::modelize( refTable );
+					Xtring relationName = PhpModule::modelize( reldef->getLeftTable() + reldef->getLeftField() );
+						
+					relations_code += "array(self::BELONG_TO, '" + PhpModule::modelize( reldef->getRightTable() ) + "', '" + refKey + "')";
+
+					// Add relation for the referenced table
+					$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
+					$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName,false), $relationType==='HAS_MANY');
+					$i=1;
+					$rawName=$relationName;
+					while(isset($relations[$refClassName][$relationName]))
+						$relationName=$rawName.($i++);
+					$relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
 		}
 		// rules
 		if( !search_rules.isEmpty() )
@@ -310,7 +328,7 @@ int GeneralGenerator::generateInformedRecordViews(const GeneralGenerator::Module
 			control_code += 
 "\techo $form->listControl('" + flddef->getName() + "',\n"
 "\t\tCHtml::listData(" + relation_model + "::model()->findAll(array('order' => " + relation_model + "::getOrderField())), \n"
-"\t\t\t" + relation_model + "::getCodeField(), " + relation_model + "::getDescField()));\n";
+"\t\t\t'id', " + relation_model + "::getDescField()));\n";
 		} else {
 			if( phpfldtype == "string" || phpfldtype == "integer" ) {
 				control_code += "\techo $form->textControl('" + flddef->getName() + "');\n";

@@ -60,7 +60,7 @@ public:
     unsigned long getAffectedRows() const {
         return mRowsAffected;
     }
-    const Xtring &enconding() const {
+    const Xtring &getEncoding() const {
         return mEncoding;
     }
     void setEncoding(const Xtring &encoding = "UTF-8" );

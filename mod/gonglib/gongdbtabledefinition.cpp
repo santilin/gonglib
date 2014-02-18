@@ -40,6 +40,7 @@
 #include "gongdbdefinition.h"
 #include "gongdbtabledefinition.h"
 #include "gongdbrecordbehavior.h"
+#include "gongdbrecordrelation.h"
 
 namespace gong {
 
@@ -345,25 +346,25 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             tbldef->addField( flddef );
         }
 		Xtring createtablesql = conn->selectString( "SHOW CREATE TABLE " + conn->nameToSQL( tblname ), 1 );
-		// Esta expresión regular da error ocasionalmente
+		// Esta expresión regular da error ocasionalmente con las pocolib
 //		RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+");
 		// Esta es la original
 		RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+([^\\(^\\s]+)\\s*\\(([^\\)]+)\\)");
 		// Read primary keys to get the relations
-//		RegExp r("FOREIGN KEY\\s\\([^\\)]+\\)");
 		Xtring::size_type pos = 0;
 		RegExpMatchList matches;
 		_GONG_DEBUG_PRINT(0, tblname);
 		RegExpIterator res(createtablesql.begin(), createtablesql.end(), r), end;
 		for (; res != end; ++res) {
-			Xtring kname = (*res)[1].str();
-			Xtring kreftable = (*res)[2].str();
-			Xtring kreffield = (*res)[3].str();
+			Xtring leftfield = (*res)[1].str();
+			Xtring righttable = (*res)[2].str();
+			Xtring rightfield = (*res)[3].str();
 			_GONG_DEBUG_PRINT(0, Xtring::printf("Matched %s, %s,%s,%s", 
-												(*res)[0].str().c_str(), kname.c_str(), 
-												kreftable.c_str(), kreffield.c_str()));
+												(*res)[0].str().c_str(), leftfield.c_str(), 
+												righttable.c_str(), rightfield.c_str()));
+			tbldef->addRelationDefinition(dbRelationDefinition::one2one, tblname, leftfield.replace("`",""),
+										  righttable.replace("`",""), rightfield.replace("`","") );
 		}
-		exit(1);
     } else if( conn->isSQLite() ) {
 		std::auto_ptr<dbResultSet> rsFields( conn->select( "PRAGMA table_info(" + tblname + ")" ) );
         tbldef = new dbTableDefinition( db, tblname );
@@ -433,14 +434,19 @@ Xtring dbTableDefinition::sameSQLSchema( const dbTableDefinition *other, dbConne
     return ret;
 }
 
-dbRelationDefinition *dbTableDefinition::addRelation( const dbRelationDefinition::Type& type,
+dbRelationDefinition *dbTableDefinition::addRelationDefinition( const dbRelationDefinition::Type& type,
         const Xtring& lefttable, const Xtring& leftfield, const Xtring& righttable, const Xtring& rightfield )
 {
     dbRelationDefinition *reldef = new dbRelationDefinition( type, lefttable, leftfield, righttable, rightfield );
     mRelationDefinitions.insert( reldef->getName(), reldef );
+	dbFieldDefinition *flddef = findFieldDefinition( leftfield );
+	if( flddef )
+		flddef->setIsReference(true);
+	else
+		_GONG_DEBUG_WARNING( Xtring::printf("Trying to add a relation to an inexistent field: '%s.%s'", 
+											getName().c_str(), leftfield.c_str() ) );
     return reldef;
 }
-
 
 Xtring dbTableDefinition::getFullFldName( const Xtring &fldname ) const
 {
