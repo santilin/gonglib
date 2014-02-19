@@ -1,4 +1,5 @@
 #include <gongdebug.h>
+#include <gonglist.h>
 #include <fstream>
 #include "capelmodule.h"
 
@@ -120,16 +121,33 @@ Xtring::size_type CapelModule::lookup_extrusion_begin(const Xtring &extrusion_na
 	Xtring fullname = fill_begin_extrusion(extrusion_name);
 	Xtring::size_type pos = mBuffer.find(fullname + mEndComment);
 	if( pos == Xtring::npos )
+		pos = mBuffer.find(fullname + "(");
+	if( pos == Xtring::npos )
 		pos = mBuffer.find(fullname + " ");
 	if( pos == Xtring::npos )
 		pos = mBuffer.find(fullname + "\n");
 	return pos;  
 }
 
+Xtring CapelModule::get_parameters(const Xtring &extrusion_name)
+{
+	Xtring fullname = fill_begin_extrusion(extrusion_name);
+	Xtring::size_type pos = mBuffer.find(fullname + "(");
+	if( pos != Xtring::npos ) {
+		pos += fullname.size() + 1;
+		Xtring::size_type posend = mBuffer.find( ")", pos );
+		/// \todo Ver si es el último paréntesis
+		if( posend != Xtring::npos ) {
+			return mBuffer.mid( pos, posend-pos );
+		}
+	}
+	return Xtring::null;  
+}
+
+
 Xtring::size_type CapelModule::lookup_extrusion_code(const Xtring &extrusion_name)
 {
-	int begin;
-	if( (begin=lookup_extrusion_begin(extrusion_name)) == -1 )
+	int begin;if( (begin=lookup_extrusion_begin(extrusion_name)) == -1 )
 		return -1;
 	else {
 		while( begin<(int)mBuffer.length() && mBuffer[begin] != '\n' )
@@ -173,10 +191,9 @@ Xtring CapelModule::get_extrusion_text(const Xtring &extrusion_name)
 	return result;
 }
 
-int CapelModule::delete_extrusion(const Xtring &extrusion_name)
+int CapelModule::delete_extrusion(const Xtring &extrusion_name, Xtring &parameters)
 {
 	int begin, end;
-
 	begin = lookup_extrusion_begin(extrusion_name);
 	end = lookup_extrusion_end(extrusion_name);
 	if( (end==-1) && (begin==-1) )
@@ -191,6 +208,7 @@ int CapelModule::delete_extrusion(const Xtring &extrusion_name)
 	if( end < begin ) {
 		_GONG_DEBUG_WARNING( "Start of section " + extrusion_name + " is after end" );
 	}
+	parameters = get_parameters( extrusion_name );
 	while( end<(int)mBuffer.length() && mBuffer[end] != '\n' )
 		end++;
 	if( end != (int)mBuffer.length() )
@@ -217,15 +235,16 @@ int CapelModule::insert_extrusion_at(int begin,
 									 const Xtring &default_following_text, 
 									 const Xtring &default_preceding_text, bool addnewline)
 {
-    int exists = 1;
+    bool exists = true;
     int begextr;
     mCurrentExtrusion=extrusion_name;
-    begextr = delete_extrusion(extrusion_name);
+	Xtring parameters;
+    begextr = delete_extrusion(extrusion_name, parameters);
     // If the extrusion exists, ignore begin
     if( begextr != -1 ) 
         begin = begextr;
     else
-        exists = 0;
+        exists = false;
 	if( begin == -1 )
 		begin = 0; // Insert at the begining
     if( begin == -2 ) {
@@ -233,13 +252,19 @@ int CapelModule::insert_extrusion_at(int begin,
       	begin = mBuffer.length();
 		if( begin > 0 && mBuffer[begin - 1] != '\n' )
 			mBuffer.insert(begin++, "\n");
-      	exists = 0;
+      	exists = false;
     }
     if( !exists && default_preceding_text.size() ) {
     	begin = insert_text(begin, default_preceding_text);
     }
-    begin = insert_text(begin, fill_begin_extrusion(extrusion_name) + mEndComment);
-    begin = insert_text(begin, text, addnewline);
+	if( parameters.isEmpty() ) {
+		begin = insert_text(begin, fill_begin_extrusion(extrusion_name) + mEndComment );
+		begin = insert_text(begin, text, addnewline);
+	} else {
+		begin = insert_text(begin, fill_begin_extrusion(extrusion_name) + "(" + parameters + ")" + mEndComment );
+		// Process parameters on text
+		begin = insert_text(begin, process_parameters( text, parameters ) );
+	}
     begin = insert_text(begin, fill_end_extrusion(extrusion_name) + mEndComment);
     if( !exists && default_following_text.size() ) {
     	begin = insert_text(begin, default_following_text);
@@ -374,6 +399,18 @@ Xtring &CapelModule::replace_in_extrusion(const Xtring &extrusion_name,
 		end += repllen - searchlen;
 	}
 	return mBuffer;
+}
+
+
+Xtring CapelModule::process_parameters(const Xtring& text, const Xtring& parameters)
+{
+	if( parameters[0] == 's' ) { // replace
+		char delimiter = parameters[1];
+		gong::XtringList repl_strings;
+		parameters.mid(2).tokenize( repl_strings, Xtring(1,delimiter) );
+		return Xtring(text).replace( repl_strings[0], repl_strings[1] );
+	}
+	return text;
 }
 
 

@@ -83,7 +83,7 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 	
 	Xtring fields_comments, relations_comments;
 	Xtring search_rules, field_labels, required_fields, integer_fields, safe_fields,
-		numerical_fields, criteria_compare;
+		numerical_fields, unique_fields, criteria_compare;
 	Dictionary< Xtring >lengths;
 	
 	for( uint i = 0; i < tbldef.getFieldCount(); ++i ) {
@@ -105,6 +105,8 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 			search_rules += ", ";
 		search_rules += flddef->getName();
 		if( !flddef->isSequence() ) {
+			if( flddef->isUnique() )
+				unique_fields.appendWithSeparator( flddef->getName(), ",");
 			bool required = !flddef->canBeNull() && flddef->getDefaultValue().isEmpty();
 			if( required ) 
 				required_fields.appendWithSeparator( flddef->getName(), "," );
@@ -121,9 +123,20 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 			} else if( !flddef->isPrimaryKey() ) {
 				safe_fields.appendWithSeparator( flddef->getName(), ",");
 			}
+		} else {
+				_GONG_DEBUG_PRINT(0, "Field " + tbldef.getName() + "." + flddef->getName() + " is sequence" );
 		}
 			
-		field_labels += "\t\t\t'" + flddef->getName() + "' => '" + flddef->getName().proper() + "',\n";
+			
+		Xtring human_label = flddef->getName();
+		if( human_label.startsWith("id_") ) {
+			Xtring model = PhpModule::modelize( human_label.mid(3) );
+			human_label = model + "::getStaticDescSingular()";
+		} else 
+			human_label = "'" + human_label.proper().replace("_"," ") + "'";
+		
+		
+		field_labels += "\t\t\t'" + flddef->getName() + "' => " + human_label + ",\n";
 		criteria_compare += "\t\t$criteria->compare('" + flddef->getName() + "',$this->" + flddef->getName();
 		if( phpfldtype == "string" )
 			criteria_compare += ",true";
@@ -200,6 +213,8 @@ real_info,
 		integer_fields = "\t\t\tarray('" + integer_fields + "', 'numerical', 'integerOnly'=>true),\n";
 	if( !numerical_fields.isEmpty() )
 		numerical_fields = "\t\t\tarray('" + numerical_fields + "', 'required'),\n";
+	if( !unique_fields.isEmpty() )
+		unique_fields = "\t\t\tarray('" + unique_fields + "', 'unique'),\n";
 	Xtring length_rules;
 	for( Dictionary< Xtring >::const_iterator it = lengths.begin();
 		it != lengths.end(); ++ it ) {
@@ -209,7 +224,8 @@ real_info,
 		safe_fields = "\t\t\tarray('" + safe_fields + "', 'safe'),\n";
 		
 	phpmodel->insert_extrusion( "RULES", 
-					rules + required_fields + integer_fields + numerical_fields + length_rules + safe_fields +
+					rules + unique_fields + required_fields + integer_fields + numerical_fields 
+					+ length_rules + safe_fields +
 "\t\t\t// La siguiente regla la usa search().\n"
 "\t\t\t// @todo Elimina los atributos por los que no se quiere buscar.\n"
 "\t\t\tarray('" + search_rules +" ', 'safe', 'on'=>'search'),\n",
@@ -342,7 +358,9 @@ int GeneralGenerator::generateInformedRecordViews(const GeneralGenerator::Module
 "\t\tCHtml::listData(" + relation_model + "::model()->findAll(array('order' => " + relation_model + "::getOrderField())), \n"
 "\t\t\t'id', " + relation_model + "::getDescField()));\n";
 		} else {
-			if( phpfldtype == "string" || phpfldtype == "integer" ) {
+			if( flddef->getOrigDDL().startsWith("enum") ) {
+				control_code += "\techo $form->enumControl('" + flddef->getName() + "');\n";
+			} else if( phpfldtype == "string" || phpfldtype == "integer" ) {
 				control_code += "\techo $form->textControl('" + flddef->getName() + "');\n";
 			} else if( phpfldtype == "bool" ) {
 				control_code += "\techo $form->checkControl('" + flddef->getName() + "');\n";

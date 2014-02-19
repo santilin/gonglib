@@ -311,8 +311,7 @@ bool dbTableDefinition::dropIndexes( dbConnection *conn, bool removeall, bool ig
 
 
 dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
-        dbDefinition &db,
-        const Xtring &tblname )
+        dbDefinition &db, const Xtring &tblname )
 {
     Xtring fldname;
     SqlColumnType t;
@@ -330,7 +329,7 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             dbFieldDefinition::Flags tmpflags = dbFieldDefinition::NONE;
             if ( rsFields->toString( 2 ) == "NO" )
                 tmpflags |= dbFieldDefinition::NOTNULL;
-            if ( rsFields->toString( 3 ) == "UNI" )
+            if ( rsFields->toString( 3 ) == "UNI" ) 
                 tmpflags |= dbFieldDefinition::UNIQUE;
             if ( rsFields->toString( 3 ) == "PRI" )
                 tmpflags |= dbFieldDefinition::PRIMARYKEY;
@@ -341,6 +340,7 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
                 tmpflags, // null, primarykey, ...
                 rsFields->toString( 4 ), // default value 
 				tbldef );
+			flddef->setOrigDDL( rsFields->toString(1) );
             flddef->setCaption( fldname.proper() );
             flddef->setDescription( tblname + "." + fldname );
             tbldef->addField( flddef );
@@ -353,13 +353,12 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
 		// Read primary keys to get the relations
 		Xtring::size_type pos = 0;
 		RegExpMatchList matches;
-		_GONG_DEBUG_PRINT(0, tblname);
 		RegExpIterator res(createtablesql.begin(), createtablesql.end(), r), end;
 		for (; res != end; ++res) {
 			Xtring leftfield = (*res)[1].str();
 			Xtring righttable = (*res)[2].str();
 			Xtring rightfield = (*res)[3].str();
-			_GONG_DEBUG_PRINT(0, Xtring::printf("Matched %s, %s,%s,%s", 
+			_GONG_DEBUG_PRINT(4, Xtring::printf("Matched %s, %s,%s,%s", 
 												(*res)[0].str().c_str(), leftfield.c_str(), 
 												righttable.c_str(), rightfield.c_str()));
 			tbldef->addRelationDefinition(dbRelationDefinition::one2one, tblname, leftfield.replace("`",""),
