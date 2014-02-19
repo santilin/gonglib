@@ -36,7 +36,7 @@ public:
       const Xtring &default_preceding_text=Xtring(), bool addnewline=true)
       { return insert_extrusion_at( -2, extrusion_name, text,
           default_following_text, default_preceding_text, addnewline); }
-    int delete_extrusion(const Xtring &extrusion_name);
+    int delete_extrusion(const Xtring &extrusion_name, Xtring &parameters);
     int empty_extrusion(const Xtring &extrusion_name);
     int position_before_extrusion(const Xtring &extrusion_name);
     int position_after_extrusion(const Xtring &extrusion_name);
@@ -66,9 +66,11 @@ protected:
     Xtring fill_begin_extrusion(const Xtring &extrusion_name);
     Xtring fill_end_extrusion(const Xtring &extrusion_name);
     Xtring::size_type lookup_extrusion_begin(const Xtring &extrusion_name);
+    Xtring get_parameters(const Xtring &extrusion_name);
     Xtring::size_type lookup_extrusion_code(const Xtring &extrusion_name);
     Xtring::size_type lookup_extrusion_end(const Xtring &extrusion_name);
     Xtring::size_type insert_text(int begin, const Xtring &text, bool addnewline=true);    
+	Xtring process_parameters( const Xtring &text, const Xtring &parameters );
 };
 
 }

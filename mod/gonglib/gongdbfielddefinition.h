@@ -115,6 +115,8 @@ public:
         mSqlColumnType = sqlcolumntype;
         return this;
     }
+    const Xtring &getOrigDDL() const { return mOrigDDL; }
+    
     dbFieldDefinition* setSqlWidth( const unsigned& sqlwidth );
     dbFieldDefinition* setDecimals( const unsigned& decimals ) {
         mDecimals = decimals;
@@ -148,6 +150,10 @@ public:
         mDisplayWidth = dispwidth;
         return this;
     }
+    dbFieldDefinition* setOrigDDL( const Xtring &origddl ) {
+		mOrigDDL = origddl;
+		return this;
+	}
 
 public:
     bool canBeNull() const {
@@ -289,6 +295,7 @@ private:
     Xtring mStyle;
     unsigned mDisplayWidth;
     dbTableDefinition *pTableDefinition;
+	Xtring mOrigDDL; // Only if created with fromSqlSchema
 };
 
 
