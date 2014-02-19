@@ -271,7 +271,8 @@ public:
     /** Extracts the Field part of a full qualified field name */
     static Xtring extractFieldName( const Xtring &fullfldname );
     dbFieldValue *createFieldValue() const;
-
+	/** finds the relation definition for this field in its parent's definition */
+	class dbRelationDefinition *findRelationDefinition() const;
 private:
     void init_class();
 

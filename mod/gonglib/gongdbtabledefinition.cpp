@@ -164,7 +164,7 @@ bool dbTableDefinition::addBehavior(dbRecordBehavior* behavior)
 // Podemos estar añadiendo el campo a una tabla o a una vista, por lo tanto la tabla del campo puede ser distinta a esta tabla
 dbFieldDefinition *dbTableDefinition::addField( const dbFieldDefinition *fielddef )
 {
-    if ( !mFieldDefinitions.insert( fielddef->getFullName(), ( dbFieldDefinition * )fielddef ) )
+    if( !mFieldDefinitions.insert( fielddef->getFullName(), ( dbFieldDefinition * )fielddef ) )
         _GONG_DEBUG_WARNING( Xtring::printf( "Table '%s' already has a field named '%s'", getName().c_str(), fielddef->getFullName().c_str() ) );
     return const_cast<dbFieldDefinition *>( fielddef );
 }
@@ -339,8 +339,8 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             dbFieldDefinition *flddef = new dbFieldDefinition(
                 tblname, fldname, t, w, d,
                 tmpflags, // null, primarykey, ...
-                rsFields->toString( 4 ) // default value
-            );
+                rsFields->toString( 4 ), // default value 
+				tbldef );
             flddef->setCaption( fldname.proper() );
             flddef->setDescription( tblname + "." + fldname );
             tbldef->addField( flddef );

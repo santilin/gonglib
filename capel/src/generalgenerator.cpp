@@ -15,6 +15,39 @@ using namespace gong;
 
 namespace capel {
 
+int GeneralGenerator::generateAllRelations()
+{
+	if( mAllRelations.size() )
+		return mAllRelations.size();
+	for( dbTableDefinitionsList::const_iterator it = pDatabase->getTables().begin();
+		it != pDatabase->getTables().end(); ++it ) {
+		dbTableDefinition *tbldef = it->second;
+		for( dbRelationDefinitionsList::const_iterator it = tbldef->getRelationDefinitions().begin();
+			it!=tbldef->getRelationDefinitions().end(); ++ it ) {
+			dbRelationDefinition *reldef = it->second;
+			mAllRelations.insert( reldef->getName(), reldef );
+/*		
+			Xtring refTable = reldef->getRightTable(); // Table name that current fk references to
+			Xtring refKey= reldef->getRightField();   // Key in that table being referenced
+			Xtring refClassName = PhpModule::modelize( refTable );
+			Xtring relationName = PhpModule::modelize( reldef->getLeftTable() + reldef->getLeftField() );
+				
+			relations_code += "array(self::BELONG_TO, '" + PhpModule::modelize( reldef->getRightTable() ) + "', '" + refKey + "')";
+
+			// Add relation for the referenced table
+			$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
+			$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName,false), $relationType==='HAS_MANY');
+			$i=1;
+			$rawName=$relationName;
+			while(isset($relations[$refClassName][$relationName]))
+				$relationName=$rawName.($i++);
+			$relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
+*/			
+		}
+	}
+}
+	
+	
 const char *record_search_begin =
 "\t/**\n"
 "\t * Retrieves a list of models based on the current search/filter conditions.\n"
@@ -45,7 +78,7 @@ const char *record_search_end =
 	
 int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& md, const dbTableDefinition& tbldef)
 {
-	PhpModule *phpmodule = new PhpModule( Xtring(mProgramDefinition.pDestPath) + "/protected/models/" + md.pModuleName + ".php");
+	PhpModule *phpmodel = new PhpModule( Xtring(mProgramDefinition.pDestPath) + "/protected/models/" + md.pModuleName + ".php");
 	PhpModule *phpcontroller = new PhpModule( Xtring(mProgramDefinition.pDestPath) + "/protected/controllers/" + md.pModuleName + "Controller.php");
 	
 	Xtring fields_comments, relations_comments;
@@ -55,35 +88,17 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 	
 	for( uint i = 0; i < tbldef.getFieldCount(); ++i ) {
 		const dbFieldDefinition *flddef = tbldef.getFieldDefinition(i);
-		Xtring relation_name;
 		// class comments
-		Xtring phpfldtype = phpmodule->getPHPTypeFromMysqlType( flddef->getSqlColumnType() );
+		Xtring phpfldtype = phpmodel->getPHPTypeFromMysqlType( flddef->getSqlColumnType() );
 		fields_comments += " * @property " + phpfldtype + " $" + flddef->getName() + "\n";
 		if( flddef->getName() == "created_at" || flddef->getName() == "updated_at"
 			|| flddef->getName() == "created_by" || flddef->getName() == "updated_by" )
 			continue;
 		if( flddef->isReference() ) {
-			relation_name = flddef->getName().mid(3);
+			dbRelationDefinition *reldef = flddef->findRelationDefinition();
+			Xtring relation_model = PhpModule::modelize( reldef->getRightTable() );
 			// 1:1 relations
-			relations_comments += " * @property " + phpmodule->modelize(relation_name) + " $id" + phpmodule->modelize(relation_name) + "\n";
-			for( dbRelationDefinitionsList::const_iterator it = tbldef->getRelationDefinitions().begin();
-				it!=tbldef->getRelationDefinitions().end(); ++ it ) {
-				dbRelationDefinition *reldef = *it;
-					Xtring refTable = reldef->getRightTable(); // Table name that current fk references to
-					Xtring refKey= reldef->getRightField();   // Key in that table being referenced
-					Xtring refClassName = PhpModule::modelize( refTable );
-					Xtring relationName = PhpModule::modelize( reldef->getLeftTable() + reldef->getLeftField() );
-						
-					relations_code += "array(self::BELONG_TO, '" + PhpModule::modelize( reldef->getRightTable() ) + "', '" + refKey + "')";
-
-					// Add relation for the referenced table
-					$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
-					$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName,false), $relationType==='HAS_MANY');
-					$i=1;
-					$rawName=$relationName;
-					while(isset($relations[$refClassName][$relationName]))
-						$relationName=$rawName.($i++);
-					$relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
+			relations_comments += " * @property " + relation_model + " $id" + relation_model + "\n";
 		}
 		// rules
 		if( !search_rules.isEmpty() )
@@ -129,7 +144,7 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 "\t\t'female' => 'false',\n"
 "\t);\n"
 "\n";
-	phpmodule->insert_extrusion_at(0, "CLASS_DEFINITION", 
+	phpmodel->insert_extrusion_at(0, "CLASS_DEFINITION", 
 								   class_comments + fields_comments + relations_comments + " */\n"  +
 "class " + md.pModuleName + " extends hmbasemvc\\" + md.pRecordClass + "\n"
 "{\n"
@@ -168,7 +183,7 @@ real_info,
 "\n"
 + record_search_begin + criteria_compare + record_search_end;
 
-	phpmodule->insert_extrusion( "CONSTRUCTION", construction );
+	phpmodel->insert_extrusion( "CONSTRUCTION", construction );
 
 	Xtring rules = 
 "\t/**\n"
@@ -193,7 +208,7 @@ real_info,
 	if( !safe_fields.isEmpty() )
 		safe_fields = "\t\t\tarray('" + safe_fields + "', 'safe'),\n";
 		
-	phpmodule->insert_extrusion( "RULES", 
+	phpmodel->insert_extrusion( "RULES", 
 					rules + required_fields + integer_fields + numerical_fields + length_rules + safe_fields +
 "\t\t\t// La siguiente regla la usa search().\n"
 "\t\t\t// @todo Elimina los atributos por los que no se quiere buscar.\n"
@@ -204,7 +219,7 @@ real_info,
 "\t}\n"
 "\n");
 
-	phpmodule->insert_extrusion( "LABELS", 							 
+	phpmodel->insert_extrusion( "LABELS", 							 
 "\t/**\n"
 "\t * @return array etiquetas personalizadas de los atributos (name=>label)\n"
 "\t */\n"
@@ -218,7 +233,7 @@ real_info,
 "\t}\n"
 "} // class\n"
 "\n");
-	phpmodule->writeIfModified();
+	phpmodel->writeIfModified();
 
 	phpcontroller->insert_extrusion_at( 0, "BASIC",
 Xtring(
@@ -307,24 +322,21 @@ int GeneralGenerator::generateInformedRecordViews(const GeneralGenerator::Module
 												  const dbTableDefinition &tbldef )
 {
 	generateTablaTipoViews( md );
-	XtringList excluded_fields;
-	Xtring md_excluded_fields( md.pFormExcludedFields );
-	md_excluded_fields.tokenize( excluded_fields, "," );
-	Xtring control_code;
+	XtringList form_fields;
+	Xtring md_form_fields( md.pFormFields );
+	md_form_fields.tokenize( form_fields, "," );
+	Dictionary<Xtring> controls_code;
 	for( uint i = 0; i < tbldef.getFieldCount(); ++i ) {
 		const dbFieldDefinition *flddef = tbldef.getFieldDefinition(i);
-		if( flddef->getName() == "id" 
-			|| flddef->getName() == "created_at" || flddef->getName() == "updated_at"
-			|| flddef->getName() == "created_by" || flddef->getName() == "updated_by" )
+		Xtring fldname( flddef->getName() );
+		if( !form_fields.contains( fldname ) )
 			continue;
-		if( excluded_fields.contains( flddef->getName() ) )
-			continue;
-		Xtring phpfldtype = PhpModule::getPHPTypeFromMysqlType( flddef->getSqlColumnType() );
-		Xtring relation_name;
-		if( flddef->getName().startsWith("id_") ) {
-			relation_name = flddef->getName().mid(3);
-			Xtring relation_model = PhpModule::modelize( relation_name );
-		// 1:1 relations
+		Xtring control_code;
+		Xtring phpfldtype( PhpModule::getPHPTypeFromMysqlType( flddef->getSqlColumnType() ) );
+		if( flddef->isReference() ) {
+			dbRelationDefinition *reldef = flddef->findRelationDefinition();
+			Xtring relation_model = PhpModule::modelize( reldef->getRightTable() );
+			// 1:1 relations
 			control_code += 
 "\techo $form->listControl('" + flddef->getName() + "',\n"
 "\t\tCHtml::listData(" + relation_model + "::model()->findAll(array('order' => " + relation_model + "::getOrderField())), \n"
@@ -340,13 +352,21 @@ int GeneralGenerator::generateInformedRecordViews(const GeneralGenerator::Module
 				control_code += "\techo $form->dateTimeControl('" + flddef->getName() + "');\n";
 			}
 		}
+		// Almaceno el código indexado por nombre del campo para luego sacarlo en orden
+		controls_code.insert( fldname, control_code );
+	}
+	// Sacar el código en orden
+	Xtring all_controls_code;
+	for( XtringList::const_iterator form_fld_it = form_fields.begin();
+		form_fld_it!=form_fields.end(); ++form_fld_it ) {
+		all_controls_code += controls_code[*form_fld_it];
 	}
 	
 	Xtring mv_path = Xtring(mProgramDefinition.pDestPath) + "/protected/views/" + Xtring(md.pModuleName).unproper();
 	if( !FileUtils::isDir( mv_path.c_str() ) )
 		FileUtils::makePath( mv_path );
 	PhpModule *phpviewformfields = new PhpModule( mv_path + "/_form_fields.php");
-	phpviewformfields->insert_extrusion( "BASIC", control_code );
+	phpviewformfields->insert_extrusion( "BASIC", all_controls_code );
 	phpviewformfields->writeIfModified();
 }
 	
@@ -370,6 +390,7 @@ int GeneralGenerator::generate()
 			_GONG_DEBUG_WARNING( "No se puede conectar con la base de datos" );
 		}
 		pDatabase = dbDefinition::fromSQLSchema( pConn, mProgramDefinition.pDatabaseName );
+		generateAllRelations();
 	}
 	ModuleDefinition *md = mProgramDefinition.mModulos;
 	while( md->pTableName ) {

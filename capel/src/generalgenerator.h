@@ -40,7 +40,7 @@ public:
 		const char *pRecordClass;
 		const char *pTableName;
 		bool mUsesDatabase;
-		const char *pFormExcludedFields;
+		const char *pFormFields;
 	} ModuleDefinition;	
 
 	typedef struct {
@@ -57,6 +57,7 @@ public:
 
 	GeneralGenerator( const ProgramDefinition &pd );
 	int generate();
+	int generateAllRelations();
 	int generateMVC( const ModuleDefinition &md );
 	int generateYiiMVC( const ModuleDefinition &md, const dbTableDefinition &tbldef);
 	int generateTablaTipoViews( const ModuleDefinition &md );
@@ -66,6 +67,7 @@ protected:
 	const ProgramDefinition &mProgramDefinition;
 	dbConnection *pConn;
 	dbDefinition *pDatabase;
+	Dictionary<dbRelationDefinition *> mAllRelations;
 };
 
 }

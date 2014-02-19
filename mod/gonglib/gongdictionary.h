@@ -93,7 +93,7 @@ public:
     }
 
     /* This function is const because we want to avoid the insert syntax: Dict[key] = value; */
-    mapped_type &operator[](const key_type& __k) const
+    mapped_type &operator[](const key_type& __k)
     {
         const_iterator __i = find( __k.upper() );
         if( __i == this->end() ) {
@@ -104,6 +104,17 @@ public:
         return const_cast<mapped_type &>((*__i).second);
     }
 
+    /* This function is const because we want to avoid the insert syntax: Dict[key] = value; */
+    const mapped_type &operator[](const key_type& __k) const
+    {
+        const_iterator __i = find( __k.upper() );
+        if( __i == this->end() ) {
+            _GONG_DEBUG_PRINT(6, Xtring::printf("WARNING: Key '%s' not found in dictionary", __k.c_str()) );
+            _GONG_DEBUG_PRINT(7, "The keys are: " + toString() );
+            return mNullValue; // Not to return a temporary value
+        }
+        return (*__i).second;
+    }
 
     Xtring toString(const char *sep =", ") const {
         Xtring ret;
