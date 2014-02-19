@@ -1,6 +1,6 @@
-
 #include <stdexcept>
-#include "gonglib_inc.h"
+#include <gongdebug.h>
+#include <gongfileutils.h>
 #include "gonggenerators.h"
 
 using namespace gong;

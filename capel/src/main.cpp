@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cstdlib>
-#include "gonglib_inc.h"
+#include <gongdebug.h>
+#include <gongfileutils.h>
+#include <gongdbrecord.h>
+#include <gongdbfieldlistofvalues.hpp>
 #include "capelrtkmodule.h"
 #include "gonggenfrmeditrecmaestro.h"
 #include "gonggenfrmeditbehavior.h"
@@ -27,12 +30,19 @@ void test()
 	exit(0);
 }
 
+gong::dbRecord* gong::dbRecord::duplicate()
+{
+	throw std::runtime_error( "dbRecord::duplicate");
+}
+
 
 namespace capel {
 
+	
 extern const char *shortlgpllicense;
 
 void genrtk();
+void genventadirecta();
 }
 
 /**
@@ -99,12 +109,17 @@ void genrtk();
 int main( int argc, char *argv[] )
 {
 #ifdef _GONG_DEBUG
-	::__gong_debug::_gong_debug_level = 0;
+	::__gong_debug::_gong_debug_level = 1;
 #endif
 	if( argc == 2 && strcasecmp(argv[1], "rtk") == 0 ) {
 		capel::genrtk();
 		return 0;
 	}
+	if( argc == 2 && strcasecmp(argv[1], "ventadirecta") == 0 ) {
+		capel::genventadirecta();
+		return 0;
+	}
+	
 	if ( argc < 2 ) {
 		std::cout << "Use: capel filename" << std::endl;
 		return 0;

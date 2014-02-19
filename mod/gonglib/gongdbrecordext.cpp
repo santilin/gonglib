@@ -127,7 +127,7 @@ void FugitRecordImporter::endElement( const xmlChar *name )
     return;
 }
 
-Xtring dbRecord::toString ( int format, const RegExp &includedFields ) const
+Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
 {
     Xtring text;
     unsigned int i;
@@ -314,7 +314,7 @@ Xtring dbRecord::toString ( int format, const RegExp &includedFields ) const
     return text;
 }
 
-bool dbRecord::fromString ( const Xtring &source, int format, const RegExp &includedFields )
+bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &includedFields )
 {
     // Si un valor está en blanco, no se importa, se conserva el valor que tenía.
     // Para forzar un valor a estar vacío, debe tener el valor ~

@@ -34,11 +34,13 @@
 
 #include <memory> // auto_ptr<>
 #include "gongdebug.h"
+#include "gongregexp.h"
 #include "gongdbfieldlistofvalues.h"
 #include "gongdbresultset.h"
 #include "gongdbdefinition.h"
 #include "gongdbtabledefinition.h"
 #include "gongdbrecordbehavior.h"
+#include "gongdbrecordrelation.h"
 
 namespace gong {
 
@@ -162,7 +164,7 @@ bool dbTableDefinition::addBehavior(dbRecordBehavior* behavior)
 // Podemos estar añadiendo el campo a una tabla o a una vista, por lo tanto la tabla del campo puede ser distinta a esta tabla
 dbFieldDefinition *dbTableDefinition::addField( const dbFieldDefinition *fielddef )
 {
-    if ( !mFieldDefinitions.insert( fielddef->getFullName(), ( dbFieldDefinition * )fielddef ) )
+    if( !mFieldDefinitions.insert( fielddef->getFullName(), ( dbFieldDefinition * )fielddef ) )
         _GONG_DEBUG_WARNING( Xtring::printf( "Table '%s' already has a field named '%s'", getName().c_str(), fielddef->getFullName().c_str() ) );
     return const_cast<dbFieldDefinition *>( fielddef );
 }
@@ -337,12 +339,32 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             dbFieldDefinition *flddef = new dbFieldDefinition(
                 tblname, fldname, t, w, d,
                 tmpflags, // null, primarykey, ...
-                rsFields->toString( 4 ) // default value
-            );
+                rsFields->toString( 4 ), // default value 
+				tbldef );
             flddef->setCaption( fldname.proper() );
             flddef->setDescription( tblname + "." + fldname );
             tbldef->addField( flddef );
         }
+		Xtring createtablesql = conn->selectString( "SHOW CREATE TABLE " + conn->nameToSQL( tblname ), 1 );
+		// Esta expresión regular da error ocasionalmente con las pocolib
+//		RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+");
+		// Esta es la original
+		RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+([^\\(^\\s]+)\\s*\\(([^\\)]+)\\)");
+		// Read primary keys to get the relations
+		Xtring::size_type pos = 0;
+		RegExpMatchList matches;
+		_GONG_DEBUG_PRINT(0, tblname);
+		RegExpIterator res(createtablesql.begin(), createtablesql.end(), r), end;
+		for (; res != end; ++res) {
+			Xtring leftfield = (*res)[1].str();
+			Xtring righttable = (*res)[2].str();
+			Xtring rightfield = (*res)[3].str();
+			_GONG_DEBUG_PRINT(0, Xtring::printf("Matched %s, %s,%s,%s", 
+												(*res)[0].str().c_str(), leftfield.c_str(), 
+												righttable.c_str(), rightfield.c_str()));
+			tbldef->addRelationDefinition(dbRelationDefinition::one2one, tblname, leftfield.replace("`",""),
+										  righttable.replace("`",""), rightfield.replace("`","") );
+		}
     } else if( conn->isSQLite() ) {
 		std::auto_ptr<dbResultSet> rsFields( conn->select( "PRAGMA table_info(" + tblname + ")" ) );
         tbldef = new dbTableDefinition( db, tblname );
@@ -412,14 +434,19 @@ Xtring dbTableDefinition::sameSQLSchema( const dbTableDefinition *other, dbConne
     return ret;
 }
 
-dbRelationDefinition *dbTableDefinition::addRelation( const dbRelationDefinition::Type& type,
+dbRelationDefinition *dbTableDefinition::addRelationDefinition( const dbRelationDefinition::Type& type,
         const Xtring& lefttable, const Xtring& leftfield, const Xtring& righttable, const Xtring& rightfield )
 {
     dbRelationDefinition *reldef = new dbRelationDefinition( type, lefttable, leftfield, righttable, rightfield );
     mRelationDefinitions.insert( reldef->getName(), reldef );
+	dbFieldDefinition *flddef = findFieldDefinition( leftfield );
+	if( flddef )
+		flddef->setIsReference(true);
+	else
+		_GONG_DEBUG_WARNING( Xtring::printf("Trying to add a relation to an inexistent field: '%s.%s'", 
+											getName().c_str(), leftfield.c_str() ) );
     return reldef;
 }
-
 
 Xtring dbTableDefinition::getFullFldName( const Xtring &fldname ) const
 {

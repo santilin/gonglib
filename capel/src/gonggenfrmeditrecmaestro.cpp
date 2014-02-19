@@ -1,5 +1,5 @@
+#include <gongfileutils.h>
 #include <iostream>
-#include "gonglib_inc.h"
 #include "gonggenerators.h"
 #include "gonggenfrmeditrecmaestro.h"
 

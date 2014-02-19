@@ -50,6 +50,7 @@ public:
     Xtring lower() const;
     Xtring proper() const;
     Xtring unproper() const;
+	Xtring &appendWithSeparator(const Xtring &appendwhat, const Xtring& separator);
 
     bool toBool() const;
     int toInt(bool *ok = 0, int base = 10) const;

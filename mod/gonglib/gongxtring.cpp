@@ -691,6 +691,22 @@ int Xtring::splitIn2( Xtring &first, Xtring &second, const Xtring &sep) const
     }
 }
 
+/**
+ * @brief appends text to a string, appending a separator if not empty
+ * 
+ * @param appendwhat 
+ * @param separator 
+ * @return gong::Xtring&
+ */
+Xtring &Xtring::appendWithSeparator(const Xtring &appendwhat, const Xtring& separator)
+{
+	if( !isEmpty() )
+		append( separator );
+	append( appendwhat );
+	return *this;
+}
+
+
 } // namespace gong
 
 

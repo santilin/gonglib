@@ -166,10 +166,10 @@ public:
 
     /** Creates a string representation of the record */
     virtual Xtring toString(int format = TOSTRING_DEBUG,
-                            const RegExp &includedFields = RegExp()) const;
+                            const Xtring &includedFields = Xtring::null) const;
     /** Fills in the values of the fields from a string */
     virtual bool fromString(const Xtring &source, int format,
-                            const RegExp &includedFields = RegExp());
+                            const Xtring &includedFields = Xtring::null);
 
     /** Validate the record */
     virtual bool isValid(ValidResult::Context context, ValidResult *result=0 );

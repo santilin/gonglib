@@ -152,10 +152,10 @@ public:
         return addFieldString( name, 254, flags );
     }
 
-    dbRelationDefinition *addRelation( const dbRelationDefinition::Type& type,
+    dbRelationDefinition *addRelationDefinition( const dbRelationDefinition::Type& type,
                                        const Xtring &lefttable, const Xtring &leftfield,
                                        const Xtring &righttable, const Xtring &rightfield ) {
-        return pTableDefinition->addRelation( type, lefttable, leftfield, righttable, rightfield );
+        return pTableDefinition->addRelationDefinition( type, lefttable, leftfield, righttable, rightfield );
     }
     dbIndexDefinition *addIndex( const dbIndexDefinition *idxdef ) {
         return pTableDefinition->addIndex( idxdef );

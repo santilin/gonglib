@@ -12,12 +12,54 @@
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
 
-#include "gongxtring.h"
+#include "config.h"
 
-namespace gong {
+#ifdef HAVE_BOOST_REGEX
 
-typedef Xtring RegExp;
+#include <boost/regex.hpp>
+
+namespace gong {	
+
+typedef boost::ssub_match RegExpMatch;
+typedef boost::smatch RegExpMatchList;
+typedef boost::sregex_iterator RegExpIterator;
+
+class RegExp: public boost::regex
+{
+public:	
+	RegExp( std::string pattern) : boost::regex(pattern) {}
+	bool search( std::string subject, RegExpMatchList &matches );
+	bool searchAll( std::string subject, RegExpMatchList &matches );
+	bool match( std::string subject, RegExpMatchList &matches );
+};
+
+} // namespace gong
+
+
+#elif defined( HAVE_POCOLIB )
+
+#include <Poco/RegularExpression.h>
+
+namespace gong {	
+
+typedef Poco::RegularExpression RegExp;
+typedef Poco::RegularExpression::Match RegExpMatch;
+typedef Poco::RegularExpression::MatchVec RegExpMatchList;
 
 }; // namespace gong
+
+
+#else
+
+#include "gongxtring.h"
+typedef struct { int offset; int length; } RegExpMatch;
+typedef std::vector<Poco::RegularExpression::Match> RegExpMatchList;
+
+class RegExp {
+public:
+	RegExp() {};
+};
+
+#endif
 
 #endif

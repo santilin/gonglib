@@ -410,4 +410,19 @@ int dbFieldDefinition::getStyleWidth( const dbDefinition* pdb ) const
 }
 
 
+dbRelationDefinition* dbFieldDefinition::findRelationDefinition() const
+{
+	dbTableDefinition *tbldef = getTableDefinition();
+	for( dbRelationDefinitionsList::const_iterator it = getTableDefinition()->getRelationDefinitions().begin();
+		it != getTableDefinition()->getRelationDefinitions().end(); ++it ) {
+		dbRelationDefinition *reldef = it->second;
+		if( reldef->getLeftField() == getName() )
+			return reldef;
+	}
+	_GONG_DEBUG_WARNING( Xtring::printf("Relation not found for field '%s' in table '%s'", 
+										getName().c_str(), getTableDefinition()->getName().c_str() ) );
+	return 0;
+}
+
+
 } // namespace gong

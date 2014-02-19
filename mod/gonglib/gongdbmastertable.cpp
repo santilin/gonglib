@@ -9,7 +9,7 @@ dbFieldDefinition *dbMasterTable::addFieldOne2OneRelation(const Xtring &name,
 {
     Xtring reftable = dbFieldDefinition::extractTableName( referredField );
     Xtring reffield = dbFieldDefinition::extractFieldName( referredField );
-    pTableDefinition->addRelation( dbRelationDefinition::one2one, pTableDefinition->getName(), name, reftable, reffield );
+    pTableDefinition->addRelationDefinition( dbRelationDefinition::one2one, pTableDefinition->getName(), name, reftable, reffield );
     dbFieldReferenceID *fld = new dbFieldReferenceID(pTableDefinition->getName(), name, referredField,
             canbenull ? dbFieldDefinition::NONE : dbFieldDefinition::NOTNULL);
     return pTableDefinition->addField(fld);
@@ -20,7 +20,7 @@ dbFieldDefinition *dbMasterTable::addFieldAggregateRelation(const Xtring &name,
 {
     Xtring reftable = dbFieldDefinition::extractTableName( referredField );
     Xtring reffield = dbFieldDefinition::extractFieldName( referredField );
-    pTableDefinition->addRelation( dbRelationDefinition::aggregate, pTableDefinition->getName(), name, reftable, reffield );
+    pTableDefinition->addRelationDefinition( dbRelationDefinition::aggregate, pTableDefinition->getName(), name, reftable, reffield );
     dbFieldReferenceID *fld = new dbFieldReferenceID(pTableDefinition->getName(), name, referredField,
             canbenull ? dbFieldDefinition::NONE : dbFieldDefinition::NOTNULL);
     return pTableDefinition->addField(fld);
@@ -31,7 +31,7 @@ dbFieldDefinition *dbMasterTable::addFieldOne2ManyRelation(const Xtring &name,
 {
     Xtring reftable = dbFieldDefinition::extractTableName( referredField );
     Xtring reffield = dbFieldDefinition::extractFieldName( referredField );
-    pTableDefinition->addRelation( dbRelationDefinition::one2many, pTableDefinition->getName(), name, reftable, reffield );
+    pTableDefinition->addRelationDefinition( dbRelationDefinition::one2many, pTableDefinition->getName(), name, reftable, reffield );
     dbFieldReferenceID *fld = new dbFieldReferenceID(pTableDefinition->getName(), name, referredField,
             canbenull ? dbFieldDefinition::NONE : dbFieldDefinition::NOTNULL);
     return pTableDefinition->addField(fld);
