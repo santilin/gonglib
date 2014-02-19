@@ -10,12 +10,6 @@
 #include <dbappmainwindow.h>
 #include <dbappdbapplication.h>
 #include "modelosfiscalesmodule.h"
-
-namespace gong {
-namespace modelosfiscales {
-
-ModelosFiscalesModule *ModuleInstance = 0;
-
 /*>>>>>MODELOSFISCALESMODULE_INCLUDES*/
 ModelosFiscalesModule::ModelosFiscalesModule()
 	: dbModule("modelosfiscales")

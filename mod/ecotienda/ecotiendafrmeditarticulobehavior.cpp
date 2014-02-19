@@ -38,7 +38,6 @@ void FrmEditArticuloBehavior::initGUI()
 	frameEcotiendaLayout->addLayout( pesonetoLayout );
 	frameEcotiendaLayout->addLayout( unidadescajaLayout );
 /*>>>>>FRMEDITARTICULOBEHAVIOR_INITGUI*/
-//{capel} Eliminar QWidget *tabECOTIENDA = getOrCreateTab( "tabECOTIENDA" ); QVBoxLayout *tabECOTIENDALayout = static_cast<QVBoxLayout *>( tabECOTIENDA->layout() );
 	(void)pControlsFrame; (void)pControlsLayout;
 	tabExtraLayout->addWidget( frameEcotienda );
 }

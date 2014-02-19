@@ -16,7 +16,7 @@ else
 fi
 GONGDIR=$(cd $GONGDIR; pwd)
 GONGMODULESDIR=$GONGDIR
-CAPEL="$GONGDIR/capel/src/capel"
+CAPEL="$GONGDIR/capel/Debug/src/capel"
 
 COMANDO=$1
 shift
@@ -63,8 +63,8 @@ do_cleanup()
 
 		rm -f configure config.sub config.status config.guess ltmain.sh libtool install-sh stamp-h1
 		rm -f missing depcomp config.log config.h* aclocal.m4 rm po/POTFILES tags
-		rm -f m4/libtool.m4 m4/lt~obsolete.m4  m4/ltoptions.m4  m4/ltsugar.m4  m4/libtool.m4  m4/ltversion.m4
-
+		rm m4 # m4/libtool.m4 m4/lt~obsolete.m4  m4/ltoptions.m4  m4/ltsugar.m4  m4/libtool.m4  m4/ltversion.m4
+.
 		#rm debian/files debian/gestiong.substvars debian/gestiong_0.3.3-r0-1.dsc debian/gestiong.debhelper.log
 
 		find . -iname "*~" -o -iname "*#" -o -iname "*.tmp" -o -iname "*.tag" -o -iname "*.o" -o -iname "*.a" \
@@ -124,6 +124,11 @@ create_links()
 	echo $PWD_SAVE
 	rm acinclude.m4
 	ln -s $GONGDIR/acinclude.m4 .
+	rmret=$(rm m4)
+	if [[ ! -z "$rmtest" ]]; then
+		exit
+	fi
+	ln -s $GONGDIR/m4
 	rm gonglib
 	ln -s $GONGDIR/mod/gonglib gonglib
 	mkdir share 2>/dev/null

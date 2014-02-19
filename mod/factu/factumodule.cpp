@@ -330,7 +330,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicPresupuestoVenta->addFieldsDesgloseIVA();
     pFicPresupuestoVenta->addFieldNotas();
     pFicPresupuestoVenta->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pFicPresupuestoVenta->addRelation( dbRelationDefinition::one2many, "PRESUPUESTOVENTA", "ID", "PRESUPUESTOVENTADET", "PRESUPUESTOVENTA_ID" );
+    pFicPresupuestoVenta->addRelationDefinition( dbRelationDefinition::one2many, "PRESUPUESTOVENTA", "ID", "PRESUPUESTOVENTADET", "PRESUPUESTOVENTA_ID" );
     pFicPresupuestoVenta->addMultipleIndex( "presupuestoventa_numero_unico", "EMPRESA_ID,NUMERO", true );
     pMainDatabase->addTable( pFicPresupuestoVenta->getTableDefinition() );
 
@@ -364,7 +364,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicPedidoVenta->addFieldString("REFERENCIA", 40 );
     pFicPedidoVenta->addFieldNotas();
     pFicPedidoVenta->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pFicPedidoVenta->addRelation( dbRelationDefinition::one2many, "PEDIDOVENTA", "ID", "PEDIDOVENTADET", "PEDIDOVENTA_ID" );
+    pFicPedidoVenta->addRelationDefinition( dbRelationDefinition::one2many, "PEDIDOVENTA", "ID", "PEDIDOVENTADET", "PEDIDOVENTA_ID" );
     pFicPedidoVenta->addMultipleIndex( "pedidoventa_numero_unico", "EMPRESA_ID,EJERCICIO,NUMERO", true );
     pMainDatabase->addTable( pFicPedidoVenta->getTableDefinition() );
 
@@ -401,7 +401,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicAlbaranVenta->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
     pFicAlbaranVenta->addFieldNotas();
     pFicAlbaranVenta->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pFicAlbaranVenta->addRelation( dbRelationDefinition::one2many, "ALBARANVENTA", "ID", "ALBARANVENTADET", "ALBARANVENTA_ID" );
+    pFicAlbaranVenta->addRelationDefinition( dbRelationDefinition::one2many, "ALBARANVENTA", "ID", "ALBARANVENTADET", "ALBARANVENTA_ID" );
     pFicAlbaranVenta->addMultipleIndex( "albaranventa_numero_unico", "EMPRESA_ID,EJERCICIO,NUMERO", true );
     pMainDatabase->addTable( pFicAlbaranVenta->getTableDefinition() );
 
@@ -435,7 +435,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicFacturaVenta->addFieldsDesgloseIVA();
     pFicFacturaVenta->addFieldNotas();
     pFicFacturaVenta->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pFicFacturaVenta->addRelation( dbRelationDefinition::one2many, "FACTURAVENTA", "ID", "FACTURAVENTADET", "FACTURAVENTA_ID" );
+    pFicFacturaVenta->addRelationDefinition( dbRelationDefinition::one2many, "FACTURAVENTA", "ID", "FACTURAVENTADET", "FACTURAVENTA_ID" );
     pFicFacturaVenta->addMultipleIndex( "facturaventa_numero_unico", "EMPRESA_ID,EJERCICIO,NUMERO", true );
     pMainDatabase->addTable( pFicFacturaVenta->getTableDefinition() );
 
@@ -472,7 +472,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicPedidoCompra->addFieldString("REFERENCIA", 40 );
     pFicPedidoCompra->addFieldNotas();
     pFicPedidoCompra->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pFicPedidoCompra->addRelation( dbRelationDefinition::one2many, "PEDIDOCOMPRA", "ID", "PEDIDOCOMPRADET", "PEDIDOCOMPRA_ID" );
+    pFicPedidoCompra->addRelationDefinition( dbRelationDefinition::one2many, "PEDIDOCOMPRA", "ID", "PEDIDOCOMPRADET", "PEDIDOCOMPRA_ID" );
     pFicPedidoCompra->addMultipleIndex( "pedidocompra_proveedora_numero_unico", "EMPRESA_ID,EJERCICIO,PROVEEDORA_ID,NUMERO", true );
     pMainDatabase->addTable( pFicPedidoCompra->getTableDefinition() );
 
@@ -509,7 +509,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicAlbaranCompra->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
     pFicAlbaranCompra->addFieldNotas();
     pFicAlbaranCompra->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pFicAlbaranCompra->addRelation( dbRelationDefinition::one2many, "ALBARANCOMPRA", "ID", "ALBARANCOMPRADET", "ALBARANCOMPRA_ID" );
+    pFicAlbaranCompra->addRelationDefinition( dbRelationDefinition::one2many, "ALBARANCOMPRA", "ID", "ALBARANCOMPRADET", "ALBARANCOMPRA_ID" );
     pFicAlbaranCompra->addMultipleIndex( "albarancompra_proveedora_numero_unico", "EMPRESA_ID,EJERCICIO,PROVEEDORA_ID,NUMERO", true );
     pMainDatabase->addTable( pFicAlbaranCompra->getTableDefinition() );
 
@@ -546,7 +546,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
 
     pFicFacturaCompra->addFieldNotas();
     pFicFacturaCompra->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pFicFacturaCompra->addRelation( dbRelationDefinition::one2many, "FACTURACOMPRA", "ID", "FACTURACOMPRADET", "FACTURACOMPRA_ID" );
+    pFicFacturaCompra->addRelationDefinition( dbRelationDefinition::one2many, "FACTURACOMPRA", "ID", "FACTURACOMPRADET", "FACTURACOMPRA_ID" );
     pFicFacturaCompra->addMultipleIndex( "facturacompra_proveedora_numero_unico", "EMPRESA_ID,EJERCICIO,PROVEEDORA_ID,NUMERO", true );
     pMainDatabase->addTable( pFicFacturaCompra->getTableDefinition() );
 
@@ -1123,7 +1123,7 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
         _GONG_DEBUG_WARNING( "Tabla " + tablename + " no tiene propiedades " + det_properties.join(",") );
         return false;
     }
-    dbRecordList *detalles = sourcerelations[0]->getRelatedRecordList();
+    dbRecordList *detalles = sourcerelations[(uint)0]->getRelatedRecordList();
     bool had_something = false;
     unsigned int numrecords = dest_detalles->size();
     for( dbRecordList::const_iterator it = detalles->begin(); it != detalles->end(); ++ it ) {
@@ -1134,7 +1134,7 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
             detalle_dest = dest_detalles->getRecord( numrecords - 1 );
         } else {
             // No puedo usar dest_detalles porque es un dbRecordList que puede estar vacía
-            detalle_dest = destrelations[0]->getRelatedRecord(-1)->duplicate();
+            detalle_dest = destrelations[(uint)0]->getRelatedRecord(-1)->duplicate();
             add = true;
         }
         detalle_dest->copyRecord( *it, true, Xtring::null, "ID,NLINEA," + sexcludedfields  );

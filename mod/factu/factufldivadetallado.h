@@ -26,7 +26,7 @@ class FldIVADetallado: public dbFieldListOfValues<int>
 {
 public:
     enum IvaDetallado { desglosado = 1, con_recargo, sin_iva, incluido };
-    /*<<<<<DBFIELD_IVADETALLADO_CONSTRUCTOR*/
+/*<<<<<DBFIELD_IVADETALLADO_CONSTRUCTOR*/
 	FldIVADetallado(const Xtring &tablename, const Xtring &name,
 		dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
 		const Xtring &defaultvalue = Xtring::null)
@@ -37,7 +37,7 @@ public:
         setStyle( "TIPODOCUMENTO" );
     }
 
-    /*<<<<<DBFIELD_IVADETALLADO_VALUES*/
+/*<<<<<DBFIELD_IVADETALLADO_VALUES$s/mValues/sValues/$*/
 public:
 	static List<int> sValues;
 /*>>>>>DBFIELD_IVADETALLADO_VALUES*/

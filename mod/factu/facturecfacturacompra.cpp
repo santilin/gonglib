@@ -77,7 +77,7 @@ dbRecordList *RecFacturaCompra::getListFacturaCompraDet() const
 /*>>>>>FACTURACOMPRA_RELATIONS*/
 
 /*<<<<<FACTURACOMPRA_TOSTRING*/
-Xtring RecFacturaCompra::toString(int format, const RegExp &includedFields) const
+Xtring RecFacturaCompra::toString(int format, const Xtring &includedFields) const
 {
 	Xtring result;
 /*>>>>>FACTURACOMPRA_TOSTRING*/

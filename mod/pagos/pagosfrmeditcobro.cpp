@@ -699,7 +699,7 @@ void FrmEditCobro::pushRemesaCobroNumero_clicked()
 
 void FrmEditCobro::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
-    /*<<<<<FRMEDITCOBRO_VALIDATE*/
+/*<<<<<FRMEDITCOBRO_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -710,14 +710,6 @@ void FrmEditCobro::validateFields(QWidget *sender, bool *isvalid, ValidResult *i
 	if( validSeekCode( sender, isvalid, *validresult, editRemesaCobroNumero, editRemesaCobroDescripcion,
 		getRecRemesaCobro(), "NUMERO", "DESCRIPCION", Xtring::null) )
 		scatterRemesaCobro();
-	if( focusWidget() != pushFacturaNumero) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaFecha,
-		getRecFactura(), "NUMERO", "FECHA", Xtring::null) )
-		scatterFactura();
-	if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroRazonSocial,
-		getRecTercero(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
-		scatterTercero();
 	if( focusWidget() != pushMonedaCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editMonedaCodigo, editMonedaNombre,
 		getRecMoneda(), "CODIGO", "NOMBRE", Xtring::null) )

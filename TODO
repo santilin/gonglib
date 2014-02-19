@@ -113,6 +113,7 @@
 * Copia de seguridad, falta poner el puerto
 * Tras "Asistente de acceso" no añade nombre empresa a título ventana principal
 * Formulario de gestión de módulos en dbapp
+* Carga automática: http://pocoproject.org/slides/120-SharedLibraries.pdf
 * Elegir registro cuando hay un filtro, añades y si no coincide con el filtro, no aparece
 ** Comprobarlo y mostrar mensaje diciendo que el registro no se verá
 * SQLSELECT. Elegir valores múltiples de campos
@@ -211,6 +212,7 @@
 * MsgYesNoDontAskAgain: aplicar a main.cpp, language
 
 == Refactoring ==
+* Cambiar los dicts que terminan en List a Dict
 * Eliminar enablesearchboxes
 * dbRecordList no permitir push_back
 * FrmCustom: Utilizar un QTabWidget, showTabs

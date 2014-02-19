@@ -217,12 +217,12 @@ bool GastosTipoModule::initMainWindow(MainWindow *mainwin)
 /*<<<<<GASTOSTIPOMODULE_INITMAINWINDOW_MENUS*/
 	{
 		Xtring caption = DBAPP->getDatabase()->findTableDefinition("GASTOTIPO")->getDescPlural();
-		pMenuGastosTipoGastoTipoGastoTipo = new QAction( toGUI( caption ) + "...", pMainWindow );
-		pMenuGastosTipoGastoTipoGastoTipo->setObjectName( "MenuGastosTipoGastoTipoGastoTipo" );
-		pMenuGastosTipoGastoTipoGastoTipo->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-		pMenuGastosTipoGastoTipoGastoTipo->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-		pMainWindow->connect(pMenuGastosTipoGastoTipoGastoTipo, SIGNAL(activated()), this, SLOT(slotMenuGastosTipoGastoTipoGastoTipo()));
-		pMenuGastosTipoGastoTipoGastoTipo->addTo(pMenuGastosTipo);
+		pMenuGastosTipoGastoTipo = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuGastosTipoGastoTipo->setObjectName( "MenuGastosTipoGastoTipo" );
+		pMenuGastosTipoGastoTipo->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuGastosTipoGastoTipo->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuGastosTipoGastoTipo, SIGNAL(activated()), this, SLOT(slotMenuGastosTipoGastoTipo()));
+		pMenuGastosTipoGastoTipo->addTo(pMenuGastosTipo);
 	}
 /*>>>>>GASTOSTIPOMODULE_INITMAINWINDOW_MENUS*/
 	return true;
@@ -233,3 +233,9 @@ bool GastosTipoModule::initMainWindow(MainWindow *mainwin)
 
 /*>>>>>GASTOSTIPOMODULE_FIN*/
 
+/*<<<<<GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPO*/
+void GastosTipoModule::slotMenuGastosTipoGastoTipo()
+{
+	pMainWindow->slotMenuEditRecMaestro( "GASTOTIPO" );
+}
+/*>>>>>GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPO*/

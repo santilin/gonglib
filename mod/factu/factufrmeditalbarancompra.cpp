@@ -869,7 +869,7 @@ void FrmEditAlbaranCompra::numeraLineas()
 	dbRecordList *reclst = getRecAlbaranCompra()->getListAlbaranCompraDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecAlbaranCompraDet *detalle = static_cast<RecAlbaranCompraDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITALBARANCOMPRA_CABECERA_NUMERALINEAS*/

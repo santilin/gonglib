@@ -77,7 +77,7 @@ dbRecordList *RecAlbaranVenta::getListAlbaranVentaDet() const
 /*>>>>>ALBARANVENTA_RELATIONS*/
 
 /*<<<<<ALBARANVENTA_TOSTRING*/
-Xtring RecAlbaranVenta::toString(int format, const RegExp &includedFields) const
+Xtring RecAlbaranVenta::toString(int format, const Xtring &includedFields) const
 {
 	Xtring result;
 /*>>>>>ALBARANVENTA_TOSTRING*/

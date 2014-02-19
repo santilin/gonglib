@@ -18,7 +18,7 @@
 #include "config.h"
 /*<<<<<MIEMBRO_INCLUDES*/
 #include <dbappdbapplication.h>
-#include <gongregexp.h>
+
 #include "sociasrecproyecto.h"
 #ifdef HAVE_PAGOSMODULE
 #include "pagosrecformapago.h"
@@ -60,7 +60,7 @@ public:
 /*>>>>>MIEMBRO_RELATIONS*/
     /*<<<<<MIEMBRO_MEMBERS*/
 	virtual bool findMatchingRecord(dbRecordID *matchingid) const; // from dbRecord
-	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
 	virtual bool remove() throw( dbError ); // from dbRecord
 /*>>>>>MIEMBRO_MEMBERS*/

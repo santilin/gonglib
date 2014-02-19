@@ -18,7 +18,7 @@
 /*<<<<<CUENTA_INCLUDES*/
 #include <dbappdbapplication.h>
 #include <gongdbvalidresult.h>
-#include <gongregexp.h>
+
 #include "contactosreccontacto.h"
 /*>>>>>CUENTA_INCLUDES*/
 
@@ -38,7 +38,7 @@ public:
     }
     /*<<<<<CUENTA_MEMBERS*/
 	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
-	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 /*>>>>>CUENTA_MEMBERS*/
     void resetSaldos();
     static RecCuenta *quickCreate( dbConnection *conn, const Xtring &cuenta, const Xtring &desc );

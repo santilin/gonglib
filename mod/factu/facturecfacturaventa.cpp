@@ -79,7 +79,7 @@ dbRecordList *RecFacturaVenta::getListFacturaVentaDet() const
 
 
 /*<<<<<FACTURAVENTA_TOSTRING*/
-Xtring RecFacturaVenta::toString(int format, const RegExp &includedFields) const
+Xtring RecFacturaVenta::toString(int format, const Xtring &includedFields) const
 {
 	Xtring result;
 /*>>>>>FACTURAVENTA_TOSTRING*/

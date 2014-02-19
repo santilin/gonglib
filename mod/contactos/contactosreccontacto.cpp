@@ -73,7 +73,7 @@ bool RecContacto::isValid(ValidResult::Context context, ValidResult *result )
 }
 
 /*<<<<<CONTACTO_TOSTRING*/
-Xtring RecContacto::toString(int format, const RegExp &includedFields) const
+Xtring RecContacto::toString(int format, const Xtring &includedFields) const
 {
 	Xtring result;
 /*>>>>>CONTACTO_TOSTRING*/

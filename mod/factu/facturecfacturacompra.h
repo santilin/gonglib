@@ -18,7 +18,7 @@
 #include "config.h"
 /*<<<<<FACTURACOMPRA_INCLUDES*/
 #include <dbappdbapplication.h>
-#include <gongregexp.h>
+
 #include "pagosrecformapago.h"
 #include "empresarecproyecto.h"
 #include "facturectipodoc.h"
@@ -66,7 +66,7 @@ public:
 	void init();
 	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
 	virtual bool remove() throw( dbError ); // from dbRecord
-	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 /*>>>>>FACTURACOMPRA_MEMBERS*/
 public:
     /*<<<<<FACTURACOMPRA_RELATIONS*/

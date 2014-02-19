@@ -18,7 +18,7 @@
 /*<<<<<CONTACTO_INCLUDES*/
 #include <dbappdbapplication.h>
 #include <gongdbvalidresult.h>
-#include <gongregexp.h>
+
 #include "contactosreccontactoimagen.h"
 /*>>>>>CONTACTO_INCLUDES*/
 
@@ -54,7 +54,7 @@ public:
 
 /*<<<<<CONTACTO_MEMBERS*/
 	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
-	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 	virtual bool findMatchingRecord(dbRecordID *matchingid) const; // from dbRecord
 	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
 /*>>>>>CONTACTO_MEMBERS*/

@@ -139,7 +139,7 @@ bool RecAsiento::isValid(ValidResult::Context context, ValidResult *result )
 }
 
 /*<<<<<ASIENTO_TOSTRING*/
-Xtring RecAsiento::toString(int format, const RegExp &includedFields) const
+Xtring RecAsiento::toString(int format, const Xtring &includedFields) const
 {
 	Xtring result;
 /*>>>>>ASIENTO_TOSTRING*/

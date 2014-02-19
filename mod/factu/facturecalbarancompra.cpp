@@ -76,7 +76,7 @@ dbRecordList *RecAlbaranCompra::getListAlbaranCompraDet() const
 /*>>>>>ALBARANCOMPRA_RELATIONS*/
 
 /*<<<<<ALBARANCOMPRA_TOSTRING*/
-Xtring RecAlbaranCompra::toString(int format, const RegExp &includedFields) const
+Xtring RecAlbaranCompra::toString(int format, const Xtring &includedFields) const
 {
 	Xtring result;
 /*>>>>>ALBARANCOMPRA_TOSTRING*/

@@ -93,7 +93,7 @@ bool RecApunte::isValid(ValidResult::Context context, ValidResult *result )
 }
 
 /*<<<<<APUNTE_TOSTRING*/
-Xtring RecApunte::toString(int format, const RegExp &includedFields) const
+Xtring RecApunte::toString(int format, const Xtring &includedFields) const
 {
 	Xtring result;
 /*>>>>>APUNTE_TOSTRING*/

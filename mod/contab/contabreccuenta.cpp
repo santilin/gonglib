@@ -44,7 +44,7 @@ bool RecCuenta::isValid(ValidResult::Context context, ValidResult *result )
 }
 
 /*<<<<<CUENTA_TOSTRING*/
-Xtring RecCuenta::toString(int format, const RegExp &includedFields) const
+Xtring RecCuenta::toString(int format, const Xtring &includedFields) const
 {
 	Xtring result;
 /*>>>>>CUENTA_TOSTRING*/

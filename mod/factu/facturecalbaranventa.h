@@ -18,7 +18,7 @@
 #include "config.h"
 /*<<<<<ALBARANVENTA_INCLUDES*/
 #include <dbappdbapplication.h>
-#include <gongregexp.h>
+
 #include "facturectipodoc.h"
 #include "factureccliente.h"
 #include "facturecagente.h"
@@ -68,7 +68,7 @@ public:
 	void init();
 	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
 	virtual bool remove() throw( dbError ); // from dbRecord
-	Xtring toString(int format, const RegExp &includedFields=RegExp()) const;
+	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 /*>>>>>ALBARANVENTA_MEMBERS*/
     /*<<<<<ALBARANVENTA_RELATIONS*/
 	RecTipoDoc *getRecTipoDoc() const;
