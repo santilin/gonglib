@@ -8,14 +8,14 @@
 
 namespace capel {
 
-CapelModule::CapelModule(const Xtring &lfilename, const Xtring &lbegin_keyword, 
+CapelModule::CapelModule(const Xtring &lfilename, const Xtring &lbegin_keyword,
 						 const Xtring &lend_keyword,
 						 const Xtring &lbegin_comment, const Xtring &lend_comment)
 {
     init(lfilename, lbegin_keyword, lend_keyword, lbegin_comment, lend_comment);
 }
 
-void CapelModule::init(const Xtring &lfilename, const Xtring &lbegin_keyword, 
+void CapelModule::init(const Xtring &lfilename, const Xtring &lbegin_keyword,
 					   const Xtring &lend_keyword,
 					   const Xtring &lbegin_comment, const Xtring &lend_comment)
 {
@@ -51,7 +51,7 @@ size_t CapelModule::write()
     if( !pFile ) {
 		perror(mFilename.c_str());
 	} else {
-		_GONG_DEBUG_PRINT(0, Xtring::printf( "capel: file: %s,  %d bytes", 
+		_GONG_DEBUG_PRINT(0, Xtring::printf( "capel: file: %s,  %d bytes",
 			mFilename.c_str(), mBuffer.length() ) );
         pFile.write(mBuffer.c_str(), mBuffer.length());
 		if( pFile.bad()  )
@@ -115,33 +115,32 @@ Xtring CapelModule::fill_end_extrusion(const Xtring &extrusion_name)
    {<<<<FORM_EDIT}
    and
    {<<<<FORM_EDITED}
-*/  
+*/
 Xtring::size_type CapelModule::lookup_extrusion_begin(const Xtring &extrusion_name)
 {
 	Xtring fullname = fill_begin_extrusion(extrusion_name);
 	Xtring::size_type pos = mBuffer.find(fullname + mEndComment);
 	if( pos == Xtring::npos )
-		pos = mBuffer.find(fullname + "(");
+		pos = mBuffer.find(fullname + mParameterDelimiterBegin );
 	if( pos == Xtring::npos )
 		pos = mBuffer.find(fullname + " ");
 	if( pos == Xtring::npos )
 		pos = mBuffer.find(fullname + "\n");
-	return pos;  
+	return pos;
 }
 
 Xtring CapelModule::get_parameters(const Xtring &extrusion_name)
 {
 	Xtring fullname = fill_begin_extrusion(extrusion_name);
-	Xtring::size_type pos = mBuffer.find(fullname + "(");
+	Xtring::size_type pos = mBuffer.find(fullname + mParameterDelimiterBegin );
 	if( pos != Xtring::npos ) {
 		pos += fullname.size() + 1;
-		Xtring::size_type posend = mBuffer.find( ")", pos );
-		/// \todo Ver si es el último paréntesis
+		Xtring::size_type posend = mBuffer.find( mParameterDelimiterEnd, pos );
 		if( posend != Xtring::npos ) {
 			return mBuffer.mid( pos, posend-pos );
 		}
 	}
-	return Xtring::null;  
+	return Xtring::null;
 }
 
 
@@ -180,7 +179,7 @@ Xtring::size_type CapelModule::lookup_extrusion_end(const Xtring &extrusion_name
 Xtring CapelModule::get_extrusion_text(const Xtring &extrusion_name)
 {
 	Xtring result;
-  
+
 	Xtring::size_type begin = lookup_extrusion_code(extrusion_name);
 	if( begin != Xtring::npos ) {
 		int end = lookup_extrusion_end(extrusion_name);
@@ -231,8 +230,8 @@ Xtring::size_type CapelModule::insert_text(int begin, const Xtring &text, bool a
 }
 
 int CapelModule::insert_extrusion_at(int begin,
-									 const Xtring &extrusion_name, const Xtring &text, 
-									 const Xtring &default_following_text, 
+									 const Xtring &extrusion_name, const Xtring &text,
+									 const Xtring &default_following_text,
 									 const Xtring &default_preceding_text, bool addnewline)
 {
     bool exists = true;
@@ -241,7 +240,7 @@ int CapelModule::insert_extrusion_at(int begin,
 	Xtring parameters;
     begextr = delete_extrusion(extrusion_name, parameters);
     // If the extrusion exists, ignore begin
-    if( begextr != -1 ) 
+    if( begextr != -1 )
         begin = begextr;
     else
         exists = false;
@@ -261,7 +260,8 @@ int CapelModule::insert_extrusion_at(int begin,
 		begin = insert_text(begin, fill_begin_extrusion(extrusion_name) + mEndComment );
 		begin = insert_text(begin, text, addnewline);
 	} else {
-		begin = insert_text(begin, fill_begin_extrusion(extrusion_name) + "(" + parameters + ")" + mEndComment );
+		begin = insert_text(begin, fill_begin_extrusion(extrusion_name)
+			+ mParameterDelimiterBegin + parameters + mParameterDelimiterEnd + mEndComment );
 		// Process parameters on text
 		begin = insert_text(begin, process_parameters( text, parameters ) );
 	}
@@ -381,9 +381,9 @@ Xtring &CapelModule::replace_global(const Xtring &search, const Xtring &repl)
 	return mBuffer;
 }
 
-Xtring &CapelModule::replace_in_extrusion(const Xtring &extrusion_name, 
-										   const Xtring &search, 
-										   const Xtring &repl ) 
+Xtring &CapelModule::replace_in_extrusion(const Xtring &extrusion_name,
+										   const Xtring &search,
+										   const Xtring &repl )
 {
 	int begin = lookup_extrusion_begin(extrusion_name);
 	int end = lookup_extrusion_end(extrusion_name);

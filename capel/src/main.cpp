@@ -38,7 +38,7 @@ gong::dbRecord* gong::dbRecord::duplicate()
 
 namespace capel {
 
-	
+
 extern const char *shortlgpllicense;
 
 void genrtk();
@@ -115,11 +115,12 @@ int main( int argc, char *argv[] )
 		capel::genrtk();
 		return 0;
 	}
+#ifdef HAVE_VENTADIRECTA
 	if( argc == 2 && strcasecmp(argv[1], "ventadirecta") == 0 ) {
 		capel::genventadirecta();
 		return 0;
 	}
-	
+#endif
 	if ( argc < 2 ) {
 		std::cout << "Use: capel filename" << std::endl;
 		return 0;

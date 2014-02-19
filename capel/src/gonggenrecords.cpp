@@ -151,9 +151,9 @@ void addRecordDefinition(CppModule *cpcpp, CppModule *cph, const Xtring &fullrec
 		} else if( membername == "toString" ) {
 			haytostring = true;
 			hmembers +=
-				"\tXtring toString(int format, const RegExp &includedFields=RegExp()) const;\n";
+				"\tXtring toString(int format, const Xtring &includedFields = Xtring::null) const;\n";
 			cpcpp->insert_extrusion(ext_prefix + "TOSTRING",
-				"Xtring Rec" + recname + "::toString(int format, const RegExp &includedFields) const\n"
+				"Xtring Rec" + recname + "::toString(int format, const Xtring &includedFields) const\n"
 				"{\n"
 				"\tXtring result;\n",
 				"\tresult = " + baserecordtype + "::toString(format, includedFields);\n"
@@ -230,7 +230,6 @@ void addRecordDefinition(CppModule *cpcpp, CppModule *cph, const Xtring &fullrec
 		ext_prefix + "INCLUDES",
 		"#include <dbappdbapplication.h>\n"
 		+ Xtring(hayvalid?"#include <gongdbvalidresult.h>\n":"")
-		+ Xtring(haytostring?"#include <gongregexp.h>":"")
 		+ "\n" + hincludes, namespaces );
 	if( relations.size() )
 		cph->insert_extrusion(ext_prefix + "RELATIONS", hrelations);

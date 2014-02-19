@@ -8,7 +8,7 @@ using gong::Xtring;
 
 namespace capel {
 
-class CapelModule 
+class CapelModule
 {
 public:
 	CapelModule() {}
@@ -45,7 +45,7 @@ public:
     int position_begin() const { return 0; }
     int new_extrusion(const Xtring &extrusion_name) { return empty_extrusion(extrusion_name); };
     Xtring &replace_global(const Xtring &search, const Xtring &repl);
-    Xtring &replace_in_extrusion(const Xtring &extrusion_name, const Xtring &search, 
+    Xtring &replace_in_extrusion(const Xtring &extrusion_name, const Xtring &search,
 				  const Xtring &repl);
     Xtring::size_type find_global(const Xtring &search);
     Xtring get_current_extrusion() { return mCurrentExtrusion; };
@@ -57,10 +57,9 @@ public:
 
 protected:
     Xtring mFilename;
-    Xtring mBeginComment;
-    Xtring mEndComment;
-    Xtring mBeginKeyword;
-    Xtring mEndKeyword;
+    Xtring mBeginComment, mEndComment;
+    Xtring mBeginKeyword, mEndKeyword;
+	Xtring mParameterDelimiterBegin, mParameterDelimiterEnd;
     Xtring mCurrentExtrusion;
 
     Xtring fill_begin_extrusion(const Xtring &extrusion_name);
@@ -69,7 +68,7 @@ protected:
     Xtring get_parameters(const Xtring &extrusion_name);
     Xtring::size_type lookup_extrusion_code(const Xtring &extrusion_name);
     Xtring::size_type lookup_extrusion_end(const Xtring &extrusion_name);
-    Xtring::size_type insert_text(int begin, const Xtring &text, bool addnewline=true);    
+    Xtring::size_type insert_text(int begin, const Xtring &text, bool addnewline=true);
 	Xtring process_parameters( const Xtring &text, const Xtring &parameters );
 };
 

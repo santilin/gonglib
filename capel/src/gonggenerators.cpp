@@ -282,9 +282,9 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 "            AS_HELP_STRING([--with-boost], [Support for the Boost library (default is YES)]),\n"
 "            [ac_cv_use_boost=$withval],\n"
 "            [ac_cv_use_boost=yes] )\n"
-"if test \"$ac_cv_use_boost\" = yes ; then\n"
-"		AX_BOOST_BASE(1.0)\n"
-"		AC_DEFINE( [HAVE_BOOST], [], [Define to 1 if you have the Boost library.] )\n"
+"\tif test \"$ac_cv_use_boost\" = yes ; then\n"
+"\t\tAX_BOOST_BASE(1.0)\n"
+"\t\tAX_BOOST_REGEX\n"
 "fi\n"
 "\n";
 
