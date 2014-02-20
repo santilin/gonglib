@@ -200,7 +200,7 @@ bool ContabModule::initDatabase( dbDefinition *db )
     pFicAsiento->addFieldBool( "AUTOMATICO" )->setDefaultValue( "0" )->setReadOnly( true );
     pFicAsiento->addFieldNotas();
     pFicAsiento->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pFicAsiento->addRelation( dbRelationDefinition::one2many, "ASIENTO", "ID", "APUNTE", "ASIENTO_ID" );
+    pFicAsiento->addRelationDefinition( dbRelationDefinition::one2many, "ASIENTO", "ID", "APUNTE", "ASIENTO_ID" );
     pFicAsiento->addMultipleIndex( "numasiento_empresa_ejercicio_unico", "EMPRESA_ID,EJERCICIO,NUMASIENTO", true );
     pMainDatabase->addTable( pFicAsiento->getTableDefinition() );
 

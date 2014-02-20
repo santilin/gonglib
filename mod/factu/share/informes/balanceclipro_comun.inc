@@ -17,28 +17,8 @@
 			Source = VT.FECHA;
 			Type = date;
 		}
-		INPUTFIELD VT_BASEIMPONIBLE {
-			Source = VT.BASEIMPONIBLE;
-			Type = money;
-		}
-		INPUTFIELD VT_IVA {
-			Source = VT.IVA;
-			Type = money;
-		}
 		INPUTFIELD VT_TOTAL {
 			Source = VT.TOTAL;
-			Type = money;
-		}
-		INPUTFIELD VT_RESTO {
-			Source = VT.RESTO;
-			Type = money;
-		}
-		INPUTFIELD VT_SUMAIMPORTES {
-			Source = VT.SUMAIMPORTES;
-			Type = money;
-		}
-		INPUTFIELD VT_PAGADO {
-			Source = VT.PAGADO;
 			Type = money;
 		}
 		INPUTFIELD VT_NOTAS {
@@ -107,49 +87,37 @@
 		OBJECT VT_FECHA {
 			value = "= const @DDD.FACTURAVENTA_FECHA_CAPTION;";
 			posx = 0;
-			sizex = 6;
+			sizex = 9;
 		}
 		OBJECT VT_TIPODOC {
 			value = "= const @DDD.TIPODOC_DESCSINGULAR;";
 			posx = -1;
-			sizex = 10;
+			sizex = 20;
 		}
 		OBJECT VT_NUMERO {
 			value = "= const @DDD.FACTURAVENTA_NUMERO_CAPTION;";
 			posx = -1;
-			sizex = 8;
-		}
-#endif
-		OBJECT VT_BASEIMPONIBLE {
-			value = "= const @DDD.FACTURAVENTA_BASEIMPONIBLE_CAPTION;";
-			posx = 26;
-			sizex = 10;
-			alignment = right;
-		}
-		OBJECT VT_IVA {
-			value = "= const @DDD.FACTURAVENTA_IVA_CAPTION;";
-			posx = -1;
-			sizex = 9;
-			alignment = right;
+			sizex = 12;
 		}
 		OBJECT VT_TOTAL {
 			value = "= const @DDD.FACTURAVENTA_TOTAL_CAPTION;";
 			posx = -1;
-			sizex = 10;
+			sizex = 12;
 			alignment = right;
 		}
-		OBJECT VT_PAGADO {
-			value = "= const @DDD.FACTURAVENTA_COBROS_CAPTION;";
+#ifndef AGRUPAR_POR_CLIPRO
+		OBJECT VT_CLIENTE_ESPACIOS {
+			value = "   ";
 			posx = -1;
-			sizex = 10;
-			alignment = right;
+			sizex = 3;
 		}
-		OBJECT VT_RESTO {
-			value = "= const @DDD.FACTURAVENTA_RESTO_CAPTION;";
+		OBJECT VT_CLIENTE {
+			value = "= const @DDD.CLIENTE_DESCSINGULAR;";
 			posx = -1;
-			sizex = 10;
-			alignment = right;
+			sizex = 40;
 		}
+#endif
+#endif
 	}
 
 
@@ -160,38 +128,15 @@
 		sizey = 1.2;
 		fontweight = "bold";
 
-		OBJECT VT_BASEIMPONIBLE {
-			value = "=input.VT_BASEIMPONIBLE";
-			posx = 28;
-			sizex = 10;
-			alignment = right;
-			aggregate = sum;
-		}
-		OBJECT VT_IVA {
-			value = "=input.VT_IVA";
-			posx = -1;
+		OBJECT razonsocial_totales {
+			value = "Saldo: ";
+			posx = 34;
 			sizex = 9;
-			alignment = right;
-			aggregate = sum;
 		}
 		OBJECT VT_TOTAL {
 			value = "=input.VT_TOTAL";
 			posx = -1;
-			sizex = 10;
-			alignment = right;
-			aggregate = sum;
-		}
-		OBJECT VT_PAGADO {
-			value = "=input.VT_PAGADO";
-			posx = -1;
-			sizex = 10;
-			alignment = right;
-			aggregate = sum;
-		}
-		OBJECT VT_RESTO {
-			value = "=input.VT_RESTO";
-			posx = -1;
-			sizex = 10;
+			sizex = 14;
 			alignment = right;
 			aggregate = sum;
 		}
@@ -212,51 +157,27 @@
 		OBJECT VT_FECHA {
 			value = "=input.VT_FECHA";
 			posx = 0;
-			sizex = 6;
+			sizex = 9;
 		}
 		OBJECT VT_TIPO {
 			value = "=input.VT_TIPO";
 			posx = -1;
-			sizex = 2;
+			sizex = 3;
 		}
 		OBJECT VT_TIPODOC {
 			value = "=input.VT_TIPODOC";
 			posx = -1;
-			sizex = 6;
+			sizex = 16;
 		}
 		OBJECT VT_NUMERO {
 			value = "=input.VT_NUMERO";
 			posx = -1;
-			sizex = 8;
-		}
-		OBJECT VT_BASEIMPONIBLE {
-			value = "=input.VT_BASEIMPONIBLE";
-			posx = -1;
-			sizex = 10;
-			alignment = right;
-		}
-		OBJECT VT_IVA {
-			value = "=input.VT_IVA";
-			posx = -1;
-			sizex = 9;
-			alignment = right;
+			sizex = 12;
 		}
 		OBJECT VT_TOTAL {
 			value = "=input.VT_TOTAL";
 			posx = -1;
-			sizex = 10;
-			alignment = right;
-		}
-		OBJECT VT_PAGADO {
-			value = "=input.VT_PAGADO";
-			posx = -1;
-			sizex = 10;
-			alignment = right;
-		}
-		OBJECT VT_RESTO {
-			value = "=input.VT_RESTO";
-			posx = -1;
-			sizex = 10;
+			sizex = 12;
 			alignment = right;
 		}
 #ifndef AGRUPAR
@@ -264,6 +185,7 @@
 			value = "=input.RAZONSOCIAL_CODIGO";
 			posx = -1;
 			sizex = 5;
+			alignment = right;
 		}
 		OBJECT razonsocial_nombre {
 			value = "=input.RAZONSOCIAL_NOMBRE";
@@ -309,42 +231,14 @@
 		paddingtop = 0.6;
 
 		OBJECT razonsocial_totales {
-			value = "Totales: ";
-			posx = 2;
-			sizex = 8;
-		}
-		OBJECT VT_BASEIMPONIBLE {
-			value = "=input.VT_BASEIMPONIBLE";
-			posx = 28;
-			sizex = 10;
-			alignment = right;
-			aggregate = sum;
-		}
-		OBJECT VT_IVA {
-			value = "=input.VT_IVA";
-			posx = -1;
-			sizex = 9;
-			alignment = right;
-			aggregate = sum;
+			value = "Saldo total: ";
+			posx = 26;
+			sizex = 15;
 		}
 		OBJECT VT_TOTAL {
 			value = "=input.VT_TOTAL";
 			posx = -1;
-			sizex = 10;
-			alignment = right;
-			aggregate = sum;
-		}
-		OBJECT VT_PAGADO {
-			value = "=input.VT_PAGADO";
-			posx = -1;
-			sizex = 10;
-			alignment = right;
-			aggregate = sum;
-		}
-		OBJECT VT_RESTO {
-			value = "=input.VT_RESTO";
-			posx = -1;
-			sizex = 10;
+			sizex = 14;
 			alignment = right;
 			aggregate = sum;
 		}

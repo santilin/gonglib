@@ -35,7 +35,7 @@ FrmBalanceCliPro::FrmBalanceCliPro(QWidget * parent, WidgetFlags fl)
     comprasoventas << "Clientes" << "Proveedoras";
     pComboCliOPro = addComboBoxXtring(true, 0, "Clientes o proveedoras", comprasoventas );
     pDateRange = addDateRangeBox( 0, "Fecha de las transacciones",
-                                  Date( empresa::ModuleInstance->getEjercicio(), 1, 1 ),
+                                  Date( empresa::ModuleInstance->getEjercicio()-1, 1, 1 ),
                                   Date( empresa::ModuleInstance->getEjercicio(), 12, 31 ) );
     pSearchTipoDoc = addMultipleSearchField( 0, "TIPODOC", "CODIGO", "NOMBRE" );
     pSearchCliente = addMultipleSearchField( 0, "CLIENTE", "CODIGO", "RAZONSOCIAL" );
@@ -107,27 +107,21 @@ Xtring FrmBalanceCliPro::createRTK(const Xtring &_template,
     Xtring signo_compras;
     if( BALANCE_PROVEEDORAS ) {
         Xtring pagos_albaranes_select, pagos_facturas_select;
-        if( inc_cobros ) {
-            pagos_albaranes_select = ", CONCAT(AV.FECHA,'A',AV.ID) AS FACTURA_ID, NULL AS DOCUMENTOPAGO, NULL AS FECHAPAGO, NULL AS COBRO_IMPORTE, NULL AS COBRO_RESTO, NULL AS CUENTA, NULL AS CUENTA_DESCRIPCION, NULL AS FORMAPAGO";
-            pagos_facturas_select = ", CONCAT(FV.FECHA,'F',FV.ID) AS FACTURA_ID, PAGO.DOCUMENTOPAGO AS DOCUMENTOPAGO, PAGO.FECHAPAGO AS FECHAPAGO, PAGO.IMPORTE AS COBRO_IMPORTE, PAGO.RESTO AS COBRO_RESTO, CUENTA.CUENTA, CUENTA.DESCRIPCION AS CUENTA_DESCRIPCION, IF(PAGO.IMPORTE IS NULL,NULL,FORMAPAGO.NOMBRE) AS FORMAPAGO";
-        }
         from +=
             "		SELECT AV.SUMAIMPORTES, AV.BASEIMPONIBLE, AV.IVA, AV.TOTAL AS TOTAL, AV.ENTREGA + AV.PAGOS AS PAGADO, AV.RESTO, AV.FECHA, 'Av' AS TIPO, AV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, PROVEEDORA.RAZONSOCIAL AS RAZONSOCIAL, PROVEEDORA.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, AV.NOTAS"
-            + pagos_albaranes_select +
             "			FROM ALBARANCOMPRA AV"
             "				INNER JOIN TIPODOC ON TIPODOC.ID = AV.TIPODOC_ID"
             "				INNER JOIN PROVEEDORA ON AV.PROVEEDORA_ID = PROVEEDORA.ID"
-            " 			WHERE AV.FACTURADO=0 AND TIPODOC.ESLIQUIDACION=0";
+            " 			WHERE AV.FACTURADO=0 AND TIPODOC.DEPOSITO=0";
         if( !compras_where.isEmpty() )
             from += " AND " + compras_where;
         from +=
             "		UNION ALL"
             "			SELECT -AV.SUMAIMPORTES, -AV.BASEIMPONIBLE, -AV.IVA, -AV.TOTAL AS TOTAL, -AV.ENTREGA - AV.PAGOS AS PAGADO, -AV.RESTO, AV.FECHA, 'Av' AS TIPO, AV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, PROVEEDORA.RAZONSOCIAL AS RAZONSOCIAL, PROVEEDORA.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, AV.NOTAS"
-            + pagos_albaranes_select +
             "			FROM ALBARANCOMPRA AV"
             "				INNER JOIN TIPODOC ON TIPODOC.ID = AV.TIPODOC_ID"
             "				INNER JOIN PROVEEDORA ON AV.PROVEEDORA_ID = PROVEEDORA.ID"
-            " 			WHERE AV.FACTURADO=0 AND TIPODOC.ESLIQUIDACION=1";
+            " 			WHERE AV.FACTURADO=0 AND TIPODOC.ESDEPOSITO=0";
         if( !compras_where.isEmpty() )
             from += " AND " + compras_where;
         from +=
@@ -137,53 +131,46 @@ Xtring FrmBalanceCliPro::createRTK(const Xtring &_template,
             "			FROM FACTURACOMPRA FV"
             "				INNER JOIN TIPODOC ON TIPODOC.ID = FV.TIPODOC_ID"
             "				INNER JOIN PROVEEDORA ON FV.PROVEEDORA_ID = PROVEEDORA.ID";
-        if( inc_cobros ) {
-            from += " LEFT JOIN PAGO ON PAGO.FACTURACOMPRA_ID = FV.ID AND PAGO.RESTO=0"
-                    " LEFT JOIN CUENTA ON CUENTA.ID=PAGO.CUENTAPAGO_ID"
-                    " LEFT JOIN FORMAPAGO ON FV.FORMAPAGO_ID=FORMAPAGO.ID";
-        }
         if( !compras_where.isEmpty() )
             from += " WHERE " + compras_where.replace("AV.","FV.");
         from = "PROVEEDORA RS INNER JOIN (" + from + ") VT ON VT.RAZONSOCIAL_ID=RS.ID";
     } else if( BALANCE_CLIENTES ) {
         Xtring cobros_albaranes_select, cobros_facturas_select;
-        if( inc_cobros ) {
-            cobros_albaranes_select = ", CONCAT(AV.FECHA,'A',AV.ID) AS FACTURA_ID, NULL AS DOCUMENTOPAGO, NULL AS FECHAPAGO, NULL AS COBRO_IMPORTE, NULL AS COBRO_RESTO, NULL AS CUENTA, NULL AS CUENTA_DESCRIPCION, NULL AS FORMAPAGO";
-            cobros_facturas_select = ", CONCAT(FV.FECHA,'F',FV.ID) AS FACTURA_ID, COBRO.DOCUMENTOPAGO AS DOCUMENTOPAGO, COBRO.FECHAPAGO AS FECHAPAGO, COBRO.IMPORTE AS COBRO_IMPORTE, COBRO.RESTO AS COBRO_RESTO, CUENTA.CUENTA, CUENTA.DESCRIPCION AS CUENTA_DESCRIPCION, IF(COBRO.IMPORTE IS NULL,NULL,FORMAPAGO.NOMBRE) AS FORMAPAGO";
-        }
         from +=
-            "		SELECT AV.SUMAIMPORTES, AV.BASEIMPONIBLE, AV.IVA, AV.TOTAL AS TOTAL, AV.ENTREGA + AV.COBROS AS PAGADO, AV.RESTO AS RESTO, AV.FECHA, 'Av' AS TIPO, AV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, AV.NOTAS"
-            + cobros_albaranes_select +
+            "		SELECT -AV.TOTAL AS TOTAL, AV.FECHA, 'Av' AS TIPO, AV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, AV.NOTAS"
             "			FROM ALBARANVENTA AV"
             "				INNER JOIN TIPODOC ON TIPODOC.ID = AV.TIPODOC_ID"
             "				INNER JOIN CLIENTE ON AV.CLIENTE_ID = CLIENTE.ID"
-            " 			WHERE AV.FACTURADO=0 AND TIPODOC.ESLIQUIDACION=0";
+            " 			WHERE AV.FACTURADO=0 AND TIPODOC.ESDEPOSITO=0";
+        if( !ventas_where.isEmpty() )
+            from += " AND " + ventas_where;
+        from +=
+			"	UNION ALL"
+            "		SELECT -FV.TOTAL AS TOTAL, FV.FECHA, 'Fv' AS TIPO, FV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, FV.NOTAS"
+            "		FROM FACTURAVENTA FV"
+            "			INNER JOIN TIPODOC ON TIPODOC.ID = FV.TIPODOC_ID"
+            "			INNER JOIN CLIENTE ON FV.CLIENTE_ID = CLIENTE.ID";
+        if( !ventas_where.isEmpty() )
+            from += " WHERE " + Xtring(ventas_where).replace("AV.","FV.");
+        from +=
+            "		UNION ALL"
+            "		SELECT AV.ENTREGA, AV.FECHA, 'Av' AS TIPO, AV.NUMERO, 'Entrega' AS TIPODOC, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, AV.NOTAS"
+            "			FROM ALBARANVENTA AV"
+            "				INNER JOIN TIPODOC ON TIPODOC.ID = AV.TIPODOC_ID"
+            "				INNER JOIN CLIENTE ON AV.CLIENTE_ID = CLIENTE.ID"
+            " 			WHERE AV.FACTURADO=0 AND TIPODOC.ESDEPOSITO=0 AND AV.ENTREGA!=0";
         if( !ventas_where.isEmpty() )
             from += " AND " + ventas_where;
         from +=
             "		UNION ALL"
-            "			SELECT -AV.SUMAIMPORTES, -AV.BASEIMPONIBLE, -AV.IVA, -AV.TOTAL AS TOTAL, -AV.ENTREGA - AV.COBROS AS PAGADO, -AV.RESTO AS RESTO, AV.FECHA, 'Av' AS TIPO, AV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, AV.NOTAS"
-            + cobros_albaranes_select +
-            "			FROM ALBARANVENTA AV"
-            "				INNER JOIN TIPODOC ON TIPODOC.ID = AV.TIPODOC_ID"
-            "				INNER JOIN CLIENTE ON AV.CLIENTE_ID = CLIENTE.ID"
-            " 			WHERE AV.FACTURADO=0 AND TIPODOC.ESLIQUIDACION=1";
-        if( !ventas_where.isEmpty() )
-            from += " AND " + ventas_where;
-        from +=
-            "		UNION ALL"
-            "			SELECT FV.SUMAIMPORTES, FV.BASEIMPONIBLE, FV.IVA, FV.TOTAL, FV.ENTREGA + FV.ENTREGAALBARANES + FV.COBROS AS PAGADO, FV.RESTO, FV.FECHA, 'Fv' AS TIPO, FV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, FV.NOTAS"
-            + cobros_facturas_select +
+            "		SELECT FV.ENTREGA, FV.FECHA, 'Fv' AS TIPO, FV.NUMERO, 'Entrega' AS TIPODOC, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, FV.NOTAS"
             "			FROM FACTURAVENTA FV"
             "				INNER JOIN TIPODOC ON TIPODOC.ID = FV.TIPODOC_ID"
             "				INNER JOIN CLIENTE ON FV.CLIENTE_ID = CLIENTE.ID";
-        if( inc_cobros ) {
-            from += " LEFT JOIN COBRO ON COBRO.FACTURAVENTA_ID = FV.ID AND COBRO.RESTO=0"
-                    " LEFT JOIN CUENTA ON CUENTA.ID=COBRO.CUENTAPAGO_ID"
-                    " LEFT JOIN FORMAPAGO ON FV.FORMAPAGO_ID=FORMAPAGO.ID";
-        }
+			"			WHERE FV.ENTREGA!=0";
         if( !ventas_where.isEmpty() )
-            from += " WHERE " + ventas_where.replace("AV.","FV.");
+            from += " WHERE " + Xtring(ventas_where).replace("AV.","FV.");
+
         from = "CLIENTE RS INNER JOIN (" + from + ") VT ON VT.RAZONSOCIAL_ID=RS.ID";
     }
 
@@ -210,7 +197,7 @@ Xtring FrmBalanceCliPro::createRTK(const Xtring &_template,
                  "\t}\n"
                  "}";
     rtkstring = defines + rtkstring;
-    //FrmBase::msgOkLarge(this, "Informe", "", rtkstring );
+//    FrmBase::msgOkLarge(this, "", from );
     return rtkstring;
 }
 
@@ -243,8 +230,6 @@ void FrmBalanceCliPro::accept()
 	Xtring _template = "balanceclipro";
     if( pCheckIncCobros->isOn() )
 		_template += "_cobros";
-	if( pCheckResumido->isOn() )
-        _template += "_resumido";
 	Xtring rtkstring = createRTK( _template, from, where, titulo);
 	if( !rtkstring.isEmpty() ) {
         AppReport *report = new AppReport(*DBAPP, ModuleInstance->getConnection());
