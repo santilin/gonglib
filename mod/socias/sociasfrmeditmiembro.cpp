@@ -109,8 +109,6 @@ if( ModuleInstance->getPagosModule() ) {
 	pControlsLayout->addLayout( cuentabancoLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITMIEMBRO_INIT_CONTROLS*/
-    if( searchProyectoCodigo )
-        searchProyectoCodigo->setMustBeReadOnly(true);
     editImporteTotal->setMustBeReadOnly( true );
     editPagosTotal->setMustBeReadOnly( true );
     editRestoTotal->setMustBeReadOnly( true );
@@ -163,6 +161,8 @@ if( ModuleInstance->getPagosModule() ) {
             if( r ) {
                 pFocusWidget = editNumeroSocia;
                 editProyectoCodigo->setText( r->getValue( "CODIGO" ) );
+				searchProyectoCodigo->setMustBeReadOnly(true);
+				searchProyectoCodigo->setEnabled(false);
             }
         }
         if( editProyectoCodigo->toInt() != 0 ) {

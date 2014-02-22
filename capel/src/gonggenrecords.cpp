@@ -158,6 +158,15 @@ void addRecordDefinition(CppModule *cpcpp, CppModule *cph, const Xtring &fullrec
 				"\tXtring result;\n",
 				"\tresult = " + baserecordtype + "::toString(format, includedFields);\n"
 				"\treturn result;\n}\n");
+		} else if( membername == "fromString" ) {
+			hmembers +=
+				"\tvirtual bool fromString(const Xtring &source, int format,\n"
+                "\t\tconst Xtring &includedFields = Xtring::null);\n";
+			cpcpp->insert_extrusion(ext_prefix + "FROMSTRING",
+				"bool " + recname + "::fromString(const Xtring& source, int format, const Xtring& includedFields)\n"
+				"{\n",
+				"\treturn dbRecord::fromString( source, format, includedFields);\n"
+				"}\n");
 		} else if( membername == "isValid" ) {
 			hayvalid = true;
 			hmembers += "\tvirtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord\n";
@@ -317,8 +326,9 @@ void adddbFieldDefinition(CppModule *cpcpp, CppModule *cph, const Xtring &fullfl
 		Xtring type = tokens[1];
 		values += "public:\n\t";
 		if( staticValues )
-			values += "static ";
-		values +="List<" + type + "> mValues;\n";
+			values +="static List<" + type + "> sValues;\n";
+		else
+			values +="List<" + type + "> mValues;\n";
 	}
 	if( !values.isEmpty() )
 		cph->insert_extrusion( ext_prefix + "VALUES", values );

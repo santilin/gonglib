@@ -22,7 +22,6 @@
 // MODULE_OPTIONAL Pagos
 // MODULE_OPTIONAL Contab
 // MODULE_OPTIONAL Factu
-// NAMESLISTTABLE PedirCampo
 // NAMESLISTTABLE CategoriaGasto
 // TYPE GongModule gastostipo::GastosTipoModule
 /*>>>>>MODULE_INFO*/
@@ -37,6 +36,7 @@
 #include "gastostipomodule.h"
 #include "gastostipofrmeditgastotipo.h"
 /*>>>>>GASTOSTIPOMODULE_INCLUDES*/
+#include "gastostipomastertable.h"
 
 namespace gong {
 namespace gastostipo {
@@ -50,7 +50,7 @@ GastosTipoModule::GastosTipoModule()
     _GONG_DEBUG_TRACE(1);
 /*<<<<<GASTOSTIPOMODULE_PUBLIC_INFO*/
 //	mModuleRequires
-	mMasterTables << "GASTOTIPO" << "PEDIRCAMPO" << "CATEGORIAGASTO";
+	mMasterTables << "GASTOTIPO" << "CATEGORIAGASTO";
 //	mDetailTables
 #ifdef HAVE_PAGOSMODULE
 	pPagosModule = static_cast< pagos::PagosModule * >(DBAPP->findModule( "Pagos" ));
@@ -85,8 +85,6 @@ bool GastosTipoModule::initDatabase(dbDefinition *db)
 	pMainDatabase = db;
 
 /*<<<<<GASTOSTIPOMODULE_INIT_DATABASE*/
-	pFicPedirCampo = new NamesListTable( *pMainDatabase, "PEDIRCAMPO" );
-	pMainDatabase->addTable( pFicPedirCampo->getTableDefinition() );
 	pFicCategoriaGasto = new NamesListTable( *pMainDatabase, "CATEGORIAGASTO" );
 	pMainDatabase->addTable( pFicCategoriaGasto->getTableDefinition() );
 /*>>>>>GASTOSTIPOMODULE_INIT_DATABASE*/
@@ -103,9 +101,9 @@ bool GastosTipoModule::initDatabase(dbDefinition *db)
 		captions << DBAPP->getDatabase()->findTableDefinition( *it )->getName();
 	pFicGastoTipo->addFieldListOfValues<Xtring>( false, captions, tables, "TABLENAME" );
 	pFicGastoTipo->addField<FldNamesListTable>("CATEGORIAGASTO");
-	pFicGastoTipo->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRIMPORTE" );
+	pFicGastoTipo->addField<FldPedirCampo>( "PEDIRIMPORTE" );
 	pFicGastoTipo->addFieldEuro( "IMPORTE" );
-	pFicGastoTipo->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRTERCERO" );
+	pFicGastoTipo->addField<FldPedirCampo>( "PEDIRTERCERO" );
 #ifdef HAVE_FACTUMODULE
 	pFicGastoTipo->addFieldOne2OneRelation( "CLIENTE_ID", "CLIENTE.ID", true );
 	pFicGastoTipo->addFieldOne2OneRelation( "PROVEEDORA_ID", "PROVEEDORA.ID", true );
@@ -114,7 +112,7 @@ bool GastosTipoModule::initDatabase(dbDefinition *db)
 #else
 	pFicGastoTipo->addFieldOne2OneRelation( "CONTACTO_ID", "CONTACTO.ID", true );
 #endif
-	pFicGastoTipo->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRCONCEPTO" );
+	pFicGastoTipo->addField<FldPedirCampo>( "PEDIRCONCEPTO" );
 #ifdef HAVE_FACTUMODULE
 	pFicGastoTipo->addFieldOne2OneRelation( "ARTICULO_ID", "ARTICULO.ID", false );
 #elif defined( HAVE_CONTABMODULE )
@@ -122,9 +120,9 @@ bool GastosTipoModule::initDatabase(dbDefinition *db)
 #else
 	pFicGastoTipo->addFieldString( "CONCEPTO", 100 );
 #endif
-	pFicGastoTipo->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRDESCRIPCION" );
+	pFicGastoTipo->addField<FldPedirCampo>( "PEDIRDESCRIPCION" );
 	pFicGastoTipo->addFieldText( "DESCRIPCION" );
-	pFicGastoTipo->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRPAGOS" );
+	pFicGastoTipo->addField<FldPedirCampo>( "PEDIRPAGOS" );
     pFicGastoTipo->addFieldOne2OneRelation( "FORMAPAGO_ID", "FORMAPAGO.ID", true );
 #ifdef HAVE_CONTABMODULE
 	pFicGastoTipo->addFieldReferenceID( "CUENTAPAGO_ID", "CUENTA.ID" );
@@ -132,7 +130,7 @@ bool GastosTipoModule::initDatabase(dbDefinition *db)
 	pFicGastoTipo->addFieldString( "CUENTAPAGO", 50 );
 #endif
 	pFicGastoTipo->addFieldString( "DOCUMENTOPAGO", 100 );
-	pFicGastoTipo->addField<FldNamesListTable>( Variant("PEDIRCAMPO"), "PEDIRNOTAS" );
+	pFicGastoTipo->addField<FldPedirCampo>( "PEDIRNOTAS" );
 	pFicGastoTipo->addFieldNotas();
 	pFicGastoTipo->addBehavior( DBAPP->getRecordTimestampBehavior() );
 	pMainDatabase->addTable( pFicGastoTipo->getTableDefinition() );
@@ -146,8 +144,6 @@ dbRecord *GastosTipoModule::createRecord(const Xtring &tablename, dbRecordID rec
 /*<<<<<GASTOSTIPOMODULE_CREATE_RECORD*/
 	if( tablename.upper() == "GASTOTIPO" )
 		return new RecGastoTipo(getConnection(), recid, user);
-	if( tablename.upper() == "PEDIRCAMPO" )
-		return new RecNamesListTable("PEDIRCAMPO", getConnection(), recid, user);
 	if( tablename.upper() == "CATEGORIAGASTO" )
 		return new RecNamesListTable("CATEGORIAGASTO", getConnection(), recid, user);
 /*>>>>>GASTOSTIPOMODULE_CREATE_RECORD*/
@@ -163,8 +159,6 @@ FrmEditRec *GastosTipoModule::createEditForm(FrmEditRec *parentfrm, dbRecord *re
 /*<<<<<GASTOSTIPOMODULE_CREATE_EDITFORM*/
 	if( tablename.upper() == "GASTOTIPO" )
 		return new FrmEditGastoTipo(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-	if( tablename.upper() == "PEDIRCAMPO" )
-		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 	if( tablename.upper() == "CATEGORIAGASTO" )
 		return new FrmEditNamesListTable(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 /*>>>>>GASTOSTIPOMODULE_CREATE_EDITFORM*/
@@ -185,13 +179,12 @@ FrmEditRecDetail *GastosTipoModule::createEditDetailForm(
 	return 0;
 }
 
-
-/*<<<<<GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPOGASTOTIPO*/
-void GastosTipoModule::slotMenuGastosTipoGastoTipoGastoTipo()
+/*<<<<<GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPO*/
+void GastosTipoModule::slotMenuGastosTipoGastoTipo()
 {
 	pMainWindow->slotMenuEditRecMaestro( "GASTOTIPO" );
 }
-/*>>>>>GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPOGASTOTIPO*/
+/*>>>>>GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPO*/
 
 bool GastosTipoModule::initMainWindow(MainWindow *mainwin)
 {
@@ -233,9 +226,3 @@ bool GastosTipoModule::initMainWindow(MainWindow *mainwin)
 
 /*>>>>>GASTOSTIPOMODULE_FIN*/
 
-/*<<<<<GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPO*/
-void GastosTipoModule::slotMenuGastosTipoGastoTipo()
-{
-	pMainWindow->slotMenuEditRecMaestro( "GASTOTIPO" );
-}
-/*>>>>>GASTOSTIPOMODULE_SLOT_GASTOSTIPOGASTOTIPO*/

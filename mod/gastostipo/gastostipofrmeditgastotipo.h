@@ -76,16 +76,11 @@ private slots:
 	void pushCuentaConceptoCuenta_clicked();
 
 public:
-	factu::RecCliente* getRecCliente() const
-		{ return static_cast<RecGastoTipo*>(getRecord())->getRecCliente(); }
-	factu::RecProveedora* getRecProveedora() const
-		{ return static_cast<RecGastoTipo*>(getRecord())->getRecProveedora(); }
-	contab::RecCuentaTercero* getRecCuentaTercero() const
-		{ return static_cast<RecGastoTipo*>(getRecord())->getRecCuentaTercero(); }
-	factu::RecArticulo* getRecArticulo() const
-		{ return static_cast<RecGastoTipo*>(getRecord())->getRecArticulo(); }
-	contab::RecCuentaConcepto* getRecCuentaConcepto() const
-		{ return static_cast<RecGastoTipo*>(getRecord())->getRecCuentaConcepto(); }
+	factu::RecCliente* getRecCliente() const;
+	factu::RecProveedora* getRecProveedora() const;
+	contab::RecCuentaTercero* getRecCuentaTercero() const;
+	factu::RecArticulo* getRecArticulo() const;
+	contab::RecCuentaConcepto* getRecCuentaConcepto() const;
 /*>>>>>FRMEDITGASTOTIPO_SCATTERS_AND_SLOTS*/
 // {capel} Borrar implementación de los getRecXXXX
 

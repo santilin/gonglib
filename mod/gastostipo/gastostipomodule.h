@@ -66,7 +66,6 @@ public:
 /*<<<<<GASTOSTIPOMODULE_RECORD_DEFINITIONS*/
 public:
 	gastostipo::MasterTable *getFicGastoTipo() const { return pFicGastoTipo; }
-	NamesListTable *pFicPedirCampo;
 	NamesListTable *pFicCategoriaGasto;
 
 private:

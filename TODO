@@ -1,5 +1,10 @@
 == HECHO ==
 
+== JOSÉ CASTAÑO ==
+* Añadir opción importación de socias/clientes/proveedoras/etc. Explicarle
+* No deja grabar clientes sin DNI?
+* Meter la id de los contactos?
+
 == A MEDIO ==
 
 == Los pajaros ==
@@ -13,12 +18,13 @@
 * tpv: Fila de productos favoritos
 * tpv: Pagos por rondas: buscar un FrmList animado
 * factu: Formulario datos ventas y compras de artículos
-** Crear un formulario base de estadísticas con condiciones y una consulta que genere un informe.
 * Enviar adjuntos por email
 * Clientes especiales, con un porcentaje extra.
 
 == MC ==
 * Comprobar: no pasa aquí. El resto de las ofertas siempre se queda como el total
+* la ganancia la debe calcular del precio de compra del articulo no?
+* no puedo volcar en facturas o pedidos documentos de otro ejercicio aún en curso.
 
 = PRESCINDIBLE =
 
@@ -38,6 +44,7 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
+* Enviar/facturas facturas a/de otro gestiong
 * Que la suma en mc de las ventas coincida con la suma de las facturas:
 ** No añade el recargo ni los descuentos
 * Calcular el máximo de una unión en SQL: SELECT SUM() FROM ( SELECT .... UNION ALL .... );

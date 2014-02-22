@@ -163,7 +163,7 @@ AC_DEFUN([GONG_CHECK_RTK],
 	AM_CONDITIONAL( [COMPILE_WITH_BOOST_SPIRIT], [ test "$ac_cv_use_boot_spirit" = yes ])
 	if test "$ac_cv_use_boost_spirit" = yes ; then
 		AX_BOOST_BASE(1.0)
-		AC_DEFINE( [HAVE_BOOST_SPIRIT], [], [Define to 1 if you have the Boost::Spirit library.] )
+		AC_DEFINE( [HAVE_BOOST_SPIRIT], [1], [Define to 1 if you have the Boost::Spirit library.] )
 	fi
 	AC_ARG_WITH( [bdb],
 		        AS_HELP_STRING([--with-bdb], [Support for the Berkeley Database (default is NO)]),
@@ -172,7 +172,7 @@ AC_DEFUN([GONG_CHECK_RTK],
 	AM_CONDITIONAL( [COMPILE_WITH_BDB], [ test "$ac_cv_use_bdb" = yes ])
 	if test "$ac_cv_use_bdb" = yes ; then
 			GONG_CHECK_BDB
-			AC_DEFINE( [HAVE_BDB], [], [Define to 1 if you have the Berkeley Database library.] )
+			AC_DEFINE( [HAVE_BDB], [1], [Define to 1 if you have the Berkeley Database library.] )
 	fi
 ])
 

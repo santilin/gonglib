@@ -2,6 +2,7 @@
 #define GASTOSMASTERTABLE_H
 
 #include <empresamastertable.h>
+#include "gastostipofldpedircampo.h"
 
 namespace gong {
 namespace gastostipo {
@@ -16,7 +17,7 @@ public:
         : empresa::MasterTable( tbldef ) {}
 };
 
-} // namespace gastos
+} // namespace gastostipo
 } // namespace gong
 
 #endif // GASTOSMASTERTABLE_H

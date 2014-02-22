@@ -72,16 +72,16 @@ AC_ARG_WITH( [boost],
             AS_HELP_STRING([--with-boost], [Support for the Boost library (default is YES)]),
             [ac_cv_use_boost=$withval],
             [ac_cv_use_boost=yes] )
-if test "$ac_cv_use_boost" = yes ; then
+	if test "$ac_cv_use_boost" = yes ; then
 		AX_BOOST_BASE(1.0)
-		AC_DEFINE( [HAVE_boost], [], [Define to 1 if you have the Boost library.] )
+		AX_BOOST_REGEX
 fi
 
 dnl >>>>>GONGLIB_MODULE_INIT
 
 dnl <<<<<GONGLIB_MODULE_GONGLIB
 GONGLIB_CPPFLAGS="-I../../gonglib $MYSQL_CPPFLAGS $SQLITE3_CFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS "
-GONGLIB_LIBS="-L../gonglib -lgonglib $MYSQL_LIBS $SQLITE3_LDFLAGS $POCO_LIBS $BOOST_LDFLAGS "
+GONGLIB_LIBS="-L../gonglib -lgonglib $MYSQL_LIBS $SQLITE3_LDFLAGS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB"
 dnl >>>>>GONGLIB_MODULE_GONGLIB
 
 

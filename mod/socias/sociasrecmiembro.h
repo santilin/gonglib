@@ -1,5 +1,5 @@
 /*<<<<<COPYLEFT*/
-/** @file sociasrecmiembro.h 
+/** @file sociasrecmiembro.h
  * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
@@ -58,12 +58,14 @@ public:
 #endif
 	RecTipoSocia *getRecTipoSocia() const;
 /*>>>>>MIEMBRO_RELATIONS*/
-    /*<<<<<MIEMBRO_MEMBERS*/
+/*<<<<<MIEMBRO_MEMBERS*/
 	virtual bool findMatchingRecord(dbRecordID *matchingid) const; // from dbRecord
 	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
 	virtual bool remove() throw( dbError ); // from dbRecord
 /*>>>>>MIEMBRO_MEMBERS*/
+    virtual bool fromString(const Xtring &source, int format,
+                            const Xtring &includedFields = Xtring::null);
 }; // class
 
 /*<<<<<MIEMBRO_POSTAMBLE*/
