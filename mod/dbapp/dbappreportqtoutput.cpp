@@ -294,11 +294,14 @@ Measure ReportQtOutput::printObject( const Object &object )
             // Horizontal
             int tf = Qt::AlignLeft;
             switch ( object.hAlignment() ) {
-            case AlignLeft:
+            case AlignAuto:
                 if ( Variant::isNumeric( value.type() ) )
                     tf = Qt::AlignRight;
                 else
                     tf = Qt::AlignLeft;
+                break;
+			case AlignLeft:
+                tf = Qt::AlignLeft;
                 break;
             case AlignTop:
             case AlignJustify:  // TODO

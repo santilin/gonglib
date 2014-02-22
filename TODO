@@ -5,6 +5,8 @@
 * Añadir opción importación de socias/clientes/proveedoras/etc. Explicarle
 * No deja grabar clientes sin DNI?
 * Meter la id de los contactos?
+* Quitar dbTableDefinition de los dbFieldDefinition? Mirar fromSQLSchema
+* Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
 
 == A MEDIO ==
 
@@ -13,7 +15,7 @@
 
 == Imprescindible ==
 * Ticket normal, tiene poco espacio para el total
-* Añadir spacer a frmreportconds
+* Función addSpacer Añadir spacer a frmreportconds
 
 == NUEVA FUNCIONALIDAD ==
 * tpv: Fila de productos favoritos
@@ -146,7 +148,7 @@
 * FrmEditRec Cuando está seleccionado el botón cancelar, si pulsamos ENTER no hace nada
 * Nueva instalación con sqlite3
 ** WARNING: (CREATE UNIQUE INDEX TRATAMIENTOCONTACTO_CODIGO):1:near "TRATAMIENTOCONTACTO_CODIGO": syntax error [void gong::dbConnection::setError(const gong::Xtring&)]
-
+S
 == ventasweb ==
 * Subir por ftp, el mensaje de error no está vacío cuando no hay error
 
@@ -157,7 +159,9 @@
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
-* Añadir opción enviar por correo
+* Visor:
+** Mostrar número de página/total páginas
+** Añadir opción enviar por correo
 * Implementar padding de los objetos
 * El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 * Al hacer un informe apaisado, el alto de línea es demasiado pequeño

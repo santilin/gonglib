@@ -2,7 +2,7 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 {
 	Title = "Socias carnet de socia";
 	Units = chars;
-	SizeX = 93;
+	SizeX = 99;
 	SizeY = 60;
 
 	INPUT default {
@@ -43,10 +43,10 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 
 	DETAILS details {
 		posx = 0;
-		sizex = 30;
+		sizex = 33;
 		level = 0;
 		style = detail;
-		sizey = 5.2;
+		sizey = 6.5;
 		columns = 3;
 		marginright = 1;
 //		borderstyle = dotted;
@@ -63,7 +63,7 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 		OBJECT MIEMBRO_NUMEROSOCIA {
 			value = "=input.MIEMBRO_NUMEROSOCIA";
 			halignment = "left";
-			posx = 8;
+			posx = 10;
 			sizey = 1;
 			posy = 1;
 			sizex = 6;
