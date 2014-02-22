@@ -313,7 +313,7 @@ dnl >>>>>GONGLIB_MODULE__MODULES
 
 AC_SUBST(GONGLIB_CPPFLAGS)
 AC_SUBST(GONGLIB_LIBS)
-AM_CONDITIONAL( [COMPILE_EXPERIMENTAL], [ test 0 ])
+AM_CONDITIONAL( [COMPILE_EXPERIMENTAL], [ test ! false ])
 
 AC_CONFIG_FILES( Makefile gonglib/Makefile rtk/Makefile qt4/Makefile dbapp/Makefile contactos/Makefile empresa/Makefile contab/Makefile pagos/Makefile factu/Makefile gastostipo/Makefile socias/Makefile sinpapeles/Makefile reccolor/Makefile \
 	src/Makefile )
