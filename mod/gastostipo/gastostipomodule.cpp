@@ -95,7 +95,14 @@ bool GastosTipoModule::initDatabase(dbDefinition *db)
 	pFicGastoTipo->addFieldBool( "ESGASTO" )->setDefaultValue("1");
 	pFicGastoTipo->addFieldBool( "REVISAR")->setDefaultValue("1");
 	XtringList tables;
-	tables << "ALBARANVENTA" << "ALBARANCOMPRA" << "FACTURAVENTA" << "FACTURACOMPRA" << "ASIENTO";
+#ifdef HAVE_FACTUMODULE
+	if( pFactuModule )
+		tables << "ALBARANVENTA" << "ALBARANCOMPRA" << "FACTURAVENTA" << "FACTURACOMPRA";
+#endif
+#ifdef HAVE_CONTABMODULE
+	if( pContabModule )
+		tables << "ASIENTO";
+#endif
 	XtringList captions;
 	for( XtringList::const_iterator it = tables.begin(); it != tables.end(); ++ it )
 		captions << DBAPP->getDatabase()->findTableDefinition( *it )->getName();
@@ -105,18 +112,26 @@ bool GastosTipoModule::initDatabase(dbDefinition *db)
 	pFicGastoTipo->addFieldEuro( "IMPORTE" );
 	pFicGastoTipo->addField<FldPedirCampo>( "PEDIRTERCERO" );
 #ifdef HAVE_FACTUMODULE
-	pFicGastoTipo->addFieldOne2OneRelation( "CLIENTE_ID", "CLIENTE.ID", true );
-	pFicGastoTipo->addFieldOne2OneRelation( "PROVEEDORA_ID", "PROVEEDORA.ID", true );
+	if( pFactuModule ) {
+		pFicGastoTipo->addFieldOne2OneRelation( "CLIENTE_ID", "CLIENTE.ID", true );
+		pFicGastoTipo->addFieldOne2OneRelation( "PROVEEDORA_ID", "PROVEEDORA.ID", true );
+	} else
 #elif defined( HAVE_CONTABMODULE )
-	pFicGastoTipo->addFieldOne2OneRelation( "CUENTATERCERO_ID", "CUENTA.ID", true );
+	if( pContabModule )
+		pFicGastoTipo->addFieldOne2OneRelation( "CUENTATERCERO_ID", "CUENTA.ID", true );
+	else
 #else
 	pFicGastoTipo->addFieldOne2OneRelation( "CONTACTO_ID", "CONTACTO.ID", true );
 #endif
 	pFicGastoTipo->addField<FldPedirCampo>( "PEDIRCONCEPTO" );
 #ifdef HAVE_FACTUMODULE
-	pFicGastoTipo->addFieldOne2OneRelation( "ARTICULO_ID", "ARTICULO.ID", false );
+	if( pFactuModule )
+		pFicGastoTipo->addFieldOne2OneRelation( "ARTICULO_ID", "ARTICULO.ID", false );
+	else
 #elif defined( HAVE_CONTABMODULE )
-	pFicGastoTipo->addFieldOne2OneRelation( "CUENTACONCEPTO_ID", "CUENTA.ID", false );
+	if( pContabModule )
+		pFicGastoTipo->addFieldOne2OneRelation( "CUENTACONCEPTO_ID", "CUENTA.ID", false );
+	else
 #else
 	pFicGastoTipo->addFieldString( "CONCEPTO", 100 );
 #endif

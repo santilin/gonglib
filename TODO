@@ -1,6 +1,7 @@
 == HECHO ==
 
 == JOSÉ CASTAÑO ==
+* Borrar el índice de clientes cuando no se usa factu en gestiong
 * Añadir opción importación de socias/clientes/proveedoras/etc. Explicarle
 * No deja grabar clientes sin DNI?
 * Meter la id de los contactos?
@@ -140,7 +141,7 @@
 * Crear estilos para edición y otros para vistas? (VIEW:INTEGER e INTEGER)
 * No funciona duplicar detalles
 * Recordar tamaño y posición de la ventana principal
-* Los botones del visor están en inglés
+* Los botones del visor de informes están en inglés
 * Cerrar informes con el escape
 * FrmEditRec Cuando está seleccionado el botón cancelar, si pulsamos ENTER no hace nada
 * Nueva instalación con sqlite3
@@ -202,7 +203,6 @@
 * stringInc: Cuando solo son letras, incrementa por la izquierda!
 * LineEdit::setText( DateTime::currentDate() ) => "dd/mm/yyyy 01:00:00";
 * dbFieldReferenceID: aggregate relations null
-	/// \todo {check} Esto se hacía solo para que los apuntes pudieran tener algunos datos incompletos
 * Locale ca falla porque está instalado el ca_ES.
 * En settings, si una línea termina así, no da error pero no sigue leyendo ";";
 * En settings, no funciona .~Por_proveedora

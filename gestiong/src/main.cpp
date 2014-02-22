@@ -39,9 +39,6 @@
 #ifdef HAVE_PAGOSMODULE
 #	include <pagosmodule.h>
 #endif
-#ifdef HAVE_FACTUMODULE
-#	include <factumodule.h>
-#endif
 #ifdef HAVE_GASTOSTIPOMODULE
 #	include <gastostipomodule.h>
 #endif
@@ -55,6 +52,8 @@
 #	include <reccolormodule.h>
 #endif
 /*>>>>>MODULES_INCLUDES*/
+//{capel} Eliminar factumodule
+
 #include "gestiongmodule.h"
 
 using namespace gong;
@@ -88,7 +87,7 @@ int main( int argc, char *argv[] )
 		DBAPP->addModule( new pagos::PagosModule() );
 #endif
 #ifdef HAVE_FACTUMODULE
-		DBAPP->addModule( new factu::FactuModule() );
+//		DBAPP->addModule( new factu::FactuModule() );
 #endif
 #ifdef HAVE_GASTOSTIPOMODULE
 		DBAPP->addModule( new gastostipo::GastosTipoModule() );
@@ -103,6 +102,7 @@ int main( int argc, char *argv[] )
 		DBAPP->addModule( new reccolor::RecColorModule() );
 #endif
 /*>>>>>LOAD_MODULES*/
+//{capel} Eliminar factumodule
         DBAPP->addModule( new gestiong::GestiongModule() );
         DBAPP->readSettings();
         DBAPP->initDatabases();

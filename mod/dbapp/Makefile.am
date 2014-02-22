@@ -29,7 +29,6 @@ libgongdbapp_la_HEADERS = dbappdbapplication.h dbappdbmodule.h \
 	dbapprecmetadbdata.h dbappfrmcalculator.h dbappfrmmultiupdate.h \
 	dbappfrmmodulesettings.h dbappfrmabout.h dbapprecordcompleter.h
 
-
 nodist_libgongdbapp_la_SOURCES = \
 	moc_dbappfrmcustom.cpp moc_dbappfrmeditrecdetail.cpp moc_dbappfrmeditrec.cpp \
 	moc_dbappfrmeditrecmaster.cpp moc_dbappfrmexport_gui.cpp moc_dbappfrmexport.cpp \

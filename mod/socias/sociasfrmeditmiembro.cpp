@@ -607,7 +607,7 @@ if( ModuleInstance->getPagosModule() ) {
 
 void FrmEditMiembro::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
-    /*<<<<<FRMEDITMIEMBRO_VALIDATE*/
+/*<<<<<FRMEDITMIEMBRO_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -655,12 +655,17 @@ if( ModuleInstance->getPagosModule() ) {
     if( !sender || (sender == editContactoCIF && editContactoCIF->isJustEdited()) ) {
         if( getRecContacto()->getRecordID() != 0 ) {
             Xtring sql = "SELECT COUNT(*) FROM MIEMBRO "
-                         " WHERE CONTACTO_ID=" + getRecContacto()->getConnection()->toSQL( getRecContacto()->getRecordID() );
+                         " WHERE CONTACTO_ID=" + getRecord()->getConnection()->toSQL( getRecContacto()->getRecordID() )
+                         + " AND PROYECTO_ID=" + getRecord()->getConnection()->toSQL( getRecProyecto()->getRecordID() );
             if( getRecord()->getRecordID() != 0 )
                 sql += " AND MIEMBRO.ID <> " + getRecord()->getConnection()->toSQL( getRecord()->getRecordID() );
             int existe = getRecord()->getConnection()->selectInt( sql );
             if( existe != 0 ) {
-                validresult->addError( _("Esta persona ya es socia de este proyecto"), "CIF");
+                validresult->addError( Xtring::printf( _("%1$s ya es %2$s de %3$s"),
+													   DBAPP->getTableDescSingular("CONTACTO", "Esta").c_str(),
+													   DBAPP->getTableDescSingular("MIEMBRO", "").c_str(),
+													   DBAPP->getTableDescSingular("PROYECTO", "esta").c_str() ),
+													   "CIF");
                 *isvalid = false;
             }
         }

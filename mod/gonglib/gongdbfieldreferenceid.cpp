@@ -5,6 +5,7 @@
 /*>>>>>MODULE_INFO*/
 
 #include "gonggettext.h"
+#include "gongdbdefinition.h"
 #include "gongdbtabledefinition.h"
 #include "gongdbrecord.h"
 
@@ -19,25 +20,24 @@ bool dbFieldReferenceID::isValid( dbRecord *r, dbFieldValue *value, ValidResult:
 {
 /*>>>>>DBFIELD_REFERENCEID_ISVALID*/
     if (!canBeNull() && ( value->isNull() || value->toVariant().toInt() == 0 ) ) {
-/// \todo {check} Esto se hacía solo para que los apuntes pudieran tener algunos datos incompletos
-        //&& sev != IntegrityResult::valid_for_edition ) {
         if( integres ) {
-            const dbTableDefinition *tbldef = getTableDefinition();
-            if( !tbldef )
-                tbldef = r->getTableDefinition();
+			Xtring ref_table = getReference().mid(0, getReference().find("."));
+            const dbTableDefinition *tbldef = r->getTableDefinition()->getdbDefinition().findTableDefinition( ref_table );
             if( tbldef ) {
                 const char *demostrativo;
-                if( tbldef->isFemenina() )
-                    demostrativo = "La";
-                else
-                    demostrativo = "El";
-                integres->addError( Xtring::printf( _("%s %s (%s) no puede estar en blanco."),
-                                                    demostrativo, tbldef->getDescSingular().c_str(),
-                                                    getCaption().c_str()
-                                                  ),
+				const char *vacio;
+                if( tbldef->isFemenina() ) {
+                    demostrativo = _("La");
+					vacio = "vacía";
+				} else {
+                    demostrativo = _("El");
+					vacio = "vacío";
+				}
+                integres->addError( Xtring::printf( _("%1$s %2$s no puede estar %3$s."),
+                                                    demostrativo, tbldef->getDescSingular().c_str(), vacio ),
                                     getName() );
             } else {
-                integres->addError( Xtring::printf( _("%s no puede estar en blanco."),
+                integres->addError( Xtring::printf( _("%s no puede estar vacío."),
                                                     getCaption().c_str() ),
                                     getName() );
             }
