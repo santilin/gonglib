@@ -243,7 +243,6 @@ private:
     }
     void swapNonConstValues();
     void swapAggregateValues( uint level );
-    void fixProperties(const class Output *out);
     void fixMeasures(Measure outsizex, Measure outsizey,
                      UnitsType repunit, Measure repsizex, Measure repsizey,
                      Object *prevobj=0 );

@@ -1,18 +1,15 @@
 == HECHO ==
 
 == HACIENDO ==
-* Que los márgenes izquierdo y superior del output funcionen
 
 == JOSÉ CASTAÑO ==
 * Borrar el índice de clientes cuando no se usa factu en gestiong
 * Añadir opción importación de socias/clientes/proveedoras/etc. Explicarle
 * No deja grabar clientes sin DNI?
 * Meter la id de los contactos?
-* Quitar dbTableDefinition de los dbFieldDefinition? Mirar fromSQLSchema
 * Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
 
 == HACER ==
-* Eliminar object::FixProperties?
 * Autokubuntu: Instalar impresora/escaner hp
 
 == Los pajaros ==

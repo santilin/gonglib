@@ -410,17 +410,16 @@ int dbFieldDefinition::getStyleWidth( const dbDefinition* pdb ) const
 }
 
 
-dbRelationDefinition* dbFieldDefinition::findRelationDefinition() const
+dbRelationDefinition* dbFieldDefinition::findRelationDefinition(const dbTableDefinition &tbldef) const
 {
-	dbTableDefinition *tbldef = getTableDefinition();
-	for( dbRelationDefinitionsList::const_iterator it = getTableDefinition()->getRelationDefinitions().begin();
-		it != getTableDefinition()->getRelationDefinitions().end(); ++it ) {
+	for( dbRelationDefinitionsList::const_iterator it = tbldef.getRelationDefinitions().begin();
+		it != tbldef.getRelationDefinitions().end(); ++it ) {
 		dbRelationDefinition *reldef = it->second;
 		if( reldef->getLeftField() == getName() )
 			return reldef;
 	}
-	_GONG_DEBUG_WARNING( Xtring::printf("Relation not found for field '%s' in table '%s'", 
-										getName().c_str(), getTableDefinition()->getName().c_str() ) );
+	_GONG_DEBUG_WARNING( Xtring::printf("Relation not found for field '%s' in table '%s'",
+										getName().c_str(), tbldef.getName().c_str() ) );
 	return 0;
 }
 

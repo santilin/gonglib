@@ -175,7 +175,7 @@ dbFieldDefinition *dbTableDefinition::addField( const Xtring& name, SqlColumnTyp
         dbFieldDefinition::Flags flags, const Xtring& defaultvalue )
 {
     dbFieldDefinition *fld = new dbFieldDefinition( getName(), name, sqltype, width, decimals,
-            flags, defaultvalue, this );
+            flags, defaultvalue );
     if ( !mFieldDefinitions.insert( getName() + "." + name, fld ) )
         _GONG_DEBUG_WARNING( Xtring::printf( "Table '%s' already has a field named '%s'", getName().c_str(), name.c_str() ) );
     return fld;
@@ -329,7 +329,7 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             dbFieldDefinition::Flags tmpflags = dbFieldDefinition::NONE;
             if ( rsFields->toString( 2 ) == "NO" )
                 tmpflags |= dbFieldDefinition::NOTNULL;
-            if ( rsFields->toString( 3 ) == "UNI" ) 
+            if ( rsFields->toString( 3 ) == "UNI" )
                 tmpflags |= dbFieldDefinition::UNIQUE;
             if ( rsFields->toString( 3 ) == "PRI" )
                 tmpflags |= dbFieldDefinition::PRIMARYKEY;
@@ -338,8 +338,7 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             dbFieldDefinition *flddef = new dbFieldDefinition(
                 tblname, fldname, t, w, d,
                 tmpflags, // null, primarykey, ...
-                rsFields->toString( 4 ), // default value 
-				tbldef );
+                rsFields->toString( 4 ) ); // default value
 			flddef->setOrigDDL( rsFields->toString(1) );
             flddef->setCaption( fldname.proper() );
             flddef->setDescription( tblname + "." + fldname );
@@ -358,8 +357,8 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
 			Xtring leftfield = (*res)[1].str();
 			Xtring righttable = (*res)[2].str();
 			Xtring rightfield = (*res)[3].str();
-			_GONG_DEBUG_PRINT(4, Xtring::printf("Matched %s, %s,%s,%s", 
-												(*res)[0].str().c_str(), leftfield.c_str(), 
+			_GONG_DEBUG_PRINT(4, Xtring::printf("Matched %s, %s,%s,%s",
+												(*res)[0].str().c_str(), leftfield.c_str(),
 												righttable.c_str(), rightfield.c_str()));
 			tbldef->addRelationDefinition(dbRelationDefinition::one2one, tblname, leftfield.replace("`",""),
 										  righttable.replace("`",""), rightfield.replace("`","") );
@@ -442,7 +441,7 @@ dbRelationDefinition *dbTableDefinition::addRelationDefinition( const dbRelation
 	if( flddef )
 		flddef->setIsReference(true);
 	else
-		_GONG_DEBUG_WARNING( Xtring::printf("Trying to add a relation to an inexistent field: '%s.%s'", 
+		_GONG_DEBUG_WARNING( Xtring::printf("Trying to add a relation to an inexistent field: '%s.%s'",
 											getName().c_str(), leftfield.c_str() ) );
     return reldef;
 }

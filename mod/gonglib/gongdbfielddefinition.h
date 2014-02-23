@@ -59,10 +59,10 @@ public:
     dbFieldDefinition( const Xtring& tablename, const Xtring& name, const SqlColumnType& sqlcolumntype,
                        const unsigned& sqlwidth, const unsigned& decimals = unsigned(),
                        const dbFieldDefinition::Flags& flags = dbFieldDefinition::NONE,
-                       const Xtring& defaultvalue = Xtring::null, dbTableDefinition *tbldef = 0)
+                       const Xtring& defaultvalue = Xtring::null)
         : mTableName( tablename ), mName( name ), mSqlColumnType( sqlcolumntype ),
           mSqlWidth( sqlwidth ), mDecimals( decimals ), mFlags( flags ), mDefaultValue( defaultvalue ),
-          mDisplayWidth(0), pTableDefinition( tbldef )
+          mDisplayWidth(0)
     {
         init_class();
     }
@@ -107,16 +107,13 @@ public:
     const unsigned& getDisplayWidth() const {
         return mDisplayWidth;
     }
-    dbTableDefinition *getTableDefinition() const {
-        return pTableDefinition;
-    }
 
     dbFieldDefinition* setSqlColumnType( const SqlColumnType& sqlcolumntype ) {
         mSqlColumnType = sqlcolumntype;
         return this;
     }
     const Xtring &getOrigDDL() const { return mOrigDDL; }
-    
+
     dbFieldDefinition* setSqlWidth( const unsigned& sqlwidth );
     dbFieldDefinition* setDecimals( const unsigned& decimals ) {
         mDecimals = decimals;
@@ -278,7 +275,7 @@ public:
     static Xtring extractFieldName( const Xtring &fullfldname );
     dbFieldValue *createFieldValue() const;
 	/** finds the relation definition for this field in its parent's definition */
-	class dbRelationDefinition *findRelationDefinition() const;
+	class dbRelationDefinition *findRelationDefinition( const dbTableDefinition &tlbdef ) const;
 private:
     void init_class();
 
@@ -294,7 +291,6 @@ private:
     Xtring mReference;
     Xtring mStyle;
     unsigned mDisplayWidth;
-    dbTableDefinition *pTableDefinition;
 	Xtring mOrigDDL; // Only if created with fromSqlSchema
 };
 
