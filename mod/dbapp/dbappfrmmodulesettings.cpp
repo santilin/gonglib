@@ -70,9 +70,10 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
 			scinfo.modulename = "";
         scinfo.edited = false;
         Variant value = pSettings->getValue( scinfo.modulename.upper() + pms->key, Variant() );
-		if( value.type() == Variant::tInvalid )
+		if( value.type() == Variant::tInvalid ) {
+			value = scinfo.settinginfo->defaultvalue;
 			scinfo.resetted = true;
-		else
+		} else
 			scinfo.resetted = false;
         switch( pms->type ) {
         case dbModuleSetting::Bool:

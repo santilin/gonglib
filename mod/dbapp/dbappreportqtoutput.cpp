@@ -64,8 +64,8 @@ Measure ReportQtOutput::startPage()
         mPageCollection.push_back( aPicture );
         mSavedBrush = mPainter.brush();
     }
-    drawGraphics( mReport, int(mReport.posX()),
-                  int(mReport.posY() + sizeY() * (mCurrentPageInFolio -1 ) ),
+    drawGraphics( mReport, int(mReport.posX() + mReport.marginLeft()),
+                  int(mReport.posY() + (sizeY() + mReport.marginTop()) * (mCurrentPageInFolio -1 ) ),
                   int(mReport.sizeX()), int(mReport.sizeY()), true ); // beforetext
     return 0;
 }
@@ -73,8 +73,9 @@ Measure ReportQtOutput::startPage()
 Measure ReportQtOutput::endPage()
 {
     Output::endPage();
-    drawGraphics( mReport, int(mReport.posX()), int(mReport.posY()),
-                  int(mReport.sizeX()), int(mReport.sizeY()*2), false ); // aftertext
+    drawGraphics( mReport, int(mReport.posX() + mReport.marginLeft()),
+                  int(mReport.posY() + (sizeY() + mReport.marginTop()) * (mCurrentPageInFolio -1 ) ),
+                  int(mReport.sizeX()), int(mReport.sizeY()), false ); // aftertext
     if( mCurrentPageInFolio <= 1 ) {
         mPainter.end();
     }
@@ -133,13 +134,12 @@ void ReportQtOutput::drawGraphics( const Object &object, int x0, int y0, int wid
     _GONG_DEBUG_PRINT(10, Xtring::printf("Color de fondo del objeto: %s", bc.name().latin1() ) );
 	_GONG_DEBUG_PRINT(10, Xtring::printf("Color de fondo del painter: %s", painterbc.name().latin1() ) );
 #endif
-    if( bc != mPainter.brush().color() ) {
+    if( bc != mPainter.brush().color() && beforetext ) { // Pintar el fondo del objeto
         QPen linePen( bc, 0, Qt::NoPen);
         mPainter.setPen( linePen );
         QBrush backBrush( bc );
         mPainter.setBrush( backBrush );
-        if( beforetext )
-            mPainter.drawRect( x0, y0, width, height );
+        mPainter.drawRect( x0, y0, width, height );
     }
     // If the general border is defined, use it
     if( beforetext == false ) {

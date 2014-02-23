@@ -50,29 +50,29 @@ static dbModuleSetting _settings[] = {
     },
     {
         dbModuleSetting::Int,
-        "RTK.OUTPUT.SCREEN.MARGINLEFT",
-        _("Margen izquierdo de los informes en pantalla"),
+        "RTK.OUTPUT.PRINTER.MARGINLEFT",
+        _("Margen izquierdo de los informes en impresora y pantalla"),
         "20",
 		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
-        "RTK.OUTPUT.SCREEN.MARGINRIGHT",
-        _("Margen derecho de los informes en pantalla"),
+        "RTK.OUTPUT.PRINTER.MARGINRIGHT",
+        _("Margen derecho de los informes en impresora y pantalla"),
         "20",
 		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
-        "RTK.OUTPUT.SCREEN.MARGINTOP",
-        _("Margen superior de los informes en pantalla"),
+        "RTK.OUTPUT.PRINTER.MARGINTOP",
+        _("Margen superior de los informes en impresora y pantalla"),
         "20",
 		dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
-        "RTK.OUTPUT.SCREEN.MARGININFERIOR",
-        _("Margen inferior de los informes en pantalla"),
+        "RTK.OUTPUT.PRINTER.MARGININFERIOR",
+        _("Margen inferior de los informes en impresora y pantalla"),
         "20",
 		dbModuleSetting::All
     },
@@ -1203,7 +1203,19 @@ Variant dbApplication::getAppSetting(const Xtring &settingname, const Variant &d
     if( !v.isValid() )
         v = pMachineSettings->getValue( settingname );
     if( !v.isValid() ) {
-        return defaultvalue;
+		if( defaultvalue.isValid() || settingname.startsWith("MODULE") )
+			return defaultvalue;
+		else {
+			// Search the default value in the application settings
+			const dbModuleSetting *ms = getModuleSettings();
+			while( ms && ms->type != dbModuleSetting::None ) {
+				if( strcmp( ms->key, settingname.c_str() ) == 0 ) {
+					return Variant(ms->defaultvalue);
+				}
+				ms++;
+			}
+			return defaultvalue;
+		}
     } else
         return v;
 }

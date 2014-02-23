@@ -1,5 +1,7 @@
 == HECHO ==
 
+== HACIENDO ==
+
 == JOSÉ CASTAÑO ==
 * Borrar el índice de clientes cuando no se usa factu en gestiong
 * Añadir opción importación de socias/clientes/proveedoras/etc. Explicarle
@@ -8,12 +10,14 @@
 * Quitar dbTableDefinition de los dbFieldDefinition? Mirar fromSQLSchema
 * Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
 
-== A MEDIO ==
+== HACER ==
+* Eliminar object::FixProperties?
+* Autokubuntu: Instalar impresora/escaner hp
 
 == Los pajaros ==
 * Están mal los socios 624, 625, 626
 
-== Imprescindible ==
+== ARREGLAR ==
 * Ticket normal, tiene poco espacio para el total
 * Función addSpacer Añadir spacer a frmreportconds
 

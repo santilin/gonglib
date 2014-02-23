@@ -118,10 +118,10 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &prop
         case RTK_Printer_With_Dialog:
         case RTK_Printer_Without_Dialog:
             salida = new ReportQtOutput ( *this, 0.0, 0.0, A4, po, 0.0, 0.0,
-                                          DBAPP->getAppSetting("RTK.OUTPUT.SCREEN.MARGINLEFT").toDouble(),
-                                          DBAPP->getAppSetting("RTK.OUTPUT.SCREEN.MARGINRIGHT").toDouble(),
-                                          DBAPP->getAppSetting("RTK.OUTPUT.SCREEN.MARGINTOP").toDouble(),
-                                          DBAPP->getAppSetting("RTK.OUTPUT.SCREEN.MARGINBOTTOM").toDouble() );
+                                          DBAPP->getAppSetting("RTK.OUTPUT.PRINTER.MARGINLEFT").toDouble(),
+                                          DBAPP->getAppSetting("RTK.OUTPUT.PRINTER.MARGINRIGHT").toDouble(),
+                                          DBAPP->getAppSetting("RTK.OUTPUT.PRINTER.MARGINTOP").toDouble(),
+                                          DBAPP->getAppSetting("RTK.OUTPUT.PRINTER.MARGINBOTTOM").toDouble() );
             break;
         case RTK_OpenOffice_Calc:
             fn = theGuiApp->getSaveFileName ( title,

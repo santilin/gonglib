@@ -1,9 +1,11 @@
 REPORT MIEMBRO_CARNET_DE_SOCIA
 {
 	Title = "Socias carnet de socia";
-	Units = chars;
-	SizeX = 99;
-	SizeY = 60;
+	Units = mm;
+	SizeX = 210;
+	SizeY = 291;
+	borderstyle = dotted;
+	borderwidth = 1;
 
 	INPUT default {
 		driver = mysql;
@@ -43,11 +45,12 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 
 	DETAILS details {
 		posx = 0;
-		sizex = 33;
+		sizex = 70;
 		level = 0;
 		style = detail;
-		sizey = 6.5;
+		sizey = 6.8;
 		columns = 3;
+		margintop = 0;
 		marginright = 1;
 //		borderstyle = dotted;
 		fontsize=12;
@@ -56,7 +59,7 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 		OBJECT SOCIA_SOCIO_NUMERO_CAPTION {
 			value = '= if( @input.CONTACTO_TRATAMIENTO == 1 ) { return "Socia nº"; } else { return "Socio nº"; }';
 			posx = 0;
-			posy = 1;
+			posy = 2.5;
 			sizex = 10;
 		}
 
@@ -65,7 +68,7 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 			halignment = "left";
 			posx = 10;
 			sizey = 1;
-			posy = 1;
+			posy = 2.5;
 			sizex = 6;
 		}
 
@@ -73,7 +76,7 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 			value = "=input.CONTACTO_NOMBRE";
 			halignment = "left";
 			fontweight = "bold";
-			posy = 2.3;
+			posy = 4;
 			posx = 0;
 			sizex = 30;
 			adjustment = "reducefont";
@@ -82,18 +85,18 @@ REPORT MIEMBRO_CARNET_DE_SOCIA
 		OBJECT MIEMBRO_FECHAALTA_CAPTION {
 			value = "Fecha de alta:";
 			halignment = "left";
-			posy = 3.6;
+			posy = 5.5;
 			posx = 0;
-			sizex = 13;
+			sizex = 14;
 		}
 
 		OBJECT MIEMBRO_FECHAALTA {
 			value = "=input.MIEMBRO_FECHAALTA";
 			halignment = "left";
 			format = "%d/%m/%Y";
-			posy = 3.6;
-			posx = 14;
-			sizex = 10;
+			posy = 5.5;
+			posx = 15;
+			sizex = 12;
 		}
 
 	}
