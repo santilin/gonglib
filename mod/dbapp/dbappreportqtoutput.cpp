@@ -49,6 +49,8 @@ Measure ReportQtOutput::startPage()
     if( mCurrentPageInFolio <= 1 ) {
         QPicture *aPicture = new QPicture();
 #ifdef _GONG_DEBUG
+		_GONG_DEBUG_PRINT(0, Xtring::printf("Page: %d x %d, margins: %d, %d, %d, %d",
+											sizeX(), sizeY(), marginLeft(), marginTop(), marginRight(), marginBottom() ) );
         if( __gong_debug::_gong_debug_level == 3 ) {
             std::cout << "DeviceMetrics:w:"
                       << aPicture->width() << ",h:" << aPicture->height() << ",wMM:" << aPicture->widthMM() << ",hMM:" << aPicture->heightMM()
@@ -64,8 +66,8 @@ Measure ReportQtOutput::startPage()
         mPageCollection.push_back( aPicture );
         mSavedBrush = mPainter.brush();
     }
-    drawGraphics( mReport, int(mReport.posX() + mReport.marginLeft()),
-                  int(mReport.posY() + (sizeY() + mReport.marginTop()) * (mCurrentPageInFolio -1 ) ),
+    drawGraphics( mReport, int( marginLeft() + mReport.posX() + mReport.marginLeft()),
+                  int(marginTop() + mReport.posY() + (sizeY() + mReport.marginTop()) * (mCurrentPageInFolio -1 ) ),
                   int(mReport.sizeX()), int(mReport.sizeY()), true ); // beforetext
     return 0;
 }
@@ -73,8 +75,8 @@ Measure ReportQtOutput::startPage()
 Measure ReportQtOutput::endPage()
 {
     Output::endPage();
-    drawGraphics( mReport, int(mReport.posX() + mReport.marginLeft()),
-                  int(mReport.posY() + (sizeY() + mReport.marginTop()) * (mCurrentPageInFolio -1 ) ),
+    drawGraphics( mReport, int( marginLeft() + mReport.posX() + mReport.marginLeft()),
+                  int( marginTop() + mReport.posY() + (sizeY() + mReport.marginTop()) * (mCurrentPageInFolio -1 ) ),
                   int(mReport.sizeX()), int(mReport.sizeY()), false ); // aftertext
     if( mCurrentPageInFolio <= 1 ) {
         mPainter.end();
