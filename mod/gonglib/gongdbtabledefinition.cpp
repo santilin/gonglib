@@ -309,6 +309,16 @@ bool dbTableDefinition::dropIndexes( dbConnection *conn, bool removeall, bool ig
     return true;
 }
 
+bool dbTableDefinition::dropIndex(dbConnection* conn, const Xtring& indexname, bool ignoreerrors)
+{
+    for ( unsigned int i = 0; i < getIndexDefinitions().size(); i++ ) {
+        dbIndexDefinition *idxdef = getIndexDefinition( i );
+		if( idxdef->getName() == indexname || getName() + "_" + idxdef->getName() == indexname ) {
+			return idxdef->drop( conn, this, ignoreerrors );
+		}
+	}
+}
+
 
 dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
         dbDefinition &db, const Xtring &tblname )

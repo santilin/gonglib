@@ -155,8 +155,10 @@ bool SociasModule::initDatabase(dbDefinition *db)
     if( getFactuModule() ) {
         pFicMiembro->addFieldOne2OneRelation( "CLIENTE_ID", "CLIENTE.ID" )->setCanBeNull( false );
         pFicMiembro->addMultipleIndex( "proyecto_cliente_unico", "PROYECTO_ID,CLIENTE_ID", true );
-    }
+    } else
 #endif
+		// Evitar errores de duplicidad de cliente y proyecto si no está activo el módulo de facturación
+		pFicMiembro->dropIndex( getConnection(), "proyecto_cliente_unico", true );
     pFicMiembro->addFieldOne2OneRelation( "TIPOSOCIA_ID", "TIPOSOCIA.ID" )->setCanBeNull( false );
     pFicMiembro->addFieldOne2OneRelation( "FORMAPAGO_ID", "FORMAPAGO.ID" )->setCanBeNull( false );
     pFicMiembro->addFieldDate( "FECHAALTA", dbFieldDefinition::DESCRIPTION );

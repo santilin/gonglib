@@ -88,6 +88,7 @@ public:
     bool create( dbConnection *conn, bool ifnotexists = false,
                  const Xtring &extraargs = Xtring::null, bool ignoreerrors = false );
     bool createIndexes( dbConnection *conn, bool ignoreerrors = false );
+    bool dropIndex( dbConnection *conn, const Xtring &indexname, bool ignoreerrors );
     bool dropIndexes( dbConnection *conn, bool removeall, bool ignoreerrors );
     Xtring sameSQLSchema( const dbTableDefinition *other, dbConnection *conn, bool purging = false ) const;
 
