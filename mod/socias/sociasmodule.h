@@ -75,6 +75,7 @@ public:
 		QWidget *parent = 0, const char* name = 0,
 		WidgetFlags fl = WidgetFlags(0) );
 /*>>>>>SOCIASMODULE_CLASS_DEFINITION*/
+	virtual void afterLoad(); // from dbModule
 
     enum SociasEstado { activo = 1, inactivo };
     enum Periodicidades { puntual = 1, diaria, semanal, quincenal, mensual, bimensual, trimestral,
