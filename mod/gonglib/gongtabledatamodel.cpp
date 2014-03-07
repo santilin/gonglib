@@ -17,8 +17,8 @@
 
 namespace gong {
 
-TableDataModel::TableDataModel(const dbViewDefinitionsList &views, const Xtring &filter)
-    : mViewDefinitionsList(views), mFilter(filter),
+TableDataModel::TableDataModel(const dbViewDefinitionDict &views, const Xtring &filter)
+    : mViewDefinitionDict(views), mFilter(filter),
       mColCount(0), mReadOnly(true), mHasFetchedAllRows(false), mGroupCount(false),
       mCurrentViewIndex(-1)
 {
@@ -43,7 +43,7 @@ dbViewDefinition *TableDataModel::getView(int index) const
         return 0;
     }
     if( index < (int) getViewCount() && index != -1 )
-        return mViewDefinitionsList[index];
+        return mViewDefinitionDict.seq_at(index);
     else {
         _GONG_DEBUG_WARNING( Xtring::printf("No existe la vista %d en este datamodel", index) );
         return 0;
@@ -73,16 +73,16 @@ void TableDataModel::removeFilters()
 void TableDataModel::addView( const dbViewDefinition *view )
 {
     /// TODO: why the const_cast?
-    mViewDefinitionsList.insert( view->getName(), const_cast<dbViewDefinition *>(view) );
+    mViewDefinitionDict.insert( view->getName(), const_cast<dbViewDefinition *>(view) );
 }
 
 void TableDataModel::deleteView( const dbViewDefinition *view )
 {
-    for( dbViewDefinitionsList::iterator it = mViewDefinitionsList.begin();
-            it != mViewDefinitionsList.end(); ++it )
+    for( dbViewDefinitionDict::iterator it = mViewDefinitionDict.begin();
+            it != mViewDefinitionDict.end(); ++it )
         if( (*it).second == view ) {
             delete (*it).second;
-            mViewDefinitionsList.erase(it);
+            mViewDefinitionDict.erase(it);
             return;
         }
 }

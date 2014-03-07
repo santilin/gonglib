@@ -582,7 +582,7 @@ Xtring AppReport::fromViewDefinition( const dbViewDefinition* viewdef, bool tota
     double scale = 1.0;
     // Calculate total width of the report
     for( unsigned int i=0; i<viewdef->getFieldDefinitions().size(); i++) {
-        dbFieldDefinition *flddef = viewdef->getFieldDefinitions()[i];
+        dbFieldDefinition *flddef = viewdef->getFieldDefinitions().seq_at(i);
         if( flddef->getName() == "ID" || !flddef->isVisible() )
             continue;
         dbFieldDefinition *origflddef = mdbApp.getDatabase()->findFieldDefinition( flddef->getFullName() );
@@ -600,7 +600,7 @@ Xtring AppReport::fromViewDefinition( const dbViewDefinition* viewdef, bool tota
     if( totalwidth != 0 )
         scale = report_size / (double)totalwidth;
     for( unsigned int i=0; i<viewdef->getFieldDefinitions().size(); i++) {
-        dbFieldDefinition *flddef = viewdef->getFieldDefinitions()[i];
+        dbFieldDefinition *flddef = viewdef->getFieldDefinitions().seq_at(i);
         if( flddef->getName() == "ID" || !flddef->isVisible() )
             continue;
         dbFieldDefinition *origflddef = mdbApp.getDatabase()->findFieldDefinition( flddef->getFullName() );

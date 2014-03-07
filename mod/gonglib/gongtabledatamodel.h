@@ -21,7 +21,7 @@ class dbRecord;
 class TableDataModel
 {
 public:
-    TableDataModel(const dbViewDefinitionsList &views, const Xtring &filter = Xtring());
+    TableDataModel(const dbViewDefinitionDict &views, const Xtring &filter = Xtring());
     virtual ~TableDataModel() {};
 
     // Pure virtual functions
@@ -58,12 +58,12 @@ public:
     bool hasFetchedAllRows() const {
         return mHasFetchedAllRows;
     }
-    const dbViewDefinitionsList &getViews() const {
-        return mViewDefinitionsList;
+    const dbViewDefinitionDict &getViews() const {
+        return mViewDefinitionDict;
     }
     dbViewDefinition *getView(int index) const;
     unsigned int getViewCount() const {
-        return mViewDefinitionsList.size();
+        return mViewDefinitionDict.size();
     }
     dbViewDefinition *getCurrentView() const {
         return getView(mCurrentViewIndex);
@@ -71,8 +71,8 @@ public:
     int getCurrentViewIndex() const {
         return mCurrentViewIndex;
     }
-    void setViews(const dbViewDefinitionsList &v) {
-        mViewDefinitionsList = v;
+    void setViews(const dbViewDefinitionDict &v) {
+        mViewDefinitionDict = v;
         mCurrentViewIndex=-1;
     }
     void addView(const dbViewDefinition *view);
@@ -84,7 +84,7 @@ public:
     const Xtring getFilter(const Xtring &where, const Xtring &addTo = Xtring::null,
                            const Xtring &condsSep= "AND") const;
 protected:
-    dbViewDefinitionsList mViewDefinitionsList;
+    dbViewDefinitionDict mViewDefinitionDict;
     Xtring mFilter;
     unsigned int mColCount;
     bool mReadOnly, mHasFetchedAllRows, mGroupCount;

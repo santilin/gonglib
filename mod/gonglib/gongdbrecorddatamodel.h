@@ -22,7 +22,7 @@ namespace gong
 class dbRecordDataModel: public TableDataModel
 {
 public:
-    dbRecordDataModel( dbRecord *record, const dbViewDefinitionsList &vlist,
+    dbRecordDataModel( dbRecord *record, const dbViewDefinitionDict &vlist,
                        const Xtring &filter = Xtring() );
     virtual ~dbRecordDataModel() {
         if ( pResultSet ) delete pResultSet;

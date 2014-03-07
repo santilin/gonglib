@@ -89,7 +89,7 @@ FrmEditPedidoVenta::FrmEditPedidoVenta(FrmEditRec *parentfrm, dbRecord *master, 
 	pedidoventadetFrame->setLineWidth(4);
 	QVBoxLayout *pedidoventadetFrameLayout = new QVBoxLayout(pedidoventadetFrame);
 	RecPedidoVentaDet *pedidoventadet = getRecPedidoVenta()->getRecPedidoVentaDet(-1);
-	dbViewDefinitionsList pedidoventadetviews;
+	dbViewDefinitionDict pedidoventadetviews;
 	DBAPP->getDatabase()->getViewsForTable( pedidoventadet, pedidoventadetviews );
 	dbRecordListDataModel *pedidoventadetdm =
 		new dbRecordListDataModel(getRecPedidoVenta()->getListPedidoVentaDet(), pedidoventadet, pedidoventadetviews, "1=0");

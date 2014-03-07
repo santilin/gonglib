@@ -3,7 +3,7 @@
 namespace gong {
 
 dbResultSetDataModel::dbResultSetDataModel( dbResultSet *resultset, dbRecord *record)
-    : dbRecordDataModel(record, dbViewDefinitionsList(), Xtring::null)
+    : dbRecordDataModel(record, dbViewDefinitionDict(), Xtring::null)
 {
     _GONG_DEBUG_ASSERT( resultset );
     _GONG_DEBUG_ASSERT( record );
@@ -16,7 +16,7 @@ dbResultSetDataModel::dbResultSetDataModel( dbResultSet *resultset, dbRecord *re
     pViewDefinition = new dbViewDefinition(record->getTableName(), pResultSet,
                                            record->getTableDefinition()->getdbDefinition(),
                                            "From resultset", Xtring::null);
-    mViewDefinitionsList.insert( pViewDefinition->getName(), const_cast<dbViewDefinition *>(pViewDefinition) );
+    mViewDefinitionDict.insert( pViewDefinition->getName(), const_cast<dbViewDefinition *>(pViewDefinition) );
 }
 
 

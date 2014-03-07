@@ -35,14 +35,14 @@ public:
     /*>>>>>DBDEFINITION_FULLCONSTRUCTOR*/
 
 public:
-    dbTableDefinitionsList &getTables() {
+    dbTableDefinitionDict &getTables() {
         return mTables;
     }
     dbTableDefinition *getTableDefinition(unsigned int i);
     const dbTableDefinition *getTableDefinition(unsigned int i) const;
     dbTableDefinition *findTableDefinition(const Xtring &tablename, bool warning = true) const;
 //  	const dbTableDefinition *findTableDefinition(const Xtring &tablename) const;
-    dbTableDefinitionsList &addTable(const dbTableDefinition *tabledef);
+    dbTableDefinitionDict &addTable(const dbTableDefinition *tabledef);
 
     dbFieldDefinition *findFieldDefinition(const Xtring &tablename, const Xtring &fldname, bool warning = false);
     const dbFieldDefinition *findFieldDefinition(const Xtring &tablename,
@@ -52,23 +52,23 @@ public:
 
     int readDescriptionsFromPath( const Xtring &language, const Xtring &path, const Xtring &globalpath);
     int readDescriptionsFromFile( const Xtring &filename );
-    dbViewDefinitionsList &getViews() {
+    dbViewDefinitionDict &getViews() {
         return mViews;
     }
     dbViewDefinition *findView( const Xtring &viewname );
-    dbViewDefinitionsList &addView( const dbViewDefinition *view );
+    dbViewDefinitionDict &addView( const dbViewDefinition *view );
     int addViewFromString(const Xtring &caption, const Xtring &viewstr, const Xtring &origin);
     int addViewsFromPath( const Xtring &language, const Xtring &path, const Xtring &globalpath);
     int addViewsFromFile( const Xtring &filename );
-    int getViewsForTable(const Xtring &tablename, dbViewDefinitionsList &container);
-    int getViewsForTable(const dbRecord *r, dbViewDefinitionsList &container);
-    int getViewsByName(const Xtring &viewname, dbViewDefinitionsList &container);
+    int getViewsForTable(const Xtring &tablename, dbViewDefinitionDict &container);
+    int getViewsForTable(const dbRecord *r, dbViewDefinitionDict &container);
+    int getViewsByName(const Xtring &viewname, dbViewDefinitionDict &container);
 
-    dbFieldStylesList& getFieldStyles()  {
+    dbFieldStyleDict& getFieldStyles()  {
         return mFieldStyles;
     }
     dbFieldStyle *findFieldStyle( const Xtring &stylename) const;
-    dbFieldStylesList &addFieldStyle( const dbFieldStyle *_style );
+    dbFieldStyleDict &addFieldStyle( const dbFieldStyle *_style );
     void addStyleFromString( const Xtring &name, const Xtring &styledef );
 
     static dbDefinition *fromSQLSchema( dbConnection *conn, const Xtring &dbname,
@@ -89,25 +89,25 @@ public:
 	const Xtring& getDescription() const { return mDescription; }
 	const Xtring& getEncoding() const { return mEncoding; }
 	const Xtring& getCollation() const { return mCollation; }
-	const dbTableDefinitionsList& getTables() const { return mTables; }
-	const dbViewDefinitionsList& getViews() const { return mViews; }
-	const dbFieldStylesList& getFieldStyles() const { return mFieldStyles; }
+	const dbTableDefinitionDict& getTables() const { return mTables; }
+	const dbViewDefinitionDict& getViews() const { return mViews; }
+	const dbFieldStyleDict& getFieldStyles() const { return mFieldStyles; }
 
 	void setName(const Xtring& name) { mName = name; }
 	void setDescription(const Xtring& description) { mDescription = description; }
 	void setEncoding(const Xtring& encoding) { mEncoding = encoding; }
 	void setCollation(const Xtring& collation) { mCollation = collation; }
-	void setTables(const dbTableDefinitionsList& tables) { mTables = tables; }
-	void setViews(const dbViewDefinitionsList& views) { mViews = views; }
-	void setFieldStyles(const dbFieldStylesList& fieldstyles) { mFieldStyles = fieldstyles; }
+	void setTables(const dbTableDefinitionDict& tables) { mTables = tables; }
+	void setViews(const dbViewDefinitionDict& views) { mViews = views; }
+	void setFieldStyles(const dbFieldStyleDict& fieldstyles) { mFieldStyles = fieldstyles; }
 private:
 	Xtring mName;
 	Xtring mDescription;
 	Xtring mEncoding;
 	Xtring mCollation;
-	dbTableDefinitionsList mTables;
-	dbViewDefinitionsList mViews;
-	dbFieldStylesList mFieldStyles;
+	dbTableDefinitionDict mTables;
+	dbViewDefinitionDict mViews;
+	dbFieldStyleDict mFieldStyles;
 /*>>>>>DBDEFINITION_CLASS*/
 
 };

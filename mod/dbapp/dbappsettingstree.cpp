@@ -92,7 +92,7 @@ bool SettingsTree::event(QEvent *event)
 void SettingsTree::updateChildItems(QTreeWidgetItem *parent)
 {
     int dividerIndex = 0;
-    const Dictionary<Variant> &alluserlocalsettings = DBAPP->getMachineSettings()->allSettings();
+    const SettingsDict &alluserlocalsettings = DBAPP->getMachineSettings()->allSettings();
     Dictionary<QTreeWidgetItem *> tables_items;
     QTreeWidgetItem *item_ddd = createItem("Diccionario de datos", 0, -1 );
     QTreeWidgetItem *item_styles = createItem("Estilos", item_ddd, -1 );
@@ -103,9 +103,8 @@ void SettingsTree::updateChildItems(QTreeWidgetItem *parent)
     QTreeWidgetItem *item_modules = createItem("Módulos", 0, -1 );
     QTreeWidgetItem *item_system = createItem("Sistema", 0, -1 );
     QTreeWidgetItem *cur_group;
-    for( Dictionary<Variant>::const_reverse_iterator it = alluserlocalsettings.rbegin();
-            it != alluserlocalsettings.rend();
-            ++ it ) {
+    for( SettingsDict::const_reverse_iterator it = alluserlocalsettings.rbegin();
+            it != alluserlocalsettings.rend(); ++ it ) {
         Xtring key = it->first;
         if( key.startsWith( "DBDEF.VIEW." ) )
             cur_group = item_views;

@@ -79,7 +79,7 @@ public:
     friend class dbRecord;
 };
 
-typedef Dictionary<dbRecordRelation *> dbRecordRelationsList;
+typedef Dictionary<dbRecordRelation *> dbRecordRelationDict;
 
 } // namespace gong
 #endif // __GONGDBRECORDRELATION_H

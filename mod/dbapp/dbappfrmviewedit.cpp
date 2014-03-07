@@ -410,8 +410,9 @@ void FrmViewEdit::addRelatedFields(XtringList &fieldnames, const dbDefinition *d
                 fieldnames << Xtring(othertables.isEmpty() ? "" : othertables + ".")
                            + flddef->getFullName();
         }
-        for( unsigned int nr = 0; nr < tbldef->getRelationDefinitions().size(); nr++ ) {
-            dbRelationDefinition *reldef = tbldef->getRelationDefinitions()[nr];
+        for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
+			relit != tbldef->getRelationDefinitions().end(); ++relit ) {
+            dbRelationDefinition *reldef = relit->second;
             Xtring relatedtable = reldef->getRightTable();
             Xtring others = othertables;
             if( !others.isEmpty() )

@@ -34,12 +34,12 @@ int TestTableDataModel::testTableDataModel()
 {
 	TestCommon t;
 
-	dbViewDefinitionsList views;
+	dbViewDefinitionDict views;
 	dbViewDefinition *v = new dbViewDefinition(*t.pTableContactos);
 	views.insert( "testview", v );
 
 	_GONG_DEBUG_ASSERT(  views.size() == 1  );
-	_GONG_DEBUG_ASSERT(  views[0]->getName() == "contactos"  );
+	_GONG_DEBUG_ASSERT(  views.seq_at(0)->getName() == "contactos"  );
 
 	DerivedRecord *arecord = new DerivedRecord(&t.mConnection, t.pTableContactos);
 	_GONG_DEBUG_ASSERT(  arecord->setValue("NOMBRE", "Santiago")  );

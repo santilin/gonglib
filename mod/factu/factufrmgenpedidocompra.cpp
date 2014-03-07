@@ -76,7 +76,7 @@ void FrmGenPedidoCompra::preparaDesdePedidosClientes()
 			filter += "PEDIDOVENTA.FECHA <= " + DBAPP->getConnection()->toSQL( pDateRange->getDateTimeTo() );
 		}
 		RecPedidoVentaDet *pvdet = static_cast<RecPedidoVentaDet *>( DBAPP->createRecord( "PEDIDOVENTADET" ) );
-		dbViewDefinitionsList pvview;
+		dbViewDefinitionDict pvview;
 		DBAPP->getDatabase()->getViewsForTable( "PEDIDOVENTA", pvview);
 		dbRecordDataModel *pvrdm = new dbRecordDataModel( pvdet, pvview, filter);
         dbRecordID pedidoventa_id = DBAPP->chooseMulti( mPedidoVentaIds,
@@ -85,7 +85,7 @@ void FrmGenPedidoCompra::preparaDesdePedidosClientes()
         if ( pedidoventa_id != 0 ) {
             DBAPP->showOSD( "Elige los artículos", "para generar los pedidos de compras");
             RecPedidoVentaDet *pvdet = static_cast<RecPedidoVentaDet *>( DBAPP->createRecord( "PEDIDOVENTADET" ) );
-            dbViewDefinitionsList pvdtview;
+            dbViewDefinitionDict pvdtview;
             DBAPP->getDatabase()->getViewsByName( "PEDIDOVENTADET._POR_PROVEEDORA", pvdtview);
             dbRecordDataModel *pvdtrdm = new dbRecordDataModel( pvdet, pvdtview, "PEDIDOVENTA.ID IN(" + mPedidoVentaIds.join(",") + ")");
             mPedidoVentaDetIds.clear();

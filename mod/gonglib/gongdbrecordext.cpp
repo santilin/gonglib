@@ -154,17 +154,18 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
             text += "(new)";
         for ( i=0; i<getFieldCount(); i++ )
         {
-            if( getFieldDefinition(i)->getSqlColumnType() == SQLBLOB )
+			const dbFieldDefinition *flddef = getFieldDefinition(i);
+            if( flddef->getSqlColumnType() == SQLBLOB )
                 continue;
-            if( !mFieldValues[i]->isModified() )
+            if( !mFieldValues.seq_at(i)->isModified() )
                 continue;
             if ( i!=0 )
                 text += ",";
-            text += getFieldDefinition ( i )->getName() + "=";
+            text += flddef->getName() + "=";
             if( isNullValue(i) )
                 text += "NULL";
             else
-                text += getValue ( i ).toString();
+                text += getValue(i).toString();
         }
     }
     else if ( format == TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS )
@@ -175,30 +176,32 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
         text += ": ";
         for ( i=0; i<getFieldCount(); i++ )
         {
-            if( getFieldDefinition(i)->getSqlColumnType() == SQLBLOB )
+			const dbFieldDefinition *flddef = getFieldDefinition(i);
+            if( flddef->getSqlColumnType() == SQLBLOB )
                 continue;
             if ( i!=0 )
                 text += ",";
-            text += getFieldDefinition ( i )->getName() + "=" + getValue ( i ).toString();
+            text += flddef->getName() + "=" + getValue(i).toString();
         }
-        for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-        {
-            if ( mRecordRelations[i]->isEnabled() )
+		for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+			relit != mRecordRelations.end(); ++relit ) {
+			dbRecordRelation *recrel = relit->second;
+            if ( recrel->isEnabled() )
             {
-                if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2many )
+                if ( recrel->getType() == dbRelationDefinition::one2many )
                 {
-                    Variant leftvalue = getValue ( mRecordRelations[i]->getLeftField() );
-                    for ( dbRecordList::iterator detail = mRecordRelations[i]->getRelatedRecordList()->begin();
-                            detail != mRecordRelations[i]->getRelatedRecordList()->end();
+                    Variant leftvalue = getValue ( recrel->getLeftField() );
+                    for ( dbRecordList::iterator detail = recrel->getRelatedRecordList()->begin();
+                            detail != recrel->getRelatedRecordList()->end();
                             ++detail )
                     {
-                        text += "\n\t(" + Xtring::number ( i+1 ) + "/" + Xtring::number(mRecordRelations[i]->getRelatedRecordList()->size())
+                        text += "\n\t(" + Xtring::number ( i+1 ) + "/" + Xtring::number(recrel->getRelatedRecordList()->size())
                                 + "): " + ( *detail )->toString ( format, includedFields );
                     }
                 }
 // 				else
-// 					text += "\n\t" + mRecordRelations[i]->getLeftField() + ": "
-// 					        + mRecordRelations[i]->getRelatedRecord(-1)->toString ( format, includedFields );
+// 					text += "\n\t" + recrel->getLeftField() + ": "
+// 					        + recrel->getRelatedRecord(-1)->toString ( format, includedFields );
             }
         }
     }
@@ -236,15 +239,16 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
                 text += svalue.XMLProtect() + "</" + getFieldDefinition ( i )->getName().upper() + ">\n";
             }
         }
-        for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-        {
-            if ( mRecordRelations[i]->isEnabled() )
+		for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+			relit != mRecordRelations.end(); ++relit ) {
+			dbRecordRelation *recrel = relit->second;
+            if ( recrel->isEnabled() )
             {
-                if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2many )
+                if ( recrel->getType() == dbRelationDefinition::one2many )
                 {
-                    Variant leftvalue = getValue ( mRecordRelations[i]->getLeftField() );
-                    for ( dbRecordList::iterator detail = mRecordRelations[i]->getRelatedRecordList()->begin();
-                            detail != mRecordRelations[i]->getRelatedRecordList()->end();
+                    Variant leftvalue = getValue ( recrel->getLeftField() );
+                    for ( dbRecordList::iterator detail = recrel->getRelatedRecordList()->begin();
+                            detail != recrel->getRelatedRecordList()->end();
                             ++detail )
                     {
                         text += ( *detail )->toString ( format, includedFields );
@@ -324,9 +328,7 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
         XtringList values;
         CsvUtils::tokenize ( values, source, '\"', ',' );
         for ( XtringList::const_iterator valuesit = values.begin();
-                valuesit != values.end();
-                ++valuesit )
-        {
+                valuesit != values.end(); ++valuesit ) {
             Xtring fldname = *valuesit++;
             Xtring fldvalue;
             if( valuesit != values.end() )
@@ -434,7 +436,7 @@ bool dbRecord::isValid(ValidResult::Context context, ValidResult *result)
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
 // 		_GONG_DEBUG_PRINT(0, Xtring::printf("Validating '%s', value='%s'",
 // 					flddef->getFullName().c_str(), getValue( nf ).toString().c_str() ) );
-        if ( !flddef->isValid ( this, mFieldValues[nf], context, result ) ) {
+        if ( !flddef->isValid ( this, mFieldValues.seq_at(nf), context, result ) ) {
 #ifdef _GONG_DEBUG
             if( result && result->count() ) {
                 _GONG_DEBUG_PRINT(3, Xtring::printf("Field '%s' is not valid: '%s'",

@@ -30,7 +30,7 @@ public:
 void TestViewTable::run()
 {
 	int argc = 1;
-	char *argv[] = { "gongcommontests", 0 };
+	char *argv[] = { (char *)"gongcommontests", 0 };
 	TestCommon t;
 	QApplication app(argc, argv, true);
 	DerivedRecord contacto(&t.mConnection, t.pTableContactos );
@@ -42,11 +42,13 @@ void TestViewTable::run()
 	contacto.setValue("NOMBRE","Alicilina");
 	contacto.save(false);
 	dbViewDefinition *view = new dbViewDefinition( *t.pTableContactos );
-	dbViewDefinitionsList contactos_view;
+	dbViewDefinitionDict contactos_view;
 	contactos_view.insert( "Default", view );
+/*	
 	ViewTable edittable( &contacto, contactos_view );
 	edittable.setView(0);
 	edittable.show();
 	app.setMainWidget(&edittable);
 	app.exec();
+*/	
 }

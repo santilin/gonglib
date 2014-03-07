@@ -1,7 +1,7 @@
 #ifndef _GONG_DICTIONARY_H
 #define _GONG_DICTIONARY_H
 
-/** @file gongdictionary.h A map that can be accessed either by key or sequentially.
+/** @file gongdictionary.h A map that can be accessed either by key (case independent) or sequentially.
  * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
@@ -43,12 +43,16 @@ public:
         mSequential(xm.mSequential), mNullValue()
     {}
 
-    iterator find(const Xtring &key) {
-        return std::map<Xtring, T>::find(key.upper());
+#if 0    
+    iterator find(const Xtring &__k) {
+        return std::map<Xtring, T>::find( __k.upper() );
     }
-    const_iterator find(const Xtring &key) const {
-        return std::map<Xtring, T>::find(key.upper());
+    
+    const_iterator find(const Xtring &__k) const {
+        return std::map<Xtring, T>::find( __k.upper() );
     }
+#endif
+
     const Xtring &getKey(uint pos) const {
         if( pos < mSequential.size() )
             return mSequential[pos];
@@ -58,7 +62,7 @@ public:
 
     std::map<Xtring, T> &set(const key_type& __k, const T &newvalue)
     {
-        iterator __i = find(__k.upper());
+        iterator __i = this->find( __k.upper() );
         if (__i == this->end() ) {
             insert( __k.upper(), newvalue );
         } else {
@@ -71,7 +75,7 @@ public:
     {
         if( (std::map<Xtring, T>::insert(std::pair<Xtring,T>(__k.upper(), last))).second )
         {
-            mSequential.push_back( __k.upper() );
+            mSequential.push_back( __k );
             return true;
         }
         return false;
@@ -82,45 +86,29 @@ public:
         mSequential.clear();
     }
 
-    const T operator[](uint pos) const
+    const T seq_at(uint pos) const
     {
         if( pos < mSequential.size() )
             return operator[] (mSequential[pos]);
         else {
-            _GONG_DEBUG_PRINT(7, "The keys are: " + toString() );
             std::__throw_out_of_range(__N("Dictionary::at"));
         }
     }
 
-    /* This function is const because we want to avoid the insert syntax: Dict[key] = value; */
-    mapped_type &operator[](const key_type& __k)
-    {
-        const_iterator __i = find( __k.upper() );
-        if( __i == this->end() ) {
-            _GONG_DEBUG_PRINT(6, Xtring::printf("WARNING: Key '%s' not found in dictionary", __k.c_str()) );
-            _GONG_DEBUG_PRINT(7, "The keys are: " + toString() );
-            return const_cast<mapped_type &>(mNullValue); // Not to return a temporary value
-        }
-        return const_cast<mapped_type &>((*__i).second);
-    }
-
-    /* This function is const because we want to avoid the insert syntax: Dict[key] = value; */
+    /* This function is const because we want to avoid the insert syntax: Dict[key] = value; 
+	 Use set(key,value) instead */
     const mapped_type &operator[](const key_type& __k) const
     {
-        const_iterator __i = find( __k.upper() );
-        if( __i == this->end() ) {
-            _GONG_DEBUG_PRINT(6, Xtring::printf("WARNING: Key '%s' not found in dictionary", __k.c_str()) );
-            _GONG_DEBUG_PRINT(7, "The keys are: " + toString() );
+        const_iterator __i = this->find( __k.upper() );
+        if( __i == this->end() ) 
             return mNullValue; // Not to return a temporary value
-        }
         return (*__i).second;
     }
 
     Xtring toString(const char *sep =", ") const {
         Xtring ret;
         for( const_iterator __i = std::map<Xtring, T>::begin();
-                __i != std::map<Xtring, T>::end();
-                ++ __i ) {
+                __i != std::map<Xtring, T>::end(); ++ __i ) {
             if( __i != std::map<Xtring, T>::begin() )
                 ret += sep;
             ret += (*__i).first;
@@ -140,8 +128,7 @@ public:
     void erase(iterator position)
     {
         for( std::vector<Xtring>::iterator it = mSequential.begin();
-                it!= mSequential.end();
-                it++)
+                it!= mSequential.end(); it++)
             if( (*position).first == *it )
             {
                 mSequential.erase(it);
@@ -164,21 +151,18 @@ public:
     /**
      *  @brief Erases elements according to the provided key.
      *  @param key Key of element to be erased.
-     *  @return  The number of elements erased.
+     *  @return The number of elements erased.
      *
-     *  This function erases all the elements located by the given key from
-     *  a %map.
+     *  This function erases all the elements located by the given key from a %map.
      *  Note that this function only erases the element, and that if
      *  the element is itself a pointer, the pointed-to memory is not touched
-     *  in any way.  Managing the pointer is the user's responsibilty.
+     *  in any way. Managing the pointer is the user's responsibilty.
      */
-    uint erase(const Xtring &key)
+    bool erase(const Xtring &key)
     {
         for( std::vector<Xtring>::iterator it = mSequential.begin();
-                it!= mSequential.end();
-                it++) {
-            if( key.upper() == (*it).upper() )
-            {
+                it!= mSequential.end(); it++) {
+            if( key.upper() == (*it).upper() ) {
                 mSequential.erase(it);
                 break;
             }

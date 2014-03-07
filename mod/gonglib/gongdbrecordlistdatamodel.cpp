@@ -9,7 +9,7 @@
 namespace gong {
 
 dbRecordListDataModel::dbRecordListDataModel( dbRecordList *reclist, dbRecord *record,
-        const dbViewDefinitionsList &vlist, const Xtring &filter)
+        const dbViewDefinitionDict &vlist, const Xtring &filter)
     : dbRecordDataModel(record, vlist, filter)
 {
     _GONG_DEBUG_ASSERT( reclist );

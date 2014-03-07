@@ -140,7 +140,7 @@ public:
     void setUserGlobalSetting(const Xtring &settingname, const Variant &val) {
         pUserGlobalSettings->setValue( settingname, val);
     }
-    int getSettingsValues(const Xtring &key_pattern, Dictionary<Variant> &result);
+    int getSettingsValues(const Xtring &key_pattern, SettingsDict &result);
     bool updateSetting(const Xtring &settingname, const Variant &val);
     bool removeSetting(const Xtring &settingname, bool global = false);
     void writeSettings();

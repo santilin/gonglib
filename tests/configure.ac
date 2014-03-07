@@ -1,14 +1,13 @@
-dnl
-dnl	Configure.in file for gong-tests
-dnl
-
 AC_INIT([gestiong-tests],[0.1],[santi@programacionsocial.net],[gestiong-tests])
 
-AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_HEADERS([config.h])
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE
+
+AC_LANG_CPLUSPLUS
 AC_PROG_CXX
 AM_PROG_LIBTOOL
-AM_INIT_AUTOMAKE
+AC_CONFIG_MACRO_DIR([m4])
+
 
 AC_MSG_NOTICE( [gestiong-tests Custom configuration] )
 
@@ -19,12 +18,12 @@ AC_ARG_ENABLE(debug,
 			  yes)
 				AM_CPPFLAGS="$AM_CPPFLAGS -D_GONG_DEBUG"
 				AM_CXXFLAGS="$AM_CXXFLAGS -g -g3 -O0"
-               AC_SUBST(AM_CPPFLAGS)
-               AC_SUBST(AM_CXXFLAGS)
+                AC_SUBST(AM_CPPFLAGS)
+                AC_SUBST(AM_CXXFLAGS)
 				;;
 			  no)
 				AM_CXXFLAGS="$AM_CXXFLAGS -Wall -Werror"
-               AC_SUBST(AM_CXXFLAGS)
+                AC_SUBST(AM_CXXFLAGS)
 				;;
 			  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
   esac],
@@ -42,8 +41,8 @@ if test "$ac_cv_use_poco" = yes ; then
 	fi
 fi
 
-AC_ARG_WITH( [mysql],
-	AS_HELP_STRING([--with-mysql], [Support for input from MySQL (default is YES)]),
+AC_ARG_WITH( [mysql], 
+	AS_HELP_STRING([--with-mysql], [Support for input from MySQL (default is YES)]), 
 	[ac_cv_use_mysql=$withval],
 	[ac_cv_use_mysql=yes] )
 AM_CONDITIONAL( [COMPILE_WITH_MYSQLLIB], [ test "$ac_cv_use_mysql" = yes ])
@@ -53,19 +52,18 @@ if test "$ac_cv_use_mysql" = yes ; then
 		AC_MSG_ERROR([[No se han detectado las bibliotecas de desarrollo de MySQL. Si las has instalado en un lugar no estandard, usa la opción --with-mysql-prefix=PFX. Para instalar las bibliotecas de MySQL: (Mandriva: libmysql-devel) (Debian/K/Ubuntu: libmysqlclient15-dev) ]])
 	fi
 fi
-AX_LIB_SQLITE3
 
 AC_ARG_WITH( [boost],
             AS_HELP_STRING([--with-boost], [Support for the Boost library (default is YES)]),
             [ac_cv_use_boost=$withval],
             [ac_cv_use_boost=yes] )
-	if test "$ac_cv_use_boost" = yes ; then
+if test "$ac_cv_use_boost" = yes ; then
 		AX_BOOST_BASE(1.0)
 		AX_BOOST_REGEX
 fi
 
-GONGLIB_CPPFLAGS="-I../../gonglib $MYSQL_CPPFLAGS $SQLITE3_CFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS "
-GONGLIB_LIBS="-L../gonglib -lgonglib $MYSQL_LIBS $SQLITE3_LDFLAGS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB"
+GONGLIB_CPPFLAGS="$AM_CPPFLAGS -I../../gonglib $MYSQL_CPPFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS"
+GONGLIB_LIBS="-L../gonglib -lgonglib $MYSQL_LIBS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB"
 
 AC_ARG_WITH( [gong-qt4],
 AS_HELP_STRING([--with-gong-qt4], [Support for the gong qt4 module (default is YES)]),

@@ -198,7 +198,7 @@ void FrmEditRecMaster::setTableDataModel()
         }
     }
 
-    dbViewDefinitionsList views;
+    dbViewDefinitionDict views;
     if ( DBAPP->getDatabase()->getViewsForTable( getRecord()->getTableName(), views ) ) {
         try {
             if ( !pDataModel ) {
@@ -963,7 +963,7 @@ void FrmEditRecMaster::updateViewMenus( bool refill )
         }
         // Dont use the iterator, as the order is not the same
         for( uint nv = 0; nv < pDataModel->getViews().size(); ++ nv ) {
-            dbViewDefinition *viewdef = pDataModel->getViews()[nv];
+            dbViewDefinition *viewdef = pDataModel->getViews().seq_at(nv);
             QAction *action  = pMenuView->addAction( toGUI( Xtring::number( nv ) + ". " + viewdef->getCaption() ) );
             action->setCheckable( true );
             if( pDataModel->getCurrentViewIndex() != -1 )

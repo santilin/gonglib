@@ -6,7 +6,7 @@
 		if( cuenta.isValid(validmsg) && cuenta.isGrupo() ) {
 			// Mostrar cuentas del grupo
 			Xtring where = getRecord()->getConnection()->toSQLStartLike("cuenta", cuenta);
-			dbViewDefinitionsList viewsforcuenta;
+			dbViewDefinitionDict viewsforcuenta;
 			DBAPP->getDatabase()->getViewsForTable(getRecCuenta()->getTableName(), viewsforcuenta);
 			recid = DBAPP->choose(this, getRecCuenta(),
 				new dbRecordDataModel(getRecCuenta(), viewsforcuenta, where),

@@ -102,7 +102,7 @@ FrmEditAlbaranCompra::FrmEditAlbaranCompra(FrmEditRec *parentfrm, dbRecord *mast
 	albarancompradetFrame->setLineWidth(4);
 	QVBoxLayout *albarancompradetFrameLayout = new QVBoxLayout(albarancompradetFrame);
 	RecAlbaranCompraDet *albarancompradet = getRecAlbaranCompra()->getRecAlbaranCompraDet(-1);
-	dbViewDefinitionsList albarancompradetviews;
+	dbViewDefinitionDict albarancompradetviews;
 	DBAPP->getDatabase()->getViewsForTable( albarancompradet, albarancompradetviews );
 	dbRecordListDataModel *albarancompradetdm =
 		new dbRecordListDataModel(getRecAlbaranCompra()->getListAlbaranCompraDet(), albarancompradet, albarancompradetviews, "1=0");

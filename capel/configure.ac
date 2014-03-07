@@ -15,12 +15,12 @@ AC_ARG_ENABLE(debug,
 			  yes)
 				AM_CPPFLAGS="$AM_CPPFLAGS -D_GONG_DEBUG"
 				AM_CXXFLAGS="$AM_CXXFLAGS -g -g3 -O0"
-               AC_SUBST(AM_CPPFLAGS)
-               AC_SUBST(AM_CXXFLAGS)
+                AC_SUBST(AM_CPPFLAGS)
+                AC_SUBST(AM_CXXFLAGS)
 				;;
 			  no)
 				AM_CXXFLAGS="$AM_CXXFLAGS -Wall -Werror"
-               AC_SUBST(AM_CXXFLAGS)
+                AC_SUBST(AM_CXXFLAGS)
 				;;
 			  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
   esac],
@@ -59,8 +59,17 @@ if test "$ac_cv_use_boost" = yes ; then
 		AX_BOOST_REGEX
 fi
 
-GONGLIB_CPPFLAGS="-I../../gonglib $MYSQL_CPPFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS"
+GONGLIB_CPPFLAGS="$AM_CXXFLAGS -I../../gonglib $MYSQL_CPPFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS"
 GONGLIB_LIBS="-L../gonglib -lgonglib $MYSQL_LIBS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB"
+
+if test -f ../src/ventadirecta.cpp ; then
+	AC_DEFINE( [HAS_VENTADIRECTA], [1], [VentaDirecta addon] )
+	AC_MSG_NOTICE( [Compilando con el addon ventadirecta...] )
+else
+AC_MSG_ERROR( [../src/ventadirecta.cpp no existe ] ) 
+fi
+
+AM_CONDITIONAL( [ADDON_VENTADIRECTA], [ test -f ../src/ventadirecta1.cpp ])
 
 AC_SUBST(GONGLIB_CPPFLAGS)
 AC_SUBST(GONGLIB_LIBS)
@@ -68,3 +77,4 @@ AC_SUBST(GONGLIB_LIBS)
 AC_CONFIG_FILES( Makefile gonglib/Makefile \
 	src/Makefile )
 AC_OUTPUT
+

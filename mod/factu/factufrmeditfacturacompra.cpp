@@ -101,7 +101,7 @@ FrmEditFacturaCompra::FrmEditFacturaCompra(FrmEditRec *parentfrm, dbRecord *mast
 	facturacompradetFrame->setLineWidth(4);
 	QVBoxLayout *facturacompradetFrameLayout = new QVBoxLayout(facturacompradetFrame);
 	RecFacturaCompraDet *facturacompradet = getRecFacturaCompra()->getRecFacturaCompraDet(-1);
-	dbViewDefinitionsList facturacompradetviews;
+	dbViewDefinitionDict facturacompradetviews;
 	DBAPP->getDatabase()->getViewsForTable( facturacompradet, facturacompradetviews );
 	dbRecordListDataModel *facturacompradetdm =
 		new dbRecordListDataModel(getRecFacturaCompra()->getListFacturaCompraDet(), facturacompradet, facturacompradetviews, "1=0");

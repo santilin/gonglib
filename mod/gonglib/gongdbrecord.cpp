@@ -33,8 +33,8 @@ dbRecord::~dbRecord()
     _GONG_DEBUG_PRINT(10, "Destroying record for table " + pTableDef->getName() );
     removeRelations();
     for ( unsigned int i = 0; i<mFieldValues.size(); i++ ) {
-        delete mFieldValues[i];
-        delete mOrigFieldValues[i];
+        delete mFieldValues.seq_at(i);
+        delete mOrigFieldValues.seq_at(i);
     }
 }
 
@@ -51,7 +51,7 @@ void dbRecord::init_record()
     // Create relations
     for ( unsigned int nr = 0; nr < getTableDefinition()->getRelationDefinitions().size(); ++nr )
     {
-        dbRelationDefinition *reldef = getTableDefinition()->getRelationDefinitions() [nr];
+        dbRelationDefinition *reldef = getTableDefinition()->getRelationDefinitions().seq_at(nr);
         dbRecordRelation *rel;
 // 		_GONG_DEBUG_PRINT(5, Xtring::printf ( "Creating relation %s.%s->%s.%s",
 // 		                                        reldef->getLeftTable().c_str(), reldef->getLeftField().c_str(),
@@ -130,15 +130,16 @@ bool dbRecord::isEmpty( const Xtring &nocheckfields ) const
     XtringList nocheck_list;
     nocheckfields.tokenize( nocheck_list, ",");
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ ) {
-        if( pTableDef->getFieldDefinition(i)->getName() == pTableDef->getFldIDName() )
+		dbFieldDefinition *flddef = pTableDef->getFieldDefinition(i);
+        if( flddef->getName() == pTableDef->getFldIDName() )
             continue;
-        if( nocheck_list.contains( pTableDef->getFieldDefinition(i)->getName() ) )
+        if( nocheck_list.contains( flddef->getName() ) )
             continue;
-        if( mFieldValues[i]->isEmpty() )
+        if( mFieldValues.seq_at(i)->isEmpty() )
             continue;
-        if( mFieldValues[i]->isNull() )
+        if( mFieldValues.seq_at(i)->isNull() )
             continue;
-        if( mFieldValues[i]->toVariant() == pTableDef->getFieldDefinition(i)->customDefaultValue() )
+        if( mFieldValues.seq_at(i)->toVariant() == flddef->customDefaultValue() )
             continue;
         return false;
     }
@@ -149,13 +150,13 @@ void dbRecord::setModified ( bool changed )
 {
     _GONG_DEBUG_PRINT(10, Xtring("set modified = ") + (changed ? "true" : "false") + " on " + getTableDefinition()->getName() );
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
-        mFieldValues[i]->setModified ( changed );
+        mFieldValues.seq_at(i)->setModified ( changed );
 }
 
 bool dbRecord::isModified() const
 {
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ ) {
-        if ( mFieldValues[i]->isModified() )
+        if ( mFieldValues.seq_at(i)->isModified() )
             return true;
     }
     return false;
@@ -193,36 +194,39 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
         pUser = other->pUser;
         if( deep ) {
             clearRelations();
-            for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-            {
-                _GONG_DEBUG_PRINT(4, "Copying relation " + mRecordRelations[i]->getRelationDefinition()->getFullName() );
-                if( mRecordRelations[i]->getType() == dbRelationDefinition::one2one ) {
+			uint i = 0;
+			for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+				relit != mRecordRelations.end(); ++relit ) {
+				dbRecordRelation *recrel = relit->second;
+				dbRecordRelation *otherrel = other->mRecordRelations.seq_at(i);
+                _GONG_DEBUG_PRINT(4, "Copying relation " + recrel->getRelationDefinition()->getFullName() );
+                if( recrel->getType() == dbRelationDefinition::one2one ) {
                     // Don't copy this relation unless it has been read in the other record
-                    dbRecord *r = other->mRecordRelations[i]->getRelatedRecord();
+                    dbRecord *r = otherrel->getRelatedRecord();
                     if( r && r->isRead() )
-                        mRecordRelations[i]->getRelatedRecord()->copyRecord(r, deep, inc_fields, noinc_fields);
-                } else if( mRecordRelations[i]->getType() == dbRelationDefinition::aggregate ) {
-                    if( other->mRecordRelations[i]->isRelatedRecordCreated() ) {
-                        dbRecord *r = other->mRecordRelations[i]->getRelatedRecord();
-                        mRecordRelations[i]->getRelatedRecord()->copyRecord(r, deep, inc_fields, noinc_fields);
+                        recrel->getRelatedRecord()->copyRecord(r, deep, inc_fields, noinc_fields);
+                } else if( recrel->getType() == dbRelationDefinition::aggregate ) {
+                    if( otherrel->isRelatedRecordCreated() ) {
+                        dbRecord *r = otherrel->getRelatedRecord();
+                        recrel->getRelatedRecord()->copyRecord(r, deep, inc_fields, noinc_fields);
                     }
-                } else if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2many
-                            || mRecordRelations[i]->getType() == dbRelationDefinition::many2many ) {
+                } else if ( recrel->getType() == dbRelationDefinition::one2many
+                            || recrel->getType() == dbRelationDefinition::many2many ) {
                     int nr;
-                    for( nr = 0; nr < (int)other->mRecordRelations[i]->getRelatedRecordList()->size(); nr ++ ) {
-                        if( other->mRecordRelations[i]->getRelatedRecord(nr) ) {
-                            dbRecord *r = other->mRecordRelations[i]->getRelatedRecord(nr)->duplicate();
-                            r->copyRecord( other->mRecordRelations[i]->getRelatedRecord(nr), deep, inc_fields, noinc_fields );
-                            mRecordRelations[i]->addRelatedRecord(r);
+                    for( nr = 0; nr < (int)otherrel->getRelatedRecordList()->size(); nr ++ ) {
+                        if( otherrel->getRelatedRecord(nr) ) {
+                            dbRecord *r = otherrel->getRelatedRecord(nr)->duplicate();
+                            r->copyRecord( otherrel->getRelatedRecord(nr), deep, inc_fields, noinc_fields );
+                            recrel->addRelatedRecord(r);
                         }
                     }
                     // Copy the original details so that saving the details works properly
-                    for( nr = 0; nr < (int)other->mRecordRelations[i]->getRelatedRecordListOrig()->size(); nr ++ ) {
-                        dbRecord *relorigrecord = other->mRecordRelations[i]->getRelatedRecordListOrig()->getRecord(nr);
+                    for( nr = 0; nr < (int)otherrel->getRelatedRecordListOrig()->size(); nr ++ ) {
+                        dbRecord *relorigrecord = otherrel->getRelatedRecordListOrig()->getRecord(nr);
                         if( relorigrecord ) {
                             dbRecord *r = relorigrecord->duplicate();
                             r->copyRecord( relorigrecord, deep, inc_fields, noinc_fields );
-                            mRecordRelations[i]->getRelatedRecordListOrig()->addRecord(r);
+                            recrel->getRelatedRecordListOrig()->addRecord(r);
                         }
                     }
                 }
@@ -244,7 +248,7 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
         return true;
     } else {
         /* Try to copy all the matching fields */
-        for ( dbFieldDefinitionsList::const_iterator it = pTableDef->getFieldDefinitions().begin();
+        for ( dbFieldDefinitionDict::const_iterator it = pTableDef->getFieldDefinitions().begin();
                 it != pTableDef->getFieldDefinitions().end();
                 ++ it ) {
             Xtring fldname = it->second->getName();
@@ -271,50 +275,50 @@ void dbRecord::clear( bool setcustomvalues )
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
     {
         if( !setcustomvalues ) {
-            mFieldValues[i]->clear();
-            mOrigFieldValues[i]->clear();
+            mFieldValues.seq_at(i)->clear();
+            mOrigFieldValues.seq_at(i)->clear();
         } else {
             const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
 //  		_GONG_DEBUG_PRINT(0, Xtring::printf("Set custom default value for '%s'(%s) to '%s'(%s)",
 //  								flddef->getFullName().c_str(),
-//  								Variant::typeToName(mFieldValues[i]->toVariant().type() ),
+//  								Variant::typeToName(mFieldValues.seq_at(i)->toVariant().type() ),
 //  								flddef->customDefaultValue().toString().c_str(),
 //  								flddef->getDefaultValue().c_str() ) );
             switch ( flddef->getSqlColumnType() ) {
             case SQLINTEGER:
-                mFieldValues[i]->clear( flddef->customDefaultValue().toInt() );
-                mOrigFieldValues[i]->clear( flddef->customDefaultValue().toInt() );
+                mFieldValues.seq_at(i)->clear( flddef->customDefaultValue().toInt() );
+                mOrigFieldValues.seq_at(i)->clear( flddef->customDefaultValue().toInt() );
                 break;
             case SQLSTRING:
             case SQLBLOB:
             case SQLTEXT:
-                mFieldValues[i]->clear ( flddef->customDefaultValue().toString() );
-                mOrigFieldValues[i]->clear ( flddef->customDefaultValue().toString() );
+                mFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toString() );
+                mOrigFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toString() );
                 break;
             case SQLDATE:
-                mFieldValues[i]->clear ( Date ( flddef->customDefaultValue().toString() ) );
-                mOrigFieldValues[i]->clear ( Date ( flddef->customDefaultValue().toString() ) );
+                mFieldValues.seq_at(i)->clear ( Date ( flddef->customDefaultValue().toString() ) );
+                mOrigFieldValues.seq_at(i)->clear ( Date ( flddef->customDefaultValue().toString() ) );
                 break;
             case SQLTIME:
-                mFieldValues[i]->clear ( Time ( flddef->customDefaultValue().toString() ) );
-                mOrigFieldValues[i]->clear ( Time ( flddef->customDefaultValue().toString() ) );
+                mFieldValues.seq_at(i)->clear ( Time ( flddef->customDefaultValue().toString() ) );
+                mOrigFieldValues.seq_at(i)->clear ( Time ( flddef->customDefaultValue().toString() ) );
                 break;
             case SQLDATETIME:
             case SQLTIMESTAMP:
-                mFieldValues[i]->clear ( DateTime ( flddef->customDefaultValue().toString() ) );
-                mOrigFieldValues[i]->clear ( DateTime ( flddef->customDefaultValue().toString() ) );
+                mFieldValues.seq_at(i)->clear ( DateTime ( flddef->customDefaultValue().toString() ) );
+                mOrigFieldValues.seq_at(i)->clear ( DateTime ( flddef->customDefaultValue().toString() ) );
                 break;
             case SQLDECIMAL:
-                mFieldValues[i]->clear ( Money ( flddef->customDefaultValue().toString().toDoubleLocIndep(), flddef->getDecimals() ) );
-                mOrigFieldValues[i]->clear ( Money ( flddef->customDefaultValue().toString().toDoubleLocIndep(), flddef->getDecimals() ) );
+                mFieldValues.seq_at(i)->clear ( Money ( flddef->customDefaultValue().toString().toDoubleLocIndep(), flddef->getDecimals() ) );
+                mOrigFieldValues.seq_at(i)->clear ( Money ( flddef->customDefaultValue().toString().toDoubleLocIndep(), flddef->getDecimals() ) );
                 break;
             case SQLFLOAT:
-                mFieldValues[i]->clear ( flddef->customDefaultValue().toString().toDoubleLocIndep() );
-                mOrigFieldValues[i]->clear ( flddef->customDefaultValue().toString().toDoubleLocIndep() );
+                mFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toString().toDoubleLocIndep() );
+                mOrigFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toString().toDoubleLocIndep() );
                 break;
             case SQLBOOL:
-                mFieldValues[i]->clear ( flddef->customDefaultValue().toBool() );
-                mOrigFieldValues[i]->clear ( flddef->customDefaultValue().toBool() );
+                mFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toBool() );
+                mOrigFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toBool() );
                 break;
             }
         }
@@ -337,14 +341,15 @@ void dbRecord::setNew( bool isnew )
     if ( mIsNew ) {
         setRecordID( 0 );
         // set new the aggregate relations
-        for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-        {
-            if ( mRecordRelations[i]->isEnabled() )
+		for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+			relit != mRecordRelations.end(); ++relit ) {
+			dbRecordRelation *recrel = relit->second;
+            if ( recrel->isEnabled() )
             {
-                if ( mRecordRelations[i]->getType() == dbRelationDefinition::aggregate ) {
-                    mRecordRelations[i]->getRelatedRecord(-1)->setNew( isnew );
+                if ( recrel->getType() == dbRelationDefinition::aggregate ) {
+                    recrel->getRelatedRecord(-1)->setNew( isnew );
                     if( isnew )
-                        setValue( mRecordRelations[i]->getLeftField(), 0 );
+                        setValue( recrel->getLeftField(), 0 );
                 }
             }
         }
@@ -353,23 +358,20 @@ void dbRecord::setNew( bool isnew )
 
 void dbRecord::clearRelations()
 {
-    for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-    {
-        if ( mRecordRelations[i]->isEnabled() )
-        {
-            if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2one
-                    || mRecordRelations[i]->getType() == dbRelationDefinition::aggregate )
-            {
+	for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+		relit != mRecordRelations.end(); ++relit ) {
+		dbRecordRelation *recrel = relit->second;
+        if ( recrel->isEnabled() ) {
+            if ( recrel->getType() == dbRelationDefinition::one2one
+                    || recrel->getType() == dbRelationDefinition::aggregate ) {
                 // Test if the related record has not been created
-                if( mRecordRelations[i]->getRelatedRecord(-1) )
-                    mRecordRelations[i]->getRelatedRecord(-1)->clear( false );
-                setValue( mRecordRelations[i]->getLeftField(), 0 );
-            }
-            else if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2many
-                      || mRecordRelations[i]->getType() == dbRelationDefinition::many2many)
-            {
-                mRecordRelations[i]->getRelatedRecordList()->clear();
-                mRecordRelations[i]->getRelatedRecordListOrig()->clear();
+                if( recrel->getRelatedRecord(-1) )
+                    recrel->getRelatedRecord(-1)->clear( false );
+                setValue( recrel->getLeftField(), 0 );
+            } else if ( recrel->getType() == dbRelationDefinition::one2many
+                      || recrel->getType() == dbRelationDefinition::many2many) {
+                recrel->getRelatedRecordList()->clear();
+                recrel->getRelatedRecordListOrig()->clear();
             }
         }
     }
@@ -410,10 +412,10 @@ bool dbRecord::SELECT ( const Xtring &where )
                                     pTableDef->getFieldDefinition(i)->getDecimals()  ) );
                 break;
             }
-            mOrigFieldValues[i]->setValue( getValue(i) );
+            mOrigFieldValues.seq_at(i)->setValue( getValue(i) );
             if ( rs->isNull ( i ) ) {
                 setNullValue ( i );
-                mOrigFieldValues[i]->setNull();
+                mOrigFieldValues.seq_at(i)->setNull();
             }
         }
         setNew ( false );
@@ -434,7 +436,7 @@ bool dbRecord::INSERT()
     {
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
         Xtring fldname = flddef->getName();
-        dbFieldValue *fldval = mFieldValues[i];
+        dbFieldValue *fldval = mFieldValues.seq_at(i);
         fields += "," + pConn->nameToSQL( fldname );
         if ( (flddef->canBeNull() || flddef->isPrimaryKey() )
 				&& ( fldval->isNull() || fldval->isEmpty() ) )
@@ -466,7 +468,7 @@ bool dbRecord::UPDATE()
     {
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
         Xtring fldname = flddef->getName();
-        const dbFieldValue *fldval = mFieldValues[i];
+        const dbFieldValue *fldval = mFieldValues.seq_at(i);
         if ( fldval->isModified() )
         {
             if ( flddef->canBeNull() && ( fldval->isNull() || fldval->isEmpty() ) )
@@ -501,7 +503,7 @@ bool dbRecord::DELETE()
             for ( unsigned int i=0; i<getFieldCount(); i++ ) {
                 const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
                 Xtring fldname = flddef->getName();
-                const dbFieldValue *fldval = mFieldValues[i];
+                const dbFieldValue *fldval = mFieldValues.seq_at(i);
                 if( !cond.isEmpty() )
                     cond += " AND ";
                 cond += pConn->nameToSQL(fldname) + "=" + flddef->toSQL ( pConn, *fldval );
@@ -523,9 +525,12 @@ bool dbRecord::DELETE()
 
 bool dbRecord::hasEnabledRelations() const
 {
-    for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-        if ( mRecordRelations[i]->isEnabled() )
+	for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+		relit != mRecordRelations.end(); ++relit ) {
+		dbRecordRelation *recrel = relit->second;
+        if ( recrel->isEnabled() )
             return true;
+	}
     return false;
 }
 
@@ -580,47 +585,48 @@ bool dbRecord::readWithFilter(const Xtring& where)
 bool dbRecord::readRelated( bool force )
 {
     _GONG_DEBUG_ASSERT ( pConn );
-    for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-    {
-        if ( mRecordRelations[i]->isEnabled() )
+	for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+		relit != mRecordRelations.end(); ++relit ) {
+		dbRecordRelation *recrel = relit->second;
+        if ( recrel->isEnabled() )
         {
-            Variant leftvalue = getValue ( mRecordRelations[i]->getLeftField() );
-            if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2one
-                    || mRecordRelations[i]->getType() == dbRelationDefinition::aggregate )
+            Variant leftvalue = getValue ( recrel->getLeftField() );
+            if ( recrel->getType() == dbRelationDefinition::one2one
+                    || recrel->getType() == dbRelationDefinition::aggregate )
             {
-                _GONG_DEBUG_PRINT ( 3, Xtring::printf ( "Reading 1:1 relationship: %s", mRecordRelations[i]->getRelationDefinition()->getFullName().c_str() ) );
+                _GONG_DEBUG_PRINT ( 3, Xtring::printf ( "Reading 1:1 relationship: %s", recrel->getRelationDefinition()->getFullName().c_str() ) );
                 if ( leftvalue.isValid() )
                 {
-                    dbRecord *r = mRecordRelations[i]->getRelatedRecord(-1);
+                    dbRecord *r = recrel->getRelatedRecord(-1);
                     r->setRecordID( leftvalue.toInt() );
                     if( leftvalue.toInt() == 0 ) {
                         r->clear( false );
                         r->setNew();
                     }
                 }
-            } else if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2many
-                        ||  mRecordRelations[i]->getType() == dbRelationDefinition::many2many ) {
-                _GONG_DEBUG_PRINT( 3, Xtring::printf ( "Reading 1:M or M:M relationship: %s", mRecordRelations[i]->getRelationDefinition()->getFullName().c_str() ) );
-                mRecordRelations[i]->getRelatedRecordList()->clear();
-                mRecordRelations[i]->getRelatedRecordListOrig()->clear();
+            } else if ( recrel->getType() == dbRelationDefinition::one2many
+                        ||  recrel->getType() == dbRelationDefinition::many2many ) {
+                _GONG_DEBUG_PRINT( 3, Xtring::printf ( "Reading 1:M or M:M relationship: %s", recrel->getRelationDefinition()->getFullName().c_str() ) );
+                recrel->getRelatedRecordList()->clear();
+                recrel->getRelatedRecordListOrig()->clear();
                 if ( leftvalue.isValid() && !leftvalue.toInt() == 0 )
                 {
                     std::auto_ptr<dbResultSet> rs ( pConn->select ( "SELECT * FROM "
-                                                    + pConn->nameToSQL ( mRecordRelations[i]->getRightTable() )
-                                                    + " WHERE " + pConn->nameToSQL(mRecordRelations[i]->getRightTable())
-                                                    + "." + pConn->nameToSQL(mRecordRelations[i]->getRightField())
+                                                    + pConn->nameToSQL ( recrel->getRightTable() )
+                                                    + " WHERE " + pConn->nameToSQL(recrel->getRightTable())
+                                                    + "." + pConn->nameToSQL(recrel->getRightField())
                                                     + " = " + pConn->toSQL ( leftvalue )
                                                     + " ORDER BY 1" ) );
                     while( rs->next() ) {
-                        dbRecord *relatedrecord = mRecordRelations[i]->getRelatedRecord(-1 );
+                        dbRecord *relatedrecord = recrel->getRelatedRecord(-1 );
                         dbRecord *newrelrecord = relatedrecord->duplicate();
                         newrelrecord->setValuesFromRow( &*rs, rs->getRowNumber() );
                         newrelrecord->setNew( false );
-                        mRecordRelations[i]->getRelatedRecordList()->addRecord( newrelrecord );
+                        recrel->getRelatedRecordList()->addRecord( newrelrecord );
                         dbRecord *origrecord = newrelrecord->duplicate();
                         origrecord->setValuesFromRow( &*rs, rs->getRowNumber() );
                         origrecord->setNew( false );
-                        mRecordRelations[i]->getRelatedRecordListOrig()->addRecord( origrecord );
+                        recrel->getRelatedRecordListOrig()->addRecord( origrecord );
                     }
                 }
             }
@@ -701,18 +707,19 @@ bool dbRecord::save( bool saverelated )
  **/
 bool dbRecord::saveRelated( bool updating )
 {
-    for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-    {
-        if ( mRecordRelations[i]->isEnabled() )
+	for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+		relit != mRecordRelations.end(); ++relit ) {
+		dbRecordRelation *recrel = relit->second;
+        if ( recrel->isEnabled() )
         {
             // one2one relations are independent, so they are not saved here
-            if ( mRecordRelations[i]->getType() == dbRelationDefinition::aggregate )
+            if ( recrel->getType() == dbRelationDefinition::aggregate )
             {
                 _GONG_DEBUG_PRINT(4, Xtring::printf("Saving aggregate relation %s",
-                                                    mRecordRelations[i]->getRelationDefinition()->getFullName().c_str() ) );
-                Variant leftvalue = getValue( mRecordRelations[i]->getLeftField() );
+                                                    recrel->getRelationDefinition()->getFullName().c_str() ) );
+                Variant leftvalue = getValue( recrel->getLeftField() );
                 Variant rightvalue;
-                dbRecord *agg_record = mRecordRelations[i]->getRelatedRecord(-1 );
+                dbRecord *agg_record = recrel->getRelatedRecord(-1 );
                 if( !leftvalue.isEmpty() && agg_record->isEmpty() ) { // Remove related record
                     rightvalue = 0;
                     agg_record->beforeDeleteRelated( this );
@@ -720,24 +727,24 @@ bool dbRecord::saveRelated( bool updating )
                 } else {
                     agg_record->beforeSaveRelated( this );
                     agg_record->save( true );
-                    rightvalue = agg_record->getValue( mRecordRelations[i]->getRightField() );
+                    rightvalue = agg_record->getValue( recrel->getRightField() );
                 }
                 // Update this record reference to the aggregated one
                 if( rightvalue != leftvalue ) {
-                    setValue( mRecordRelations[i]->getLeftField(), rightvalue );
+                    setValue( recrel->getLeftField(), rightvalue );
                     save( false ); // Dont save related again
                 }
-            } else if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2many
-                        || mRecordRelations[i]->getType() == dbRelationDefinition::many2many ) {
+            } else if ( recrel->getType() == dbRelationDefinition::one2many
+                        || recrel->getType() == dbRelationDefinition::many2many ) {
                 _GONG_DEBUG_PRINT(4, Xtring::printf("Saving 1:M or M:M relation %s",
-                                                    mRecordRelations[i]->getRelationDefinition()->getFullName().c_str() ) );
-                Variant leftvalue = getValue ( mRecordRelations[i]->getLeftField() );
-                for( uint nr = 0; nr < mRecordRelations[i]->getRelatedRecordList()->size(); nr ++ ) {
-                    dbRecord *detail = mRecordRelations[i]->getRelatedRecord(nr);
+                                                    recrel->getRelationDefinition()->getFullName().c_str() ) );
+                Variant leftvalue = getValue ( recrel->getLeftField() );
+                for( uint nr = 0; nr < recrel->getRelatedRecordList()->size(); nr ++ ) {
+                    dbRecord *detail = recrel->getRelatedRecord(nr);
                     // Detect as much identical records as we can
                     bool optimizing_out = true;
-                    if( optimizing_out && updating && nr < mRecordRelations[i]->getRelatedRecordListOrig()->size() ) {
-                        if( mRecordRelations[i]->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
+                    if( optimizing_out && updating && nr < recrel->getRelatedRecordListOrig()->size() ) {
+                        if( recrel->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
                                 != detail->toString( TOSTRING_DEBUG_COMPLETE ) )
                             optimizing_out = false;
                     } else {
@@ -747,7 +754,7 @@ bool dbRecord::saveRelated( bool updating )
                         if ( ! ( detail->isEmpty() ) ) {
                             // If we are updating, all the records must be new now, as they have been deleted before
                             detail->setNew( true );
-                            detail->setValue( mRecordRelations[i]->getRightField(), leftvalue );
+                            detail->setValue( recrel->getRightField(), leftvalue );
                             detail->beforeSaveRelated( this );
                             detail->save( true );
                         }
@@ -813,38 +820,39 @@ bool dbRecord::remove()
 bool dbRecord::removeRelated( bool updating )
 {
     _GONG_DEBUG_ASSERT ( pConn );
-    for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-    {
-        if ( mRecordRelations[i]->isEnabled() )
+	for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+		relit != mRecordRelations.end(); ++relit ) {
+		dbRecordRelation *recrel = relit->second;
+        if ( recrel->isEnabled() )
         {
-            if ( mRecordRelations[i]->getType() == dbRelationDefinition::aggregate ) {
-                Variant leftvalue = getValue( mRecordRelations[i]->getLeftField() );
+            if ( recrel->getType() == dbRelationDefinition::aggregate ) {
+                Variant leftvalue = getValue( recrel->getLeftField() );
                 if ( leftvalue.isValid()) {
-                    dbRecord *agg_record = mRecordRelations[i]->getRelatedRecord(-1 );
+                    dbRecord *agg_record = recrel->getRelatedRecord(-1 );
                     if( agg_record && !agg_record->isNew() ) {
                         agg_record->beforeDeleteRelated( const_cast<dbRecord *>(this) );
                         if( !updating )
                             agg_record->remove();
                     }
                     if( !updating )
-                        const_cast<dbRecord *>(this)->setValue( mRecordRelations[i]->getLeftField(), 0 );
+                        const_cast<dbRecord *>(this)->setValue( recrel->getLeftField(), 0 );
                 }
-            } else if ( mRecordRelations[i]->getType() == dbRelationDefinition::one2many
-                        || mRecordRelations[i]->getType() == dbRelationDefinition::many2many )
+            } else if ( recrel->getType() == dbRelationDefinition::one2many
+                        || recrel->getType() == dbRelationDefinition::many2many )
             {
                 _GONG_DEBUG_PRINT(3, Xtring::printf("Removing 1:M or M:M relation %s",
-                                                    mRecordRelations[i]->getRelationDefinition()->getFullName().c_str() ) );
-                Variant leftvalue = getValue ( mRecordRelations[i]->getLeftField() );
+                                                    recrel->getRelationDefinition()->getFullName().c_str() ) );
+                Variant leftvalue = getValue ( recrel->getLeftField() );
                 if ( leftvalue.isValid() )
                 {
                     // Detect as much identical records as we can
                     bool optimizing_out = true;
-                    for( uint nr = 0; nr < mRecordRelations[i]->getRelatedRecordListOrig()->size(); nr ++ ) {
-                        dbRecord *related_record_orig = mRecordRelations[i]->getRelatedRecordListOrig()->at(nr);
-                        if( optimizing_out && updating && nr < mRecordRelations[i]->getRelatedRecordList()->size() ) {
-// 							_GONG_DEBUG_PRINT(0, mRecordRelations[i]->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE ) );
+                    for( uint nr = 0; nr < recrel->getRelatedRecordListOrig()->size(); nr ++ ) {
+                        dbRecord *related_record_orig = recrel->getRelatedRecordListOrig()->at(nr);
+                        if( optimizing_out && updating && nr < recrel->getRelatedRecordList()->size() ) {
+// 							_GONG_DEBUG_PRINT(0, recrel->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE ) );
 // 							_GONG_DEBUG_PRINT(0, related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ) );
-                            if( mRecordRelations[i]->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE )
+                            if( recrel->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE )
                                     != related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ) )
                                 optimizing_out = false;
                         } else {
@@ -856,7 +864,7 @@ bool dbRecord::removeRelated( bool updating )
                                 related_record_orig->remove();
                             } else {
                                 _GONG_DEBUG_WARNING("Not removing record because it is new: "
-                                                  + mRecordRelations[i]->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE ) );
+                                                  + recrel->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE ) );
                             }
                         } else {
                             _GONG_DEBUG_PRINT(3, "Record " + Xtring::number(nr) + " has been optimized");
@@ -865,9 +873,9 @@ bool dbRecord::removeRelated( bool updating )
 #ifdef _GONG_DEBUG
                     if( !updating ) {
                         // Then, delete all related records, even if they were not read
-                        dbResultSet *rs = pConn->select ( "SELECT * FROM " + mRecordRelations[i]->getRightTable()
-                                                          + " WHERE " + mRecordRelations[i]->getRightTable()
-                                                          + "." + mRecordRelations[i]->getRightField()
+                        dbResultSet *rs = pConn->select ( "SELECT * FROM " + recrel->getRightTable()
+                                                          + " WHERE " + recrel->getRightTable()
+                                                          + "." + recrel->getRightField()
                                                           + " = " + pConn->toSQL ( leftvalue ) );
                         if( rs->next() ) {
                             _GONG_DEBUG_WARNING( "There were orphan details" );
@@ -917,12 +925,12 @@ int dbRecord::getRelationIndex( const Xtring &relname ) const
     return -1;
 }
 
-dbRecordRelation *dbRecord::getRelation ( unsigned int index ) const
+dbRecordRelation *dbRecord::getRelation( unsigned int index ) const
 {
     if ( index < 0 || index >= mRecordRelations.size() ) {
         return 0;
     } else {
-        return mRecordRelations[index];
+        return mRecordRelations.seq_at(index);
     }
 }
 
@@ -953,9 +961,9 @@ dbRecordRelation *dbRecord::findRelationByRelatedTable ( const Xtring & tablenam
     return 0;
 }
 
-dbRecordRelationsList dbRecord::findRelationsBySemanticProperties(const XtringList& properties) const
+dbRecordRelationDict dbRecord::findRelationsBySemanticProperties(const XtringList& properties) const
 {
-    dbRecordRelationsList ret;
+    dbRecordRelationDict ret;
     for( unsigned int i=0; i<mRecordRelations.size(); i++ ) {
         dbRecordRelation *rel = getRelation(i);
         for( XtringList::const_iterator pit = properties.begin();
@@ -1011,7 +1019,7 @@ Variant dbRecord::getValue ( unsigned int nfield ) const
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mFieldValues.size() ) {
-        return mFieldValues[nfield]->toVariant();
+        return mFieldValues.seq_at(nfield)->toVariant();
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1024,7 +1032,7 @@ Variant dbRecord::getOrigValue(unsigned int nfield) const
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mOrigFieldValues.size() ) {
-        return mOrigFieldValues[nfield]->toVariant();
+        return mOrigFieldValues.seq_at(nfield)->toVariant();
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1037,7 +1045,7 @@ bool dbRecord::isNullValue ( unsigned int nfield ) const
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mFieldValues.size() ) {
-        return mFieldValues[nfield]->isNull();
+        return mFieldValues.seq_at(nfield)->isNull();
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1050,7 +1058,7 @@ bool dbRecord::isNullOrigValue(unsigned int nfield) const
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mOrigFieldValues.size() ) {
-        return mOrigFieldValues[nfield]->isNull();
+        return mOrigFieldValues.seq_at(nfield)->isNull();
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1177,7 +1185,7 @@ bool dbRecord::setNullValue ( unsigned int nfield )
         read( getRecordID() );
     if ( nfield < mFieldValues.size() )
     {
-        mFieldValues[nfield]->setNull();
+        mFieldValues.seq_at(nfield)->setNull();
         return true;
     }
     else
@@ -1241,10 +1249,10 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
 //  	_GONG_DEBUG_PRINT(0, Xtring::printf( "field(%d):%s, value=%s", nfield, getTableDefinition()->getFieldDefinition(nfield)->getName().c_str(), value.toString().c_str() ) );
     if ( nfield < getFieldCount() )
     {
-        bool wasnull = mFieldValues[nfield]->isNull();
+        bool wasnull = mFieldValues.seq_at(nfield)->isNull();
         // If the field is null and the value is empty, do not change anything
         if( !(wasnull && value.isEmpty()) ) {
-            mFieldValues[nfield]->setValue ( value );
+            mFieldValues.seq_at(nfield)->setValue ( value );
             if( value.type() == Variant::tInt || value.type() == Variant::tLong )
                 setRelatedID( nfield, value );
             // If value is empty and the field was not null, set it to null if it can be null
@@ -1256,7 +1264,7 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
                           || flddef->getSqlColumnType() == SQLSTRING || flddef->getSqlColumnType() == SQLTEXT
                           || flddef->getSqlColumnType() == SQLDATE || flddef->getSqlColumnType() == SQLDATETIME
                           || flddef->getSqlColumnType() == SQLDATETIME || flddef->getSqlColumnType() == SQLTIMESTAMP ) )
-                    mFieldValues[nfield]->setNull();
+                    mFieldValues.seq_at(nfield)->setNull();
             }
         }
         return true;
@@ -1412,12 +1420,12 @@ Xtring dbRecord::getJoinedFrom ( bool inner ) const
 {
     Xtring ret = getTableName();
     Xtring join = inner ? " INNER JOIN " : " LEFT JOIN ";
-    for ( unsigned int i=0; i<mRecordRelations.size(); i++ )
-    {
-        dbRecordRelation *rel = mRecordRelations[i];
-        ret += join + rel->getRightTable()
-               + " ON " + getTableName() + + "." + rel->getLeftField()
-               + "=" + rel->getRightTable() + "." + rel->getRightField();
+	for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+		relit != mRecordRelations.end(); ++relit ) {
+        dbRecordRelation *recrel = relit->second;
+        ret += join + recrel->getRightTable()
+               + " ON " + getTableName() + + "." + recrel->getLeftField()
+               + "=" + recrel->getRightTable() + "." + recrel->getRightField();
     }
     return ret;
 }

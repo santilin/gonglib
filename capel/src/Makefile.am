@@ -8,7 +8,7 @@ capel_SOURCES = main.cpp capelcppmodule.cpp capelmodule.cpp \
 	gonggenerators.cpp generalgenerator.cpp \
 	gonggenfrmeditrecmaestro.cpp gonggendbmodule.cpp gonggenrecords.cpp \
 	gonggenfrmeditbehavior.cpp \
-	rtkcppclass.cpp rtkserver.cpp
+	rtkcppclass.cpp rtkserver.cpp ventadirecta.cpp
 
 noinst_HEADERS = capelmodule.h capelcppmodule.h \
 	capelrtkmodule.h capelphpmodule.h \
@@ -16,3 +16,8 @@ noinst_HEADERS = capelmodule.h capelcppmodule.h \
 	gonggendbmodule.h \
 	gonggenfrmeditrecmaestro.h gonggenrecords.h \
 	rtkcppclass.h
+	
+if ADDON_VENTADIRECTA
+	noinst_HEADERS += ventadirecta.h
+	capel_SOURCES += ventadirecta.cpp
+endif

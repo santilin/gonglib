@@ -46,11 +46,11 @@ public:
     }
     dbFieldDefinition *getFieldDefinition(unsigned int i)
     {
-        return mFieldDefinitions[i];
+        return mFieldDefinitions.seq_at(i);
     }
     const dbFieldDefinition *getFieldDefinition(unsigned int i) const
     {
-        return mFieldDefinitions[i];
+        return mFieldDefinitions.seq_at(i);
     }
     unsigned int getFieldCount() const
     {
@@ -72,7 +72,7 @@ public:
 	bool isUnique() const { return mUnique; }
 	const dbFieldDefinition::Flags& getFlags() const { return mFlags; }
 	const Xtring& getOptions() const { return mOptions; }
-	const dbFieldDefinitionsList& getFieldDefinitions() const { return mFieldDefinitions; }
+	const dbFieldDefinitionDict& getFieldDefinitions() const { return mFieldDefinitions; }
 
 	dbIndexDefinition* setUnique(bool unique) { mUnique = unique; return this; }
 	dbIndexDefinition* setFlags(const dbFieldDefinition::Flags& flags) { mFlags = flags; return this; }
@@ -82,11 +82,11 @@ private:
 	bool mUnique;
 	dbFieldDefinition::Flags mFlags;
 	Xtring mOptions;
-	dbFieldDefinitionsList mFieldDefinitions;
+	dbFieldDefinitionDict mFieldDefinitions;
 /*>>>>>DBINDEXDEFINITION_CLASS*/
 };
 
-typedef std::vector<dbIndexDefinition *> dbIndexDefinitionsList;
+typedef std::vector<dbIndexDefinition *> dbIndexDefinitionList;
 
 // Stream functions
 #ifdef _GONG_DEBUG

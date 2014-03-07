@@ -5,7 +5,7 @@ namespace gong
 {
 
 dbRecordDataModel::dbRecordDataModel(
-    dbRecord *record, const dbViewDefinitionsList &vlist, const Xtring &filter)
+    dbRecord *record, const dbViewDefinitionDict &vlist, const Xtring &filter)
     : TableDataModel(vlist, filter),
       pRecord(record), pResultSet(0)
 {

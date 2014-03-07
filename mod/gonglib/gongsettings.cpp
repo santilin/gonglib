@@ -85,11 +85,12 @@ bool Settings::write(const Xtring &filename)
         _GONG_DEBUG_PERROR(cfilename);
         return false;
     } else {
-        for( unsigned int nv=0; nv<mSettingsDict.size(); nv++ ) {
-            Variant v(mSettingsDict[nv]);
+		for( SettingsDict::const_iterator setit = mSettingsDict.begin();
+			setit != mSettingsDict.end(); ++setit ) {
+            Variant v( setit->second );
             Xtring s_v = v.toString();
             s_v = s_v.replace("\\", "\\\\").replace("\"", "\\\"");
-            of << mSettingsDict.getKey(nv) << "(" << v.typeToName( v.type() ) << ")"
+            of << setit->first << "(" << v.typeToName( v.type() ) << ")"
                << " = \"" << s_v << "\";" << std::endl;
         }
         if( of.bad()  ) {
@@ -125,7 +126,7 @@ void Settings::setValue(const Xtring &settingname, const Variant &val)
 // 		                                     val.toString().c_str(), mFilename.c_str() ) );
     if( v.isValid() ) { // preserve the type of the setting
         v.copy( val );
-        mSettingsDict[settingname] = v;
+        mSettingsDict.set(settingname, v);
     }
     else
         mSettingsDict.insert(settingname, val);

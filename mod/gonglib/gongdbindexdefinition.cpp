@@ -4,7 +4,7 @@
 // MEMBER Unique bool rwc
 // MEMBER Flags dbFieldDefinition::Flags rwc dbFieldDefinition::NONE
 // MEMBER Options Xtring rwc 0
-// MEMBER FieldDefinitions dbFieldDefinitionsList r
+// MEMBER FieldDefinitions dbFieldDefinitionDict r
 // TYPE Class dbIndexDefinition fullconstr set_returns_reference
 /*>>>>>MODULE_INFO*/
 
@@ -108,7 +108,7 @@ std::ostream &operator<<(std::ostream &out, const dbIndexDefinition &idxdef)
 {
     out << '\t' << idxdef.getName() << std::endl;
     for( unsigned int i = 0; i < idxdef.getFieldDefinitions().size(); i++ )
-        out << *(const_cast<dbIndexDefinition &>(idxdef).getFieldDefinitions()[i]);
+        out << *(const_cast<dbIndexDefinition &>(idxdef).getFieldDefinitions().seq_at(i));
     return out;
 }
 #endif

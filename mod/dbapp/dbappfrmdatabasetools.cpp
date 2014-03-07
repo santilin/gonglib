@@ -422,7 +422,7 @@ void FrmDatabaseTools::checkDDD()
 
     DBAPP->waitCursor( true );
     ret.clear();
-    Dictionary<Variant> dddkeys;
+    SettingsDict dddkeys;
     DBAPP->getSettingsValues("DBDEF.TABLE", dddkeys);
     for( unsigned int i=0; i<dddkeys.size(); ++i ) {
         XtringList parts;

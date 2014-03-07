@@ -45,7 +45,7 @@ public:
         accepting
     };
 
-    ViewTable( dbRecord *record, const dbViewDefinitionsList &vlist,
+    ViewTable( dbRecord *record, const dbViewDefinitionDict &vlist,
 			const Xtring &filter = Xtring(), QWidget* parent=0, const char* name=0 );
     ~ViewTable();
 

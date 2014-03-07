@@ -67,7 +67,7 @@ FrmEditProyecto::FrmEditProyecto(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	editNotas = addTextField( pControlsFrame, "PROYECTO", "NOTAS", proyectoNotasLayout );
 
 	RecMiembro *miembro = static_cast<RecMiembro*>(DBAPP->createRecord("MIEMBRO"));
-	dbViewDefinitionsList miembroviews;
+	dbViewDefinitionDict miembroviews;
 	DBAPP->getDatabase()->getViewsForTable( miembro, miembroviews );
 	dbRecordDataModel *miembrodm = new dbRecordDataModel(miembro, miembroviews);
 	pFrmMiembro = static_cast<FrmEditMiembro *>(
@@ -77,7 +77,7 @@ FrmEditProyecto::FrmEditProyecto(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	miembrosLayout->addWidget(pFrmMiembro);
 
 	RecRemesaCobro *remesacobro = static_cast<RecRemesaCobro*>(DBAPP->createRecord("REMESACOBRO"));
-	dbViewDefinitionsList remesacobroviews;
+	dbViewDefinitionDict remesacobroviews;
 	DBAPP->getDatabase()->getViewsForTable( remesacobro, remesacobroviews );
 	dbRecordDataModel *remesacobrodm = new dbRecordDataModel(remesacobro, remesacobroviews);
 	pFrmRemesaCobro = static_cast<FrmEditRemesaCobro *>(
@@ -87,7 +87,7 @@ FrmEditProyecto::FrmEditProyecto(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	remesasLayout->addWidget(pFrmRemesaCobro);
 
 	RecPartidaProyecto *partidaproyecto = static_cast<RecPartidaProyecto*>(DBAPP->createRecord("PARTIDAPROYECTO"));
-	dbViewDefinitionsList partidaproyectoviews;
+	dbViewDefinitionDict partidaproyectoviews;
 	DBAPP->getDatabase()->getViewsForTable( partidaproyecto, partidaproyectoviews );
 	dbRecordDataModel *partidaproyectodm = new dbRecordDataModel(partidaproyecto, partidaproyectoviews);
 	pFrmPartidaProyecto = static_cast<FrmEditPartidaProyecto *>(

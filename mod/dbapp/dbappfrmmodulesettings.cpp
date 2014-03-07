@@ -183,7 +183,7 @@ void FrmModuleSettings::scatter()
 	addModuleSettings( 0, moduleLayout );
 	// MODULES
 	for ( unsigned int i=0; i< DBAPP->getModules().size(); i++ ) {
-        dbModule *module = DBAPP->getModules()[i];
+        dbModule *module = DBAPP->getModules().seq_at(i);
         if( module->getModuleSettings() ) {
             QWidget *moduleWidget = new QWidget(pTabWidget);
             moduleWidget->setObjectName( ("ControlsFrame" + module->getUnixName()).c_str() );

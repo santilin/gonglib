@@ -95,10 +95,9 @@ void capel::genSrc_MakefileAm(const Xtring &type, const Xtring &args)
 
 	if( type == "PROJECT" ) {
 		content =
-"AM_CPPFLAGS = @AM_CPPFLAGS@ -DPACKAGE_LOCALE_DIR=\\\"\"$(prefix)/$(DATADIRNAME)/locale\"\\\" \\\n"
+"AM_CPPFLAGS = @GONGLIB_CPPFLAGS@ -DPACKAGE_LOCALE_DIR=\\\"\"$(prefix)/$(DATADIRNAME)/locale\"\\\" \\\n"
 "	-DPACKAGE_SRC_DIR=\\\"\"$(srcdir)\"\\\" \\\n"
 "	-DPACKAGE_DATA_DIR=\\\"\"$(datadir)\"\\\"\n"
-"INCLUDES = @GONGLIB_CPPFLAGS@\n"
 "\n"
 "bin_PROGRAMS = " + modulename + "\n"
 "" + modulename + "_LDADD = @GONGLIB_LIBS@\n"
@@ -296,7 +295,7 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 	Xtring ac_inc_path = gonglib_path;
 	Xtring ac_lib_path = (isproject ? ".." : "../.." );
 	ac_gonglib +=
-"GONGLIB_CPPFLAGS=\"-I" + ac_inc_path + "/gonglib $MYSQL_CPPFLAGS $SQLITE3_CFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS \"\n"
+"GONGLIB_CPPFLAGS=\"$AM_CPPFLAGS -I" + ac_inc_path + "/gonglib $MYSQL_CPPFLAGS $SQLITE3_CFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS \"\n"
 "GONGLIB_LIBS=\"-L" + ac_lib_path + "/gonglib -lgonglib $MYSQL_LIBS $SQLITE3_LDFLAGS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB\"\n";
 	cpm->insert_extrusion( ext_prefix + "GONGLIB",
 	                      ac_gonglib);

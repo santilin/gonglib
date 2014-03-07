@@ -67,7 +67,7 @@ private:
 };
 
 
-typedef Dictionary<dbViewDefinition *> dbViewDefinitionsList;
+typedef Dictionary<dbViewDefinition *> dbViewDefinitionDict;
 
 
 /*<<<<<DBTABLEDEFINITION_POSTAMBLE*/

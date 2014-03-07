@@ -375,7 +375,8 @@ bool FugitImporter::importRecord( const Xtring &tablename )
             addMessage( mRecError );
     }
     _GONG_DEBUG_PRINT(6, Xtring::printf("RecordIDMap_%s[%d]=%d", mCurTable.c_str(), oldid, existingid ) );
-    mFilesInfo[mCurTable].mRecordIDMap[oldid] = existingid;
+	ImportTableInfo iti = mFilesInfo[mCurTable];
+    iti.mRecordIDMap[oldid] = existingid;
     mRecToString.clear();
     mRecError.clear();
     return valid;
@@ -399,22 +400,24 @@ bool FugitImporter::importDetalle( const Xtring &tablename )
  */
 void FugitImporter::actRelations(dbRecord *rec)
 {
-    for( unsigned int nf=0; nf < rec->getFieldCount(); nf ++ ) {
-        const Xtring &reference = rec->getFieldDefinition(nf)->getReference();
-        if( !reference.isEmpty() && !rec->getFieldDefinition(nf)->getName().startsWith("REC_") ) {
+	for( dbFieldDefinitionDict::const_iterator fldit = rec->getTableDefinition()->getFieldDefinitions().begin();
+		fldit != rec->getTableDefinition()->getFieldDefinitions().end(); ++fldit ) {
+		const dbFieldDefinition *flddef = fldit->second;
+        const Xtring &reference = flddef->getReference();
+        if( !reference.isEmpty() && !flddef->getName().startsWith("REC_") ) {
             Xtring relTable = dbFieldDefinition::extractTableName( reference );
             // Comprobar que esta relación está activa
             dbRecordRelation *rel = rec->findRelationByRelatedTable(relTable);
             if( rel && rel->isEnabled() ) {
                 Xtring relField = dbFieldDefinition::extractFieldName( reference );
-                ImportTableInfo &iti = mFilesInfo[relTable];
+                const ImportTableInfo &iti = mFilesInfo[relTable];
                 if( iti.pRecord ) {
-                    const Xtring &fldname = rec->getFieldDefinition(nf)->getName();
+                    const Xtring &fldname = flddef->getName();
                     _GONG_DEBUG_PRINT(6, Xtring::printf("%s.%s = %d, %s.%s = %d",
                                                         rec->getTableName().c_str(), fldname.c_str(),
-                                                        iti.mRecordIDMap[ rec->getValue(relField).toInt() ],
+                                                        iti.mRecordIDMap.at( rec->getValue(relField).toInt() ),
                                                         relTable.c_str(), relField.c_str(), rec->getValue(fldname).toInt() ) );
-                    rec->setValue( fldname, iti.mRecordIDMap[ rec->getValue(fldname).toInt() ] );
+                    rec->setValue( fldname, iti.mRecordIDMap.at( rec->getValue(fldname).toInt()) );
                 } else {
                     addMessage( Xtring::printf(
                                     _("No se ha importado la tabla %s relacionada con esta tabla: %s"),

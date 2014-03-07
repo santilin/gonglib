@@ -2,6 +2,7 @@
 #include <gongdbconnection.h>
 #include <gongdbresultset.h>
 #include <gongdebug.h>
+#include <unistd.h>
 #include "testdbconnection.h"
 #include <iostream>
 #include "passwords.nosvn.h"
@@ -37,8 +38,7 @@ int TestConnection::testConnection()
 	dbConnection conn;
 	unlink( "una base de datos que no existe.sql3" );
 	_GONG_DEBUG_ASSERT ( !conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, "una base de datos que no existe" ) );
-	_GONG_DEBUG_PRINT ( 0, conn.getLastError().getNumber() );
-	_GONG_DEBUG_ASSERT ( conn.getLastError().getNumber() == 1049 );
+	_GONG_DEBUG_ASSERT ( conn.getLastError().getNumber() == 1045 || conn.getLastError().getNumber() == 1049 );
 	_GONG_DEBUG_ASSERT ( strlen(conn.getLastError().what()) );
 	if( conn.isMySQL() ) {
 		if( conn.getLastError().getNumber() == 2002 )
@@ -65,13 +65,15 @@ int TestConnection::testCreateDatabase()
 {
 	dbConnection conn;
 
-	if( conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, "testdatabase" ) )
+	if( conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, "testdbase" ) )
 		_GONG_DEBUG_ASSERT( conn.exec( "DROP DATABASE testdbase", true) == 1 );
 	else if( conn.isMySQL() &&  conn.getLastError().getNumber() == 2002 ) {
 		std::cout << "please run /etc/init.d/mysql start" << std::endl;
 		_GONG_DEBUG_ASSERT ( strlen(conn.getLastError().what()) == 0 );
 		_GONG_DEBUG_ASSERT ( conn.getLastError().getNumber() == 0 );
 		_GONG_DEBUG_ASSERT(  conn.getLastError().getNumber() == 0 || conn.getLastError().getNumber() == 1008 || conn.getLastError().getNumber() == 1146 ); //database doesn't exist
+	} else {
+		_GONG_DEBUG_ASSERT( conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, Xtring::null ) );
 	}
 	_GONG_DEBUG_ASSERT( conn.exec("CREATE DATABASE testdbase") );
 	dbResultSet *rs = conn.select("SHOW DATABASES");

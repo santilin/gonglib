@@ -22,15 +22,15 @@ class NamesListTable: public dbMasterTable
 {
 public:
 	struct Info {XtringList captions; IntList values; IntList types;};
-	typedef Dictionary<Info *> InfoList;
+	typedef Dictionary<Info *> InfoDict;
 
 	NamesListTable(dbDefinition &db, const Xtring &name);
-    static InfoList &getNamesListTables() {
+    static InfoDict &getNamesListTables() {
 		return mNamesListTables;
 	}
 	static void fillInfoList( dbConnection *conn );
 private:
-	static InfoList mNamesListTables;
+	static InfoDict mNamesListTables;
 };
 
 

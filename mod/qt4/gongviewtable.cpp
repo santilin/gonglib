@@ -10,7 +10,7 @@ namespace gong {
 class ViewTableModel: public QAbstractTableModel, public dbRecordDataModel
 {
 public:
-	ViewTableModel( QObject *parent, dbRecord *record, const dbViewDefinitionsList &vlist,
+	ViewTableModel( QObject *parent, dbRecord *record, const dbViewDefinitionDict &vlist,
 					const Xtring &filter = Xtring() )
 		: QAbstractTableModel( parent ), dbRecordDataModel( record, vlist, filter ) {};
     void addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset);
@@ -110,7 +110,7 @@ bool ViewTableModel::setView( int newview )
     representing NULL values as strings.
 */
 
-ViewTable::ViewTable( dbRecord *record, const dbViewDefinitionsList &vlist,
+ViewTable::ViewTable( dbRecord *record, const dbViewDefinitionDict &vlist,
 					const Xtring &filter, QWidget * parent, const char * name )
     : QTableView( parent ), pDatabase( &record->getTableDefinition()->getdbDefinition() ),
       mFormatter( *GongLibraryInstance->getRegConfig() )

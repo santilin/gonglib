@@ -601,7 +601,7 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                             reciboid = 0; // break while
                         } else {
                             // Elegir otro recibo para pagar el resto del pago
-                            dbViewDefinitionsList views;
+                            dbViewDefinitionDict views;
                             DBAPP->getDatabase()->getViewsForTable ( recibo->getTableName(), views );
                             dbRecordDataModel dm ( recibo, views,
                                                    "ESTADORECIBO=" + recibo->getConnection()->toSQL( PagosModule::ReciboPendiente )

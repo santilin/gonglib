@@ -63,8 +63,7 @@ dbTableDefinition::dbTableDefinition( const dbTableDefinition &other )
 {
     // We use the integer iterator because we don't want them in alpha order
     for( std::size_t f = 0; f < other.mFieldDefinitions.size(); f++ ) {
-        dbFieldDefinition *flddefcloned = other.mFieldDefinitions[f]->clone();
-//        dbFieldDefinition *flddefcloned = new dbFieldDefinition( *other.mFieldDefinitions[f] );
+        dbFieldDefinition *flddefcloned = other.mFieldDefinitions.seq_at(f)->clone();
 		mFieldDefinitions.insert( other.mFieldDefinitions.getKey( f ), flddefcloned );
     }
     for( std::size_t i = 0; i < other.mIndexDefinitions.size(); i++ ) {
@@ -72,20 +71,22 @@ dbTableDefinition::dbTableDefinition( const dbTableDefinition &other )
         mIndexDefinitions.push_back( idxdef );
     }
     for( std::size_t r = 0; r < other.mRelationDefinitions.size(); r++ ) {
-		dbRelationDefinition *reldef = new dbRelationDefinition( *other.mRelationDefinitions[r] );
+		dbRelationDefinition *reldef = new dbRelationDefinition( *other.mRelationDefinitions.seq_at(r) );
 		mRelationDefinitions.insert( other.mRelationDefinitions.getKey(r), reldef );
 	}
 }
 
 dbTableDefinition::~dbTableDefinition()
 {
-    uint i;
-    for ( i = 0; i < mRelationDefinitions.size(); i++ )
-        delete mRelationDefinitions[i];
-    for ( i = 0; i < mIndexDefinitions.size(); i++ )
-        delete mIndexDefinitions[i];
-    for ( i = 0; i < mFieldDefinitions.size(); i++ )
-        delete mFieldDefinitions[i];
+	for( dbRelationDefinitionDict::const_iterator relit = mRelationDefinitions.begin();
+		relit != mRelationDefinitions.end(); ++relit ) 
+			delete relit->second;
+	for( dbIndexDefinitionList::const_iterator idxit = mIndexDefinitions.begin();
+		idxit != mIndexDefinitions.end(); ++idxit ) 
+		delete *idxit;
+	for( dbFieldDefinitionDict::const_iterator fldit = mFieldDefinitions.begin();
+		fldit != mFieldDefinitions.end(); ++fldit ) 
+		delete fldit->second;
 }
 
 void dbTableDefinition::clearFields()
@@ -117,7 +118,7 @@ dbIndexDefinition *dbTableDefinition::addIndex( const dbFieldDefinition *flddef 
 
 dbIndexDefinition *dbTableDefinition::deleteIndex( const char *name )
 {
-    for( dbIndexDefinitionsList::iterator idxit = mIndexDefinitions.begin();
+    for( dbIndexDefinitionList::iterator idxit = mIndexDefinitions.begin();
             idxit != mIndexDefinitions.end();
             ++ idxit ) {
         if( (*idxit)->getName() == Xtring( name ) ) {
@@ -164,7 +165,7 @@ bool dbTableDefinition::addBehavior(dbRecordBehavior* behavior)
 // Podemos estar añadiendo el campo a una tabla o a una vista, por lo tanto la tabla del campo puede ser distinta a esta tabla
 dbFieldDefinition *dbTableDefinition::addField( const dbFieldDefinition *fielddef )
 {
-    if( !mFieldDefinitions.insert( fielddef->getFullName(), ( dbFieldDefinition * )fielddef ) )
+    if( !mFieldDefinitions.insert( fielddef->getFullName(), const_cast<dbFieldDefinition *>(fielddef) ) )
         _GONG_DEBUG_WARNING( Xtring::printf( "Table '%s' already has a field named '%s'", getName().c_str(), fielddef->getFullName().c_str() ) );
     return const_cast<dbFieldDefinition *>( fielddef );
 }
@@ -194,7 +195,7 @@ bool dbTableDefinition::deleteField(const Xtring &name)
 
 bool dbTableDefinition::deleteField(const dbFieldDefinition* fielddef)
 {
-    for( dbFieldDefinitionsList::iterator it = mFieldDefinitions.begin();
+    for( dbFieldDefinitionDict::iterator it = mFieldDefinitions.begin();
             it != mFieldDefinitions.end(); ++it ) {
         if( it->second == fielddef ) {
             mFieldDefinitions.erase( it );
@@ -341,8 +342,10 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
                 tmpflags |= dbFieldDefinition::NOTNULL;
             if ( rsFields->toString( 3 ) == "UNI" )
                 tmpflags |= dbFieldDefinition::UNIQUE;
-            if ( rsFields->toString( 3 ) == "PRI" )
+            if ( rsFields->toString( 3 ) == "PRI" ) {
                 tmpflags |= dbFieldDefinition::PRIMARYKEY;
+				tbldef->mFldIDName = fldname;
+			}
             if ( rsFields->toString( 5 ) == "auto_increment" )
                 tmpflags |= dbFieldDefinition::SEQUENCE;
             dbFieldDefinition *flddef = new dbFieldDefinition(
@@ -447,6 +450,7 @@ dbRelationDefinition *dbTableDefinition::addRelationDefinition( const dbRelation
 {
     dbRelationDefinition *reldef = new dbRelationDefinition( type, lefttable, leftfield, righttable, rightfield );
     mRelationDefinitions.insert( reldef->getName(), reldef );
+/* Esto hay que hacerlo al final de definir la base de datos */
 	dbFieldDefinition *flddef = findFieldDefinition( leftfield );
 	if( flddef )
 		flddef->setIsReference(true);
@@ -556,7 +560,7 @@ dbFieldDefinition *dbTableDefinition::findFieldDefinition( const Xtring &name, b
 
 dbFieldDefinition *dbTableDefinition::getFieldDefinition( unsigned int i ) const
 {
-    return mFieldDefinitions[i];
+    return mFieldDefinitions.seq_at(i);
 }
 
 #ifdef _GONG_DEBUG
@@ -566,14 +570,17 @@ std::ostream &operator<<( std::ostream &out, const dbTableDefinition &tbldef )
     out << "DBDEF.TABLE." << tbldef.getName() << ".DESC_SINGULAR(string)=\"" << tbldef.getDescSingular() << "\";" << std::endl;
     out << "DBDEF.TABLE." << tbldef.getName() << ".DESC_PLURAL(string)=\"" << tbldef.getDescPlural() << "\";" << std::endl;
     out << "DBDEF.TABLE." << tbldef.getName() << ".FEMENINA(bool)=\"" << ( tbldef.isFemenina() ? "true" : "false" ) << "\";" << std::endl;
-    for ( i = 0; i < tbldef.getFieldDefinitions().size(); i++ )
-        out << *( const_cast<dbTableDefinition &>( tbldef ).getFieldDefinitions()[i] );
+	for( dbFieldDefinitionDict::const_iterator fldit = tbldef.getFieldDefinitions().begin();
+		fldit != tbldef.getFieldDefinitions().end(); ++fldit ) 
+        out << fldit->second;
     out << "\t\tRelations" << std::endl;
-    for ( i = 0; i < tbldef.getRelationDefinitions().size(); i++ )
-        out << *( const_cast<dbTableDefinition &>( tbldef ).getRelationDefinitions()[i] );
+	for( dbRelationDefinitionDict::const_iterator relit = tbldef.getRelationDefinitions().begin();
+		relit != tbldef.getRelationDefinitions().end(); ++relit ) 
+		out << relit->second;
     out << "\t\tIndexes" << std::endl;
-    for ( i = 0; i < tbldef.getIndexDefinitions().size(); i++ )
-        out << *( const_cast<dbTableDefinition &>( tbldef ).getIndexDefinitions()[i] );
+	for( dbIndexDefinitionList::const_iterator idxit = tbldef.getIndexDefinitions().begin();
+		idxit != tbldef.getIndexDefinitions().end(); ++idxit ) 
+		out << *idxit;
     return out;
 }
 #endif

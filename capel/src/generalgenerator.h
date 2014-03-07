@@ -31,7 +31,7 @@ public:
 
 	enum FrameWork { Yii };
 	enum Language { CPP, PHP };
-	enum TipoModulo { MVCModel, MVCController, MVCView };
+	enum TipoModulo { MVCModel = 1, MVCController = 2, MVCView = 4, MVCAll = MVCController + MVCModel + MVCView };
 
 	typedef struct {
 		const char *pModuleName;
@@ -67,7 +67,7 @@ protected:
 	const ProgramDefinition &mProgramDefinition;
 	dbConnection *pConn;
 	dbDefinition *pDatabase;
-	Dictionary<dbRelationDefinition *> mAllRelations;
+	Dictionary< Dictionary<Xtring> > mAllRelations;
 };
 
 }

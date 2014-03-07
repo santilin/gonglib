@@ -295,7 +295,7 @@ private:
 };
 
 
-typedef Dictionary<dbFieldDefinition *> dbFieldDefinitionsList;
+typedef Dictionary<dbFieldDefinition *> dbFieldDefinitionDict;
 
 // Stream functions
 #ifdef _GONG_DEBUG

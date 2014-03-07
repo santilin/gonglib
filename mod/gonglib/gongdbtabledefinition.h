@@ -192,13 +192,13 @@ public:
     const Xtring& getGroupBy() const {
         return mGroupBy;
     }
-    const dbFieldDefinitionsList& getFieldDefinitions() const {
+    const dbFieldDefinitionDict& getFieldDefinitions() const {
         return mFieldDefinitions;
     }
-    const dbRelationDefinitionsList& getRelationDefinitions() const {
+    const dbRelationDefinitionDict& getRelationDefinitions() const {
         return mRelationDefinitions;
     }
-    const dbIndexDefinitionsList& getIndexDefinitions() const {
+    const dbIndexDefinitionList& getIndexDefinitions() const {
         return mIndexDefinitions;
     }
     const Xtring& getFldIDName() const;
@@ -248,15 +248,15 @@ private:
     Xtring mWhere;
     Xtring mOrderBy;
     Xtring mGroupBy;
-    dbFieldDefinitionsList mFieldDefinitions;
-    dbRelationDefinitionsList mRelationDefinitions;
-    dbIndexDefinitionsList mIndexDefinitions;
+    dbFieldDefinitionDict mFieldDefinitions;
+    dbRelationDefinitionDict mRelationDefinitions;
+    dbIndexDefinitionList mIndexDefinitions;
     dbRecordBehaviorsList mRecordBehaviors;
 
     Xtring mFldIDName;
 };
 
-typedef Dictionary<dbTableDefinition *> dbTableDefinitionsList;
+typedef Dictionary<dbTableDefinition *> dbTableDefinitionDict;
 
 // Stream functions
 #ifdef _GONG_DEBUG

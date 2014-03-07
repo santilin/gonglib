@@ -1,6 +1,4 @@
-INCLUDES = @GONGLIB_CPPFLAGS@
-AM_CPPFLAGS = @AM_CPPFLAGS@
-AM_CXXFLAGS = @AM_CXXFLAGS@
+AM_CPPFLAGS = @GONGLIB_CPPFLAGS@
 
 lib_LTLIBRARIES = libgongdbapp.la
 libgongdbapp_ladir = $(includedir)/gonglib

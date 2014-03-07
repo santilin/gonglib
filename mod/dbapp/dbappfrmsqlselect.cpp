@@ -452,8 +452,9 @@ int FrmSQLSelect::exec ( const dbRecord *record, const Xtring &currentfilter )
             pDatabase->findTableDefinition ( record->getTableName() );
         if ( tbldef ) {
             tabledefs.push_back ( tbldef );
-            for ( unsigned int i=0; i<record->getRelationsList().size(); i++ ) {
-                dbRecordRelation *rel = record->getRelationsList()[i];
+			for( dbRecordRelationDict::const_iterator rrit = record->getRelationsList().begin();
+				rrit != record->getRelationsList().end(); ++rrit ) {
+                dbRecordRelation *rel = rrit->second;
                 if ( rel->isEnabled() ) {
                     tbldef = pDatabase->findTableDefinition( rel->getRelationDefinition()->getRightTable() );
                     if ( tbldef && !tabledefs.contains ( tbldef ) )

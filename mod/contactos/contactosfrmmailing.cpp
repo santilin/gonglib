@@ -26,7 +26,7 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     QVBoxLayout *selLayout = new QVBoxLayout( tabSeleccion );
     mSearchBoxes << addMultipleSearchField( tabSeleccion, "CONTACTO", "CIF", "NOMBRE", selLayout );
     // Buscar todos los ficheros que tengan relación con contactos
-    for( dbTableDefinitionsList::const_iterator it = DBAPP->getDatabase()->getTables().begin();
+    for( dbTableDefinitionDict::const_iterator it = DBAPP->getDatabase()->getTables().begin();
             it != DBAPP->getDatabase()->getTables().end();
             ++ it ) {
         dbTableDefinition *tbldef = it->second;

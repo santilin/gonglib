@@ -42,7 +42,9 @@ namespace capel {
 extern const char *shortlgpllicense;
 
 void genrtk();
+#ifdef HAS_VENTADIRECTA
 void genventadirecta();
+#endif
 }
 
 /**
@@ -109,13 +111,13 @@ void genventadirecta();
 int main( int argc, char *argv[] )
 {
 #ifdef _GONG_DEBUG
-	::__gong_debug::_gong_debug_level = 1;
+	::__gong_debug::_gong_debug_level = 0;
 #endif
 	if( argc == 2 && strcasecmp(argv[1], "rtk") == 0 ) {
 		capel::genrtk();
 		return 0;
 	}
-#ifdef HAVE_VENTADIRECTA
+#ifdef HAS_VENTADIRECTA
 	if( argc == 2 && strcasecmp(argv[1], "ventadirecta") == 0 ) {
 		capel::genventadirecta();
 		return 0;

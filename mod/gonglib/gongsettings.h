@@ -18,6 +18,8 @@
 
 namespace gong {
 
+typedef Dictionary<Variant> SettingsDict;
+
 class Settings
 {
 public:
@@ -45,11 +47,11 @@ public:
     Variant getValue(const Xtring &settingname, const Variant &defaultvalue = Variant()) const;
     virtual void setValue(const Xtring &settingname, const Variant &val);
     virtual void removeSetting(const Xtring &settingname);
-    const Dictionary<Variant>& allSettings() const {
+    const SettingsDict& allSettings() const {
         return mSettingsDict;
     }
 protected:
-    Dictionary<Variant> mSettingsDict;
+    SettingsDict mSettingsDict;
 
 private:
     Xtring getNextToken( const char **text );

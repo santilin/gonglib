@@ -1111,19 +1111,19 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
     }
     XtringList det_properties;
     det_properties << "DETALLE";
-    dbRecordRelationsList sourcerelations = source->findRelationsBySemanticProperties( det_properties );
+    dbRecordRelationDict sourcerelations = source->findRelationsBySemanticProperties( det_properties );
     if( sourcerelations.size() == 0 ) {
         _GONG_DEBUG_WARNING( "Tabla " + source->getTableName() + " no tiene propiedades " + det_properties.join(",") );
         DBAPP->resetCursor();
         return false;
     }
-    dbRecordRelationsList destrelations = dest->findRelationsBySemanticProperties( det_properties );
+    dbRecordRelationDict destrelations = dest->findRelationsBySemanticProperties( det_properties );
     if( destrelations.size() == 0 ) {
         DBAPP->resetCursor();
         _GONG_DEBUG_WARNING( "Tabla " + tablename + " no tiene propiedades " + det_properties.join(",") );
         return false;
     }
-    dbRecordList *detalles = sourcerelations[(uint)0]->getRelatedRecordList();
+    dbRecordList *detalles = sourcerelations.seq_at(0)->getRelatedRecordList();
     bool had_something = false;
     unsigned int numrecords = dest_detalles->size();
     for( dbRecordList::const_iterator it = detalles->begin(); it != detalles->end(); ++ it ) {
@@ -1134,7 +1134,7 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
             detalle_dest = dest_detalles->getRecord( numrecords - 1 );
         } else {
             // No puedo usar dest_detalles porque es un dbRecordList que puede estar vacía
-            detalle_dest = destrelations[(uint)0]->getRelatedRecord(-1)->duplicate();
+            detalle_dest = destrelations.seq_at(0)->getRelatedRecord(-1)->duplicate();
             add = true;
         }
         detalle_dest->copyRecord( *it, true, Xtring::null, "ID,NLINEA," + sexcludedfields  );

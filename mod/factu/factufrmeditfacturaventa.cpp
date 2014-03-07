@@ -110,7 +110,7 @@ FrmEditFacturaVenta::FrmEditFacturaVenta(FrmEditRec *parentfrm, dbRecord *master
 	facturaventadetFrame->setLineWidth(4);
 	QVBoxLayout *facturaventadetFrameLayout = new QVBoxLayout(facturaventadetFrame);
 	RecFacturaVentaDet *facturaventadet = getRecFacturaVenta()->getRecFacturaVentaDet(-1);
-	dbViewDefinitionsList facturaventadetviews;
+	dbViewDefinitionDict facturaventadetviews;
 	DBAPP->getDatabase()->getViewsForTable( facturaventadet, facturaventadetviews );
 	dbRecordListDataModel *facturaventadetdm =
 		new dbRecordListDataModel(getRecFacturaVenta()->getListFacturaVentaDet(), facturaventadet, facturaventadetviews, "1=0");

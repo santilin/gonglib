@@ -24,10 +24,10 @@ TestdbRecord::~TestdbRecord()
 void TestdbRecord::run()
 {
 	_GONG_DEBUG_TRACE(0);
+ 	test_normal();
+ 	test_create();
+ 	test_imagefield();
 	test_tostringfugit();
-// 	test_normal();
-// 	test_create();
-// 	test_imagefield();
 	std::cout << "TestdbRecord finished" << std::endl;
 }
 

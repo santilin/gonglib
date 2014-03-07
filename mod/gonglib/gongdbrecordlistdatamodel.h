@@ -21,7 +21,7 @@ class dbRecordListDataModel: public dbRecordDataModel
 {
 public:
     dbRecordListDataModel(dbRecordList *reclist, dbRecord *record,
-                          const dbViewDefinitionsList &vlist, const Xtring &filter = Xtring());
+                          const dbViewDefinitionDict &vlist, const Xtring &filter = Xtring());
     virtual ~dbRecordListDataModel();
 
     virtual Variant getValue(unsigned int row, unsigned int col) const;

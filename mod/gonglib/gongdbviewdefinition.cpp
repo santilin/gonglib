@@ -205,7 +205,7 @@ bool dbViewDefinition::createFromFromFields()
         firstfrom.clear();
     // Extract all the tables from the fields
     Xtring result;
-    for( dbFieldDefinitionsList::const_iterator flddefit= getFieldDefinitions().begin();
+    for( dbFieldDefinitionDict::const_iterator flddefit= getFieldDefinitions().begin();
             flddefit != getFieldDefinitions().end();
             ++flddefit ) {
         Xtring tablename = dbFieldDefinition::extractTableName( flddefit->second->getFullName() );
@@ -232,7 +232,7 @@ bool dbViewDefinition::createFromFromFields()
                     found_it != found_tables.end() && !found;
                     ++found_it ) {
                 dbTableDefinition *tbldef = getdbDefinition().findTableDefinition( *found_it );
-                for( dbRelationDefinitionsList::const_iterator relit = tbldef->getRelationDefinitions().begin();
+                for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
                         relit != tbldef->getRelationDefinitions().end() && !found;
                         ++relit ) {
                     const dbRelationDefinition *reldef = relit->second;
@@ -252,7 +252,7 @@ bool dbViewDefinition::createFromFromFields()
                 if( !found ) {
                     // look for a relation the other way round
                     tbldef = getdbDefinition().findTableDefinition( needed_table );
-                    for( dbRelationDefinitionsList::const_iterator relit = tbldef->getRelationDefinitions().begin();
+                    for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
                             relit != tbldef->getRelationDefinitions().end() && !found;
                             ++relit ) {
                         const dbRelationDefinition *reldef = relit->second;

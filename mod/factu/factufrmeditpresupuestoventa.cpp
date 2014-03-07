@@ -83,7 +83,7 @@ FrmEditPresupuestoVenta::FrmEditPresupuestoVenta(FrmEditRec *parentfrm, dbRecord
 	presupuestoventadetFrame->setLineWidth(4);
 	QVBoxLayout *presupuestoventadetFrameLayout = new QVBoxLayout(presupuestoventadetFrame);
 	RecPresupuestoVentaDet *presupuestoventadet = getRecPresupuestoVenta()->getRecPresupuestoVentaDet(-1);
-	dbViewDefinitionsList presupuestoventadetviews;
+	dbViewDefinitionDict presupuestoventadetviews;
 	DBAPP->getDatabase()->getViewsForTable( presupuestoventadet, presupuestoventadetviews );
 	dbRecordListDataModel *presupuestoventadetdm =
 		new dbRecordListDataModel(getRecPresupuestoVenta()->getListPresupuestoVentaDet(), presupuestoventadet, presupuestoventadetviews, "1=0");

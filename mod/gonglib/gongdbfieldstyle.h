@@ -87,7 +87,7 @@ private:
     Alignment mVAlignment;
 };
 
-typedef Dictionary<dbFieldStyle *> dbFieldStylesList;
+typedef Dictionary<dbFieldStyle *> dbFieldStyleDict;
 
 } // namespace gong
 #endif // __GONGDBFIELDSTYLE_H

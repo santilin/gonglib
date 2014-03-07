@@ -199,8 +199,11 @@ void dbApplication::readSettings()
 	ssread = false;
     mReportsGlobalPath = getGonglibDataDir() + "dbapp/informes/";
     // Now, each module's global and local settings
-    for ( unsigned int i=0; i < mModules.size(); i++ )
-        mModules[i]->readSettings();
+    for ( unsigned int i=0; i < mModules.size(); i++ ) {
+		dbModule *mod = mModules.seq_at(i);
+        if( mod->isEnabled() )
+			mod->readSettings();
+	}
     // Each module has added its reports path in readSettings
 	mReportsGlobalPath += ":" + getGlobalDataDir() + "informes/";
 	if( !mReportsLocalPath.endsWith(":") )
@@ -371,15 +374,18 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
     // Do the login of the plugins and add their title to the application title
     mTitle = getPackageString();
     for ( unsigned int i=0; i < mModules.size(); i++ ) {
-        Xtring title;
-        _GONG_DEBUG_PRINT(2, "Module " + mModules[i]->getUnixName() + " logging in" );
-        if ( !mModules[i]->login ( pFrmLogin, version, title, startingapp ) ) {
-            _GONG_DEBUG_WARNING( "Module " + mModules[i]->getUnixName() + " has not logged in" );
-            mModules[i]->setEnabled( false );
-        } else {
-            if( !title.isEmpty() )
-                mTitle += " " + title;
-        }
+		dbModule *mod = mModules.seq_at(i);
+		if( mod->isEnabled() ) {
+			Xtring title;
+			_GONG_DEBUG_PRINT(2, "Module " + mod->getUnixName() + " logging in" );
+			if ( !mod->login ( pFrmLogin, version, title, startingapp ) ) {
+				_GONG_DEBUG_WARNING( "Module " + mod->getUnixName() + " has not logged in" );
+				mod->setEnabled( false );
+			} else {
+				if( !title.isEmpty() )
+					mTitle += " " + title;
+			}
+		}
     }
 
 
@@ -393,10 +399,11 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         _GONG_DEBUG_ASSERT( module );
         _GONG_DEBUG_ASSERT( module->getConnection() );
         for ( unsigned int i=0; i < mModules.size(); i++ ) {
-            if( !mModules[i]->isEnabled() )
+			dbModule *mod = mModules.seq_at(i);
+            if( !mod->isEnabled() )
                 continue;
-            Xtring mod_name = mModules[i]->getUnixName().upper();
-            uint mod_version = mModules[i]->getVersion();
+            Xtring mod_name = mod->getUnixName().upper();
+            uint mod_version = mod->getVersion();
             if( !module->read( "MODULENAME=" + module->getConnection()->toSQL( mod_name ) ) ) {
                 module->setValue( "MODULENAME", mod_name );
                 module->setValue( "ACTIVE", true );
@@ -407,7 +414,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
             }
             uint db_mod_version = module->getValue( "VERSION" ).toInt();
             if( mod_version != 0 ) {
-                _GONG_DEBUG_PRINT(0, "Module " + mModules[i]->getUnixName() + ":version: " + Xtring::number( mod_version ) + ", dbversion " + Xtring::number( db_mod_version ) );
+                _GONG_DEBUG_PRINT(0, "Module " + mod->getUnixName() + ":version: " + Xtring::number( mod_version ) + ", dbversion " + Xtring::number( db_mod_version ) );
                 if( mod_version < db_mod_version ) {
                     FrmBase::msgError( DBAPP->getPackageString(),
                                        Xtring::printf( _("%s no está actualizado.\n"
@@ -415,12 +422,12 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
                                                          "utilizar la versión '%d'\n"
                                                          "Actualiza el programa.\n"),
                                                        DBAPP->getPackageString().c_str(),
-                                                       mModules[i]->getUnixName().c_str(), db_mod_version, mod_version ) );
+                                                       mod->getUnixName().c_str(), db_mod_version, mod_version ) );
                     return false;
                 } else if( mod_version > db_mod_version ) {
                     if( !mReadOnly ) {
                         for( uint v = db_mod_version; v < mod_version; ++v ) {
-                            Xtring mig = mModules[i]->getMigrationSQL( v );
+                            Xtring mig = mod->getMigrationSQL( v );
                             if( !mig.isEmpty() ) {
                                 if( FrmBase::msgYesNoLarge(
                                             DBAPP->getPackageString(),
@@ -475,10 +482,11 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
 
 
     // Postload tasks for every module.
-    for ( unsigned int i=0; i < mModules.size(); i++ )
-        if( mModules[i]->isEnabled() )
-            mModules[i]->afterLoad();
-
+    for ( unsigned int i=0; i < mModules.size(); i++ ) {
+		dbModule *mod = mModules.seq_at(i);
+        if( mod->isEnabled() )
+            mod->afterLoad();
+	}
 
     /// after all the settings have been read and the database upgraded, configure the database
     setDDDFromConfig( pDatabase );
@@ -520,9 +528,12 @@ bool dbApplication::initDatabases()
     pDatabase->addTable( pFicGlobalConfig->getTableDefinition() );
 
     for ( unsigned int i=0; i<mModules.size(); i++ ) {
-        mModules[i]->initDatabase ( pDatabase );
-        mMasterTables << mModules[i]->getMasterTables();
-        mDetailTables << mModules[i]->getDetailTables();
+		dbModule *mod = mModules.seq_at(i);
+        if( mod->isEnabled() ) {
+			mod->initDatabase ( pDatabase );
+			mMasterTables << mod->getMasterTables();
+			mDetailTables << mod->getDetailTables();
+		}
     }
     // This is done again later, but we do this now to show correct table names while login
     setDDDFromConfig( pDatabase );
@@ -554,9 +565,11 @@ bool dbApplication::initMainWindow()
     // Si no, la aplicación no termina
     setMainWidget ( pMainWindow );
     bool ret = true;
-    for ( unsigned int i=0; i<mModules.size(); i++ )
-        if( mModules[i]->isEnabled() )
-            ret &= mModules[i]->initMainWindow ( static_cast<MainWindow *>(pMainWindow) );
+    for ( unsigned int i=0; i<mModules.size(); i++ ) {
+		dbModule *mod = mModules.seq_at(i);
+        if( mod->isEnabled() )
+            ret &= mod->initMainWindow ( static_cast<MainWindow *>(pMainWindow) );
+	}
     pMainWindow->finishGUI();
     getMainWindow()->setWindowTitle( toGUI( mTitle ) );
     if( pFrmLogin ) {
@@ -617,18 +630,20 @@ FrmEditRec *dbApplication::createEditForm ( FrmEditRec *parentfrm,
     FrmEditRec *frm = 0;
     int i;
     for( i = mModules.size()-1; i>=0; i-- ) {
-        if( !mModules[i]->isEnabled() )
+		dbModule *mod = mModules.seq_at(i);
+        if( !mod->isEnabled() )
             continue;
-        frm = mModules[i]->createEditForm ( parentfrm, rec, dm, editmode, editflags, parent, name, fl );
+        frm = mod->createEditForm ( parentfrm, rec, dm, editmode, editflags, parent, name, fl );
         if ( frm )
             break;
     }
     if( frm ) {
         for	( i = 0; i < (int)mModules.size(); ++i ) {
-            if( !mModules[i]->isEnabled() )
+			dbModule *mod = mModules.seq_at(i);
+            if( !mod->isEnabled() )
                 continue;
-            _GONG_DEBUG_PRINT(10, "Calling afterCreateEditForm on module " + mModules[i]->getUnixName() + " for record " + rec->getTableName() );
-            mModules[i]->afterCreateEditForm( frm, rec );
+            _GONG_DEBUG_PRINT(10, "Calling afterCreateEditForm on module " + mod->getUnixName() + " for record " + rec->getTableName() );
+            mod->afterCreateEditForm( frm, rec );
         }
     } else {
         _GONG_DEBUG_WARNING ( "No se ha podido crear un formulario para la tabla " + rec->getTableName() );
@@ -646,18 +661,20 @@ FrmEditRecDetail *dbApplication::createEditDetailForm (
     FrmEditRecDetail *frm = 0;
     int i;
     for( i = mModules.size()-1; i>=0; i-- ) {
-        if( !mModules[i]->isEnabled() )
+		dbModule *mod = mModules.seq_at(i);
+        if( !mod->isEnabled() )
             continue;
-        frm = mModules[i]->createEditDetailForm ( frmmaster, ndetalle, rec, dettablename,
+        frm = mod->createEditDetailForm ( frmmaster, ndetalle, rec, dettablename,
                 dm, editmode, editflags, parent, name, fl );
         if ( frm )
             break;
     }
     if( frm ) {
         for	( i = 0; i < (int)mModules.size(); ++i ) {
-            if( !mModules[i]->isEnabled() )
+			dbModule *mod = mModules.seq_at(i);
+            if( !mod->isEnabled() )
                 continue;
-            mModules[i]->afterCreateEditForm( frm, rec );
+            mod->afterCreateEditForm( frm, rec );
         }
     } else {
         _GONG_DEBUG_WARNING ( "No se ha podido crear un formulario para la tabla " + rec->getTableName() );
@@ -684,11 +701,12 @@ dbRecord *dbApplication::createRecord( const Xtring &tablename, dbRecordID recid
     dbRecord *rec = 0;
     int i;
     for ( i = mModules.size()-1; i>=0; i-- ) {
-        if( !mModules[i]->isEnabled() )
+		dbModule *mod = mModules.seq_at(i);
+        if( !mod->isEnabled() )
             continue;
         try
         {
-            rec = mModules[i]->createRecord ( tablename, recid, user );
+            rec = mod->createRecord ( tablename, recid, user );
         }
         catch ( std::runtime_error &e )
         {
@@ -702,8 +720,9 @@ dbRecord *dbApplication::createRecord( const Xtring &tablename, dbRecordID recid
     }
     if( rec ) {
         for ( i = mModules.size()-1; i>=0; i-- ) {
-            if( mModules[i]->isEnabled() )
-                mModules[i]->afterCreateRecord( rec );
+			dbModule *mod = mModules.seq_at(i);
+            if( mod->isEnabled() )
+                mod->afterCreateRecord( rec );
         }
     } else {
         _GONG_DEBUG_WARNING ( "Error creating a record for the table " + tablename );
@@ -949,7 +968,7 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
             delete frmedit;
         } else {
             showOSD( message, message_cond );
-            dbViewDefinitionsList views;
+            dbViewDefinitionDict views;
             getDatabase()->getViewsForTable ( rec->getTableName(), views );
             if ( icond < nwheres ) {
                 if( ! addcond.isEmpty() )
@@ -1127,7 +1146,7 @@ dbRecordID dbApplication::seekCode ( dbRecord *rec, QWidget *owner,
             delete frmedit;
         } else {
             showOSD( message, message_cond );
-            dbViewDefinitionsList views;
+            dbViewDefinitionDict views;
             getDatabase()->getViewsForTable ( rec->getTableName(), views );
             if ( icond < nwheres ) {
                 if( ! addcond.isEmpty() )
@@ -1155,7 +1174,7 @@ dbModule *dbApplication::findModule ( const Xtring &name ) const
 {
     dbModule *p = mModules[name];
     if ( !p )
-        _GONG_DEBUG_WARNING ( "Module " + name + " no encontrado" );
+        _GONG_DEBUG_WARNING ( "Module " + name + " no encontrado. Los módulos son: " + mModules.toString() );
     return p;
 }
 
@@ -1322,11 +1341,12 @@ void dbApplication::setDDDFromConfig(dbDefinition *dbdef)
 
 void dbApplication::setStylesFromConfig(dbDefinition* pdb)
 {
-    Dictionary<Variant> styles;
+    SettingsDict styles;
     getSettingsValues("DBDEF.STYLE", styles);
-    for( unsigned int i=0; i<styles.size(); ++i ) {
-        Xtring stylename = styles.getKey(i).mid( styles.getKey(i).find_last_of('.') + 1 );
-        pdb->addStyleFromString( stylename, styles[i].toString() );
+	for( SettingsDict::const_iterator stit = styles.begin();
+		stit != styles.end(); ++stit ) {
+        Xtring stylename = stit->first.mid( stit->first.find_last_of('.') + 1 );
+        pdb->addStyleFromString( stylename, stit->second.toString() );
     }
 }
 
@@ -1350,7 +1370,7 @@ Variant dbApplication::getGlobalSetting(const Xtring& settingname, const Variant
     return pGlobalSettings->getValue( settingname, defaultvalue );
 }
 
-int dbApplication::getSettingsValues(const Xtring &key_pattern, Dictionary<Variant> &result)
+int dbApplication::getSettingsValues(const Xtring &key_pattern, SettingsDict &result)
 {
     Xtring key_pattern_upper = key_pattern.upper();
     std::vector<Settings *>settings;
@@ -1362,7 +1382,7 @@ int dbApplication::getSettingsValues(const Xtring &key_pattern, Dictionary<Varia
     settings.push_back(pMachineSettings);
     for( std::vector<Settings *>::const_iterator set_it = settings.begin();
             set_it != settings.end(); ++ set_it ) {
-        for( Dictionary<Variant>::const_iterator val_it = (*set_it)->allSettings().begin();
+        for( SettingsDict::const_iterator val_it = (*set_it)->allSettings().begin();
                 val_it != (*set_it)->allSettings().end(); ++ val_it ) {
             Xtring key = (*val_it).first;
             Xtring key_upper = key.upper();
@@ -1476,13 +1496,14 @@ int dbApplication::setViewsFromConfig(dbDefinition *dbdef)
 {
     if( !dbdef )
         dbdef = getDatabase();
-    Dictionary<Variant> views;
+    SettingsDict views;
     dbdef->getViews().clear();
     getSettingsValues("VIEW", views);
-    for( unsigned int i=0; i<views.size(); ++i ) {
-        Xtring viewname = views.getKey(i).mid( views.getKey(i).find_last_of('.') + 1 );
-        dbdef->addViewFromString( viewname, "SELECT " + views[i].toString(),
-                                  "CONFIG:" + views.getKey(i) );
+	for( SettingsDict::const_iterator viewit = views.begin();
+		viewit!=views.end(); ++viewit ) {
+        Xtring viewname = viewit->first.mid( viewit->first.find_last_of('.') + 1 );
+        dbdef->addViewFromString( viewname, "SELECT " + viewit->second.toString(),
+                                  "CONFIG:" + viewit->first );
     }
     return views.size();
 }

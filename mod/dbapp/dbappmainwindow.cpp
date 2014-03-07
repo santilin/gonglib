@@ -342,7 +342,7 @@ void MainWindow::slotMenuOtherTables()
 {
     XtringList namestables;
     // Look for all the namestables fields in the database
-    for( dbTableDefinitionsList::iterator ittb = DBAPP->getDatabase()->getTables().begin();
+    for( dbTableDefinitionDict::iterator ittb = DBAPP->getDatabase()->getTables().begin();
             ittb != DBAPP->getDatabase()->getTables().end(); ++ittb ) {
         dbTableDefinition *tbldef = (*ittb).second;
         for( unsigned int nf=0; nf<tbldef->getFieldCount(); nf++ ) {
@@ -356,7 +356,7 @@ void MainWindow::slotMenuOtherTables()
         Xtring choosen_table = namestables[choosen];
         if( editRecMaestroModal( choosen_table ) ) {
             // Fill the values of the fields
-            for( dbTableDefinitionsList::iterator ittb = DBAPP->getDatabase()->getTables().begin();
+            for( dbTableDefinitionDict::iterator ittb = DBAPP->getDatabase()->getTables().begin();
                     ittb != DBAPP->getDatabase()->getTables().end(); ++ittb ) {
                 dbTableDefinition *tbldef = (*ittb).second;
                 for( unsigned int nf=0; nf<tbldef->getFieldCount(); nf++ ) {

@@ -78,7 +78,7 @@ if(usarProyecto()){
 	editNotas = addTextField( tabRemesa, "REMESACOBRO", "NOTAS", remesaNotasLayout );
 
 	RecCobro *cobro = static_cast<RecCobro*>(DBAPP->createRecord("COBRO"));
-	dbViewDefinitionsList cobroviews;
+	dbViewDefinitionDict cobroviews;
 	DBAPP->getDatabase()->getViewsForTable( cobro, cobroviews );
 	dbRecordDataModel *cobrodm = new dbRecordDataModel(cobro, cobroviews);
 	pFrmCobro = static_cast<FrmEditCobro *>(

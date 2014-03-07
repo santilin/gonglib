@@ -4,9 +4,9 @@
 // MEMBER Description Xtring rwc
 // MEMBER Encoding Xtring rwc 0
 // MEMBER Collation Xtring rwc 0
-// MEMBER Tables dbTableDefinitionsList rw
-// MEMBER Views dbViewDefinitionsList rw
-// MEMBER FieldStyles dbFieldStylesList rw
+// MEMBER Tables dbTableDefinitionDict rw
+// MEMBER Views dbViewDefinitionDict rw
+// MEMBER FieldStyles dbFieldStyleDict rw
 // TYPE Class dbDefinition
 /*>>>>>MODULE_INFO*/
 
@@ -104,7 +104,7 @@ bool dbDefinition::create( dbConnection *conn, const Xtring &extraargs,
 bool dbDefinition::createTables( dbConnection *conn,
                                  const Xtring &extraargs, bool ifnotexists, bool ignoreerrors )
 {
-    for( dbTableDefinitionsList::const_iterator it = mTables.begin();
+    for( dbTableDefinitionDict::const_iterator it = mTables.begin();
             it != mTables.end();
             ++it ) {
         dbTableDefinition *table = (*it).second;
@@ -122,7 +122,7 @@ bool dbDefinition::createTables( dbConnection *conn,
 
 bool dbDefinition::createIndexes( dbConnection *conn, bool ignoreerrors )
 {
-    for( dbTableDefinitionsList::const_iterator it = mTables.begin();
+    for( dbTableDefinitionDict::const_iterator it = mTables.begin();
             it != mTables.end();
             ++it )
     {
@@ -140,7 +140,7 @@ bool dbDefinition::createIndexes( dbConnection *conn, bool ignoreerrors )
 
 bool dbDefinition::dropIndexes( dbConnection *conn, bool removeall, bool ignoreerrors )
 {
-    for( dbTableDefinitionsList::const_iterator it = mTables.begin();
+    for( dbTableDefinitionDict::const_iterator it = mTables.begin();
             it != mTables.end();
             ++it )
     {
@@ -295,14 +295,16 @@ bool dbDefinition::isRecordUsed(dbRecord *rec, Xtring *usingtable)
 {
     Xtring tablename = rec->getTableName();
     dbRecordID recid = rec->getRecordID();
-    for( unsigned int nt=0; nt < mTables.size(); nt ++ ) {
-        // Recorrer las tablas de la base de datos
-        dbTableDefinition *tbldef = mTables[nt];
+	// Recorrer las tablas de la base de datos
+	for( dbTableDefinitionDict::const_iterator tblit = mTables.begin();
+		tblit != mTables.end(); ++ tblit ) {
+        dbTableDefinition *tbldef = tblit->second;
         if( tbldef->getName().upper() != tablename.upper() ) {
             // Recorrer las relaciones de esa tabla
-            for( unsigned int nrel=0; nrel < tbldef->getRelationDefinitions().size(); nrel++ ) {
-                dbRelationDefinition *reldef = tbldef->getRelationDefinitions()[nrel];
-                if( reldef->getRightTable().upper() == tablename.upper() ) { // \ojo Comprobar si enabled?
+			for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
+				relit != tbldef->getRelationDefinitions().end(); ++relit ) {
+                dbRelationDefinition *reldef = relit->second;
+                if( reldef->getRightTable().upper() == tablename.upper() ) { /// @todo Comprobar si enabled?
                     if( rec->getConnection()->selectInt("SELECT ID FROM " + rec->getConnection()->nameToSQL( reldef->getLeftTable() ) +
                                                         " WHERE " + rec->getConnection()->nameToSQL( reldef->getLeftField() ) + " = " + rec->getConnection()->toSQL( recid ) ) != 0 ) {
                         *usingtable = reldef->getLeftTable();
@@ -515,20 +517,20 @@ int dbDefinition::addViewsFromFile( const Xtring &filename )
     return count;
 }
 
-dbTableDefinitionsList &dbDefinition::addTable(const dbTableDefinition *tabledef)
+dbTableDefinitionDict &dbDefinition::addTable(const dbTableDefinition *tabledef)
 {
     mTables.insert(tabledef->getName(), const_cast<dbTableDefinition *>(tabledef) );
     return mTables;
 }
 
-dbViewDefinitionsList &dbDefinition::addView( const dbViewDefinition *_view )
+dbViewDefinitionDict &dbDefinition::addView( const dbViewDefinition *_view )
 {
     /// \todo {refactor} Why do we need const_cast here?
     mViews.insert( _view->getName(), const_cast<dbViewDefinition *>(_view) );
     return mViews;
 }
 
-dbFieldStylesList &dbDefinition::addFieldStyle( const dbFieldStyle *_style )
+dbFieldStyleDict &dbDefinition::addFieldStyle( const dbFieldStyle *_style )
 {
     mFieldStyles.insert( _style->getName(), const_cast<dbFieldStyle *>(_style) );
     return mFieldStyles;
@@ -579,38 +581,40 @@ void dbDefinition::addStyleFromString(const Xtring& name, const Xtring& styledef
 }
 
 
-int dbDefinition::getViewsForTable(const Xtring &tablename, dbViewDefinitionsList &container)
+int dbDefinition::getViewsForTable(const Xtring &tablename, dbViewDefinitionDict &container)
 {
     int count = 0;
     _GONG_DEBUG_PRINT(3, "Table: " + tablename );
     for( unsigned int i=0; i<getViews().size(); i++ ) {
         // Startswith, because the from clause may contain JOIN
-        if( getViews()[i]->getFirstFrom().upper() == tablename.upper() ) {
-            _GONG_DEBUG_PRINT(4, "FROM of the view: " + getViews()[i]->getFirstFrom().upper() );
-            if( !getViews()[i]->getName().upper().startsWith( tablename.upper() + "._" ) ) { // Some views are hidden
-                container.insert( getViews()[i]->getName(), getViews()[i] );
+		dbViewDefinition *viewdef = getViews().seq_at(i);
+        if( viewdef->getFirstFrom().upper() == tablename.upper() ) {
+            _GONG_DEBUG_PRINT(4, "FROM of the view: " + viewdef->getFirstFrom().upper() );
+            if( !viewdef->getName().upper().startsWith( tablename.upper() + "._" ) ) { // Some views are hidden
+                container.insert( viewdef->getName(), viewdef );
                 count++;
             } else {
-                _GONG_DEBUG_PRINT(1, "Skipping hidden view: " + getViews()[i]->getName() );
+                _GONG_DEBUG_PRINT(1, "Skipping hidden view: " + viewdef->getName() );
             }
         }
     }
     return count;
 }
 
-int dbDefinition::getViewsForTable(const dbRecord *r, dbViewDefinitionsList &container)
+int dbDefinition::getViewsForTable(const dbRecord *r, dbViewDefinitionDict &container)
 {
     return getViewsForTable( r->getTableName(), container );
 }
 
-int dbDefinition::getViewsByName(const Xtring &viewname, dbViewDefinitionsList &container)
+int dbDefinition::getViewsByName(const Xtring &viewname, dbViewDefinitionDict &container)
 {
     int count = 0;
     _GONG_DEBUG_PRINT(3, "Looking for viewname: " + viewname );
     for( unsigned int i=0; i<getViews().size(); i++ ) {
-        _GONG_DEBUG_PRINT(4, "Comparing with viewname: " + getViews()[i]->getName() );
-        if( getViews()[i]->getName().upper().startsWith(viewname.upper()) ) {
-            container.insert( getViews()[i]->getName(), getViews()[i] );
+		dbViewDefinition *viewdef = getViews().seq_at(i);
+        _GONG_DEBUG_PRINT(4, "Comparing with viewname: " + viewdef->getName() );
+        if( viewdef->getName().upper().startsWith(viewname.upper()) ) {
+            container.insert( viewdef->getName(), viewdef );
             count++;
         }
     }
@@ -630,7 +634,7 @@ dbTableDefinition *dbDefinition::findTableDefinition(const Xtring &tablename, bo
 
 dbTableDefinition *dbDefinition::getTableDefinition(unsigned int i)
 {
-    dbTableDefinition *tbldef = mTables[i];
+    dbTableDefinition *tbldef = mTables.seq_at(i);
 #ifdef _GONG_DEBUG
     if( !tbldef )
         _GONG_DEBUG_WARNING( Xtring::printf("Table with index %d not found in database", i ) );
@@ -640,7 +644,7 @@ dbTableDefinition *dbDefinition::getTableDefinition(unsigned int i)
 
 const dbTableDefinition *dbDefinition::getTableDefinition(unsigned int i) const
 {
-    dbTableDefinition *tbldef = mTables[i];
+    dbTableDefinition *tbldef = mTables.seq_at(i);
 #ifdef _GONG_DEBUG
     if( !tbldef )
         _GONG_DEBUG_WARNING( Xtring::printf("Table with index %d not found in database", i ) );
@@ -653,8 +657,9 @@ const dbTableDefinition *dbDefinition::getTableDefinition(unsigned int i) const
 std::ostream &operator<<(std::ostream &out, const dbDefinition &dbdef)
 {
     out << dbdef.getName() << '\t' << dbdef.getDescription() << std::endl;
-    for( unsigned int i = 0; i < dbdef.getTables().size(); i++ )
-        out << *(const_cast<dbDefinition &>(dbdef).getTables()[i]);
+	for( dbTableDefinitionDict::const_iterator tblit = dbdef.getTables().begin();
+		tblit != dbdef.getTables().end(); ++tblit ) 
+        out << const_cast<dbTableDefinition &>(*tblit->second);
     return out;
 }
 #endif

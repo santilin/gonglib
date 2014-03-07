@@ -373,7 +373,7 @@ bool FrmEditRec::save()
         if( DBAPP->getMainWindow() ) {
 			/// TODO: Refresh the browses of this record and its related ones
 			// The other way round
-// 			for( dbRecordRelationsList::const_iterator it = getRecord()->getRelationsList().begin();
+// 			for( dbRecordRelationDict::const_iterator it = getRecord()->getRelationsList().begin();
 // 				it != getRecord()->getRelationsList().end(); ++it ) {
 // 				if( it->second->isEnabled() ) {
 // 					dbRelationDefinition *reldef = it->second->getRelationDefinition();

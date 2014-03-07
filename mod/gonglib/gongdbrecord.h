@@ -140,13 +140,13 @@ public:
     dbRecordRelation *getRelation(unsigned int index) const;
     dbRecordRelation *findRelation(const Xtring &relname) const;
     dbRecordRelation *findRelationByRelatedTable(const Xtring &tablename) const;
-    dbRecordRelationsList findRelationsBySemanticProperties(const XtringList &properties) const;
+    dbRecordRelationDict findRelationsBySemanticProperties(const XtringList &properties) const;
     /** Gets a pointer to a related record */
     dbRecord *getRelatedRecord(unsigned int index) const;
     dbRecord *findRelatedRecord(const Xtring &relname) const;
     /** Gets the list of relations */
-    const dbRecordRelationsList &getRelationsList() const { return mRecordRelations; }
-    dbRecordRelationsList &getRelationsList() { return mRecordRelations; }
+    const dbRecordRelationDict &getRelationsList() const { return mRecordRelations; }
+    dbRecordRelationDict &getRelationsList() { return mRecordRelations; }
     /** Returns whether the record has enabled relations */
     bool hasEnabledRelations() const;
     /** Adds a detail record to a one2many relation */
@@ -217,7 +217,7 @@ private:
     dbConnection *pConn;
     struct { unsigned short int mIsNew:1; unsigned short int mIsRead; unsigned short int mIsDeleted; };
     XtringList mFilters;
-    dbRecordRelationsList mRecordRelations;
+    dbRecordRelationDict mRecordRelations;
     /* This dictionary is indexed only by the name of the fields, without the table name */
     Dictionary<dbFieldValue *> mFieldValues, mOrigFieldValues;
     XtringList mSemanticProperties;

@@ -412,7 +412,7 @@ int dbFieldDefinition::getStyleWidth( const dbDefinition* pdb ) const
 
 dbRelationDefinition* dbFieldDefinition::findRelationDefinition(const dbTableDefinition &tbldef) const
 {
-	for( dbRelationDefinitionsList::const_iterator it = tbldef.getRelationDefinitions().begin();
+	for( dbRelationDefinitionDict::const_iterator it = tbldef.getRelationDefinitions().begin();
 		it != tbldef.getRelationDefinitions().end(); ++it ) {
 		dbRelationDefinition *reldef = it->second;
 		if( reldef->getLeftField() == getName() )

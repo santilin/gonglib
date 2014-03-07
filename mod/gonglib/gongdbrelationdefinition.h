@@ -57,7 +57,7 @@ private:
 /*>>>>>DBRELATIONDEFINITION_CLASS*/
 };
 
-typedef Dictionary<dbRelationDefinition *> dbRelationDefinitionsList;
+typedef Dictionary<dbRelationDefinition *> dbRelationDefinitionDict;
 
 #ifdef _GONG_DEBUG
 std::ostream &operator<<(std::ostream &, const dbRelationDefinition &);

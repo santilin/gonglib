@@ -1,5 +1,5 @@
 localedir = $(datadir)/locale
-AM_CPPFLAGS = @AM_CPPFLAGS@ -DLOCALEDIR=\"$(localedir)\"
+AM_CPPFLAGS = @AM_CPPFLAGS@ @GONGLIB_CPPFLAGS@ -DLOCALEDIR=\"$(localedir)\"
 AM_CXXFLAGS = @AM_CXXFLAGS@
 
 libgonglib_la_LDFLAGS = -version-info 0:5:0

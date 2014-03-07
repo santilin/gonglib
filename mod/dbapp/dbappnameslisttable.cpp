@@ -6,7 +6,7 @@
 
 namespace gong {
 
-NamesListTable::InfoList NamesListTable::mNamesListTables;
+NamesListTable::InfoDict NamesListTable::mNamesListTables;
 
 NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
     : dbMasterTable( db, name )
@@ -29,7 +29,7 @@ NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
  **/
 void NamesListTable::fillInfoList(dbConnection* conn)
 {
-	for( NamesListTable::InfoList::const_iterator itt = mNamesListTables.begin();
+	for( NamesListTable::InfoDict::const_iterator itt = mNamesListTables.begin();
 		itt != mNamesListTables.end(); ++ itt ) {
 		const Xtring &tablename = (*itt).first;
 		Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + tablename + ".VALUES" ).toString();
@@ -121,7 +121,7 @@ FldNamesListTable::FldNamesListTable(const Variant &knameslisttable,
 void FldNamesListTable::init()
 {
 	// info must be a pointer because it can not be created on the stack, as its fields will disappear off
-	NamesListTable::InfoList::const_iterator it = NamesListTable::getNamesListTables().find( mNamesListTableName );
+	NamesListTable::InfoDict::const_iterator it = NamesListTable::getNamesListTables().find( mNamesListTableName );
 	if(  it == NamesListTable::getNamesListTables().end() ) {
 		NamesListTable::Info *info = new NamesListTable::Info();
 		NamesListTable::getNamesListTables().insert( mNamesListTableName, info );
@@ -196,9 +196,9 @@ bool RecNamesListTable::remove()
 
 void RecNamesListTable::updateDatabaseFields()
 {
-    for( dbTableDefinitionsList::const_iterator tblit = DBAPP->getDatabase()->getTables().begin();
+    for( dbTableDefinitionDict::const_iterator tblit = DBAPP->getDatabase()->getTables().begin();
             tblit != DBAPP->getDatabase()->getTables().end(); ++tblit ) {
-        for( dbFieldDefinitionsList::const_iterator fldit = tblit->second->getFieldDefinitions().begin();
+        for( dbFieldDefinitionDict::const_iterator fldit = tblit->second->getFieldDefinitions().begin();
                 fldit != tblit->second->getFieldDefinitions().end(); ++fldit ) {
             if( fldit->second->getName() == getTableName() ) {
                 if( FldNamesListTable *fldlt = dynamic_cast<FldNamesListTable *>(fldit->second) ) {
@@ -218,9 +218,9 @@ void RecNamesListTable::updateDatabaseFields()
 int RecNamesListTable::findCode(const Xtring& name) const
 {
     int ret = 0;
-    for( dbTableDefinitionsList::const_iterator tblit = DBAPP->getDatabase()->getTables().begin();
+    for( dbTableDefinitionDict::const_iterator tblit = DBAPP->getDatabase()->getTables().begin();
             tblit != DBAPP->getDatabase()->getTables().end(); ++tblit ) {
-        for( dbFieldDefinitionsList::const_iterator fldit = tblit->second->getFieldDefinitions().begin();
+        for( dbFieldDefinitionDict::const_iterator fldit = tblit->second->getFieldDefinitions().begin();
                 fldit != tblit->second->getFieldDefinitions().end(); ++fldit ) {
             if( fldit->second->getName() == getTableName() ) {
                 if( FldNamesListTable *fldlt = dynamic_cast<FldNamesListTable *>(fldit->second) ) {

@@ -635,8 +635,8 @@ int EmpresaModule::getEjercicios(IntList& ejercicios) const
 	// Buscar todas las tablas que tienen ejercicio
 	DBAPP->waitCursor( true );
 	uint eje_min = Date::currentDate().getYear(), eje_max = eje_min;
-	dbTableDefinitionsList tables = DBAPP->getDatabase()->getTables();
-	for( dbTableDefinitionsList::const_iterator it = tables.begin(); it != tables.end(); ++it ) {
+	dbTableDefinitionDict tables = DBAPP->getDatabase()->getTables();
+	for( dbTableDefinitionDict::const_iterator it = tables.begin(); it != tables.end(); ++it ) {
 		dbTableDefinition *tbldef = it->second;
 		FldEjercicio *fldeje = dynamic_cast<FldEjercicio *>(tbldef->findFieldDefinition( "EJERCICIO" ));
 		if( fldeje ) {

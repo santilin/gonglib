@@ -55,9 +55,11 @@ void print_limits()
 
 int main(int argc, char *argv[])
 {
+#ifdef _GONG_DEBUG	
 	__gong_debug::_gong_debug_level = 4;
+#endif	
 
-#if 0
+#if 1
 	TestMoney testmoney;
 	testmoney.run();
 	TestDate testdate;
@@ -94,8 +96,6 @@ int main(int argc, char *argv[])
  	testdbcalculator.run("4 + PVP");
 	TestdbNamesListTable testdbnameslisttable;
 	testdbnameslisttable.run();
-	TestEditTable testedittable;
-	testedittable.run();
 #endif
 
 
@@ -104,6 +104,8 @@ int main(int argc, char *argv[])
 // 	TestHTTPClient testhttpclient;
 // 	testhttpclient.run();
 #if 0
+	TestEditTable testedittable;
+	testedittable.run();
 #ifdef HAVE_DBAPPMODULE
 	gong::GongLibrary l("","GONG-TESTS","", argc, argv);
 	gong::GongLibraryInstance = &l;
@@ -115,10 +117,10 @@ int main(int argc, char *argv[])
 	TestListView tlv;
 	tlv.run();
 #endif
-#endif
-
 	TestXMLParser testxmlpaser;
 	testxmlpaser.run();
+#endif
+
 
 }
 

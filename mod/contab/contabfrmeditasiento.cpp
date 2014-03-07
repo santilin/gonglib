@@ -64,7 +64,7 @@ FrmEditAsiento::FrmEditAsiento(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 	apunteFrame->setLineWidth(4);
 	QVBoxLayout *apunteFrameLayout = new QVBoxLayout(apunteFrame);
 	RecApunte *apunte = getRecAsiento()->getRecApunte(-1);
-	dbViewDefinitionsList apunteviews;
+	dbViewDefinitionDict apunteviews;
 	DBAPP->getDatabase()->getViewsForTable( apunte, apunteviews );
 	dbRecordListDataModel *apuntedm =
 		new dbRecordListDataModel(getRecAsiento()->getListApunte(), apunte, apunteviews, "1=0");

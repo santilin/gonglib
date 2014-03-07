@@ -67,7 +67,7 @@ FrmEditCuenta::FrmEditCuenta(FrmEditRec *parentfrm, dbRecord *master, dbRecordDa
 /*>>>>>FRMEDITCUENTA_INIT_CONTROLS*/
     // No se genera automáticamente porque usa getViewsByName
     RecAsiento *asiento = static_cast<RecAsiento*>(ModuleInstance->createRecord("ASIENTO"));
-    dbViewDefinitionsList asientoviews;
+    dbViewDefinitionDict asientoviews;
     ModuleInstance->getDatabase()->getViewsByName( "ASIENTO._EXTRACTO_", asientoviews );
     dbRecordDataModel *asientodm = new dbRecordDataModel(asiento, asientoviews, "1=0");
     pFrmAsiento = static_cast<FrmEditAsiento *>(
@@ -80,11 +80,11 @@ FrmEditCuenta::FrmEditCuenta(FrmEditRec *parentfrm, dbRecord *master, dbRecordDa
 
 #if 0
     // Eliminar la cuenta de las vistas
-    for( dbViewDefinitionsList::iterator itview = asientoviews.begin();
+    for( dbViewDefinitionDict::iterator itview = asientoviews.begin();
             itview != asientoviews.end();
             ++ itview ) {
         dbViewDefinition *view = (*itview).second;
-        for( dbFieldDefinitionsList::const_iterator itfld = view->getFieldDefinitions().begin();
+        for( dbFieldDefinitionDict::const_iterator itfld = view->getFieldDefinitions().begin();
                 itfld != view->getFieldDefinitions().end();
                 ++itfld ) {
             dbFieldDefinition *flddef = (*itfld).second;
