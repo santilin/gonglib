@@ -66,10 +66,10 @@ if test -f ../src/ventadirecta.cpp ; then
 	AC_DEFINE( [HAS_VENTADIRECTA], [1], [VentaDirecta addon] )
 	AC_MSG_NOTICE( [Compilando con el addon ventadirecta...] )
 else
-AC_MSG_ERROR( [../src/ventadirecta.cpp no existe ] ) 
+	AC_MSG_NOTICE( [../src/ventadirecta.cpp no existe ] ) 
 fi
 
-AM_CONDITIONAL( [ADDON_VENTADIRECTA], [ test -f ../src/ventadirecta1.cpp ])
+AM_CONDITIONAL( [ADDON_VENTADIRECTA], [ test -f ../src/ventadirecta ])
 
 AC_SUBST(GONGLIB_CPPFLAGS)
 AC_SUBST(GONGLIB_LIBS)

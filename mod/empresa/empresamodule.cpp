@@ -138,33 +138,22 @@ bool EmpresaModule::login( FrmLogin *frmlogin, const Xtring &version,
     getConnection()->selectValues( "SELECT NOMBRE, SOLOLECTURA FROM EMPRESA WHERE CODIGO="
                                    + getConnection()->toSQL( getCodEmpresa() ), &nombre, &sololectura);
     if( nombre.toString().isEmpty() ) {
-        if( FrmBase::msgYesNo( DBAPP->getPackageString(),
-                               Xtring::printf( _( "No existe %s de código %d. ¿Quieres crearla?"),
-                                               DBAPP->getTableDescSingular("EMPRESA", "la").c_str(), getCodEmpresa() ) ) ) {
-            nombre = Xtring::printf( _("%s %d - %s"),
-                                     DBAPP->getTableDescSingular("EMPRESA", "").proper().c_str(),
-                                     getCodEmpresa(), DBAPP->getPackageString().c_str() );
-            if( getConnection()->exec( "INSERT INTO EMPRESA(CODIGO,NOMBRE)VALUES("
-                                       + getConnection()->toSQL( getCodEmpresa() ) + ","
-                                       + getConnection()->toSQL( nombre.toString() ) + ")" ) == 0 ) {
-                FrmBase::msgOk( DBAPP->getPackageString(),
-                                Xtring::printf(_("No se ha podido crear %s de código %d.\n%s terminará ahora"),
-                                               DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
-                                               getCodEmpresa(), DBAPP->getPackageString().c_str()),
-                                FrmBase::information );
-                exit( 1 );
-            } else {
+		nombre = Xtring::printf( _("%s %d - %s"),
+									DBAPP->getTableDescSingular("EMPRESA", "").proper().c_str(),
+									getCodEmpresa(), DBAPP->getPackageString().c_str() );
+		if( getConnection()->exec( "INSERT INTO EMPRESA(CODIGO,NOMBRE)VALUES("
+									+ getConnection()->toSQL( getCodEmpresa() ) + ","
+									+ getConnection()->toSQL( nombre.toString() ) + ")" ) == 0 ) {
+			FrmBase::msgOk( DBAPP->getPackageString(),
+				Xtring::printf(_("No se ha podido crear %s de código %d.\n%s terminará ahora"),
+						DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
+						getCodEmpresa(), DBAPP->getPackageString().c_str()) );
+			exit( 1 );
+		} else {
                 DBAPP->showOSD( DBAPP->getPackageString(),
-                                Xtring::printf( _("Se ha creado %s '%s'."),
-                                                DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
-                                                nombre.toString().c_str() ), FrmBase::information );
-            }
-        } else {
-            FrmBase::msgOk( DBAPP->getPackageString(),
-                            Xtring::printf(_( "%s de código %d no existe y no ha sido creada.\n%s terminará ahora"),
-                                           DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
-                                           getCodEmpresa(), DBAPP->getPackageString().c_str() ), FrmBase::information );
-            exit( 1 );
+					Xtring::printf( _("Se ha creado %s '%s'."),
+						DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
+						nombre.toString().c_str() ) );
         }
     } else {
         DBAPP->showOSD( DBAPP->getPackageString(),

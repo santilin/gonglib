@@ -159,13 +159,13 @@ void FrmMailing::addEmailToList(XtringList& list, const Xtring &email,
         email.tokenize( emails, ";" );
         for( XtringList::const_iterator it = emails.begin(); it != emails.end(); ++ it ) {
             if( include_names )
-                list << "\"" + CsvUtils::dupQuotes( nombre, '"') + "\",\"" + CsvUtils::dupQuotes( (*it).trim(), '"' );
+                list << "\"" + CsvUtils::dupQuotes( nombre, '"') + "\";\"" + CsvUtils::dupQuotes( (*it).trim(), '"' ) + "\"" ;
             else
                 list << (*it).trim();
         }
     } else {
         if( include_names ) {
-            list << "\"" + CsvUtils::dupQuotes( nombre, '"' ) + "\",\"" + CsvUtils::dupQuotes( email, '"' );
+            list << "\"" + CsvUtils::dupQuotes( nombre, '"' ) + "\";\"" + CsvUtils::dupQuotes( email, '"' ) + "\"";
         } else
             list << email.trim();
     }

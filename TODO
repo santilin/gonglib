@@ -19,6 +19,7 @@
 * Función addSpacer Añadir spacer a frmreportconds
 
 == NUEVA FUNCIONALIDAD ==
+* Sacar en la Z la cantidad inicial en el cajón
 * tpv: Fila de productos favoritos
 * tpv: Pagos por rondas: buscar un FrmList animado
 * factu: Formulario datos ventas y compras de artículos
