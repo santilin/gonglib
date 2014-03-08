@@ -144,7 +144,7 @@ bool EmpresaModule::login( FrmLogin *frmlogin, const Xtring &version,
 		if( getConnection()->exec( "INSERT INTO EMPRESA(CODIGO,NOMBRE)VALUES("
 									+ getConnection()->toSQL( getCodEmpresa() ) + ","
 									+ getConnection()->toSQL( nombre.toString() ) + ")" ) == 0 ) {
-			FrmBase::msgOk( DBAPP->getPackageString(),
+			FrmBase::msgError( DBAPP->getPackageString(),
 				Xtring::printf(_("No se ha podido crear %s de código %d.\n%s terminará ahora"),
 						DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
 						getCodEmpresa(), DBAPP->getPackageString().c_str()) );
