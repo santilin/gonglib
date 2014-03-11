@@ -40,10 +40,10 @@ int GeneralGenerator::generateAllRelations()
 					relationname = relationname.mid(3);
 				// Añade la relación para esta tabla
 				relationname = PhpModule::modelize( relationname ).unproper();
-				Dictionary<Xtring> relationcodes = mAllRelations[ tbldef->getName() ];
-				relationcodes.set(relationname, "array(self::BELONGS_TO, '" + refClassName + "', '" + reldef->getLeftField() + "')");
+				std::map<Xtring, Xtring> relationcodes = mAllRelations[ tbldef->getName() ];
+				relationcodes[relationname] = "array(self::BELONGS_TO, '" + refClassName + "', '" + reldef->getLeftField() + "')";
 //				_GONG_DEBUG_PRINT(0, relationname + " => " + relationcodes[ relationname ] );
-				mAllRelations.set( tbldef->getName(), relationcodes );
+				mAllRelations[ tbldef->getName() ] = relationcodes;
 				// Añade la relación para la otra tabla
 				dbRelationDefinition::Type t = tbldef->getFldIDName() == reldef->getLeftField() 
 					? dbRelationDefinition::one2one : dbRelationDefinition::one2many;
@@ -54,12 +54,12 @@ int GeneralGenerator::generateAllRelations()
 				relationname = PhpModule::modelize( relationname ).unproper();
 				if( t == dbRelationDefinition::one2many )
 					relationname.append("s");
-				relationcodes = mAllRelations[ reldef->getRightTable() ];
-				relationcodes.set(relationname, Xtring( "array(self::" )
+				relationcodes = mAllRelations[reldef->getRightTable() ];
+				relationcodes[relationname] = Xtring( "array(self::" )
 					+ (t == dbRelationDefinition::one2one ? "HAS_ONE" : "HAS_MANY" ) 
-					+ ", '" + className + "', '" + reldef->getLeftField() + "')");
+					+ ", '" + className + "', '" + reldef->getLeftField() + "')";
 // 				_GONG_DEBUG_PRINT(0, "Relations[" + reldef->getRightTable() + "] = '" + relationname + "' => " + relationcodes[ relationname ] );
-				mAllRelations.set(reldef->getRightTable(), relationcodes );
+				mAllRelations[reldef->getRightTable()] = relationcodes;
 			}
 		}
 	}
@@ -153,7 +153,7 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 		criteria_compare += ");\n";
 	}
 
-	Dictionary<Xtring> relations = mAllRelations[tbldef.getName()];
+	std::map<Xtring, Xtring> relations = mAllRelations[tbldef.getName()];
 	for( Dictionary<Xtring>::const_iterator relit = relations.begin();
 		relit != relations.end(); ++relit ) {
 		Xtring relation_code = relit->second;  // $array(self::BELONG_TO, 'Cliente', 'id_cliente_conyuge')

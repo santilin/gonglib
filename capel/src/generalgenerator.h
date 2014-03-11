@@ -67,7 +67,7 @@ protected:
 	const ProgramDefinition &mProgramDefinition;
 	dbConnection *pConn;
 	dbDefinition *pDatabase;
-	Dictionary< Dictionary<Xtring> > mAllRelations;
+	std::map<Xtring, std::map<Xtring, Xtring> > mAllRelations;
 };
 
 }

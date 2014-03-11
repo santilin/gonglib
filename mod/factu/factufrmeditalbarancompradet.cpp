@@ -422,12 +422,19 @@ void FrmEditAlbaranCompraDet::slotActPrecioArticulo_clicked()
             getRecArticulo()->setValue("COSTESINIVA", editCosteSinIVA->toMoney() );
             getRecArticulo()->setValue("COSTE", editCoste->toMoney() );
             getRecArticulo()->fixMargenYDescuento();
-            if( DBAPP->editRecord(this, getRecArticulo(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this ) ) {
-                DBAPP->showStickyOSD( getTitle(), Xtring::printf( _( "Se han actualizado los costes del artículo a los de este detalle: sin IVA: %s, con IVA: %s" ),
+			bool showosd = false;
+			if( getRecArticulo()->getValue("PVPSINIVA").toDouble() != 0.0 ) {
+				// Si el pvp no se queda a cero, se puede grabar ...
+                showosd = getRecArticulo()->save(false);
+			} else {
+				// ... pero si no, se edita el artículo
+				showosd = DBAPP->editRecord(this, getRecArticulo(), 0, DataTable::updating,
+                                  dbApplication::simpleEdition, this );
+			}
+			if( showosd ) {
+                DBAPP->showStickyOSD( getTitle(), Xtring::printf( _( "Se ha actualizado el coste del artículo: sin IVA: %s, con IVA: %s" ),
                                       getRecArticulo()->getValue( "COSTESINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
                                       getRecArticulo()->getValue( "COSTE" ).toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
-                searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
             }
         } else {
             DBAPP->showOSD( getTitle(), _("El coste del artículo coincide con el de este detalle.") );

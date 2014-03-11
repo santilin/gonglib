@@ -423,7 +423,16 @@ void FrmEditAlbaranVentaDet::slotActPrecioArticulo_clicked()
                 getRecArticulo()->setValue("PVPSINIVA", editPVPSinIVA->toMoney() );
                 getRecArticulo()->setValue("PVP", editPVP->toMoney() );
                 getRecArticulo()->fixMargenYDescuento();
-                if( getRecArticulo()->save(false) ) {
+				bool showosd = false;
+				if( getRecArticulo()->getValue("COSTESINIVA").toDouble() != 0.0 ) {
+					// Si el coste no se queda a cero, se puede grabar ...
+					showosd = getRecArticulo()->save(false);
+				} else {
+					// ... pero si no, se edita el artículo
+					showosd = DBAPP->editRecord(this, getRecArticulo(), 0, DataTable::updating,
+									dbApplication::simpleEdition, this );
+				}
+				if( showosd ) {
                     DBAPP->showOSD( getTitle(), Xtring::printf( _( "Se ha actualizado el PVP del artículo: sin IVA: %s, con IVA: %s" ),
                                     getRecArticulo()->getValue( "PVPSINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
                                     editPVP->toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
@@ -435,6 +444,7 @@ void FrmEditAlbaranVentaDet::slotActPrecioArticulo_clicked()
                                     editPVP->toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
                 }
             }
+			searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
         } else {
             DBAPP->showOSD( getTitle(), _("El PVP del artículo coincide con el de este detalle.") );
         }
