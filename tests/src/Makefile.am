@@ -11,7 +11,7 @@ gonglibtest_SOURCES = main.cpp testcommon.cpp testdatabase.cpp \
 	testlineedit.cpp testfrmbase.cpp testdate.cpp testfrmcustom.cpp \
 	testunicode.cpp testmoney.cpp testcsv.cpp testlistview.cpp \
 	testdbcalculator.cpp testdbnameslisttable.cpp testviewtable.cpp \
-	testxmlparser.cpp
+	testxmlparser.cpp testimportcsv.cpp
 
 noinst_HEADERS = testcommon.h testdatabase.h testdbconnection.h \
 	testdbdefinition.h testdbfieldvalue.h testdbrecord.h testdbschema.h testdbtabledef.h \
@@ -19,7 +19,7 @@ noinst_HEADERS = testcommon.h testdatabase.h testdbconnection.h \
 	testregconfig.h testlineedit.h testfrmbase.h testdate.h testfrmcustom.h \
 	testunicode.h testmoney.h testcsv.h testlistview.h \
 	testdbcalculator.h testdbnameslisttable.h testviewtable.h \
-	testxmlparser.h
+	testxmlparser.h testimportcsv.h
 
 
 

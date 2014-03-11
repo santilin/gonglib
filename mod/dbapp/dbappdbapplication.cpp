@@ -725,7 +725,16 @@ dbRecord *dbApplication::createRecord( const Xtring &tablename, dbRecordID recid
                 mod->afterCreateRecord( rec );
         }
     } else {
-        _GONG_DEBUG_WARNING ( "Error creating a record for the table " + tablename );
+		class DerivedRecord: public dbRecord {
+		public:
+			DerivedRecord(gong::dbConnection *conn, gong::dbTableDefinition *tbldef, gong::dbRecordID recid=0, gong::dbUser *user=0)
+				:dbRecord(conn, tbldef, recid, user) {}
+		};
+		DerivedRecord *rec = new DerivedRecord( getConnection(), 
+												getDatabase()->findTableDefinition(tablename), 
+												recid, user );
+        _GONG_DEBUG_WARNING ( "Creating a default record for the table " + tablename );
+		return rec;
     }
     return rec;
 }

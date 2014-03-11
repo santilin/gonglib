@@ -31,7 +31,7 @@ TestFrmBase::~TestFrmBase()
 void TestFrmBase::run()
 {
 	int argc = 1;
-	char *argv[] = { "gongcommontests", 0 };
+	char *argv[] = { (char *)"gongcommontests", 0 };
 	GuiApplication app("", "", "", argc, argv);
 
 	FrmBase *f = new FrmBase(0, "FrmBase test");

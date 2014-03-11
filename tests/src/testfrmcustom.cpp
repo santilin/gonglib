@@ -3,7 +3,6 @@
 
 #ifdef HAVE_DBAPPMODULE
 
-#include <qapplication.h>
 #include <iostream>
 #include "gongguiapplication.h"
 #include "gongguimainwindow.h"

@@ -27,6 +27,7 @@
 #include "testdbnameslisttable.h"
 #include "testviewtable.h"
 #include "testxmlparser.h"
+#include "testimportcsv.h"
 
 #include <stdarg.h>      // addError
 
@@ -59,17 +60,17 @@ int main(int argc, char *argv[])
 	__gong_debug::_gong_debug_level = 4;
 #endif	
 
-#if 1
+#if 0
 	TestMoney testmoney;
 	testmoney.run();
 	TestDate testdate;
 	testdate.run();
 	TestSettings testsettings;
 	testsettings.run();
-	TestConnection testconnection;
-	testconnection.run();
 	TestDatabase testdatabase;
 	testdatabase.run();
+	TestConnection testconnection;
+	testconnection.run();
 	TestdbFieldValue testdbfieldvalue;
 	testdbfieldvalue.run();
 	TestdbDefinition testdbdefinition;
@@ -97,6 +98,8 @@ int main(int argc, char *argv[])
 	TestdbNamesListTable testdbnameslisttable;
 	testdbnameslisttable.run();
 #endif
+	TestImportCSV testimporcsv;
+	testimporcsv.run();
 
 
 // 	TestSearchISBN testisbnsearch;

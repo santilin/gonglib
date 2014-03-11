@@ -1,5 +1,4 @@
 == HECHO ==
-* Actualizar precios de artículos desde detalles
 
 == HACIENDO ==
 
@@ -12,11 +11,10 @@
 == HACER ==
 * Autokubuntu: Instalar impresora/escaner hp
 * Módulo balanzas
-* No actualiza los precios de los artículos desde los detalles
 
 == ARREGLAR ==
 * Ticket normal, tiene poco espacio para el total
-* Función addSpacer Añadir spacer a frmreportconds
+* Si el formulario está maximizado, añadir un spacer al controlslayout
 
 == NUEVA FUNCIONALIDAD ==
 * Sacar en la Z la cantidad inicial en el cajón
@@ -102,8 +100,6 @@
 * Crear un ContabFrmCustom que valide bien las cuentas y utilizarlo en asitipoform
 ** o bien usar el código en asitipoform del frmpagarrecibo
 * ¿Qué hacer si se cancela un asiento generado automáticamente?
-* Importar datos de empresas. FP(40)
-** Opciones empresa: CP(82)
 ** Niveles del plan contable
 
 == gong-contactos ==
@@ -138,7 +134,6 @@
 ** El logo no sale
 * Altura de los lineedit no es fija
 * FrmEditRecMaster::Show, cuando es simpleEdition, no llama al beginEdit, con lo cual no se comprueban los permisos
-* FrmImport::addMessage no salen los acentos
 * Crear y borrar la usuaria en la base de datos
 * Al grabar un registro, refrescar los formularios de las relaciones
 * FrmDatabasetools, al pulsar un botón, comprobar que no hay otras ventanas

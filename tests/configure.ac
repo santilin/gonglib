@@ -17,12 +17,12 @@ AC_ARG_ENABLE(debug,
   [case "${enableval}" in
 			  yes)
 				AM_CPPFLAGS="$AM_CPPFLAGS -D_GONG_DEBUG"
-				AM_CXXFLAGS="$AM_CXXFLAGS -g -g3 -O0"
+				AM_CXXFLAGS="$AM_CXXFLAGS -g -g3 -O0 -fPIC -DPIC"
                 AC_SUBST(AM_CPPFLAGS)
                 AC_SUBST(AM_CXXFLAGS)
 				;;
 			  no)
-				AM_CXXFLAGS="$AM_CXXFLAGS -Wall -Werror"
+				AM_CXXFLAGS="$AM_CXXFLAGS -Wall -Werror -fPIC -DPIC"
                 AC_SUBST(AM_CXXFLAGS)
 				;;
 			  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;

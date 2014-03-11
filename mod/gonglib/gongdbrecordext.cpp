@@ -8,6 +8,7 @@
 #include "gonglibrary.h"
 #include "gongdbfieldlistofvalues.h"
 #include "gongxmlparser.h"
+#include <boost/concept_check.hpp>
 
 namespace gong {
 
@@ -198,10 +199,10 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
                         text += "\n\t(" + Xtring::number ( i+1 ) + "/" + Xtring::number(recrel->getRelatedRecordList()->size())
                                 + "): " + ( *detail )->toString ( format, includedFields );
                     }
-                }
-// 				else
-// 					text += "\n\t" + recrel->getLeftField() + ": "
-// 					        + recrel->getRelatedRecord(-1)->toString ( format, includedFields );
+				} else if ( recrel->getType() == dbRelationDefinition::aggregate ) {
+ 					text += "\n\t" + recrel->getLeftField() + ": "
+ 					        + recrel->getRelatedRecord(-1)->toString ( format, includedFields );
+				}
             }
         }
     }
@@ -322,75 +323,89 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
 {
     // Si un valor está en blanco, no se importa, se conserva el valor que tenía.
     // Para forzar un valor a estar vacío, debe tener el valor ~
-    if ( format == TOSTRING_CSV )  // "FLDNAME1","FLDVALUE1","FLDNAME2",FLDVALUE2"
+    if ( format == TOSTRING_CSV ) 
     {
         _GONG_DEBUG_PRINT ( 4, "Import to " + getTableName() + " from " + source );
-        XtringList values;
-        CsvUtils::tokenize ( values, source, '\"', ',' );
-        for ( XtringList::const_iterator valuesit = values.begin();
-                valuesit != values.end(); ++valuesit ) {
-            Xtring fldname = *valuesit++;
-            Xtring fldvalue;
-            if( valuesit != values.end() )
-                fldvalue =*valuesit;
-            else {
-                _GONG_DEBUG_WARNING( "In table " + getTableName() + " there is no value for field " + fldname );
-                break;
-            }
+        XtringList names, values, related_tables;
+        CsvUtils::tokenize( values, source, '\"', ',' );
+        CsvUtils::tokenize( names, includedFields, '\"', ',' );
+		uint i = 0;
+        for ( XtringList::const_iterator namesit = names.begin();
+                namesit != names.end(); ++namesit) {
+            Xtring fldname = *namesit;
+			if( i >= values.size() ) {
+                _GONG_DEBUG_WARNING( "Importing CSV for table " + getTableName() + ": there is no value for field " + fldname );
+				continue;
+			}
+            Xtring fldvalue = values[i++];
             if( fldvalue == "~" ) {
                 setValue( fldname, Variant() );
             } else if( !fldvalue.isEmpty() ) {
                 dbFieldDefinition *flddef = getTableDefinition()->findFieldDefinition(fldname, false);
-                if( flddef ) {
-                    if( flddef->isReference() ) {
-                        dbRecordID recid = 0;
-                        Xtring reftable, reffield;
-                        flddef->getReference().splitIn2( reftable, reffield, ".");
-                        int relindex = getRelationIndex( getTableName() + "." + reftable + "_" + reffield );
-                        if( relindex != -1 ) {
-                            dbRecord *relrecord = getRelatedRecord( relindex );
-                            if( relrecord ) {
-                                /// TODO: Refactor, make this a function as it it used in existAnother
-                                Xtring codecond;
-                                for ( unsigned int nf = 0; nf < mFieldValues.size(); nf ++ )
-                                {
-                                    const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
-                                    if ( !flddef->isPrimaryKey() && flddef->isCode() )
-                                    {
-                                        if ( ! ( flddef->canBeNull() && fldvalue.isEmpty() ) )
-                                        {
-                                            if ( !codecond.isEmpty() )
-                                                codecond += "OR";
-                                            codecond += "(" + getConnection()->nameToSQL ( flddef->getName() )
-                                                        + "=" + getConnection()->toSQL ( fldvalue ) + ")";
-                                        }
-                                    }
-                                }
-                                if( !codecond.isEmpty() )
-                                    recid = relrecord->getConnection()->selectInt( "SELECT ID FROM " + relrecord->getTableName()
-                                            + relrecord->getFilter("WHERE", codecond ) );
-                                if( recid )
-                                    setValue( fldname, recid );
-                                else
-                                    setValue( fldname, fldvalue );
-                                continue;
-                            } else {
-                                _GONG_DEBUG_WARNING("In table " + getTableName() + ", related record for table " + reftable + " not found");
-                            }
-                        } else {
-                            _GONG_DEBUG_WARNING("In table " + getTableName() + ", relation for table " + reftable + " not found" );
-                        }
-                    } else if( dbFieldListOfValues<int> *fldlov = dynamic_cast< dbFieldListOfValues<int> *>(flddef) ) {
+                if( !flddef ) {
+					Xtring reftable, reffield;
+					fldname.splitIn2(reftable, reffield, ".");
+					if ( !reftable.isEmpty() && reftable != getTableName() ) {
+						dbTableDefinition *tbldef = getTableDefinition()->getdbDefinition().findTableDefinition( reftable );
+						if( tbldef ) {
+							flddef = tbldef->findFieldDefinition( reffield );
+							related_tables << reftable;
+						} else {
+							_GONG_DEBUG_WARNING("Related field " + fldname + " not found in table " + getTableName() );
+						}
+					}
+				}
+				if( flddef ) {
+                    if( dbFieldListOfValues<int> *fldlov = dynamic_cast< dbFieldListOfValues<int> *>(flddef) ) {
                         int value = fldlov->findValue( fldvalue );
                         if( value == 0 )
                             value = fldvalue.toInt();
                         setValue( fldname, fldvalue );
-                        continue;
-                    }
-                }
-                setValue( fldname, fldvalue );
+                    } else {
+						setValue( fldname, fldvalue );
+					}
+                } else {
+					setValue( fldname, fldvalue );
+				}
             }
         }
+        // Find or create related records
+        for( XtringList::const_iterator relit = related_tables.begin();
+			relit != related_tables.end(); ++relit ) {
+			dbRecordRelation *relation = findRelationByRelatedTable( *relit );
+			if( relation ) {
+				dbRecord *relrecord = relation->getRelatedRecord();
+				if( relrecord ) {
+					/// TODO: Refactor, make this a function as it it used in existAnother
+					Xtring codecond;
+					for ( unsigned int nf = 0; nf < mFieldValues.size(); nf ++ )
+					{
+						const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
+						if ( !flddef->isPrimaryKey() && flddef->isCode() )
+						{
+							Variant fldvalue = getValue( *relit + "." + flddef->getName() );
+							if ( ! ( flddef->canBeNull() && fldvalue.isEmpty() ) )
+							{
+								if ( !codecond.isEmpty() )
+									codecond += "OR";
+								codecond += "(" + getConnection()->nameToSQL ( flddef->getName() )
+											+ "=" + getConnection()->toSQL ( fldvalue ) + ")";
+							}
+						}
+					}
+					dbRecordID recid = 0;
+					if( !codecond.isEmpty() )
+						recid = relrecord->getConnection()->selectInt( "SELECT ID FROM " + relrecord->getTableName()
+								+ relrecord->getFilter("WHERE", codecond ) );
+					if( !recid ) 
+						setValue( *relit + "_ID", recid );
+				} else {
+					_GONG_DEBUG_WARNING("In table " + getTableName() + ", related record for table " + *relit + " not found");
+				}
+			} else {
+				_GONG_DEBUG_WARNING("In table " + getTableName() + ", relation for table " + *relit + " not found" );
+			}
+		}					
     }
     else if ( format == TOSTRING_FUGIT )
     {
