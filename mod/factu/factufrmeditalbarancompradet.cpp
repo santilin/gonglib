@@ -422,12 +422,15 @@ void FrmEditAlbaranCompraDet::slotActPrecioArticulo_clicked()
             getRecArticulo()->setValue("COSTESINIVA", editCosteSinIVA->toMoney() );
             getRecArticulo()->setValue("COSTE", editCoste->toMoney() );
             getRecArticulo()->fixMargenYDescuento();
+			_GONG_DEBUG_PRINT(0, getRecArticulo()->toString( TOSTRING_DEBUG_COMPLETE ) );
             if( DBAPP->editRecord(this, getRecArticulo(), 0, DataTable::updating,
                                   dbApplication::simpleEdition, this ) ) {
+			_GONG_DEBUG_PRINT(0, getRecArticulo()->toString( TOSTRING_DEBUG_COMPLETE ) );
                 DBAPP->showStickyOSD( getTitle(), Xtring::printf( _( "Se han actualizado los costes del artículo a los de este detalle: sin IVA: %s, con IVA: %s" ),
                                       getRecArticulo()->getValue( "COSTESINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
                                       getRecArticulo()->getValue( "COSTE" ).toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
                 searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
+			_GONG_DEBUG_PRINT(0, getRecArticulo()->toString( TOSTRING_DEBUG_COMPLETE ) );
             }
         } else {
             DBAPP->showOSD( getTitle(), _("El coste del artículo coincide con el de este detalle.") );

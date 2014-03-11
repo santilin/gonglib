@@ -456,7 +456,7 @@ void addFrmEditBehaviorFields(CppModule *cpcpp, CppModule *cph, const Xtring &fr
 					"\n" + cscpp +
 					"\tRec" + fldname + " *" + fldname.lower() + " = static_cast<Rec"
 						+ fldname + "*>(DBAPP->createRecord(\"" + fldname.upper() + "\"));\n"
-					"\tdbViewDefinitionsList " + fldname.lower() + "views;\n"
+					"\tdbViewDefinitionDict " + fldname.lower() + "views;\n"
 					"\tDBAPP->getDatabase()->getViewsForTable( " + fldname.lower() + ", " + fldname.lower() + "views );\n"
 					"\tdbRecordDataModel *" + fldname.lower() + "dm = new dbRecordDataModel("
 						+ fldname.lower() + ", " + fldname.lower() + "views);\n"
@@ -474,7 +474,7 @@ void addFrmEditBehaviorFields(CppModule *cpcpp, CppModule *cph, const Xtring &fr
 					"\t" + fldname.lower() + "Frame->setLineWidth(4);\n"
     				"\tQVBoxLayout *" + fldname.lower() + "FrameLayout = new QVBoxLayout(" + fldname.lower() + "Frame);\n"
 					"\tRec" + fldname + " *" + fldname.lower() + " = getRec" + recname + "()->getRec" + fldname + "(-1);\n"
-					"\tdbViewDefinitionsList " + fldname.lower() + "views;\n"
+					"\tdbViewDefinitionDict " + fldname.lower() + "views;\n"
 					"\tDBAPP->getDatabase()->getViewsForTable( " + fldname.lower() + ", " + fldname.lower() + "views );\n"
 					"\tdbRecordListDataModel *" + fldname.lower() + "dm =\n"
 						"\t\tnew dbRecordListDataModel(getRec" + recname + "()->getList" + fldname + "(), "

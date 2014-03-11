@@ -43,7 +43,6 @@ public:
         mSequential(xm.mSequential), mNullValue()
     {}
 
-#if 0    
     iterator find(const Xtring &__k) {
         return std::map<Xtring, T>::find( __k.upper() );
     }
@@ -51,7 +50,6 @@ public:
     const_iterator find(const Xtring &__k) const {
         return std::map<Xtring, T>::find( __k.upper() );
     }
-#endif
 
     const Xtring &getKey(uint pos) const {
         if( pos < mSequential.size() )

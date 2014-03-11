@@ -40,7 +40,7 @@ dbRecord::~dbRecord()
 
 void dbRecord::init_record()
 {
-// 	_GONG_DEBUG_PRINT(4, "Creating record for table " + pTableDef->getName() );
+ 	_GONG_DEBUG_PRINT(0, "Creating record for table " + pTableDef->getName() );
     // Create values
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
     {
@@ -53,9 +53,9 @@ void dbRecord::init_record()
     {
         dbRelationDefinition *reldef = getTableDefinition()->getRelationDefinitions().seq_at(nr);
         dbRecordRelation *rel;
-// 		_GONG_DEBUG_PRINT(5, Xtring::printf ( "Creating relation %s.%s->%s.%s",
-// 		                                        reldef->getLeftTable().c_str(), reldef->getLeftField().c_str(),
-// 		                                        reldef->getRightTable().c_str(), reldef->getRightField().c_str() ) );
+ 		_GONG_DEBUG_PRINT(0, Xtring::printf ( "Creating relation %s.%s->%s.%s",
+ 		                                        reldef->getLeftTable().c_str(), reldef->getLeftField().c_str(),
+ 		                                        reldef->getRightTable().c_str(), reldef->getRightField().c_str() ) );
         // Lazy creation of related records
         if ( reldef->getType() == dbRelationDefinition::one2many
                 || reldef->getType() == dbRelationDefinition::many2many )
@@ -177,8 +177,8 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
     _GONG_DEBUG_ASSERT ( other );
     if( this == other )
         return true;
-    _GONG_DEBUG_PRINT(4, Xtring::printf("Table: %s, this=%d, other=%d",
-                                        getTableName().c_str(), getRecordID(), other->getRecordID() ) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("Table: %s, this=%d, other=%d",
+//                                         getTableName().c_str(), getRecordID(), other->getRecordID() ) );
     XtringList noinc_fields_list, inc_fields_list;
     inc_fields.tokenize( inc_fields_list, ",");
     noinc_fields.tokenize( noinc_fields_list, ",");
@@ -195,11 +195,10 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
         if( deep ) {
             clearRelations();
 			uint i = 0;
-			for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
-				relit != mRecordRelations.end(); ++relit ) {
-				dbRecordRelation *recrel = relit->second;
+			for( uint i=0; i< mRecordRelations.size(); ++i ) {
+				dbRecordRelation *recrel = mRecordRelations.seq_at(i);
 				dbRecordRelation *otherrel = other->mRecordRelations.seq_at(i);
-                _GONG_DEBUG_PRINT(4, "Copying relation " + recrel->getRelationDefinition()->getFullName() );
+//                 _GONG_DEBUG_PRINT(10, "Copying relation " + recrel->getRelationDefinition()->getFullName() );
                 if( recrel->getType() == dbRelationDefinition::one2one ) {
                     // Don't copy this relation unless it has been read in the other record
                     dbRecord *r = otherrel->getRelatedRecord();
