@@ -5,6 +5,7 @@
 #include <QMenuBar>
 #include <QFocusEvent>
 #include <QMdiSubWindow>
+#include <boost/concept_check.hpp>
 #include <gonggettext.h>
 #include <gongdbrecorddatamodel.h>
 #include <gongcsvutils.h>
@@ -20,6 +21,7 @@
 #include "dbappfrmmultiupdate.h"
 #include "dbappfrmeditrecbehavior.h"
 #include "dbappfrmadvancedprint.h"
+#include "dbappfrmcsvparams.h"
 
 #ifdef HAVE_RTKMODULE
 #include <dbappreport.h>
@@ -1375,14 +1377,13 @@ void FrmEditRecMaster::menuTableRemoveFilter_clicked()
 
 void FrmEditRecMaster::menuTableImport_clicked()
 {
-#if defined( HAVE_POCOLIB ) or defined( HAVE_LIBXML2 )
-    class FrmImport: public FrmCustom
+    class FrmImport: public FrmCsvParams
     {
     public:
-        FrmImport(QWidget *parent, const char *name, WidgetFlags f = 0)
-            : FrmCustom( parent, name, f )
+        FrmImport(dbRecord *r, QWidget *parent, const char *name, WidgetFlags f = 0)
+            : FrmCsvParams( FrmCsvParams::importing, parent, _("Importación de registros") ),
+            pRecord(r)
         {
-            setTitle( _("Importación de registros") );
             XtringList mOpcionesExisteCaptions;
             IntList mOpcionesExisteValues;
             mOpcionesExisteCaptions << "Actualizar el registro" << "Ignorar el registro" << "Cancelar la importación";
@@ -1390,6 +1391,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
             comboExiste = addComboBoxInt( true, 0, _("Si el registro ya existe..."),
                                        mOpcionesExisteCaptions, mOpcionesExisteValues );
             checkRevisar = addCheckBox( 0, _("Revisar los registros uno por uno"), true );
+			addButton( this, _("Mostrar plantilla para importar") );
         }
         bool getRevisar() const {
             return checkRevisar->isChecked();
@@ -1398,17 +1400,32 @@ void FrmEditRecMaster::menuTableImport_clicked()
             return comboExiste->currentIndex();
         }
     private:
+		virtual void validate_input(QWidget *w, bool *) {
+			// show a template for importing 
+			Xtring descriptions;
+			Xtring _template;
+			for( uint i = 0; i < pRecord->getTableDefinition()->getFieldCount(); ++i ) {
+				dbFieldDefinition *flddef = pRecord->getTableDefinition()->getFieldDefinition(i);
+				descriptions += flddef->getFullName() + ": " + flddef->getCaption() + ", " + flddef->getDescription() + "\n";
+				_template.appendWithSeparator( flddef->getFullName(), "," );
+			}
+			FrmBase::msgOkLarge( this, 
+				Xtring::printf(_("Plantilla para importar %s"), DBAPP->getTableDescPlural( pRecord->getTableName() ).c_str() ),
+				descriptions 
+				+ _( "\nPuedes copiar y pegar este texto directamente a una hoja de cálculo:\n" )
+				+ _template );
+		}
+		dbRecord *pRecord;
         ComboBoxInt *comboExiste;
         CheckBox *checkRevisar;
     };
 
-    FrmImport *frmimport = new FrmImport(0, "FrmImport_FrmEditRecMaster" );
+    FrmImport *frmimport = new FrmImport(pRecord, 0, "FrmImport_FrmEditRecMaster" );
     frmimport->showModalFor( this, false, true );
     if( !frmimport->wasCancelled() ) {
         bool revisarorig = frmimport->getRevisar();
         int siexiste = frmimport->getSiExiste();
-        Xtring fname = GuiApplication::getOpenFileName( _( "Elige el fichero a importar" ),
-                       Xtring::null, _( "Ficheros CSV (*.csv)" ), this );
+        Xtring fname = frmimport->getImportFilename();
         int nimported = 0;
         Xtring headersline;
         XtringList records, headers;
@@ -1431,15 +1448,13 @@ void FrmEditRecMaster::menuTableImport_clicked()
         CsvUtils::tokenize( headers, headersline, '\"', ',' );
         Xtring unknownfields;
         for ( XtringList::const_iterator headersit = headers.begin();
-                headersit != headers.end();
-                ++ headersit ) {
+                headersit != headers.end(); ++ headersit ) {
             Xtring foo = *headersit;
             if( !(foo.isEmpty())
                     && !DBAPP->getDatabase()->findFieldDefinition( *headersit, false )
                     && !DBAPP->getDatabase()->findFieldDefinition( getRecord()->getTableName()+"."+*headersit, false ) ) {
-                if ( !unknownfields.isEmpty() )
-                    unknownfields += ", ";
-                unknownfields += *headersit;
+                unknownfields.appendWithSeparator( *headersit, ", " );
+				headersline.appendWithSeparator( "\"" + *headersit + "\"", "," );
             }
         }
         if ( !unknownfields.isEmpty() ) {
@@ -1452,37 +1467,17 @@ void FrmEditRecMaster::menuTableImport_clicked()
         }
         dbRecord *r = DBAPP->createRecord( getRecord()->getTableName() );
         for ( XtringList::const_iterator linesit = records.begin();
-                linesit != records.end();
-                ++linesit ) {
+                linesit != records.end(); ++linesit ) {
             bool revisar = revisarorig;
             r->clear( true ); // set custom default values
             r->setNew( true );
-            XtringList values;
-            CsvUtils::tokenize( values, *linesit, '\"', ',' );
-            Xtring from;
-            bool hassomething = false;
-            for ( unsigned int i = 0; i < headers.size(); ++i ) {
-                if ( i != 0 )
-                    from += ",";
-                from += headers[i] + ",";
-                if( values.size() > i ) {
-                    if( !values[i].trim().isEmpty() )
-                        hassomething = true;
-                    from += "\"" + CsvUtils::dupQuotes( values[i], '\"' ) + "\"";
-                } else
-                    from += "\"\"";
-            }
-            if( !hassomething ) {
-                _GONG_DEBUG_PRINT(3, "Skipping empty csv line" );
-                continue;
-            }
-            r->fromString( from, TOSTRING_CSV );
+            r->fromString( *linesit, TOSTRING_CSV, headersline );
             dbRecordID existing_id = 0;
             r->findMatchingRecord(&existing_id);
             if( existing_id ) {
                 if( siexiste == 0) { // Actualizar
                     r->read( existing_id );
-                    r->fromString( from, TOSTRING_CSV );
+                    r->fromString( *linesit, TOSTRING_CSV, headersline );
                 } else if( siexiste == 1 ) { // Ignorar
                     continue; // Leer el siguiente
                 } else {
@@ -1538,39 +1533,39 @@ void FrmEditRecMaster::menuTableImport_clicked()
         }
         DBAPP->resetCursor();
     }
-#else
-	// FeatureNotCompiled("FrmImport", "LIBXML2");
-#endif
 }
 
 void FrmEditRecMaster::menuTableExport_clicked()
 {
-    Xtring exporttext;
-    for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
-        if ( col > 1 )
-            exporttext += ",";
-        exporttext += pDataTable->getFldInfo( col )->getFullName();
-    }
-    exporttext += "\n";
-    for ( int row = 0; row < pDataTable->numRows(); row ++ ) {
-        for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
-            if ( col > 1 )
-                exporttext += ",";
-            exporttext += "\"";
-            if( pDataTable->getFldInfo( col )->getSqlColumnType() == SQLDECIMAL
-                    || pDataTable->getFldInfo( col )->getSqlColumnType() == SQLFLOAT ) {
-                exporttext += Xtring::number(pDataTable->getDataModel()->getValue(row, col).toDouble()).replace(",",".");
-            } else {
-                exporttext += CsvUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), '"' ); // .replace( "\n", " " );
-            }
-            exporttext += "\"";
-        }
-        exporttext += "\n";
-    }
-    FrmBase::msgOkLarge( this,
-                         _( "Puedes copiar y pegar este texto directamente a una hoja de cálculo. "
-                            "La codificación de los caracteres es UTF-8, el delimitador es la comilla doble (\") y el separador de los campos es la coma (,)." ),
-                         exporttext );
+	FrmCsvParams *frmcsvparams = new FrmCsvParams( FrmCsvParams::exporting, this, _("Exportar") );
+    frmcsvparams->showModalFor( this, false, true );
+    if( !frmcsvparams->wasCancelled() ) {
+		Xtring delimiter = frmcsvparams->getDelimiter();
+		Xtring exporttext;
+		for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
+			if ( col > 1 )
+				exporttext += frmcsvparams->getSeparator();
+			exporttext += pDataTable->getFldInfo( col )->getFullName();
+		}
+		exporttext += "\n";
+		for ( int row = 0; row < pDataTable->numRows(); row ++ ) {
+			for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
+				if ( col > 1 )
+					exporttext += frmcsvparams->getSeparator();
+				exporttext += delimiter;
+				if( pDataTable->getFldInfo( col )->getSqlColumnType() == SQLDECIMAL
+						|| pDataTable->getFldInfo( col )->getSqlColumnType() == SQLFLOAT ) {
+					exporttext += Xtring::number(pDataTable->getDataModel()->getValue(row, col).toDouble()).replace(",",".");
+				} else {
+					exporttext += CsvUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), delimiter[0] ); // .replace( "\n", " " );
+				}
+				exporttext += delimiter;
+			}
+			exporttext += "\n";
+		}
+		FrmBase::msgOkLarge( this,
+			_( "Puedes copiar y pegar este texto directamente a una hoja de cálculo." ), exporttext );
+	}
 }
 
 void FrmEditRecMaster::menuTableSelectAll_clicked()

@@ -40,7 +40,6 @@ dbRecord::~dbRecord()
 
 void dbRecord::init_record()
 {
- 	_GONG_DEBUG_PRINT(0, "Creating record for table " + pTableDef->getName() );
     // Create values
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
     {
@@ -53,9 +52,9 @@ void dbRecord::init_record()
     {
         dbRelationDefinition *reldef = getTableDefinition()->getRelationDefinitions().seq_at(nr);
         dbRecordRelation *rel;
- 		_GONG_DEBUG_PRINT(0, Xtring::printf ( "Creating relation %s.%s->%s.%s",
- 		                                        reldef->getLeftTable().c_str(), reldef->getLeftField().c_str(),
- 		                                        reldef->getRightTable().c_str(), reldef->getRightField().c_str() ) );
+//  		_GONG_DEBUG_PRINT(0, Xtring::printf ( "Creating relation %s.%s->%s.%s",
+//  		                                        reldef->getLeftTable().c_str(), reldef->getLeftField().c_str(),
+//  		                                        reldef->getRightTable().c_str(), reldef->getRightField().c_str() ) );
         // Lazy creation of related records
         if ( reldef->getType() == dbRelationDefinition::one2many
                 || reldef->getType() == dbRelationDefinition::many2many )

@@ -265,8 +265,7 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
     }
     else if ( format == TOSTRING_CSV )
     {
-        for ( i=0; i<getFieldCount(); i++ )
-        {
+        for ( i=0; i<getFieldCount(); i++ ) {
             if ( i!=0 )
                 text += ",";
             Variant value = getValue ( i );

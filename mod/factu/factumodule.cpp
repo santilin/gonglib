@@ -189,7 +189,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicAgente->addFieldRecordID();
     pFicAgente->addFieldCodigo()->setUnique( true );
     pFicAgente->addField<contactos::FldNombrePropio>( "RAZONSOCIAL" )->setIsDescription(true)->setUnique( true );
-    pFicAgente->addFieldOne2OneRelation( "CONTACTO_ID", "CONTACTO.ID", true );
+    pFicAgente->addFieldAggregateRelation( "CONTACTO_ID", "CONTACTO.ID", true );
 #ifdef HAVE_CONTABMODULE
     if ( pContabModule )
         pFicAgente->addField<contab::FldCuenta>( "SUBCUENTA" );
@@ -205,7 +205,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicCliente->addField<contactos::FldNombrePropio>( "RAZONSOCIAL" )->setIsDescription(true)->setUnique( true );
     pFicCliente->addFieldString("NOMBREALT", 150)->setCanBeNull( true );
     pFicCliente->addField<FldNamesListTable>( "TIPOCLIENTE" )->setInsertAllowed(true);
-    pFicCliente->addFieldOne2OneRelation( "CONTACTO_ID", "CONTACTO.ID", false );
+    pFicCliente->addFieldAggregateRelation( "CONTACTO_ID", "CONTACTO.ID", false );
     pFicCliente->addFieldOne2OneRelation( "AGENTE_ID", "AGENTE.ID", true );
     pFicCliente->addFieldOne2OneRelation( "FORMAPAGO_ID", "FORMAPAGO.ID", true );
     pFicCliente->addFieldPercent( "DTOP100" );
@@ -231,7 +231,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicProveedora->addFieldCodigo()->setUnique( true );
     pFicProveedora->addField<contactos::FldNombrePropio>( "RAZONSOCIAL" )->setIsDescription(true)->setUnique( true );
     pFicProveedora->addFieldString("NOMBREALT", 150)->setCanBeNull( true );;
-    pFicProveedora->addFieldOne2OneRelation( "CONTACTO_ID", "CONTACTO.ID", false );
+    pFicProveedora->addFieldAggregateRelation( "CONTACTO_ID", "CONTACTO.ID", false );
     pFicProveedora->addFieldOne2OneRelation( "AGENTE_ID", "AGENTE.ID", true );
     pFicProveedora->addFieldOne2OneRelation( "FORMAPAGO_ID", "FORMAPAGO.ID", true );
     pFicProveedora->addFieldString("ENTIDADBANCO", 80);

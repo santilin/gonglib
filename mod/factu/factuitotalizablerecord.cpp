@@ -1,4 +1,4 @@
-#include <empresamodule.cpp>
+#include <empresamodule.h>
 #include <pagosrecformapago.h>
 #include "factufldivadetallado.h"
 #include "factuiivadesglosable.h"

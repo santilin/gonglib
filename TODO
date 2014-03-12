@@ -111,6 +111,7 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Añadir frmcustomcsvparameters para importar y exportar
 * FrmEstadCompraVenta: Revisar la reducción de la fuente número de documento en el informe
 * Refactoring: Derivar FrmEditRec de FrmCustom y eliminar showtabs de FrmEditRec
 * RecordCompleter: Crearlo cuando el texto sea mayor de tres letras, no al principio,

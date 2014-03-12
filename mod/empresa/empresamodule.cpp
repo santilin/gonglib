@@ -58,7 +58,8 @@ static dbModuleSetting _settings[] = {
         _("Usar contador único para las compras y gastos"),
         "false",
         dbModuleSetting::Global
-    }
+    },
+	{ dbModuleSetting::None }
 };
 
 EmpresaModule::EmpresaModule()
@@ -570,7 +571,8 @@ void EmpresaModule::rereadEmpresa()
 		}
 		if( !pRecEmpresa->getRecContacto()->getRecordID() ) {
 			DBAPP->showStickyOSD( DBAPP->getPackageString(),
-				_("La empresa no tiene definidos sus datos de contacto. El programa no funcionará correctamente hasta que los definas.") );
+				Xtring::printf(_("%s no tiene definidos sus datos de contacto. El programa no funcionará correctamente hasta que los definas."),
+					DBAPP->getTableDescSingular("EMPRESA", "la").c_str() ) );
 		}
         DBAPP->resetCursor();
     }

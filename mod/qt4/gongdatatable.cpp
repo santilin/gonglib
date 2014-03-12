@@ -594,9 +594,7 @@ void DataTable::paintCell( QPainter * p, int row, int col, const QRect & cr,
         dbFieldStyle::Alignment al = dbFieldStyle::AlignAuto;
         Variant value(d->pDataModel->getValue(row, indexOf( col )));
         if( flddef ) {
- 			_GONG_DEBUG_PRINT(0, Xtring::printf("Field: %s, style:%s",
- 								flddef->getName().c_str(),
- 								flddef->getStyle().c_str() ) );
+//  			_GONG_DEBUG_PRINT(0, Xtring::printf("Field: %s, style:%s", flddef->getName().c_str(), flddef->getStyle().c_str() ) );
             if( pDatabase )
                 fldstyle = pDatabase->findFieldStyle(flddef->getStyle());
         }

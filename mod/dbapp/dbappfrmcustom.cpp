@@ -507,8 +507,16 @@ SearchBox* FrmCustom::addLabeledSearchField(QWidget* parent, const Xtring& table
                            static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels|SearchBox::FlagHorizontal|SearchBox::FlagEditableDesc) );
 }
 
+void FrmCustom::accept()
+{
+	if( validate() )
+		FrmBase::accept();
+}
+
 void FrmCustom::validate_input( QWidget *sender, bool *is_valid )
 {
+	if (is_valid)
+		*is_valid = true;
 }
 
 void FrmCustom::combo_activated( int )

@@ -111,18 +111,20 @@ public:
                                        const Xtring &fldnamecodigo, const Xtring &fldnamenombre, QBoxLayout *layout = 0 );
     SearchBox *addLabeledSearchField( QWidget *parent, const Xtring &tablename,
                                       const Xtring &fldnamecodigo, const Xtring &fldnamenombre, QBoxLayout *layout = 0 );
-
+	virtual void accept(); // from FrmBase
 protected slots:
     virtual void validate_input( QWidget *, bool * );
     virtual bool validate() { return true; }
     void combo_activated( int );
-    void button_clicked();
 
 protected:
     QTabWidget *pTabWidget;
     QWidget* pControlsFrame;
     QVBoxLayout *pFormLayout, *pMainLayout, *pControlsLayout;
     QHBoxLayout *pButtonsLayout;
+
+private:	
+    void button_clicked();
 };
 
 } // namespace gong
