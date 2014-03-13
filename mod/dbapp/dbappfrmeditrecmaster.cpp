@@ -1391,7 +1391,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
             comboExiste = addComboBoxInt( true, 0, _("Si el registro ya existe..."),
                                        mOpcionesExisteCaptions, mOpcionesExisteValues );
             checkRevisar = addCheckBox( 0, _("Revisar los registros uno por uno"), true );
-			addButton( this, _("Mostrar plantilla para importar") );
+			pShowTemplate = addButton( this, _("Mostrar plantilla para importar") );
         }
         bool getRevisar() const {
             return checkRevisar->isChecked();
@@ -1401,13 +1401,17 @@ void FrmEditRecMaster::menuTableImport_clicked()
         }
     private:
 		virtual void validate_input(QWidget *w, bool *) {
+			if( w!=pShowTemplate )
+				return;
 			// show a template for importing 
 			Xtring descriptions;
 			Xtring _template;
-			for( uint i = 0; i < pRecord->getTableDefinition()->getFieldCount(); ++i ) {
-				dbFieldDefinition *flddef = pRecord->getTableDefinition()->getFieldDefinition(i);
-				descriptions += flddef->getFullName() + ": " + flddef->getCaption() + ", " + flddef->getDescription() + "\n";
-				_template.appendWithSeparator( flddef->getFullName(), "," );
+			const dbTableDefinition *tbldef = pRecord->getTableDefinition();
+			addDescription( tbldef, descriptions, _template );
+			for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
+				it != tbldef->getRelationDefinitions().end(); ++it ) {
+					dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+					addDescription( reltbldef, descriptions, _template );
 			}
 			FrmBase::msgOkLarge( this, 
 				Xtring::printf(_("Plantilla para importar %s"), DBAPP->getTableDescPlural( pRecord->getTableName() ).c_str() ),
@@ -1415,9 +1419,24 @@ void FrmEditRecMaster::menuTableImport_clicked()
 				+ _( "\nPuedes copiar y pegar este texto directamente a una hoja de cálculo:\n" )
 				+ _template );
 		}
+		void addDescription( const dbTableDefinition *tbldef, Xtring descriptions, Xtring _template ) {
+			for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
+				dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
+				if( flddef->isReference() )
+					continue;
+				descriptions += flddef->getFullName() + ": ";
+				if( flddef->getDescription().isEmpty() )
+					descriptions += flddef->getCaption() + "\n";
+				else
+					descriptions += flddef->getDescription() + "\n";
+				_template.appendWithSeparator( flddef->getFullName(), "," );
+			}
+		}
+	
 		dbRecord *pRecord;
         ComboBoxInt *comboExiste;
         CheckBox *checkRevisar;
+		PushButton *pShowTemplate;
     };
 
     FrmImport *frmimport = new FrmImport(pRecord, 0, "FrmImport_FrmEditRecMaster" );
