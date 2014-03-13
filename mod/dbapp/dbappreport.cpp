@@ -82,7 +82,6 @@ bool AppReport::readString( const Xtring &rtkcode, const Xtring &initdefines, In
 
 
 
-/// \todo {refactor} {0.3.4} Función genérica para pedir un fichero y comprobar si se va a sobreescribir
 int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &properties,
                       const Xtring &filter, const Xtring &order,
                       PageOrientation po, bool askforparameters )

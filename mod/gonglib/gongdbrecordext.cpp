@@ -380,10 +380,10 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
 					for ( unsigned int nf = 0; nf < mFieldValues.size(); nf ++ )
 					{
 						const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
-						if ( !flddef->isPrimaryKey() && flddef->isCode() )
+						if( !flddef->isPrimaryKey() && flddef->isCode() )
 						{
 							Variant fldvalue = getValue( *relit + "." + flddef->getName() );
-							if ( ! ( flddef->canBeNull() && fldvalue.isEmpty() ) )
+							if( !( flddef->canBeNull() && fldvalue.isEmpty() ) )
 							{
 								if ( !codecond.isEmpty() )
 									codecond += "OR";
@@ -393,11 +393,15 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
 						}
 					}
 					dbRecordID recid = 0;
-					if( !codecond.isEmpty() )
+					if( !codecond.isEmpty() ) {
 						recid = relrecord->getConnection()->selectInt( "SELECT ID FROM " + relrecord->getTableName()
 								+ relrecord->getFilter("WHERE", codecond ) );
-					if( !recid ) 
-						setValue( *relit + "_ID", recid );
+					}
+					if( recid == 0 && relation->getType() == dbRelationDefinition::aggregate ) {
+						if( relrecord->save(false) )
+							recid = relrecord->getRecordID();
+					}
+					setValue( *relit + "_ID", recid );
 				} else {
 					_GONG_DEBUG_WARNING("In table " + getTableName() + ", related record for table " + *relit + " not found");
 				}

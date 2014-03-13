@@ -1,6 +1,7 @@
 == HECHO ==
 
 == HACIENDO ==
+* Exportar a csv: elegir, todos los campos de la tabla, más los relacionados, sólo los de la vista
 
 == JOSÉ CASTAÑO ==
 * Añadir opción importación de socias/clientes/proveedoras/etc. Explicarle
@@ -220,7 +221,7 @@ S
 * MsgYesNoDontAskAgain: aplicar a main.cpp, language
 
 == Refactoring ==
-* Cambiar los dicts que terminan en List a Dict
+* Refactor: FrmCsvImport y FrmCsvExport
 * Eliminar enablesearchboxes
 * dbRecordList no permitir push_back
 * FrmCustom: Utilizar un QTabWidget, showTabs

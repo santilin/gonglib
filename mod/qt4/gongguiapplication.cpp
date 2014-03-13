@@ -12,14 +12,15 @@
  * GNU General Public License for more details.
  */
 
-#include <gongdebug.h>
-
 #include <qtextcodec.h>
 #include <QFileDialog>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QDesktopWidget>
 
+#include <errno.h>
+#include <gongdebug.h>
+#include <gonggettext.h>
 #include "gongfileutils.h"
 #include "gongguiapplication.h"
 #include "gongdatatable.h"
@@ -198,6 +199,23 @@ Xtring GuiApplication::getExistingDirName(const Xtring& caption,
                           parent, toGUI(caption), toGUI( initialname ),
                           QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     return fromGUI( dirname );
+}
+
+bool GuiApplication::writeFile(const Xtring &title, const Xtring& filename, const Xtring& content)
+{
+	const char *fname = filename.c_str();
+	if( FileUtils::exists( fname ) ) {
+		if( FrmBase::msgYesNoCancel( title, Xtring::printf( _("El fichero %s existe,\n¿quieres sobreescribirlo?"),
+			fname ) ) != FrmBase::Yes )
+			return false;
+	}
+	if( FileUtils::writeFile( fname, content ) ) {
+		theGuiApp->showOSD( title, Xtring::printf( _("%s guardado correctamente"), fname ) );
+		return true;
+	} else {
+		FrmBase::msgError(title, Xtring::printf( _("Error guardando %s\n%s"), fname, strerror( errno ) ) );
+		return false;
+	}
 }
 
 } // namespace gong

@@ -13,6 +13,9 @@ FrmCsvParams::FrmCsvParams(FrmCsvParams::Modes mode, QWidget* parent, const Xtri
 		XtringList rangeoptions;
 		rangeoptions << _("Registro actual") << _("Registros seleccionados") << _("Todo");
 		pRange = addGroupBox(0, rangeoptions, _("Rango"), all);
+		XtringList fieldoptions;
+		fieldoptions << _("Todos") << _("Los de la vista");
+		pFields = addGroupBox(0, fieldoptions, _("Campos"), allFields);
 		pEditExportFilename = addFileNameBox( parent, _("Fichero de destino") );
 	}
 	if( mode == importing ) {
@@ -28,9 +31,6 @@ bool FrmCsvParams::validate()
 {
 	if( pEditImportFilename && pEditImportFilename->getFileName().isEmpty() ) {
 		msgError( this, _("Elige un fichero desde el que importar") );
-		return false;
-	} else if( pEditExportFilename && pEditExportFilename->getFileName().isEmpty() ) {
-		msgError( this, _("Elige un fichero al que importar") );
 		return false;
 	}
 	return true;

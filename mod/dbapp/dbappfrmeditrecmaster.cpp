@@ -22,6 +22,7 @@
 #include "dbappfrmeditrecbehavior.h"
 #include "dbappfrmadvancedprint.h"
 #include "dbappfrmcsvparams.h"
+#include "../gonglib/gongxtring.h"
 
 #ifdef HAVE_RTKMODULE
 #include <dbappreport.h>
@@ -1574,20 +1575,36 @@ void FrmEditRecMaster::menuTableImport_clicked()
     }
 }
 
+void addFieldValueToCSV(dbRecord *r, const dbTableDefinition *tbldef, 
+						const Xtring &delimiter, const Xtring &separator, 
+						Xtring &csvline, Xtring &headers, bool headercompleted )
+{
+	for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
+		dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
+		if( flddef->isReference() || flddef->isPrimaryKey() )
+			continue;
+		if( flddef->getName().startsWith("REC_") )
+			continue;
+		csvline.appendWithSeparator( delimiter + r->getValue(flddef->getFullName()).toString() + delimiter, separator );
+		if( !headercompleted )
+			headers.appendWithSeparator( flddef->getFullName(), separator );
+	}
+}
+
 void FrmEditRecMaster::menuTableExport_clicked()
 {
 	FrmCsvParams *frmcsvparams = new FrmCsvParams( FrmCsvParams::exporting, this, _("Exportar") );
     frmcsvparams->showModalFor( this, false, true );
     if( !frmcsvparams->wasCancelled() ) {
 		Xtring delimiter = frmcsvparams->getDelimiter();
+		Xtring separator = frmcsvparams->getSeparator();
 		Xtring exporttext;
-		for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
-			if ( col > 1 )
-				exporttext += frmcsvparams->getSeparator();
-			exporttext += pDataTable->getFldInfo( col )->getFullName();
-		}
-		exporttext += "\n";
 		int range = frmcsvparams->getRange();
+		dbRecord *r = 0;
+		if( frmcsvparams->getFields() == FrmCsvParams::allFields )		
+			r = pRecord->duplicate();
+		Xtring csvheader;
+		bool headercompleted = false;
 		for ( int row = 0; row < pDataTable->numRows(); row ++ ) {
 			if( range == FrmCsvParams::current ) {
 				if( row != pDataTable->currentRow() )
@@ -1599,22 +1616,51 @@ void FrmEditRecMaster::menuTableExport_clicked()
 					continue; // skip
 				}
 			}
-			for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
-				if ( col > 1 )
-					exporttext += frmcsvparams->getSeparator();
-				exporttext += delimiter;
-				if( pDataTable->getFldInfo( col )->getSqlColumnType() == SQLDECIMAL
-						|| pDataTable->getFldInfo( col )->getSqlColumnType() == SQLFLOAT ) {
-					exporttext += Xtring::number(pDataTable->getDataModel()->getValue(row, col).toDouble()).replace(",",".");
-				} else {
-					exporttext += CsvUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), delimiter[0] ); // .replace( "\n", " " );
+			Xtring csvline;
+			if( frmcsvparams->getFields() == FrmCsvParams::allFields ) {
+				r->read( pDataTable->getDataModel()->getRowID(row) );
+				const dbTableDefinition *tbldef = pRecord->getTableDefinition();
+				addFieldValueToCSV(r, tbldef, delimiter, separator, csvline, csvheader, headercompleted);
+				for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
+					it != tbldef->getRelationDefinitions().end(); ++it ) {
+					if( it->second->getType() == dbRelationDefinition::aggregate ) {
+						dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+						addFieldValueToCSV(r, reltbldef, delimiter, separator, csvline, csvheader, headercompleted);
+					} else if( it->second->getType() == dbRelationDefinition::one2one ) {
+						dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+						dbFieldDefinition *codefld = reltbldef->findFieldByFlags( dbFieldDefinition::CODE );
+						if( codefld ) {
+							csvline.appendWithSeparator( r->getValue( codefld->getFullName() ).toString(), separator );
+							if( !headercompleted )
+								csvheader.appendWithSeparator( codefld->getFullName(), separator );
+						}
+					}
 				}
-				exporttext += delimiter;
+			} else {
+				for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
+					if( !headercompleted )
+						csvheader.appendWithSeparator( pDataTable->getFldInfo( col )->getFullName(), separator );
+					csvline.appendWithSeparator( delimiter, separator );
+					if( pDataTable->getFldInfo( col )->getSqlColumnType() == SQLDECIMAL
+							|| pDataTable->getFldInfo( col )->getSqlColumnType() == SQLFLOAT ) {
+						csvline += Xtring::number(pDataTable->getDataModel()->getValue(row, col).toDouble()).replace(",",".");
+					} else {
+						csvline += CsvUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), delimiter[0] ); // .replace( "\n", " " );
+					}
+					csvline += delimiter;
+				}
 			}
-			exporttext += "\n";
+			exporttext += csvline + "\n";
+			headercompleted = true;
 		}
-		FrmBase::msgOkLarge( this,
-			_( "Puedes copiar y pegar este texto directamente a una hoja de cálculo." ), exporttext );
+		if( r ) delete r;
+		Xtring csvname = frmcsvparams->getExportFilename();
+		if( csvname.isEmpty() ) {
+			FrmBase::msgOkLarge( this,
+				_( "Puedes copiar y pegar este texto directamente a una hoja de cálculo." ), csvheader + "\n" + exporttext );
+		} else {
+			GuiApplication::writeFile( getTitle(), csvname, csvheader + "\n" + exporttext );
+		}
 	}
 }
 

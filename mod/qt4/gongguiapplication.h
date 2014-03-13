@@ -52,6 +52,7 @@ public:
                                   const Xtring &filter = Xtring::null, QWidget *parent = 0);
     static Xtring getExistingDirName(const Xtring &caption, const Xtring &initialname = Xtring::null,
                                      QWidget *parent = 0);
+	static bool writeFile( const Xtring &title, const Xtring &fname, const Xtring &content );
 
 protected:
     Xtring mTitle;

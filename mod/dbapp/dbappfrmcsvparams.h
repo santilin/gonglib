@@ -20,7 +20,8 @@ class FrmCsvParams: public FrmCustom
 {
 public:
     enum Modes { importing, exporting };
-	enum Ranges { current, selected, all };
+	enum Ranges { current=0, selected, all };
+	enum Fields { allFields=0, viewFields };
     FrmCsvParams( Modes mode, QWidget *parent, const Xtring &title,
 		const Xtring &separator = ",", const Xtring &delimiter = "\"", 
 		const Xtring &encoding = "UTF-8" );
@@ -42,11 +43,14 @@ public:
     int getRange() const {
 		return pRange->getSelectedPos();
 	}
+	int getFields() const {
+		return pFields->getSelectedPos();
+	}
 private:
     virtual bool validate();
 
     FileNameBox *pEditExportFilename, *pEditImportFilename;
-    GroupBox *pRange;
+    GroupBox *pRange, *pFields;
     LineEdit *pEditSeparator, *pEditDelimiter, *pEditEncoding;
 	PushButton *pPushShowTemplate;
 };
