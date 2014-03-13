@@ -1567,7 +1567,18 @@ void FrmEditRecMaster::menuTableExport_clicked()
 			exporttext += pDataTable->getFldInfo( col )->getFullName();
 		}
 		exporttext += "\n";
+		int range = frmcsvparams->getRange();
 		for ( int row = 0; row < pDataTable->numRows(); row ++ ) {
+			if( range == FrmCsvParams::current ) {
+				if( row != pDataTable->currentRow() )
+					continue; // skip
+				else 
+					break; // no more
+			} else if( range == FrmCsvParams::selected ) {
+				if( !pDataTable->isRowSelected(row) ) {
+					continue; // skip
+				}
+			}
 			for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
 				if ( col > 1 )
 					exporttext += frmcsvparams->getSeparator();

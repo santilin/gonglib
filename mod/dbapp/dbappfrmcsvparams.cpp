@@ -10,6 +10,9 @@ FrmCsvParams::FrmCsvParams(FrmCsvParams::Modes mode, QWidget* parent, const Xtri
 {
 	setTitle( title );
 	if( mode == exporting ) {
+		XtringList rangeoptions;
+		rangeoptions << _("Registro actual") << _("Registros seleccionados") << _("Todo");
+		pRange = addGroupBox(0, rangeoptions, _("Rango"), all);
 		pEditExportFilename = addFileNameBox( parent, _("Fichero de destino") );
 	}
 	if( mode == importing ) {
