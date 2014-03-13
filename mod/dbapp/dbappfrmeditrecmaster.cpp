@@ -1410,26 +1410,46 @@ void FrmEditRecMaster::menuTableImport_clicked()
 			addDescription( tbldef, descriptions, _template );
 			for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
 				it != tbldef->getRelationDefinitions().end(); ++it ) {
+				if( it->second->getType() == dbRelationDefinition::aggregate ) {
 					dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
 					addDescription( reltbldef, descriptions, _template );
+				} else if( it->second->getType() == dbRelationDefinition::one2one ) {
+					_GONG_DEBUG_PRINT( 0, it->second->getFullName());
+					dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+					dbFieldDefinition *codefld = reltbldef->findFieldByFlags( dbFieldDefinition::CODE );
+					if( codefld ) {
+						descriptions += codefld->getFullName() + ": ";
+						if( codefld->getDescription().isEmpty() )
+							descriptions += codefld->getCaption() + "\n";
+						else
+							descriptions += codefld->getDescription() + "\n";
+						_template.appendWithSeparator( getDelimiter() + codefld->getFullName() + getDelimiter(), getSeparator() );
+					}
+				}
 			}
 			FrmBase::msgOkLarge( this, 
 				Xtring::printf(_("Plantilla para importar %s"), DBAPP->getTableDescPlural( pRecord->getTableName() ).c_str() ),
 				descriptions 
 				+ _( "\nPuedes copiar y pegar este texto directamente a una hoja de cálculo:\n" )
-				+ _template );
+				+ _template + "\n"
+				+ getDelimiter() + getDelimiter() + getSeparator() 
+				+ getDelimiter() + getDelimiter() + getSeparator() 
+				+ getDelimiter() + getDelimiter()  
+				+ "\n" );
 		}
-		void addDescription( const dbTableDefinition *tbldef, Xtring descriptions, Xtring _template ) {
+		void addDescription( const dbTableDefinition *tbldef, Xtring &descriptions, Xtring &_template ) {
 			for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
 				dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
-				if( flddef->isReference() )
+				if( flddef->isReference() || flddef->isPrimaryKey() )
+					continue;
+				if( flddef->getName().startsWith("REC_") )
 					continue;
 				descriptions += flddef->getFullName() + ": ";
 				if( flddef->getDescription().isEmpty() )
 					descriptions += flddef->getCaption() + "\n";
 				else
 					descriptions += flddef->getDescription() + "\n";
-				_template.appendWithSeparator( flddef->getFullName(), "," );
+				_template.appendWithSeparator( getDelimiter() + flddef->getFullName() + getDelimiter(), getSeparator() );
 			}
 		}
 	

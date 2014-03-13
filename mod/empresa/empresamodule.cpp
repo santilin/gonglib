@@ -342,7 +342,7 @@ bool EmpresaModule::initDatabase( dbDefinition *db )
     pFicEmpresa->addFieldBool( "SOLOLECTURA" );
     // Hasta aquí, estos campos son obligatorios para poder hacer login de la empresa
     pFicEmpresa->addFieldBool( "USARPROYECTOS" );
-    pFicEmpresa->addFieldOne2OneRelation( "CONTACTO_ID", "CONTACTO.ID", true );
+    pFicEmpresa->addFieldAggregateRelation( "CONTACTO_ID", "CONTACTO.ID", true );
     pFicEmpresa->addFieldOne2OneRelation( "MONEDA_ID", "MONEDA.ID", true );
     pFicEmpresa->addFieldString("ENTIDADBANCO", 80);
     pFicEmpresa->addField<FldCuentaBanco>( "CUENTABANCO" );
