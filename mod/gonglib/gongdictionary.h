@@ -93,6 +93,16 @@ public:
         }
     }
 
+	mapped_type &at(const key_type& __k) 
+    {
+        return std::map<Xtring, T>::at(__k.upper() );
+    }
+
+    const mapped_type &at(const key_type& __k) const
+    {
+        return std::map<Xtring, T>::at(__k.upper() );
+    }
+    
     /* This function is const because we want to avoid the insert syntax: Dict[key] = value; 
 	 Use set(key,value) instead */
     const mapped_type &operator[](const key_type& __k) const
