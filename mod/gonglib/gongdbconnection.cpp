@@ -139,8 +139,8 @@ bool dbConnection::connect( enum SqlDriver driver, const Xtring &user, const Xtr
     case DRIVER_POSTGRESQL:
         _GONG_DEBUG_ASSERT( 1 == 0 ); // No está compilado
         break;
-#ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         if( pSqLite != 0 ) {
             if( sqlite3_close( pSqLite ) != SQLITE_OK )
                 setError( "closing");
@@ -168,6 +168,7 @@ bool dbConnection::connect( enum SqlDriver driver, const Xtring &user, const Xtr
         }
         setEncoding( "UTF8" );
 #endif
+		break;
     }
     return true;
 }
@@ -323,9 +324,9 @@ void dbConnection::setError( const Xtring &query )
     case DRIVER_MYSQL:
         mLastError = dbError( ::mysql_error( pMySql ), ::mysql_errno( pMySql ), query );
         break;
-#ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3:
     {
+#ifdef HAVE_SQLITE3
 #if 0
 #define SQLITE_ERROR        1   /* SQL error or missing database */
 #define SQLITE_INTERNAL     2   /* Internal logic error in SQLite */
@@ -360,8 +361,8 @@ void dbConnection::setError( const Xtring &query )
 #endif
         int errno = sqlite3_errcode( pSqLite );
         switch( errno ) {
-        case SQLITE_CANTOPEN: /* 14 */
-            errno = 1049;
+			case SQLITE_CANTOPEN: /* 14 */
+				errno = 1049;
             break;
         }
         mLastError = dbError( sqlite3_errmsg( pSqLite ), errno, query );
@@ -369,9 +370,9 @@ void dbConnection::setError( const Xtring &query )
             _GONG_DEBUG_WARNING( Xtring::printf( "(%s):%d:%s",
                                                  query.c_str(), mLastError.getNumber(), mLastError.what() ) );
         }
-        break;
-    }
 #endif
+    }
+        break;
     case DRIVER_POSTGRESQL:
         break;
     }
@@ -387,13 +388,14 @@ bool dbConnection::selectDatabase( const Xtring &dbname )
         return ( mLastError.getNumber() == 0 );
     case DRIVER_POSTGRESQL:
         break;
-#ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         if( dbname == mDBName )
             return true;
         else
             return connect( mSqlDriver, mUser, mPassword, dbname, mHost, mPort, mOptions );
 #endif
+		break;
     }
     return false;
 }
@@ -414,13 +416,15 @@ bool dbConnection::existsDatabase( const Xtring &databasename )
     case DRIVER_POSTGRESQL:
         return ( selectInt( "SELECT COUNT(*) FROM pg_database "
                             "WHERE datname=" + toSQL( databasename ) ) != 0 );
-#ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         Xtring fname = mHost;
         if( !fname.isEmpty() )
             FileUtils::addSeparator(fname);
         fname += databasename + ".sql3";
         return FileUtils::exists( fname.c_str() );
+#else
+		return false;
 #endif
     }
     return false;
@@ -445,12 +449,14 @@ bool dbConnection::existsTable(const Xtring& tablename, const Xtring& dbname)
     break;
     case DRIVER_POSTGRESQL:
         return false;
-#ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         Xtring where = "WHERE type='table' AND name='" + tablename + "'";
         Xtring sql = "SELECT name FROM sqlite_master " + where
                      + "UNION ALL SELECT name FROM sqlite_temp_master " + where;
         return !selectString( sql ).isEmpty();
+#else
+		return false;
 #endif
     }
     return false;
@@ -507,13 +513,13 @@ Xtring dbConnection::toSQL( const Xtring &p_val ) const
         ret.replace( "'", "''" );
         ret = "'" + ret + "'";
         break;
-#ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         char *pret = sqlite3_mprintf("%Q", ret.c_str() );
         ret = pret;
         sqlite3_free( pret );
-        break;
 #endif
+        break;
     }
     return ret;
 }
@@ -544,14 +550,14 @@ Xtring dbConnection::toSQLStartLike( const Xtring &p_field, const Xtring &p_val,
         ret.replace( "'", "''" );
         ret = p_field + (negated ? " NOT " : "" ) + " ILIKE '" + ret + "%'";
         break;
-#ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         char *pret = sqlite3_mprintf("%q", ret.c_str() );
         ret = pret;
         sqlite3_free( pret );
         ret = nameToSQL( p_field ) + (negated ? " NOT " : "" ) + " LIKE \'" + ret + "%\'"; // case insensitive
-        break;
 #endif
+        break;
     }
     return ret;
 }
@@ -585,14 +591,14 @@ Xtring dbConnection::toSQLLike( const Xtring &p_field, const Xtring &p_val, bool
         ret.replace( "'", "''" );
         ret = nameToSQL(p_field) + (negated ? " NOT ":"" ) + " ILIKE '%" + ret + "%'";
         break;
-#ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         char *pret = sqlite3_mprintf("%q", ret.c_str() );
         ret = pret;
         sqlite3_free( pret );
         ret = nameToSQL(p_field) + (negated ? " NOT ":"" ) + " LIKE '%" + Xtring(ret).replace(" ", "%") + "%'"; // case insensitive
-        break;
 #endif
+        break;
     }
     return ret;
 }
@@ -625,15 +631,15 @@ Xtring dbConnection::toSQLLikeLiteral(const gong::Xtring& p_field, const gong::X
         ret.replace( "'", "''" );
         ret = p_field + (negated ? " NOT ":"" ) + " ILIKE '" + ret + "'";
         break;
-#ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         ret += "%";
         char *pret = sqlite3_mprintf("%q", ret.c_str() );
         ret = pret;
         sqlite3_free( pret );
         ret = nameToSQL(p_field) + (negated ? " NOT ":"" ) + " LIKE '" + ret + "'"; // case insensitive
-        break;
 #endif
+        break;
     }
     return ret;
 
@@ -795,7 +801,7 @@ Xtring dbConnection::selectString( const Xtring & sql, int nfield )
 {
     std::auto_ptr<dbResultSet> rs( select( sql ) );
 	_GONG_DEBUG_ASSERT( nfield < rs->getColumnCount() );
-    if ( rs->next() && nfield < rs->getColumnCount() )
+    if ( rs->next() && nfield < (int)rs->getColumnCount() )
         return rs->toString( nfield );
     else
         return Xtring();

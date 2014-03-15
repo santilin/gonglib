@@ -318,6 +318,7 @@ bool dbTableDefinition::dropIndex(dbConnection* conn, const Xtring& indexname, b
 			return idxdef->drop( conn, this, ignoreerrors );
 		}
 	}
+	return false;
 }
 
 

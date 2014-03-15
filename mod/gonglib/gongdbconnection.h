@@ -29,7 +29,7 @@ class dbConnection
 public:
     enum SqlDriver { DRIVER_MYSQL, DRIVER_POSTGRESQL, DRIVER_SQLITE3 }; // XBASE
     dbConnection();
-    ~dbConnection();
+    virtual ~dbConnection();
     bool isMySQL() const {
         return mSqlDriver == DRIVER_MYSQL;
     }

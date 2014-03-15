@@ -1,14 +1,18 @@
 == HECHO ==
-* Ticket normal, tiene poco espacio para el total
 
 == HACIENDO ==
-* Sacar en la Z la cantidad inicial en el cajón
+* Ticket normal, tiene poco espacio para el total
 
 == JOSÉ CASTAÑO ==
 * Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
 
 == HACER ==
-* Autokubuntu: Instalar impresora/escaner hp
+* Los pájaros: UPDATE EJERCICIO_ID y EMPRESA_ID en SESIONTPV
+UPDATE SESIONTPV SET EMPRESA_ID=1;
+UPDATE SESIONTPV SET EJERCICIO = YEAR(FECHA);
+* Problema logo
+* Crear base de datos
+
 
 == ARREGLAR ==
 * Si el formulario está maximizado, añadir un spacer al controlslayout
