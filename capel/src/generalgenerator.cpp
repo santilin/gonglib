@@ -118,8 +118,10 @@ int GeneralGenerator::generateYiiMVC(const GeneralGenerator::ModuleDefinition& m
 			if( flddef->isUnique() )
 				unique_fields.appendWithSeparator( flddef->getName(), ",");
 			bool required = !flddef->canBeNull() && flddef->getDefaultValue().isEmpty();
-			if( required ) 
+			if( required ) {
+// 				_GONG_DEBUG_PRINT(0, flddef->getFullName() + " is required");
 				required_fields.appendWithSeparator( flddef->getName(), "," );
+			}
 			else if( flddef->canBeNull() /*&& flddef->getDefaultValue() == "NULL"*/ ) {
 				nullable_fields.appendWithSeparator( flddef->getName(), ",");
 			}
