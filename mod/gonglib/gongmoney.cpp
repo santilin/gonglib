@@ -9,6 +9,7 @@
 
 namespace gong {
 
+// max - 3 bits for decimals - 1 bit for sign
 const unsigned long long max_money = std::numeric_limits<long long>::max() >> 4;
 
 /**
@@ -31,7 +32,7 @@ static long long _exp10[8] = {
 Money::Money(long long amount, unsigned short int ndecimals)
 {
     _GONG_DEBUG_ASSERT(ndecimals < 8 );
-    if( (amount < 0 ? -amount:amount) >= max_money )
+    if( (unsigned long long)(amount < 0 ? -amount:amount) >= max_money )
         throw( std::overflow_error("Amount too big") );
     u.s.mDecimals = ndecimals;
     if( amount < 0LL ) {
@@ -54,7 +55,7 @@ Money::Money(long long amount, unsigned short int ndecimals, unsigned short int 
 Money::Money(int amount, unsigned short int ndecimals)
 {
     _GONG_DEBUG_ASSERT(ndecimals < 8 );
-    if( (amount < 0 ? -amount:amount) >= max_money )
+    if( (unsigned long long)(amount < 0 ? -amount:amount) >= max_money )
         throw( std::overflow_error("Amount too big") );
     u.s.mDecimals = ndecimals;
     if( amount < 0 ) {

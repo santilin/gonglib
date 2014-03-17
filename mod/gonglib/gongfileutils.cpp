@@ -155,6 +155,8 @@ Xtring FileUtils::findInPath(const Xtring &path, const Xtring &file, const Xtrin
     if( path.tokenize(paths, ":") != 0 ) {
         for( XtringList::iterator it = paths.begin(); it!=paths.end(); ++it ) {
             Xtring onepath = *it;
+			if( it->isEmpty() )
+				continue;
             if( !onepath.endsWith( "/" ) )
                 onepath += "/";
             foundfile = onepath + file;

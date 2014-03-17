@@ -135,11 +135,11 @@ Xtring dbResultSet::toString(unsigned colnum) const
     case dbConnection::DRIVER_MYSQL:
         ret = Xtring( _data.mysql.mRow[colnum], _data.mysql.pLengths[colnum] );
         break;
-#ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         ret = (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].toString();
-        break;
 #endif
+        break;
 	case dbConnection::DRIVER_POSTGRESQL:
 		break;
 	}
@@ -155,10 +155,11 @@ Variant dbResultSet::toBinary(unsigned colnum) const
     switch( pConnection->getSqlDriver() ) {
     case dbConnection::DRIVER_MYSQL:
         return Variant( (void *)_data.mysql.mRow[colnum], _data.mysql.pLengths[colnum] );
-#ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum];
 #endif
+		break;
 	case dbConnection::DRIVER_POSTGRESQL:
 		break;
     }
@@ -186,10 +187,11 @@ double dbResultSet::toDouble(unsigned colnum) const
     switch( pConnection->getSqlDriver() ) {
     case dbConnection::DRIVER_MYSQL:
         return Xtring( _data.mysql.mRow[colnum], _data.mysql.pLengths[colnum] ).toDoubleLocIndep();
-#ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].toDouble();
 #endif
+		break;
 	case dbConnection::DRIVER_POSTGRESQL:
 		break;
 	}
@@ -211,10 +213,11 @@ Money dbResultSet::toMoney(unsigned colnum) const
         unsigned short int ndecs = _data.mysql.pFieldDefs[colnum].decimals;
         return Money( toDouble(colnum), ndecs > 7?7:ndecs );
     }
-#ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].toMoney();
 #endif
+		break;
 	case dbConnection::DRIVER_POSTGRESQL:
 		break;
 	}
@@ -251,10 +254,11 @@ bool dbResultSet::isNull(unsigned colnum) const
     switch( pConnection->getSqlDriver() ) {
     case dbConnection::DRIVER_MYSQL:
         return _data.mysql.mRow[colnum] == 0;
-#ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
+#ifdef HAVE_SQLITE3
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].type() == Variant::tInvalid;
 #endif
+		break;
 	case dbConnection::DRIVER_POSTGRESQL:
 		break;
 	}

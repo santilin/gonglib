@@ -1273,7 +1273,7 @@ void compile_if_stmt(const TreeIterT& iter, compile_context& ctx)
     assert(iter->value.id() == if_stmt_id);
 
     // Get a node type
-    typedef typename TreeIterT::value_type node_t;
+//     typedef typename TreeIterT::value_type node_t;
 
     // only gonna have 2 or 3 children, that's all we can have
     assert(iter->children.size() >= 2 && iter->children.size() <= 3);

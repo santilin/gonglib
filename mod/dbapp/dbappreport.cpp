@@ -330,22 +330,22 @@ int AppReport::readAndPrint(RTK_Output_Type tiposalida, const Xtring& rtkfilenam
 {
     Xtring paths = DBAPP->getReportsPath( true );
     DBAPP->waitCursor( true );
-    int ret = readFile( FileUtils::findInPath( paths, rtkfilename ), initdefines );
+    int ret = readFile( FileUtils::findInPath( paths, rtkfilename, "informes" ), initdefines );
     if( ret ) {
         ret = print( tiposalida, properties, filter, Xtring::null,
                      po, askforparameters );
-        if( !ret ) {
-            if ( errorsCount() != 0 ) {
-                FrmBase::msgError( DBAPP->getPackageString(), Xtring::printf(
-                                       _( "En el informe %.100s:\n%s" ),
-                                       rtkfilename.c_str(), lastError()->message() ) );
-            }
-        }
-    } else {
-        FrmBase::msgError( DBAPP->getPackageString(), Xtring::printf(
-                               _( "Imposible encontrar el informe %s.\nBuscando en %s" ),
-                               rtkfilename.c_str(),
-                               paths.replace( ":", "\n" ).c_str() ) );
+	}
+	if( !ret ) {
+		if ( errorsCount() != 0 ) {
+			FrmBase::msgError( DBAPP->getPackageString(), Xtring::printf(
+							_( "En el informe %.100s:\n%s" ),
+							rtkfilename.c_str(), lastError()->message() ) );
+		} else {
+			FrmBase::msgError( DBAPP->getPackageString(), Xtring::printf(
+						_( "Imposible encontrar el informe %s.\nBuscando en %s" ),
+						rtkfilename.c_str(),
+						paths.replace( ":", "\n" ).c_str() ) );
+		}
     }
     DBAPP->resetCursor();
     return ret;

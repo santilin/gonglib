@@ -1,25 +1,26 @@
 == HECHO ==
 
 == HACIENDO ==
+* Ticket normal, tiene poco espacio para el total
 
 == JOSÉ CASTAÑO ==
-* Añadir opción importación de socias/clientes/proveedoras/etc. Explicarle
 * Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
 
 == HACER ==
-* Autokubuntu: Instalar impresora/escaner hp
-* Módulo balanzas
+* Los pájaros: UPDATE EJERCICIO_ID y EMPRESA_ID en SESIONTPV
+UPDATE SESIONTPV SET EMPRESA_ID=1;
+UPDATE SESIONTPV SET EJERCICIO = YEAR(FECHA);
+* Problema logo
+* Crear base de datos
+
 
 == ARREGLAR ==
-* Ticket normal, tiene poco espacio para el total
 * Si el formulario está maximizado, añadir un spacer al controlslayout
 
 == NUEVA FUNCIONALIDAD ==
-* Sacar en la Z la cantidad inicial en el cajón
 * tpv: Fila de productos favoritos
 * tpv: Pagos por rondas: buscar un FrmList animado
 * factu: Formulario datos ventas y compras de artículos
-* Enviar adjuntos por email
 * Clientes especiales, con un porcentaje extra.
 
 == MC ==
@@ -101,6 +102,7 @@
 ** Niveles del plan contable
 
 == gong-contactos ==
+* Enviar adjuntos por email
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Utilizar campo alternativo para buscar clientes, proveedoras y contactos
 * Mostrar nombres parecidos al dar de alta un nombre

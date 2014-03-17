@@ -193,7 +193,6 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
         pUser = other->pUser;
         if( deep ) {
             clearRelations();
-			uint i = 0;
 			for( uint i=0; i< mRecordRelations.size(); ++i ) {
 				dbRecordRelation *recrel = mRecordRelations.seq_at(i);
 				dbRecordRelation *otherrel = other->mRecordRelations.seq_at(i);

@@ -166,7 +166,7 @@ Xtring FrmBalanceCliPro::createRTK(const Xtring &_template,
             "		SELECT FV.ENTREGA, FV.FECHA, 'Fv' AS TIPO, FV.NUMERO, 'Entrega' AS TIPODOC, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, FV.NOTAS"
             "			FROM FACTURAVENTA FV"
             "				INNER JOIN TIPODOC ON TIPODOC.ID = FV.TIPODOC_ID"
-            "				INNER JOIN CLIENTE ON FV.CLIENTE_ID = CLIENTE.ID";
+            "				INNER JOIN CLIENTE ON FV.CLIENTE_ID = CLIENTE.ID"
 			"			WHERE FV.ENTREGA!=0";
         if( !ventas_where.isEmpty() )
             from += " WHERE " + Xtring(ventas_where).replace("AV.","FV.");
