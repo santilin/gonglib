@@ -1,20 +1,16 @@
 == HECHO ==
-
-== HACIENDO ==
-* Ticket normal, tiene poco espacio para el total
-* STOCK_INICIAL: Si se modifica, modificar el stock actual.
 * tpv: Fila de productos favoritos
 
-== JOSÉ CASTAÑO ==
+== José Cataño ==
+* Al hacer la remesa de recibos, me he encontrado con lo que me ha hecho pararme porque no va, los pasos que doy son los siguientes: Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo he intentar buscar el socia, se me cierra el programa del tirón, por lo que me deja sin opción de continuar no hacer nada más, en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 
-== HACER ==
-* Problema logo
-
-
-== ARREGLAR ==
+== En los pájaros ==
+* Añadir CIF a tickets
+* Ajustar anchura tickets
+* Ticket normal, tiene poco espacio para el total
+* Problema logo en la web
 
 == NUEVA FUNCIONALIDAD ==
-* tpv: Pagos por rondas: buscar un FrmList animado
 * factu: Formulario datos ventas y compras de artículos
 * Clientes especiales, con un porcentaje extra.
 
@@ -30,6 +26,7 @@
 * Estadísticas
 
 == gong-tpv ==
+* tpv: Pagos por rondas: buscar un FrmList animado
 * Tarifas por el tipo de mesa.
 * Al limpiar la mesa, lee registros
 * saveEstado intenta grabar siempre, ver la diferencia

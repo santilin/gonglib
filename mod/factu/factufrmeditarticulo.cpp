@@ -560,7 +560,7 @@ void FrmEditArticulo::pushArticuloBaseCodigo_clicked()
 
 void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
-    /*<<<<<FRMEDITARTICULO_VALIDATE*/
+/*<<<<<FRMEDITARTICULO_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -666,6 +666,13 @@ void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResul
             *isvalid = false;
         }
     }
+    if( sender == editStockInicial && editStockInicial->isJustEdited() ) {
+		double prev_value = editStockInicial->getPreviousValue().toDouble();
+		double new_value = editStockInicial->toDouble(); 
+		if( !gong::areSame(prev_value, new_value ) ) {
+			editStock->setText( editStock->toDouble() - prev_value + new_value);
+		}
+	}
     if ( !ir ) {
         showValidMessages( isvalid, *validresult, sender );
         delete validresult;
