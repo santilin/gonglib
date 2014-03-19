@@ -1,5 +1,4 @@
 == HECHO ==
-* tpv: Fila de productos favoritos
 
 == José Cataño ==
 * Al hacer la remesa de recibos, me he encontrado con lo que me ha hecho pararme porque no va, los pasos que doy son los siguientes: Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo he intentar buscar el socia, se me cierra el programa del tirón, por lo que me deja sin opción de continuar no hacer nada más, en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
@@ -103,6 +102,7 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Añadir #ifmodule a los settings de solo lectura
 * Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
 * Si el formulario está maximizado, añadir un spacer al controlslayout
 * FrmEstadCompraVenta: Revisar la reducción de la fuente número de documento en el informe
