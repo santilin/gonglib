@@ -82,15 +82,14 @@ bool AppReport::readString( const Xtring &rtkcode, const Xtring &initdefines, In
 
 
 
-/// \todo {refactor} {0.3.4} Función genérica para pedir un fichero y comprobar si se va a sobreescribir
-int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &properties,
+int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &properties,
                       const Xtring &filter, const Xtring &order,
                       PageOrientation po, bool askforparameters )
 {
     DBAPP->waitCursor ( true );
     int ret = 0;
     bool goon = true;
-    Xtring title = properties["TITLE"];
+    Xtring title = properties["TITLE"].toString();
     if( title.isEmpty() )
         title = propTitle.getOrig();
     if( title.isEmpty() )
@@ -227,10 +226,10 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &prop
         }
 #endif
         setOrigOrder ( order.c_str() );
-        for( Dictionary<Xtring>::const_iterator propit = properties.begin();
+        for( Dictionary<Variant>::const_iterator propit = properties.begin();
                 propit != properties.end(); ++ propit ) {
-            if( !setPropOrigValue( propit->first, propit->second ) )
-				if( !setParameterValue( propit->first, propit->second) )
+            if( !setPropOrigValue( propit->first, propit->second.toString() ) )
+				if( !setParameterValue( propit->first, propit->second.toString()) )
                 _GONG_DEBUG_WARNING( "Neither property nor parameter '" + propit->first + "'  found in report" );
         }
         try {
@@ -326,7 +325,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Xtring> &prop
  **/
 int AppReport::readAndPrint(RTK_Output_Type tiposalida, const Xtring& rtkfilename,
                             const Xtring& filter, const Xtring& initdefines,
-                            const Dictionary< Xtring >& properties,
+                            const Dictionary<Variant>& properties,
                             const Xtring& order, PageOrientation po, bool askforparameters )
 {
     Xtring paths = DBAPP->getReportsPath( true );

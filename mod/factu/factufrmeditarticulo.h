@@ -110,6 +110,7 @@ protected:
 	gong::EditBox *editPVP3;
 	gong::CheckBox *checkUsarStocks;
 	gong::EditBox *editStock;
+	gong::EditBox *editStockInicial;
 	gong::EditBox *editStockMaximo;
 	gong::EditBox *editStockMinimo;
 	gong::CheckBox *checkEnUso;

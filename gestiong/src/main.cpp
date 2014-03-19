@@ -33,17 +33,14 @@
 #ifdef HAVE_EMPRESAMODULE
 #	include <empresamodule.h>
 #endif
-#ifdef HAVE_CONTABMODULE
-#	include <contabmodule.h>
+#ifdef HAVE_TESORERIAMODULE
+#	include <tesoreriamodule.h>
 #endif
 #ifdef HAVE_PAGOSMODULE
 #	include <pagosmodule.h>
 #endif
 #ifdef HAVE_FACTUMODULE
 #	include <factumodule.h>
-#endif
-#ifdef HAVE_GASTOSTIPOMODULE
-#	include <gastostipomodule.h>
 #endif
 #ifdef HAVE_SOCIASMODULE
 #	include <sociasmodule.h>
@@ -83,17 +80,14 @@ int main( int argc, char *argv[] )
 #ifdef HAVE_EMPRESAMODULE
 		DBAPP->addModule( new empresa::EmpresaModule() );
 #endif
-#ifdef HAVE_CONTABMODULE
-		DBAPP->addModule( new contab::ContabModule() );
+#ifdef HAVE_TESORERIAMODULE
+		DBAPP->addModule( new tesoreria::TesoreriaModule() );
 #endif
 #ifdef HAVE_PAGOSMODULE
 		DBAPP->addModule( new pagos::PagosModule() );
 #endif
 #ifdef HAVE_FACTUMODULE
 		DBAPP->addModule( new factu::FactuModule() );
-#endif
-#ifdef HAVE_GASTOSTIPOMODULE
-		DBAPP->addModule( new gastostipo::GastosTipoModule() );
 #endif
 #ifdef HAVE_SOCIASMODULE
 		DBAPP->addModule( new socias::SociasModule() );

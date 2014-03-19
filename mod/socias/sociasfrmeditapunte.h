@@ -16,7 +16,7 @@
 /*>>>>>COPYLEFT*/
 
 #include "config.h"
-// #ifdef HAVE_CONTABMODULE
+#ifdef HAVE_CONTABMODULE
 #include <qobject.h>
 
 /*<<<<<FRMEDITAPUNTE_INCLUDES*/
@@ -72,10 +72,11 @@ protected:
 /*>>>>>FRMEDITAPUNTE_CONTROLS*/
 };
 
+#endif // ifdef HAVE_CONTABMODULE
+
 /*<<<<<FRMEDITAPUNTE_POSTAMBLE*/
 } // namespace socias
 } // namespace gong
 #endif // SOCIAS_SOCIASFRMEDITAPUNTE_H
 /*>>>>>FRMEDITAPUNTE_POSTAMBLE*/
 
-// #endif

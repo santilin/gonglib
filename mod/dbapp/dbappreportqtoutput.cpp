@@ -49,7 +49,7 @@ Measure ReportQtOutput::startPage()
     if( mCurrentPageInFolio <= 1 ) {
         QPicture *aPicture = new QPicture();
 #ifdef _GONG_DEBUG
-		_GONG_DEBUG_PRINT(0, Xtring::printf("Page: %d x %d, margins: %d, %d, %d, %d",
+		_GONG_DEBUG_PRINT(0, Xtring::printf("Page: %f x %f, margins: %f, %f, %f, %f",
 											sizeX(), sizeY(), marginLeft(), marginTop(), marginRight(), marginBottom() ) );
         if( __gong_debug::_gong_debug_level == 3 ) {
             std::cout << "DeviceMetrics:w:"

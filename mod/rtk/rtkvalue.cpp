@@ -16,7 +16,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DScript Includes
 #include "rtkvalue.h"
-#include "gongvariant.h"
+#include <gongvariant.h>
+#include <gongxtring.h>
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace std;
@@ -217,21 +218,19 @@ double value::to_flt() const
 {
     switch(type)
     {
-    case type_str:
-    case type_binary:
-    {
-        double d = 0.0;
-        stringstream s;
-        s << strval;
-        s >> d;
-        return d;
-    }
-    break;
-    case type_int:
-        return (double)intval;
-        break;
-    default:
-        return fltval;
+		case type_str:
+		case type_binary:
+		{
+			bool ok = true;
+			double d = static_cast<gong::Xtring>(strval).toDouble(&ok);
+			return d;
+		}
+		break;
+		case type_int:
+			return (double)intval;
+			break;
+		default:
+			return fltval;
     }
 }
 

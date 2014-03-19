@@ -134,11 +134,11 @@ void FrmAdvancedPrint::accept()
         break;
     }
     Xtring defines;
-    Dictionary<Xtring> properties;
+    Dictionary<Variant> properties;
     properties.insert( "TITLE", pTitle->toString() );
     if( pSummary->isOn() ) {
         defines += "RESUMIDO,";
-// 		properties.insert( "DETAILS.SUPRESSED", "true" );
+// 		properties.insert( "DETAILS.SUPRESSED", true );
     }
     if( pIncLogo->isOn() )
         defines += "INCLOGO,";

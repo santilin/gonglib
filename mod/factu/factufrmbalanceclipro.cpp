@@ -235,7 +235,7 @@ void FrmBalanceCliPro::accept()
         AppReport *report = new AppReport(*DBAPP, ModuleInstance->getConnection());
         report->readString( rtkstring.c_str() );
         report->setParameterValue( "EMPRESA", empresa::ModuleInstance->getNombreEmpresa() );
-        Dictionary<Xtring> properties;
+        Dictionary<Variant> properties;
         properties.insert( "TITLE", titulo );
 		report->print(RTK_Screen, properties, Xtring(), Xtring(),
 						DBAPP->getAppSetting( "RTK.LANDSCAPE" ).toBool() ? Landscape : DefaultOrientation, false);
