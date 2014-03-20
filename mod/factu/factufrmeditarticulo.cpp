@@ -18,6 +18,7 @@
 // FIELD PVP3 money - pvpn
 // FIELD UsarStocks bool - Stock
 // FIELD Stock double - Stock
+// FIELD StockInicial double - Stock
 // FIELD StockMaximo double - Stock
 // FIELD StockMinimo double - Stock
 // FIELD EnUso bool - flags
@@ -109,6 +110,7 @@ FrmEditArticulo::FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	editPVP3 = addEditField( pControlsFrame, "ARTICULO", "PVP3", pvpnLayout );
 	checkUsarStocks = addCheckField( pControlsFrame, "ARTICULO", "USARSTOCKS", StockLayout );
 	editStock = addEditField( pControlsFrame, "ARTICULO", "STOCK", StockLayout );
+	editStockInicial = addEditField( pControlsFrame, "ARTICULO", "STOCKINICIAL", StockLayout );
 	editStockMaximo = addEditField( pControlsFrame, "ARTICULO", "STOCKMAXIMO", StockLayout );
 	editStockMinimo = addEditField( pControlsFrame, "ARTICULO", "STOCKMINIMO", StockLayout );
 	checkEnUso = addCheckField( pControlsFrame, "ARTICULO", "ENUSO", flagsLayout );
@@ -190,6 +192,7 @@ void FrmEditArticulo::scatterFields()
 	editPVP3->setText(getRecArticulo()->getValue("PVP3").toMoney());
 	checkUsarStocks->setChecked(getRecArticulo()->getValue("USARSTOCKS").toBool());
 	editStock->setText(getRecArticulo()->getValue("STOCK").toDouble());
+	editStockInicial->setText(getRecArticulo()->getValue("STOCKINICIAL").toDouble());
 	editStockMaximo->setText(getRecArticulo()->getValue("STOCKMAXIMO").toDouble());
 	editStockMinimo->setText(getRecArticulo()->getValue("STOCKMINIMO").toDouble());
 	checkEnUso->setChecked(getRecArticulo()->getValue("ENUSO").toBool());
@@ -242,6 +245,7 @@ void FrmEditArticulo::gatherFields()
 	getRecArticulo()->setValue( "PVP3", editPVP3->toMoney());
 	getRecArticulo()->setValue( "USARSTOCKS", checkUsarStocks->isChecked());
 	getRecArticulo()->setValue( "STOCK", editStock->toDouble());
+	getRecArticulo()->setValue( "STOCKINICIAL", editStockInicial->toDouble());
 	getRecArticulo()->setValue( "STOCKMAXIMO", editStockMaximo->toDouble());
 	getRecArticulo()->setValue( "STOCKMINIMO", editStockMinimo->toDouble());
 	getRecArticulo()->setValue( "ENUSO", checkEnUso->isChecked());
@@ -556,7 +560,7 @@ void FrmEditArticulo::pushArticuloBaseCodigo_clicked()
 
 void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
-    /*<<<<<FRMEDITARTICULO_VALIDATE*/
+/*<<<<<FRMEDITARTICULO_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -662,6 +666,13 @@ void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResul
             *isvalid = false;
         }
     }
+    if( sender == editStockInicial && editStockInicial->isJustEdited() ) {
+		double prev_value = editStockInicial->getPreviousValue().toDouble();
+		double new_value = editStockInicial->toDouble(); 
+		if( !gong::areSame(prev_value, new_value ) ) {
+			editStock->setText( editStock->toDouble() - prev_value + new_value);
+		}
+	}
     if ( !ir ) {
         showValidMessages( isvalid, *validresult, sender );
         delete validresult;

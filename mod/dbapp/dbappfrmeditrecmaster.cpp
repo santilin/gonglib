@@ -1264,7 +1264,7 @@ void FrmEditRecMaster::menuRecordPrint_clicked()
     } else {
         cond = getRecord()->getIDSqlCond( getTableRecordID() ) ;
     }
-    Dictionary<Xtring> empty_properties;
+    Dictionary<Variant> empty_properties;
     printReport( Xtring(pDataModel->getCurrentView()->getName()).replace(".","_"),
                  empty_properties, cond,
                  DBAPP->getAppSetting( "RTK.LANDSCAPE", false ).toBool() ? Landscape : DefaultOrientation,
@@ -1277,7 +1277,7 @@ void FrmEditRecMaster::menuTablePrint_clicked()
     advprt->showModalFor( this, false, true );
 }
 
-void FrmEditRecMaster::printReport( const Xtring &reportname, const Dictionary<Xtring> &properties,
+void FrmEditRecMaster::printReport( const Xtring &reportname, const Dictionary<Variant> &properties,
                                     const Xtring &filter, PageOrientation po, const Xtring &defines,
                                     bool isafilename, bool resorttotablename )
 {
@@ -1304,7 +1304,7 @@ void FrmEditRecMaster::printReport( const Xtring &reportname, const Dictionary<X
             if ( report->errorsCount() == 0 ) {
                 FrmBase::msgError( this,
                                    Xtring::printf(
-                                       _( "Imposible encontrar el informe %.100s para la tabla de %s.\nBuscando en %s" ),
+                                       _( "Imposible encontrar el informe \n%.100s\npara la tabla de %s.\nBuscando en %s" ),
                                        reportname.c_str(),
                                        getRecord()->getTableDefinition()->getDescPlural().c_str(),
                                        Xtring(report->includePath()).replace( ":", "\n" ).c_str() ) );

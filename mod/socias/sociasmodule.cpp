@@ -51,7 +51,13 @@ SociasModule *ModuleInstance = 0;
  * CODIGO_TIPODOC_RECIBO
  */
 SociasModule::SociasModule()
-    : dbModule("socias"), pContabModule(0), pFactuModule(0)
+    : dbModule("socias")
+#ifdef HAVE_CONTABMODULE	
+	, pContabModule(0)
+#endif
+#ifdef HAVE_FACTUMODULE
+	, pFactuModule(0)
+#endif	
 {
     ModuleInstance = this;
     _GONG_DEBUG_TRACE(1);

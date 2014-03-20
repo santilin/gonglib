@@ -32,8 +32,8 @@
 #ifdef HAVE_EMPRESAMODULE
 #	include <empresamodule.h>
 #endif
-#ifdef HAVE_CONTABMODULE
-#	include <contabmodule.h>
+#ifdef HAVE_TESORERIAMODULE
+#	include <tesoreriamodule.h>
 #endif
 #ifdef HAVE_PAGOSMODULE
 #	include <pagosmodule.h>
@@ -71,8 +71,8 @@ int main( int argc, char *argv[] )
 #ifdef HAVE_EMPRESAMODULE
         DBAPP->addModule( new empresa::EmpresaModule() );
 #endif
-#ifdef HAVE_CONTABMODULE
-        DBAPP->addModule( new contab::ContabModule() );
+#ifdef HAVE_TESORERIAMODULE
+		DBAPP->addModule( new tesoreria::TesoreriaModule() );
 #endif
 #ifdef HAVE_PAGOSMODULE
         DBAPP->addModule( new pagos::PagosModule() );

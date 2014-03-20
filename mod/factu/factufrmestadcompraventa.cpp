@@ -330,7 +330,7 @@ void FrmEstadCompraVenta::accept()
     if( !rtkstring.isEmpty() ) {
         AppReport *report = new AppReport(*DBAPP, ModuleInstance->getConnection());
         report->readString( rtkstring.c_str() );
-        Dictionary<Xtring> properties;
+        Dictionary<Variant> properties;
         properties.insert( "TITLE", titulo );
         report->print( static_cast<RTK_Output_Type>(pComboOutputs->currentItem()),
                        properties, Xtring(), Xtring(),

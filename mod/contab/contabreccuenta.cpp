@@ -2,6 +2,7 @@
 // COPYLEFT Registro de cuentas
 // MEMBER isValid
 // MEMBER toString
+// MEMBER init
 // RELATION contactos::Contacto
 // TYPE dbRecord contab::Cuenta
 /*>>>>>MODULE_INFO*/

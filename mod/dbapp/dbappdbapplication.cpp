@@ -1549,6 +1549,7 @@ Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* program
                                                 getPackageName(), sqldbname.c_str() ),
                                         diff );
 			if( doit ) {
+				DBAPP->showStickyOSD( DBAPP->getPackageString(), _("Actualizando la base de datos"), 0 );
                 purging = false; // Do not create the indexes again later
                 programdb->dropIndexes(conn, false, true);
                 conn->exec( querys );
@@ -1562,10 +1563,11 @@ Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* program
             }
         }
         if( purging ) {
-            DBAPP->showOSD( _("Limpiando base de datos"), _("Regenerando los índices") );
+            DBAPP->showStickyOSD( DBAPP->getPackageString(), _("Regenerando los índices"), 0 );
             programdb->dropIndexes(conn, false, true);
             programdb->createIndexes(conn, true);
         }
+		DBAPP->hideOSD();
     } catch( dbError e ) {
         FrmBase::msgError( getPackageString(), e.what() );
     }

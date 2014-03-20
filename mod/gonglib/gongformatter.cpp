@@ -149,10 +149,10 @@ Xtring Formatter::format( double val, const char *aformat, const char *amask ) c
     Xtring masked_value;
     if ( aformat && strstr(aformat, "%$" ) != 0 ) {
         short int ndecimals = masknum_ndecimals( (amask && *amask)?amask:mRegConfig.getCurrencyMask().c_str() );
-        if( ndecimals != -1 )
-            val = round( val, ndecimals );
-        masked_value = formatLocaleCurrency(
-                           mask( val, (amask && *amask)?amask:mRegConfig.getCurrencyMask().c_str(), Variant::tMoney), val );
+        if( ndecimals == -1 )
+			ndecimals = 2;
+		Money m(val, ndecimals);
+		return format( m, aformat, amask );
     } else {
         if( amask && strlen(amask) ) {
             short int ndecimals = masknum_ndecimals( amask );
@@ -183,8 +183,7 @@ Xtring Formatter::format( const Money &val, const char *aformat, const char *ama
         masked_value = formatLocaleCurrency(
                            mask( local_val, (amask && *amask)?amask:mRegConfig.getCurrencyMask().c_str(), Variant::tMoney), local_val.toDouble() );
     }
-    _GONG_DEBUG_PRINT(10, Xtring::printf("Will format '%s' with format '%s' and mask '%s' and return '%s'",
-                                         masked_value.c_str(), aformat, amask, format(masked_value, aformat, amask).c_str() ) );
+//     _GONG_DEBUG_PRINT(0, Xtring::printf("Will format '%s' with format '%s' and mask '%s' and return '%s'", masked_value.c_str(), aformat, amask, format(masked_value, aformat, amask).c_str() ) );
     return format( masked_value, aformat, amask );
 }
 
@@ -192,8 +191,10 @@ Xtring Formatter::format( const Money &val, const char *aformat, const char *ama
 Xtring Formatter::format( const Variant &avalue, const char *aformat,
                           const char *amask, Variant::Type valuetype ) const
 {
-    if ( valuetype == Variant::tInvalid )
+    if( valuetype == Variant::tInvalid )
         valuetype = avalue.type();
+	if( valuetype == Variant::tString && aformat && strstr(aformat,"%$")!=0)
+		valuetype = Variant::tMoney;
     switch ( valuetype ) {
     case Variant::tDate:
         return format( avalue.toDate(), aformat, amask );

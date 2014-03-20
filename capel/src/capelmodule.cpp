@@ -324,7 +324,6 @@ int CapelModule::empty_extrusion(const Xtring &extrusion_name)
 
 int CapelModule::position_before_extrusion(const Xtring &extrusion_name)
 {
-	_GONG_DEBUG_PRINT(0, extrusion_name );
 	int begin = lookup_extrusion_begin(extrusion_name);
 	if( begin != - 1 )
 		begin--;

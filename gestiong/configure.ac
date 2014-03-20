@@ -4,10 +4,9 @@ dnl MODULE qt4 GONG_CHECK_QT4
 dnl MODULE dbapp
 dnl MODULE Contactos
 dnl MODULE Empresa
-dnl MODULE Contab
+dnl MODULE Tesoreria
 dnl MODULE Pagos
 dnl MODULE Factu
-dnl MODULE GastosTipo
 dnl MODULE Socias
 dnl MODULE SinPapeles
 dnl MODULE RecColor
@@ -182,23 +181,23 @@ fi
 AC_SUBST(GONGEMPRESA_CPPFLAGS)
 AC_SUBST(GONGEMPRESA_LIBS)
 
-AC_ARG_WITH( [gong-contab],
-AS_HELP_STRING([--with-gong-contab], [Support for the gong contab module (default is YES)]), 
-[ac_cv_use_gong_contab=$withval],
-[ac_cv_use_gong_contab=yes] )
-AM_CONDITIONAL( [COMPILE_WITH_GONG_CONTAB], [ test "$ac_cv_use_gong_contab" = yes ])
-if test "$ac_cv_use_gong_contab" = yes ; then
-	AC_DEFINE( [HAVE_CONTABMODULE], [1], [Define to 1 if you have the Contab module.] )
-	GONGCONTAB_CPPFLAGS="-I../../contab"
-	GONGCONTAB_LIBS="-L../contab -lgongcontab"
-	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGCONTAB_CPPFLAGS"
-	GONGLIB_LIBS="$GONGCONTAB_LIBS $GONGLIB_LIBS"
+AC_ARG_WITH( [gong-tesoreria],
+AS_HELP_STRING([--with-gong-tesoreria], [Support for the gong tesoreria module (default is YES)]), 
+[ac_cv_use_gong_tesoreria=$withval],
+[ac_cv_use_gong_tesoreria=yes] )
+AM_CONDITIONAL( [COMPILE_WITH_GONG_TESORERIA], [ test "$ac_cv_use_gong_tesoreria" = yes ])
+if test "$ac_cv_use_gong_tesoreria" = yes ; then
+	AC_DEFINE( [HAVE_TESORERIAMODULE], [1], [Define to 1 if you have the Tesoreria module.] )
+	GONGTESORERIA_CPPFLAGS="-I../../tesoreria"
+	GONGTESORERIA_LIBS="-L../tesoreria -lgongtesoreria"
+	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGTESORERIA_CPPFLAGS"
+	GONGLIB_LIBS="$GONGTESORERIA_LIBS $GONGLIB_LIBS"
 else
-	GONGCONTAB_CPPFLAGS=
-	GONGCONTAB_LIBS=
+	GONGTESORERIA_CPPFLAGS=
+	GONGTESORERIA_LIBS=
 fi
-AC_SUBST(GONGCONTAB_CPPFLAGS)
-AC_SUBST(GONGCONTAB_LIBS)
+AC_SUBST(GONGTESORERIA_CPPFLAGS)
+AC_SUBST(GONGTESORERIA_LIBS)
 
 AC_ARG_WITH( [gong-pagos],
 AS_HELP_STRING([--with-gong-pagos], [Support for the gong pagos module (default is YES)]), 
@@ -235,24 +234,6 @@ else
 fi
 AC_SUBST(GONGFACTU_CPPFLAGS)
 AC_SUBST(GONGFACTU_LIBS)
-
-AC_ARG_WITH( [gong-gastostipo],
-AS_HELP_STRING([--with-gong-gastostipo], [Support for the gong gastostipo module (default is YES)]), 
-[ac_cv_use_gong_gastostipo=$withval],
-[ac_cv_use_gong_gastostipo=yes] )
-AM_CONDITIONAL( [COMPILE_WITH_GONG_GASTOSTIPO], [ test "$ac_cv_use_gong_gastostipo" = yes ])
-if test "$ac_cv_use_gong_gastostipo" = yes ; then
-	AC_DEFINE( [HAVE_GASTOSTIPOMODULE], [1], [Define to 1 if you have the GastosTipo module.] )
-	GONGGASTOSTIPO_CPPFLAGS="-I../../gastostipo"
-	GONGGASTOSTIPO_LIBS="-L../gastostipo -lgonggastostipo"
-	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGGASTOSTIPO_CPPFLAGS"
-	GONGLIB_LIBS="$GONGGASTOSTIPO_LIBS $GONGLIB_LIBS"
-else
-	GONGGASTOSTIPO_CPPFLAGS=
-	GONGGASTOSTIPO_LIBS=
-fi
-AC_SUBST(GONGGASTOSTIPO_CPPFLAGS)
-AC_SUBST(GONGGASTOSTIPO_LIBS)
 
 AC_ARG_WITH( [gong-socias],
 AS_HELP_STRING([--with-gong-socias], [Support for the gong socias module (default is YES)]), 
@@ -316,6 +297,6 @@ AC_SUBST(GONGLIB_LIBS)
 AM_CONDITIONAL( [COMPILE_EXPERIMENTAL], [ test ! false ])
 
 
-AC_CONFIG_FILES( Makefile gonglib/Makefile rtk/Makefile qt4/Makefile dbapp/Makefile contactos/Makefile empresa/Makefile contab/Makefile pagos/Makefile factu/Makefile gastostipo/Makefile socias/Makefile sinpapeles/Makefile reccolor/Makefile \
+AC_CONFIG_FILES( Makefile gonglib/Makefile rtk/Makefile qt4/Makefile dbapp/Makefile contactos/Makefile empresa/Makefile tesoreria/Makefile pagos/Makefile factu/Makefile socias/Makefile sinpapeles/Makefile reccolor/Makefile \
 	src/Makefile )
 AC_OUTPUT

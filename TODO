@@ -1,26 +1,18 @@
 == HECHO ==
 
-== HACIENDO ==
-* Ticket normal, tiene poco espacio para el total
 * Comando para enviar correo con icedove:
 ** icedove -compose `echo "attachment='file:///media/sdb3/Tmp/DSC1.jpg /media/sdb3/Tmp/DSC2.jpg'" | sed 's/ \//,file:\/\/\//g'`
 
-== JOSÉ CASTAÑO ==
-* Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
+== José Cataño ==
+* Al hacer la remesa de recibos, me he encontrado con lo que me ha hecho pararme porque no va, los pasos que doy son los siguientes: Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo he intentar buscar el socia, se me cierra el programa del tirón, por lo que me deja sin opción de continuar no hacer nada más, en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 
-== HACER ==
-* Los pájaros: UPDATE EJERCICIO_ID y EMPRESA_ID en SESIONTPV
-UPDATE SESIONTPV SET EMPRESA_ID=1;
-UPDATE SESIONTPV SET EJERCICIO = YEAR(FECHA);
-* Problema logo
-* Crear base de datos
-
-
-== ARREGLAR ==
+== En los pájaros ==
+* Añadir CIF a tickets
+* Ajustar anchura tickets
+* Ticket normal, tiene poco espacio para el total
+* Problema logo en la web
 
 == NUEVA FUNCIONALIDAD ==
-* tpv: Fila de productos favoritos
-* tpv: Pagos por rondas: buscar un FrmList animado
 * factu: Formulario datos ventas y compras de artículos
 * Clientes especiales, con un porcentaje extra.
 
@@ -36,6 +28,7 @@ UPDATE SESIONTPV SET EJERCICIO = YEAR(FECHA);
 * Estadísticas
 
 == gong-tpv ==
+* tpv: Pagos por rondas: buscar un FrmList animado
 * Tarifas por el tipo de mesa.
 * Al limpiar la mesa, lee registros
 * saveEstado intenta grabar siempre, ver la diferencia
@@ -112,6 +105,11 @@ UPDATE SESIONTPV SET EJERCICIO = YEAR(FECHA);
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+<<<<<<< HEAD
+=======
+* Añadir #ifmodule a los settings de solo lectura
+* Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
+>>>>>>> 2f84b09acbb408db160a8c0159fd1838e1144fdd
 * Si el formulario está maximizado, añadir un spacer al controlslayout
 * FrmEstadCompraVenta: Revisar la reducción de la fuente número de documento en el informe
 * Refactoring: Derivar FrmEditRec de FrmCustom y eliminar showtabs de FrmEditRec
@@ -148,6 +146,7 @@ UPDATE SESIONTPV SET EJERCICIO = YEAR(FECHA);
 * Nueva instalación con sqlite3
 ** WARNING: (CREATE UNIQUE INDEX TRATAMIENTOCONTACTO_CODIGO):1:near "TRATAMIENTOCONTACTO_CODIGO": syntax error [void gong::dbConnection::setError(const gong::Xtring&)]
 S
+
 == ventasweb ==
 * Subir por ftp, el mensaje de error no está vacío cuando no hay error
 

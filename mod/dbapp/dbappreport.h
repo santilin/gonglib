@@ -50,10 +50,10 @@ public:
     Xtring fromViewDefinition( const dbViewDefinition *viewdef, bool totals = true) const;
     int readAndPrint( RTK_Output_Type tiposalida, const Xtring &rtkfilename,
                       const Xtring &filter = Xtring::null, const Xtring &initdefines = Xtring::null,
-                      const Dictionary<Xtring> &properties = Dictionary<Xtring> (),
+                      const Dictionary<Variant> &properties = Dictionary<Variant> (),
                       const Xtring &order = Xtring::null, PageOrientation po = DefaultOrientation,
                       bool askforparameters = false );
-    int print(RTK_Output_Type tiposalida, const Dictionary<Xtring> &properties,
+    int print(RTK_Output_Type tiposalida, const Dictionary<Variant> &properties,
               const Xtring &filter, const Xtring &order, PageOrientation po, bool askforparameters);
     void clearErrors() {
         return RTK::Report::clearErrors();

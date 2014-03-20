@@ -132,7 +132,7 @@ void FrmReports::accept()
     if( mSelectedItem ) {
         AppReport *report = new AppReport(*DBAPP, DBAPP->getConnection());
         report->readFile(mSelectedItem->getValue().repPath.c_str(), chkResumido->isChecked() ? "RESUMIDO":"");
-        Dictionary<Xtring> properties;
+        Dictionary<Variant> properties;
         properties.insert( "TITLE", txtTitulo->toString() );
         report->print( static_cast<RTK_Output_Type>(cmbSalida->currentItem()),
                        properties, txtFilter->toString(), txtOrder->toString(),
