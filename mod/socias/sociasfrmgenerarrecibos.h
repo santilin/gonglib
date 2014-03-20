@@ -40,6 +40,10 @@ private:
     QPushButton *pushRemesaCobroNumero;
     LineEdit *editRemesaCobroNumero;
     LineEdit *editRemesaCobroDescripcion;
+    SearchBox *searchTipoSociaCodigo;
+    QPushButton *pushTipoSociaCodigo;
+    LineEdit *editTipoSociaCodigo;
+    LineEdit *editTipoSociaNombre;
     QPushButton *pushCondiciones;
     TextEdit *editCondiciones;
     LineEdit *editfechaini;

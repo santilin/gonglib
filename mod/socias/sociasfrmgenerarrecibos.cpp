@@ -83,16 +83,9 @@ FrmGenerarRecibos::FrmGenerarRecibos ( QWidget * parent, WidgetFlags fl )
     checkSupervisar->setVisible( false );
     pControlsLayout->addLayout ( layoutsupervisar );
 
-
-    QHBoxLayout *layoutpartida = new QHBoxLayout ( 0, 0, 6, "layoutpartida" );
-    searchPartidaCodigo = addSearchField( this, "PartidaProyecto", "Codigo", "Descripcion",
-                                          layoutpartida);
-    pushPartidaCodigo = searchPartidaCodigo->getButton();
-    connect( pushPartidaCodigo, SIGNAL( clicked() ), this, SLOT( pushPartidaCodigo_clicked() ) );
-    editPartidaCodigo = searchPartidaCodigo->getEditCode();
-    editPartidaDescripcion = searchPartidaCodigo->getEditDesc();
-    pControlsLayout->addLayout( layoutpartida );
-
+	searchPartidaCodigo = addSearchField( this, "PARTIDAPROYECTO", "CODIGO", "DESCRIPCION" );
+    searchPartidaCodigo = addMultipleSearchField( this, "TIPOSOCIA", "CODIGO", "NOMBRE" );
+	
     QHBoxLayout *layoutcondiciones = new QHBoxLayout ( 0, 0, 6, "layoutfechasrecibos" );
     pushCondiciones = new QPushButton( toGUI( _("Condiciones") ), this, "pushCondiciones" );
     connect ( pushCondiciones, SIGNAL ( clicked() ), this, SLOT ( pushCondiciones_clicked() ) );
@@ -218,12 +211,15 @@ void FrmGenerarRecibos::accept()
     + " AND PM.FECHAALTA<=" + conn->toSQL( editfechafin->toDate() )
     + " AND PM.ESTADO=1"; // activo
 #endif
-    if( !editCondiciones->toString().isEmpty() )
-        selectstr += " AND " + editCondiciones->toString();
+	if( !editCondiciones->toString().isEmpty() ) {
+		selectstr.append( " AND " );
+		selectstr.append( editCondiciones->toString() );
+	}
     selectstr += " ORDER BY PROYECTO.ID, MIEMBRO.NUMEROSOCIA";
     std::auto_ptr<dbResultSet> rs( conn->select( selectstr ) );
     if( rs->getRowCount() == 0 ) {
         msgOk(this, _("No hay miembros que reúnan estas condiciones") );
+		return;
     } else {
         if( !msgYesNo(this,
                       Xtring::printf( _("Se han seleccionado %d posibles recibos. ¿Quieres continuar?"), rs->getRowCount() ) ) )

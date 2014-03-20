@@ -1,7 +1,7 @@
-/*<<<<<MODULE_INFO*/
-// COPYLEFT Fichero de edición de pagos
 // FIELD Factura_ID Reference(Factura,Numero,Fecha) - terceros
 // FIELD Tercero_ID Reference(Tercero,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - terceros
+/*<<<<<MODULE_INFO*/
+// COPYLEFT Fichero de edición de pagos
 // FIELD Automatico bool - numero
 // FIELD Numero int - numero
 // FIELD NumeroAgrupado string - numero
@@ -47,6 +47,8 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	if ( !name )
 	    setName( "FrmEditPago" );
 /*>>>>>FRMEDITPAGO_CONSTRUCTOR*/
+	searchFacturaNumero = 0;
+	searchTerceroCodigo = 0;
 /*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
 	QHBoxLayout *tercerosLayout = new QHBoxLayout(0, 0, 6, "tercerosLayout");
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
@@ -57,17 +59,6 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	QHBoxLayout *contabLayout = new QHBoxLayout(0, 0, 6, "contabLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 
-	searchFacturaNumero = addSearchField( pControlsFrame, "FACTURA_ID", "FACTURA", "NUMERO", "FECHA", tercerosLayout );
-	pushFacturaNumero = searchFacturaNumero->getButton();
-	connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ) );
-	editFacturaNumero = searchFacturaNumero->getEditCode();
-	editFacturaFecha = searchFacturaNumero->getEditDesc();
-
-	searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", "TERCERO", "CODIGO", "RAZONSOCIAL", tercerosLayout );
-	pushTerceroCodigo = searchTerceroCodigo->getButton();
-	connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
-	editTerceroCodigo = searchTerceroCodigo->getEditCode();
-	editTerceroRazonSocial = searchTerceroCodigo->getEditDesc();
 	checkAutomatico = addCheckField( pControlsFrame, "PAGO", "AUTOMATICO", numeroLayout );
 	editNumero = addEditField( pControlsFrame, "PAGO", "NUMERO", numeroLayout );
 	editNumeroAgrupado = addEditField( pControlsFrame, "PAGO", "NUMEROAGRUPADO", numeroLayout );
@@ -111,9 +102,6 @@ if( ModuleInstance->getContabModule() ) {
     pTercerosLayout = tercerosLayout;
     editContador->setMustBeReadOnly( true );
     editFechaPago->setMustBeReadOnly(true);
-    searchFacturaNumero->setMustBeReadOnly(true);
-    editFacturaNumero->setWidthInChars(15);
-    searchTerceroCodigo->setMustBeReadOnly(true);
 #ifdef HAVE_CONTABMODULE
     searchCuentaPagoCuenta->setMustBeReadOnly(true);
 #endif
@@ -129,8 +117,8 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
                            const Xtring& tablaterceros, const Xtring& fldterccodigo, const Xtring& fldtercdesc,
                            const Xtring& descsingular, const Xtring& descplural, bool femenina)
 {
-    if( tablafacturas != searchFacturaNumero->getTableName()
-            || 	tablaterceros != searchTerceroCodigo->getTableName() ) {
+    if( !searchFacturaNumero || tablafacturas != searchFacturaNumero->getTableName()
+            || !searchTerceroCodigo || tablaterceros != searchTerceroCodigo->getTableName() ) {
 
         removeControl( searchFacturaNumero );
         if( fldfactcodigo == Xtring::null ) {
@@ -151,6 +139,8 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ) );
         editFacturaNumero = searchFacturaNumero->getEditCode();
         editFacturaFecha = searchFacturaNumero->getEditDesc();
+		searchFacturaNumero->setMustBeReadOnly(true);
+		editFacturaNumero->setWidthInChars(15);
 
         removeControl( searchTerceroCodigo );
         if( fldterccodigo == Xtring::null ) {
@@ -171,6 +161,7 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
         editTerceroCodigo = searchTerceroCodigo->getEditCode();
         editTerceroRazonSocial = searchTerceroCodigo->getEditDesc();
+		searchTerceroCodigo->setMustBeReadOnly(true);
 
         setTabOrder( editFacturaNumero, editTerceroCodigo );
         setTabOrder( editTerceroCodigo, editNumero );

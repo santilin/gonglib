@@ -35,7 +35,7 @@ void FrmEditRemesaCobroBehavior::scatterFields( bool is_pre )
 
 void FrmEditRemesaCobroBehavior::gatherFields()
 {
-    /*<<<<<FRMEDITREMESACOBROBEHAVIOR_GATHER*/
+/*<<<<<FRMEDITREMESACOBROBEHAVIOR_GATHER*/
 
 /*>>>>>FRMEDITREMESACOBROBEHAVIOR_GATHER*/
 }
@@ -50,6 +50,7 @@ void FrmEditRemesaCobroBehavior::validateFields(bool is_pre,
 		isvalid = &v;
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
 /*>>>>>FRMEDITREMESACOBROBEHAVIOR_VALIDATE*/
+
     if( !ir ) {
         showValidMessages(isvalid, *validresult, sender);
         delete validresult;

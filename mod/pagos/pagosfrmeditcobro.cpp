@@ -1,8 +1,8 @@
+// FIELD Tercero_ID Reference(Tercero,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - terceros
+// FIELD Factura_ID Reference(Factura,Numero,Fecha) - terceros
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de cobros
 // FIELD RemesaCobro_ID Reference(RemesaCobro,Numero,Descripcion) - remesaLayout
-// FIELD Factura_ID Reference(Factura,Numero,Fecha) - terceros
-// FIELD Tercero_ID Reference(Tercero,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - terceros
 // FIELD Automatico bool - numero
 // FIELD Numero int - numero
 // FIELD NumeroAgrupado string - numero
@@ -48,6 +48,8 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	if ( !name )
 	    setName( "FrmEditCobro" );
 /*>>>>>FRMEDITCOBRO_CONSTRUCTOR*/
+	searchFacturaNumero = 0;
+	searchTerceroCodigo = 0;
 /*<<<<<FRMEDITCOBRO_INIT_CONTROLS*/
 	QHBoxLayout *remesaLayout = new QHBoxLayout(0, 0, 6, "remesaLayout");
 	QHBoxLayout *tercerosLayout = new QHBoxLayout(0, 0, 6, "tercerosLayout");
@@ -65,17 +67,6 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	editRemesaCobroNumero = searchRemesaCobroNumero->getEditCode();
 	editRemesaCobroDescripcion = searchRemesaCobroNumero->getEditDesc();
 
-	searchFacturaNumero = addSearchField( pControlsFrame, "FACTURA_ID", "FACTURA", "NUMERO", "FECHA", tercerosLayout );
-	pushFacturaNumero = searchFacturaNumero->getButton();
-	connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ) );
-	editFacturaNumero = searchFacturaNumero->getEditCode();
-	editFacturaFecha = searchFacturaNumero->getEditDesc();
-
-	searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", "TERCERO", "CODIGO", "RAZONSOCIAL", tercerosLayout );
-	pushTerceroCodigo = searchTerceroCodigo->getButton();
-	connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
-	editTerceroCodigo = searchTerceroCodigo->getEditCode();
-	editTerceroRazonSocial = searchTerceroCodigo->getEditDesc();
 	checkAutomatico = addCheckField( pControlsFrame, "COBRO", "AUTOMATICO", numeroLayout );
 	editNumero = addEditField( pControlsFrame, "COBRO", "NUMERO", numeroLayout );
 	editNumeroAgrupado = addEditField( pControlsFrame, "COBRO", "NUMEROAGRUPADO", numeroLayout );
@@ -120,9 +111,6 @@ if( ModuleInstance->getContabModule() ) {
     pTercerosLayout = tercerosLayout;
     editContador->setMustBeReadOnly( true );
     editFechaPago->setMustBeReadOnly(true);
-    searchFacturaNumero->setMustBeReadOnly(true);
-    editFacturaNumero->setWidthInChars(15);
-    searchTerceroCodigo->setMustBeReadOnly(true);
 #ifdef HAVE_CONTABMODULE
     searchCuentaPagoCuenta->setMustBeReadOnly(true);
 #endif
@@ -145,8 +133,8 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
                             const Xtring& tablaterceros, const Xtring& fldterccodigo, const Xtring& fldtercdesc,
                             const Xtring& descsingular, const Xtring& descplural, bool femenina)
 {
-    if( tablafacturas != searchFacturaNumero->getTableName()
-            || 	tablaterceros != searchTerceroCodigo->getTableName() ) {
+    if( !searchFacturaNumero || tablafacturas != searchFacturaNumero->getTableName()
+            || !searchTerceroCodigo || tablaterceros != searchTerceroCodigo->getTableName() ) {
 
         removeControl( searchFacturaNumero );
         if( fldfactcodigo == Xtring::null ) {
@@ -167,6 +155,8 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
         connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ) );
         editFacturaNumero = searchFacturaNumero->getEditCode();
         editFacturaFecha = searchFacturaNumero->getEditDesc();
+		editFacturaNumero->setWidthInChars(15);
+		searchFacturaNumero->setMustBeReadOnly(true);
 
         removeControl( searchTerceroCodigo );
         if( fldterccodigo == Xtring::null ) {
@@ -187,6 +177,7 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
         connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
         editTerceroCodigo = searchTerceroCodigo->getEditCode();
         editTerceroRazonSocial = searchTerceroCodigo->getEditDesc();
+		searchTerceroCodigo->setMustBeReadOnly(true);
 
         setTabOrder( editRemesaCobroNumero, editFacturaNumero );
         setTabOrder( editFacturaNumero, editTerceroCodigo );

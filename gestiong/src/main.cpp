@@ -90,10 +90,10 @@ int main( int argc, char *argv[] )
 		DBAPP->addModule( new pagos::PagosModule() );
 #endif
 #ifdef HAVE_FACTUMODULE
-		DBAPP->addModule( new factu::FactuModule() );
+// 		DBAPP->addModule( new factu::FactuModule() );
 #endif
 #ifdef HAVE_GASTOSTIPOMODULE
-		DBAPP->addModule( new gastostipo::GastosTipoModule() );
+// 		DBAPP->addModule( new gastostipo::GastosTipoModule() );
 #endif
 #ifdef HAVE_SOCIASMODULE
 		DBAPP->addModule( new socias::SociasModule() );
@@ -105,7 +105,7 @@ int main( int argc, char *argv[] )
 		DBAPP->addModule( new reccolor::RecColorModule() );
 #endif
 /*>>>>>LOAD_MODULES*/
-//{capel} Eliminar factumodule
+//{capel} Eliminar factumodule y gastostipomodule
         DBAPP->addModule( new gestiong::GestiongModule() );
         DBAPP->readSettings();
         DBAPP->initDatabases();

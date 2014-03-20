@@ -2,6 +2,8 @@
 
 == HACIENDO ==
 * Ticket normal, tiene poco espacio para el total
+* Comando para enviar correo con icedove:
+** icedove -compose `echo "attachment='file:///media/sdb3/Tmp/DSC1.jpg /media/sdb3/Tmp/DSC2.jpg'" | sed 's/ \//,file:\/\/\//g'`
 
 == JOSÉ CASTAÑO ==
 * Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
@@ -15,7 +17,6 @@ UPDATE SESIONTPV SET EJERCICIO = YEAR(FECHA);
 
 
 == ARREGLAR ==
-* Si el formulario está maximizado, añadir un spacer al controlslayout
 
 == NUEVA FUNCIONALIDAD ==
 * tpv: Fila de productos favoritos
@@ -111,6 +112,7 @@ UPDATE SESIONTPV SET EJERCICIO = YEAR(FECHA);
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Si el formulario está maximizado, añadir un spacer al controlslayout
 * FrmEstadCompraVenta: Revisar la reducción de la fuente número de documento en el informe
 * Refactoring: Derivar FrmEditRec de FrmCustom y eliminar showtabs de FrmEditRec
 * RecordCompleter: Crearlo cuando el texto sea mayor de tres letras, no al principio,

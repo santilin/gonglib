@@ -98,8 +98,6 @@ if(usarProyecto()){
     tabFrameEdit->insertTab( tabRemesa, "R&emesa" );
     tabFrameEdit->insertTab( tabRecibos, "&Recibos" );
     pControlsLayout->addWidget( tabFrameEdit );
-    if( searchProyectoCodigo )
-        searchProyectoCodigo->setMustBeReadOnly(true);
     pushGenerarCB19 = new QPushButton( QString::fromUtf8("&Generar CB19"), this, "pushGenerarCB19" );
     pButtonsLayout->insertWidget(0, pushGenerarCB19 );
     connect( pushGenerarCB19, SIGNAL( clicked() ), this, SLOT( pushGenerarCB19_clicked() ));
@@ -108,7 +106,7 @@ if(usarProyecto()){
 
 bool FrmEditRemesaCobro::usarProyecto() const
 {
-    return (ModuleInstance->getRecProyectoPadre( this ) || empresa::ModuleInstance->usaProyectos());
+    return (!ModuleInstance->getRecProyectoPadre( this ) || empresa::ModuleInstance->usaProyectos());
 }
 
 void FrmEditRemesaCobro::scatterFields()

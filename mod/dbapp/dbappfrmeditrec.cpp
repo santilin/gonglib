@@ -1148,6 +1148,8 @@ bool FrmEditRec::validateControls(bool justedited)
 
 bool FrmEditRec::removeControl( QWidget *control )
 {
+	if( !control )
+		return true;
     for ( EditControlsList::iterator it = mEditControls.begin();
             it != mEditControls.end(); ++ it ) {
         if ( EditBox *edit = dynamic_cast<EditBox *>( *it ) ) {
