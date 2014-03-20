@@ -176,6 +176,12 @@ dbApplication::~dbApplication()
         delete pDatabase;
 }
 
+RecMetaDBData* dbApplication::getRecMetaDBData() const
+{
+    _GONG_DEBUG_ASSERT( pRecMetaDBData );
+    return pRecMetaDBData;
+}
+
 /**
  * @brief ...
  * http://qt.developpez.com/doc/4.6/stylesheet-reference/
@@ -1691,10 +1697,5 @@ long int dbApplication::version2Long(const Xtring& version)
     return nversion;
 }
 
-RecMetaDBData* dbApplication::getRecMetaDBData() const
-{
-    _GONG_DEBUG_ASSERT( pRecMetaDBData );
-    return pRecMetaDBData;
-}
 
 } // namespace gong

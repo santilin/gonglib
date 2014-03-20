@@ -260,7 +260,7 @@ public:	// Edit forms
         return mDetailTables;
     }
     static long version2Long( const Xtring &version );
-
+	
 protected:
     dbConnection *pConnection;
     dbDefinition *pDatabase;

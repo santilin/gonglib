@@ -215,7 +215,7 @@ S
 * MsgYesNoDontAskAgain: aplicar a main.cpp, language
 
 == Refactoring ==
-* Cambiar los dicts que terminan en List a Dict
+* Refactor: FrmCsvImport y FrmCsvExport
 * Eliminar enablesearchboxes
 * dbRecordList no permitir push_back
 * FrmCustom: Utilizar un QTabWidget, showTabs

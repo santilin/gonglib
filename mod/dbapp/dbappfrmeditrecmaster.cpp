@@ -22,6 +22,7 @@
 #include "dbappfrmeditrecbehavior.h"
 #include "dbappfrmadvancedprint.h"
 #include "dbappfrmcsvparams.h"
+#include "../gonglib/gongxtring.h"
 
 #ifdef HAVE_RTKMODULE
 #include <dbappreport.h>
@@ -1410,26 +1411,46 @@ void FrmEditRecMaster::menuTableImport_clicked()
 			addDescription( tbldef, descriptions, _template );
 			for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
 				it != tbldef->getRelationDefinitions().end(); ++it ) {
+				if( it->second->getType() == dbRelationDefinition::aggregate ) {
 					dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
 					addDescription( reltbldef, descriptions, _template );
+				} else if( it->second->getType() == dbRelationDefinition::one2one ) {
+					_GONG_DEBUG_PRINT( 0, it->second->getFullName());
+					dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+					dbFieldDefinition *codefld = reltbldef->findFieldByFlags( dbFieldDefinition::CODE );
+					if( codefld ) {
+						descriptions += codefld->getFullName() + ": ";
+						if( codefld->getDescription().isEmpty() )
+							descriptions += codefld->getCaption() + "\n";
+						else
+							descriptions += codefld->getDescription() + "\n";
+						_template.appendWithSeparator( getDelimiter() + codefld->getFullName() + getDelimiter(), getSeparator() );
+					}
+				}
 			}
 			FrmBase::msgOkLarge( this, 
 				Xtring::printf(_("Plantilla para importar %s"), DBAPP->getTableDescPlural( pRecord->getTableName() ).c_str() ),
 				descriptions 
 				+ _( "\nPuedes copiar y pegar este texto directamente a una hoja de cálculo:\n" )
-				+ _template );
+				+ _template + "\n"
+				+ getDelimiter() + getDelimiter() + getSeparator() 
+				+ getDelimiter() + getDelimiter() + getSeparator() 
+				+ getDelimiter() + getDelimiter()  
+				+ "\n" );
 		}
-		void addDescription( const dbTableDefinition *tbldef, Xtring descriptions, Xtring _template ) {
+		void addDescription( const dbTableDefinition *tbldef, Xtring &descriptions, Xtring &_template ) {
 			for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
 				dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
-				if( flddef->isReference() )
+				if( flddef->isReference() || flddef->isPrimaryKey() )
+					continue;
+				if( flddef->getName().startsWith("REC_") )
 					continue;
 				descriptions += flddef->getFullName() + ": ";
 				if( flddef->getDescription().isEmpty() )
 					descriptions += flddef->getCaption() + "\n";
 				else
 					descriptions += flddef->getDescription() + "\n";
-				_template.appendWithSeparator( flddef->getFullName(), "," );
+				_template.appendWithSeparator( getDelimiter() + flddef->getFullName() + getDelimiter(), getSeparator() );
 			}
 		}
 	
@@ -1554,36 +1575,92 @@ void FrmEditRecMaster::menuTableImport_clicked()
     }
 }
 
+void addFieldValueToCSV(dbRecord *r, const dbTableDefinition *tbldef, 
+						const Xtring &delimiter, const Xtring &separator, 
+						Xtring &csvline, Xtring &headers, bool headercompleted )
+{
+	for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
+		dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
+		if( flddef->isReference() || flddef->isPrimaryKey() )
+			continue;
+		if( flddef->getName().startsWith("REC_") )
+			continue;
+		csvline.appendWithSeparator( delimiter + r->getValue(flddef->getFullName()).toString() + delimiter, separator );
+		if( !headercompleted )
+			headers.appendWithSeparator( flddef->getFullName(), separator );
+	}
+}
+
 void FrmEditRecMaster::menuTableExport_clicked()
 {
 	FrmCsvParams *frmcsvparams = new FrmCsvParams( FrmCsvParams::exporting, this, _("Exportar") );
     frmcsvparams->showModalFor( this, false, true );
     if( !frmcsvparams->wasCancelled() ) {
 		Xtring delimiter = frmcsvparams->getDelimiter();
+		Xtring separator = frmcsvparams->getSeparator();
 		Xtring exporttext;
-		for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
-			if ( col > 1 )
-				exporttext += frmcsvparams->getSeparator();
-			exporttext += pDataTable->getFldInfo( col )->getFullName();
-		}
-		exporttext += "\n";
+		int range = frmcsvparams->getRange();
+		dbRecord *r = 0;
+		if( frmcsvparams->getFields() == FrmCsvParams::allFields )		
+			r = pRecord->duplicate();
+		Xtring csvheader;
+		bool headercompleted = false;
 		for ( int row = 0; row < pDataTable->numRows(); row ++ ) {
-			for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
-				if ( col > 1 )
-					exporttext += frmcsvparams->getSeparator();
-				exporttext += delimiter;
-				if( pDataTable->getFldInfo( col )->getSqlColumnType() == SQLDECIMAL
-						|| pDataTable->getFldInfo( col )->getSqlColumnType() == SQLFLOAT ) {
-					exporttext += Xtring::number(pDataTable->getDataModel()->getValue(row, col).toDouble()).replace(",",".");
-				} else {
-					exporttext += CsvUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), delimiter[0] ); // .replace( "\n", " " );
+			if( range == FrmCsvParams::current ) {
+				if( row != pDataTable->currentRow() )
+					continue; // skip
+				else 
+					break; // no more
+			} else if( range == FrmCsvParams::selected ) {
+				if( !pDataTable->isRowSelected(row) ) {
+					continue; // skip
 				}
-				exporttext += delimiter;
 			}
-			exporttext += "\n";
+			Xtring csvline;
+			if( frmcsvparams->getFields() == FrmCsvParams::allFields ) {
+				r->read( pDataTable->getDataModel()->getRowID(row) );
+				const dbTableDefinition *tbldef = pRecord->getTableDefinition();
+				addFieldValueToCSV(r, tbldef, delimiter, separator, csvline, csvheader, headercompleted);
+				for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
+					it != tbldef->getRelationDefinitions().end(); ++it ) {
+					if( it->second->getType() == dbRelationDefinition::aggregate ) {
+						dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+						addFieldValueToCSV(r, reltbldef, delimiter, separator, csvline, csvheader, headercompleted);
+					} else if( it->second->getType() == dbRelationDefinition::one2one ) {
+						dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+						dbFieldDefinition *codefld = reltbldef->findFieldByFlags( dbFieldDefinition::CODE );
+						if( codefld ) {
+							csvline.appendWithSeparator( r->getValue( codefld->getFullName() ).toString(), separator );
+							if( !headercompleted )
+								csvheader.appendWithSeparator( codefld->getFullName(), separator );
+						}
+					}
+				}
+			} else {
+				for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
+					if( !headercompleted )
+						csvheader.appendWithSeparator( pDataTable->getFldInfo( col )->getFullName(), separator );
+					csvline.appendWithSeparator( delimiter, separator );
+					if( pDataTable->getFldInfo( col )->getSqlColumnType() == SQLDECIMAL
+							|| pDataTable->getFldInfo( col )->getSqlColumnType() == SQLFLOAT ) {
+						csvline += Xtring::number(pDataTable->getDataModel()->getValue(row, col).toDouble()).replace(",",".");
+					} else {
+						csvline += CsvUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), delimiter[0] ); // .replace( "\n", " " );
+					}
+					csvline += delimiter;
+				}
+			}
+			exporttext += csvline + "\n";
+			headercompleted = true;
 		}
-		FrmBase::msgOkLarge( this,
-			_( "Puedes copiar y pegar este texto directamente a una hoja de cálculo." ), exporttext );
+		if( r ) delete r;
+		Xtring csvname = frmcsvparams->getExportFilename();
+		if( csvname.isEmpty() ) {
+			FrmBase::msgOkLarge( this,
+				_( "Puedes copiar y pegar este texto directamente a una hoja de cálculo." ), csvheader + "\n" + exporttext );
+		} else {
+			GuiApplication::writeFile( getTitle(), csvname, csvheader + "\n" + exporttext );
+		}
 	}
 }
 

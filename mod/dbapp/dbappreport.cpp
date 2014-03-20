@@ -726,8 +726,5 @@ Xtring AppReport::fromViewDefinition( const dbViewDefinition* viewdef, bool tota
     return report_return + "}\n";
 }
 
-
 } // namespace gong
-
-
 
