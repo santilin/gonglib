@@ -1017,12 +1017,13 @@ void FrmEditRecMaster::menuRecordDelete_clicked()
 {
     if( pDataTable->getSelectedIDs().size() > 1 ) {
         if( msgYesNoCancel(this,
-                           Xtring::printf(_("Has seleccionado %d registros.\n¿Estás seguro/a de que quieres borrarlos todos?"),
-                                          pDataTable->getSelectedIDs().size() ) )
+				Xtring::printf(_("Has seleccionado %d registros.\n¿Estás seguro/a de que quieres borrarlos todos?"),
+								pDataTable->getSelectedIDs().size() ) )
                 == FrmBase::Yes ) {
             for( uint nrec = 0; nrec < pDataTable->getSelectedIDs().size(); nrec++ ) {
                 read( pDataTable->getSelectedIDs()[nrec] );
                 beginEdit( pDataTable, DataTable::deleting, dbApplication::editContinuous );
+				DBAPP->processEvents();
                 if( !(mEditFlags & dbApplication::editContinuous) ) // cancelled
                     break;
             }
@@ -1525,7 +1526,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
                     break;
                 }
             }
-            r->readRelated( true );
+//            r->readRelated( true );
             if( !r->isValid( ValidResult::fixing, 0 ) ) {
                 DBAPP->showOSD( _("Importar"), _("Este registro contiene errores.") );
                 revisar = true;

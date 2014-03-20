@@ -105,18 +105,14 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
-<<<<<<< HEAD
-=======
 * Añadir #ifmodule a los settings de solo lectura
 * Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
->>>>>>> 2f84b09acbb408db160a8c0159fd1838e1144fdd
 * Si el formulario está maximizado, añadir un spacer al controlslayout
 * FrmEstadCompraVenta: Revisar la reducción de la fuente número de documento en el informe
 * Refactoring: Derivar FrmEditRec de FrmCustom y eliminar showtabs de FrmEditRec
 * RecordCompleter: Crearlo cuando el texto sea mayor de tres letras, no al principio,
 ** por lo tanto, en el validate del searchbox.
 ** Configuración: [ ] Completar campos de búsqueda
-* No funciona borrar múltiple, se corta en el primero.
 * setJustEdited. Cuando se hace manualmente, luego no se borra. Ejemplo, añadir factura de compra a una factura de venta, el campo tipodoc_codigo.
 * Copia de seguridad, falta poner el puerto
 * Tras "Asistente de acceso" no añade nombre empresa a título ventana principal

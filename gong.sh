@@ -125,7 +125,7 @@ create_links()
 	rm acinclude.m4
 	ln -s $GONGDIR/acinclude.m4 .
 	rmret=$(rm m4)
-	if [[ ! -z "$rmtest" ]]; then
+	if [[ ! -z "$rmret" ]]; then
 		exit
 	fi
 	ln -s $GONGDIR/m4
@@ -139,9 +139,17 @@ create_links()
 	MODULES=$(grep -i "dnl module " configure.ac | cut -d " " -f 3)
 	for mod in $MODULES; do
 		m=`echo $mod | tr '[:upper:]' '[:lower:]'`
-		echo "Creating link $m as $GONGDIR/mod/$m"
 		rm $m
-		ln -s $GONGDIR/mod/$m $m
+		case $m in
+			tpv)
+				echo "Creating link $m as $GONGDIR/../gestiong-priv/mod/$m"
+				ln -s $GONGDIR/../gestiong-priv/mod/$m $m
+				;;
+		    *) 
+				echo "Creating link $m as $GONGDIR/mod/$m"
+				ln -s $GONGDIR/mod/$m $m
+				;;
+		esac
 	done
 	cd $PWD_SAVE
 }
