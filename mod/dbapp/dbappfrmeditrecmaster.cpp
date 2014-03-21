@@ -1513,11 +1513,13 @@ void FrmEditRecMaster::menuTableImport_clicked()
             r->clear( true ); // set custom default values
             r->setNew( true );
             r->fromString( *linesit, TOSTRING_CSV, headersline );
+            _GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
             dbRecordID existing_id = 0;
             r->findMatchingRecord(&existing_id);
             if( existing_id ) {
                 if( siexiste == 0) { // Actualizar
                     r->read( existing_id );
+					_GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
                     r->fromString( *linesit, TOSTRING_CSV, headersline );
                 } else if( siexiste == 1 ) { // Ignorar
                     continue; // Leer el siguiente
@@ -1526,12 +1528,31 @@ void FrmEditRecMaster::menuTableImport_clicked()
                     break;
                 }
             }
-//            r->readRelated( true );
+            _GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
+            r->readRelated( true );
+            _GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
+            bool revisaerroneo = false;
             if( !r->isValid( ValidResult::fixing, 0 ) ) {
                 DBAPP->showOSD( _("Importar"), _("Este registro contiene errores.") );
-                revisar = true;
+				DBAPP->processEvents();
+                revisaerroneo = true;
             }
-            if( revisar ) {
+            if( !revisar && !revisaerroneo ) {
+                try {
+                    r->save( false ); // Don't update relations
+                    nimported ++;
+                    if( nimported % 5 == 0 ) {
+                        DBAPP->showOSD( _("Importando"), Xtring::printf(_("Importados %d registros"), nimported ) ); // TODO descplural
+						DBAPP->processEvents();
+					}
+                } catch( dbError &e ) {
+                    _GONG_DEBUG_WARNING( e.what() );
+                    msgError( this, Xtring( _( "Error al guardar el registro:\n" )) + e.what() );
+					revisaerroneo = true;
+                }
+			}
+			if( revisar || revisaerroneo ) {
+				revisaerroneo = false;
                 FrmEditRecMaster *editfrm = static_cast<FrmEditRecMaster *>(
                                                 DBAPP->createEditForm( this, r, 0, DataTable::updating, dbApplication::simpleEdition ) );
                 if ( editfrm ) {
@@ -1552,19 +1573,10 @@ void FrmEditRecMaster::menuTableImport_clicked()
                         nimported ++;
                     }
                 } else {
-                    msgOk( this, _( "No se ha podido crear el formulario para la importación" ) );
+                    msgError( this, _( "No se ha podido crear el formulario para la importación" ) );
                     break;
                 }
             } else {
-                try {
-                    r->save( false ); // Don't update relations
-                    nimported ++;
-                    if( nimported % 5 == 0 )
-                        DBAPP->showOSD( _("Importando"), Xtring::printf(_("Importados %d registros"), nimported ) ); // TODO descplural
-                } catch( dbError &e ) {
-                    _GONG_DEBUG_WARNING( e.what() );
-                    msgError( this, Xtring( _( "Error al guardar el registro:\n" )) + e.what() );
-                }
             }
         }
         delete r;
