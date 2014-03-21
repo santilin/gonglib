@@ -1,8 +1,5 @@
 == HECHO ==
 
-* Comando para enviar correo con icedove:
-** icedove -compose `echo "attachment='file:///media/sdb3/Tmp/DSC1.jpg /media/sdb3/Tmp/DSC2.jpg'" | sed 's/ \//,file:\/\/\//g'`
-
 == José Cataño ==
 * Al hacer la remesa de recibos, me he encontrado con lo que me ha hecho pararme porque no va, los pasos que doy son los siguientes: Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo he intentar buscar el socia, se me cierra el programa del tirón, por lo que me deja sin opción de continuar no hacer nada más, en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 
@@ -105,6 +102,8 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Comando para enviar correo con icedove:
+** icedove -compose `echo "attachment='file:///media/sdb3/Tmp/DSC1.jpg /media/sdb3/Tmp/DSC2.jpg'" | sed 's/ \//,file:\/\/\//g'`
 * Añadir #ifmodule a los settings de solo lectura
 * Cuando da error de que forma pago no puede estar vacío, no vuelve el cursor a la ventana anterior
 * Si el formulario está maximizado, añadir un spacer al controlslayout
@@ -141,7 +140,6 @@
 * FrmEditRec Cuando está seleccionado el botón cancelar, si pulsamos ENTER no hace nada
 * Nueva instalación con sqlite3
 ** WARNING: (CREATE UNIQUE INDEX TRATAMIENTOCONTACTO_CODIGO):1:near "TRATAMIENTOCONTACTO_CODIGO": syntax error [void gong::dbConnection::setError(const gong::Xtring&)]
-S
 
 == ventasweb ==
 * Subir por ftp, el mensaje de error no está vacío cuando no hay error
