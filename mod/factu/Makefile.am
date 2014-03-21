@@ -124,10 +124,4 @@ dist_factu_informes_DATA = $(srcdir)/share/informes/ALBARANCOMPRA.rtk \
 # 	$(srcdir)/share/informes/FACTURAVENTA_POR_FECHA.rtk
 #	$(srcdir)/share/informes/ALBARANVENTA_DEPOSITO_IVAINCLUIDO.rtk
 
-factu_plantillasdir = $(datadir)/gestiong/factu/plantillas/import
-dist_factu_plantillas_DATA = $(srcdir)/share/plantillas/import/ARTICULO.ods \
-	$(srcdir)/share/plantillas/import/CLIENTE.ods \
-	$(srcdir)/share/plantillas/import/CONTACTO.ods \
-	$(srcdir)/share/plantillas/import/FAMILIA.ods \
-	$(srcdir)/share/plantillas/import/PROVEEDORA.ods
 

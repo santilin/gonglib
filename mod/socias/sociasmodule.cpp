@@ -164,7 +164,7 @@ bool SociasModule::initDatabase(dbDefinition *db)
     pFicMiembro->addFieldRecordID();
     pFicMiembro->addFieldCodigo( "NUMEROSOCIA" )->setCanBeNull( false )->setUnique( false );
     pFicMiembro->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID" )->setCanBeNull( false );
-    pFicMiembro->addFieldOne2OneRelation( "CONTACTO_ID", "CONTACTO.ID" )->setCanBeNull( false );
+    pFicMiembro->addFieldAggregateRelation( "CONTACTO_ID", "CONTACTO.ID" )->setCanBeNull( false );
     pFicMiembro->addMultipleIndex( "proyecto_contacto_unico", "PROYECTO_ID,CONTACTO_ID", true );
 #ifdef HAVE_FACTUMODULE
     if( getFactuModule() ) {

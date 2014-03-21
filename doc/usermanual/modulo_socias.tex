@@ -656,103 +656,48 @@ automáticamente) los datos de vuestra hoja de cálculo de socias.
 \label{ref:Importandomasivamente}Si ya tienes los datos de vuestras
 socias y socios en una hoja de cálculo (si los tienes en algún otro
 tipo de base de datos siempre podrás exportarlos a una hoja de
-cálculo o similar) \appname te permite importarlos siempre y cuando
-los transformes como se detalla a continuación.
+cálculo o similar), \appname te permite importarlos siempre y cuando
+los adaptes a la plantilla que \appname te proporciona.
 
-Normalmente, vuestra hoja de cálculo contendrá en una sola hoja
-información muy variada sobre las socias, como sus datos de contacto,
-número de socia, cuenta bancaria, importe de su cuota, etc. Todos
-estos datos se almacenan en ficheros diferentes en \appname, por lo que
-habrá que acomodar un poco la hoja de cálculo antes de realizar la
-importación. 
+Abre el fichero de socias y elige en el menú la opción 
+\textstyleGUIELEMENT{Tabla->Importar}. Dale al botón 
+\textstyleGUIELEMENT{Mostrar plantilla para importar} y aparecerá una ventana con 
+la plantilla que necesitas para importar los datos y una breve descripción de cada
+columna. Copia todo el texto bajo
+\textit{Puedes copiar y pegar este texto directamente a una hoja de cálculo:} y pégalo
+en una hoja de cálculo. Ahora ve rellenando esta plantilla con los datos que quieres 
+importar, lo cual puedes hacer fácilmente copiando y pegando desde tu hoja de cálculo
+original.
 
 \textbf{IMPORTANTE}: \textbf{Realiza una copia de seguridad de tu hoja
 original puesto que vas a modificarla sustancialmente.}
-
-Supongamos que vuestra hoja es algo similar a esto:
-
-El primer paso consiste en eliminar las filas iniciales que no contengan
-datos de socias, y dejar una primera línea con el encabezado de las
-columnas renombradas de forma que \appname sepa qué datos contienen.
-Los nombres de las columnas deben coincidir con los nombres internos de
-los campos. Para saber cuáles son estos nombres, id a
-\textstyleGUIELEMENT{Sistema$\rightarrow $Configuración$\rightarrow
-$Diccionario de datos} y aparecerá toda la información necesaria.
-Por ejemplo, la columna que contiene el código postal de los
-contactos se debe de llamar \textstyleUserEntry{\textit{CONTACTO.CP}}.
-
-\begin{center}
-\includegraphics[width=16.999cm,height=2.501cm]{manual-img15.png}
-\captionof{figure}[Hoja de socias original]{Hoja de socias original}
-
-\end{center}
-
-
-\begin{center}
-\includegraphics[width=14.328cm,height=10.829cm]{manual-img16.png}
-\captionof{figure}[Diccionario de datos]{Diccionario de datos}
-
-\end{center}
-Modifica el texto de la primeras fila de cada columna de tu hoja con el
-nombre del campo de \appname. Por ejemplo, para el número de socia,
-escribe \textstyleUserEntry{MIEMBRO.NUMEROSOCIA}, para el CIF o NIF,
-escribe \textstyleUserEntry{CONTACTO.CIF} y así sucesivamente. El
-orden de las columnas no importa. 
 
 {\itshape
 Atencion: El nombre del socio o socia en \appname se almacena en un solo
 campo, por lo tanto, si como en este ejemplo, lo tienes separado en
 nombre y apellidos, debes unir ambas columnas.}
 
-Con todos estos cambios realizados, tu hoja tendrá ahora este aspecto:
-
-
-\bigskip
-
-
-
-\begin{center}
-\includegraphics[width=16.999cm,height=2.021cm]{manual-img17.png}
-\captionof{figure}[Hoja de socias con los títulos adaptados]{Hoja de
-socias con los títulos adaptados}
-
 \end{center}
 Lo único que falta es corregir la información sobre los tipos de
 cuotas, tipos de socias y formas de pago para que se asocien
 correctamente a cada miembro. La columna \textbf{Cuota} de tu hoja
-contenía el valor de la cuota en euros, pero debe contener el
+contendrá posiblemente el valor de la cuota en euros, pero debe contener el
 código que le has dado en el fichero de tipos de cuota en \appname y
 su título debe ser \textstyleUserEntry{TIPOCUOTA.CODIGO}. Búscalo y
-corrige su valor para cada socia. Siguiendo este ejemplo,
-necesitarías añadir dos nuevas columnas, una que se llamaría
-\textstyleUserEntry{TIPOSOCIA.CODIGO} y cuyos valores serían los
+corrige su valor para cada socia. Haz lo mismo con las columnas
+\textstyleUserEntry{TIPOSOCIA.CODIGO}, cuyos valores serían los
 códigos con los que habéis dado de alta los tipos de soci@ en
-\appname; y otra que se llamaría
-\textstyleUserEntry{FORMAPAGO.CODIGO} y contendría los códigos de
+\appname; y con \textstyleUserEntry{FORMAPAGO.CODIGO} que contendrá los códigos de
 las formas de pago. Añade todas las formas de pago, tipos de socia y
-cuotas que no estén ya en \appname. Puedes añadir más columnas a
-vuestra hoja si posees más información. Por ejemplo, la cuenta
-bancaria será la columna \textstyleUserEntry{MIEMBRO.CUENTABANCARIA},
-y cualquier otro dato puedes añadirlo en una columna llamada
-\textstyleUserEntry{MIEMBRO.NOTAS}.
+cuotas que no estén ya en \appname. 
 
-
-
-\begin{center}
-\includegraphics[width=16.999cm,height=1.995cm]{manual-img18.png}
-\captionof{figure}[Hoja adaptada totalmente para la importación]{Hoja
-adaptada totalmente para la importación}
-
-\end{center}
 Una vez adaptada y revisada tienes que guardar la hoja en algún sitio
 donde la encuentres posteriormente, con un formato especial: CSV. Desde
-\textbf{Openoffice}, ve a \textstyleGUIELEMENT{Archivo$\rightarrow
+\textbf{LibreOffice}, ve a \textstyleGUIELEMENT{Archivo$\rightarrow
 $Guardar como...}\textbf{, }dale un nombre,\textbf{ }elige el
 \textstyleGUIELEMENT{Filtro: Texto CSV} y pulsa
 \textstyleGUIELEMENT{Aceptar}. En la ventana que aparece
 posteriormente, elige estos valores:
-
-
 
 \begin{center}
 \includegraphics[width=12.748cm,height=4.309cm]{manual-img19.png}

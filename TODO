@@ -40,7 +40,7 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
-* Enviar/facturas facturas a/de otro gestiong
+* Enviar/recibir facturas a/de otro gestiong
 * Que la suma en mc de las ventas coincida con la suma de las facturas:
 ** No añade el recargo ni los descuentos
 * Calcular el máximo de una unión en SQL: SELECT SUM() FROM ( SELECT .... UNION ALL .... );

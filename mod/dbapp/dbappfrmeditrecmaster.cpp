@@ -1408,15 +1408,15 @@ void FrmEditRecMaster::menuTableImport_clicked()
 			// show a template for importing 
 			Xtring descriptions;
 			Xtring _template;
+			Xtring blankline;
 			const dbTableDefinition *tbldef = pRecord->getTableDefinition();
-			addDescription( tbldef, descriptions, _template );
+			addDescription( tbldef, descriptions, _template, blankline );
 			for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
 				it != tbldef->getRelationDefinitions().end(); ++it ) {
 				if( it->second->getType() == dbRelationDefinition::aggregate ) {
 					dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
-					addDescription( reltbldef, descriptions, _template );
+					addDescription( reltbldef, descriptions, _template, blankline );
 				} else if( it->second->getType() == dbRelationDefinition::one2one ) {
-					_GONG_DEBUG_PRINT( 0, it->second->getFullName());
 					dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
 					dbFieldDefinition *codefld = reltbldef->findFieldByFlags( dbFieldDefinition::CODE );
 					if( codefld ) {
@@ -1425,21 +1425,21 @@ void FrmEditRecMaster::menuTableImport_clicked()
 							descriptions += codefld->getCaption() + "\n";
 						else
 							descriptions += codefld->getDescription() + "\n";
-						_template.appendWithSeparator( getDelimiter() + codefld->getFullName() + getDelimiter(), getSeparator() );
+						_template.appendWithSeparator( codefld->getFullName(), getSeparator() );
+						blankline.appendWithSeparator( getDelimiter()+getDelimiter(), getSeparator() );
 					}
 				}
 			}
 			FrmBase::msgOkLarge( this, 
 				Xtring::printf(_("Plantilla para importar %s"), DBAPP->getTableDescPlural( pRecord->getTableName() ).c_str() ),
 				descriptions 
-				+ _( "\nPuedes copiar y pegar este texto directamente a una hoja de cálculo:\n" )
+				+ _( "\nPuedes copiar y pegar el texto entre las dos rayas directamente a una hoja de cálculo:\n")
+				+ "--------------------------\n"
 				+ _template + "\n"
-				+ getDelimiter() + getDelimiter() + getSeparator() 
-				+ getDelimiter() + getDelimiter() + getSeparator() 
-				+ getDelimiter() + getDelimiter()  
-				+ "\n" );
+				+ blankline + "\n\n"
+				+ "--------------------------\n" );
 		}
-		void addDescription( const dbTableDefinition *tbldef, Xtring &descriptions, Xtring &_template ) {
+		void addDescription( const dbTableDefinition *tbldef, Xtring &descriptions, Xtring &_template, Xtring &blankline ) {
 			for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
 				dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
 				if( flddef->isReference() || flddef->isPrimaryKey() )
@@ -1451,7 +1451,8 @@ void FrmEditRecMaster::menuTableImport_clicked()
 					descriptions += flddef->getCaption() + "\n";
 				else
 					descriptions += flddef->getDescription() + "\n";
-				_template.appendWithSeparator( getDelimiter() + flddef->getFullName() + getDelimiter(), getSeparator() );
+				_template.appendWithSeparator( flddef->getFullName(), getSeparator() );
+				blankline.appendWithSeparator( getDelimiter()+getDelimiter(), getSeparator() );
 			}
 		}
 	
