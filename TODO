@@ -1,13 +1,23 @@
 == HECHO ==
 
-== José Cataño ==
+== HACIENDO ==
+dbRecord::seekCode, buscar por todos los códigos de la tabla
+
+== error ==
+* Hay algo extraño con la impresión de los tickets
+* Cuando se pone un filtro, no vuelve el foco a la ventana del browse
+* Imprimir todo si hay un filtro tiene que imprimir solo los del filtro
+
+== factu ==
+* Añadir a proveedora: usa referencias.
+
+== José Castaño ==
 * Al hacer la remesa de recibos, me he encontrado con lo que me ha hecho pararme porque no va, los pasos que doy son los siguientes: Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo he intentar buscar el socia, se me cierra el programa del tirón, por lo que me deja sin opción de continuar no hacer nada más, en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 
 == En los pájaros ==
 * Añadir CIF a tickets
 * Ajustar anchura tickets
 * Ticket normal, tiene poco espacio para el total
-* Problema logo en la web
 
 == NUEVA FUNCIONALIDAD ==
 * factu: Formulario datos ventas y compras de artículos
@@ -16,7 +26,7 @@
 == MC ==
 * Comprobar: no pasa aquí. El resto de las ofertas siempre se queda como el total
 * la ganancia la debe calcular del precio de compra del articulo no?
-* no puedo volcar en facturas o pedidos documentos de otro ejercicio aún en curso.
+* Sale la configuración de las ofertas aunque no cargue el módulo ofertas?
 
 = PRESCINDIBLE =
 

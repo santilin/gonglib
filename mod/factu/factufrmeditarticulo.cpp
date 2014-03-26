@@ -338,6 +338,11 @@ void FrmEditArticulo::scatterProveedora()
 	editProveedoraCodigo->setText( getRecProveedora()->getValue("CODIGO") );
 	editProveedoraRazonSocial->setText( getRecProveedora()->getValue("RAZONSOCIAL") );
 /*>>>>>FRMEDITARTICULO_SCATTER_PROVEEDORA*/
+	if( getRecProveedora()->getValue("USAREFERENCIAS").toBool() ) {
+		editCodigoInterno->setEnabled(true);
+	} else {
+		editCodigoInterno->setEnabled(false);
+	}
 }
 
 void FrmEditArticulo::pushProveedoraCodigo_clicked()

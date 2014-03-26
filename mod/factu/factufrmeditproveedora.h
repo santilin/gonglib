@@ -85,6 +85,7 @@ protected:
 #endif
 	gong::ComboBoxInt *comboGenCodArticulo;
 	gong::EditBox *editFormatCodArticulo;
+	gong::CheckBox *checkUsaReferencias;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITPROVEEDORA_CONTROLS*/
     class contactos::FrmEditContactoBehavior *pEditContactoBehavior;

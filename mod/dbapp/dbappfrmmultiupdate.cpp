@@ -60,8 +60,9 @@ void FrmMultiUpdate::accept()
         ids << pTheForm->getDataTable()->getSelectedIDs();
         break;
     case 2:
-        FrmBase::msgError( pTheForm, _("Esto aún no funciona" ) );
-        return;
+		for( uint nr = 0; nr < pTheForm->getDataTable()->numRows(); ++nr )
+			ids << pTheForm->getDataTable()->getDataModel()->getRowID( nr );
+		break;
     }
     dbRecord *record = pTheForm->getRecord()->duplicate();
     int nupdated = 0;

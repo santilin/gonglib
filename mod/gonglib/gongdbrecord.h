@@ -120,6 +120,11 @@ public:
     /** Sets the user of this record (who created it) */
     void setUser(dbUser *puser) { pUser = puser; }
 
+    dbRecordID seekCode( int &nvalues, const Xtring &fldcod, const Variant &foundcod,
+			const Xtring &flddesc = Xtring::null, const Variant &founddesc = Variant(),
+			const Xtring &cond = Xtring::null, bool findCodeInDesc = false,
+			Xtring &matchingcond = Xtring::null );
+    
     /** Helper function to see if a given record exists with field=strvalue */
     dbRecordID existsAnother(const Xtring &cond) const;
     dbRecordID existsAnother(const Xtring &field, const Variant &value) const {

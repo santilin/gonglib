@@ -209,15 +209,9 @@ public:	// Edit forms
                          AllowNotFound = 0x10, SeekCodeReadonly = 0x20, AskIfFoundOne = 0x40
                        };
     dbRecordID seekCode(dbRecord *rec, QWidget *owner,
-                        const Xtring &fldcod, const Xtring &foundcod,
-                        const Xtring &flddesc = Xtring::null, const Xtring &founddesc = Xtring::null,
-                        const Xtring &cond = Xtring::null, SeekCodeFlags flags = SeekCodeNone,
-                        LineEdit *editAlt = 0, const Xtring &fldaltname = Xtring::null );
-    dbRecordID seekCode(dbRecord *rec, QWidget *owner,
-                        const Xtring &fldcod, int foundcod,
-                        const Xtring &flddesc = Xtring::null, const Xtring &founddesc = Xtring::null,
-                        const Xtring &cond = Xtring::null, SeekCodeFlags flags = SeekCodeNone,
-                        LineEdit *editAlt = 0, const Xtring &fldaltname = Xtring::null );
+                        const Xtring &fldcod, const Variant &foundcod,
+                        const Xtring &flddesc = Xtring::null, const Variant &founddesc = Xtring::null,
+                        const Xtring &cond = Xtring::null, SeekCodeFlags flags = SeekCodeNone );
     Xtring getReportsPath( bool reversed );
     void addReportsPath( bool local, const Xtring &path );
     static Xtring codeNotFound() {

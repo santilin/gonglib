@@ -321,8 +321,7 @@ void FrmLogin::accept()
         mStatus = ok;
         if( mAutoLogin ) 
             setResult( QDialog::Accepted );
-		else 
-        	updateConfig();
+		updateConfig();
 		QDialog::accept();
     }
     else

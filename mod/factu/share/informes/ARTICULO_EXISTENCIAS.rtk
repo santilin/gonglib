@@ -1,0 +1,202 @@
+REPORT ARTICULO_EXISTENCIAS
+{
+	Title = "Existencias de artículos";
+	Units = chars;
+	SizeX = 100;
+	SizeY = 60;
+	
+	PARAMETER subtitle {
+		type = text;
+		value = "MensSanaInCorporeSano, C.C.";
+	}
+	
+	PARAMETER selection {
+		type = text;
+		value = "";
+	}
+
+	INPUT default {
+		driver = mysql;
+		from = "ARTICULO INNER JOIN FAMILIA ON ARTICULO.FAMILIA_ID = FAMILIA.ID";
+		orderby = "2";
+
+		INPUTFIELD ARTICULO_CODIGO_dummy {
+			Source = ARTICULO.CODIGO;
+			Type = string;
+		}
+		INPUTFIELD ARTICULO_CODIGO {
+			Source = ARTICULO.CODIGO;
+			Type = string;
+		}
+		INPUTFIELD ARTICULO_NOMBRE {
+			Source = ARTICULO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD FAMILIA_NOMBRE {
+			Source = FAMILIA.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD ARTICULO_PVP {
+			Source = ARTICULO.PVP;
+			Type = money;
+		}
+		INPUTFIELD ARTICULO_STOCK {
+			Source = ARTICULO.STOCK;
+			Type = double;
+		}
+
+	}
+
+	PAGEHEADER page_header {
+		sizey = 4;
+		style = pageheader;
+		backgroundimage = logo;
+		OBJECT subtitle {
+			style = footer ;
+			value="###subtitle###";
+			halignment = left;
+			fontweight = bold;
+			sizey = 1;
+			posx = 0;
+		}
+		OBJECT reportdate {
+			style = pagenumber;
+			value="= const @report.Date";
+			format="%d/%m/%Y %H:%M";
+			sizey = 1;
+			posx = 72;
+			sizex = 16;
+		}
+		OBJECT npagina_text {
+			style = pagenumber;
+			halignment = right;
+			value="Pág.";
+			sizey = 1;
+			posx = 90;
+			sizex = 4 ;
+		}
+		OBJECT npagina {
+			style = pagenumber;
+			sizey = 1;
+			posx = 95;
+			halignment = right;
+			value="= @report.PageNumber";
+			sizex = 5;
+		}
+		OBJECT titulo {
+			style = title;
+			value = "= const @report.Title";
+			posy = 1;
+			sizey = 2;
+			halignment = center;
+			fontsize = 14;
+			fontweight = bold;
+		}
+		OBJECT selection {
+			fontsize = 8;
+			halignment = right;
+			adjustment = none;
+			value="###selection###";
+			posx = 0;
+			posy = 3;
+			sizey = 1;
+		}
+	}
+
+	PAGEHEADER header_captions {
+		sizey=1;
+		fontweight = bold;
+		borderbottomstyle = solid;
+		borderbottomcolor = black;
+		borderbottomwidth = 1;
+
+		OBJECT header_ARTICULO_CODIGO {
+			value = "Código";
+			posx = 0;
+			sizex = 15;
+		}
+		OBJECT header_ARTICULO_NOMBRE {
+			value = "Nombre";
+			posx = -1;
+			sizex = 44;
+		}
+		OBJECT header_FAMILIA_NOMBRE {
+			value = "Familia";
+			posx = -1;
+			sizex = 17;
+			adjustment = "reducefont";
+		}
+		OBJECT header_ARTICULO_PVP {
+			value = "PVP";
+			posx = -1;
+			sizex = 10;
+			alignment = "right";
+		}
+		OBJECT header_ARTICULO_STOCK {
+			value = "Existencias";
+			posx = -1;
+			sizex = 14;
+			alignment = "right";
+		}
+ 
+	}
+#ifndef RESUMIDO
+	DETAILS details {
+		posx = 0;
+		level = 0;
+		style = detail;
+		sizey = 1;
+		backcolor = "gray&white";
+
+
+		OBJECT ARTICULO_CODIGO {
+			value = "=input.ARTICULO_CODIGO";
+			halignment = "left";
+			posx = 0;
+			sizex = 15;
+		}
+		OBJECT ARTICULO_NOMBRE {
+			value = "=input.ARTICULO_NOMBRE";
+			halignment = "left";
+			posx = -1;
+			sizex = 44;
+		}
+		OBJECT FAMILIA_NOMBRE {
+			value = "=input.FAMILIA_NOMBRE";
+			halignment = "left";
+			posx = -1;
+			sizex = 17;
+		}
+		OBJECT ARTICULO_PVP {
+			value = "=input.ARTICULO_PVP";
+			halignment = "right";
+			posx = -1;
+			sizex = 10;
+		}
+		OBJECT ARTICULO_STOCK {
+			value = "=input.ARTICULO_STOCK";
+			halignment = "right";
+			posx = -1;
+			sizex = 14;
+		}
+ 
+	}
+#endif
+	REPORTFOOTER page_footer {
+		sizey = 1.4;
+		bordertopstyle = solid;
+		paddingtop = 0.4;
+		style = pagefooter;
+
+
+		OBJECT suma_ARTICULO_STOCK {
+			value = "=input.ARTICULO_STOCK";
+			halignment = "right";
+			posx = 86;
+			sizex = 15;
+			aggregate = sum;
+		}
+ 
+	}
+
+}

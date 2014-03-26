@@ -240,6 +240,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicProveedora->addFieldListOfValues<int>( false, &RecArticulo::sModalidades,
             &IdentityIntList, "GENCODARTICULO" )->setCanBeNull(true);
     pFicProveedora->addFieldString( "FORMATCODARTICULO", 100 );
+	pFicProveedora->addFieldBool( "USAREFERENCIAS" )->setDefaultValue("0");
 #ifdef HAVE_CONTABMODULE
     if ( pContabModule )
         pFicProveedora->addField<contab::FldCuenta>( "SUBCUENTA" );

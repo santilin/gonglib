@@ -11,6 +11,7 @@
 // FIELD Subcuenta string tabExtra leftsubcuentas MODULE_INCLUDED(Contab)
 // FIELD GenCodArticulo comboint frameGenCodArt
 // FIELD FormatCodArticulo string frameGenCodArt
+// FIELD UsaReferencias bool frameGenCodArt
 // FIELD Notas text - notas
 // TYPE FrmEditRecMaster factu::Proveedora IncCode
 /*>>>>>MODULE_INFO*/
@@ -52,6 +53,7 @@ FrmEditProveedora::FrmEditProveedora(FrmEditRec *parentfrm, dbRecord *master, db
 	QVBoxLayout *frameGenCodArtLayout = new QVBoxLayout(frameGenCodArt, 11, 6, "frameGenCodArtLayout");
 	QHBoxLayout *gencodarticuloLayout = new QHBoxLayout(0, 0, 6, "gencodarticuloLayout");
 	QHBoxLayout *formatcodarticuloLayout = new QHBoxLayout(0, 0, 6, "formatcodarticuloLayout");
+	QHBoxLayout *usareferenciasLayout = new QHBoxLayout(0, 0, 6, "usareferenciasLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editCodigo = addEditField( pControlsFrame, "PROVEEDORA", "CODIGO", codigoLayout );
 	editRazonSocial = addEditField( pControlsFrame, "PROVEEDORA", "RAZONSOCIAL", codigoLayout );
@@ -78,6 +80,7 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 	comboGenCodArticulo = addComboIntField( frameGenCodArt, "PROVEEDORA", "GENCODARTICULO", gencodarticuloLayout );
 	editFormatCodArticulo = addEditField( frameGenCodArt, "PROVEEDORA", "FORMATCODARTICULO", formatcodarticuloLayout );
+	checkUsaReferencias = addCheckField( frameGenCodArt, "PROVEEDORA", "USAREFERENCIAS", usareferenciasLayout );
 	editNotas = addTextField( pControlsFrame, "PROVEEDORA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( codigoLayout );
 	pControlsLayout->addWidget( pFrameContactos );
@@ -89,6 +92,7 @@ if( ModuleInstance->getContabModule() ) {
 	alignLayout( leftsubcuentasLayout, true );
 	frameGenCodArtLayout->addLayout( gencodarticuloLayout );
 	frameGenCodArtLayout->addLayout( formatcodarticuloLayout );
+	frameGenCodArtLayout->addLayout( usareferenciasLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITPROVEEDORA_INIT_CONTROLS*/
 // {capel} Añadir detrás de addLayout( codigoLayout )
@@ -121,6 +125,7 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 	comboGenCodArticulo->setCurrentItemByValue(getRecProveedora()->getValue("GENCODARTICULO").toInt());
 	editFormatCodArticulo->setText(getRecProveedora()->getValue("FORMATCODARTICULO").toString());
+	checkUsaReferencias->setChecked(getRecProveedora()->getValue("USAREFERENCIAS").toBool());
 	editNotas->setText(getRecProveedora()->getValue("NOTAS").toString());
 	if( isInserting() && editCodigo->toInt() == 0 ) {
 		editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
@@ -158,6 +163,7 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 	getRecProveedora()->setValue( "GENCODARTICULO", comboGenCodArticulo->getCurrentItemValue());
 	getRecProveedora()->setValue( "FORMATCODARTICULO", editFormatCodArticulo->toString());
+	getRecProveedora()->setValue( "USAREFERENCIAS", checkUsaReferencias->isChecked());
 	getRecProveedora()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITPROVEEDORA_GATHER*/
 }

@@ -17,9 +17,6 @@ noinst_HEADERS = capelmodule.h capelcppmodule.h \
 	gonggenfrmeditrecmaestro.h gonggenrecords.h \
 	rtkcppclass.h
 
-noinst_HEADERS += ventadirecta.h
-capel_SOURCES += ventadirecta.cpp
-	
 if ADDON_VENTADIRECTA
 	noinst_HEADERS += ventadirecta.h
 	capel_SOURCES += ventadirecta.cpp
