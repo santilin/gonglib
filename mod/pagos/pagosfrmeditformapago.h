@@ -15,12 +15,15 @@
 #define _PAGOS_PAGOSFRMEDITFORMAPAGO_H
 /*>>>>>FRMEDITFORMAPAGO_PREAMBLE*/
 
+#include "config.h"
 /*<<<<<FRMEDITFORMAPAGO_INCLUDES*/
 #include <gongfrmbase.h>
 #include <dbappfrmeditrecmaster.h>
 #include "pagosrecformapago.h"
 /*>>>>>FRMEDITFORMAPAGO_INCLUDES*/
+#ifdef HAVE_TESORERIAMODULE
 #include <tesoreriareccuentatesoreria.h>
+#endif
 
 namespace gong {
 namespace pagos {
