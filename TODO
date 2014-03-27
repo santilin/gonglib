@@ -3,6 +3,9 @@
 == HACIENDO ==
 dbRecord::seekCode, buscar por todos los códigos de la tabla
 
+== Biosegura ==
+* Informe tabla grande: condición: en notas incluye (pesar)
+
 == error ==
 * Hay algo extraño con la impresión de los tickets
 * Cuando se pone un filtro, no vuelve el foco a la ventana del browse

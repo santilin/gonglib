@@ -68,22 +68,14 @@ protected slots:
 
     /*<<<<<FRMEDITPAGO_SCATTERS_AND_SLOTS*/
 protected:
-	void scatterFactura();
-	void scatterTercero();
 	void scatterMoneda();
 	void scatterCuentaPago();
 
 private slots:
-	void pushFacturaNumero_clicked();
-	void pushTerceroCodigo_clicked();
 	void pushMonedaCodigo_clicked();
 	void pushCuentaPagoCuenta_clicked();
 
 public:
-	RecFactura* getRecFactura() const
-		{ return static_cast<RecPago*>(getRecord())->getRecFactura(); }
-	RecTercero* getRecTercero() const
-		{ return static_cast<RecPago*>(getRecord())->getRecTercero(); }
 	empresa::RecMoneda* getRecMoneda() const
 		{ return static_cast<RecPago*>(getRecord())->getRecMoneda(); }
 #ifdef HAVE_CONTABMODULE
@@ -94,14 +86,6 @@ public:
 
     /*<<<<<FRMEDITPAGO_CONTROLS*/
 protected:
-	gong::SearchBox *searchFacturaNumero;
-	QPushButton *pushFacturaNumero;
-	gong::LineEdit *editFacturaNumero;
-	gong::LineEdit *editFacturaFecha;
-	gong::SearchBox *searchTerceroCodigo;
-	QPushButton *pushTerceroCodigo;
-	gong::LineEdit *editTerceroCodigo;
-	gong::LineEdit *editTerceroRazonSocial;
 	gong::CheckBox *checkAutomatico;
 	gong::EditBox *editNumero;
 	gong::EditBox *editNumeroAgrupado;

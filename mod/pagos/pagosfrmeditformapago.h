@@ -20,6 +20,7 @@
 #include <dbappfrmeditrecmaster.h>
 #include "pagosrecformapago.h"
 /*>>>>>FRMEDITFORMAPAGO_INCLUDES*/
+#include <tesoreriareccuentatesoreria.h>
 
 namespace gong {
 namespace pagos {
@@ -40,10 +41,25 @@ protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+	void specialControlKeyPressed(QWidget *sender, char key);
 /*>>>>>FRMEDITFORMAPAGO_VIRTUALS_FROM_FRMEDITREC*/
     void enableControlesPago();
 
-    /*<<<<<FRMEDITFORMAPAGO_CONTROLS*/
+/*<<<<<FRMEDITFORMAPAGO_SCATTERS_AND_SLOTS*/
+protected:
+	void scatterCuentaTesoreria();
+
+private slots:
+	void pushCuentaTesoreriaCodigo_clicked();
+
+public:
+#ifdef HAVE_TESORERIAMODULE
+	tesoreria::RecCuentaTesoreria* getRecCuentaTesoreria() const
+		{ return static_cast<RecFormaPago*>(getRecord())->getRecCuentaTesoreria(); }
+#endif
+/*>>>>>FRMEDITFORMAPAGO_SCATTERS_AND_SLOTS*/
+	
+/*<<<<<FRMEDITFORMAPAGO_CONTROLS*/
 protected:
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNombre;
@@ -58,7 +74,12 @@ protected:
 #ifdef HAVE_CONTABMODULE
 	gong::EditBox *editSubcuentaCobro;
 #endif
-	gong::TextBox *editNotas;
+#ifdef HAVE_TESORERIAMODULE
+	gong::SearchBox *searchCuentaTesoreriaCodigo;
+	QPushButton *pushCuentaTesoreriaCodigo;
+	gong::LineEdit *editCuentaTesoreriaCodigo;
+	gong::LineEdit *editCuentaTesoreriaDescripcion;
+#endif
 /*>>>>>FRMEDITFORMAPAGO_CONTROLS*/
 };
 
@@ -67,3 +88,4 @@ protected:
 } // namespace gong
 #endif // PAGOS_PAGOSFRMEDITFORMAPAGO_H
 /*>>>>>FRMEDITFORMAPAGO_POSTAMBLE*/
+

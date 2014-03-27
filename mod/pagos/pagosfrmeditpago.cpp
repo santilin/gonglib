@@ -50,7 +50,6 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	searchFacturaNumero = 0;
 	searchTerceroCodigo = 0;
 /*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
-	QHBoxLayout *tercerosLayout = new QHBoxLayout(0, 0, 6, "tercerosLayout");
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *descLayout = new QHBoxLayout(0, 0, 6, "descLayout");
 	QHBoxLayout *fechasLayout = new QHBoxLayout(0, 0, 6, "fechasLayout");
@@ -58,7 +57,6 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
 	QHBoxLayout *contabLayout = new QHBoxLayout(0, 0, 6, "contabLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-
 	checkAutomatico = addCheckField( pControlsFrame, "PAGO", "AUTOMATICO", numeroLayout );
 	editNumero = addEditField( pControlsFrame, "PAGO", "NUMERO", numeroLayout );
 	editNumeroAgrupado = addEditField( pControlsFrame, "PAGO", "NUMEROAGRUPADO", numeroLayout );
@@ -90,7 +88,6 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 	editCuentaOrigen = addEditField( pControlsFrame, "PAGO", "CUENTAORIGEN", contabLayout );
 	editNotas = addTextField( pControlsFrame, "PAGO", "NOTAS", notasLayout );
-	pControlsLayout->addLayout( tercerosLayout );
 	pControlsLayout->addLayout( numeroLayout );
 	pControlsLayout->addLayout( descLayout );
 	pControlsLayout->addLayout( fechasLayout );
@@ -396,10 +393,6 @@ void FrmEditPago::specialControlKeyPressed(QWidget *sender, char key)
     /*<<<<<FRMEDITPAGO_SPECIALACTION*/
 	mControlKeyPressed = key;
 	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
-	if( sender == editFacturaNumero )
-		pushFacturaNumero_clicked();
-	if( sender == editTerceroCodigo )
-		pushTerceroCodigo_clicked();
 	if( sender == editMonedaCodigo )
 		pushMonedaCodigo_clicked();
 #ifdef HAVE_CONTABMODULE
@@ -435,9 +428,9 @@ void FrmEditPago::scatterFields()
 #endif
     }
 /*<<<<<FRMEDITPAGO_SCATTER*/
-	if( isEditing() && (pFocusWidget == 0) )
-		pFocusWidget = editFacturaNumero;
 	checkAutomatico->setChecked(getRecPago()->getValue("AUTOMATICO").toBool());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = checkAutomatico;
 	editNumero->setText(getRecPago()->getValue("NUMERO").toInt());
 	editNumeroAgrupado->setText(getRecPago()->getValue("NUMEROAGRUPADO").toString());
 	editContador->setText(getRecPago()->getValue("CONTADOR").toInt());
@@ -452,8 +445,6 @@ void FrmEditPago::scatterFields()
 	editDocumentoPago->setText(getRecPago()->getValue("DOCUMENTOPAGO").toString());
 	editCuentaOrigen->setText(getRecPago()->getValue("CUENTAORIGEN").toString());
 	editNotas->setText(getRecPago()->getValue("NOTAS").toString());
-	scatterFactura();
-	scatterTercero();
 	scatterMoneda();
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
@@ -492,8 +483,6 @@ if( ModuleInstance->getContabModule() ) {
 void FrmEditPago::gatherFields()
 {
 /*<<<<<FRMEDITPAGO_GATHER*/
-	getRecPago()->setValue( "FACTURA_ID", getRecFactura()->getRecordID() );
-	getRecPago()->setValue( "TERCERO_ID", getRecTercero()->getRecordID() );
 	getRecPago()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
 	getRecPago()->setValue( "NUMERO", editNumero->toInt());
 	getRecPago()->setValue( "NUMEROAGRUPADO", editNumeroAgrupado->toString());
@@ -603,7 +592,6 @@ void FrmEditPago::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir
 		getRecMoneda(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterMoneda();
 /*>>>>>FRMEDITPAGO_VALIDATE*/
-// {capel} Eliminar los validSeekCode de Factura y Tercero
     if( focusWidget() != pushFacturaNumero) // To avoid triggering the validating if the button is pressed
         if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaFecha,
                            getRecFactura(), mFldFactCodigo, mFldFactDesc, Xtring::null) ) {

@@ -33,6 +33,9 @@ class NamesListTable;
 #ifdef HAVE_CONTABMODULE
 #include <contabmodule.h>
 #endif
+#ifdef HAVE_TESORERIAMODULE
+#include <tesoreriamodule.h>
+#endif
 /*>>>>>PAGOSMODULE_INCLUDES*/
 
 namespace gong {
@@ -113,10 +116,16 @@ public:
 #ifdef HAVE_CONTABMODULE
 	contab::ContabModule *getContabModule() const { return pContabModule; }
 #endif
+#ifdef HAVE_TESORERIAMODULE
+	tesoreria::TesoreriaModule *getTesoreriaModule() const { return pTesoreriaModule; }
+#endif
 private:
 	empresa::EmpresaModule *pEmpresaModule;
 #ifdef HAVE_CONTABMODULE
 	contab::ContabModule *pContabModule;
+#endif
+#ifdef HAVE_TESORERIAMODULE
+	tesoreria::TesoreriaModule *pTesoreriaModule;
 #endif
 /*>>>>>PAGOSMODULE_REQUIRES*/
 };

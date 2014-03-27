@@ -9,7 +9,7 @@
 // FIELD DtoEnFactura float - dto
 // FIELD SubcuentaPago string - sub1 MODULE_INCLUDED(Contab)
 // FIELD SubcuentaCobro string - sub2 MODULE_INCLUDED(Contab)
-// FIELD Notas text - notas
+// FIELD CuentaTesoreria Reference(tesoreria::CuentaTesoreria,Codigo,Descripcion) - sub1 MODULE_INCLUDED(Tesoreria)
 // TYPE FrmEditRecMaster pagos::FormaPago validCodeAndDesc IncCode CodeNotFound
 /*>>>>>MODULE_INFO*/
 
@@ -41,7 +41,6 @@ FrmEditFormaPago::FrmEditFormaPago(FrmEditRec *parentfrm, dbRecord *master, dbRe
 	QHBoxLayout *dtoLayout = new QHBoxLayout(0, 0, 6, "dtoLayout");
 	QHBoxLayout *sub1Layout = new QHBoxLayout(0, 0, 6, "sub1Layout");
 	QHBoxLayout *sub2Layout = new QHBoxLayout(0, 0, 6, "sub2Layout");
-	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editCodigo = addEditField( pControlsFrame, "FORMAPAGO", "CODIGO", codigoLayout );
 	editNombre = addEditField( pControlsFrame, "FORMAPAGO", "NOMBRE", codigoLayout );
 	comboTipoFormaPago = addComboIntField( pControlsFrame, "FORMAPAGO", "TIPOFORMAPAGO", tipoLayout );
@@ -59,14 +58,22 @@ if( ModuleInstance->getContabModule() ) {
 	editSubcuentaCobro = addEditField( pControlsFrame, "FORMAPAGO", "SUBCUENTACOBRO", sub2Layout );
 }
 #endif
-	editNotas = addTextField( pControlsFrame, "FORMAPAGO", "NOTAS", notasLayout );
+
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	searchCuentaTesoreriaCodigo = addSearchField( pControlsFrame, "CUENTATESORERIA", "CUENTATESORERIA", "CODIGO", "DESCRIPCION", sub1Layout );
+	pushCuentaTesoreriaCodigo = searchCuentaTesoreriaCodigo->getButton();
+	connect( pushCuentaTesoreriaCodigo, SIGNAL( clicked() ), this, SLOT( pushCuentaTesoreriaCodigo_clicked() ) );
+	editCuentaTesoreriaCodigo = searchCuentaTesoreriaCodigo->getEditCode();
+	editCuentaTesoreriaDescripcion = searchCuentaTesoreriaCodigo->getEditDesc();
+}
+#endif
 	pControlsLayout->addLayout( codigoLayout );
 	pControlsLayout->addLayout( tipoLayout );
 	pControlsLayout->addLayout( plazosLayout );
 	pControlsLayout->addLayout( dtoLayout );
 	pControlsLayout->addLayout( sub1Layout );
 	pControlsLayout->addLayout( sub2Layout );
-	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITFORMAPAGO_INIT_CONTROLS*/
 }
 
@@ -92,7 +99,6 @@ if( ModuleInstance->getContabModule() ) {
 	editSubcuentaCobro->setText(getRecFormaPago()->getValue("SUBCUENTACOBRO").toString());
 }
 #endif
-	editNotas->setText(getRecFormaPago()->getValue("NOTAS").toString());
 	if( isInserting() && editCodigo->toInt() == 0 ) {
 		editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
 	}
@@ -105,6 +111,11 @@ if( ModuleInstance->getContabModule() ) {
 		editNombre->setJustEdited( true );
 		}
 	}
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	scatterCuentaTesoreria();
+}
+#endif
 /*>>>>>FRMEDITFORMAPAGO_SCATTER*/
     enableControlesPago();
 }
@@ -129,7 +140,11 @@ if( ModuleInstance->getContabModule() ) {
 	getRecFormaPago()->setValue( "SUBCUENTACOBRO", editSubcuentaCobro->toString());
 }
 #endif
-	getRecFormaPago()->setValue( "NOTAS", editNotas->toString());
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	getRecFormaPago()->setValue( "CUENTATESORERIA", getRecCuentaTesoreria()->getRecordID() );
+}
+#endif
 /*>>>>>FRMEDITFORMAPAGO_GATHER*/
 }
 
@@ -142,6 +157,14 @@ void FrmEditFormaPago::validateFields( QWidget *sender, bool *isvalid, ValidResu
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
 	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
 			*isvalid = false;
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	if( focusWidget() != pushCuentaTesoreriaCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editCuentaTesoreriaCodigo, editCuentaTesoreriaDescripcion,
+		getRecCuentaTesoreria(), "CODIGO", "DESCRIPCION", Xtring::null) )
+		scatterCuentaTesoreria();
+}
+#endif
 	if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
 		if( !sender )
 			*isvalid = false;
@@ -200,3 +223,85 @@ void FrmEditFormaPago::enableControlesPago()
 } // namespace pagos
 } // namespace gong
 /*>>>>>FRMEDITFORMAPAGO_FIN*/
+
+void FrmEditFormaPago::scatterCuentaTesoreria()
+{
+/*<<<<<FRMEDITFORMAPAGO_SCATTER_CUENTATESORERIA*/
+	editCuentaTesoreriaCodigo->setText( getRecCuentaTesoreria()->getValue("CODIGO") );
+	editCuentaTesoreriaDescripcion->setText( getRecCuentaTesoreria()->getValue("DESCRIPCION") );
+/*>>>>>FRMEDITFORMAPAGO_SCATTER_CUENTATESORERIA*/
+}
+void FrmEditFormaPago::pushCuentaTesoreriaCodigo_clicked()
+{
+/*<<<<<FRMEDITFORMAPAGO_PUSH_CUENTATESORERIA_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchCuentaTesoreriaCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editCuentaTesoreriaCodigo->setJustEdited( false );
+			editCuentaTesoreriaCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecCuentaTesoreria(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterCuentaTesoreria();
+				editCuentaTesoreriaCodigo->setJustEdited( true );
+				setWiseFocus(editCuentaTesoreriaCodigo);
+			}
+			break;
+		case 'M':
+			{
+				if( getRecCuentaTesoreria()->getRecordID() ) {
+					editCuentaTesoreriaCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecCuentaTesoreria(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editCuentaTesoreriaCodigo->setJustEdited( true );
+						scatterCuentaTesoreria();
+					}
+				setWiseFocus(editCuentaTesoreriaCodigo);
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecCuentaTesoreria()->getRecordID() != 0 ) {
+					editCuentaTesoreriaCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaTesoreria(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				tesoreria::RecCuentaTesoreria *tmprec = static_cast<tesoreria::RecCuentaTesoreria *>(DBAPP->createRecord( "CuentaTesoreria" ));
+				editCuentaTesoreriaCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editCuentaTesoreriaCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editCuentaTesoreriaCodigo->setJustEdited( true );
+					getRecCuentaTesoreria()->copyRecord( tmprec );
+					scatterCuentaTesoreria();
+				}
+				setWiseFocus(editCuentaTesoreriaCodigo);
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITFORMAPAGO_PUSH_CUENTATESORERIA_CODIGO_CLICKED*/
+}
+void FrmEditFormaPago::specialControlKeyPressed(QWidget *sender, char key)
+{
+/*<<<<<FRMEDITFORMAPAGO_SPECIALACTION*/
+	mControlKeyPressed = key;
+	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	if( sender == editCuentaTesoreriaCodigo )
+		pushCuentaTesoreriaCodigo_clicked();
+}
+#endif
+	mControlKeyPressed = '\0';
+/*>>>>>FRMEDITFORMAPAGO_SPECIALACTION*/
+}

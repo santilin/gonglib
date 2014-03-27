@@ -8,6 +8,7 @@
 // NAMESLISTTABLE EstadoRecibo
 // MODULE_REQUIRED Empresa
 // MODULE_OPTIONAL Contab
+// MODULE_OPTIONAL Tesoreria
 // TYPE GongModule pagos::PagosModule
 /*>>>>>MODULE_INFO*/
 
@@ -67,6 +68,9 @@ PagosModule::PagosModule()
 #ifdef HAVE_CONTABMODULE
 	pContabModule = static_cast< contab::ContabModule * >(DBAPP->findModule( "Contab" ));
 #endif
+#ifdef HAVE_TESORERIAMODULE
+	pTesoreriaModule = static_cast< tesoreria::TesoreriaModule * >(DBAPP->findModule( "Tesoreria" ));
+#endif
 /*>>>>>PAGOSMODULE_PUBLIC_INFO*/
     empresa::ModuleInstance->addContadorTable("COBRO");
     empresa::ModuleInstance->addContadorTable("PAGO");
@@ -106,6 +110,9 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pFicFormaPago->addField<contab::FldCuenta>( "SUBCUENTACOBRO" );
     pFicFormaPago->addField<contab::FldCuenta>( "SUBCUENTAPAGO" );
 #endif
+#ifdef HAVE_TESORERIAMODULE
+    pFicFormaPago->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
+#endif	
     pFicFormaPago->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicFormaPago->getTableDefinition() );
 

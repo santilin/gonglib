@@ -1,5 +1,5 @@
-// FIELD Tercero_ID Reference(Tercero,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - terceros
-// FIELD Factura_ID Reference(Factura,Numero,Fecha) - terceros
+// Tercero_ID Reference(Tercero,Codigo,Desc,dbApplication::InsertIfNotFound) - terceros
+// Factura_ID Reference(Factura,Numero,Fecha) - terceros
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de cobros
 // FIELD RemesaCobro_ID Reference(RemesaCobro,Numero,Descripcion) - remesaLayout
@@ -50,9 +50,10 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 /*>>>>>FRMEDITCOBRO_CONSTRUCTOR*/
 	searchFacturaNumero = 0;
 	searchTerceroCodigo = 0;
+    pTercerosLayout = new QHBoxLayout();
+	pControlsLayout->addLayout(pTercerosLayout);
 /*<<<<<FRMEDITCOBRO_INIT_CONTROLS*/
 	QHBoxLayout *remesaLayout = new QHBoxLayout(0, 0, 6, "remesaLayout");
-	QHBoxLayout *tercerosLayout = new QHBoxLayout(0, 0, 6, "tercerosLayout");
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *descLayout = new QHBoxLayout(0, 0, 6, "descLayout");
 	QHBoxLayout *fechasLayout = new QHBoxLayout(0, 0, 6, "fechasLayout");
@@ -66,7 +67,6 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	connect( pushRemesaCobroNumero, SIGNAL( clicked() ), this, SLOT( pushRemesaCobroNumero_clicked() ) );
 	editRemesaCobroNumero = searchRemesaCobroNumero->getEditCode();
 	editRemesaCobroDescripcion = searchRemesaCobroNumero->getEditDesc();
-
 	checkAutomatico = addCheckField( pControlsFrame, "COBRO", "AUTOMATICO", numeroLayout );
 	editNumero = addEditField( pControlsFrame, "COBRO", "NUMERO", numeroLayout );
 	editNumeroAgrupado = addEditField( pControlsFrame, "COBRO", "NUMEROAGRUPADO", numeroLayout );
@@ -99,7 +99,6 @@ if( ModuleInstance->getContabModule() ) {
 	editCuentaOrigen = addEditField( pControlsFrame, "COBRO", "CUENTAORIGEN", contabLayout );
 	editNotas = addTextField( pControlsFrame, "COBRO", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( remesaLayout );
-	pControlsLayout->addLayout( tercerosLayout );
 	pControlsLayout->addLayout( numeroLayout );
 	pControlsLayout->addLayout( descLayout );
 	pControlsLayout->addLayout( fechasLayout );
@@ -108,7 +107,6 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( contabLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITCOBRO_INIT_CONTROLS*/
-    pTercerosLayout = tercerosLayout;
     editContador->setMustBeReadOnly( true );
     editFechaPago->setMustBeReadOnly(true);
 #ifdef HAVE_CONTABMODULE
@@ -154,7 +152,7 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
         pushFacturaNumero = searchFacturaNumero->getButton();
         connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ) );
         editFacturaNumero = searchFacturaNumero->getEditCode();
-        editFacturaFecha = searchFacturaNumero->getEditDesc();
+        editFacturaDesc = searchFacturaNumero->getEditDesc();
 		editFacturaNumero->setWidthInChars(15);
 		searchFacturaNumero->setMustBeReadOnly(true);
 
@@ -176,7 +174,7 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
         pushTerceroCodigo = searchTerceroCodigo->getButton();
         connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
         editTerceroCodigo = searchTerceroCodigo->getEditCode();
-        editTerceroRazonSocial = searchTerceroCodigo->getEditDesc();
+        editTerceroDesc = searchTerceroCodigo->getEditDesc();
 		searchTerceroCodigo->setMustBeReadOnly(true);
 
         setTabOrder( editRemesaCobroNumero, editFacturaNumero );
@@ -190,11 +188,11 @@ void FrmEditCobro::scatterFactura()
 #if 0
 /*<<<<<FRMEDITCOBRO_SCATTER_FACTURA*/
 	editFacturaNumero->setText( getRecFactura()->getValue("NUMERO") );
-	editFacturaFecha->setText( getRecFactura()->getValue("FECHA") );
+	editFacturaDesc->setText( getRecFactura()->getValue("FECHA") );
 /*>>>>>FRMEDITCOBRO_SCATTER_FACTURA*/
 #endif
     editFacturaNumero->setText( getRecFactura()->getValue( mFldFactCodigo ) );
-    editFacturaFecha->setText( getRecFactura()->getValue(mFldFactDesc) );
+    editFacturaDesc->setText( getRecFactura()->getValue(mFldFactDesc) );
 }
 
 void FrmEditCobro::pushFacturaNumero_clicked()
@@ -338,11 +336,11 @@ void FrmEditCobro::scatterTercero()
 #if 0
     /*<<<<<FRMEDITCOBRO_SCATTER_TERCERO*/
 	editTerceroCodigo->setText( getRecTercero()->getValue("CODIGO") );
-	editTerceroRazonSocial->setText( getRecTercero()->getValue("RAZONSOCIAL") );
+	editTerceroDesc->setText( getRecTercero()->getValue("RAZONSOCIAL") );
 /*>>>>>FRMEDITCOBRO_SCATTER_TERCERO*/
 #endif
     editTerceroCodigo->setText( getRecTercero()->getValue( mFldTercCodigo ) );
-    editTerceroRazonSocial->setText( getRecTercero()->getValue(mFldTercDesc ) );
+    editTerceroDesc->setText( getRecTercero()->getValue(mFldTercDesc ) );
 }
 
 void FrmEditCobro::pushTerceroCodigo_clicked()
@@ -413,10 +411,6 @@ void FrmEditCobro::specialControlKeyPressed(QWidget *sender, char key)
 	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
 	if( sender == editRemesaCobroNumero )
 		pushRemesaCobroNumero_clicked();
-	if( sender == editFacturaNumero )
-		pushFacturaNumero_clicked();
-	if( sender == editTerceroCodigo )
-		pushTerceroCodigo_clicked();
 	if( sender == editMonedaCodigo )
 		pushMonedaCodigo_clicked();
 #ifdef HAVE_CONTABMODULE
@@ -470,8 +464,6 @@ void FrmEditCobro::scatterFields()
 	editCuentaOrigen->setText(getRecCobro()->getValue("CUENTAORIGEN").toString());
 	editNotas->setText(getRecCobro()->getValue("NOTAS").toString());
 	scatterRemesaCobro();
-	scatterFactura();
-	scatterTercero();
 	scatterMoneda();
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
@@ -523,8 +515,6 @@ void FrmEditCobro::gatherFields()
 {
     /*<<<<<FRMEDITCOBRO_GATHER*/
 	getRecCobro()->setValue( "REMESACOBRO_ID", getRecRemesaCobro()->getRecordID() );
-	getRecCobro()->setValue( "FACTURA_ID", getRecFactura()->getRecordID() );
-	getRecCobro()->setValue( "TERCERO_ID", getRecTercero()->getRecordID() );
 	getRecCobro()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
 	getRecCobro()->setValue( "NUMERO", editNumero->toInt());
 	getRecCobro()->setValue( "NUMEROAGRUPADO", editNumeroAgrupado->toString());
@@ -706,15 +696,14 @@ void FrmEditCobro::validateFields(QWidget *sender, bool *isvalid, ValidResult *i
 		getRecMoneda(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterMoneda();
 /*>>>>>FRMEDITCOBRO_VALIDATE*/
-// {capel} Eliminar los validSeekCode de Factura y Tercero
     if( focusWidget() != pushFacturaNumero) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaFecha,
+        if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaDesc,
                            getRecFactura(), mFldFactCodigo, mFldFactDesc, Xtring::null) ) {
             getRecord()->setValue( "FACTURA_ID", 0 );
             scatterFactura();
         }
     if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroRazonSocial,
+        if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroDesc,
                            getRecTercero(), mFldTercCodigo, mFldTercDesc, Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) ) {
             getRecord()->setValue( "TERCERO_ID", 0 );
             scatterTercero();

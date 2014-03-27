@@ -18,6 +18,9 @@
 /*<<<<<FORMAPAGO_INCLUDES*/
 #include <dbappdbapplication.h>
 
+#ifdef HAVE_TESORERIAMODULE
+#include "tesoreriareccuentatesoreria.h"
+#endif
 /*>>>>>FORMAPAGO_INCLUDES*/
 
 namespace gong {
@@ -31,6 +34,11 @@ public:
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FORMAPAGO"), recid, user)
 /*>>>>>FORMAPAGO_CONSTRUCTOR*/
     {}
+/*<<<<<FORMAPAGO_RELATIONS*/
+#ifdef HAVE_TESORERIAMODULE
+	tesoreria::RecCuentaTesoreria *getRecCuentaTesoreria() const;
+#endif
+/*>>>>>FORMAPAGO_RELATIONS*/
     enum Tipo { Contado = 1, GeneraRecibos = 2, Pendiente = 3, SeIgnora = 4 };
 
 }; // class
