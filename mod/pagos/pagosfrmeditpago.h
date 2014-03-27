@@ -56,17 +56,23 @@ protected:
     virtual void updateStatus( bool callbehaviors ); // From FrmEditRec
     virtual bool canBeginEdit(EditMode newmode); // From FrmEditRec
 
-    /*<<<<<FRMEDITPAGO_VIRTUALS_FROM_FRMEDITREC*/
+/*<<<<<FRMEDITPAGO_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 	void specialControlKeyPressed(QWidget *sender, char key);
 /*>>>>>FRMEDITPAGO_VIRTUALS_FROM_FRMEDITREC*/
+
 protected slots:
     virtual void pushPagar_clicked();
-
-    /*<<<<<FRMEDITPAGO_SCATTERS_AND_SLOTS*/
+	void pushFacturaNumero_clicked();
+	void pushTerceroCodigo_clicked();
+protected:	
+	void scatterFactura();
+	void scatterTercero();
+	
+/*<<<<<FRMEDITPAGO_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterMoneda();
 	void scatterCuentaPago();
@@ -83,8 +89,20 @@ public:
 		{ return static_cast<RecPago*>(getRecord())->getRecCuentaPago(); }
 #endif
 /*>>>>>FRMEDITPAGO_SCATTERS_AND_SLOTS*/
+public:
+	RecFactura *getRecFactura() const
+		{ return static_cast<RecPago*>(getRecord())->getRecFactura(); }
+	RecTercero *getRecTercero() const
+		{ return static_cast<RecPago*>(getRecord())->getRecTercero(); }
 
-    /*<<<<<FRMEDITPAGO_CONTROLS*/
+	gong::SearchBox *getSearchFacturaNumero() const {
+        return searchFacturaNumero;
+    }
+    gong::SearchBox *getSearchTerceroCodigo() const {
+        return searchTerceroCodigo;
+    }
+
+/*<<<<<FRMEDITPAGO_CONTROLS*/
 protected:
 	gong::CheckBox *checkAutomatico;
 	gong::EditBox *editNumero;
@@ -114,6 +132,12 @@ protected:
 /*>>>>>FRMEDITPAGO_CONTROLS*/
     QPushButton *pushPagar;
     QHBoxLayout *pTercerosLayout;
+	gong::SearchBox *searchFacturaNumero;
+	QPushButton *pushFacturaNumero;
+	gong::LineEdit *editFacturaNumero, *editFacturaDesc;
+	gong::SearchBox *searchTerceroCodigo;
+	QPushButton *pushTerceroCodigo;
+	gong::LineEdit *editTerceroCodigo, *editTerceroDesc;
     Xtring mFldFactCodigo, mFldFactDesc, mFldTercCodigo, mFldTercDesc;
 };
 /*<<<<<FRMEDITPAGO_POSTAMBLE*/

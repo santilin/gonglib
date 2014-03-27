@@ -49,6 +49,8 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 /*>>>>>FRMEDITPAGO_CONSTRUCTOR*/
 	searchFacturaNumero = 0;
 	searchTerceroCodigo = 0;
+    pTercerosLayout = new QHBoxLayout();
+	pControlsLayout->addLayout(pTercerosLayout);
 /*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *descLayout = new QHBoxLayout(0, 0, 6, "descLayout");
@@ -96,7 +98,6 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( contabLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITPAGO_INIT_CONTROLS*/
-    pTercerosLayout = tercerosLayout;
     editContador->setMustBeReadOnly( true );
     editFechaPago->setMustBeReadOnly(true);
 #ifdef HAVE_CONTABMODULE
@@ -135,9 +136,9 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         pushFacturaNumero = searchFacturaNumero->getButton();
         connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ) );
         editFacturaNumero = searchFacturaNumero->getEditCode();
-        editFacturaFecha = searchFacturaNumero->getEditDesc();
-		searchFacturaNumero->setMustBeReadOnly(true);
+        editFacturaDesc = searchFacturaNumero->getEditDesc();
 		editFacturaNumero->setWidthInChars(15);
+		searchFacturaNumero->setMustBeReadOnly(true);
 
         removeControl( searchTerceroCodigo );
         if( fldterccodigo == Xtring::null ) {
@@ -157,7 +158,7 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         pushTerceroCodigo = searchTerceroCodigo->getButton();
         connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
         editTerceroCodigo = searchTerceroCodigo->getEditCode();
-        editTerceroRazonSocial = searchTerceroCodigo->getEditDesc();
+        editTerceroDesc = searchTerceroCodigo->getEditDesc();
 		searchTerceroCodigo->setMustBeReadOnly(true);
 
         setTabOrder( editFacturaNumero, editTerceroCodigo );
@@ -170,11 +171,11 @@ void FrmEditPago::scatterFactura()
 #if 0
 /*<<<<<FRMEDITPAGO_SCATTER_FACTURA*/
 	editFacturaNumero->setText( getRecFactura()->getValue("NUMERO") );
-	editFacturaFecha->setText( getRecFactura()->getValue("FECHA") );
+	editFacturaDesc->setText( getRecFactura()->getValue("FECHA") );
 /*>>>>>FRMEDITPAGO_SCATTER_FACTURA*/
 #endif
     editFacturaNumero->setText( getRecFactura()->getValue( mFldFactCodigo ) );
-    editFacturaFecha->setText( getRecFactura()->getValue(mFldFactDesc) );
+    editFacturaDesc->setText( getRecFactura()->getValue(mFldFactDesc) );
 }
 
 void FrmEditPago::pushFacturaNumero_clicked()
@@ -320,11 +321,11 @@ void FrmEditPago::scatterTercero()
 #if 0
 /*<<<<<FRMEDITPAGO_SCATTER_TERCERO*/
 	editTerceroCodigo->setText( getRecTercero()->getValue("CODIGO") );
-	editTerceroRazonSocial->setText( getRecTercero()->getValue("RAZONSOCIAL") );
+	editTerceroDesc->setText( getRecTercero()->getValue("RAZONSOCIAL") );
 /*>>>>>FRMEDITPAGO_SCATTER_TERCERO*/
 #endif
     editTerceroCodigo->setText( getRecTercero()->getValue( mFldTercCodigo ) );
-    editTerceroRazonSocial->setText( getRecTercero()->getValue(mFldTercDesc ) );
+    editTerceroDesc->setText( getRecTercero()->getValue(mFldTercDesc ) );
 }
 
 void FrmEditPago::pushTerceroCodigo_clicked()
@@ -593,13 +594,13 @@ void FrmEditPago::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir
 		scatterMoneda();
 /*>>>>>FRMEDITPAGO_VALIDATE*/
     if( focusWidget() != pushFacturaNumero) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaFecha,
+        if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaDesc,
                            getRecFactura(), mFldFactCodigo, mFldFactDesc, Xtring::null) ) {
             getRecord()->setValue( "FACTURA_ID", 0 );
             scatterFactura();
         }
     if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
-        if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroRazonSocial,
+        if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroDesc,
                            getRecTercero(), mFldTercCodigo, mFldTercDesc, Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) ) {
             getRecord()->setValue( "TERCERO_ID", 0 );
             scatterTercero();

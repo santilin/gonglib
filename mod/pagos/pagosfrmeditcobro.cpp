@@ -260,10 +260,12 @@ void FrmEditCobro::pushFacturaNumero_clicked()
 void FrmEditCobro::scatterCuentaPago()
 {
 #define getRecCuenta getRecCuentaPago
-    /*<<<<<FRMEDITCOBRO_SCATTER_CUENTAPAGO*/
+	if( getRecord()->getTableDefinition()->findFieldDefinition("CUENTAPAGO_ID") ) {
+/*<<<<<FRMEDITCOBRO_SCATTER_CUENTAPAGO*/
 	editCuentaPagoCuenta->setText( getRecCuentaPago()->getValue("CUENTA") );
 	editCuentaPagoDescripcion->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
 /*>>>>>FRMEDITCOBRO_SCATTER_CUENTAPAGO*/
+	}
 #undef getRecCuenta
 }
 #endif
@@ -617,6 +619,7 @@ void FrmEditCobro::scatterRemesaCobro()
 	editRemesaCobroDescripcion->setText( getRecRemesaCobro()->getValue("DESCRIPCION") );
 /*>>>>>FRMEDITCOBRO_SCATTER_REMESACOBRO*/
 }
+
 void FrmEditCobro::pushRemesaCobroNumero_clicked()
 {
     /*<<<<<FRMEDITCOBRO_PUSH_REMESACOBRO_NUMERO_CLICKED*/
@@ -722,11 +725,11 @@ void FrmEditCobro::validateFields(QWidget *sender, bool *isvalid, ValidResult *i
             editResto->setText( editImporte->toMoney() - pagado );
         }
     }
-    if( !sender ) {
+    if( !sender && isInserting() ) {
         int contador = empresa::ModuleInstance->getMaxContador();
         if( contador > editContador->toInt() ) {
             editContador->setText( contador );
-            ir->addWarning( Xtring::printf(
+            validresult->addWarning( Xtring::printf(
                                 _("El contador ha cambiado durante la edición de este registro. El nuevo contador es %d"),
                                 contador ), "CONTADOR" );
         }
