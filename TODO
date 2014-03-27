@@ -2,6 +2,7 @@
 
 == HACIENDO ==
 dbRecord::seekCode, buscar por todos los códigos de la tabla
+Pasar todo lo que tenga que ver con pagos y cobros al módulo de tesorería
 
 == Biosegura ==
 * Informe tabla grande: condición: en notas incluye (pesar)
