@@ -78,7 +78,7 @@ protected:
 	gong::SearchBox *searchCuentaTesoreriaCodigo;
 	QPushButton *pushCuentaTesoreriaCodigo;
 	gong::LineEdit *editCuentaTesoreriaCodigo;
-	gong::LineEdit *editCuentaTesoreriaDescripcion;
+	gong::LineEdit *editCuentaTesoreriaNombre;
 #endif
 /*>>>>>FRMEDITFORMAPAGO_CONTROLS*/
 };

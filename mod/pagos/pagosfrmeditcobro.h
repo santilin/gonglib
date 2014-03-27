@@ -57,13 +57,14 @@ protected:
     virtual void updateStatus( bool callbehaviors );
     virtual bool canBeginEdit(EditMode newmode); // From FrmEditRec
 
-    /*<<<<<FRMEDITCOBRO_VIRTUALS_FROM_FRMEDITREC*/
+/*<<<<<FRMEDITCOBRO_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 	void specialControlKeyPressed(QWidget *sender, char key);
 /*>>>>>FRMEDITCOBRO_VIRTUALS_FROM_FRMEDITREC*/
+
 protected slots:
     virtual void pushPagar_clicked();
 	void pushFacturaNumero_clicked();
@@ -71,6 +72,7 @@ protected slots:
 protected:	
 	void scatterFactura();
 	void scatterTercero();
+
 /*<<<<<FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterRemesaCobro();
