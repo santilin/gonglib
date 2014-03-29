@@ -138,6 +138,7 @@ double FrmCalculator::getValue() const
 void FrmCalculator::setValue(double value)
 {
     display->setText( value );
+    waitingForOperand = false;
 }
 
 

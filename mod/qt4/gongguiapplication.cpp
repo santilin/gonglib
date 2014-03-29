@@ -18,7 +18,7 @@
 #include <QKeyEvent>
 #include <QDesktopWidget>
 
-#include <errno.h>
+#include <cerrno>
 #include <gongdebug.h>
 #include <gonggettext.h>
 #include "gongfileutils.h"
