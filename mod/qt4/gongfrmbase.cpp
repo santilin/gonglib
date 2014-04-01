@@ -16,11 +16,9 @@
 
 namespace gong {
 
-QWidget *pParentFocusWidget = 0;
-
 FrmBase::FrmBase ( QWidget *parent, const Xtring &name, WidgetFlags f )
     : QWidget ( parent, name.c_str(), f ),
-      mWasCancelled ( true ), mShownYet( false), mClosingExternally(true),
+      mWasCancelled ( true ), mShownYet( false ), mClosingExternally( true ),
       pShowModalFor ( 0 ), pRealParent ( parent ), pFocusWidget ( 0 ),
       pSavedFocusWidget( 0 ), pEventLoop( 0 )
 {
@@ -223,6 +221,11 @@ void FrmBase::closeEvent ( QCloseEvent *e )
                 pShowModalFor->showNormal();
 //            pShowModalFor->setFocus();
             pShowModalFor = 0;
+			if( pSavedFocusWidget ) {
+				_GONG_DEBUG_PRINT(0, "Setting focus to " + Xtring( pSavedFocusWidget->name() ) );
+				pSavedFocusWidget->setFocus();
+				pSavedFocusWidget = 0;
+			}
         }
         e->accept();
     }
@@ -301,8 +304,8 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
     pShowModalFor = parent;
     bool wasmaximized = false;
     if( parent ) {
+		_GONG_DEBUG_PRINT(0, parent->name() );
         wasmaximized = parent->parentWidget() && parent->parentWidget()->isMaximized();
-		pParentFocusWidget = parent->focusWidget();
         parent->setEnabled ( false );
     }
     if( !isVisible() ) {
@@ -389,8 +392,15 @@ void FrmBase::alignLayout( QBoxLayout *layout, bool totheleft )
 
 void FrmBase::justShown(bool firsttime)
 {
-    if( firsttime )
+    if( firsttime ) {
+		if( pShowModalFor )
+			pSavedFocusWidget = pShowModalFor->focusWidget();
+		else
+			pSavedFocusWidget = theGuiApp->focusWidget();
+		if( pSavedFocusWidget )
+			_GONG_DEBUG_PRINT(0, "El foco estaba en " + Xtring(pSavedFocusWidget->name()) );
         setInitialFocus();
+	}
 }
 
 /**

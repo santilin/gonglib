@@ -13,7 +13,7 @@ dnl MODULE RecColor
 dnl TYPE Project gestiong
 dnl >>>>>MODULE_INFO
 
-AC_INIT([GestiONG],[0.5.1],[gestiong@programacionsocial.net],[gestiong])
+AC_INIT([GestiONG],[0.5.2],[gestiong@programacionsocial.net],[gestiong])
 
 dnl <<<<<GONGLIB_MODULE_INIT
 AC_CONFIG_MACRO_DIR([m4])

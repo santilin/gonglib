@@ -1,14 +1,15 @@
 == HECHO ==
+* Cuando se pone un filtro, no vuelve el foco a la ventana del browse
 
 == HACIENDO ==
 dbRecord::seekCode, buscar por todos los códigos de la tabla
+* SENDBUG: el ctrl+e de un lineedit, no retoma el foco cuando se cierra la ventana (depurar con dos monitores)
 
 == Biosegura ==
 * Informe tabla grande: condición: en notas incluye (pesar)
 
 == error ==
 * Hay algo extraño con la impresión de los tickets
-* Cuando se pone un filtro, no vuelve el foco a la ventana del browse
 * Imprimir todo si hay un filtro tiene que imprimir solo los del filtro
 
 == factu ==
@@ -343,14 +344,16 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 
 * SENDBUG: Que msgxtringlist cierre con el intro
 * SENDBUG: No poder maximizar la ventana inactiva.
-* SENDBUG: el ctrl+e de un lineedit, no retoma el foco cuando se cierra la ventana (depurar con dos monitores)
 * SENDBUG: A pesar de poner un stylesheet con font-size:10px, los editlines salen muy grandes (fontinfo?)
 
 == .deb ==
 https://wiki.debian.org/IntroDebianPackaging
 
+#dh_make --native -c gpl -e gestiong@programacionsocial.net -s
 cd gestiong
 make dist
-cp gestiong-0.5.0-beta1.tar.gz ~/devel/tmp/gestiong_0.5.0-beta1.orig.tar.gz
-#dh_make --native -c gpl -e gestiong@programacionsocial.net -s
+cp gestiong-0.5.2.tar.gz ~/devel/tmp/gestiong_0.5.2-beta.orig.tar.gz
+cd ~/devel/tmp
+tar -zxvf gestiong_0.5.2-beta.orig.tar.gz
+cd gestiong_0.5.2-beta.orig.tar.gz
 debuild -us -uc

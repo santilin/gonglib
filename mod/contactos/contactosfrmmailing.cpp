@@ -101,6 +101,7 @@ void FrmMailing::validate_input(QWidget* sender, bool* isvalid)
                     emails.join("\n") );
     } else if( sender == pushShowEMailsAndNames ) {
         XtringList emails;
+        emails << "EMAIL;NAME";
         getEmailsList( emails, true );
         msgOkLarge( this, Xtring::printf( _("%d emails seleccionados"), emails.size() ),
                     emails.join("\n") );

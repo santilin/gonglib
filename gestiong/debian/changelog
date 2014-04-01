@@ -1,7 +1,13 @@
+gestiong (0.5.2-beta-0ubuntu1) saucy; urgency=low
+
+  * Compilado para x86_64
+
+ -- santilín <gestiong@programacionsocial.net>  Sat, 29 Apr 2014 17:13:00 +0100
+
+
 gestiong (0.5.1-beta-0ubuntu1) precise; urgency=low
 
   * Mejoras tras el primer lanzamiento
-
 
  -- santilín <gestiong@programacionsocial.net>  Mon, 20 Jan 2014 14:21:22 +0200
 

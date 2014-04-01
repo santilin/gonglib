@@ -60,7 +60,7 @@ void FrmMultiUpdate::accept()
         ids << pTheForm->getDataTable()->getSelectedIDs();
         break;
     case 2:
-		for( uint nr = 0; nr < pTheForm->getDataTable()->numRows(); ++nr )
+		for( int nr = 0; nr < pTheForm->getDataTable()->numRows(); ++nr )
 			ids << pTheForm->getDataTable()->getDataModel()->getRowID( nr );
 		break;
     }
