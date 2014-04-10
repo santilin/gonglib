@@ -42,7 +42,7 @@ namespace capel {
 extern const char *shortlgpllicense;
 
 void genrtk();
-#ifdef HAS_VENTADIRECTA
+#if HAS_VENTADIRECTA == 1
 void genventadirecta();
 #endif
 }

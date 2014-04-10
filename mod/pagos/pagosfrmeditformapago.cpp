@@ -79,14 +79,17 @@ if( ModuleInstance->getTesoreriaModule() ) {
 
 void FrmEditFormaPago::scatterCuentaTesoreria()
 {
+#ifdef HAVE_TESORERIAMODULE
 /*<<<<<FRMEDITFORMAPAGO_SCATTER_CUENTATESORERIA*/
 	editCuentaTesoreriaCodigo->setText( getRecCuentaTesoreria()->getValue("CODIGO") );
 	editCuentaTesoreriaNombre->setText( getRecCuentaTesoreria()->getValue("NOMBRE") );
 /*>>>>>FRMEDITFORMAPAGO_SCATTER_CUENTATESORERIA*/
+#endif
 }
 
 void FrmEditFormaPago::pushCuentaTesoreriaCodigo_clicked()
 {
+#ifdef HAVE_TESORERIAMODULE
 /*<<<<<FRMEDITFORMAPAGO_PUSH_CUENTATESORERIA_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaTesoreriaCodigo->mustBeReadOnly() )
@@ -144,6 +147,7 @@ void FrmEditFormaPago::pushCuentaTesoreriaCodigo_clicked()
 			break;
 	}
 /*>>>>>FRMEDITFORMAPAGO_PUSH_CUENTATESORERIA_CODIGO_CLICKED*/
+#endif
 }
 
 void FrmEditFormaPago::specialControlKeyPressed(QWidget *sender, char key)

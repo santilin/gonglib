@@ -14,7 +14,7 @@ FrmCopiarDocumento::FrmCopiarDocumento(QWidget* parent, const char* name, Widget
     : FrmCustom( parent, name, f)
 {
     pushAccept->setVisible(false);
-    setTitle( _("Copiar documentos de otras empresas") );
+    setTitle( _("Copiar documentos de otras empresas o ejercicios") );
     pSearchEmpresa = addSearchField( 0, "EMPRESA", "CODIGO", "NOMBRE" );
     pEditEjercicio = addInput( 0, _("Ejercicio"), empresa::ModuleInstance->getEjercicio(), "INTEGER" );
 //	chkRevisar = addCheckBox( 0, _("Revisar los pedidos generados uno por uno"), true );
@@ -23,7 +23,7 @@ FrmCopiarDocumento::FrmCopiarDocumento(QWidget* parent, const char* name, Widget
     pButtonCopiaAlbaranCompra = addButton(0, DBAPP->getTableDescSingular("ALBARANCOMPRA"), "copiaralbarancompra");
     pButtonCopiaFacturaVenta = addButton(0, DBAPP->getTableDescSingular("FACTURAVENTA"), "copiarfacturaventa");
     pButtonCopiaFacturaCompra = addButton(0, DBAPP->getTableDescSingular("FACTURACOMPRA"), "copiarfacturacompra");
-    pSearchEmpresa->getEditCode()->setFocus();
+	pFocusWidget = pSearchEmpresa->getEditCode();
 }
 
 void FrmCopiarDocumento::validate_input( QWidget *sender, bool *isvalid )
@@ -34,7 +34,7 @@ void FrmCopiarDocumento::validate_input( QWidget *sender, bool *isvalid )
         isvalid = &dummy_is_valid;
     List<dbRecordID> &empresa_ids = pSearchEmpresa->getRecordIDs();
     if( empresa_ids.size() != 1 ) {
-        msgError(this, _("Por favor, elige una y solo una empresa" ) );
+        msgError(this, _("Por favor, elige una empresa" ) );
         return;
     }
     if( sender && pEditEjercicio->toInt() == 0 ) {

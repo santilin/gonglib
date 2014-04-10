@@ -1,4 +1,4 @@
-#include <errno.h>
+#include <cerrno>
 #include <gonggettext.h>
 #include <gongfileutils.h>
 #include <gongpushbutton.h>

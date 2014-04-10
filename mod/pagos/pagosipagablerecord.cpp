@@ -643,10 +643,10 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                                        dbRecord* recibo )
 {
     if( recibo->getValue( "ESTADORECIBO" ).toInt() == PagosModule::ReciboPagado ) {
-		bool has_contab = false;
-		bool pideanularpago = true;
 		bool anularpago = false;
+		bool pideanularpago = true;
 #ifdef HAVE_CONTABMODULE
+		bool has_contab = false;
         has_contab = contab::ModuleInstance->isContabActive()
 			&& recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
 		if( has_contab ) {
@@ -745,7 +745,6 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
         }
     }
 }
-
 
 } // namespace pagos
 } // namespace gong

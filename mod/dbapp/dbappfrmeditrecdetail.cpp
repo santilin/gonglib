@@ -193,7 +193,7 @@ void FrmEditRecDetail::beginEdit(DataTable *dt, EditMode newmode,
                                  dbApplication::EditFlags ediflags, const Xtring &fldtext)
 {
     DBAPP->waitCursor(true);
-    if( newmode != DataTable::deleting )
+    if( newmode != DataTable::deleting && newmode != DataTable::selecting )
         addDetailIfNeeded( false );
     int row = dt->currentRow();
     if( mMustRead )

@@ -1,7 +1,7 @@
 #include "config.h"
 #include <unistd.h>
 #include <stdio.h> // tmpnam
-#include <errno.h>
+#include <cerrno>
 #include <gonggettext.h>
 #include <gongfileutils.h>
 #include <gongdbfielddefinition.h>
