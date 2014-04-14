@@ -274,6 +274,8 @@ if( ModuleInstance->getContabModule() ) {
         pFocusWidget = pFrmAlbaranCompraDet;
     }
     pFrmAlbaranCompraDet->addDetailIfNeeded();
+    if( editContador->toInt() == 0 )
+        editContador->setText( empresa::ModuleInstance->getMaxContador() );    
     searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
     searchFormaPagoCodigo->setMustBeReadOnly( mHasPagos );
     editFecha->setMustBeReadOnly( mHasPagos );
@@ -842,6 +844,15 @@ if(empresa::ModuleInstance->usaProyectos()){
                                                   DBAPP->getTableDescSingular( "PROVEEDORA", "esta" ).c_str(),
                                                   DBAPP->getDatabase()->findFieldDefinition( "ALBARANCOMPRA.NUMERO" )->getCaption().c_str()),
                                    "NUMERO" );
+        }
+    }
+    if( !sender && isInserting() ) {
+        int contador = empresa::ModuleInstance->getMaxContador();
+        if( contador > editContador->toInt() ) {
+            editContador->setText( contador );
+            validresult->addWarning( Xtring::printf(
+                                         _("El contador ha cambiado durante la edición de %s. El nuevo contador es %d"),
+                                         DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str(), contador ), "CONTADOR" );
         }
     }
     if( mHasPagos && mOldTotal != editTotal->toMoney() ) {

@@ -7,3 +7,4 @@ QWidget > QMenuBar > QAction { border: 2px outset gray; font-size: 10pt; font-we
 QLabel { border: none; }
 QLineEdit { padding: 0px }
 QPushButton { padding: 3px }
+QToolTip { color: black }

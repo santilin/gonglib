@@ -624,8 +624,8 @@ void FrmEditPago::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir
         if( contador > editContador->toInt() ) {
             editContador->setText( contador );
             validresult->addWarning( Xtring::printf(
-                                         _("El contador ha cambiado durante la edición de este registro. El nuevo contador es %d"),
-                                         contador ), "CONTADOR" );
+                                         _("El contador ha cambiado durante la edición de este %s. El nuevo contador es %d"),
+                                         DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str(), contador ), "CONTADOR" );
         }
     }
     if( !ir ) {
