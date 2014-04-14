@@ -82,8 +82,8 @@ void OSDWidget::renderOSDText( const Xtring &caption, const Xtring &text )
     const uint xround = 0; // (METRIC * 200) / textRect.width();
     const uint yround = 0; // (METRIC * 200) / textRect.height();
 
-    bufferPainter.setPen( Qt::black );
-    bufferPainter.setBrush( backgroundColor() );
+    bufferPainter.setPen(  palette().toolTipText() );
+    bufferPainter.setBrush( palette().toolTipBase() );
     bufferPainter.drawRoundRect( textRect, xround, yround );
     bufferPainter.setFont( textFont );
 
