@@ -1,3 +1,0 @@
-DBDEF.TABLE.EMPRESA.DESC_SINGULAR(string)="Cooperativa";
-DBDEF.TABLE.EMPRESA.DESC_PLURAL(string)="Cooperativas";
-DBDEF.TABLE.EMPRESA.FEMENINA(bool)="true";
