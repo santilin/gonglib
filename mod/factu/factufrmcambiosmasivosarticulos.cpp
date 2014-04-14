@@ -39,7 +39,7 @@ FrmCambiosMasivosArticulos::FrmCambiosMasivosArticulos(QWidget * parent, const c
     QFrame *frameCambioPrecios = new QFrame( this );
     pControlsLayout->addWidget( frameCambioPrecios );
     QHBoxLayout *frameCambioPreciosLayout = new QHBoxLayout( frameCambioPrecios );
-    pComboCampoPrecioCambio = addComboBoxXtring( true, frameCambioPrecios, _("Cambiar:"),
+    pComboCampoPrecioCambio = addComboBoxXtring( false, frameCambioPrecios, _("Cambiar:"),
                                            campos_captions, campos, Xtring::null,
                                            0, frameCambioPreciosLayout );
     pComboOperacionPrecio = addComboBoxInt( false, frameCambioPrecios, _("Aplicar"),
@@ -49,7 +49,7 @@ FrmCambiosMasivosArticulos::FrmCambiosMasivosArticulos(QWidget * parent, const c
     pComboOperacionPrecio->insertItem( _("Sumar porcentaje"), OP_PRECIOS_SUMAR_PORCENTAJE );
     pComboOperacionPrecio->insertItem( _("Restar porcentaje"), OP_PRECIOS_RESTAR_PORCENTAJE );
     pNuevoPrecio = addInput( frameCambioPrecios, _("Nuevo valor"), 0.0, "double", 0, frameCambioPreciosLayout );
-    pComboCampoPrecioBase = addComboBoxXtring( true, frameCambioPrecios, _("Sobre:"),
+    pComboCampoPrecioBase = addComboBoxXtring( false, frameCambioPrecios, _("Sobre:"),
                                          campos_captions, campos, _("Valor introducido"), 0, frameCambioPreciosLayout );
     pSearchFamilia = addMultipleSearchField( 0, "FAMILIA", "CODIGO", "NOMBRE" );
     pSearchProveedora = addMultipleSearchField( 0, "PROVEEDORA", "CODIGO", "RAZONSOCIAL" );
@@ -101,9 +101,10 @@ bool FrmCambiosMasivosArticulos::validate()
         msgError(this, _("Si seleccionas familias o proveedoras, no puedes seleccionar artículos") );
         return false;
     }
+    _GONG_DEBUG_PRINT(0, pComboCampoPrecioBase->getCurrentItemValue() );
     if( pComboOperacionPrecio->getCurrentItemValue() != OP_PRECIOS_FIJO
             && pComboCampoPrecioBase->getCurrentItemValue().isEmpty() ) {
-        msgError(this, _("Elige un campo sobre el que aplicar el porcentaje") );
+        msgError(this, _("Elige un campo sobre el que aplicar los cambios") );
         return false;
     }
     return true;
@@ -146,7 +147,10 @@ long unsigned int FrmCambiosMasivosArticulos::cambiar_precios(
     RecArticulo *articulo = static_cast<RecArticulo *>( DBAPP->createRecord("ARTICULO") );
     _GONG_DEBUG_ASSERT( articulo );
     unsigned long int count = 0;
+	DBAPP->showOSD( getTitle(), Xtring::null, 0 );
+	DBAPP->waitCursor(true);
     while( rs->next() ) {
+		DBAPP->processEvents();
         if( articulo->read( rs->toInt(0) ) ) {
             switch( operacion ) {
             case OP_PRECIOS_FIJO:
@@ -167,8 +171,12 @@ long unsigned int FrmCambiosMasivosArticulos::cambiar_precios(
             articulo->fixPrecios( fldcambio );
             if( articulo->save( false ) )
                 count ++;
+			if( count % 10 == 0 ) 
+				DBAPP->showOSD( getTitle(), Xtring::printf(_("%d artículos cambiados"), count), 0 );
         }
     }
+	DBAPP->resetCursor();
+    DBAPP->hideOSD();
     delete articulo;
     return count;
 }
