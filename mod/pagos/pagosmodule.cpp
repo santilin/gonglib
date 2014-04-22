@@ -121,7 +121,7 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pFicRemesaCobro->addFieldEmpresaID();
     pFicRemesaCobro->addFieldIntCode( "NUMERO" );
     pFicRemesaCobro->addFieldDesc( "DESCRIPCION" );
-    pFicRemesaCobro->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID" )->setCanBeNull( false );
+    pFicRemesaCobro->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
     pFicRemesaCobro->addFieldDate( "FECHAEMISION" );
     pFicRemesaCobro->addFieldDate( "FECHACARGO" );
     pFicRemesaCobro->addField<empresa::FldCuentaBanco>( "CUENTABANCOABONO" );

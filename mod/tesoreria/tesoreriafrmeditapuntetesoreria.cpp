@@ -5,9 +5,10 @@
 // FIELD Fecha date - numero
 // FIELD TipoApunteTesoreria comboint - numero
 // FIELD CuentaTesoreria_ID Reference(CuentaTesoreria,Codigo,Nombre)
-// FIELD Debe Money - money
-// FIELD Haber Money - money
+// FIELD Tercero string
+// FIELD Importe Money - money
 // FIELD Concepto string
+// FIELD Documento string
 // FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre)
 // FIELD Notas text
 // TYPE FrmEditRecMaster tesoreria::ApunteTesoreria

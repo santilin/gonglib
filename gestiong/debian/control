@@ -1,0 +1,15 @@
+Source: gestiong
+Section: office
+Priority: optional
+Maintainer: santilin <gestiong@programacionsocial.net>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.3
+Homepage: <http://www.programacionsocial.net>
+
+Package: gestiong
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <Programa libre de gestión de ONG y asociaciones sin ánimo de lucro>
+ <GestiONG es un programa desarrollado por Programación Social que permite que usuarios no expertos en
+	informática ni en gestión empresarial o contabilidad puedan llevar la Gestión Integral de pequeñas
+	organizaciones como asociaciones, grupos de consumo, cooperativas, artesanas, etc.>

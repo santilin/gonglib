@@ -54,25 +54,38 @@ public:
 		QWidget *parent = 0, const char* name = 0,
 		WidgetFlags fl = WidgetFlags(0) );
 /*>>>>>TESORERIAMODULE_CLASS_DEFINITION*/
+
+	XtringList &getTablasTerceros() { return mTablasTerceros; }
+	XtringList &getTablasConceptos() { return mTablasConceptos; }
+	
 /*<<<<<TESORERIAMODULE_RECORD_DEFINITIONS*/
 public:
 	tesoreria::MasterTable *getFicCuentaTesoreria() const { return pFicCuentaTesoreria; }
+	tesoreria::MasterTable *getFicTerceroTesoreria() const { return pFicTerceroTesoreria; }
+	tesoreria::MasterTable *getFicConceptoTesoreria() const { return pFicConceptoTesoreria; }
 	tesoreria::MasterTable *getFicApunteTesoreria() const { return pFicApunteTesoreria; }
 	NamesListTable *pFicTipoApunteTesoreria;
 
 private:
 	tesoreria::MasterTable *pFicCuentaTesoreria;
+	tesoreria::MasterTable *pFicTerceroTesoreria;
+	tesoreria::MasterTable *pFicConceptoTesoreria;
 	tesoreria::MasterTable *pFicApunteTesoreria;
 /*>>>>>TESORERIAMODULE_RECORD_DEFINITIONS*/
 /*<<<<<TESORERIAMODULE_MENU_DEFINITIONS*/
 private slots:
 	void slotMenuTesoreriaCuentaTesoreria();
+	void slotMenuTesoreriaTerceroTesoreria();
+	void slotMenuTesoreriaConceptoTesoreria();
 	void slotMenuTesoreriaApunteTesoreria();
 protected:
 	QAction *pMenuTesoreriaCuentaTesoreria;
+	QAction *pMenuTesoreriaTerceroTesoreria;
+	QAction *pMenuTesoreriaConceptoTesoreria;
 	QAction *pMenuTesoreriaApunteTesoreria;
 /*>>>>>TESORERIAMODULE_MENU_DEFINITIONS*/
 	QMenu *pMenuTesoreria;
+	XtringList mTablasTerceros, mTablasConceptos;
 };
 
 extern TesoreriaModule *ModuleInstance;

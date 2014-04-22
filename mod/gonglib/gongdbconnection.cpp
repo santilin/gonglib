@@ -167,6 +167,8 @@ bool dbConnection::connect( enum SqlDriver driver, const Xtring &user, const Xtr
             return false;
         }
         setEncoding( "UTF8" );
+#else
+		throw std::runtime_error("SQLite3 is not supported");		
 #endif
 		break;
     }
@@ -456,7 +458,7 @@ bool dbConnection::existsTable(const Xtring& tablename, const Xtring& dbname)
                      + "UNION ALL SELECT name FROM sqlite_temp_master " + where;
         return !selectString( sql ).isEmpty();
 #else
-		return false;
+		throw std::runtime_error("SQLite3 is not supported");
 #endif
     }
     return false;

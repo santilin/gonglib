@@ -1,9 +1,9 @@
 == HECHO ==
-* Cuando se pone un filtro, no vuelve el foco a la ventana del browse
 
 == HACIENDO ==
 dbRecord::seekCode, buscar por todos los códigos de la tabla
 * SENDBUG: el ctrl+e de un lineedit, no retoma el foco cuando se cierra la ventana (depurar con dos monitores)
+wiki: añadir instalación de sqlite3-dev
 
 == Biosegura ==
 * Informe tabla grande: condición: en notas incluye (pesar)
@@ -28,7 +28,6 @@ dbRecord::seekCode, buscar por todos los códigos de la tabla
 * Clientes especiales, con un porcentaje extra.
 
 == MC ==
-* Comprobar: no pasa aquí. El resto de las ofertas siempre se queda como el total
 * la ganancia la debe calcular del precio de compra del articulo no?
 * Sale la configuración de las ofertas aunque no cargue el módulo ofertas?
 
