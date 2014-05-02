@@ -391,30 +391,10 @@ void FrmEditPedidoCompraDet::validateFields( QWidget *sender, bool *isvalid, Val
 
 void FrmEditPedidoCompraDet::slotActPrecioArticulo_clicked()
 {
-    if( getRecArticulo()->getRecordID() != 0 ) {
-        if( editCosteSinIVA->toDouble() != getRecArticulo()->getValue("COSTESINIVA").toDouble() ) {
-            getRecArticulo()->setValue("COSTESINIVA", editCosteSinIVA->toMoney() );
-            getRecArticulo()->setValue("COSTE", editCoste->toMoney() );
-            getRecArticulo()->fixMargenYDescuento();
-			bool showosd = false;
-			if( getRecArticulo()->getValue("PVPSINIVA").toDouble() != 0.0 ) {
-				// Si el pvp no se queda a cero, se puede grabar ...
-                showosd = getRecArticulo()->save(false);
-			} else {
-				// ... pero si no, se edita el artículo
-				showosd = DBAPP->editRecord(this, getRecArticulo(), 0, DataTable::updating,
-                                  dbApplication::simpleEdition, this );
-			}
-			if( showosd ) {
-                DBAPP->showStickyOSD( getTitle(), Xtring::printf( _( "Se ha actualizado el coste del artículo: sin IVA: %s, con IVA: %s" ),
-                                      getRecArticulo()->getValue( "COSTESINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
-                                      getRecArticulo()->getValue( "COSTE" ).toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
-            }
-			searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
-        } else {
-            DBAPP->showOSD( getTitle(), _("El coste del artículo coincide con el de este detalle.") );
-        }
-    }
+	if( ModuleInstance->editCostesArticulo(this, getRecArticulo(), 
+		editCosteSinIVA->toDouble() ) ) {
+		searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
+	}
 }
 
 void FrmEditPedidoCompraDet::slotInsertTable_clicked()

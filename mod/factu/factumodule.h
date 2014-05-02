@@ -46,7 +46,13 @@ class NamesListTable;
 #endif
 
 namespace gong {
+	
+class FrmBase;
+
 namespace factu {
+
+class RecArticulo;
+class RecCliente;
 
 /*<<<<<FACTUMODULE_CLASS_DEFINITION*/
 class FactuModule: public QObject, public dbModule
@@ -95,8 +101,12 @@ public:
                         const Xtring &excludedfields = Xtring::null);
     void calcImporteDetalle( dbRecord *detalle, bool redondeaimportes );
     enum EstadoPedido { PedidoPendiente = 1, PedidoPedido, PedidoRecibido, PedidoEntregado };
-
-    /*<<<<<FACTUMODULE_RECORD_DEFINITIONS*/
+	static bool editPVPsArticulo(FrmBase *parentform, 
+		RecArticulo *articulo, RecCliente *cliente, double pvpconiva, bool canedit = true);
+	static bool editCostesArticulo(FrmBase *parentform,
+		RecArticulo *articulo, double costesiniva, bool canedit = true);
+	
+/*<<<<<FACTUMODULE_RECORD_DEFINITIONS*/
 public:
 	factu::MasterTable *getFicArticulo() const { return pFicArticulo; }
 	factu::MasterTable *getFicCliente() const { return pFicCliente; }

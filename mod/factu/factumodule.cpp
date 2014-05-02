@@ -1196,6 +1196,75 @@ void FactuModule::calcImporteDetalle(dbRecord* detalle, bool redondeaimportes)
     detalle->setValue( "IMPORTECONIVA", importeconiva );
 }
 
+bool FactuModule::editPVPsArticulo(FrmBase *parentform, 
+	RecArticulo *articulo, RecCliente *cliente, double pvp, bool canedit) 
+{
+    if( articulo->getRecordID() != 0 ) {
+        int tarifacliente = cliente->getValue("TARIFA").toInt();
+        double pvpconiva = articulo->getPVP( tarifacliente );
+        if( pvp != pvpconiva ) {
+            if( tarifacliente == 0 ) {
+                articulo->setValue("PVPSINIVA", articulo->getRecTipoIVA()->menosIVA(pvp));
+                articulo->setValue("PVP", pvp );
+                articulo->fixMargenYDescuento();
+				bool showosd = false;
+				if( !canedit || articulo->getValue("COSTESINIVA").toDouble() != 0.0 ) {
+					// Si el coste no se queda a cero, se puede grabar ...
+					showosd = articulo->save(false);
+				} else {
+					// ... pero si no, se edita el artículo
+					showosd = DBAPP->editRecord(0, articulo, 0, DataTable::updating,
+									dbApplication::simpleEdition, parentform);
+				}
+				if( showosd ) {
+                    DBAPP->showOSD( parentform->getTitle(), Xtring::printf( _( "Se ha actualizado el PVP del artículo: sin IVA: %s, con IVA: %s" ),
+                                    articulo->getValue( "PVPSINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
+                                    articulo->getValue( "PVP" ).toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
+                }
+            } else {
+                articulo->setPVP( tarifacliente, pvpconiva );
+                if( articulo->save(false) ) {
+                    DBAPP->showOSD( parentform->getTitle(), Xtring::printf( _( "Se ha actualizado el PVP del artículo PARA ESTE CLIENTE: %s" ),
+                                    Money(pvp).toString( DBAPP->getRegConfig() ).c_str() ) );
+                }
+            }
+            return true;
+        } else {
+            DBAPP->showOSD( parentform->getTitle(), _("El PVP del artículo no ha cambiado") );
+        }
+        return false;
+    }
+}
+
+bool FactuModule::editCostesArticulo(FrmBase *parentform,
+		RecArticulo *articulo, double costesiniva, bool canedit)
+{
+    if( articulo->getRecordID() != 0 ) {
+        if( costesiniva != articulo->getValue("COSTESINIVA").toDouble() ) {
+            articulo->setValue("COSTESINIVA", costesiniva );
+            articulo->setValue("COSTE", articulo->getRecTipoIVA()->masIVA(costesiniva) );
+            articulo->fixMargenYDescuento();
+			bool showosd = false;
+			if( !canedit || articulo->getValue("PVPSINIVA").toDouble() != 0.0 ) {
+				// Si el pvp no se queda a cero, se puede grabar ...
+                showosd = articulo->save(false);
+			} else {
+				// ... pero si no, se edita el artículo
+				showosd = DBAPP->editRecord(0, articulo, 0, DataTable::updating,
+                                  dbApplication::simpleEdition, parentform);
+			}
+			if( showosd ) {
+                DBAPP->showStickyOSD( parentform->getTitle(), Xtring::printf( _( "Se ha actualizado el coste del artículo: sin IVA: %s, con IVA: %s" ),
+                                      articulo->getValue( "COSTESINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
+                                      articulo->getValue( "COSTE" ).toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
+            }
+			return true;
+        } else {
+            DBAPP->showOSD( parentform->getTitle(), _("El coste del artículo no ha cambiado") );
+        }
+        return false;
+    }
+}
 
 /*<<<<<FACTUMODULE_FIN*/
 } // namespace factu

@@ -391,40 +391,11 @@ void FrmEditPresupuestoVentaDet::validateFields( QWidget *sender, bool *isvalid,
 
 void FrmEditPresupuestoVentaDet::slotActPrecioArticulo_clicked()
 {
-    if( getRecArticulo()->getRecordID() != 0 ) {
-        int tarifacliente = static_cast<FrmEditPresupuestoVenta *>(getFrmMaster())->getRecCliente()->getValue("TARIFA").toInt();
-        double pvpconiva = getRecArticulo()->getPVP( tarifacliente );
-        if( editPVP->toDouble() != pvpconiva ) {
-            if( tarifacliente == 0 ) {
-                getRecArticulo()->setValue("PVPSINIVA", editPVPSinIVA->toMoney() );
-                getRecArticulo()->setValue("PVP", editPVP->toMoney() );
-                getRecArticulo()->fixMargenYDescuento();
-				bool showosd = false;
-				if( getRecArticulo()->getValue("COSTESINIVA").toDouble() != 0.0 ) {
-					// Si el coste no se queda a cero, se puede grabar ...
-					showosd = getRecArticulo()->save(false);
-				} else {
-					// ... pero si no, se edita el artículo
-					showosd = DBAPP->editRecord(this, getRecArticulo(), 0, DataTable::updating,
-									dbApplication::simpleEdition, this );
-				}
-				if( showosd ) {
-                    DBAPP->showOSD( getTitle(), Xtring::printf( _( "Se ha actualizado el PVP del artículo: sin IVA: %s, con IVA: %s" ),
-                                    getRecArticulo()->getValue( "PVPSINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
-                                    editPVP->toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
-                }
-            } else {
-                getRecArticulo()->setPVP( tarifacliente, pvpconiva );
-                if( getRecArticulo()->save(false) ) {
-                    DBAPP->showOSD( getTitle(), Xtring::printf( _( "Se ha actualizado el PVP del artículo PARA ESTE CLIENTE: %s" ),
-                                    editPVP->toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
-                }
-            }
-			searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
-        } else {
-            DBAPP->showOSD( getTitle(), _("El PVP del artículo coincide con el de este detalle.") );
-        }
-    }
+	if( ModuleInstance->editPVPsArticulo(this, getRecArticulo(), 
+		static_cast<FrmEditPresupuestoVenta *>(getFrmMaster())->getRecCliente(),
+		editPVP->toDouble() ) ) {
+		searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
+	}
 }
 
 void FrmEditPresupuestoVentaDet::slotInsertTable_clicked()
