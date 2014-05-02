@@ -368,6 +368,7 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
 				}
             }
         }
+        _GONG_DEBUG_PRINT(0, toString( TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS ));
         // Find or create related records
         for( XtringList::const_iterator relit = related_tables.begin();
 			relit != related_tables.end(); ++relit ) {
@@ -375,14 +376,15 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
 			if( relation ) {
 				dbRecord *relrecord = relation->getRelatedRecord();
 				if( relrecord ) {
+					pTableDef = relrecord->getTableDefinition();
 					/// TODO: Refactor, make this a function as it it used in existAnother
 					Xtring codecond;
-					for ( unsigned int nf = 0; nf < mFieldValues.size(); nf ++ )
+					for ( unsigned int nf = 0; nf < pTableDef->getFieldCount(); nf ++ )
 					{
 						const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
 						if( !flddef->isPrimaryKey() && flddef->isCode() )
 						{
-							Variant fldvalue = getValue( *relit + "." + flddef->getName() );
+							Variant fldvalue = relrecord->getValue( flddef->getName() );
 							if( !( flddef->canBeNull() && fldvalue.isEmpty() ) )
 							{
 								if ( !codecond.isEmpty() )

@@ -117,6 +117,8 @@ bool RecMiembro::remove() throw( dbError )
 
 bool RecMiembro::fromString(const Xtring& source, int format, const Xtring& includedFields)
 {
+	return dbRecord::fromString(source, format, includedFields);
+	/*
 	contactos::RecContacto *contacto = getRecContacto();
 	dbRecordID contacto_id = 0;
 	if( contacto->fromString(source, format, includedFields ) ) {
@@ -130,6 +132,7 @@ bool RecMiembro::fromString(const Xtring& source, int format, const Xtring& incl
 	if( contacto_id == 0 ) {
 		getRecContacto()->setNew( true );
 	}
+	*/
 }
 
 } // namespace socias

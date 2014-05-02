@@ -1200,6 +1200,8 @@ bool FactuModule::editPVPsArticulo(FrmBase *parentform,
 	RecArticulo *articulo, RecCliente *cliente, double pvp, bool canedit) 
 {
     if( articulo->getRecordID() != 0 ) {
+		// Puede ocurrir que el artículo estuviera en la lista de detalles y no esté actualizado
+		articulo->read( articulo->getRecordID() );
         int tarifacliente = cliente->getValue("TARIFA").toInt();
         double pvpconiva = articulo->getPVP( tarifacliente );
         if( pvp != pvpconiva ) {
