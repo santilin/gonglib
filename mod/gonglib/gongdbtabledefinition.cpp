@@ -421,10 +421,13 @@ Xtring dbTableDefinition::sameSQLSchema( const dbTableDefinition *other, dbConne
         if ( !existe && !flddef->isCalculated() )  {
             ret += "ALTER TABLE " + getName() + " ADD COLUMN "
                    + flddef->getName() + " " + flddef->toDDL( conn );
-            if ( nf == 0 )
-                ret += " FIRST;\n";
-            else
-                ret += " AFTER " + getFieldDefinition( nf - 1 )->getName() + ";\n";
+			if (!conn->isSQLite() ) {
+				if ( nf == 0 )
+					ret += " FIRST;";
+				else
+					ret += " AFTER " + getFieldDefinition( nf - 1 )->getName() + ";";
+			}
+			ret.append("\n");
         }
     }
     if( purging ) {
@@ -451,13 +454,6 @@ dbRelationDefinition *dbTableDefinition::addRelationDefinition( const dbRelation
 {
     dbRelationDefinition *reldef = new dbRelationDefinition( type, lefttable, leftfield, righttable, rightfield );
     mRelationDefinitions.insert( reldef->getName(), reldef );
-/* Esto hay que hacerlo al final de definir la base de datos */
-	dbFieldDefinition *flddef = findFieldDefinition( leftfield );
-	if( flddef )
-		flddef->setIsReference(true);
-	else
-		_GONG_DEBUG_WARNING( Xtring::printf("Trying to add a relation to an inexistent field: '%s.%s'",
-											getName().c_str(), leftfield.c_str() ) );
     return reldef;
 }
 

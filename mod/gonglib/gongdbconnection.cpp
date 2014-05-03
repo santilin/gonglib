@@ -236,7 +236,7 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
     return 0;
 }
 
-// Las líneas que comienzan con # son comentarios
+// Lines starting with # are ignored
 bool dbConnection::exec( const XtringList &querys, bool ignoreerrors )
 {
     bool ret = false;
@@ -298,8 +298,8 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
                     break;
                 }
             } else {
-				_GONG_DEBUG_WARNING( mLastError.getWholeError() );
                 setError( query );
+				_GONG_DEBUG_WARNING( mLastError.getWholeError() );
 				ret = false;
             }
             if( ppSmt )

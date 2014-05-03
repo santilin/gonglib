@@ -49,7 +49,6 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
 	else
 		pms = DBAPP->getModuleSettings();
     while( pms && pms->type != dbModuleSetting::None ) {
-		_GONG_DEBUG_PRINT(0, pms->key);
 		if( !(pms->scope & mSettingsScope) ) {
 			pms++;
 			continue;

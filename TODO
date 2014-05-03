@@ -2,11 +2,7 @@
 
 == HACIENDO ==
 dbRecord::seekCode, buscar por todos los códigos de la tabla
-* SENDBUG: el ctrl+e de un lineedit, no retoma el foco cuando se cierra la ventana (depurar con dos monitores)
 wiki: añadir instalación de sqlite3-dev
-
-== Biosegura ==
-* Informe tabla grande: condición: en notas incluye (pesar)
 
 == error ==
 * Hay algo extraño con la impresión de los tickets
@@ -19,7 +15,7 @@ wiki: añadir instalación de sqlite3-dev
 * Al hacer la remesa de recibos, me he encontrado con lo que me ha hecho pararme porque no va, los pasos que doy son los siguientes: Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo he intentar buscar el socia, se me cierra el programa del tirón, por lo que me deja sin opción de continuar no hacer nada más, en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 
 == En los pájaros ==
-* Añadir CIF a tickets
+* Añadir Nombre empresa a tickets
 * Ajustar anchura tickets
 * Ticket normal, tiene poco espacio para el total
 
@@ -344,6 +340,7 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * SENDBUG: Que msgxtringlist cierre con el intro
 * SENDBUG: No poder maximizar la ventana inactiva.
 * SENDBUG: A pesar de poner un stylesheet con font-size:10px, los editlines salen muy grandes (fontinfo?)
+* SENDBUG: el ctrl+e de un lineedit, no retoma el foco cuando se cierra la ventana (depurar con dos monitores)
 
 == .deb ==
 https://wiki.debian.org/IntroDebianPackaging

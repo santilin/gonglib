@@ -39,11 +39,13 @@ dbFieldDefinition::dbFieldDefinition(const dbFieldDefinition &other)
 
 void dbFieldDefinition::init_class()
 {
+    _GONG_DEBUG_ASSERT( !mName.isEmpty() );
+	if( mName.endsWith("_ID") )
+		setIsReference( true );
     if( isSequence() )
         setPrimaryKey( true );
     if( isPrimaryKey() )
         setUnique( true );
-    _GONG_DEBUG_ASSERT( !mName.isEmpty() );
     if( mDescription.isEmpty() && mCaption.isEmpty() ) {
         mCaption = mName.lower().proper();
         mDescription = mCaption;

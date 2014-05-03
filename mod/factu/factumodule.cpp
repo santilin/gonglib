@@ -1242,6 +1242,8 @@ bool FactuModule::editCostesArticulo(FrmBase *parentform,
 		RecArticulo *articulo, double costesiniva, bool canedit)
 {
     if( articulo->getRecordID() != 0 ) {
+		// Puede ocurrir que el artículo estuviera en la lista de detalles y no esté actualizado
+		articulo->read( articulo->getRecordID() );
         if( costesiniva != articulo->getValue("COSTESINIVA").toDouble() ) {
             articulo->setValue("COSTESINIVA", costesiniva );
             articulo->setValue("COSTE", articulo->getRecTipoIVA()->masIVA(costesiniva) );
