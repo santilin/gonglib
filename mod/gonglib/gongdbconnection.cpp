@@ -188,6 +188,13 @@ void dbConnection::setEncoding(const Xtring &encoding)
     }
 }
 
+static dbResultSet *doSqliteShowFields(dbConnection *sqliteconn, const Xtring &query)
+{
+	Xtring tablename = query.mid( query.find(" FROM ") + 6);
+	return sqliteconn->select("pragma table_info(" + tablename + ")");
+}
+
+
 dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
 {
     _GONG_DEBUG_ASSERT( this );
@@ -208,12 +215,15 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
         break;
 #ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3: {
-        if( query.upper().trim() ==  "SHOW TABLES" )
+		Xtring qupper = query.upper().trim();
+        if( qupper ==  "SHOW TABLES" )
             return select( "SELECT name FROM sqlite_master WHERE type='table'" );
-        else if( query.upper().trim() ==  "SHOW DATABASES" )
+        else if( qupper ==  "SHOW DATABASES" )
             return select( "PRAGMA database_list" );
-        else if( query.upper().trim().startsWith("SHOW INDEXES FROM" ) )
+        else if( qupper.startsWith("SHOW INDEXES FROM" ) )
 			return select( "SELECT name FROM sqlite_master WHERE type='index' and name='" + query.trim().mid(18) + "'" );
+		else if( qupper.startsWith("SHOW FIELDS FROM" ) ) 
+			return doSqliteShowFields(this, query);
         sqlite3_stmt *ppSmt = 0;
 		_GONG_DEBUG_PRINT(2, Xtring::printf( "S3:%s", query.c_str() ) );
         int ret = sqlite3_prepare_v2( pSqLite, query.c_str(), query.size() + 1, &ppSmt, 0 );
@@ -239,10 +249,10 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
 // Lines starting with # are ignored
 bool dbConnection::exec( const XtringList &querys, bool ignoreerrors )
 {
-    bool ret = false;
+    bool ret = true;
     for ( XtringList::const_iterator it = querys.begin(); it != querys.end(); ++it ) {
         if ( !it->startsWith( "#" ) && !Xtring(*it).trim().isEmpty() )  {
-            if( it->find( "DROP INDEX" ) ) {
+            if( it->find( "DROP INDEX" ) != Xtring::npos ) { // always ignore errors
                 if( !exec( *it, true ) )
                     ret = false;
             } else {
@@ -253,6 +263,83 @@ bool dbConnection::exec( const XtringList &querys, bool ignoreerrors )
     }
     return ret;
 }
+
+static dbError doSqliteAlterTable(dbConnection *sqliteconn, const Xtring &query) 
+{
+	dbError err(Xtring::null);
+	XtringList parts;
+	query.tokenize(parts, " ");
+	if (parts.size() < 5 ) 
+		return dbError( "ALTER TABLE syntax error", 1064, query );
+	Xtring &tablename = parts[2];
+	Xtring &operation = parts[3];
+	if( operation.upper() == "DROP" ) {
+		Xtring &column = parts[4];
+		if( column.upper() == "COLUMN" && parts.size()>=6)
+			column = parts[5];
+		// Simulate ALTER TABLE ... DROP COLUMN ...
+		Xtring create = sqliteconn->selectString(
+			"select group_concat(SQL, x'0A' || ';' || x'0A') from SQLite_Master where tbl_name = '" + tablename + "'");
+		_GONG_DEBUG_PRINT(0, create);
+		int col_start = create.find("\"" + column + "\"");
+		if(col_start == Xtring::npos) // sometimes there are no double quotes
+			col_start = create.find("(" + column + " "); // Maybe is the first column
+		if(col_start == Xtring::npos) 
+			col_start = create.find(" " + column + " ");
+		if(col_start == Xtring::npos) 
+			return dbError( Xtring::printf("Can't DROP '%s'; check that column/key exist",
+										   column.c_str()), 1091, query);
+		int nextnull = create.find(" NULL,", col_start);
+		int null_length = 5;
+		if( nextnull == Xtring::npos ) {
+			nextnull = create.find(" NULL)", col_start);
+		} else {
+			null_length = 6;
+		}
+		if( nextnull == Xtring::npos)
+			return dbError( Xtring::printf("Can't DROP '%s'; check that column/key exist",
+										   column.c_str()), 1091, query);
+		create.erase(create.begin() + col_start, create.begin()+nextnull + null_length );
+		// @todo Remove triggers and indexes
+		_GONG_DEBUG_PRINT(0, create);
+		Xtring insert = "INSERT INTO \"" + tablename + "\" SELECT ";
+		bool firstfield = true;
+		dbResultSet *rs = sqliteconn->select( "SHOW FIELDS FROM " + tablename );
+		while( rs->next() ) {
+			Xtring fld = rs->toString(1);
+			if( fld != column ) {
+				if( firstfield ) {
+					firstfield = false;
+				} else {
+					insert.append(",");
+				}
+				insert.append( fld );
+			}
+		}
+		insert.append(" FROM temp.Cache");
+		XtringList querys;
+		querys  << "begin immediate"
+				<< "pragma foreign_keys = NO"
+		        << "pragma triggers = NO"
+				<< "create temp table \"Cache\" as select * from \"" + tablename + "\""
+				<< "drop table " + tablename
+				<< create 
+				<< insert
+				<< "drop table temp.Cache"
+				<< "pragma foreign_keys = YES";
+		if( sqliteconn->exec(querys, false) ) {
+			sqliteconn->exec( "commit" );
+			return err;
+		} else {
+			sqliteconn->exec( "rollback" );
+			return dbError(sqliteconn->getLastError());
+		}
+	} else {
+		return err;
+	}
+	
+}
+
 
 bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
 {
@@ -273,15 +360,19 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
         break;
 #ifdef HAVE_SQLITE3
     case DRIVER_SQLITE3: {
-        if( query.upper().startsWith( "CREATE DATABASE" ) ) {
+		Xtring qupper = query.upper();
+        if( qupper.startsWith( "CREATE DATABASE" ) ) {
             Xtring dbname = query.mid( 16 ).trim();
             ret = connect( mSqlDriver, mUser, mPassword, dbname,
                            mHost, mPort, mOptions + ";CREATEDATABASE" );
+		} else if (qupper.startsWith("ALTER TABLE") && qupper.find(" DROP ") != Xtring::npos) {
+			dbError err(doSqliteAlterTable(this, query));
+			return (ignoreerrors || err.getNumber() == 0 );
         } else {
             sqlite3_stmt *ppSmt = 0;
             int ret = sqlite3_prepare_v2( pSqLite, query.c_str(), query.size() + 1, &ppSmt, 0 );
             if( ret == SQLITE_OK && ppSmt ) {
-                switch( sqlite3_step( ppSmt ) ) {
+                switch( int ss = sqlite3_step( ppSmt ) ) {
                 case SQLITE_BUSY:
                     break;
                 case SQLITE_DONE:
@@ -292,10 +383,13 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
                     ret = true;
                     break;
                 case SQLITE_ERROR:
+				default:
+					// 14.- unable to open database file: http://www.pantz.org/software/sqlite/unabletoopendbsqliteerror.html
+					// While in transactions, you need write permissions on the directory the database is in order to create the journal file
                     setError( query );
 					_GONG_DEBUG_WARNING( mLastError.getWholeError() );
                     ret = false;
-                    break;
+					break;
                 }
             } else {
                 setError( query );
@@ -1236,5 +1330,6 @@ XtringList dbConnection::extractSqlTables(const Xtring & select)
     }
     return tables;
 }
+
 
 } // Namespace

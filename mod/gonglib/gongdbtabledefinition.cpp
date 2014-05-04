@@ -259,7 +259,7 @@ bool dbTableDefinition::createIndexes( dbConnection *conn, bool ignoreerrors )
 				conn->exec( "ALTER TABLE " + getName() + " ADD UNIQUE INDEX (" + flddef->getName() + ")", true );
 			} else if( conn->isSQLite() ) {
 				conn->exec( "DROP INDEX IF EXISTS " + getName() + "_" + flddef->getName(), true );
-				conn->exec( "CREATE UNIQUE INDEX " + getName() + "_" + flddef->getName(), true );
+				conn->exec( "CREATE UNIQUE INDEX " + getName() + "_" + flddef->getName() + " ON " + getName() + "(" + flddef->getName() + ")", true );
 			}
         }
     }
@@ -418,7 +418,7 @@ Xtring dbTableDefinition::sameSQLSchema( const dbTableDefinition *other, dbConne
                 break;
             }
         }
-        if ( !existe && !flddef->isCalculated() )  {
+        if ( !existe  )  {
             ret += "ALTER TABLE " + getName() + " ADD COLUMN "
                    + flddef->getName() + " " + flddef->toDDL( conn );
 			if (!conn->isSQLite() ) {

@@ -49,9 +49,11 @@ bool dbIndexDefinition::create( dbConnection *conn, const dbTableDefinition *tbl
     if( isUnique() )
         ddl += " UNIQUE";
     ddl += " INDEX " _GONG_INDEX_PREFIX;
-	if( conn->isSQLite() )
-		ddl += tbldef->getName() + "_";
-	ddl += getName() + " (";
+	if( conn->isSQLite() ) 
+		ddl += tbldef->getName() + "_" + getName() + " ON " + tbldef->getName();
+	else
+		ddl += getName();
+	ddl += " (";
     for( unsigned int i = 0; i < getFieldCount(); i++ ) {
         if( i > 0 )
             ddl += ",";
