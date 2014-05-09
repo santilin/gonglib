@@ -933,6 +933,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 	if( sender == editEntrega )
 		actTotales();
 /*>>>>>FRMEDITFACTURAVENTA_CABECERA_VALIDATE*/
+/*
     if( sender == editFecha )
         if( editFechaIVA->toDate().isNull() )
             editFechaIVA->setText( editFecha->toDate() );
@@ -954,6 +955,7 @@ if(empresa::ModuleInstance->usaProyectos()){
             }
         }
     }
+    */
     if( sender == editContador || (sender == editAgenteCodigo && editAgenteCodigo->isJustEdited()) ) {
         editNumero->setText( RecTipoDoc::formatNumDocumento(
                                  empresa::ModuleInstance->getRecEmpresa()->getValue( "CODIGO" ).toInt(),

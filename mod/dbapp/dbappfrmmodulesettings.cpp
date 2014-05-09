@@ -184,7 +184,7 @@ void FrmModuleSettings::scatter()
 	// MODULES
 	for ( unsigned int i=0; i< DBAPP->getModules().size(); i++ ) {
         dbModule *module = DBAPP->getModules().seq_at(i);
-        if( module->getModuleSettings() ) {
+        if( module->isEnabled() && module->getModuleSettings() ) {
             QWidget *moduleWidget = new QWidget(pTabWidget);
             moduleWidget->setObjectName( ("ControlsFrame" + module->getUnixName()).c_str() );
             QVBoxLayout *moduleLayout = new QVBoxLayout( moduleWidget );

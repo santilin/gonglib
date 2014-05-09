@@ -1,8 +1,12 @@
 == HECHO ==
 
+== MUEBLES CAPEL ==
+* la ganancia la debe calcular del precio de compra del articulo no?
+
 == HACIENDO ==
 dbRecord::seekCode, buscar por todos los códigos de la tabla
 wiki: añadir instalación de sqlite3-dev
+* No se pueden anidar transacciones en sqlite3
 
 == error ==
 * Hay algo extraño con la impresión de los tickets
@@ -22,10 +26,6 @@ wiki: añadir instalación de sqlite3-dev
 == NUEVA FUNCIONALIDAD ==
 * factu: Formulario datos ventas y compras de artículos
 * Clientes especiales, con un porcentaje extra.
-
-== MC ==
-* la ganancia la debe calcular del precio de compra del articulo no?
-* Sale la configuración de las ofertas aunque no cargue el módulo ofertas?
 
 = PRESCINDIBLE =
 
