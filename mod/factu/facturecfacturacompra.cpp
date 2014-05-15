@@ -102,7 +102,7 @@ bool RecFacturaCompra::save(bool saverelated) throw( dbError )
     bool ret = dbRecord::save(saverelated);
     if( ret && saverelated ) {
 #ifdef HAVE_PAGOSMODULE
-        delPagos();
+        delPagos( false );
         genPagos();
 #endif
 #ifdef HAVE_CONTABMODULE
@@ -125,7 +125,7 @@ bool RecFacturaCompra::remove() throw( dbError )
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE
-        delPagos();
+        delPagos( true );
 #endif
 #ifdef HAVE_CONTABMODULE
         if( contab::ModuleInstance->isContabActive() )

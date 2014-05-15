@@ -162,7 +162,7 @@ bool EmpresaModule::login( FrmLogin *frmlogin, const Xtring &version,
                                        DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
                                        getCodEmpresa(),
                                        nombre.toString().c_str(),
-                                       getEjercicio() ) );
+                                       getEjercicio() ), 10000 );
     }
     DBAPP->setReadOnly( sololectura.toBool() || getCodEmpresa() == 0 );
     addtitle = "[" + nombre.toString() + ", " + Xtring::number(getEjercicio()) + "]";

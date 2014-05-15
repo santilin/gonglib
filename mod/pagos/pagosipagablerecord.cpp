@@ -62,7 +62,7 @@ int IPagableRecord::hasPagos(int estado_si, int estado_no, bool soloautomaticos)
     return pFactura->getConnection()->selectInt( sql );
 }
 
-bool IPagableRecord::delPagos( bool borratodos)
+bool IPagableRecord::delPagos( bool borratodos )
 {
     bool ret = true;
     dbRecord *recibo = createRecibo();

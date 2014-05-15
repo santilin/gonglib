@@ -42,8 +42,8 @@ public:
     Xtring getTitle() const {
         return mTitle;
     }
-    void showOSD(const Xtring &caption, const Xtring &text, int duration = -1);
-    void showStickyOSD( const Xtring &caption, const Xtring &text, int duration = -1);
+    void showOSD(const Xtring &caption, const Xtring &text, int duration = 5000);
+    void showStickyOSD( const Xtring &caption, const Xtring &text, int duration = 5000);
     void hideOSD();
 
     static Xtring getOpenFileName(const Xtring &caption, const Xtring &initialname = Xtring::null,
