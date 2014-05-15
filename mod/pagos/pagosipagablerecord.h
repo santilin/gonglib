@@ -36,9 +36,9 @@ public:
     bool actCobros() {
         return actPagos();
     }
-    bool delPagos( bool soloautomaticos = true );
-    bool delCobros( bool soloautomaticos = true ) {
-        return delPagos( soloautomaticos );
+    bool delPagos( bool borratodos );
+    bool delCobros( bool borratodos ) {
+        return delPagos( borratodos );
     }
     void pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid, dbRecord *recibo, bool supervisar );
     void cobrarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid, dbRecord *recibo, bool supervisar ) {

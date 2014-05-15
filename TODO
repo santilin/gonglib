@@ -4,6 +4,7 @@
 * la ganancia la debe calcular del precio de compra del articulo no?
 
 == HACIENDO ==
+* Por qué pagos está en gestiong-priv?
 dbRecord::seekCode, buscar por todos los códigos de la tabla
 wiki: añadir instalación de sqlite3-dev
 * No se pueden anidar transacciones en sqlite3

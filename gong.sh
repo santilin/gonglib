@@ -141,7 +141,7 @@ create_links()
 		m=`echo $mod | tr '[:upper:]' '[:lower:]'`
 		rm $m
 		case $m in
-			tpv|deposit|editorial|ventasweb)
+			tpv|deposit|editorial|ventasweb|ofertas)
 				echo "Creating link $m as $GONGDIR/../gestiong-priv/mod/$m"
 				ln -s $GONGDIR/../gestiong-priv/mod/$m $m
 				;;

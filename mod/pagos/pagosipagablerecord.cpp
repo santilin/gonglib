@@ -62,16 +62,18 @@ int IPagableRecord::hasPagos(int estado_si, int estado_no, bool soloautomaticos)
     return pFactura->getConnection()->selectInt( sql );
 }
 
-bool IPagableRecord::delPagos( bool soloautomaticos )
+bool IPagableRecord::delPagos( bool borratodos)
 {
     bool ret = true;
     dbRecord *recibo = createRecibo();
     Xtring id_field = pFactura->getTableName() + "_ID";
     Xtring sql = "SELECT ID FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName())
-                 + recibo->getFilter( "WHERE", getFacturaWhere() )
-                 + " AND ESTADORECIBO=" + pFactura->getConnection()->toSQL( PagosModule::ReciboPendiente ) ;
-    if( soloautomaticos )
-        sql += " AND AUTOMATICO=1";
+                 + recibo->getFilter( "WHERE", getFacturaWhere() );
+				 
+    if( !borratodos ) {
+        sql += " AND ESTADORECIBO=" + pFactura->getConnection()->toSQL( PagosModule::ReciboPendiente )
+			+ " AND AUTOMATICO=1";
+	}
     dbResultSet *rs = pFactura->getConnection()->select( sql );
     while( rs->next() ) {
         dbRecordID pago_id = rs->toLong( 0 );
