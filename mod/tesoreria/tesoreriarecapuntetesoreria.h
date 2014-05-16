@@ -26,6 +26,8 @@
 namespace gong {
 namespace tesoreria {
 
+typedef dbRecord RecTercero;
+typedef dbRecord RecConcepto;
 
 /*<<<<<APUNTETESORERIA_CONSTRUCTOR*/
 class RecApunteTesoreria: public dbRecord
@@ -34,18 +36,22 @@ public:
 	RecApunteTesoreria(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("APUNTETESORERIA"), recid, user)
 /*>>>>>APUNTETESORERIA_CONSTRUCTOR*/
+		, pRecTercero(0), pRecConcepto(0)
 	{};
+    RecTercero *getRecTercero();	
+    RecConcepto *getRecConcepto();	
+	
 /*<<<<<APUNTETESORERIA_RELATIONS*/
 	RecCuentaTesoreria *getRecCuentaTesoreria() const;
 	empresa::RecProyecto *getRecProyecto() const;
 /*>>>>>APUNTETESORERIA_RELATIONS*/
 
-/*>>>>>APUNTETESORERIA_POSTAMBLE*/
-
 /*<<<<<APUNTETESORERIA_MEMBERS*/
 	void init();
 /*>>>>>APUNTETESORERIA_MEMBERS*/
-
+private:
+	RecConcepto *pRecConcepto;
+	RecTercero *pRecTercero;
 }; // class
 
 /*<<<<<APUNTETESORERIA_POSTAMBLE*/

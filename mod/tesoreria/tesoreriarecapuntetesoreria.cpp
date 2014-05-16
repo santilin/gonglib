@@ -34,5 +34,43 @@ empresa::RecProyecto *RecApunteTesoreria::getRecProyecto() const
 
 /*>>>>>APUNTETESORERIA_RELATIONS*/
 
+
+RecConcepto *RecApunteTesoreria::getRecConcepto()
+{
+    Xtring tablaconceptos = getValue( "TABLACONCEPTOS" ).toString();
+    if( !tablaconceptos.isEmpty() ) {
+        if( pRecConcepto != 0 ) {
+            if( pRecConcepto->getTableName() != tablaconceptos ) {
+                delete pRecConcepto;
+                pRecConcepto = 0;
+            }
+        }
+        if( pRecConcepto == 0 )
+            pRecConcepto = DBAPP->createRecord( tablaconceptos, 0, getUser() );
+        if( getValue( "CONCEPTO_ID" ).toUInt() != pRecConcepto->getRecordID() )
+            pRecConcepto->read( getValue( "CONCEPTO_ID" ).toInt() );
+    }
+    return pRecConcepto;
+}
+
+RecTercero *RecApunteTesoreria::getRecTercero()
+{
+    Xtring tablaterceros = getValue( "TABLATERCEROS" ).toString();
+    if( !tablaterceros.isEmpty() ) {
+        if( pRecTercero != 0 ) {
+            if( pRecTercero->getTableName() != tablaterceros ) {
+                delete pRecTercero;
+                pRecTercero = 0;
+            }
+        }
+        if( pRecTercero == 0 )
+            pRecTercero = DBAPP->createRecord( tablaterceros, 0, getUser() );
+        if( getValue( "TERCERO_ID" ).toUInt() != pRecTercero->getRecordID() )
+            pRecTercero->read( getValue( "TERCERO_ID" ).toInt() );
+    }
+    return pRecTercero;
+}
+
+
 } // namespace tesoreria
 } // namespace gong

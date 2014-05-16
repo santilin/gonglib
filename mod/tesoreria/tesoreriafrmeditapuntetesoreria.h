@@ -47,16 +47,20 @@ protected:
 
 /*<<<<<FRMEDITAPUNTETESORERIA_SCATTERS_AND_SLOTS*/
 protected:
-	void scatterCuentaTesoreria();
+	void scatterTercero();
+	void scatterConcepto();
 	void scatterProyecto();
 
 private slots:
-	void pushCuentaTesoreriaCodigo_clicked();
+	void pushTerceroCodigo_clicked();
+	void pushConceptoCodigo_clicked();
 	void pushProyectoCodigo_clicked();
 
 public:
-	RecCuentaTesoreria* getRecCuentaTesoreria() const
-		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecCuentaTesoreria(); }
+	RecTercero* getRecTercero() const
+		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecTercero(); }
+	RecConcepto* getRecConcepto() const
+		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecConcepto(); }
 	empresa::RecProyecto* getRecProyecto() const
 		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecProyecto(); }
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTERS_AND_SLOTS*/
@@ -67,19 +71,27 @@ protected:
 	gong::CheckBox *checkAutomatico;
 	gong::EditBox *editFecha;
 	gong::ComboBoxInt *comboTipoApunteTesoreria;
-	gong::SearchBox *searchCuentaTesoreriaCodigo;
-	QPushButton *pushCuentaTesoreriaCodigo;
-	gong::LineEdit *editCuentaTesoreriaCodigo;
-	gong::LineEdit *editCuentaTesoreriaNombre;
-	gong::EditBox *editDebe;
-	gong::EditBox *editHaber;
+	gong::ComboBoxXtring *comboTablaTerceros;
+	gong::SearchBox *searchTerceroCodigo;
+	QPushButton *pushTerceroCodigo;
+	gong::LineEdit *editTerceroCodigo;
+	gong::LineEdit *editTerceroNombre;
+	gong::EditBox *editTercero;
+	gong::EditBox *editImporte;
+	gong::ComboBoxXtring *comboTablaConceptos;
+	gong::SearchBox *searchConceptoCodigo;
+	QPushButton *pushConceptoCodigo;
+	gong::LineEdit *editConceptoCodigo;
+	gong::LineEdit *editConceptoNombre;
 	gong::EditBox *editConcepto;
+	gong::EditBox *editDocumento;
 	gong::SearchBox *searchProyectoCodigo;
 	QPushButton *pushProyectoCodigo;
 	gong::LineEdit *editProyectoCodigo;
 	gong::LineEdit *editProyectoNombre;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITAPUNTETESORERIA_CONTROLS*/
+    Xtring mFldConcCodigo, mFldConcDesc, mFldTercCodigo, mFldTercDesc;
 };
 
 /*<<<<<FRMEDITAPUNTETESORERIA_POSTAMBLE*/

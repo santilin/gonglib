@@ -39,6 +39,8 @@ TesoreriaModule::TesoreriaModule()
 	mMasterTables << "CUENTATESORERIA" << "TERCEROTESORERIA" << "CONCEPTOTESORERIA" << "APUNTETESORERIA" << "TIPOAPUNTETESORERIA";
 //	mDetailTables
 /*>>>>>TESORERIAMODULE_PUBLIC_INFO*/
+	mTablasConceptos << "CONCEPTOTESORERIA";
+	mTablasTerceros << "CUENTATESORERIA";
 }
 
 
@@ -105,11 +107,12 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicApunteTesoreria->addFieldDate( "FECHA" );
     pFicApunteTesoreria->addFieldEuro( "IMPORTE" );
     pFicApunteTesoreria->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
-    pFicApunteTesoreria->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
-    pFicApunteTesoreria->addFieldString( "TABLATERCEROS", 30 );
+    pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),
+            "TABLATERCEROS" )->setCanBeNull(true);
     pFicApunteTesoreria->addFieldReferenceID( "TERCERO_ID", "TERCERO.ID" );
     pFicApunteTesoreria->addFieldDesc( "TERCERO", 200 )->setCanBeNull( true );
-    pFicApunteTesoreria->addFieldString( "TABLACONCEPTOS", 30 );
+    pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasConceptos(), &getTablasConceptos(),
+            "TABLACONCEPTOS" )->setCanBeNull(true);
     pFicApunteTesoreria->addFieldReferenceID( "CONCEPTO_ID", "CONCEPTO.ID" );
     pFicApunteTesoreria->addFieldDesc( "CONCEPTO", 200 )->setCanBeNull( true );
     pFicApunteTesoreria->addFieldString( "TABLADOCUMENTOS", 30 );

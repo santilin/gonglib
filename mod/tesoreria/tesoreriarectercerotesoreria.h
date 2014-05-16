@@ -14,7 +14,10 @@
  *
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
-/*>>>>>COPYLEFT*//*<<<<<TERCEROTESORERIA_INCLUDES*/
+/*>>>>>COPYLEFT*/
+#include <dbappdbapplication.h>
+
+/*<<<<<TERCEROTESORERIA_INCLUDES*/
 #include <dbappdbapplication.h>
 
 /*>>>>>TERCEROTESORERIA_INCLUDES*/

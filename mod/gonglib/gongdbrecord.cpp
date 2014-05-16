@@ -1478,7 +1478,7 @@ int dbRecord::selectNextInt(const Xtring &fldname,
  **/
 dbRecordID dbRecord::seekCode( int &nvalues, const Xtring &fldcod, const Variant &code,
 			const Xtring &flddesc, const Variant &desc,
-			const Xtring &cond, bool findCodeInDesc, Xtring &mathingcond )
+			const Xtring &cond, bool findCodeInDesc, Xtring &matchingcond )
 {
     Xtring swheres[6];
     int nwheres=0, icond;
@@ -1576,10 +1576,10 @@ dbRecordID dbRecord::seekCode( int &nvalues, const Xtring &fldcod, const Variant
         icond++;
     } while ( icond<nwheres && nvalues == 0 );
 	if ( icond < nwheres ) {
-		mathingcond = addcond;
-		if( !mathingcond.isEmpty() )
-			mathingcond += "AND ";
-		mathingcond += "(" + swheres[icond] + ")";
+		matchingcond = addcond;
+		if( !matchingcond.isEmpty() )
+			matchingcond += "AND ";
+		matchingcond += "(" + swheres[icond] + ")";
 	}
     if( recid != 0 ) {
         read( recid );

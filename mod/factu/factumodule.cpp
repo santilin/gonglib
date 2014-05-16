@@ -23,6 +23,7 @@
 // NAMESLISTTABLE TipoCliente
 // NAMESLISTTABLE EstadoPedido
 // MODULE_REQUIRED Empresa
+// MODULE_OPTIONAL Tesoreria
 // MODULE_REQUIRED Pagos
 // MODULE_OPTIONAL Contab
 // TYPE GongModule factu::FactuModule
@@ -130,6 +131,9 @@ FactuModule::FactuModule()
 	mDetailTables << "PRESUPUESTOVENTADET" << "PEDIDOVENTADET" << "ALBARANVENTADET" << "FACTURAVENTADET" << "PEDIDOCOMPRADET" << "ALBARANCOMPRADET" << "FACTURACOMPRADET";
 	pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
 	pPagosModule = static_cast< pagos::PagosModule * >(DBAPP->findModule( "Pagos" ));
+#ifdef HAVE_TESORERIAMODULE
+	pTesoreriaModule = static_cast< tesoreria::TesoreriaModule * >(DBAPP->findModule( "Tesoreria" ));
+#endif
 #ifdef HAVE_CONTABMODULE
 	pContabModule = static_cast< contab::ContabModule * >(DBAPP->findModule( "Contab" ));
 #endif
@@ -573,6 +577,12 @@ void FactuModule::afterLoad()
     FldIVADetallado *fid = new FldIVADetallado( "foo", "bar" );
     fid->setValuesFromString( ModuleInstance->getModuleSetting( "IVADETALLADO.VALUES" ).toString() );
 	delete fid;
+#ifdef HAVE_TESORERIAMODULE
+	if( pTesoreriaModule && pTesoreriaModule->isEnabled() ) {
+		pTesoreriaModule->getTablasTerceros() << "PROVEDORA" << "CLIENTE" << "AGENTE";
+		pTesoreriaModule->getTablasConceptos() << "ARTICULO" << "FAMILIA";
+	}
+#endif
 }
 
 

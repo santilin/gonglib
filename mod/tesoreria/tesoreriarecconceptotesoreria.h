@@ -14,7 +14,10 @@
  *
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
-/*>>>>>COPYLEFT*//*<<<<<CONCEPTOTESORERIA_INCLUDES*/
+/*>>>>>COPYLEFT*/
+#include <dbappdbapplication.h>
+
+/*<<<<<CONCEPTOTESORERIA_INCLUDES*/
 #include <dbappdbapplication.h>
 
 /*>>>>>CONCEPTOTESORERIA_INCLUDES*/

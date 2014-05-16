@@ -1,25 +1,22 @@
 == HECHO ==
+* ¿la ganancia la debe calcular del precio de compra del articulo no?
 
 == MUEBLES CAPEL ==
-* la ganancia la debe calcular del precio de compra del articulo no?
 
 == HACIENDO ==
-* Por qué pagos está en gestiong-priv?
-dbRecord::seekCode, buscar por todos los códigos de la tabla
-wiki: añadir instalación de sqlite3-dev
-* No se pueden anidar transacciones en sqlite3
+* Añadir parámetro longitud a fldlistofvalues<Xtring>
 
 == error ==
-* Hay algo extraño con la impresión de los tickets
-* Imprimir todo si hay un filtro tiene que imprimir solo los del filtro
 
 == factu ==
 * Añadir a proveedora: usa referencias.
+** Muestra/oculta la referencia en la ficha del artículo, por lo tanto se puede poner antes del código del artículo
 
 == José Castaño ==
 * Al hacer la remesa de recibos, me he encontrado con lo que me ha hecho pararme porque no va, los pasos que doy son los siguientes: Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo he intentar buscar el socia, se me cierra el programa del tirón, por lo que me deja sin opción de continuar no hacer nada más, en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 
 == En los pájaros ==
+* Hay algo extraño con la impresión de los tickets
 * Añadir Nombre empresa a tickets
 * Ajustar anchura tickets
 * Ticket normal, tiene poco espacio para el total
@@ -35,6 +32,7 @@ wiki: añadir instalación de sqlite3-dev
 * Estadísticas
 
 == gong-tpv ==
+* Añadir porcentaje sobre el total a determinadas mesas
 * tpv: Pagos por rondas: buscar un FrmList animado
 * Tarifas por el tipo de mesa.
 * Al limpiar la mesa, lee registros
@@ -112,6 +110,9 @@ wiki: añadir instalación de sqlite3-dev
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Imprimir todo si hay un filtro tiene que imprimir solo los del filtro
+* dbRecord::seekCode, buscar por todos los códigos de la tabla
+** Pensarlo mejor porque habría que pasar otro parámetro, quizás un flag: SeekCodeInAllCodes
 * Comando para enviar correo con icedove:
 ** icedove -compose `echo "attachment='file:///media/sdb3/Tmp/DSC1.jpg /media/sdb3/Tmp/DSC2.jpg'" | sed 's/ \//,file:\/\/\//g'`
 * Añadir #ifmodule a los settings de solo lectura
@@ -202,6 +203,7 @@ wiki: añadir instalación de sqlite3-dev
 * En campos deshabilitados no funciona ctrl+c
 
 == gonglib ==
+* No se pueden anidar transacciones en sqlite3
 * Borrar usuario de mysql: REVOKE ALL PRIVILEGES, GRANT OPTION FROM vduser@localhost;
 * XmlReader: mejorar parseFile().
 * editar fechas de nacimiento, si el año es mayor de 2100 y es multiplo de 100, es un 19xx

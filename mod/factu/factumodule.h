@@ -35,6 +35,9 @@ class NamesListTable;
 #else
 #error El módulo 'factu::FactuModule' requiere el módulo 'Pagos'
 #endif
+#ifdef HAVE_TESORERIAMODULE
+#include <tesoreriamodule.h>
+#endif
 #ifdef HAVE_CONTABMODULE
 #include <contabmodule.h>
 #endif
@@ -219,12 +222,18 @@ public:
 public:
 	empresa::EmpresaModule *getEmpresaModule() const { return pEmpresaModule; }
 	pagos::PagosModule *getPagosModule() const { return pPagosModule; }
+#ifdef HAVE_TESORERIAMODULE
+	tesoreria::TesoreriaModule *getTesoreriaModule() const { return pTesoreriaModule; }
+#endif
 #ifdef HAVE_CONTABMODULE
 	contab::ContabModule *getContabModule() const { return pContabModule; }
 #endif
 private:
 	empresa::EmpresaModule *pEmpresaModule;
 	pagos::PagosModule *pPagosModule;
+#ifdef HAVE_TESORERIAMODULE
+	tesoreria::TesoreriaModule *pTesoreriaModule;
+#endif
 #ifdef HAVE_CONTABMODULE
 	contab::ContabModule *pContabModule;
 #endif
