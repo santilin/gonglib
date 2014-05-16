@@ -582,6 +582,28 @@ std::ostream &operator<<( std::ostream &out, const dbTableDefinition &tbldef )
 }
 #endif
 
+
+const Xtring& dbTableDefinition::getCodeField() const
+{
+	dbFieldDefinition *fld = findFieldByFlags( dbFieldDefinition::CODE );
+	if( fld ) {
+		return fld->getName();
+	} else {
+		return Xtring::null;
+	}
+}
+
+const Xtring& dbTableDefinition::getDescField() const
+{
+	dbFieldDefinition *fld = findFieldByFlags( dbFieldDefinition::DESCRIPTION );
+	if( fld ) {
+		return fld->getName();
+	} else {
+		return Xtring::null;
+	}
+}
+
+
 }; // namespace
 
 

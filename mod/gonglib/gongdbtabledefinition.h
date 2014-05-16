@@ -17,6 +17,7 @@
 #include "gongdbindexdefinition.h"
 #include "gongdbfieldreferenceid.h"
 #include "gongdbrecordbehavior.h"
+#include <boost/concept_check.hpp>
 
 namespace gong {
 
@@ -237,6 +238,8 @@ public:
     void setTemporary( bool temporary = true ) {
         mTemporary = temporary;
     }
+    const Xtring &getCodeField() const;
+    const Xtring &getDescField() const;
 
 private:
     dbDefinition &mdbDefinition;

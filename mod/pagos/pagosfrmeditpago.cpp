@@ -121,12 +121,8 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         removeControl( searchFacturaNumero );
         if( fldfactcodigo == Xtring::null ) {
             dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablafacturas );
-            dbFieldDefinition *flddeffc = tbldef->findFieldByFlags( dbFieldDefinition::CODE );
-            if( flddeffc )
-                mFldFactCodigo = flddeffc->getName();
-            dbFieldDefinition *flddeffd = tbldef->findFieldByFlags( dbFieldDefinition::DESCRIPTION );
-            if( flddeffd )
-                mFldFactDesc = flddeffd->getName();
+			mFldFactCodigo = tbldef->getCodeField();
+			mFldFactDesc = tbldef->getDescField();
         } else {
             mFldFactCodigo = fldfactcodigo;
             mFldFactDesc = fldfactdesc;

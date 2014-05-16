@@ -579,7 +579,7 @@ void FactuModule::afterLoad()
 	delete fid;
 #ifdef HAVE_TESORERIAMODULE
 	if( pTesoreriaModule && pTesoreriaModule->isEnabled() ) {
-		pTesoreriaModule->getTablasTerceros() << "PROVEDORA" << "CLIENTE" << "AGENTE";
+		pTesoreriaModule->getTablasTerceros() << "PROVEEDORA" << "CLIENTE" << "AGENTE";
 		pTesoreriaModule->getTablasConceptos() << "ARTICULO" << "FAMILIA";
 	}
 #endif

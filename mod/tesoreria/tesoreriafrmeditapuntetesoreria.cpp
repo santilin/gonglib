@@ -14,7 +14,7 @@
 // FIELD Documento string
 // FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre)
 // FIELD Notas text
-// TYPE FrmEditRecMaster tesoreria::ApunteTesoreria
+// TYPE FrmEditRecMaster tesoreria::ApunteTesoreria 
 /*>>>>>MODULE_INFO*/
 
 /*<<<<<FRMEDITAPUNTETESORERIA_INCLUDES*/
@@ -102,6 +102,14 @@ void FrmEditApunteTesoreria::scatterFields()
 	scatterConcepto();
 	scatterProyecto();
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTER*/
+	if( isInserting() ) {
+		if( editNumero->toInt() == 0 ) {
+			editNumero->setText( getRecord()->selectNextInt( "NUMERO" ) );
+		}
+		if( editFecha->toDate().isNull() ) {
+			editFecha->setText( Date::currentDate() );
+		}
+	}
 }
 
 void FrmEditApunteTesoreria::gatherFields()
@@ -146,6 +154,27 @@ void FrmEditApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, Vali
 		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterProyecto();
 /*>>>>>FRMEDITAPUNTETESORERIA_VALIDATE*/
+
+	if( sender == comboTablaTerceros ) {
+		getRecord()->setValue("TABLATERCEROS", comboTablaTerceros->getCurrentItemValue() );
+		if( comboTablaTerceros->getCurrentItemValue().isEmpty() ) {
+			searchTerceroCodigo->setEnabled( false );
+			editTercero->setEnabled( true );
+		} else {
+			searchTerceroCodigo->setEnabled( true );
+			editTercero->setEnabled( false );
+		}
+	}
+	if( sender == comboTablaConceptos ) {
+		getRecord()->setValue("TABLACONCEPTOS", comboTablaConceptos->getCurrentItemValue() );
+		if( comboTablaConceptos->getCurrentItemValue().isEmpty() ) {
+			searchConceptoCodigo->setEnabled( false );
+			editConcepto->setEnabled( true );
+		} else {
+			searchConceptoCodigo->setEnabled( true );
+			editConcepto->setEnabled( false );
+		}
+	}
 	if( !ir ) {
 		showValidMessages(isvalid, *validresult, sender);
 		delete validresult;
@@ -245,8 +274,8 @@ void FrmEditApunteTesoreria::scatterTercero()
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTER_TERCERO*/
 #endif
 	if( getRecTercero() ) {
-		editTerceroCodigo->setText( getRecTercero()->getValue( mFldTercCodigo ) );
-		editTerceroNombre->setText( getRecTercero()->getValue( mFldTercDesc ) );
+		editTerceroCodigo->setText( getRecTercero()->getValue( getRecTercero()->getTableDefinition()->getCodeField() ) );
+		editTerceroNombre->setText( getRecTercero()->getValue( getRecTercero()->getTableDefinition()->getDescField() ) );
 	}
 }
 
@@ -320,8 +349,9 @@ void FrmEditApunteTesoreria::scatterConcepto()
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTER_CONCEPTO*/
 #endif
 	if( getRecConcepto() ) {
-		editConceptoCodigo->setText( getRecConcepto()->getValue( mFldConcCodigo ) );
-		editConceptoNombre->setText( getRecConcepto()->getValue( mFldConcDesc ) );
+		_GONG_DEBUG_PRINT(0, getRecConcepto()->toString(TOSTRING_DEBUG_COMPLETE));
+		editConceptoCodigo->setText( getRecConcepto()->getValue( getRecConcepto()->getTableDefinition()->getCodeField() ) );
+		editConceptoNombre->setText( getRecConcepto()->getValue( getRecConcepto()->getTableDefinition()->getDescField() ) );
 	}
 }
 
@@ -338,6 +368,7 @@ void FrmEditApunteTesoreria::pushConceptoCodigo_clicked()
 			editConceptoCodigo->setCancelling();
 			if( DBAPP->choose(this, getRecConcepto(), 0, dbApplication::editNone, this ) ) {
 				setEdited(true);
+		_GONG_DEBUG_PRINT(0, getRecConcepto()->toString(TOSTRING_DEBUG_COMPLETE));
 				scatterConcepto();
 				editConceptoCodigo->setJustEdited( true );
 				setWiseFocus(editConceptoCodigo);
