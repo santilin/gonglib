@@ -9,7 +9,7 @@
 // FIELD Codigo int
 // FIELD Nombre string
 // FIELD Notas text
-// TYPE FrmEditRecMaster tesoreria::ConceptoTesoreria
+// TYPE FrmEditRecMaster tesoreria::ConceptoTesoreria IncCode ValidCodeAndDesc
 /*>>>>>MODULE_INFO*/
 
 

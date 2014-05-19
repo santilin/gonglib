@@ -110,6 +110,8 @@ void FrmEditApunteTesoreria::scatterFields()
 			editFecha->setText( Date::currentDate() );
 		}
 	}
+	validateFields(comboTablaTerceros, 0, 0);
+	validateFields(comboTablaConceptos, 0, 0);
 }
 
 void FrmEditApunteTesoreria::gatherFields()
@@ -163,6 +165,7 @@ void FrmEditApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, Vali
 		} else {
 			searchTerceroCodigo->setEnabled( true );
 			editTercero->setEnabled( false );
+			searchTerceroCodigo->getButton()->setText( comboTablaTerceros->currentText() );
 		}
 	}
 	if( sender == comboTablaConceptos ) {
@@ -173,6 +176,7 @@ void FrmEditApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, Vali
 		} else {
 			searchConceptoCodigo->setEnabled( true );
 			editConcepto->setEnabled( false );
+			searchConceptoCodigo->getButton()->setText( comboTablaConceptos->currentText() );
 		}
 	}
 	if( !ir ) {
@@ -276,6 +280,8 @@ void FrmEditApunteTesoreria::scatterTercero()
 	if( getRecTercero() ) {
 		editTerceroCodigo->setText( getRecTercero()->getValue( getRecTercero()->getTableDefinition()->getCodeField() ) );
 		editTerceroNombre->setText( getRecTercero()->getValue( getRecTercero()->getTableDefinition()->getDescField() ) );
+		if (editTercero->toString().isEmpty() ) 
+			editTercero->setText( getRecTercero()->getValue( getRecTercero()->getTableDefinition()->getDescField() ) );
 	}
 }
 
@@ -352,6 +358,8 @@ void FrmEditApunteTesoreria::scatterConcepto()
 		_GONG_DEBUG_PRINT(0, getRecConcepto()->toString(TOSTRING_DEBUG_COMPLETE));
 		editConceptoCodigo->setText( getRecConcepto()->getValue( getRecConcepto()->getTableDefinition()->getCodeField() ) );
 		editConceptoNombre->setText( getRecConcepto()->getValue( getRecConcepto()->getTableDefinition()->getDescField() ) );
+		if (editConcepto->toString().isEmpty() ) 
+			editConcepto->setText( getRecConcepto()->getValue( getRecConcepto()->getTableDefinition()->getDescField() ) );
 	}
 }
 

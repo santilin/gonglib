@@ -1,12 +1,4 @@
 == HECHO ==
-* ¿la ganancia la debe calcular del precio de compra del articulo no?
-
-== MUEBLES CAPEL ==
-
-== HACIENDO ==
-* Añadir parámetro longitud a fldlistofvalues<Xtring>
-
-== error ==
 
 == factu ==
 * Añadir a proveedora: usa referencias.
@@ -203,6 +195,7 @@
 * En campos deshabilitados no funciona ctrl+c
 
 == gonglib ==
+* Añadir parámetro longitud a fldlistofvalues<Xtring>
 * No se pueden anidar transacciones en sqlite3
 * Borrar usuario de mysql: REVOKE ALL PRIVILEGES, GRANT OPTION FROM vduser@localhost;
 * XmlReader: mejorar parseFile().

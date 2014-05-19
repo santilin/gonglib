@@ -95,7 +95,7 @@ bool RecMiembro::save(bool saverelated) throw( dbError )
     bool ret = dbRecord::save(saverelated);
     if( ret && saverelated ) {
 #ifdef HAVE_PAGOSMODULE
-        delCobros();
+        delCobros(true);
         genCobros();
 #endif
     }
@@ -109,7 +109,7 @@ bool RecMiembro::remove() throw( dbError )
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE
-        delCobros();
+        delCobros(true);
 #endif
     }
     return ret;
