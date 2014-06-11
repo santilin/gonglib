@@ -110,6 +110,20 @@ static dbModuleSetting _settings[] = {
         "0",
 		dbModuleSetting::All
     },
+    {
+        dbModuleSetting::String,
+        "ARTICULO_DESCUENTOS",
+        _("Código de los artículos para descuentos"),
+        "DESCUENTO",
+		dbModuleSetting::All
+    },
+    {
+        dbModuleSetting::String,
+        "ARTICULO_RECARGOS",
+        _("Código de los artículos para recargos"),
+        "RECARGO",
+		dbModuleSetting::All
+    },
     {dbModuleSetting::None}
 };
 

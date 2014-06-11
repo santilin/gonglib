@@ -269,8 +269,10 @@ void ComboBoxXtring::setText(const Xtring& caption)
         found = true;
     } else if( caption.isEmpty() ) {
         for( int index=0; index < count() && !found; index ++ ) {
-            if( text( index ) == "" )
+            if( text( index ) == "" ) {
+				QComboBox::setCurrentText( toGUI(caption) );
                 found = true;
+			}
         }
     }
     if( !found ) {

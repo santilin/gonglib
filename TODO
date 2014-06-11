@@ -1,8 +1,8 @@
 == HECHO ==
 
-== factu ==
-* Añadir a proveedora: usa referencias.
-** Muestra/oculta la referencia en la ficha del artículo, por lo tanto se puede poner antes del código del artículo
+== URGENTE ==
+* TPV: Botón añadir descuento/recargo
+* tpv: Cambiar terminología mesas
 
 == José Castaño ==
 * Al hacer la remesa de recibos, me he encontrado con lo que me ha hecho pararme porque no va, los pasos que doy son los siguientes: Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo he intentar buscar el socia, se me cierra el programa del tirón, por lo que me deja sin opción de continuar no hacer nada más, en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
@@ -13,20 +13,19 @@
 * Ajustar anchura tickets
 * Ticket normal, tiene poco espacio para el total
 
-== NUEVA FUNCIONALIDAD ==
-* factu: Formulario datos ventas y compras de artículos
-* Clientes especiales, con un porcentaje extra.
-
 = PRESCINDIBLE =
+
+== Tesorería ==
+* Definición de tipos de apuntes de tesorería, ya está hecho en gastostipo
+* Documento_id es el albarán, asiento o la factura o lo que sea
 
 == Ofertas ==
 * Insertar oferta de compra no inserta nada
 * Estadísticas
+* 'Sí a todo' en pasar de albaranes a ofertas
 
 == gong-tpv ==
-* Añadir porcentaje sobre el total a determinadas mesas
 * tpv: Pagos por rondas: buscar un FrmList animado
-* Tarifas por el tipo de mesa.
 * Al limpiar la mesa, lee registros
 * saveEstado intenta grabar siempre, ver la diferencia
 * Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
@@ -37,6 +36,8 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
+* Formulario datos ventas y compras de artículos
+* Clientes especiales, con un porcentaje extra.
 * Enviar/recibir facturas a/de otro gestiong
 * Que la suma en mc de las ventas coincida con la suma de las facturas:
 ** No añade el recargo ni los descuentos
@@ -50,6 +51,11 @@
 * Añadir a clientes y proveedoras: dia(s) de pago, mes no pago. Al generar los pagos, tenerlo en cuenta.
 * Buscador de documentos por número
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
+=== Referencias ===
+* Añadir a proveedora: usa referencias.
+* Si una proveedora usa referencias, aparece el edit de la referencia antes del código, si no, no
+* Al introducir la referencia, si la forma de generar el código es según la referencia, generarlo.
+* Al buscar códigos en tpv o donde sea, buscar también por referencia si la proveedora usa referencias.
 
 == gong-socias ==
 * Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo

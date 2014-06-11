@@ -143,20 +143,30 @@ void FrmEditApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, Vali
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
 	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
 			*isvalid = false;
-	if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre,
-		getRecTercero(), "CODIGO", "NOMBRE", Xtring::null) )
-		scatterTercero();
-	if( focusWidget() != pushConceptoCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editConceptoCodigo, editConceptoNombre,
-		getRecConcepto(), "CODIGO", "NOMBRE", Xtring::null) )
-		scatterConcepto();
+// 	if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
+// 	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre,
+// 		getRecTercero(), "CODIGO", "NOMBRE", Xtring::null) )
+// 		scatterTercero();
+// 	if( focusWidget() != pushConceptoCodigo) // To avoid triggering the validating if the button is pressed
+// 	if( validSeekCode( sender, isvalid, *validresult, editConceptoCodigo, editConceptoNombre,
+// 		getRecConcepto(), "CODIGO", "NOMBRE", Xtring::null) )
+// 		scatterConcepto();
 	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
 		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterProyecto();
 /*>>>>>FRMEDITAPUNTETESORERIA_VALIDATE*/
-
+// {capel} comentar los validSeekCode de tercero y concepto
+	if( getRecTercero() && focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre, getRecTercero(), 
+			getRecTercero()->getTableDefinition()->getCodeField(), 
+			getRecTercero()->getTableDefinition()->getDescField(), Xtring::null) )
+		scatterTercero();
+	if( getRecConcepto() && focusWidget() != pushConceptoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editConceptoCodigo, editConceptoNombre, getRecConcepto(), 
+			getRecConcepto()->getTableDefinition()->getCodeField(), 
+			getRecConcepto()->getTableDefinition()->getDescField(), Xtring::null) )
+		scatterConcepto();
 	if( sender == comboTablaTerceros ) {
 		getRecord()->setValue("TABLATERCEROS", comboTablaTerceros->getCurrentItemValue() );
 		if( comboTablaTerceros->getCurrentItemValue().isEmpty() ) {

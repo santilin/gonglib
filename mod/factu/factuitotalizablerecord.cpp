@@ -1,5 +1,7 @@
+#include <cmath>
 #include <empresamodule.h>
 #include <pagosrecformapago.h>
+#include "facturecarticulo.h"
 #include "factufldivadetallado.h"
 #include "factuiivadesglosable.h"
 #include "factuitotalizablerecord.h"
@@ -133,6 +135,47 @@ void ITotalizableRecord::actTotales()
     if( IIVADesglosable *idr = dynamic_cast<IIVADesglosable *>(pRecord) )
         pRecord->setValue( "DESGLOSEIVA", idr->calcDesgloseIVA() );
 }
+
+
+bool ITotalizableRecord::addDescuentoRecargo(double dto, RecArticulo *articulo, int redondeo)
+{
+	if( !pDetalles->size() )
+		return false;
+	actTotales();
+	double total = pRecord->getValue("TOTAL").toDouble();
+	double variacion = total * ( dto / 100 );
+	double nuevo_total = total + variacion;
+	if( redondeo != 0 ) {
+		long nuevo_total_entero = long(ceil(nuevo_total));
+		int resto_redondeo = nuevo_total_entero % redondeo;
+		if (resto_redondeo != 0 ) {
+			nuevo_total = nuevo_total_entero + redondeo - resto_redondeo;
+		}
+	}
+	if( nuevo_total != total ) {
+		double precioconiva = nuevo_total - total;
+		dbRecord *detalle = DBAPP->createRecord(pDetalles->at(0)->getTableName());
+		detalle->setValue("NLINEA", pDetalles->size()+1);
+		detalle->setValue("CANTIDAD", 1.0);
+		detalle->setValue("ARTICULO_ID", articulo->getRecordID());
+		if( mTipo == compra ) {
+			detalle->setValue("COSTE", precioconiva);
+			detalle->setValue("COSTESINIVA", articulo->getRecTipoIVA()->menosIVA( precioconiva ) );
+		} else {
+			detalle->setValue("PVP", precioconiva);
+			detalle->setValue("PVPSINIVA", articulo->getRecTipoIVA()->menosIVA( precioconiva ) );
+		}
+		detalle->setValue("DTOPP", 0.0);
+		detalle->setValue("IMPORTE", articulo->getRecTipoIVA()->menosIVA( precioconiva ) );
+		detalle->setValue("IMPORTECONIVA", precioconiva);
+		detalle->setValue("TIPOIVA_ID", articulo->getRecTipoIVA()->getRecordID() );
+		pDetalles->addRecord( detalle );
+		actTotales();
+		return true;
+	}
+	return false;
+}
+
 
 } // namespace factu
 } // namespace gong
