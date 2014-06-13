@@ -1,1 +1,11 @@
 QFrame#AddressFrame { border: 1px solid black }
+
+QWidget { font-size: 10pt; }
+QFrame { border: 2px inset #f0f0f0; border-radius: 4px }
+QTabWidget > QFrame { padding: 0px 0px; margin: 0 }
+QTabWidget { border: 2px outset blue }
+QWidget > QMenuBar { border: 2px outset gray; font-size: 10pt; font-weight: bold }
+QWidget > QMenuBar > QAction { border: 2px outset gray; font-size: 10pt; font-weight: bold }
+QLabel { border: none; }
+QLineEdit { padding: 0px; color: blue; }
+QPushButton { padding: 3px }

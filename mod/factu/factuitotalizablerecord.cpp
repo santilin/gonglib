@@ -146,10 +146,12 @@ bool ITotalizableRecord::addDescuentoRecargo(double dto, RecArticulo *articulo, 
 	double variacion = total * ( dto / 100 );
 	double nuevo_total = total + variacion;
 	if( redondeo != 0 ) {
-		long nuevo_total_entero = long(ceil(nuevo_total));
-		int resto_redondeo = nuevo_total_entero % redondeo;
+		long nuevo_total_centimos = long(ceil(nuevo_total*100.0));
+		// El redondeo hay que hacerlo sobre las decenas y unidades, sin las centenas
+		// Así funciona un redondeo de 7, 20, 30, etc.
+		int resto_redondeo = (nuevo_total_centimos % 100) % redondeo;
 		if (resto_redondeo != 0 ) {
-			nuevo_total = nuevo_total_entero + redondeo - resto_redondeo;
+			nuevo_total = double(nuevo_total_centimos + redondeo - resto_redondeo) / 100.0;
 		}
 	}
 	if( nuevo_total != total ) {

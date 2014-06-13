@@ -283,7 +283,7 @@ bool RecContacto::slotSearchCPClicked( FrmBase *frm, LineEdit* editCP, LineEdit 
             }
         } else {
             DBAPP->showOSD(  _("No se ha encontrado ningún código postal para:"),
-                             cp + " " + localidad + " " );
+                             cp + " " + localidad + " ");
         }
     }
     DBAPP->resetCursor();

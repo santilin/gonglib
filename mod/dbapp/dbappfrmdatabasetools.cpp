@@ -349,7 +349,7 @@ void FrmDatabaseTools::checkDatabase()
 {
     DBAPP->waitCursor( true );
     try {
-        DBAPP->showOSD( getTitle(), _("Regenerando índices") );
+        DBAPP->showOSD( getTitle(), _("Regenerando índices"), -1 );
         DBAPP->getDatabase()->dropIndexes( DBAPP->getConnection(), true, true );
         DBAPP->getDatabase()->createIndexes( DBAPP->getConnection(), false );
         DBAPP->resetCursor();

@@ -31,10 +31,8 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
             ++ it ) {
         dbTableDefinition *tbldef = it->second;
         if( tbldef->findFieldDefinition("CONTACTO_ID") ) {
-            Xtring code = tbldef->findFieldByFlags(dbFieldDefinition::CODE) ?
-                          tbldef->findFieldByFlags(dbFieldDefinition::CODE)->getName() : "CODIGO";
-            Xtring desc = tbldef->findFieldByFlags(dbFieldDefinition::DESCRIPTION) ?
-                          tbldef->findFieldByFlags(dbFieldDefinition::DESCRIPTION)->getName() : "DESCRIPCION";
+            const Xtring &code = tbldef->getCodeField();
+            const Xtring &desc = tbldef->getDescField();
             mSearchBoxes << addMultipleSearchField( tabSeleccion, tbldef->getName(), code, desc, selLayout );
         }
     }

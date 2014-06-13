@@ -137,7 +137,7 @@ void FrmDatabaseTools::checkDatabase()
 {
     DBAPP->waitCursor( true );
     try {
-        DBAPP->showOSD( getTitle(), _("Comprobando índices"), 0 );
+        DBAPP->showOSD( getTitle(), _("Comprobando índices") );
         DBAPP->getDatabase()->dropIndexes( DBAPP->getConnection(), true, true );
         DBAPP->getDatabase()->createIndexes( DBAPP->getConnection(), false );
         DBAPP->hideOSD();
