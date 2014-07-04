@@ -6,4 +6,3 @@ QWidget > QMenuBar { border: 2px outset gray; font-size: 10pt; font-weight: bold
 QWidget > QMenuBar > QAction { border: 2px outset gray; font-size: 10pt; font-weight: bold }
 QLabel { border: none; }
 QLineEdit { padding: 0px }
-QPushButton { padding: 3px }

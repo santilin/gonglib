@@ -150,6 +150,11 @@ int IPagableRecord::genPagos()
     }
     uint diasprimerplazo = formapago->getValue("DIASPRIMERPLAZO").toInt();
     uint diasentreplazos = formapago->getValue("DIASENTREPLAZOS").toInt();
+	// Si esto es una factura y tiene un albarán del que ya se han generado pagos, se volverían a generar los pagos de ese albarán
+	// Hay que detectar esto y restarle al resto de esta factura el importe de los pagos de ese albarán
+	// Soluciones:
+	// a) modificar el resto de la factura al añadir un albarán: es decir, 
+	
     double importe = pFactura->getValue("RESTO").toDouble();
     // Calcular número de recibos según la forma de pago
     if( importe == 0.0 || nrecibos == 0 ) {

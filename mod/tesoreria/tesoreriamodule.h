@@ -23,8 +23,6 @@
 
 class QAction;
 class QMenu;
-
-class NamesListTable;
 /*>>>>>TESORERIAMODULE_INCLUDES*/
 
 namespace gong {
@@ -64,13 +62,14 @@ public:
 	tesoreria::MasterTable *getFicTerceroTesoreria() const { return pFicTerceroTesoreria; }
 	tesoreria::MasterTable *getFicConceptoTesoreria() const { return pFicConceptoTesoreria; }
 	tesoreria::MasterTable *getFicApunteTesoreria() const { return pFicApunteTesoreria; }
-	NamesListTable *pFicTipoApunteTesoreria;
+	tesoreria::MasterTable *getFicTipoApunteTesoreria() const { return pFicTipoApunteTesoreria; }
 
 private:
 	tesoreria::MasterTable *pFicCuentaTesoreria;
 	tesoreria::MasterTable *pFicTerceroTesoreria;
 	tesoreria::MasterTable *pFicConceptoTesoreria;
 	tesoreria::MasterTable *pFicApunteTesoreria;
+	tesoreria::MasterTable *pFicTipoApunteTesoreria;
 /*>>>>>TESORERIAMODULE_RECORD_DEFINITIONS*/
 /*<<<<<TESORERIAMODULE_MENU_DEFINITIONS*/
 private slots:
@@ -78,11 +77,13 @@ private slots:
 	void slotMenuTesoreriaTerceroTesoreria();
 	void slotMenuTesoreriaConceptoTesoreria();
 	void slotMenuTesoreriaApunteTesoreria();
+	void slotMenuTesoreriaTipoApunteTesoreria();
 protected:
 	QAction *pMenuTesoreriaCuentaTesoreria;
 	QAction *pMenuTesoreriaTerceroTesoreria;
 	QAction *pMenuTesoreriaConceptoTesoreria;
 	QAction *pMenuTesoreriaApunteTesoreria;
+	QAction *pMenuTesoreriaTipoApunteTesoreria;
 /*>>>>>TESORERIAMODULE_MENU_DEFINITIONS*/
 	QMenu *pMenuTesoreria;
 	XtringList mTablasTerceros, mTablasConceptos;

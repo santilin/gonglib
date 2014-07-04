@@ -20,6 +20,7 @@
 #include <dbappdbapplication.h>
 
 #include "tesoreriareccuentatesoreria.h"
+#include "tesoreriarectipoapuntetesoreria.h"
 #include "empresarecproyecto.h"
 /*>>>>>APUNTETESORERIA_INCLUDES*/
 
@@ -43,6 +44,7 @@ public:
 	
 /*<<<<<APUNTETESORERIA_RELATIONS*/
 	RecCuentaTesoreria *getRecCuentaTesoreria() const;
+	RecTipoApunteTesoreria *getRecTipoApunteTesoreria() const;
 	empresa::RecProyecto *getRecProyecto() const;
 /*>>>>>APUNTETESORERIA_RELATIONS*/
 

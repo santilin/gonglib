@@ -25,7 +25,7 @@
 namespace gong {
 
 // \ojo Si se añade un nuevo tipo de control,
-// revisar FrmEditRec::edited(), isEdited(), fixFocusWidgetText() y enableEditControls()
+// revisar FrmEditRec::edited(), isEdited(), fixFocusWidgetText(), validateControls y enableEditControls()
 
 
 #if 0

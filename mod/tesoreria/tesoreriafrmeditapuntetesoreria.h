@@ -44,19 +44,24 @@ protected:
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 	void specialControlKeyPressed(QWidget *sender, char key);
 /*>>>>>FRMEDITAPUNTETESORERIA_VIRTUALS_FROM_FRMEDITREC*/
-
+	void changeTipoApunte();
+	
 /*<<<<<FRMEDITAPUNTETESORERIA_SCATTERS_AND_SLOTS*/
 protected:
+	void scatterTipoApunteTesoreria();
 	void scatterTercero();
 	void scatterConcepto();
 	void scatterProyecto();
 
 private slots:
+	void pushTipoApunteTesoreriaCodigo_clicked();
 	void pushTerceroCodigo_clicked();
 	void pushConceptoCodigo_clicked();
 	void pushProyectoCodigo_clicked();
 
 public:
+	RecTipoApunteTesoreria* getRecTipoApunteTesoreria() const
+		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecTipoApunteTesoreria(); }
 	RecTercero* getRecTercero() const
 		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecTercero(); }
 	RecConcepto* getRecConcepto() const
@@ -70,21 +75,24 @@ protected:
 	gong::EditBox *editNumero;
 	gong::CheckBox *checkAutomatico;
 	gong::EditBox *editFecha;
-	gong::ComboBoxInt *comboTipoApunteTesoreria;
+	gong::SearchBox *searchTipoApunteTesoreriaCodigo;
+	QPushButton *pushTipoApunteTesoreriaCodigo;
+	gong::LineEdit *editTipoApunteTesoreriaCodigo;
+	gong::LineEdit *editTipoApunteTesoreriaNombre;
 	gong::ComboBoxXtring *comboTablaTerceros;
 	gong::SearchBox *searchTerceroCodigo;
 	QPushButton *pushTerceroCodigo;
 	gong::LineEdit *editTerceroCodigo;
 	gong::LineEdit *editTerceroNombre;
 	gong::EditBox *editTercero;
-	gong::EditBox *editImporte;
 	gong::ComboBoxXtring *comboTablaConceptos;
 	gong::SearchBox *searchConceptoCodigo;
 	QPushButton *pushConceptoCodigo;
 	gong::LineEdit *editConceptoCodigo;
 	gong::LineEdit *editConceptoNombre;
 	gong::EditBox *editConcepto;
-	gong::EditBox *editDocumento;
+	gong::EditBox *editImporte;
+	gong::EditBox *editReferencia;
 	gong::SearchBox *searchProyectoCodigo;
 	QPushButton *pushProyectoCodigo;
 	gong::LineEdit *editProyectoCodigo;

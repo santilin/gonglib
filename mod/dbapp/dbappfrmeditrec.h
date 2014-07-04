@@ -122,6 +122,8 @@ public:
                         LineEdit *editAlt = 0, const Xtring &fldaltname = Xtring::null );
     bool showAndSave();
     bool validateControls(bool justedited = false);
+	bool validateControl(QWidget *control, bool justedited = false);
+	
     FrmEditRec* getParentForm() const {
         return pParentForm;
     }
@@ -156,6 +158,7 @@ public:
                                   QBoxLayout *layout = 0, bool horizontal = false);
     bool addBehavior(FrmEditRecBehavior *behavior);
     bool removeControl( QWidget *control );
+	QWidget *fixControl(const Xtring &fldname, const Xtring &fldvalue);
 
     // static functions to set fields styles and default values
     static void applyFieldStyle(QLabel *label, const dbFieldDefinition *fielddef);
@@ -175,7 +178,8 @@ protected slots:
 protected:
     template<class ValueT>void validateCombo(int selected);
     virtual void updateStatus( bool callbehaviors = false);
-    virtual void enableEditControls(bool enabled);
+    void enableEditControls(bool enabled);
+    void enableEditControl(QWidget *control, bool enabled);
     virtual void initMenus();
     void enableSearchBoxes(bool enabled);
     void msgInputError(const Xtring &errorText);

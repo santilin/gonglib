@@ -2,6 +2,7 @@
 // COPYLEFT Registro de apuntes de tesorería
 // MEMBER init
 // RELATION CuentaTesoreria
+// RELATION TipoApunteTesoreria
 // RELATION empresa::Proyecto
 // TYPE dbRecord tesoreria::ApunteTesoreria
 /*>>>>>MODULE_INFO*/
@@ -25,6 +26,11 @@ void RecApunteTesoreria::init()
 RecCuentaTesoreria *RecApunteTesoreria::getRecCuentaTesoreria() const
 {
 	return static_cast<RecCuentaTesoreria*>(findRelatedRecord("CUENTATESORERIA_ID"));
+}
+
+RecTipoApunteTesoreria *RecApunteTesoreria::getRecTipoApunteTesoreria() const
+{
+	return static_cast<RecTipoApunteTesoreria*>(findRelatedRecord("TIPOAPUNTETESORERIA_ID"));
 }
 
 empresa::RecProyecto *RecApunteTesoreria::getRecProyecto() const

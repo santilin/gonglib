@@ -46,6 +46,9 @@ void FrmEditConceptoTesoreria::scatterFields()
 		pFocusWidget = editCodigo;
 	editNombre->setText(getRecConceptoTesoreria()->getValue("NOMBRE").toString());
 	editNotas->setText(getRecConceptoTesoreria()->getValue("NOTAS").toString());
+	if( isInserting() && editCodigo->toInt() == 0 ) {
+		editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
+	}
 /*>>>>>FRMEDITCONCEPTOTESORERIA_SCATTER*/
 }
 
@@ -66,6 +69,9 @@ void FrmEditConceptoTesoreria::validateFields(QWidget *sender, bool *isvalid, Va
 		isvalid = &v;
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
 	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
+		if( !sender )
 			*isvalid = false;
 /*>>>>>FRMEDITCONCEPTOTESORERIA_VALIDATE*/
 	if( !ir ) {

@@ -3,15 +3,15 @@
 // FIELD Numero int - numero
 // FIELD Automatico bool - numero
 // FIELD Fecha date - numero
-// FIELD TipoApunteTesoreria comboint - numero
+// FIELD TipoApunteTesoreria_ID Reference(TipoApunteTesoreria,Codigo,Nombre) - numero
 // FIELD TablaTerceros combostring - terceros
 // FIELD Tercero_ID Reference(CuentaTesoreria,Codigo,Nombre) - terceros
-// FIELD Tercero string - terceros
-// FIELD Importe Money - money
+// FIELD Tercero string - tercerosextra
 // FIELD TablaConceptos combostring - conceptos
 // FIELD Concepto_ID Reference(ConceptoTesoreria,Codigo,Nombre) - conceptos
-// FIELD Concepto string - conceptos
-// FIELD Documento string
+// FIELD Concepto string - conceptosextra
+// FIELD Importe Money - money
+// FIELD Referencia string
 // FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre)
 // FIELD Notas text
 // TYPE FrmEditRecMaster tesoreria::ApunteTesoreria 
@@ -21,6 +21,7 @@
 #include <dbappmainwindow.h>
 #include <dbappdbapplication.h>
 #include "tesoreriafrmeditapuntetesoreria.h"
+#include <boost/iterator/iterator_concepts.hpp>
 /*>>>>>FRMEDITAPUNTETESORERIA_INCLUDES*/
 
 namespace gong {
@@ -38,15 +39,22 @@ FrmEditApunteTesoreria::FrmEditApunteTesoreria(FrmEditRec *parentfrm, dbRecord *
 /*<<<<<FRMEDITAPUNTETESORERIA_INIT_CONTROLS*/
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *tercerosLayout = new QHBoxLayout(0, 0, 6, "tercerosLayout");
-	QHBoxLayout *moneyLayout = new QHBoxLayout(0, 0, 6, "moneyLayout");
+	QHBoxLayout *tercerosextraLayout = new QHBoxLayout(0, 0, 6, "tercerosextraLayout");
 	QHBoxLayout *conceptosLayout = new QHBoxLayout(0, 0, 6, "conceptosLayout");
-	QHBoxLayout *documentoLayout = new QHBoxLayout(0, 0, 6, "documentoLayout");
+	QHBoxLayout *conceptosextraLayout = new QHBoxLayout(0, 0, 6, "conceptosextraLayout");
+	QHBoxLayout *moneyLayout = new QHBoxLayout(0, 0, 6, "moneyLayout");
+	QHBoxLayout *referenciaLayout = new QHBoxLayout(0, 0, 6, "referenciaLayout");
 	QHBoxLayout *proyecto_idLayout = new QHBoxLayout(0, 0, 6, "proyecto_idLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editNumero = addEditField( pControlsFrame, "APUNTETESORERIA", "NUMERO", numeroLayout );
 	checkAutomatico = addCheckField( pControlsFrame, "APUNTETESORERIA", "AUTOMATICO", numeroLayout );
 	editFecha = addEditField( pControlsFrame, "APUNTETESORERIA", "FECHA", numeroLayout );
-	comboTipoApunteTesoreria = addComboIntField( pControlsFrame, "APUNTETESORERIA", "TIPOAPUNTETESORERIA", numeroLayout );
+
+	searchTipoApunteTesoreriaCodigo = addSearchField( pControlsFrame, "TIPOAPUNTETESORERIA_ID", "TIPOAPUNTETESORERIA", "CODIGO", "NOMBRE", numeroLayout );
+	pushTipoApunteTesoreriaCodigo = searchTipoApunteTesoreriaCodigo->getButton();
+	connect( pushTipoApunteTesoreriaCodigo, SIGNAL( clicked() ), this, SLOT( pushTipoApunteTesoreriaCodigo_clicked() ) );
+	editTipoApunteTesoreriaCodigo = searchTipoApunteTesoreriaCodigo->getEditCode();
+	editTipoApunteTesoreriaNombre = searchTipoApunteTesoreriaCodigo->getEditDesc();
 	comboTablaTerceros = addComboXtringField( pControlsFrame, "APUNTETESORERIA", "TABLATERCEROS", tercerosLayout );
 
 	searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", "CUENTATESORERIA", "CODIGO", "NOMBRE", tercerosLayout );
@@ -54,8 +62,7 @@ FrmEditApunteTesoreria::FrmEditApunteTesoreria(FrmEditRec *parentfrm, dbRecord *
 	connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
 	editTerceroCodigo = searchTerceroCodigo->getEditCode();
 	editTerceroNombre = searchTerceroCodigo->getEditDesc();
-	editTercero = addEditField( pControlsFrame, "APUNTETESORERIA", "TERCERO", tercerosLayout );
-	editImporte = addEditField( pControlsFrame, "APUNTETESORERIA", "IMPORTE", moneyLayout );
+	editTercero = addEditField( pControlsFrame, "APUNTETESORERIA", "TERCERO", tercerosextraLayout );
 	comboTablaConceptos = addComboXtringField( pControlsFrame, "APUNTETESORERIA", "TABLACONCEPTOS", conceptosLayout );
 
 	searchConceptoCodigo = addSearchField( pControlsFrame, "CONCEPTO_ID", "CONCEPTOTESORERIA", "CODIGO", "NOMBRE", conceptosLayout );
@@ -63,8 +70,9 @@ FrmEditApunteTesoreria::FrmEditApunteTesoreria(FrmEditRec *parentfrm, dbRecord *
 	connect( pushConceptoCodigo, SIGNAL( clicked() ), this, SLOT( pushConceptoCodigo_clicked() ) );
 	editConceptoCodigo = searchConceptoCodigo->getEditCode();
 	editConceptoNombre = searchConceptoCodigo->getEditDesc();
-	editConcepto = addEditField( pControlsFrame, "APUNTETESORERIA", "CONCEPTO", conceptosLayout );
-	editDocumento = addEditField( pControlsFrame, "APUNTETESORERIA", "DOCUMENTO", documentoLayout );
+	editConcepto = addEditField( pControlsFrame, "APUNTETESORERIA", "CONCEPTO", conceptosextraLayout );
+	editImporte = addEditField( pControlsFrame, "APUNTETESORERIA", "IMPORTE", moneyLayout );
+	editReferencia = addEditField( pControlsFrame, "APUNTETESORERIA", "REFERENCIA", referenciaLayout );
 
 	searchProyectoCodigo = addSearchField( pControlsFrame, "PROYECTO_ID", "PROYECTO", "CODIGO", "NOMBRE", proyecto_idLayout );
 	pushProyectoCodigo = searchProyectoCodigo->getButton();
@@ -74,9 +82,11 @@ FrmEditApunteTesoreria::FrmEditApunteTesoreria(FrmEditRec *parentfrm, dbRecord *
 	editNotas = addTextField( pControlsFrame, "APUNTETESORERIA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( numeroLayout );
 	pControlsLayout->addLayout( tercerosLayout );
-	pControlsLayout->addLayout( moneyLayout );
+	pControlsLayout->addLayout( tercerosextraLayout );
 	pControlsLayout->addLayout( conceptosLayout );
-	pControlsLayout->addLayout( documentoLayout );
+	pControlsLayout->addLayout( conceptosextraLayout );
+	pControlsLayout->addLayout( moneyLayout );
+	pControlsLayout->addLayout( referenciaLayout );
 	pControlsLayout->addLayout( proyecto_idLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITAPUNTETESORERIA_INIT_CONTROLS*/
@@ -90,14 +100,14 @@ void FrmEditApunteTesoreria::scatterFields()
 		pFocusWidget = editNumero;
 	checkAutomatico->setChecked(getRecApunteTesoreria()->getValue("AUTOMATICO").toBool());
 	editFecha->setText(getRecApunteTesoreria()->getValue("FECHA").toDate());
-	comboTipoApunteTesoreria->setCurrentItemByValue(getRecApunteTesoreria()->getValue("TIPOAPUNTETESORERIA").toInt());
 	comboTablaTerceros->setText(getRecApunteTesoreria()->getValue("TABLATERCEROS").toString());
 	editTercero->setText(getRecApunteTesoreria()->getValue("TERCERO").toString());
-	editImporte->setText(getRecApunteTesoreria()->getValue("IMPORTE").toMoney());
 	comboTablaConceptos->setText(getRecApunteTesoreria()->getValue("TABLACONCEPTOS").toString());
 	editConcepto->setText(getRecApunteTesoreria()->getValue("CONCEPTO").toString());
-	editDocumento->setText(getRecApunteTesoreria()->getValue("DOCUMENTO").toString());
+	editImporte->setText(getRecApunteTesoreria()->getValue("IMPORTE").toMoney());
+	editReferencia->setText(getRecApunteTesoreria()->getValue("REFERENCIA").toString());
 	editNotas->setText(getRecApunteTesoreria()->getValue("NOTAS").toString());
+	scatterTipoApunteTesoreria();
 	scatterTercero();
 	scatterConcepto();
 	scatterProyecto();
@@ -120,86 +130,28 @@ void FrmEditApunteTesoreria::gatherFields()
 	getRecApunteTesoreria()->setValue( "NUMERO", editNumero->toInt());
 	getRecApunteTesoreria()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
 	getRecApunteTesoreria()->setValue( "FECHA", editFecha->toDate());
-	getRecApunteTesoreria()->setValue( "TIPOAPUNTETESORERIA", comboTipoApunteTesoreria->getCurrentItemValue());
+	getRecApunteTesoreria()->setValue( "TIPOAPUNTETESORERIA_ID", getRecTipoApunteTesoreria()->getRecordID() );
 	getRecApunteTesoreria()->setValue( "TABLATERCEROS", comboTablaTerceros->toString());
 	getRecApunteTesoreria()->setValue( "TERCERO_ID", getRecTercero()->getRecordID() );
 	getRecApunteTesoreria()->setValue( "TERCERO", editTercero->toString());
-	getRecApunteTesoreria()->setValue( "IMPORTE", editImporte->toMoney());
 	getRecApunteTesoreria()->setValue( "TABLACONCEPTOS", comboTablaConceptos->toString());
 	getRecApunteTesoreria()->setValue( "CONCEPTO_ID", getRecConcepto()->getRecordID() );
 	getRecApunteTesoreria()->setValue( "CONCEPTO", editConcepto->toString());
-	getRecApunteTesoreria()->setValue( "DOCUMENTO", editDocumento->toString());
+	getRecApunteTesoreria()->setValue( "IMPORTE", editImporte->toMoney());
+	getRecApunteTesoreria()->setValue( "REFERENCIA", editReferencia->toString());
 	getRecApunteTesoreria()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
 	getRecApunteTesoreria()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITAPUNTETESORERIA_GATHER*/
 }
 
-void FrmEditApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
-{
-/*<<<<<FRMEDITAPUNTETESORERIA_VALIDATE*/
-	bool v=true;
-	if( !isvalid )
-		isvalid = &v;
-	ValidResult *validresult = ( ir ? ir : new ValidResult() );
-	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-			*isvalid = false;
-// 	if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
-// 	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre,
-// 		getRecTercero(), "CODIGO", "NOMBRE", Xtring::null) )
-// 		scatterTercero();
-// 	if( focusWidget() != pushConceptoCodigo) // To avoid triggering the validating if the button is pressed
-// 	if( validSeekCode( sender, isvalid, *validresult, editConceptoCodigo, editConceptoNombre,
-// 		getRecConcepto(), "CODIGO", "NOMBRE", Xtring::null) )
-// 		scatterConcepto();
-	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
-		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null) )
-		scatterProyecto();
-/*>>>>>FRMEDITAPUNTETESORERIA_VALIDATE*/
-// {capel} comentar los validSeekCode de tercero y concepto
-	if( getRecTercero() && focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre, getRecTercero(), 
-			getRecTercero()->getTableDefinition()->getCodeField(), 
-			getRecTercero()->getTableDefinition()->getDescField(), Xtring::null) )
-		scatterTercero();
-	if( getRecConcepto() && focusWidget() != pushConceptoCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editConceptoCodigo, editConceptoNombre, getRecConcepto(), 
-			getRecConcepto()->getTableDefinition()->getCodeField(), 
-			getRecConcepto()->getTableDefinition()->getDescField(), Xtring::null) )
-		scatterConcepto();
-	if( sender == comboTablaTerceros ) {
-		getRecord()->setValue("TABLATERCEROS", comboTablaTerceros->getCurrentItemValue() );
-		if( comboTablaTerceros->getCurrentItemValue().isEmpty() ) {
-			searchTerceroCodigo->setEnabled( false );
-			editTercero->setEnabled( true );
-		} else {
-			searchTerceroCodigo->setEnabled( true );
-			editTercero->setEnabled( false );
-			searchTerceroCodigo->getButton()->setText( comboTablaTerceros->currentText() );
-		}
-	}
-	if( sender == comboTablaConceptos ) {
-		getRecord()->setValue("TABLACONCEPTOS", comboTablaConceptos->getCurrentItemValue() );
-		if( comboTablaConceptos->getCurrentItemValue().isEmpty() ) {
-			searchConceptoCodigo->setEnabled( false );
-			editConcepto->setEnabled( true );
-		} else {
-			searchConceptoCodigo->setEnabled( true );
-			editConcepto->setEnabled( false );
-			searchConceptoCodigo->getButton()->setText( comboTablaConceptos->currentText() );
-		}
-	}
-	if( !ir ) {
-		showValidMessages(isvalid, *validresult, sender);
-		delete validresult;
-	}
-}
 
 void FrmEditApunteTesoreria::specialControlKeyPressed(QWidget *sender, char key)
 {
 /*<<<<<FRMEDITAPUNTETESORERIA_SPECIALACTION*/
 	mControlKeyPressed = key;
 	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
+	if( sender == editTipoApunteTesoreriaCodigo )
+		pushTipoApunteTesoreriaCodigo_clicked();
 	if( sender == editTerceroCodigo )
 		pushTerceroCodigo_clicked();
 	if( sender == editConceptoCodigo )
@@ -209,6 +161,75 @@ void FrmEditApunteTesoreria::specialControlKeyPressed(QWidget *sender, char key)
 	mControlKeyPressed = '\0';
 /*>>>>>FRMEDITAPUNTETESORERIA_SPECIALACTION*/
 }
+
+void FrmEditApunteTesoreria::scatterTipoApunteTesoreria()
+{
+/*<<<<<FRMEDITAPUNTETESORERIA_SCATTER_TIPOAPUNTETESORERIA*/
+	editTipoApunteTesoreriaCodigo->setText( getRecTipoApunteTesoreria()->getValue("CODIGO") );
+	editTipoApunteTesoreriaNombre->setText( getRecTipoApunteTesoreria()->getValue("NOMBRE") );
+/*>>>>>FRMEDITAPUNTETESORERIA_SCATTER_TIPOAPUNTETESORERIA*/
+}
+void FrmEditApunteTesoreria::pushTipoApunteTesoreriaCodigo_clicked()
+{
+/*<<<<<FRMEDITAPUNTETESORERIA_PUSH_TIPOAPUNTETESORERIA_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchTipoApunteTesoreriaCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editTipoApunteTesoreriaCodigo->setJustEdited( false );
+			editTipoApunteTesoreriaCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecTipoApunteTesoreria(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterTipoApunteTesoreria();
+				editTipoApunteTesoreriaCodigo->setJustEdited( true );
+				setWiseFocus(editTipoApunteTesoreriaCodigo);
+			}
+			break;
+		case 'M':
+			{
+				if( getRecTipoApunteTesoreria()->getRecordID() ) {
+					editTipoApunteTesoreriaCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecTipoApunteTesoreria(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editTipoApunteTesoreriaCodigo->setJustEdited( true );
+						scatterTipoApunteTesoreria();
+					}
+				setWiseFocus(editTipoApunteTesoreriaCodigo);
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecTipoApunteTesoreria()->getRecordID() != 0 ) {
+					editTipoApunteTesoreriaCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoApunteTesoreria(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecTipoApunteTesoreria *tmprec = static_cast<RecTipoApunteTesoreria *>(DBAPP->createRecord( "TipoApunteTesoreria" ));
+				editTipoApunteTesoreriaCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editTipoApunteTesoreriaCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editTipoApunteTesoreriaCodigo->setJustEdited( true );
+					getRecTipoApunteTesoreria()->copyRecord( tmprec );
+					scatterTipoApunteTesoreria();
+				}
+				setWiseFocus(editTipoApunteTesoreriaCodigo);
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITAPUNTETESORERIA_PUSH_TIPOAPUNTETESORERIA_CODIGO_CLICKED*/
+}
+
 
 void FrmEditApunteTesoreria::scatterProyecto()
 {
@@ -386,7 +407,6 @@ void FrmEditApunteTesoreria::pushConceptoCodigo_clicked()
 			editConceptoCodigo->setCancelling();
 			if( DBAPP->choose(this, getRecConcepto(), 0, dbApplication::editNone, this ) ) {
 				setEdited(true);
-		_GONG_DEBUG_PRINT(0, getRecConcepto()->toString(TOSTRING_DEBUG_COMPLETE));
 				scatterConcepto();
 				editConceptoCodigo->setJustEdited( true );
 				setWiseFocus(editConceptoCodigo);
@@ -436,7 +456,90 @@ void FrmEditApunteTesoreria::pushConceptoCodigo_clicked()
 }
 
 
+void FrmEditApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
+{
+/*<<<<<FRMEDITAPUNTETESORERIA_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
+			*isvalid = false;
+	if( focusWidget() != pushTipoApunteTesoreriaCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editTipoApunteTesoreriaCodigo, editTipoApunteTesoreriaNombre,
+		getRecTipoApunteTesoreria(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterTipoApunteTesoreria();
+	if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre,
+		getRecTercero(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterTercero();
+	if( focusWidget() != pushConceptoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editConceptoCodigo, editConceptoNombre,
+		getRecConcepto(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterConcepto();
+	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
+		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterProyecto();
+/*>>>>>FRMEDITAPUNTETESORERIA_VALIDATE*/
+// {capel} comentar los validSeekCode de tercero y concepto
+	if( getRecTercero() && focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre, getRecTercero(), 
+			getRecTercero()->getTableDefinition()->getCodeField(), 
+			getRecTercero()->getTableDefinition()->getDescField(), Xtring::null) )
+		scatterTercero();
+	if( getRecConcepto() && focusWidget() != pushConceptoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editConceptoCodigo, editConceptoNombre, getRecConcepto(), 
+			getRecConcepto()->getTableDefinition()->getCodeField(), 
+			getRecConcepto()->getTableDefinition()->getDescField(), Xtring::null) )
+		scatterConcepto();
+	if( sender == comboTablaTerceros ) {
+		getRecord()->setValue("TABLATERCEROS", comboTablaTerceros->getCurrentItemValue() );
+		if( comboTablaTerceros->getCurrentItemValue().isEmpty() ) {
+			searchTerceroCodigo->setEnabled( false );
+			editTercero->setEnabled( true );
+		} else {
+			searchTerceroCodigo->setEnabled( true );
+			editTercero->setEnabled( false );
+			searchTerceroCodigo->getButton()->setText( comboTablaTerceros->currentText() );
+		}
+	}
+	if( sender == comboTablaConceptos ) {
+		getRecord()->setValue("TABLACONCEPTOS", comboTablaConceptos->getCurrentItemValue() );
+		if( comboTablaConceptos->getCurrentItemValue().isEmpty() ) {
+			searchConceptoCodigo->setEnabled( false );
+			editConcepto->setEnabled( true );
+		} else {
+			searchConceptoCodigo->setEnabled( true );
+			editConcepto->setEnabled( false );
+			searchConceptoCodigo->getButton()->setText( comboTablaConceptos->currentText() );
+		}
+	}
+	if( sender == editTipoApunteTesoreriaCodigo && editTipoApunteTesoreriaCodigo->isJustEdited() ) {
+		changeTipoApunte();
+	}
+	if( !ir ) {
+		showValidMessages(isvalid, *validresult, sender);
+		delete validresult;
+	}
+}
+
+
+void FrmEditApunteTesoreria::changeTipoApunte()
+{
+	XtringList instrucciones;
+	getRecTipoApunteTesoreria()->getValue("INSTRUCCIONES").toString().tokenize(instrucciones, "\n");
+	for( XtringList::const_iterator it = instrucciones.begin(); it != instrucciones.end(); ++it ) {
+		Xtring fldname, fldvalue;
+		it->splitIn2(fldname, fldvalue, "=");
+		fixControl(fldname, fldvalue);
+	}
+}
+
+
+
 /*<<<<<FRMEDITAPUNTETESORERIA_FIN*/
 } // namespace tesoreria
 } // namespace gong
 /*>>>>>FRMEDITAPUNTETESORERIA_FIN*/
+

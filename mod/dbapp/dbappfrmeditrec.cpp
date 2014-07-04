@@ -2,6 +2,7 @@
 #include <QMenuBar>
 #include <QHBoxLayout>
 #include <QShowEvent>
+#include <boost/iterator/iterator_concepts.hpp>
 #include <gonggettext.h>
 #include <gongdbfieldlistofvalues.h>
 #include <gongguicontrols.h>
@@ -1003,60 +1004,64 @@ void FrmEditRec::setEdited( bool edited )
 void FrmEditRec::enableEditControls( bool enabled )
 {
     for ( EditControlsList::const_iterator it = mEditControls.begin();
-            it != mEditControls.end();
-            ++ it ) {
-        if ( EditBox * edit = dynamic_cast<EditBox *>( *it ) ) {
-            if ( !enabled || edit->mustBeReadOnly() )
-                edit->setReadOnly( true );
-            else
-                edit->setReadOnly( false );
-        } else if ( TextBox * edit = dynamic_cast<TextBox *>( *it ) ) {
-            if ( !enabled || edit->mustBeReadOnly() )
-                edit->setReadOnly( true );
-            else
-                edit->setReadOnly( false );
-        } else if ( RichTextBox * edit = dynamic_cast<RichTextBox *>( *it ) ) {
-            if ( !enabled || edit->mustBeReadOnly() )
-                edit->setReadOnly( true );
-            else
-                edit->setReadOnly( false );
-        } else if ( SearchBox * search = dynamic_cast<SearchBox *>( *it ) ) {
-            if ( !enabled || search->mustBeReadOnly() ) {
-                search->getEditCode()->setReadOnly( true );
-                search->getEditDesc()->setReadOnly( true );
-                search->getButton()-> setEnabled (true);
-            } else {
-                search->getEditCode()->setReadOnly( false );
-                search->getEditDesc()->setReadOnly( !(search->getFlags() & SearchBox::FlagEditableDesc) );
-                search->getButton()-> setEnabled (true);
-            }
-        } else if ( CheckBox * check = dynamic_cast<CheckBox *>( *it ) ) {
-            if ( !enabled || check->mustBeReadOnly() )
-                check->setEnabled( false );
-            else
-                check->setEnabled( true );
-        } else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( *it ) ) {
-            if ( !enabled || combo->mustBeReadOnly() )
-                combo->setEnabled( false );
-            else
-                combo->setEnabled( true );
-        } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( *it ) ) {
-            if ( !enabled || combo->mustBeReadOnly() )
-                combo->setEnabled( false );
-            else
-                combo->setEnabled( true );
-        } else if ( ImageBox * img = dynamic_cast<ImageBox *>( *it ) ) {
-            if ( !enabled || img->mustBeReadOnly() )
-                img->setEnabled( false );
-            else
-                img->setEnabled( true );
-        } else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( *it ) ) {
-            if ( !enabled || fnbox->mustBeReadOnly() )
-                fnbox->getEditFileName()->setEnabled( false );
-            else
-                fnbox->getEditFileName()->setEnabled( true );
-        }
-    }
+            it != mEditControls.end(); ++ it ) {
+		enableEditControl( *it, enabled );
+	}
+}
+
+void FrmEditRec::enableEditControl( QWidget *control, bool enabled)
+{
+	if ( EditBox * edit = dynamic_cast<EditBox *>( control ) ) {
+		if ( !enabled || edit->mustBeReadOnly() )
+			edit->setReadOnly( true );
+		else
+			edit->setReadOnly( false );
+	} else if ( TextBox * edit = dynamic_cast<TextBox *>( control ) ) {
+		if ( !enabled || edit->mustBeReadOnly() )
+			edit->setReadOnly( true );
+		else
+			edit->setReadOnly( false );
+	} else if ( RichTextBox * edit = dynamic_cast<RichTextBox *>( control ) ) {
+		if ( !enabled || edit->mustBeReadOnly() )
+			edit->setReadOnly( true );
+		else
+			edit->setReadOnly( false );
+	} else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
+		if ( !enabled || search->mustBeReadOnly() ) {
+			search->getEditCode()->setReadOnly( true );
+			search->getEditDesc()->setReadOnly( true );
+			search->getButton()-> setEnabled (true);
+		} else {
+			search->getEditCode()->setReadOnly( false );
+			search->getEditDesc()->setReadOnly( !(search->getFlags() & SearchBox::FlagEditableDesc) );
+			search->getButton()-> setEnabled (true);
+		}
+	} else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
+		if ( !enabled || check->mustBeReadOnly() )
+			check->setEnabled( false );
+		else
+			check->setEnabled( true );
+	} else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( control ) ) {
+		if ( !enabled || combo->mustBeReadOnly() )
+			combo->setEnabled( false );
+		else
+			combo->setEnabled( true );
+	} else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
+		if ( !enabled || combo->mustBeReadOnly() )
+			combo->setEnabled( false );
+		else
+			combo->setEnabled( true );
+	} else if ( ImageBox * img = dynamic_cast<ImageBox *>( control ) ) {
+		if ( !enabled || img->mustBeReadOnly() )
+			img->setEnabled( false );
+		else
+			img->setEnabled( true );
+	} else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
+		if ( !enabled || fnbox->mustBeReadOnly() )
+			fnbox->getEditFileName()->setEnabled( false );
+		else
+			fnbox->getEditFileName()->setEnabled( true );
+	}
 }
 
 
@@ -1094,57 +1099,65 @@ void FrmEditRec::enableSearchBoxes( bool enabled )
  **/
 bool FrmEditRec::validateControls(bool justedited)
 {
-    bool isvalid;
+    bool isvalid = true;
     for ( EditControlsList::const_iterator it = mEditControls.begin();
-            it != mEditControls.end();
-            ++ it ) {
-        if ( EditBox *edit = dynamic_cast<EditBox *>( *it ) ) {
-            if( !justedited )
-                edit->setJustEdited(true);
-            if( edit->isJustEdited() )
-                validate( *it, &isvalid );
-        } else if ( TextBox *edit = dynamic_cast<TextBox *>( *it ) ) {
-            if( !justedited )
-                edit->setJustEdited(true);
-            if( edit->isJustEdited() )
-                validate( *it, &isvalid );
-        } else if ( dynamic_cast<RichTextBox *>( *it ) ) {
-            if( !justedited ) // TODO
-                validate( *it, &isvalid );
-        } else if ( SearchBox * search = dynamic_cast<SearchBox *>( *it ) ) {
-            if( !justedited )
-                search->getEditCode()->setJustEdited(true);
-            if( search->getEditCode()->isJustEdited() )
-                validate( search->getEditCode(), &isvalid );
-        } else if ( CheckBox *cb = dynamic_cast<CheckBox *>( *it ) ) {
-            if( !justedited )
-                cb->setJustEdited( true );
-            if( cb->isJustEdited() )
-                validate( *it, &isvalid );
-        } else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( *it ) ) {
-            if( !justedited )
-                combo->setJustEdited(true);
-            if( combo->isJustEdited() )
-                validate( *it, &isvalid );
-        } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( *it ) ) {
-            if( !justedited )
-                combo->setJustEdited(true);
-            if( combo->isJustEdited() )
-                validate( *it, &isvalid );
-        } else if ( ImageBox *ib = dynamic_cast<ImageBox *>( *it ) ) {
-            if( !justedited )
-                ib->setJustEdited(true);
-            if( ib->isJustEdited() )
-                validate( *it, &isvalid );
-        } else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( *it ) ) {
-            if( !justedited )
-                fnbox->getEditFileName()->setJustEdited(true);
-            if( fnbox->getEditFileName()->isJustEdited() )
-                validate( fnbox->getEditFileName(), &isvalid );
-        }
+            it != mEditControls.end(); ++it ) {
+		isvalid &= validateControl(*it, justedited);
     }
     return isvalid;
 }
+
+
+bool FrmEditRec::validateControl(QWidget *control, bool justedited)
+{
+	bool isvalid = true;
+	if ( EditBox *edit = dynamic_cast<EditBox *>( control ) ) {
+		if( !justedited )
+			edit->setJustEdited(true);
+		if( edit->isJustEdited() )
+			validate( edit, &isvalid );
+	} else if ( TextBox *edit = dynamic_cast<TextBox *>( control ) ) {
+		if( !justedited )
+			edit->setJustEdited(true);
+		if( edit->isJustEdited() )
+			validate( edit, &isvalid );
+	} else if ( dynamic_cast<RichTextBox *>( control ) ) {
+		if( !justedited ) // TODO
+			validate( control, &isvalid );
+	} else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
+		if( !justedited )
+			search->getEditCode()->setJustEdited(true);
+		if( search->getEditCode()->isJustEdited() )
+			validate( search->getEditCode(), &isvalid );
+	} else if ( CheckBox *cb = dynamic_cast<CheckBox *>( control ) ) {
+		if( !justedited )
+			cb->setJustEdited( true );
+		if( cb->isJustEdited() )
+			validate( cb, &isvalid );
+	} else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( control ) ) {
+		if( !justedited )
+			combo->setJustEdited(true);
+		if( combo->isJustEdited() )
+			validate( combo, &isvalid );
+	} else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
+		if( !justedited )
+			combo->setJustEdited(true);
+		if( combo->isJustEdited() )
+			validate( combo, &isvalid );
+	} else if ( ImageBox *ib = dynamic_cast<ImageBox *>( control ) ) {
+		if( !justedited )
+			ib->setJustEdited(true);
+		if( ib->isJustEdited() )
+			validate( ib, &isvalid );
+	} else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
+		if( !justedited )
+			fnbox->getEditFileName()->setJustEdited(true);
+		if( fnbox->getEditFileName()->isJustEdited() )
+			validate( fnbox->getEditFileName(), &isvalid );
+	}
+	return isvalid;
+}
+
 
 bool FrmEditRec::removeControl( QWidget *control )
 {
@@ -1209,6 +1222,20 @@ bool FrmEditRec::removeControl( QWidget *control )
         }
     }
     return false;
+}
+
+
+QWidget *FrmEditRec::fixControl(const Xtring &fldname, const Xtring &fldvalue)
+{
+	QWidget *control = findControl(fldname);
+	if( control ) {
+		// Study the value
+		if( fldvalue.isEmpty() )
+			return control;
+		setControlValue(fldname, fldvalue);
+		validateControl(control, true);
+	}
+	return control;
 }
 
 /**

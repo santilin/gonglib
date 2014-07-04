@@ -140,6 +140,8 @@ void FrmBase::keyPressEvent ( QKeyEvent *e )
     }
 #ifdef _GONG_DEBUG
     if( e->key() == Qt::Key_F10 ) {
+		_GONG_DEBUG_WARNING( Xtring("ClassName: ") + metaObject()->className());
+		_GONG_DEBUG_WARNING( Xtring("ObjectName: " + objectName()) );
         _GONG_DEBUG_WARNING( Xtring::printf("FocusWidget: %s", theGuiApp->focusWidget()->name() ) );
 		QWidget *widget = qApp->widgetAt(QCursor::pos());
         _GONG_DEBUG_WARNING( Xtring::printf("Widget under mouse: (%s) %s",

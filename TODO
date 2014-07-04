@@ -1,23 +1,22 @@
 == HECHO ==
 
 == URGENTE ==
-* TPV: Botón añadir descuento/recargo
-* tpv: Cambiar terminología mesas
+* Genera pagos de albaranes y luego en la factura, al facturarlo, también
 
 == José Castaño ==
-* Al hacer la remesa de recibos, me he encontrado con lo que me ha hecho pararme porque no va, los pasos que doy son los siguientes: Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo he intentar buscar el socia, se me cierra el programa del tirón, por lo que me deja sin opción de continuar no hacer nada más, en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
+* Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar el socia, se me cierra el programa del tirón, 
+  por lo que me deja sin opción de continuar no hacer nada más, 
+* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 
 == En los pájaros ==
 * Hay algo extraño con la impresión de los tickets
-* Añadir Nombre empresa a tickets
-* Ajustar anchura tickets
-* Ticket normal, tiene poco espacio para el total
 
 = PRESCINDIBLE =
 
 == Tesorería ==
 * Definición de tipos de apuntes de tesorería, ya está hecho en gastostipo
 * Documento_id es el albarán, asiento o la factura o lo que sea
+* Falta cuenta del pago y qué documento generar
 
 == Ofertas ==
 * Insertar oferta de compra no inserta nada
@@ -42,7 +41,6 @@
 * Que la suma en mc de las ventas coincida con la suma de las facturas:
 ** No añade el recargo ni los descuentos
 * Calcular el máximo de una unión en SQL: SELECT SUM() FROM ( SELECT .... UNION ALL .... );
-* Genera pagos de albaranes y luego en la factura, al facturarlo, también
 * Albaranes, facturas, etc. Añadir Cantidad asignada al proyecto
 * Artículos: Iva de compra e iva de venta
 * Crear clientes múltiples ya no es posible (si lo vuelvo a hacer, también para proveedoras)
