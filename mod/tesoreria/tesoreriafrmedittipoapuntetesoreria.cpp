@@ -2,7 +2,9 @@
 // COPYLEFT Fichero de edición de tipos de asiento de tesosería
 // FIELD Codigo int
 // FIELD Nombre string
-// FIELD Instrucciones text
+// FIELD PedirImporte comboint - leftImporte
+// FIELD Importe money - leftImporte
+// FIELD Notas text
 // TYPE FrmEditRecMaster tesoreria::TipoApunteTesoreria validCodeAndDesc IncCode
 /*>>>>>MODULE_INFO*/
 

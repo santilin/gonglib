@@ -68,6 +68,8 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicTipoApunteTesoreria->addFieldEmpresaID();
     pFicTipoApunteTesoreria->addFieldIntCode( "CODIGO" )->setUnique(false);
     pFicTipoApunteTesoreria->addFieldDesc( "NOMBRE", 50 );
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRIMPORTE" );
+	pFicTipoApunteTesoreria->addFieldMoney("IMPORTE");
     pFicTipoApunteTesoreria->addFieldText( "INSTRUCCIONES" );
     pFicTipoApunteTesoreria->addFieldNotas();
     pFicTipoApunteTesoreria->addBehavior( DBAPP->getRecordTimestampBehavior() );

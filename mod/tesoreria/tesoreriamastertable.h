@@ -2,6 +2,7 @@
 #define TESORERIAMASTERTABLE_H
 
 #include <empresamastertable.h>
+#include "tesoreriafldpedircampo.h"
 
 namespace gong {
 namespace tesoreria {

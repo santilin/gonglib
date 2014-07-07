@@ -428,12 +428,19 @@ void FrmEditFacturaVentaDet::slotAddAlbaran_clicked()
                 itfact != recfact->getListFacturaVentaDet()->end();
                 ++ itfact ) {
             if( (*itfact)->getValue( "ALBARANVENTA_ID" ).toUInt() == recalbaran->getRecordID() ) {
+                DBAPP->resetCursor();
                 msgError( this, _("El albarán elegido ya está en la factura" ) );
                 delete recalbaran;
-                DBAPP->resetCursor();
                 return;
             }
         }
+        // Comprobar si el albarán tiene pagos
+		Money pagosalbaran = recalbaran->getValue("ENTREGA").toMoney() 
+			+ recalbaran->getValue("COBROS").toMoney();
+		if( pagosalbaran != 0.0 ) {
+			msgOk(this, Xtring::printf("El albarán elegido tiene %s en pagos que se descontarán del total de esta factura.",
+									   pagosalbaran.format().c_str()) );
+		}
         for( dbRecordList::const_iterator it = recalbaran->getListAlbaranVentaDet()->begin();
                 it != recalbaran->getListAlbaranVentaDet()->end();
                 ++ it ) {
