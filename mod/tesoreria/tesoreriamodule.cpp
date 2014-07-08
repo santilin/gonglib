@@ -54,6 +54,14 @@ bool TesoreriaModule::login(FrmLogin* frmlogin, const Xtring& version, Xtring& a
 }
 
 
+void TesoreriaModule::afterLoad()
+{
+    FldPedirCampo *fpc = new FldPedirCampo( "foo", "bar" );
+    fpc->setValuesFromString( ModuleInstance->getModuleSetting( "PEDIRCAMPO.VALUES" ).toString() );
+	delete fpc;
+}
+
+
 bool TesoreriaModule::initDatabase(dbDefinition *db)
 {
 	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application

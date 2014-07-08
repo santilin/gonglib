@@ -52,7 +52,7 @@ public:
 		QWidget *parent = 0, const char* name = 0,
 		WidgetFlags fl = WidgetFlags(0) );
 /*>>>>>TESORERIAMODULE_CLASS_DEFINITION*/
-
+	virtual void afterLoad();
 	XtringList &getTablasTerceros() { return mTablasTerceros; }
 	XtringList &getTablasConceptos() { return mTablasConceptos; }
 	

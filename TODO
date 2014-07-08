@@ -116,6 +116,7 @@
 * Si el formulario está maximizado, añadir un spacer al controlslayout
 * FrmEstadCompraVenta: Revisar la reducción de la fuente número de documento en el informe
 * Refactoring: Derivar FrmEditRec de FrmCustom y eliminar showtabs de FrmEditRec
+** Añadir función estática para rellenar los fldlistofvalues
 * RecordCompleter: Crearlo cuando el texto sea mayor de tres letras, no al principio,
 ** por lo tanto, en el validate del searchbox.
 ** Configuración: [ ] Completar campos de búsqueda

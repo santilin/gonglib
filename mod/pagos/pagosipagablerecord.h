@@ -2,6 +2,7 @@
 #define _PAGOS_IPAGABLERECORD_H
 
 #include <gongdbrecord.h>
+#include <pagosmodule.h>
 
 namespace gong {
 
@@ -20,6 +21,8 @@ public:
 					const Xtring &tablapagos = Xtring::null );
     virtual dbRecordID getProyectoID() const = 0;
     virtual dbRecord *getRecTercero() const = 0;
+	dbRecordList *getPagos( PagosModule::EstadoRecibo estado = PagosModule::ReciboSinEstado );
+	dbRecordList *getCobros( PagosModule::EstadoRecibo estado = PagosModule::ReciboSinEstado ) { return getPagos(estado); }
 #ifdef HAVE_CONTABMODULE
     virtual Xtring getPrefijoContableTercero() const = 0;
 #endif

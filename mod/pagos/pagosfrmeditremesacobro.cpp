@@ -308,8 +308,7 @@ void FrmEditRemesaCobro::pushGenerarCB19_clicked()
     bool all = true;
 #if 0
     if( v.size() <= 1 ) {
-        all = FrmBase::msgYesNo( this, "Atención",
-                                 Xtring("No hay recibos seleccionados, ¿quieres seleccionarlos todos?" ));
+        all = FrmBase::msgYesNo( this, Xtring("No hay recibos seleccionados, ¿quieres seleccionarlos todos?" ));
         if( !all )
             return;
     }

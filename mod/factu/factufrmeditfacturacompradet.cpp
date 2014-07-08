@@ -437,6 +437,22 @@ void FrmEditFacturaCompraDet::slotAddAlbaran_clicked()
                 return;
             }
         }
+        // Comprobar si el albarán tiene pagos no pagados aún
+        dbRecordList *pagos = recalbaran->getPagos( pagos::PagosModule::ReciboPendiente );
+		Money pendientealbaran = 0.0;
+		if( pagos ) {
+			for( dbRecordList::const_iterator pagosit = pagos->begin(); pagosit != pagos->end(); ++pagosit ) {
+				pendientealbaran += (*pagosit)->getValue("IMPORTE").toMoney();
+			}
+			delete pagos;
+		}
+		if( pendientealbaran != 0.0 ) {
+			msgOk(this, Xtring::printf("El albarán elegido tiene %s pendientes en la agenda de pagos.\n"
+				"Para facturar este albarán, tienes que borrar esos pagos pendientes.\n"
+				"Lo más fácil es modificar el albarán y ponerle una forma de pago del tipo 'Se ignora'",
+									   pendientealbaran.toString(DBAPP->getRegConfig()).c_str()) );
+			return;
+		}
         for( dbRecordList::const_iterator it = recalbaran->getListAlbaranCompraDet()->begin();
                 it != recalbaran->getListAlbaranCompraDet()->end();
                 ++ it ) {
@@ -483,7 +499,7 @@ bool FrmEditFacturaCompraDet::canBeginEdit(DataTable::EditMode newmode)
     dbRecordID alb_id = getRecFacturaCompraDet()->getValue( "ALBARANCOMPRA_ID" ).toInt();
     if( alb_id != 0 ) {
         if( newmode == DataTable::deleting ) {
-            if( msgYesNo(this, "Atención", "¿Estás segura de que quieres eliminar el albarán completo de esta factura") ) {
+            if( msgYesNo(this, "¿Estás segura de que quieres eliminar el albarán completo de esta factura?") ) {
                 // Eliminar todos los detalles de este albarán
                 for( int i = (int)getDetalles()->size() - 1; i >= 0;  --i ) {
                     dbRecord *r = getDetalles()->getRecord( i );
@@ -495,6 +511,7 @@ bool FrmEditFacturaCompraDet::canBeginEdit(DataTable::EditMode newmode)
                 getFrmMaster()->updateFromDetails( this );
                 getFrmMaster()->setEdited( true );
                 refresh();
+				msgOk(this, "El albarán se marcará como no facturado cuando grabes esta factura.");
             }
             return false;
         } else if( newmode == DataTable::selecting

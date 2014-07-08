@@ -62,9 +62,15 @@ int IPagableRecord::hasPagos(int estado_si, int estado_no, bool soloautomaticos)
     return pFactura->getConnection()->selectInt( sql );
 }
 
+/**
+ * @brief Borra los pagos de un documento
+ * 
+ * @param borratodos ...
+ * @return bool si ha borrado alguno o no
+ */
 bool IPagableRecord::delPagos( bool borratodos )
 {
-    bool ret = true;
+	int nrecibos = 0;
     dbRecord *recibo = createRecibo();
     Xtring id_field = pFactura->getTableName() + "_ID";
     Xtring sql = "SELECT ID FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName())
@@ -78,15 +84,42 @@ bool IPagableRecord::delPagos( bool borratodos )
     while( rs->next() ) {
         dbRecordID pago_id = rs->toLong( 0 );
         if( recibo->read( pago_id ) ) {
-            if( !recibo->remove() )
-                ret = false;
-        } else {
-            ret = false;
+			nrecibos++;
+            recibo->remove();
         }
     }
     delete rs;
-    return ret;
+	if( nrecibos ) {
+        DBAPP->showStickyOSD( pFactura->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
+                              Xtring::printf(_("Se han borrado <b>%d</b> recibos"), nrecibos) );
+	}		
+    return nrecibos;
 }
+
+dbRecordList* IPagableRecord::getPagos( PagosModule::EstadoRecibo estado )
+{
+	dbRecordList *result = 0;
+    dbRecord *recibo = createRecibo();
+    Xtring id_field = pFactura->getTableName() + "_ID";
+    Xtring sql = "SELECT ID FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName())
+                 + recibo->getFilter( "WHERE", getFacturaWhere() );
+    if( estado != PagosModule::ReciboSinEstado ) {
+        sql += " AND ESTADORECIBO=" + pFactura->getConnection()->toSQL( estado );
+	}
+    dbResultSet *rs = pFactura->getConnection()->select( sql );
+	if( rs->getRowCount() ) {
+		result = new dbRecordList();
+		while( rs->next() ) {
+			dbRecordID pago_id = rs->toLong( 0 );
+			if( recibo->read( pago_id ) ) {
+				result->addRecord( recibo );
+			}
+		}
+    }
+    delete rs;
+    return result;
+}
+
 
 /**
  * @brief ...
@@ -190,7 +223,7 @@ int IPagableRecord::genPagos()
                               pFactura->getValue( "NUMERO" ).toString().c_str(),
                               getRecTercero()->getValue( "RAZONSOCIAL").toString().c_str() ) );
         recibo->setValue( "MONEDA_ID", empresa::ModuleInstance->getRecEmpresa()->getValue( "MONEDA_ID" ) );
-        recibo->setValue( "NUMERO", recibo->selectNextInt("NUMERO") );
+        recibo->setValue( "NUMERO", recibo->selectNextInt("NUMERO", Xtring::null, false /*dont use gaps*/) );
         recibo->setValue( "NUMEROAGRUPADO", recibo->getValue("NUMERO") );
         recibo->setValue( "FECHAEMISION", pFactura->getValue("FECHA").toDate() );
         recibo->setValue( "VENCIMIENTO", vencimiento );

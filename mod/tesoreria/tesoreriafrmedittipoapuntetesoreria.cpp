@@ -2,12 +2,12 @@
 // COPYLEFT Fichero de edición de tipos de asiento de tesosería
 // FIELD Codigo int
 // FIELD Nombre string
-// FIELD PedirFecha comboint - fecha
-// FIELD Fecha date - fecha
+// FIELD PedirFecha comboint - leftFecha
+// FIELD Fecha date - leftFecha
 // FIELD PedirImporte comboint - leftImporte
 // FIELD Importe money - leftImporte
-// FIELD PedirReferencia comboint - referencia
-// FIELD Referencia string - referencia
+// FIELD PedirReferencia comboint - leftReferencia
+// FIELD Referencia string - leftReferencia
 // FIELD Notas text
 // TYPE FrmEditRecMaster tesoreria::TipoApunteTesoreria validCodeAndDesc IncCode
 /*>>>>>MODULE_INFO*/
