@@ -158,7 +158,7 @@ public:
                                   QBoxLayout *layout = 0, bool horizontal = false);
     bool addBehavior(FrmEditRecBehavior *behavior);
     bool removeControl( QWidget *control );
-	QWidget *fixControl(const Xtring &fldname, const Xtring &fldvalue);
+	QWidget *fixControl(const Xtring &fldname, const Variant &fldvalue);
 
     // static functions to set fields styles and default values
     static void applyFieldStyle(QLabel *label, const dbFieldDefinition *fielddef);

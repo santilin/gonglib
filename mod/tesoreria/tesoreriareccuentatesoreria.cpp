@@ -4,7 +4,7 @@
 // TYPE dbRecord tesoreria::CuentaTesoreria
 /*>>>>>MODULE_INFO*/
 
-#include <empresamodule.cpp>
+#include <empresamodule.h>
 
 /*<<<<<CUENTATESORERIA_INCLUDES*/
 #include "tesoreriareccuentatesoreria.h"

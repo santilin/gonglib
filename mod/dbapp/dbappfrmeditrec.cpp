@@ -1225,7 +1225,7 @@ bool FrmEditRec::removeControl( QWidget *control )
 }
 
 
-QWidget *FrmEditRec::fixControl(const Xtring &fldname, const Xtring &fldvalue)
+QWidget *FrmEditRec::fixControl(const Xtring &fldname, const Variant &fldvalue)
 {
 	QWidget *control = findControl(fldname);
 	if( control ) {
