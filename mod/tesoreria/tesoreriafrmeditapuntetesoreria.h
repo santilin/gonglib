@@ -49,12 +49,14 @@ protected:
 /*<<<<<FRMEDITAPUNTETESORERIA_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterTipoApunteTesoreria();
+	void scatterCuentaTesoreria();
 	void scatterTercero();
 	void scatterConcepto();
 	void scatterProyecto();
 
 private slots:
 	void pushTipoApunteTesoreriaCodigo_clicked();
+	void pushCuentaTesoreriaCodigo_clicked();
 	void pushTerceroCodigo_clicked();
 	void pushConceptoCodigo_clicked();
 	void pushProyectoCodigo_clicked();
@@ -62,6 +64,8 @@ private slots:
 public:
 	RecTipoApunteTesoreria* getRecTipoApunteTesoreria() const
 		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecTipoApunteTesoreria(); }
+	RecCuentaTesoreria* getRecCuentaTesoreria() const
+		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecCuentaTesoreria(); }
 	RecTercero* getRecTercero() const
 		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecTercero(); }
 	RecConcepto* getRecConcepto() const
@@ -72,13 +76,19 @@ public:
 
 /*<<<<<FRMEDITAPUNTETESORERIA_CONTROLS*/
 protected:
-	gong::EditBox *editNumero;
-	gong::CheckBox *checkAutomatico;
-	gong::EditBox *editFecha;
 	gong::SearchBox *searchTipoApunteTesoreriaCodigo;
 	QPushButton *pushTipoApunteTesoreriaCodigo;
 	gong::LineEdit *editTipoApunteTesoreriaCodigo;
 	gong::LineEdit *editTipoApunteTesoreriaNombre;
+	gong::EditBox *editNumero;
+	gong::CheckBox *checkAutomatico;
+	gong::CheckBox *checkCargo;
+	gong::EditBox *editFecha;
+	gong::EditBox *editImporte;
+	gong::SearchBox *searchCuentaTesoreriaCodigo;
+	QPushButton *pushCuentaTesoreriaCodigo;
+	gong::LineEdit *editCuentaTesoreriaCodigo;
+	gong::LineEdit *editCuentaTesoreriaNombre;
 	gong::ComboBoxXtring *comboTablaTerceros;
 	gong::SearchBox *searchTerceroCodigo;
 	QPushButton *pushTerceroCodigo;
@@ -91,7 +101,6 @@ protected:
 	gong::LineEdit *editConceptoCodigo;
 	gong::LineEdit *editConceptoNombre;
 	gong::EditBox *editConcepto;
-	gong::EditBox *editImporte;
 	gong::EditBox *editReferencia;
 	gong::SearchBox *searchProyectoCodigo;
 	QPushButton *pushProyectoCodigo;

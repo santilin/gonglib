@@ -278,6 +278,7 @@ void ComboBoxXtring::setText(const Xtring& caption)
     if( !found ) {
         _GONG_DEBUG_WARNING( "Attempt to set caption '" + caption + "' in combobox with captions: "
                              + mCaptions.join(",") );
+		setCurrentIndex(-1);
     }
 }
 

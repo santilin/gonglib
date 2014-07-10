@@ -1,7 +1,6 @@
 == HECHO ==
 
 == URGENTE ==
-* Genera pagos de albaranes y luego en la factura, al facturarlo, también
 
 == José Castaño ==
 * Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar el socia, se me cierra el programa del tirón, 
@@ -14,7 +13,6 @@
 = PRESCINDIBLE =
 
 == Tesorería ==
-* Definición de tipos de apuntes de tesorería, ya está hecho en gastostipo
 * Documento_id es el albarán, asiento o la factura o lo que sea
 * Falta cuenta del pago y qué documento generar
 

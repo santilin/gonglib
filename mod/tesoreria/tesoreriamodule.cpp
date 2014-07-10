@@ -1,9 +1,9 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Module tesoreria
+// RECORD ApunteTesoreria FrmEditRecMaster Tesoreria
 // RECORD CuentaTesoreria FrmEditRecMaster Tesoreria
 // RECORD TerceroTesoreria FrmEditRecMaster Tesoreria
 // RECORD ConceptoTesoreria FrmEditRecMaster Tesoreria
-// RECORD ApunteTesoreria FrmEditRecMaster Tesoreria
 // RECORD TipoApunteTesoreria FrmEditRecMaster Tesoreria
 // TYPE GongModule tesoreria::TesoreriaModule
 /*>>>>>MODULE_INFO*/
@@ -15,10 +15,10 @@
 #include <dbappmainwindow.h>
 #include <dbappdbapplication.h>
 #include "tesoreriamodule.h"
+#include "tesoreriafrmeditapuntetesoreria.h"
 #include "tesoreriafrmeditcuentatesoreria.h"
 #include "tesoreriafrmedittercerotesoreria.h"
 #include "tesoreriafrmeditconceptotesoreria.h"
-#include "tesoreriafrmeditapuntetesoreria.h"
 #include "tesoreriafrmedittipoapuntetesoreria.h"
 /*>>>>>TESORERIAMODULE_INCLUDES*/
 
@@ -35,7 +35,7 @@ TesoreriaModule::TesoreriaModule()
     _GONG_DEBUG_TRACE(1);
 /*<<<<<TESORERIAMODULE_PUBLIC_INFO*/
 //	mModuleRequires
-	mMasterTables << "CUENTATESORERIA" << "TERCEROTESORERIA" << "CONCEPTOTESORERIA" << "APUNTETESORERIA" << "TIPOAPUNTETESORERIA";
+	mMasterTables << "APUNTETESORERIA" << "CUENTATESORERIA" << "TERCEROTESORERIA" << "CONCEPTOTESORERIA" << "TIPOAPUNTETESORERIA";
 //	mDetailTables
 /*>>>>>TESORERIAMODULE_PUBLIC_INFO*/
 	mTablasConceptos << "CONCEPTOTESORERIA";
@@ -78,6 +78,8 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicTipoApunteTesoreria->addFieldDesc( "NOMBRE", 50 );
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRFECHA" );
 	pFicTipoApunteTesoreria->addFieldString("FECHA",20);
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCARGO" );
+	pFicTipoApunteTesoreria->addFieldBool("CARGO");
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRIMPORTE" );
 	pFicTipoApunteTesoreria->addFieldMoney("IMPORTE");
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRREFERENCIA" );
@@ -96,8 +98,6 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
 	pFicTipoApunteTesoreria->addFieldString("CONCEPTO",200);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLADOCUMENTOS" );
 	pFicTipoApunteTesoreria->addFieldString("TABLADOCUMENTOS",40);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRDOCUMENTO" );
-	pFicTipoApunteTesoreria->addFieldString("DOCUMENTO",200);
 	
 
     pFicTipoApunteTesoreria->addFieldNotas();
@@ -144,9 +144,10 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicApunteTesoreria->addFieldOne2OneRelation( "TIPOAPUNTETESORERIA_ID", "TIPOAPUNTETESORERIA.ID" );
     pFicApunteTesoreria->addFieldInt( "NUMERO" );
     pFicApunteTesoreria->addFieldDate( "FECHA" );
+    pFicApunteTesoreria->addFieldBool( "CARGO" );
     pFicApunteTesoreria->addFieldEuro( "IMPORTE" );
     pFicApunteTesoreria->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
-    pFicApunteTesoreria->addFieldReferenceID( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
+    pFicApunteTesoreria->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
     pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),
             "TABLATERCEROS" )->setCanBeNull(true);
     pFicApunteTesoreria->addFieldReferenceID( "TERCERO_ID", "TERCERO.ID" );
@@ -171,14 +172,14 @@ dbRecord *TesoreriaModule::createRecord(const Xtring &tablename, dbRecordID reci
 {
 	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
 /*<<<<<TESORERIAMODULE_CREATE_RECORD*/
+	if( tablename.upper() == "APUNTETESORERIA" )
+		return new RecApunteTesoreria(getConnection(), recid, user);
 	if( tablename.upper() == "CUENTATESORERIA" )
 		return new RecCuentaTesoreria(getConnection(), recid, user);
 	if( tablename.upper() == "TERCEROTESORERIA" )
 		return new RecTerceroTesoreria(getConnection(), recid, user);
 	if( tablename.upper() == "CONCEPTOTESORERIA" )
 		return new RecConceptoTesoreria(getConnection(), recid, user);
-	if( tablename.upper() == "APUNTETESORERIA" )
-		return new RecApunteTesoreria(getConnection(), recid, user);
 	if( tablename.upper() == "TIPOAPUNTETESORERIA" )
 		return new RecTipoApunteTesoreria(getConnection(), recid, user);
 /*>>>>>TESORERIAMODULE_CREATE_RECORD*/
@@ -192,14 +193,14 @@ FrmEditRec *TesoreriaModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec
 	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
 	Xtring tablename = rec->getTableName();
 /*<<<<<TESORERIAMODULE_CREATE_EDITFORM*/
+	if( tablename.upper() == "APUNTETESORERIA" )
+		return new FrmEditApunteTesoreria(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 	if( tablename.upper() == "CUENTATESORERIA" )
 		return new FrmEditCuentaTesoreria(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 	if( tablename.upper() == "TERCEROTESORERIA" )
 		return new FrmEditTerceroTesoreria(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 	if( tablename.upper() == "CONCEPTOTESORERIA" )
 		return new FrmEditConceptoTesoreria(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
-	if( tablename.upper() == "APUNTETESORERIA" )
-		return new FrmEditApunteTesoreria(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 	if( tablename.upper() == "TIPOAPUNTETESORERIA" )
 		return new FrmEditTipoApunteTesoreria(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 /*>>>>>TESORERIAMODULE_CREATE_EDITFORM*/
@@ -263,6 +264,15 @@ bool TesoreriaModule::initMainWindow(MainWindow *mainwin)
 	
 /*<<<<<TESORERIAMODULE_INITMAINWINDOW_MENUS*/
 	{
+		Xtring caption = DBAPP->getDatabase()->findTableDefinition("APUNTETESORERIA")->getDescPlural();
+		pMenuTesoreriaApunteTesoreria = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuTesoreriaApunteTesoreria->setObjectName( "MenuTesoreriaApunteTesoreria" );
+		pMenuTesoreriaApunteTesoreria->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuTesoreriaApunteTesoreria->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuTesoreriaApunteTesoreria, SIGNAL(activated()), this, SLOT(slotMenuTesoreriaApunteTesoreria()));
+		pMenuTesoreriaApunteTesoreria->addTo(pMenuTesoreria);
+	}
+	{
 		Xtring caption = DBAPP->getDatabase()->findTableDefinition("CUENTATESORERIA")->getDescPlural();
 		pMenuTesoreriaCuentaTesoreria = new QAction( toGUI( caption ) + "...", pMainWindow );
 		pMenuTesoreriaCuentaTesoreria->setObjectName( "MenuTesoreriaCuentaTesoreria" );
@@ -288,15 +298,6 @@ bool TesoreriaModule::initMainWindow(MainWindow *mainwin)
 		pMenuTesoreriaConceptoTesoreria->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
 		pMainWindow->connect(pMenuTesoreriaConceptoTesoreria, SIGNAL(activated()), this, SLOT(slotMenuTesoreriaConceptoTesoreria()));
 		pMenuTesoreriaConceptoTesoreria->addTo(pMenuTesoreria);
-	}
-	{
-		Xtring caption = DBAPP->getDatabase()->findTableDefinition("APUNTETESORERIA")->getDescPlural();
-		pMenuTesoreriaApunteTesoreria = new QAction( toGUI( caption ) + "...", pMainWindow );
-		pMenuTesoreriaApunteTesoreria->setObjectName( "MenuTesoreriaApunteTesoreria" );
-		pMenuTesoreriaApunteTesoreria->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-		pMenuTesoreriaApunteTesoreria->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-		pMainWindow->connect(pMenuTesoreriaApunteTesoreria, SIGNAL(activated()), this, SLOT(slotMenuTesoreriaApunteTesoreria()));
-		pMenuTesoreriaApunteTesoreria->addTo(pMenuTesoreria);
 	}
 	{
 		Xtring caption = DBAPP->getDatabase()->findTableDefinition("TIPOAPUNTETESORERIA")->getDescPlural();

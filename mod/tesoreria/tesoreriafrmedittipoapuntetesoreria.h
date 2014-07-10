@@ -45,12 +45,24 @@ protected:
 protected:
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNombre;
+	gong::ComboBoxInt *comboPedirCargo;
+	gong::CheckBox *checkCargo;
 	gong::ComboBoxInt *comboPedirFecha;
 	gong::EditBox *editFecha;
 	gong::ComboBoxInt *comboPedirImporte;
 	gong::EditBox *editImporte;
 	gong::ComboBoxInt *comboPedirReferencia;
 	gong::EditBox *editReferencia;
+	gong::ComboBoxInt *comboPedirTablaCuentas;
+	gong::EditBox *editTablaCuentas;
+	gong::ComboBoxInt *comboPedirCuenta;
+	gong::EditBox *editCuenta;
+	gong::ComboBoxInt *comboPedirTablaTerceros;
+	gong::EditBox *editTablaTerceros;
+	gong::ComboBoxInt *comboPedirTercero;
+	gong::EditBox *editTercero;
+	gong::ComboBoxInt *comboPedirTablaDocumentos;
+	gong::EditBox *editTablaDocumentos;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_CONTROLS*/
 };
