@@ -3,6 +3,7 @@
 
 #include <QAction>
 #include <QMenu>
+#include <QMdiSubWindow>
 #include <gonggettext.h>
 #include "dbappnameslisttable.h"
 #include "dbappfrmeditrec.h"
@@ -39,7 +40,6 @@ QMdiSubWindow *MainWindow::createClient(QWidget *widget, bool force )
             }
         } else if( FrmBase *asfrm = dynamic_cast<FrmBase *>(widget) ) {
             ret = GuiMainWindow::createClient(widget);
-			_GONG_DEBUG_ASSERT(ret);
 // 			if( DBAPP->getAppSetting("GUI.SAVE_WINDOW_GEOMETRY").toBool() ) {
 				Xtring savedsize = DBAPP->getAppSetting("GUI.WORKSPACE." + Xtring(widget->name()) + ".GEOMETRY").toString();
 				if( !savedsize.isEmpty() )
@@ -50,6 +50,8 @@ QMdiSubWindow *MainWindow::createClient(QWidget *widget, bool force )
     } catch( std::exception &e ) {
         _GONG_DEBUG_WARNING( e.what() );
     }
+	_GONG_DEBUG_ASSERT(ret);
+	ret->installEventFilter(this);
     removeUnusedSubWindows();
     DBAPP->resetCursor();
     return ret;
@@ -65,6 +67,7 @@ QMdiSubWindow *MainWindow::createClient(QWidget *widget, bool force )
 bool MainWindow::eventFilter( QObject * watched, QEvent * event )
 {
 	if( FrmBase *asfrm = dynamic_cast<FrmBase *>(watched)) {
+		_GONG_DEBUG_PRINT(0, asfrm->name() );
 		if( dynamic_cast<QCloseEvent *>(event) ) {
 			Xtring name = asfrm->name();
 			if( !name.isEmpty() ) {

@@ -91,9 +91,9 @@ protected slots:
     virtual void languageChange();
 
 public:
-    int exec ( const dbRecord *record, const Xtring &currentfilter=Xtring::null );
-    int exec ( const XtringList &tables, const Xtring &currentfilter=Xtring::null );
-    int exec ( const List<dbTableDefinition *> &tabledefs, const Xtring &currentfilter=Xtring::null );
+    int exec ( QWidget *parent, const dbRecord *record, const Xtring &currentfilter=Xtring::null );
+    int exec ( QWidget *parent, const XtringList &tables, const Xtring &currentfilter=Xtring::null );
+    int exec ( QWidget *parent, const List<dbTableDefinition *> &tabledefs, const Xtring &currentfilter=Xtring::null );
     Xtring getSqlExpression();
 
 private:

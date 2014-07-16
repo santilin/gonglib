@@ -1251,8 +1251,9 @@ void FrmEditRecMaster::menuTableFilter_clicked()
     // The whole filter minus the record filter
     Xtring filter = getFormFilter();
     filter = pDataModel->getFilter("", filter );
-    if ( sel->exec( joinedtables, filter ) == QDialog::Accepted )
+    if ( sel->exec( this, joinedtables, filter ) )
         applyFilter( sel->getSqlExpression() );
+	delete sel;
 }
 
 #ifdef HAVE_RTKMODULE
