@@ -1,6 +1,6 @@
 /*<<<<<PEDIRCAMPO_PREAMBLE*/
-#ifndef _TESORERIA_TESORERIAFLDPEDIRCAMPO_H
-#define _TESORERIA_TESORERIAFLDPEDIRCAMPO_H
+#ifndef _GASTOSTIPO_TESORERIAFLDPEDIRCAMPO_H
+#define _GASTOSTIPO_TESORERIAFLDPEDIRCAMPO_H
 /*>>>>>PEDIRCAMPO_PREAMBLE*/
 /*<<<<<COPYLEFT*/
 /** @file tesoreriafldpedircampo.h dbFieldDefinition que representa los valores de PedirCampo
@@ -25,6 +25,8 @@ namespace tesoreria {
 class FldPedirCampo: public dbFieldListOfValues<int>
 {
 public:
+    enum PedirCampo { Pedir = 1, FijarValor, SugerirValor, DejarVacio,
+		Elegir, Buscar, FijarOcultar, DejarVacioOcultar };
 /*<<<<<DBFIELD_PEDIRCAMPO_CONSTRUCTOR*/
 	FldPedirCampo(const Xtring &tablename, const Xtring &name,
 		dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
@@ -41,7 +43,7 @@ public:
     static List<Xtring> sCaptions;
 };
 /*<<<<<PEDIRCAMPO_POSTAMBLE*/
-} // namespace tesoreria
+} // namespace gastostipo
 } // namespace gong
-#endif // TESORERIA_TESORERIAFLDPEDIRCAMPO_H
+#endif // GASTOSTIPO_TESORERIAFLDPEDIRCAMPO_H
 /*>>>>>PEDIRCAMPO_POSTAMBLE*/

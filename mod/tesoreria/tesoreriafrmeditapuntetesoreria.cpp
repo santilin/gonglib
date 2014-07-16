@@ -21,8 +21,8 @@
 #include <dbappmainwindow.h>
 #include <dbappdbapplication.h>
 #include "tesoreriafrmeditapuntetesoreria.h"
-#include <boost/iterator/iterator_concepts.hpp>
 /*>>>>>FRMEDITAPUNTETESORERIA_INCLUDES*/
+#include "tesoreriafldpedircampo.h"
 
 namespace gong {
 namespace tesoreria {
@@ -527,15 +527,47 @@ void FrmEditApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, Vali
 
 void FrmEditApunteTesoreria::changeTipoApunte()
 {
-	XtringList instrucciones;
-	getRecTipoApunteTesoreria()->getValue("INSTRUCCIONES").toString().tokenize(instrucciones, "\n");
-	for( XtringList::const_iterator it = instrucciones.begin(); it != instrucciones.end(); ++it ) {
-		Xtring fldname, fldvalue;
-		it->splitIn2(fldname, fldvalue, "=");
-		fixControl(fldname, fldvalue);
+	QWidget *control;
+	XtringList camposapedir;
+	camposapedir << "FECHA" << "REFERENCIA" << "IMPORTE";
+	for( XtringList::const_iterator it = camposapedir.begin(); it != camposapedir.end(); ++it ) {
+		if( !control ) {
+			_GONG_DEBUG_WARNING("El control " + *it + " no se ha encontrado");
+			continue;
+		}
+		Variant value( getRecTipoApunteTesoreria()->getValue(*it) );
+		switch( getRecTipoApunteTesoreria()->getValue("PEDIR" + *it).toInt() ) {
+			case FldPedirCampo::Pedir:
+				control = findControl(*it);
+				enableEditControl(control, true);
+				break;
+			case FldPedirCampo::FijarValor:
+				control = fixControl(*it, value);
+				enableEditControl(control, false);
+				break;
+			case FldPedirCampo::SugerirValor:
+				control = fixControl(*it, value);
+				enableEditControl(control, true);
+				break;
+			case FldPedirCampo::DejarVacio:
+				control = fixControl(*it, Variant());
+				enableEditControl(control, false);
+				break;
+			case FldPedirCampo::Elegir:
+				break;
+			case FldPedirCampo::Buscar:
+				break;
+			case FldPedirCampo::FijarOcultar:
+				control = fixControl(*it, value);
+				control->hide();
+				break;
+			case FldPedirCampo::DejarVacioOcultar:
+				control = fixControl(*it, Variant());
+				control->hide();
+				break;
+		}
 	}
 }
-
 
 
 /*<<<<<FRMEDITAPUNTETESORERIA_FIN*/

@@ -17,6 +17,7 @@
 // FIELD Contacto.ApdoCorreos string tabContactoMore paisLayout
 // FIELD Contacto.Fax string tabContactoMore faxLayout
 // FIELD Contacto.web string tabContactoMore webLayout
+// FIELD Contacto.clave string tabContactoMore claveLayout
 // FIELD noname vspacer tabContactoMore
 // TYPE FrmEditRecBehavior contactos::Contacto Q_OBJECT NoCreateRecord
 /*>>>>>MODULE_INFO*/
@@ -49,7 +50,7 @@ void FrmEditContactoBehavior::initGUI()
 
 void FrmEditContactoBehavior::_initGUI()
 {
-    // {capel} añadir a addSearchField
+    // {capel} añadir a addSearchField de CIF
     // static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
     QHBoxLayout *pushLayout = new QHBoxLayout();
 
@@ -70,6 +71,7 @@ void FrmEditContactoBehavior::_initGUI()
 	QHBoxLayout *paisLayout = new QHBoxLayout(0, 0, 6, "paisLayout");
 	QHBoxLayout *faxLayout = new QHBoxLayout(0, 0, 6, "faxLayout");
 	QHBoxLayout *webLayout = new QHBoxLayout(0, 0, 6, "webLayout");
+	QHBoxLayout *claveLayout = new QHBoxLayout(0, 0, 6, "claveLayout");
 	QHBoxLayout *nonameLayout = new QHBoxLayout(0, 0, 6, "nonameLayout");
 
 	searchContactoCIF = pTheForm->addSearchField( tabContacto, "CONTACTO_ID", "CONTACTO", "CIF", "NOMBRE", contactoLayout,
@@ -94,6 +96,7 @@ void FrmEditContactoBehavior::_initGUI()
 	editContacto_ApdoCorreos = pTheForm->addEditField( tabContactoMore, "CONTACTO", "APDOCORREOS", paisLayout );
 	editContacto_Fax = pTheForm->addEditField( tabContactoMore, "CONTACTO", "FAX", faxLayout );
 	editContacto_web = pTheForm->addEditField( tabContactoMore, "CONTACTO", "WEB", webLayout );
+	editContacto_clave = pTheForm->addEditField( tabContactoMore, "CONTACTO", "CLAVE", claveLayout );
 	QSpacerItem* noname = new QSpacerItem ( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 	nonameLayout->addItem ( noname);
 	tabContactoLayout->addLayout( contactoLayout );
@@ -106,6 +109,7 @@ void FrmEditContactoBehavior::_initGUI()
 	tabContactoMoreLayout->addLayout( paisLayout );
 	tabContactoMoreLayout->addLayout( faxLayout );
 	tabContactoMoreLayout->addLayout( webLayout );
+	tabContactoMoreLayout->addLayout( claveLayout );
 	tabContactoMoreLayout->addLayout( nonameLayout );
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_INITGUI*/
 	(void)pControlsFrame; (void)pControlsLayout;
@@ -263,6 +267,7 @@ void FrmEditContactoBehavior::scatterFields( bool is_pre )
 	editContacto_ApdoCorreos->setText( pTheForm->getRecord()->getValue("CONTACTO.APDOCORREOS").toString());
 	editContacto_Fax->setText( pTheForm->getRecord()->getValue("CONTACTO.FAX").toString());
 	editContacto_web->setText( pTheForm->getRecord()->getValue("CONTACTO.WEB").toString());
+	editContacto_clave->setText( pTheForm->getRecord()->getValue("CONTACTO.CLAVE").toString());
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_SCATTER*/
     if( pTheForm->isInserting() && editContacto_Codigo->toInt() == 0 )
         editContacto_Codigo->setText( getRecContacto()->selectNextInt("CODIGO", Xtring::null, true ) );
@@ -288,6 +293,7 @@ void FrmEditContactoBehavior::gatherFields()
 	pTheForm->getRecord()->setValue( "CONTACTO.APDOCORREOS", editContacto_ApdoCorreos->toString());
 	pTheForm->getRecord()->setValue( "CONTACTO.FAX", editContacto_Fax->toString());
 	pTheForm->getRecord()->setValue( "CONTACTO.WEB", editContacto_web->toString());
+	pTheForm->getRecord()->setValue( "CONTACTO.CLAVE", editContacto_clave->toString());
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_GATHER*/
     pTheForm->getRecord()->setValue( "CONTACTO.CIF", editContactoCIF->toString() );
     pTheForm->getRecord()->setValue( "CONTACTO.NOMBRE", editContactoNombre->toString() );

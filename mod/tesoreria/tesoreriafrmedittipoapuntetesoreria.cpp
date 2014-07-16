@@ -2,8 +2,12 @@
 // COPYLEFT Fichero de edición de tipos de asiento de tesosería
 // FIELD Codigo int
 // FIELD Nombre string
+// FIELD PedirFecha comboint - fecha
+// FIELD Fecha date - fecha
 // FIELD PedirImporte comboint - leftImporte
 // FIELD Importe money - leftImporte
+// FIELD PedirReferencia comboint - referencia
+// FIELD Referencia string - referencia
 // FIELD Notas text
 // TYPE FrmEditRecMaster tesoreria::TipoApunteTesoreria validCodeAndDesc IncCode
 /*>>>>>MODULE_INFO*/
@@ -29,13 +33,26 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 /*<<<<<FRMEDITTIPOAPUNTETESORERIA_INIT_CONTROLS*/
 	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
 	QHBoxLayout *nombreLayout = new QHBoxLayout(0, 0, 6, "nombreLayout");
-	QHBoxLayout *instruccionesLayout = new QHBoxLayout(0, 0, 6, "instruccionesLayout");
+	QHBoxLayout *fechaLayout = new QHBoxLayout(0, 0, 6, "fechaLayout");
+	QHBoxLayout *leftImporteLayout = new QHBoxLayout(0, 0, 6, "leftImporteLayout");
+	QHBoxLayout *referenciaLayout = new QHBoxLayout(0, 0, 6, "referenciaLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editCodigo = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "CODIGO", codigoLayout );
 	editNombre = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "NOMBRE", nombreLayout );
-	editInstrucciones = addTextField( pControlsFrame, "TIPOAPUNTETESORERIA", "INSTRUCCIONES", instruccionesLayout );
+	comboPedirFecha = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRFECHA", fechaLayout );
+	editFecha = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "FECHA", fechaLayout );
+	comboPedirImporte = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRIMPORTE", leftImporteLayout );
+	editImporte = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "IMPORTE", leftImporteLayout );
+	comboPedirReferencia = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRREFERENCIA", referenciaLayout );
+	editReferencia = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "REFERENCIA", referenciaLayout );
+	editNotas = addTextField( pControlsFrame, "TIPOAPUNTETESORERIA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( codigoLayout );
 	pControlsLayout->addLayout( nombreLayout );
-	pControlsLayout->addLayout( instruccionesLayout );
+	pControlsLayout->addLayout( fechaLayout );
+	pControlsLayout->addLayout( leftImporteLayout );
+	alignLayout( leftImporteLayout, true );
+	pControlsLayout->addLayout( referenciaLayout );
+	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_INIT_CONTROLS*/
 }
 
@@ -46,21 +63,17 @@ void FrmEditTipoApunteTesoreria::scatterFields()
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editCodigo;
 	editNombre->setText(getRecTipoApunteTesoreria()->getValue("NOMBRE").toString());
-	editInstrucciones->setText(getRecTipoApunteTesoreria()->getValue("INSTRUCCIONES").toString());
+	comboPedirFecha->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRFECHA").toInt());
+	editFecha->setText(getRecTipoApunteTesoreria()->getValue("FECHA").toDate());
+	comboPedirImporte->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRIMPORTE").toInt());
+	editImporte->setText(getRecTipoApunteTesoreria()->getValue("IMPORTE").toMoney());
+	comboPedirReferencia->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRREFERENCIA").toInt());
+	editReferencia->setText(getRecTipoApunteTesoreria()->getValue("REFERENCIA").toString());
+	editNotas->setText(getRecTipoApunteTesoreria()->getValue("NOTAS").toString());
 	if( isInserting() && editCodigo->toInt() == 0 ) {
 		editCodigo->setText( getRecord()->selectNextInt( "CODIGO" ) );
 	}
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_SCATTER*/
-	if( isInserting() && editInstrucciones->toString().isEmpty() ) {
-		editInstrucciones->setText(Xtring(
-			"FECHA=\n"
-			"IMPORTE=\n"
-			"REFERENCIA=\n"
-			"TABLATERCEROS=\n"
-			"TERCERO=\n"
-			"TABLACONCEPTOS=\n"
-			"CONCEPTO=\n"));
-	}
 }
 
 void FrmEditTipoApunteTesoreria::gatherFields()
@@ -68,7 +81,13 @@ void FrmEditTipoApunteTesoreria::gatherFields()
 /*<<<<<FRMEDITTIPOAPUNTETESORERIA_GATHER*/
 	getRecTipoApunteTesoreria()->setValue( "CODIGO", editCodigo->toInt());
 	getRecTipoApunteTesoreria()->setValue( "NOMBRE", editNombre->toString());
-	getRecTipoApunteTesoreria()->setValue( "INSTRUCCIONES", editInstrucciones->toString());
+	getRecTipoApunteTesoreria()->setValue( "PEDIRFECHA", comboPedirFecha->getCurrentItemValue());
+	getRecTipoApunteTesoreria()->setValue( "FECHA", editFecha->toDate());
+	getRecTipoApunteTesoreria()->setValue( "PEDIRIMPORTE", comboPedirImporte->getCurrentItemValue());
+	getRecTipoApunteTesoreria()->setValue( "IMPORTE", editImporte->toMoney());
+	getRecTipoApunteTesoreria()->setValue( "PEDIRREFERENCIA", comboPedirReferencia->getCurrentItemValue());
+	getRecTipoApunteTesoreria()->setValue( "REFERENCIA", editReferencia->toString());
+	getRecTipoApunteTesoreria()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_GATHER*/
 }
 

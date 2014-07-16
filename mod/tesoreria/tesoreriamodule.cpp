@@ -68,9 +68,30 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicTipoApunteTesoreria->addFieldEmpresaID();
     pFicTipoApunteTesoreria->addFieldIntCode( "CODIGO" )->setUnique(false);
     pFicTipoApunteTesoreria->addFieldDesc( "NOMBRE", 50 );
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRFECHA" );
+	pFicTipoApunteTesoreria->addFieldString("FECHA",20);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRIMPORTE" );
 	pFicTipoApunteTesoreria->addFieldMoney("IMPORTE");
-    pFicTipoApunteTesoreria->addFieldText( "INSTRUCCIONES" );
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRREFERENCIA" );
+	pFicTipoApunteTesoreria->addFieldString("REFERENCIA",100);
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLACUENTAS" );
+	pFicTipoApunteTesoreria->addFieldString("TABLACUENTAS",40);
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCUENTA" );
+	pFicTipoApunteTesoreria->addFieldString("CUENTA",200);
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLATERCEROS" );
+	pFicTipoApunteTesoreria->addFieldString("TABLATERCEROS",40);
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTERCERO" );
+	pFicTipoApunteTesoreria->addFieldString("TERCERO",200);
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLACONCEPTOS" );
+	pFicTipoApunteTesoreria->addFieldString("TABLACONCEPTOS",40);
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCONCEPTO" );
+	pFicTipoApunteTesoreria->addFieldString("CONCEPTO",200);
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLADOCUMENTOS" );
+	pFicTipoApunteTesoreria->addFieldString("TABLADOCUMENTOS",40);
+	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRDOCUMENTO" );
+	pFicTipoApunteTesoreria->addFieldString("DOCUMENTO",200);
+	
+
     pFicTipoApunteTesoreria->addFieldNotas();
     pFicTipoApunteTesoreria->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicTipoApunteTesoreria->getTableDefinition() );
@@ -117,6 +138,7 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicApunteTesoreria->addFieldDate( "FECHA" );
     pFicApunteTesoreria->addFieldEuro( "IMPORTE" );
     pFicApunteTesoreria->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
+    pFicApunteTesoreria->addFieldReferenceID( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
     pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),
             "TABLATERCEROS" )->setCanBeNull(true);
     pFicApunteTesoreria->addFieldReferenceID( "TERCERO_ID", "TERCERO.ID" );

@@ -439,7 +439,7 @@ void FrmEditFacturaVentaDet::slotAddAlbaran_clicked()
 			+ recalbaran->getValue("COBROS").toMoney();
 		if( pagosalbaran != 0.0 ) {
 			msgOk(this, Xtring::printf("El albarán elegido tiene %s en pagos que se descontarán del total de esta factura.",
-									   pagosalbaran.format().c_str()) );
+									   pagosalbaran.toString().c_str()) );
 		}
         for( dbRecordList::const_iterator it = recalbaran->getListAlbaranVentaDet()->begin();
                 it != recalbaran->getListAlbaranVentaDet()->end();

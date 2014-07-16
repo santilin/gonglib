@@ -45,7 +45,13 @@ protected:
 protected:
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNombre;
-	gong::TextBox *editInstrucciones;
+	gong::ComboBoxInt *comboPedirFecha;
+	gong::EditBox *editFecha;
+	gong::ComboBoxInt *comboPedirImporte;
+	gong::EditBox *editImporte;
+	gong::ComboBoxInt *comboPedirReferencia;
+	gong::EditBox *editReferencia;
+	gong::TextBox *editNotas;
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_CONTROLS*/
 };
 /*<<<<<FRMEDITTIPOAPUNTETESORERIA_POSTAMBLE*/
