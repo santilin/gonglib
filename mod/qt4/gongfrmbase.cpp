@@ -217,11 +217,14 @@ void FrmBase::closeEvent ( QCloseEvent *e )
 		if( pEventLoop )
 			pEventLoop->exit( mWasCancelled );
 		if ( pShowModalFor ) {
-//  			_GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
+  			_GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
             pShowModalFor->setEnabled( true );
-            if ( pShowModalFor->isMinimized() )
-                pShowModalFor->showNormal();
-//            pShowModalFor->setFocus();
+			pShowModalFor->hide();
+			theGuiApp->processEvents();
+//            if ( pShowModalFor->isMinimized() )
+			pShowModalFor->showNormal();
+            pShowModalFor->activateWindow();
+			pShowModalFor->raise();
             pShowModalFor = 0;
 			if( pSavedFocusWidget ) {
 				_GONG_DEBUG_PRINT(0, "Setting focus to " + Xtring( pSavedFocusWidget->name() ) );
@@ -230,8 +233,7 @@ void FrmBase::closeEvent ( QCloseEvent *e )
 			}
         }
         e->accept();
-    }
-    else {
+    } else {
         e->ignore();
     }
     theGuiApp->resetCursor();

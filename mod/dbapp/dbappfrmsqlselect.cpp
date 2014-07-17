@@ -443,7 +443,7 @@ void FrmSQLSelect::pushEliminarFiltro_clicked()
         textSQL->setPlainText ( QString::null );
 }
 
-int FrmSQLSelect::exec ( const dbRecord *record, const Xtring &currentfilter )
+int FrmSQLSelect::exec( QWidget *parent, const dbRecord *record, const Xtring &currentfilter )
 {
     textSQL->setText ( currentfilter );
     List<dbTableDefinition *> tabledefs;
@@ -471,10 +471,10 @@ int FrmSQLSelect::exec ( const dbRecord *record, const Xtring &currentfilter )
             tabledefs.push_back ( tbldef );
         }
     }
-    return exec ( tabledefs, currentfilter );
+    return exec ( parent, tabledefs, currentfilter );
 }
 
-int FrmSQLSelect::exec ( const XtringList & tables, const Xtring & currentfilter )
+int FrmSQLSelect::exec ( QWidget *parent, const XtringList & tables, const Xtring & currentfilter )
 {
     List<dbTableDefinition *> tabledefs;
     for ( XtringList::const_iterator it = tables.begin();
@@ -488,10 +488,10 @@ int FrmSQLSelect::exec ( const XtringList & tables, const Xtring & currentfilter
             tabledefs.push_back ( tbldef );
         }
     }
-    return exec ( tabledefs, currentfilter );
+    return exec( parent, tabledefs, currentfilter );
 }
 
-int FrmSQLSelect::exec ( const List< dbTableDefinition * > & tabledefs, const Xtring & currentfilter )
+int FrmSQLSelect::exec ( QWidget *parent, const List< dbTableDefinition * > & tabledefs, const Xtring & currentfilter )
 {
     item_info i0;
     i0.fielddef = 0;
@@ -551,10 +551,10 @@ int FrmSQLSelect::exec ( const List< dbTableDefinition * > & tabledefs, const Xt
             }
         }
     }
-    textSQL->setText ( QString::fromUtf8 ( currentfilter.c_str() ) );
+    textSQL->setText ( toGUI ( currentfilter ) );
     lbCamposIzda->setCurrentItem ( 0 );
     pFocusWidget = textValorComparado;
-    showModalFor( getRealParent(), true, true );
+    showModalFor( parent, false, true );
     return !wasCancelled();
 }
 

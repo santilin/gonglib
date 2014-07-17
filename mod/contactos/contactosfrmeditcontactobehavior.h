@@ -101,6 +101,7 @@ protected:
 	gong::EditBox *editContacto_ApdoCorreos;
 	gong::EditBox *editContacto_Fax;
 	gong::EditBox *editContacto_web;
+	gong::EditBox *editContacto_clave;
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_CONTROLS*/
     QTabWidget *pFrameContactos;
     gong::LineEdit *editRazonSocial;

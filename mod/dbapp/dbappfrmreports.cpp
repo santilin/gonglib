@@ -79,8 +79,8 @@ void FrmReports::pushOrder_clicked()
 void FrmReports::pushFilter_clicked()
 {
     FrmSQLSelect *sel = new FrmSQLSelect(DBAPP->getConnection(), DBAPP->getDatabase(),
-                                         0, "filtrar");
-    if( sel->exec(mSelectedItem->getValue().repFrom, txtFilter->toString() ) == QDialog::Accepted )
+                                         this, "filtrar");
+    if( sel->exec(this, mSelectedItem->getValue().repFrom, txtFilter->toString() ) )
         txtFilter->setText(sel->getSqlExpression());
     delete sel;
 }

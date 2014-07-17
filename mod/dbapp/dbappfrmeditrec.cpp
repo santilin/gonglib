@@ -1162,7 +1162,6 @@ void FrmEditRec::enableEditControl( QWidget *control, bool enabled)
         return isvalid;
     }
 
-
     bool FrmEditRec::removeControl( QWidget *control )
     {
         if( !control )

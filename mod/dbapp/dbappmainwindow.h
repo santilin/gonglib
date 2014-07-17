@@ -47,6 +47,7 @@ public slots:
     virtual void slotMenuHelpAbout(); // from GuiMainWindow
 
 protected:
+	virtual bool eventFilter ( QObject * watched, QEvent * event ); // from QObject
     QAction *pMenuSystemLogin, *pMenuSystemReports, *pMenuSystemDatabaseTools,
             *pMenuSystemIntegrity, *pMenuSystemConfigEditor,
             *pMenuSystemImport, *pMenuSystemExport, *pMenuOtherTables,

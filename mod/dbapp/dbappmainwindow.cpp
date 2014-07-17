@@ -3,6 +3,7 @@
 
 #include <QAction>
 #include <QMenu>
+#include <QMdiSubWindow>
 #include <gonggettext.h>
 #include "dbappnameslisttable.h"
 #include "dbappfrmeditrec.h"
@@ -43,16 +44,39 @@ QMdiSubWindow *MainWindow::createClient(QWidget *widget, bool force )
 				Xtring savedsize = DBAPP->getAppSetting("GUI.WORKSPACE." + Xtring(widget->name()) + ".GEOMETRY").toString();
 				if( !savedsize.isEmpty() )
 					asfrm->setGeometry( savedsize );
-// 			}
         } else {
             ret = GuiMainWindow::createClient(widget);
         }
     } catch( std::exception &e ) {
         _GONG_DEBUG_WARNING( e.what() );
     }
+	_GONG_DEBUG_ASSERT(ret);
+	ret->installEventFilter(this);
     removeUnusedSubWindows();
     DBAPP->resetCursor();
     return ret;
+}
+
+/**
+ * @brief Saves the window geometry in the application settings when a window is closed
+ *
+ * @param watched FrmBase created with createClient
+ * @param event 
+ * @return bool true if you want the event to be filtered out
+ **/
+bool MainWindow::eventFilter( QObject * watched, QEvent * event )
+{
+	if( FrmBase *asfrm = dynamic_cast<FrmBase *>(watched)) {
+		_GONG_DEBUG_PRINT(0, asfrm->name() );
+		if( dynamic_cast<QCloseEvent *>(event) ) {
+			Xtring name = asfrm->name();
+			if( !name.isEmpty() ) {
+				DBAPP->setUserLocalSetting( "GUI.WORKSPACE." + name + ".GEOMETRY",
+											asfrm->getGeometry() );
+			}			
+		}
+	}
+	return false;
 }
 
 void MainWindow::initGUI()
@@ -294,6 +318,7 @@ void MainWindow::slotMenuSystemConfigEditor()
 
 void MainWindow::slotMenuWindowSaveGeometry()
 {
+	// @refactor con eventFilter
     if( FrmBase *asfrm = dynamic_cast<FrmBase *>(activeClient()) ) {
         Xtring name = asfrm->name();
         if( !name.isEmpty() ) {
