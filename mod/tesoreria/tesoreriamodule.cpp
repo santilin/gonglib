@@ -98,8 +98,6 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
 	pFicTipoApunteTesoreria->addFieldString("CONCEPTO",200);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLADOCUMENTOS" );
 	pFicTipoApunteTesoreria->addFieldString("TABLADOCUMENTOS",40);
-	
-
     pFicTipoApunteTesoreria->addFieldNotas();
     pFicTipoApunteTesoreria->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicTipoApunteTesoreria->getTableDefinition() );

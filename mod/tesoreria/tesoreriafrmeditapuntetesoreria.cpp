@@ -26,7 +26,6 @@
 /*>>>>>FRMEDITAPUNTETESORERIA_INCLUDES*/
 #include "tesoreriafldpedircampo.h"
 
-
 namespace gong {
 namespace tesoreria {
 
@@ -625,7 +624,6 @@ void FrmEditApunteTesoreria::changeTipoApunte()
 	for( XtringList::const_iterator it = camposapedir.begin(); it != camposapedir.end(); ++it ) {
 		Variant value( getRecTipoApunteTesoreria()->getValue(*it) );
 		switch( getRecTipoApunteTesoreria()->getValue("PEDIR" + *it).toInt() ) {
-			case 0:
 			case FldPedirCampo::Pedir:
 				control = findControl(*it);
 				enableEditControl(control, true);

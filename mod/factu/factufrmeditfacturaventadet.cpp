@@ -434,7 +434,6 @@ void FrmEditFacturaVentaDet::slotAddAlbaran_clicked()
                 return;
             }
         }
-<<<<<<< HEAD
         // Comprobar si el albarán tiene cobros no pagados aún
         dbRecordList *cobros = recalbaran->getPagos( pagos::PagosModule::ReciboPendiente );
 		Money pendientealbaran = 0.0;
@@ -451,6 +450,7 @@ void FrmEditFacturaVentaDet::slotAddAlbaran_clicked()
 				"Lo más fácil es modificar el albarán y ponerle una forma de pago del tipo 'Se ignora'",
 									   pendientealbaran.toString(DBAPP->getRegConfig()).c_str()) );
 			return;
+		}
         // Comprobar si el albarán tiene pagos
 		Money pagosalbaran = recalbaran->getValue("ENTREGA").toMoney() 
 			+ recalbaran->getValue("COBROS").toMoney();

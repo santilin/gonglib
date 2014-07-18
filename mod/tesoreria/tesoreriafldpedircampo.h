@@ -25,7 +25,7 @@ namespace tesoreria {
 class FldPedirCampo: public dbFieldListOfValues<int>
 {
 public:
-    enum PedirCampo { Pedir = 1, FijarValor, SugerirValor, DejarVacio,
+    enum PedirCampo { Pedir = 0, FijarValor = 1, SugerirValor, DejarVacio,
 		Elegir, Buscar, FijarOcultar, DejarVacioOcultar };
 /*<<<<<DBFIELD_PEDIRCAMPO_CONSTRUCTOR*/
 	FldPedirCampo(const Xtring &tablename, const Xtring &name,
