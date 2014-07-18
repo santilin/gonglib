@@ -61,8 +61,14 @@ protected:
 	gong::EditBox *editTablaTerceros;
 	gong::ComboBoxInt *comboPedirTercero;
 	gong::EditBox *editTercero;
+	gong::ComboBoxInt *comboPedirTablaConceptos;
+	gong::EditBox *editTablaConceptos;
+	gong::ComboBoxInt *comboPedirConcepto;
+	gong::EditBox *editConcepto;
 	gong::ComboBoxInt *comboPedirTablaDocumentos;
 	gong::EditBox *editTablaDocumentos;
+	gong::ComboBoxInt *comboPedirNotas;
+	gong::EditBox *editValorNotas;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_CONTROLS*/
 };
