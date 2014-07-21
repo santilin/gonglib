@@ -384,7 +384,7 @@ void FrmEditCobro::pushTerceroCodigo_clicked()
 			break;
 		case 'A':
 			{
-				RecTercero *tmprec = static_cast<RecTercero *>(DBAPP->createRecord( "Tercero" ));
+				RecTercero *tmprec = static_cast<RecTercero *>(DBAPP->createRecord( getRecTercero()->getTableName() ));
 				editTerceroCodigo->setJustEdited( false );
 				tmprec->clear( true ); // set default values
 				DBAPP->setCodeNotFound( editTerceroCodigo->toString() );

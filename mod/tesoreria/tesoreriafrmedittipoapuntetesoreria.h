@@ -67,6 +67,8 @@ protected:
 	gong::EditBox *editConcepto;
 	gong::ComboBoxInt *comboPedirTablaDocumentos;
 	gong::EditBox *editTablaDocumentos;
+	gong::ComboBoxInt *comboPedirProyecto;
+	gong::EditBox *editProyecto;
 	gong::ComboBoxInt *comboPedirNotas;
 	gong::EditBox *editValorNotas;
 	gong::TextBox *editNotas;

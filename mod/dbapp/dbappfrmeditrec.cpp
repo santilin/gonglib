@@ -850,7 +850,7 @@ Variant FrmEditRec::getControlValue(const Xtring& fieldname) const
 
 /**
  * @brief Sets the value of a control by the name of a field
- *
+ * @refactoring hacer un setControlValue(QWidget) y utilizarlo en el fixcontrol
  * @param fieldname ...
  * @return Variant
  **/

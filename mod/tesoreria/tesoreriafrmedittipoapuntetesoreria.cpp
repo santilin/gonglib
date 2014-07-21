@@ -24,6 +24,8 @@
 // FIELD Concepto string - leftconcepto
 // FIELD PedirTablaDocumentos comboint - lefttabladocumentos
 // FIELD TablaDocumentos string - lefttabladocumentos
+// FIELD PedirProyecto comboint - leftproyecto
+// FIELD Proyecto string - leftproyecto
 // FIELD PedirNotas comboint - leftnotas
 // FIELD ValorNotas string - leftnotas
 // FIELD Notas text
@@ -61,6 +63,7 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	QHBoxLayout *lefttablaconceptosLayout = new QHBoxLayout(0, 0, 6, "lefttablaconceptosLayout");
 	QHBoxLayout *leftconceptoLayout = new QHBoxLayout(0, 0, 6, "leftconceptoLayout");
 	QHBoxLayout *lefttabladocumentosLayout = new QHBoxLayout(0, 0, 6, "lefttabladocumentosLayout");
+	QHBoxLayout *leftproyectoLayout = new QHBoxLayout(0, 0, 6, "leftproyectoLayout");
 	QHBoxLayout *leftnotasLayout = new QHBoxLayout(0, 0, 6, "leftnotasLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editCodigo = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "CODIGO", codigoLayout );
@@ -87,6 +90,8 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	editConcepto = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "CONCEPTO", leftconceptoLayout );
 	comboPedirTablaDocumentos = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRTABLADOCUMENTOS", lefttabladocumentosLayout );
 	editTablaDocumentos = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "TABLADOCUMENTOS", lefttabladocumentosLayout );
+	comboPedirProyecto = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRPROYECTO", leftproyectoLayout );
+	editProyecto = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "PROYECTO", leftproyectoLayout );
 	comboPedirNotas = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRNOTAS", leftnotasLayout );
 	editValorNotas = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "VALORNOTAS", leftnotasLayout );
 	editNotas = addTextField( pControlsFrame, "TIPOAPUNTETESORERIA", "NOTAS", notasLayout );
@@ -113,6 +118,8 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	alignLayout( leftconceptoLayout, true );
 	pControlsLayout->addLayout( lefttabladocumentosLayout );
 	alignLayout( lefttabladocumentosLayout, true );
+	pControlsLayout->addLayout( leftproyectoLayout );
+	alignLayout( leftproyectoLayout, true );
 	pControlsLayout->addLayout( leftnotasLayout );
 	alignLayout( leftnotasLayout, true );
 	pControlsLayout->addLayout( notasLayout );
@@ -148,6 +155,8 @@ void FrmEditTipoApunteTesoreria::scatterFields()
 	editConcepto->setText(getRecTipoApunteTesoreria()->getValue("CONCEPTO").toString());
 	comboPedirTablaDocumentos->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRTABLADOCUMENTOS").toInt());
 	editTablaDocumentos->setText(getRecTipoApunteTesoreria()->getValue("TABLADOCUMENTOS").toString());
+	comboPedirProyecto->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRPROYECTO").toInt());
+	editProyecto->setText(getRecTipoApunteTesoreria()->getValue("PROYECTO").toString());
 	comboPedirNotas->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRNOTAS").toInt());
 	editValorNotas->setText(getRecTipoApunteTesoreria()->getValue("VALORNOTAS").toString());
 	editNotas->setText(getRecTipoApunteTesoreria()->getValue("NOTAS").toString());
@@ -184,6 +193,8 @@ void FrmEditTipoApunteTesoreria::gatherFields()
 	getRecTipoApunteTesoreria()->setValue( "CONCEPTO", editConcepto->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRTABLADOCUMENTOS", comboPedirTablaDocumentos->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "TABLADOCUMENTOS", editTablaDocumentos->toString());
+	getRecTipoApunteTesoreria()->setValue( "PEDIRPROYECTO", comboPedirProyecto->getCurrentItemValue());
+	getRecTipoApunteTesoreria()->setValue( "PROYECTO", editProyecto->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRNOTAS", comboPedirNotas->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "VALORNOTAS", editValorNotas->toString());
 	getRecTipoApunteTesoreria()->setValue( "NOTAS", editNotas->toString());

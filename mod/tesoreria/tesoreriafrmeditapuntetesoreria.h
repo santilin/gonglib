@@ -50,15 +50,11 @@ protected:
 protected:
 	void scatterTipoApunteTesoreria();
 	void scatterCuentaTesoreria();
-	void scatterTercero();
-	void scatterConcepto();
 	void scatterProyecto();
 
 private slots:
 	void pushTipoApunteTesoreriaCodigo_clicked();
 	void pushCuentaTesoreriaCodigo_clicked();
-	void pushTerceroCodigo_clicked();
-	void pushConceptoCodigo_clicked();
 	void pushProyectoCodigo_clicked();
 
 public:
@@ -66,13 +62,20 @@ public:
 		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecTipoApunteTesoreria(); }
 	RecCuentaTesoreria* getRecCuentaTesoreria() const
 		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecCuentaTesoreria(); }
-	RecTercero* getRecTercero() const
-		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecTercero(); }
-	RecConcepto* getRecConcepto() const
-		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecConcepto(); }
 	empresa::RecProyecto* getRecProyecto() const
 		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecProyecto(); }
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTERS_AND_SLOTS*/
+	RecTercero* getRecTercero() const
+			{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecTercero(); }
+	RecConcepto* getRecConcepto() const
+			{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecConcepto(); }
+protected:
+	void scatterTercero();
+	void scatterConcepto();
+private slots:
+	void pushTerceroCodigo_clicked();
+	void pushConceptoCodigo_clicked();
+	
 
 /*<<<<<FRMEDITAPUNTETESORERIA_CONTROLS*/
 protected:
@@ -90,16 +93,8 @@ protected:
 	gong::LineEdit *editCuentaTesoreriaCodigo;
 	gong::LineEdit *editCuentaTesoreriaNombre;
 	gong::ComboBoxXtring *comboTablaTerceros;
-	gong::SearchBox *searchTerceroCodigo;
-	QPushButton *pushTerceroCodigo;
-	gong::LineEdit *editTerceroCodigo;
-	gong::LineEdit *editTerceroNombre;
 	gong::EditBox *editTercero;
 	gong::ComboBoxXtring *comboTablaConceptos;
-	gong::SearchBox *searchConceptoCodigo;
-	QPushButton *pushConceptoCodigo;
-	gong::LineEdit *editConceptoCodigo;
-	gong::LineEdit *editConceptoNombre;
 	gong::EditBox *editConcepto;
 	gong::EditBox *editReferencia;
 	gong::SearchBox *searchProyectoCodigo;
@@ -108,6 +103,15 @@ protected:
 	gong::LineEdit *editProyectoNombre;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITAPUNTETESORERIA_CONTROLS*/
+	QBoxLayout *pTercerosLayout, *pConceptosLayout;
+	gong::SearchBox *searchTerceroCodigo;
+	QPushButton *pushTerceroCodigo;
+	gong::LineEdit *editTerceroCodigo;
+	gong::LineEdit *editTerceroNombre;
+	gong::SearchBox *searchConceptoCodigo;
+	QPushButton *pushConceptoCodigo;
+	gong::LineEdit *editConceptoCodigo;
+	gong::LineEdit *editConceptoNombre;
     Xtring mFldConcCodigo, mFldConcDesc, mFldTercCodigo, mFldTercDesc;
 };
 

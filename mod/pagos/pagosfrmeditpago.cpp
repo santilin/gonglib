@@ -164,19 +164,12 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
 
 void FrmEditPago::scatterFactura()
 {
-#if 0
-/*<<<<<FRMEDITPAGO_SCATTER_FACTURA*/
-	editFacturaNumero->setText( getRecFactura()->getValue("NUMERO") );
-	editFacturaDesc->setText( getRecFactura()->getValue("FECHA") );
-/*>>>>>FRMEDITPAGO_SCATTER_FACTURA*/
-#endif
     editFacturaNumero->setText( getRecFactura()->getValue( mFldFactCodigo ) );
     editFacturaDesc->setText( getRecFactura()->getValue(mFldFactDesc) );
 }
 
 void FrmEditPago::pushFacturaNumero_clicked()
 {
-/*<<<<<FRMEDITPAGO_PUSH_FACTURA_NUMERO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchFacturaNumero->mustBeReadOnly() )
 		action = 'E';
@@ -217,7 +210,7 @@ void FrmEditPago::pushFacturaNumero_clicked()
 			break;
 		case 'A':
 			{
-				RecFactura *tmprec = static_cast<RecFactura *>(DBAPP->createRecord( "Factura" ));
+				RecFactura *tmprec = static_cast<RecFactura *>(DBAPP->createRecord( getRecFactura()->getTableName() ));
 				editFacturaNumero->setJustEdited( false );
 				tmprec->clear( true ); // set default values
 				DBAPP->setCodeNotFound( editFacturaNumero->toString() );
@@ -232,7 +225,6 @@ void FrmEditPago::pushFacturaNumero_clicked()
 			}
 			break;
 	}
-/*>>>>>FRMEDITPAGO_PUSH_FACTURA_NUMERO_CLICKED*/
 }
 
 #ifdef HAVE_CONTABMODULE
@@ -314,19 +306,12 @@ void FrmEditPago::pushCuentaPagoCuenta_clicked()
 
 void FrmEditPago::scatterTercero()
 {
-#if 0
-/*<<<<<FRMEDITPAGO_SCATTER_TERCERO*/
-	editTerceroCodigo->setText( getRecTercero()->getValue("CODIGO") );
-	editTerceroDesc->setText( getRecTercero()->getValue("RAZONSOCIAL") );
-/*>>>>>FRMEDITPAGO_SCATTER_TERCERO*/
-#endif
     editTerceroCodigo->setText( getRecTercero()->getValue( mFldTercCodigo ) );
     editTerceroDesc->setText( getRecTercero()->getValue(mFldTercDesc ) );
 }
 
 void FrmEditPago::pushTerceroCodigo_clicked()
 {
-    /*<<<<<FRMEDITPAGO_PUSH_TERCERO_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchTerceroCodigo->mustBeReadOnly() )
 		action = 'E';
@@ -367,7 +352,7 @@ void FrmEditPago::pushTerceroCodigo_clicked()
 			break;
 		case 'A':
 			{
-				RecTercero *tmprec = static_cast<RecTercero *>(DBAPP->createRecord( "Tercero" ));
+				RecTercero *tmprec = static_cast<RecTercero *>(DBAPP->createRecord( getRecTercero()->getTableName() ));
 				editTerceroCodigo->setJustEdited( false );
 				tmprec->clear( true ); // set default values
 				DBAPP->setCodeNotFound( editTerceroCodigo->toString() );
@@ -382,7 +367,6 @@ void FrmEditPago::pushTerceroCodigo_clicked()
 			}
 			break;
 	}
-/*>>>>>FRMEDITPAGO_PUSH_TERCERO_CODIGO_CLICKED*/
 }
 
 void FrmEditPago::specialControlKeyPressed(QWidget *sender, char key)
