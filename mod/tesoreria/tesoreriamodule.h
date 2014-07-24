@@ -55,6 +55,9 @@ public:
 	virtual void afterLoad();
 	XtringList &getTablasTerceros() { return mTablasTerceros; }
 	XtringList &getTablasConceptos() { return mTablasConceptos; }
+	XtringList &getTablasCuentas() { return mTablasCuentas; }
+	XtringList &getTablasDocumentos() { return mTablasDocumentos; }
+	
 	
 /*<<<<<TESORERIAMODULE_RECORD_DEFINITIONS*/
 public:
@@ -86,7 +89,7 @@ protected:
 	QAction *pMenuTesoreriaTipoApunteTesoreria;
 /*>>>>>TESORERIAMODULE_MENU_DEFINITIONS*/
 	QMenu *pMenuTesoreria;
-	XtringList mTablasTerceros, mTablasConceptos;
+	XtringList mTablasTerceros, mTablasConceptos, mTablasCuentas, mTablasDocumentos;
 };
 
 extern TesoreriaModule *ModuleInstance;

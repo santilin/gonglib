@@ -11,15 +11,15 @@
 // FIELD PedirReferencia comboint - leftReferencia
 // FIELD Referencia string - leftReferencia
 // FIELD PedirTablaCuentas comboint - leftcuentas
-// FIELD TablaCuentas string - leftcuentas
+// FIELD TablaCuentas combostring - leftcuentas
 // FIELD PedirCuenta comboint - leftcuenta
 // FIELD Cuenta string - leftcuenta
 // FIELD PedirTablaTerceros comboint - lefttablaterceros
-// FIELD TablaTerceros string - lefttablaterceros
+// FIELD TablaTerceros combostring - lefttablaterceros
 // FIELD PedirTercero comboint - lefttercero
 // FIELD Tercero string - lefttercero
 // FIELD PedirTablaConceptos comboint - lefttablaconceptos
-// FIELD TablaConceptos string - lefttablaconceptos
+// FIELD TablaConceptos combostring - lefttablaconceptos
 // FIELD PedirConcepto comboint - leftconcepto
 // FIELD Concepto string - leftconcepto
 // FIELD PedirTablaDocumentos comboint - lefttabladocumentos
@@ -77,15 +77,15 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	comboPedirReferencia = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRREFERENCIA", leftReferenciaLayout );
 	editReferencia = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "REFERENCIA", leftReferenciaLayout );
 	comboPedirTablaCuentas = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRTABLACUENTAS", leftcuentasLayout );
-	editTablaCuentas = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "TABLACUENTAS", leftcuentasLayout );
+	comboTablaCuentas = addComboXtringField( pControlsFrame, "TIPOAPUNTETESORERIA", "TABLACUENTAS", leftcuentasLayout );
 	comboPedirCuenta = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRCUENTA", leftcuentaLayout );
 	editCuenta = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "CUENTA", leftcuentaLayout );
 	comboPedirTablaTerceros = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRTABLATERCEROS", lefttablatercerosLayout );
-	editTablaTerceros = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "TABLATERCEROS", lefttablatercerosLayout );
+	comboTablaTerceros = addComboXtringField( pControlsFrame, "TIPOAPUNTETESORERIA", "TABLATERCEROS", lefttablatercerosLayout );
 	comboPedirTercero = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRTERCERO", leftterceroLayout );
 	editTercero = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "TERCERO", leftterceroLayout );
 	comboPedirTablaConceptos = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRTABLACONCEPTOS", lefttablaconceptosLayout );
-	editTablaConceptos = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "TABLACONCEPTOS", lefttablaconceptosLayout );
+	comboTablaConceptos = addComboXtringField( pControlsFrame, "TIPOAPUNTETESORERIA", "TABLACONCEPTOS", lefttablaconceptosLayout );
 	comboPedirConcepto = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRCONCEPTO", leftconceptoLayout );
 	editConcepto = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "CONCEPTO", leftconceptoLayout );
 	comboPedirTablaDocumentos = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRTABLADOCUMENTOS", lefttabladocumentosLayout );
@@ -142,15 +142,15 @@ void FrmEditTipoApunteTesoreria::scatterFields()
 	comboPedirReferencia->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRREFERENCIA").toInt());
 	editReferencia->setText(getRecTipoApunteTesoreria()->getValue("REFERENCIA").toString());
 	comboPedirTablaCuentas->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRTABLACUENTAS").toInt());
-	editTablaCuentas->setText(getRecTipoApunteTesoreria()->getValue("TABLACUENTAS").toString());
+	comboTablaCuentas->setText(getRecTipoApunteTesoreria()->getValue("TABLACUENTAS").toString());
 	comboPedirCuenta->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRCUENTA").toInt());
 	editCuenta->setText(getRecTipoApunteTesoreria()->getValue("CUENTA").toString());
 	comboPedirTablaTerceros->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRTABLATERCEROS").toInt());
-	editTablaTerceros->setText(getRecTipoApunteTesoreria()->getValue("TABLATERCEROS").toString());
+	comboTablaTerceros->setText(getRecTipoApunteTesoreria()->getValue("TABLATERCEROS").toString());
 	comboPedirTercero->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRTERCERO").toInt());
 	editTercero->setText(getRecTipoApunteTesoreria()->getValue("TERCERO").toString());
 	comboPedirTablaConceptos->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRTABLACONCEPTOS").toInt());
-	editTablaConceptos->setText(getRecTipoApunteTesoreria()->getValue("TABLACONCEPTOS").toString());
+	comboTablaConceptos->setText(getRecTipoApunteTesoreria()->getValue("TABLACONCEPTOS").toString());
 	comboPedirConcepto->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRCONCEPTO").toInt());
 	editConcepto->setText(getRecTipoApunteTesoreria()->getValue("CONCEPTO").toString());
 	comboPedirTablaDocumentos->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRTABLADOCUMENTOS").toInt());
@@ -180,15 +180,15 @@ void FrmEditTipoApunteTesoreria::gatherFields()
 	getRecTipoApunteTesoreria()->setValue( "PEDIRREFERENCIA", comboPedirReferencia->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "REFERENCIA", editReferencia->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRTABLACUENTAS", comboPedirTablaCuentas->getCurrentItemValue());
-	getRecTipoApunteTesoreria()->setValue( "TABLACUENTAS", editTablaCuentas->toString());
+	getRecTipoApunteTesoreria()->setValue( "TABLACUENTAS", comboTablaCuentas->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRCUENTA", comboPedirCuenta->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "CUENTA", editCuenta->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRTABLATERCEROS", comboPedirTablaTerceros->getCurrentItemValue());
-	getRecTipoApunteTesoreria()->setValue( "TABLATERCEROS", editTablaTerceros->toString());
+	getRecTipoApunteTesoreria()->setValue( "TABLATERCEROS", comboTablaTerceros->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRTERCERO", comboPedirTercero->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "TERCERO", editTercero->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRTABLACONCEPTOS", comboPedirTablaConceptos->getCurrentItemValue());
-	getRecTipoApunteTesoreria()->setValue( "TABLACONCEPTOS", editTablaConceptos->toString());
+	getRecTipoApunteTesoreria()->setValue( "TABLACONCEPTOS", comboTablaConceptos->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRCONCEPTO", comboPedirConcepto->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "CONCEPTO", editConcepto->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRTABLADOCUMENTOS", comboPedirTablaDocumentos->getCurrentItemValue());

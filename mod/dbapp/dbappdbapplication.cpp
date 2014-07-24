@@ -607,7 +607,7 @@ bool dbApplication::initMainWindow()
             }
         }
     }
-    _GONG_DEBUG_PRINT(0, QIcon::themeName().latin1() );
+    _GONG_DEBUG_PRINT(1, QIcon::themeName().latin1() );
     const char *tn = getAppSetting( "ICON_THEME" ).toString().c_str();
 	if( !strempty(tn) && tn != QIcon::themeName() )
 		QIcon::setThemeName( tn );

@@ -4,6 +4,8 @@
 #include <QKeyEvent>
 
 namespace gong {
+	
+	
 
 ComboBoxInt::ComboBoxInt( const XtringList &captions, const IntList &values,
 						QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
@@ -160,13 +162,36 @@ void ComboBoxInt::keyPressEvent( QKeyEvent *e )
 
 ///////////// COMBOBOXXTRING /////////////////
 
+#define DUMP_COMBO \
+	_GONG_DEBUG_PRINT(0, "captions");  \
+	for (XtringList::const_iterator itcaptions = captions.begin();  \
+			itcaptions != captions.end(); itcaptions++ ) {  \
+				_GONG_DEBUG_PRINT(0, *itcaptions);  \
+    } \
+	_GONG_DEBUG_PRINT(0, "Captions"); \
+	for (XtringList::const_iterator itcaptions = mCaptions.begin(); \
+			itcaptions != mCaptions.end(); itcaptions++ ) { \
+				_GONG_DEBUG_PRINT(0, *itcaptions); \
+    } \
+	_GONG_DEBUG_PRINT(0, "RefCaptions"); \
+	for (XtringList::const_iterator itcaptions = mRefCaptions.begin(); \
+			itcaptions != mRefCaptions.end(); itcaptions++ ) { \
+				_GONG_DEBUG_PRINT(0, *itcaptions); \
+    } \
+
+
 ComboBoxXtring::ComboBoxXtring( const XtringList &captions, const XtringList &values,
 						QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
     : QComboBox(parent, name.c_str()), mRefCaptions( captions ), mRefValues( values ),
 		mHorizontal(horizontal), mMustBeReadOnly(false),
       mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( true )
 {
-    setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
+	DUMP_COMBO
+	for (XtringList::const_iterator itcaptions = mRefCaptions.begin(); 
+			itcaptions != mRefCaptions.end(); itcaptions++ ) { 
+				_GONG_DEBUG_PRINT(0, *itcaptions); 
+    } 
+	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     insertItems();
     if( mHorizontal )
         pLayout = (QBoxLayout *)new QHBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
@@ -185,6 +210,7 @@ ComboBoxXtring::ComboBoxXtring( XtringList &captions, XtringList &values,
     mHorizontal(horizontal), mMustBeReadOnly(false),
     mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( false )
 {
+	DUMP_COMBO
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     insertItems();
     if( mHorizontal )

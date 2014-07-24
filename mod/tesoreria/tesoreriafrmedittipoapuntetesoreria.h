@@ -54,15 +54,15 @@ protected:
 	gong::ComboBoxInt *comboPedirReferencia;
 	gong::EditBox *editReferencia;
 	gong::ComboBoxInt *comboPedirTablaCuentas;
-	gong::EditBox *editTablaCuentas;
+	gong::ComboBoxXtring *comboTablaCuentas;
 	gong::ComboBoxInt *comboPedirCuenta;
 	gong::EditBox *editCuenta;
 	gong::ComboBoxInt *comboPedirTablaTerceros;
-	gong::EditBox *editTablaTerceros;
+	gong::ComboBoxXtring *comboTablaTerceros;
 	gong::ComboBoxInt *comboPedirTercero;
 	gong::EditBox *editTercero;
 	gong::ComboBoxInt *comboPedirTablaConceptos;
-	gong::EditBox *editTablaConceptos;
+	gong::ComboBoxXtring *comboTablaConceptos;
 	gong::ComboBoxInt *comboPedirConcepto;
 	gong::EditBox *editConcepto;
 	gong::ComboBoxInt *comboPedirTablaDocumentos;

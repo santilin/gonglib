@@ -595,6 +595,8 @@ void FactuModule::afterLoad()
 	if( pTesoreriaModule && pTesoreriaModule->isEnabled() ) {
 		pTesoreriaModule->getTablasTerceros() << "PROVEEDORA" << "CLIENTE" << "AGENTE";
 		pTesoreriaModule->getTablasConceptos() << "ARTICULO" << "FAMILIA";
+		pTesoreriaModule->getTablasDocumentos() << "FACTURAVENTA" << "ALBARANVENTA"
+			<< "FACTURACOMPRA" << "ALBARANCOMPRA";
 	}
 #endif
 }

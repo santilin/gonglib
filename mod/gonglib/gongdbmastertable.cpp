@@ -37,6 +37,7 @@ dbFieldDefinition *dbMasterTable::addFieldOne2ManyRelation(const Xtring &name,
     return pTableDefinition->addField(fld);
 }
 
+// Adds a list of values field whose values and captions are pointers, so no copy is made
 template<>
 dbFieldDefinition *dbMasterTable::addFieldListOfValues(bool insertallowed,
         XtringList *captions, List<Xtring> *values, const Xtring &name)
@@ -47,6 +48,7 @@ dbFieldDefinition *dbMasterTable::addFieldListOfValues(bool insertallowed,
 		dbFieldDefinition::NOTNULL));
 }
 
+// Adds a list of values field whose values and captions are references, so a copy is made
 template<>
 dbFieldDefinition *dbMasterTable::addFieldListOfValues(bool insertallowed,
         XtringList &captions, List<Xtring> &values, const Xtring &name)

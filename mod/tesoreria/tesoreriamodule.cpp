@@ -40,6 +40,7 @@ TesoreriaModule::TesoreriaModule()
 /*>>>>>TESORERIAMODULE_PUBLIC_INFO*/
 	mTablasConceptos << "CONCEPTOTESORERIA";
 	mTablasTerceros << "CUENTATESORERIA";
+	mTablasCuentas << "CUENTATESORERIA";
 }
 
 
@@ -85,15 +86,18 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRREFERENCIA" );
 	pFicTipoApunteTesoreria->addFieldString("REFERENCIA",100);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLACUENTAS" );
-	pFicTipoApunteTesoreria->addFieldString("TABLACUENTAS",40);
+    pFicTipoApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasCuentas(), &getTablasCuentas(),
+            "TABLACUENTAS" )->setCanBeNull(true);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCUENTA" );
 	pFicTipoApunteTesoreria->addFieldString("CUENTA",200);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLATERCEROS" );
-	pFicTipoApunteTesoreria->addFieldString("TABLATERCEROS",40);
+    pFicTipoApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),
+            "TABLATERCEROS" )->setCanBeNull(true);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTERCERO" );
 	pFicTipoApunteTesoreria->addFieldString("TERCERO",200);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLACONCEPTOS" );
-	pFicTipoApunteTesoreria->addFieldString("TABLACONCEPTOS",40);
+    pFicTipoApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasConceptos(), &getTablasConceptos(),
+            "TABLACONCEPTOS" )->setCanBeNull(true);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCONCEPTO" );
 	pFicTipoApunteTesoreria->addFieldString("CONCEPTO",200);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLADOCUMENTOS" );
@@ -247,6 +251,7 @@ void TesoreriaModule::slotMenuTesoreriaConceptoTesoreria()
 	pMainWindow->slotMenuEditRecMaestro( "CONCEPTOTESORERIA" );
 }
 /*>>>>>TESORERIAMODULE_SLOT_TESORERIACONCEPTOTESORERIA*/
+
 /*<<<<<TESORERIAMODULE_SLOT_TESORERIATIPOAPUNTETESORERIA*/
 void TesoreriaModule::slotMenuTesoreriaTipoApunteTesoreria()
 {

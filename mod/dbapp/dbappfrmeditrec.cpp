@@ -660,7 +660,7 @@ ComboBoxXtring *FrmEditRec::addComboXtringField( QWidget * parent, const Xtring 
         const Xtring & fldname, QBoxLayout * layout, bool horizontal )
 {
     ComboBoxXtring *combo = 0;
-    dbFieldListOfValues<Xtring> *flddef = static_cast<dbFieldListOfValues<Xtring> *>
+    dbFieldListOfValues<Xtring> *flddef = dynamic_cast<dbFieldListOfValues<Xtring> *>
                                           (DBAPP->getDatabase()->findFieldDefinition( tablename, fldname ) );
     if( flddef ) {
         combo = new ComboBoxXtring( flddef->getListOfCaptions(), flddef->getListOfValues(),
@@ -686,7 +686,7 @@ ComboBoxXtring *FrmEditRec::addComboXtringField( QWidget * parent, const Xtring 
         if( !flddef->isReadOnly() && flddef->canBeNull() )
             combo->insertItem( "", "" );
     } else {
-        _GONG_DEBUG_WARNING( Xtring::printf( "Field %s.%s not exists",
+        _GONG_DEBUG_WARNING( Xtring::printf( "Field %s.%s does not exist or is not a fldlistofvalues",
                                              tablename.c_str(), fldname.c_str() ) );
     }
     return combo;
@@ -696,7 +696,7 @@ ComboBoxInt *FrmEditRec::addComboIntField( QWidget * parent, const Xtring & tabl
         const Xtring & fldname, QBoxLayout * layout, bool horizontal )
 {
     ComboBoxInt *combo = 0;
-    dbFieldListOfValues<int> *flddef = static_cast<dbFieldListOfValues<int> *>
+    dbFieldListOfValues<int> *flddef = dynamic_cast<dbFieldListOfValues<int> *>
                                        (DBAPP->getDatabase()->findFieldDefinition( tablename, fldname ) );
     if( flddef ) {
         combo = new ComboBoxInt( flddef->getListOfCaptions(), flddef->getListOfValues(),
@@ -722,7 +722,7 @@ ComboBoxInt *FrmEditRec::addComboIntField( QWidget * parent, const Xtring & tabl
         connect( combo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( validateComboOrCheck( int ) ) );
     } else {
         combo = 0;
-        _GONG_DEBUG_WARNING( Xtring::printf( "Field %s.%s not exists",
+        _GONG_DEBUG_WARNING( Xtring::printf( "Field %s.%s does not exist or is not a fldlistofvalues",
                                              tablename.c_str(), fldname.c_str() ) );
     }
     return combo;
