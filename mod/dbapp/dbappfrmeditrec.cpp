@@ -1101,60 +1101,60 @@ void FrmEditRec::enableSearchBoxes( bool enabled )
 	* @param justedited If true, forces all controls to be validated by setting justEdited = true
 	* @return bool
 	**/
-bool FrmEditRec::validateControls(bool justedited)
+bool FrmEditRec::validateControls(bool onlyjustedited)
 {
 	bool isvalid = true;
 	for ( EditControlsList::const_iterator it = mEditControls.begin();
 	it != mEditControls.end(); ++it ) {
-		isvalid &= validateControl(*it, justedited);
+		isvalid &= validateControl(*it, onlyjustedited);
 	}
 	return isvalid;
 }
 
 
-bool FrmEditRec::validateControl(QWidget *control, bool justedited)
+bool FrmEditRec::validateControl(QWidget *control, bool onlyjustedited)
 {
 	bool isvalid = true;
 	if ( EditBox *edit = dynamic_cast<EditBox *>( control ) ) {
-		if( !justedited )
+		if( !onlyjustedited )
 			edit->setJustEdited(true);
 		if( edit->isJustEdited() )
 			validate( edit, &isvalid );
 	} else if ( TextBox *edit = dynamic_cast<TextBox *>( control ) ) {
-		if( !justedited )
+		if( !onlyjustedited )
 			edit->setJustEdited(true);
 		if( edit->isJustEdited() )
 			validate( edit, &isvalid );
 	} else if ( dynamic_cast<RichTextBox *>( control ) ) {
-		if( !justedited ) // TODO
+		if( !onlyjustedited ) // TODO
 			validate( control, &isvalid );
 	} else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
-		if( !justedited )
+		if( !onlyjustedited )
 			search->getEditCode()->setJustEdited(true);
 		if( search->getEditCode()->isJustEdited() )
 			validate( search->getEditCode(), &isvalid );
 	} else if ( CheckBox *cb = dynamic_cast<CheckBox *>( control ) ) {
-		if( !justedited )
+		if( !onlyjustedited )
 			cb->setJustEdited( true );
 		if( cb->isJustEdited() )
 			validate( cb, &isvalid );
 	} else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( control ) ) {
-		if( !justedited )
+		if( !onlyjustedited )
 			combo->setJustEdited(true);
 		if( combo->isJustEdited() )
 			validate( combo, &isvalid );
 	} else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
-		if( !justedited )
+		if( !onlyjustedited )
 			combo->setJustEdited(true);
 		if( combo->isJustEdited() )
 			validate( combo, &isvalid );
 	} else if ( ImageBox *ib = dynamic_cast<ImageBox *>( control ) ) {
-		if( !justedited )
+		if( !onlyjustedited )
 			ib->setJustEdited(true);
 		if( ib->isJustEdited() )
 			validate( ib, &isvalid );
 	} else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
-		if( !justedited )
+		if( !onlyjustedited )
 			fnbox->getEditFileName()->setJustEdited(true);
 		if( fnbox->getEditFileName()->isJustEdited() )
 			validate( fnbox->getEditFileName(), &isvalid );
@@ -1236,7 +1236,7 @@ QWidget *FrmEditRec::fixControl(const Xtring &fldname, const Variant &fldvalue)
 		if( fldvalue.isEmpty() )
 			return control;
 		setControlValue(fldname, fldvalue);
-		validateControl(control, true);
+		validateControl(control, false); // force just edited
 	}
 	return control;
 }

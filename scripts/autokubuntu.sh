@@ -8,7 +8,8 @@ LATEXFONTS="fonts-lyx"
 
 VERSION=3
 DISTRO=$(cat /etc/*release | grep "^ID=" | sed -e "s/^ID=//")
-DISTRO_VER=$(cat /etc/*release | grep "^VERSION_ID=" | sed -e "s/^VERSION_ID=//")
+# /etc/debian_version
+DISTRO_VER=$(cat /etc/*release | grep "^VERSION_ID=" | sed -e "s/^VERSION_ID=//" | tr -d \")
 KDE=$(ps ax | grep "kdeinit" | grep Running)
 if test "x$KDE" = "x"; then
    KDE="0"
@@ -32,10 +33,39 @@ instala_programa() {
 	apt-get install -y -q $@
 	echo 
 	echo "Pulsa una tecla para continuar..."
-	read $nada
+	read nada
 }
 
 aptgetupdate() {
+	case $DISTRO in
+	debian*)
+		if grep "^deb cdrom" /etc/apt/sources.list; then
+			if ! grep "^deb http" /etc/apt/sources.list; then
+				echo "Tienes un debian instalado desde CDROM pero sin repositorios. ¿Quieres usar los repositorios de Internet?"
+				read siono
+				case $siono in
+				s|S|si|Si|sí|Sí)
+					cat > /etc/apt/sources.list <<EOF
+deb http://ftp.gva.es/mirror/debian/ stable main contrib non-free
+deb-src http://ftp.gva.es/mirror/debian/ stable main contrib non-free
+
+#testing-updates, previously known as 'volatile'
+deb http://ftp.gva.es/mirror/debian/ stable-updates main
+deb-src http://ftp.gva.es/mirror/debian/ stable-updates main
+
+
+deb http://security.debian.org/ stable/updates main contrib non-free
+deb-src http://security.debian.org/ stable/updates main contrib non-free
+EOF
+					;;
+				*)
+					return
+					;;
+				esac
+			fi
+		fi
+		;;
+	esac
 	apt-get update
 	apt-get upgrade -y
 }
@@ -89,7 +119,7 @@ borra_programas_huerfanos() {
 	deborphan --guess-all > /tmp/deborphan.list
 	cat /tmp/deborphan.list
 	echo "Quieres eliminarlos?"
-	read $ANSwER
+	read ANSwER
 	if test "x$ANSWER" = "xy"; then
 	    packages=$(cat /tmp/deborphan.list)
 	    apt-get apt-get remove --purge $packages
@@ -193,11 +223,21 @@ instala_thunderbird() {
 }
 
 instala_gestiong() {
-    case "$DISTRO_VER" in 
-      "12*" ) instala_programa build-essential libstdc++6-4.4-dbg libtool autoconf libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
+	case $DISTRO in 
+	debian*)
+		case $DISTRO_VER in
+			7) instala_programa aptitude install build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev
 			;;
-      "13*" ) instala_programa build-essential libstdc++6-4.4-dbg libtool autoconf automake libx11-dev libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
+		esac
+		;;
+	*)
+		case $DISTRO_VER in 
+		12* ) instala_programa build-essential libstdc++6-4.4-dbg libtool autoconf libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
 			;;
+		13* ) instala_programa build-essential libstdc++6-4.4-dbg libtool autoconf automake libx11-dev libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
+			;;
+		esac
+		;;
 	esac
 }
 
@@ -279,7 +319,7 @@ menu_sistema() {
 			3 "Compartir los archivos de este ordenador" 
 		case `cat /tmp/menuoption.txt` in
 		1 )     clear; aptgetupdate ;;
-		2 )	clear; reloj_hora ;;
+		2 )		clear; reloj_hora ;;
 # http://www.spencerstirling.com/computergeek/NFS_samba.html
 		3 ) 	clear; instala_programa "NFS" nfs-kernel-server nfs-common portmap kdenetwork-filesharing;;
 		* )	break ;;

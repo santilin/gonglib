@@ -10,8 +10,6 @@
 // FIELD Importe money - leftImporte
 // FIELD PedirReferencia comboint - leftReferencia
 // FIELD Referencia string - leftReferencia
-// FIELD PedirTablaCuentas comboint - leftcuentas
-// FIELD TablaCuentas combostring - leftcuentas
 // FIELD PedirCuenta comboint - leftcuenta
 // FIELD Cuenta string - leftcuenta
 // FIELD PedirTablaTerceros comboint - lefttablaterceros
@@ -24,8 +22,8 @@
 // FIELD Concepto string - leftconcepto
 // FIELD PedirTablaDocumentos comboint - lefttabladocumentos
 // FIELD TablaDocumentos string - lefttabladocumentos
-// FIELD PedirProyecto comboint - leftproyecto
-// FIELD Proyecto string - leftproyecto
+// FIELD PedirProyecto comboint - leftproyecto if(empresa::ModuleInstance->usaProyectos())
+// FIELD Proyecto string - leftproyecto if(empresa::ModuleInstance->usaProyectos())
 // FIELD PedirNotas comboint - leftnotas
 // FIELD ValorNotas string - leftnotas
 // FIELD Notas text
@@ -37,6 +35,7 @@
 #include <dbappdbapplication.h>
 #include "tesoreriafrmedittipoapuntetesoreria.h"
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_INCLUDES*/
+#include "empresamodule.h"
 
 namespace gong {
 namespace tesoreria {
@@ -56,7 +55,6 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	QHBoxLayout *leftFechaLayout = new QHBoxLayout(0, 0, 6, "leftFechaLayout");
 	QHBoxLayout *leftImporteLayout = new QHBoxLayout(0, 0, 6, "leftImporteLayout");
 	QHBoxLayout *leftReferenciaLayout = new QHBoxLayout(0, 0, 6, "leftReferenciaLayout");
-	QHBoxLayout *leftcuentasLayout = new QHBoxLayout(0, 0, 6, "leftcuentasLayout");
 	QHBoxLayout *leftcuentaLayout = new QHBoxLayout(0, 0, 6, "leftcuentaLayout");
 	QHBoxLayout *lefttablatercerosLayout = new QHBoxLayout(0, 0, 6, "lefttablatercerosLayout");
 	QHBoxLayout *leftterceroLayout = new QHBoxLayout(0, 0, 6, "leftterceroLayout");
@@ -76,8 +74,6 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	editImporte = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "IMPORTE", leftImporteLayout );
 	comboPedirReferencia = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRREFERENCIA", leftReferenciaLayout );
 	editReferencia = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "REFERENCIA", leftReferenciaLayout );
-	comboPedirTablaCuentas = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRTABLACUENTAS", leftcuentasLayout );
-	comboTablaCuentas = addComboXtringField( pControlsFrame, "TIPOAPUNTETESORERIA", "TABLACUENTAS", leftcuentasLayout );
 	comboPedirCuenta = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRCUENTA", leftcuentaLayout );
 	editCuenta = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "CUENTA", leftcuentaLayout );
 	comboPedirTablaTerceros = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRTABLATERCEROS", lefttablatercerosLayout );
@@ -90,8 +86,12 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	editConcepto = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "CONCEPTO", leftconceptoLayout );
 	comboPedirTablaDocumentos = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRTABLADOCUMENTOS", lefttabladocumentosLayout );
 	editTablaDocumentos = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "TABLADOCUMENTOS", lefttabladocumentosLayout );
+if(empresa::ModuleInstance->usaProyectos()){
 	comboPedirProyecto = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRPROYECTO", leftproyectoLayout );
+}
+if(empresa::ModuleInstance->usaProyectos()){
 	editProyecto = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "PROYECTO", leftproyectoLayout );
+}
 	comboPedirNotas = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRNOTAS", leftnotasLayout );
 	editValorNotas = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "VALORNOTAS", leftnotasLayout );
 	editNotas = addTextField( pControlsFrame, "TIPOAPUNTETESORERIA", "NOTAS", notasLayout );
@@ -104,8 +104,6 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	alignLayout( leftImporteLayout, true );
 	pControlsLayout->addLayout( leftReferenciaLayout );
 	alignLayout( leftReferenciaLayout, true );
-	pControlsLayout->addLayout( leftcuentasLayout );
-	alignLayout( leftcuentasLayout, true );
 	pControlsLayout->addLayout( leftcuentaLayout );
 	alignLayout( leftcuentaLayout, true );
 	pControlsLayout->addLayout( lefttablatercerosLayout );
@@ -141,8 +139,6 @@ void FrmEditTipoApunteTesoreria::scatterFields()
 	editImporte->setText(getRecTipoApunteTesoreria()->getValue("IMPORTE").toMoney());
 	comboPedirReferencia->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRREFERENCIA").toInt());
 	editReferencia->setText(getRecTipoApunteTesoreria()->getValue("REFERENCIA").toString());
-	comboPedirTablaCuentas->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRTABLACUENTAS").toInt());
-	comboTablaCuentas->setText(getRecTipoApunteTesoreria()->getValue("TABLACUENTAS").toString());
 	comboPedirCuenta->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRCUENTA").toInt());
 	editCuenta->setText(getRecTipoApunteTesoreria()->getValue("CUENTA").toString());
 	comboPedirTablaTerceros->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRTABLATERCEROS").toInt());
@@ -155,8 +151,12 @@ void FrmEditTipoApunteTesoreria::scatterFields()
 	editConcepto->setText(getRecTipoApunteTesoreria()->getValue("CONCEPTO").toString());
 	comboPedirTablaDocumentos->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRTABLADOCUMENTOS").toInt());
 	editTablaDocumentos->setText(getRecTipoApunteTesoreria()->getValue("TABLADOCUMENTOS").toString());
+if(empresa::ModuleInstance->usaProyectos()){
 	comboPedirProyecto->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRPROYECTO").toInt());
+}
+if(empresa::ModuleInstance->usaProyectos()){
 	editProyecto->setText(getRecTipoApunteTesoreria()->getValue("PROYECTO").toString());
+}
 	comboPedirNotas->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRNOTAS").toInt());
 	editValorNotas->setText(getRecTipoApunteTesoreria()->getValue("VALORNOTAS").toString());
 	editNotas->setText(getRecTipoApunteTesoreria()->getValue("NOTAS").toString());
@@ -179,8 +179,6 @@ void FrmEditTipoApunteTesoreria::gatherFields()
 	getRecTipoApunteTesoreria()->setValue( "IMPORTE", editImporte->toMoney());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRREFERENCIA", comboPedirReferencia->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "REFERENCIA", editReferencia->toString());
-	getRecTipoApunteTesoreria()->setValue( "PEDIRTABLACUENTAS", comboPedirTablaCuentas->getCurrentItemValue());
-	getRecTipoApunteTesoreria()->setValue( "TABLACUENTAS", comboTablaCuentas->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRCUENTA", comboPedirCuenta->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "CUENTA", editCuenta->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRTABLATERCEROS", comboPedirTablaTerceros->getCurrentItemValue());
@@ -193,8 +191,12 @@ void FrmEditTipoApunteTesoreria::gatherFields()
 	getRecTipoApunteTesoreria()->setValue( "CONCEPTO", editConcepto->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRTABLADOCUMENTOS", comboPedirTablaDocumentos->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "TABLADOCUMENTOS", editTablaDocumentos->toString());
+if(empresa::ModuleInstance->usaProyectos()){
 	getRecTipoApunteTesoreria()->setValue( "PEDIRPROYECTO", comboPedirProyecto->getCurrentItemValue());
+}
+if(empresa::ModuleInstance->usaProyectos()){
 	getRecTipoApunteTesoreria()->setValue( "PROYECTO", editProyecto->toString());
+}
 	getRecTipoApunteTesoreria()->setValue( "PEDIRNOTAS", comboPedirNotas->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "VALORNOTAS", editValorNotas->toString());
 	getRecTipoApunteTesoreria()->setValue( "NOTAS", editNotas->toString());

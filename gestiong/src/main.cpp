@@ -87,6 +87,7 @@ int main( int argc, char *argv[] )
 		DBAPP->addModule( new pagos::PagosModule() );
 #endif
 #ifdef HAVE_FACTUMODULE
+		DBAPP->addModule( new factu::FactuModule() );
 #endif
 #ifdef HAVE_SOCIASMODULE
 		DBAPP->addModule( new socias::SociasModule() );

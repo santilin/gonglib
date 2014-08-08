@@ -39,7 +39,7 @@ TesoreriaModule::TesoreriaModule()
 //	mDetailTables
 /*>>>>>TESORERIAMODULE_PUBLIC_INFO*/
 	mTablasConceptos << "CONCEPTOTESORERIA";
-	mTablasTerceros << "CUENTATESORERIA";
+	mTablasTerceros << "CUENTATESORERIA" << "CONTACTO";
 	mTablasCuentas << "CUENTATESORERIA";
 }
 
@@ -85,9 +85,6 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
 	pFicTipoApunteTesoreria->addFieldMoney("IMPORTE");
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRREFERENCIA" );
 	pFicTipoApunteTesoreria->addFieldString("REFERENCIA",100);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLACUENTAS" );
-    pFicTipoApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasCuentas(), &getTablasCuentas(),
-            "TABLACUENTAS" )->setCanBeNull(true);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCUENTA" );
 	pFicTipoApunteTesoreria->addFieldString("CUENTA",200);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLATERCEROS" );
@@ -100,8 +97,6 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
             "TABLACONCEPTOS" )->setCanBeNull(true);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCONCEPTO" );
 	pFicTipoApunteTesoreria->addFieldString("CONCEPTO",200);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLADOCUMENTOS" );
-	pFicTipoApunteTesoreria->addFieldString("TABLADOCUMENTOS",40);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRNOTAS" );
 	pFicTipoApunteTesoreria->addFieldString("VALORNOTAS",200);
 	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRPROYECTO" );
@@ -162,7 +157,8 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
             "TABLACONCEPTOS" )->setCanBeNull(true);
     pFicApunteTesoreria->addFieldReferenceID( "CONCEPTO_ID", "CONCEPTO.ID" );
     pFicApunteTesoreria->addFieldDesc( "CONCEPTO", 200 )->setCanBeNull( true );
-    pFicApunteTesoreria->addFieldString( "TABLADOCUMENTOS", 30 );
+    pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),
+			"TABLADOCUMENTOS")->setCanBeNull(true);
     pFicApunteTesoreria->addFieldReferenceID( "DOCUMENTO_ID", "DOCUMENTO.ID" );
     pFicApunteTesoreria->addFieldDesc( "REFERENCIA", 200 )->setCanBeNull( true );
     pFicApunteTesoreria->addFieldBool( "AUTOMATICO" )->setDefaultValue( "0" )->setReadOnly( true );

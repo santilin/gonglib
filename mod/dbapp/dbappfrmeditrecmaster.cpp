@@ -290,7 +290,7 @@ void FrmEditRecMaster::justShown( bool firsttime )
                         mEditMode = DataTable::inserting;
                     ensureEditView();
                     if( !isReadOnly() )
-                        validateControls( true ); //only just edited ones
+                        validateControls( true ); // only just edited ones
                 }
                 if ( !isInserting() )
                     pDataTable->sync( pRecord->getRecordID() );

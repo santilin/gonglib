@@ -186,7 +186,6 @@ ComboBoxXtring::ComboBoxXtring( const XtringList &captions, const XtringList &va
 		mHorizontal(horizontal), mMustBeReadOnly(false),
       mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( true )
 {
-	DUMP_COMBO
 	for (XtringList::const_iterator itcaptions = mRefCaptions.begin(); 
 			itcaptions != mRefCaptions.end(); itcaptions++ ) { 
 				_GONG_DEBUG_PRINT(0, *itcaptions); 

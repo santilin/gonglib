@@ -53,8 +53,6 @@ protected:
 	gong::EditBox *editImporte;
 	gong::ComboBoxInt *comboPedirReferencia;
 	gong::EditBox *editReferencia;
-	gong::ComboBoxInt *comboPedirTablaCuentas;
-	gong::ComboBoxXtring *comboTablaCuentas;
 	gong::ComboBoxInt *comboPedirCuenta;
 	gong::EditBox *editCuenta;
 	gong::ComboBoxInt *comboPedirTablaTerceros;
