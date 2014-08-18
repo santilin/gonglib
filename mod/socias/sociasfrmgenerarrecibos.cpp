@@ -407,7 +407,7 @@ void FrmGenerarRecibos::pushCondiciones_clicked()
                                            0, "filtrar" );
     XtringList joinedtables;
     joinedtables << "MIEMBRO" << "FORMAPAGO" << "TIPOSOCIA" << "CONTACTO";
-    if ( sel->exec ( joinedtables, editCondiciones->toString() ) == QDialog::Accepted )
+    if ( sel->exec ( this, joinedtables, editCondiciones->toString() )  )
         editCondiciones->setText( toGUI( sel->getSqlExpression() ) );
     delete sel;
 }

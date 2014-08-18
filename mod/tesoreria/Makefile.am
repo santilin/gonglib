@@ -18,7 +18,7 @@ libgongtesoreria_la_HEADERS = tesoreriamodule.h \
 	tesoreriafrmedittercerotesoreria.h tesoreriarectercerotesoreria.h \
 	tesoreriafrmeditconceptotesoreria.h tesoreriarecconceptotesoreria.h \
 	tesoreriafrmedittipoapuntetesoreria.h tesoreriarectipoapuntetesoreria.h \
-	tesoreriafldpedircampo.cpp
+	tesoreriafldpedircampo.h
 
 nodist_libgongtesoreria_la_SOURCES = moc_tesoreriamodule.cpp \
 	moc_tesoreriafrmeditcuentatesoreria.cpp \
