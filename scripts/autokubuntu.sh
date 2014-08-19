@@ -83,6 +83,37 @@ instala_multimedia_libre() {
 	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc
 }
 
+pregunta_si() {
+	echo $1
+	read siono
+	case $siono in
+		s|S|si|Si|sí|Sí)
+			return 1
+			;;
+		*)
+			return 0
+			;;
+	esac
+	;;
+}
+
+completar_kde() {
+	if test "x$KDE" = "x0"; then
+		if ! pregunta_si("No parece que estés usando KDE. ¿Quieres continuar?"); then
+			exit 0
+		fi
+	fi
+}	
+
+completar_lxde() {
+	if test "x$LXDE" = "x0"; then
+		if ! pregunta_si("No parece que estés usando LXDE. ¿Quieres continuar?"); then
+			exit 0
+		fi
+	fi
+}	
+
+
 instala_multimedia_prop() {
 	instala_multimedia_libre
 	instala_programa "Codecs mp3" lame lame-extras gstreamer0.8-lame w32codecs
@@ -232,9 +263,9 @@ instala_gestiong() {
 		;;
 	*)
 		case $DISTRO_VER in 
-		12* ) instala_programa build-essential libstdc++6-4.4-dbg libtool autoconf libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
+		12* ) instala_programa "GestiONG" build-essential libstdc++6-4.4-dbg libtool autoconf libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
 			;;
-		13* ) instala_programa build-essential libstdc++6-4.4-dbg libtool autoconf automake libx11-dev libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
+		* ) instala_programa "GestiONG" build-essential libstdc++6-4.4-dbg libtool autoconf automake libx11-dev libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
 			;;
 		esac
 		;;
@@ -332,13 +363,19 @@ menu_escritorio() {
 	while [ 1 ]; do
 		my_dialog --title "=== MENU ESCRITORIO ===" \
 			--menu "Elige la operación sobre el escritorio" 20 75 9 \
-			1 "Poner programas en español" \
-			2 "Instalar fuentes compatibles con Windows kk" \
-			3 "Instalar fuentes propietarias de Windows kk"
+			1 "Completar KDE" \
+			2 "Completar GNOME y MATE" \
+			3 "Completar LXDE" \
+			4 "Poner programas en español" \
+			5 "Instalar fuentes compatibles con Windows kk" \
+			6 "Instalar fuentes propietarias de Windows kk"
 		case `cat /tmp/menuoption.txt` in
-		1 ) 	clear; language_espanol ;;
-		2 )     clear; instala_fuentes_libres ;;
-		3 )     clear; instala_fuentes_windows_kk ;;
+		1 )     clear; completar_kde;
+		2 )     clear; completar_gnome;
+		3 )     clear; completar_lxde;
+		4 ) 	clear; language_espanol ;;
+		5 )     clear; instala_fuentes_libres ;;
+		6 )     clear; instala_fuentes_windows_kk ;;
 		* )	break ;;
 		esac
 	done
