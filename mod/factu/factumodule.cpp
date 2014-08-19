@@ -1260,8 +1260,8 @@ bool FactuModule::editPVPsArticulo(FrmBase *parentform,
         } else {
             DBAPP->showOSD( parentform->getTitle(), _("El PVP del artículo no ha cambiado") );
         }
-        return false;
     }
+	return false;
 }
 
 bool FactuModule::editCostesArticulo(FrmBase *parentform,
@@ -1292,8 +1292,8 @@ bool FactuModule::editCostesArticulo(FrmBase *parentform,
         } else {
             DBAPP->showOSD( parentform->getTitle(), _("El coste del artículo no ha cambiado") );
         }
-        return false;
     }
+	return false;
 }
 
 /*<<<<<FACTUMODULE_FIN*/

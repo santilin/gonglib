@@ -281,7 +281,7 @@ static dbError doSqliteAlterTable(dbConnection *sqliteconn, const Xtring &query)
 		Xtring create = sqliteconn->selectString(
 			"select group_concat(SQL, x'0A' || ';' || x'0A') from SQLite_Master where tbl_name = '" + tablename + "'");
 		_GONG_DEBUG_PRINT(0, create);
-		int col_start = create.find("\"" + column + "\"");
+		Xtring::size_type col_start = create.find("\"" + column + "\"");
 		if(col_start == Xtring::npos) // sometimes there are no double quotes
 			col_start = create.find("(" + column + " "); // Maybe is the first column
 		if(col_start == Xtring::npos) 
@@ -289,7 +289,7 @@ static dbError doSqliteAlterTable(dbConnection *sqliteconn, const Xtring &query)
 		if(col_start == Xtring::npos) 
 			return dbError( Xtring::printf("Can't DROP '%s'; check that column/key exist",
 										   column.c_str()), 1091, query);
-		int nextnull = create.find(" NULL,", col_start);
+		Xtring::size_type nextnull = create.find(" NULL,", col_start);
 		int null_length = 5;
 		if( nextnull == Xtring::npos ) {
 			nextnull = create.find(" NULL)", col_start);
@@ -372,7 +372,7 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
             sqlite3_stmt *ppSmt = 0;
             int ret = sqlite3_prepare_v2( pSqLite, query.c_str(), query.size() + 1, &ppSmt, 0 );
             if( ret == SQLITE_OK && ppSmt ) {
-                switch( int ss = sqlite3_step( ppSmt ) ) {
+                switch( sqlite3_step( ppSmt ) ) {
                 case SQLITE_BUSY:
                     break;
                 case SQLITE_DONE:
