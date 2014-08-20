@@ -24,7 +24,7 @@ LANGUAGE="es"
 DATETIME=`date --rfc-3339=seconds | sed -e "s/[-]//g" -e "s/ /_/" -e "s/:[0-9]*+.*$//" -e "s/://"`
 WIRELESS_FIRMWARE="atmel-firmware firmware-bnx2 firmware-bnx2x firmware-ipw2x00 firmware-iwlwifi firmware-qlogic firmware-qlogic firmware-ralink libertas-firmware linux-wlan-ng-firmware zd1211-firmware b43-fwcutter"
 OPENOFFICE_COMMON="libreoffice libreoffice-l10n-$LANGUAGE libreoffice-help-$LANGUAGE libreoffice-thesaurus-$LANGUAGE libreoffice-hypenation-$LANGUAGE mythes-$LANGUAGE myspell-$LANGUAGE"
-FREEFONTS="ttf-bitstream-vera ttf-breip ttf-dejavu ttf-freefont ttf-liberation ttf-opensymbol ttf-unifont fonts-linuxlibertine"
+FREEFONTS="ttf-bitstream-vera fonts-breip ttf-dejavu ttf-freefont ttf-liberation ttf-opensymbol ttf-unifont fonts-linuxlibertine"
 MSFONTS="ttf-mscorefonts-installer"
 
 instala_programa() {
@@ -70,17 +70,11 @@ EOF
 	apt-get upgrade -y
 }
 
-instala_todo_comun() {
-	instala_programas_necesarios
-	instala_programas_impresora
-	language_espanol
-}
-
 instala_multimedia_libre() {
+	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc
 	echo "Para ver DVD comerciales"
 	apt-get install -y libdvdread4
   	/usr/share/doc/libdvdread4/install-css.sh
-	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc
 }
 
 pregunta_si() {
@@ -94,25 +88,44 @@ pregunta_si() {
 			return 0
 			;;
 	esac
-	;;
+}
+
+completar_escritorio() {
+	instala_programa "Programas necesarios" bzip2 dialog
+	instala_programas_impresora
+	instala_multimedia_libre
+	instala_fuentes_libres
 }
 
 completar_kde() {
+	completar_escritorio
 	if test "x$KDE" = "x0"; then
-		if ! pregunta_si("No parece que estés usando KDE. ¿Quieres continuar?"); then
+		if ! pregunta_si "No parece que estés usando KDE. ¿Quieres continuar?"; then
 			exit 0
 		fi
 	fi
+	instala_multimedia_libre_kde
 }	
 
 completar_lxde() {
+	completar_escritorio
 	if test "x$LXDE" = "x0"; then
-		if ! pregunta_si("No parece que estés usando LXDE. ¿Quieres continuar?"); then
+		if ! pregunta_si "No parece que estés usando LXDE. ¿Quieres continuar?"; then
 			exit 0
 		fi
 	fi
 }	
 
+
+completar_gnome() {
+	completar_escritorio
+	if test "x$GNOME" = "x0"; then
+		if ! pregunta_si "No parece que estés usando GNOME. ¿Quieres continuar?"; then
+			exit 0
+		fi
+	fi
+	instala_multimedia_libre_gnome	
+}
 
 instala_multimedia_prop() {
 	instala_multimedia_libre
@@ -122,16 +135,6 @@ instala_multimedia_prop() {
 	fi
 	if test "x$GNOME" = "x1"; then
 		instala_programa ubuntu_restricted_extras
-	fi
-}
-
-instala_todo_libre() {
-	instala_multimedia_libre
-	if test "x$KDE" = "x1"; then
-		instala_multimedia_libre_kde
-	fi
-	if test "x$GNOME" = "x1"; then
-		instala_multimedia_libre_gnome
 	fi
 }
 
@@ -172,10 +175,6 @@ borra_programas_kde() {
 borra_modem() {
 	echo "Eliminando paquetes del modem"
 	apt-get remove --purge kppp modemmanager
-}
-
-instala_programas_necesarios() {
-	instala_programa "Programas necesarios" bzip2 dialog
 }
 
 instala_programas_impresora() {
@@ -227,8 +226,15 @@ reloj_hora() {
 }
 
 language_espanol() {
-	echo $(check-language-support -l es)
-	instala_programa "Escritorio en español" $(check-language-support -l es)
+	case $DISTRO in 
+	ubuntu*)
+		echo $(check-language-support -l es)
+		instala_programa "Escritorio en español" $(check-language-support -l es)
+		;;
+	debian*)
+		echo "Lo siento, tienes que hacerlo a mano"
+		read
+	esac
 }
 
 instala_fuentes_windows_kk() {
@@ -320,20 +326,18 @@ menu_welcome() {
 		my_dialog --cancel-label "Salir" \
 			--backtitle "Distro: $DISTRO, Version: $DISTRO_VER" \
 			--title "=== MENÚ PRINCIPAL ===" \
-			--menu "Elige la sección" 20 75 9 \
-			1 "Sistema: actualizar software, reloj, teclado, etc." \
-			2 "Escritorio: idioma, tipos de letra, cambiar de escritorio, etc." \
-			3 "Software: Instalar programas adicionales" \
-			4 "Hardware: Instalar impresoras, discos externos, wifi, etc." \
-			5 "Limpieza" \
-			9 "Ver si hay una nueva versión de este programa"
+			--menu "Elige la sección" 20 75 5 \
+			1 "Sistema: actualizar software, idioma, reloj, etc." \
+			2 "Escritorio" \
+			3 "Software libre" \
+			4 "Software no libre" \
+			5 "Hardware: impresoras, discos externos, wifi, etc." 
 		case `cat /tmp/menuoption.txt` in
-		1 )	menu_sistema ;;
-		2 )	menu_escritorio ;;
-		3 )	menu_software ;;
-		4 )	menu_hardware ;;
-		5 ) 	menu_limpieza ;;
-		9 ) 	check_new_version ;;
+		1 )		menu_sistema ;;
+		2 )		menu_escritorio ;;
+		3 )		menu_software_libre ;;
+		4 )		menu_software_no_libre ;;
+		5 )		menu_hardware ;;
 		* )	break ;;
 		esac
 	done
@@ -346,14 +350,20 @@ menu_sistema() {
 			--title "=== SISTEMA ===" \
 			--menu "Elige la sección" 20 75 5 \
 			1 "Actualizar el sistema" \
-			2 "Poner el reloj en hora" \
-			3 "Compartir los archivos de este ordenador" 
+			2 "Descargar versiones en español de los programas instalados" \
+			3 "Poner el reloj en hora" \
+			4 "Compartir los archivos de este ordenador" \
+			5 "Limpieza" \
+			9 "Ver si hay una nueva versión de este programa"
 		case `cat /tmp/menuoption.txt` in
 		1 )     clear; aptgetupdate ;;
-		2 )		clear; reloj_hora ;;
+		2 ) 	clear; language_espanol ;;
+		3 )		clear; reloj_hora ;;
 # http://www.spencerstirling.com/computergeek/NFS_samba.html
-		3 ) 	clear; instala_programa "NFS" nfs-kernel-server nfs-common portmap kdenetwork-filesharing;;
-		* )	break ;;
+		4 ) 	clear; instala_programa "NFS" nfs-kernel-server nfs-common portmap kdenetwork-filesharing ;;
+		5 ) 	menu_limpieza ;;
+		9 ) 	check_new_version ;;
+		* )		break ;;
 		esac
 	done
 }
@@ -362,53 +372,59 @@ menu_sistema() {
 menu_escritorio() {
 	while [ 1 ]; do
 		my_dialog --title "=== MENU ESCRITORIO ===" \
-			--menu "Elige la operación sobre el escritorio" 20 75 9 \
-			1 "Completar KDE" \
-			2 "Completar GNOME y MATE" \
-			3 "Completar LXDE" \
-			4 "Poner programas en español" \
-			5 "Instalar fuentes compatibles con Windows kk" \
-			6 "Instalar fuentes propietarias de Windows kk"
+			--menu "Elige la operación sobre el escritorio" 20 75 4 \
+			1 "Completar el escritorio: multimedia, tipos de letra, etc" \
+			2 "Completar KDE" \
+			3 "Completar GNOME y MATE" \
+			4 "Completar LXDE" 
 		case `cat /tmp/menuoption.txt` in
-		1 )     clear; completar_kde;
-		2 )     clear; completar_gnome;
-		3 )     clear; completar_lxde;
-		4 ) 	clear; language_espanol ;;
-		5 )     clear; instala_fuentes_libres ;;
-		6 )     clear; instala_fuentes_windows_kk ;;
+		1 )     clear; completar_escritorio;;
+		2 )     clear; completar_kde;;
+		3 )     clear; completar_gnome;;
+		4 )     clear; completar_lxde;;
 		* )	break ;;
 		esac
 	done
 }
 
 
-menu_software() {
+menu_software_libre() {
 	while [ 1 ]; do
 		my_dialog --cancel-label "Volver" \
-			--title "=== INSTALACIÓN DE PROGRAMAS ===" \
-			--menu "Elige los programas a instalar" 20 75 9 \
-			1 "Multimedia: Grabar/reproducir CD y DVD, video, música, etc." \
+			--title "=== INSTALACIÓN DE SOFTWARE LIBRE ===" \
+			--menu "Elige los programas a instalar" 20 75 8 \
+			1 "LibreOffice completo" \
 			2 "Gráficos: Photoshop, etc." \
-			3 "Completar Open Office" \
-			4 "Thunderbird para leer mi correo (outlook)" \
-			5 "Programas para administradoras del sistema" \
-			6 "Programas propietarios: Skype, Spotify, etc." \
-			7 "GestiONG" \
-			9 "Básico"
+			3 "Thunderbird para leer mi correo (outlook)" \
+			4 "Programas para administradoras del sistema" \
+			5 "GestiONG" 
 		case `cat /tmp/menuoption.txt` in
-		1 ) 	menu_multimedia ;;
+		1 ) 	clear; instala_libreoffice ;;
 		2 )		menu_graficos ;;
-		3 ) 	clear; instala_libreoffice ;;
-		4 ) 	clear; instala_thunderbird ;;
-		5 )		clear; instala_programa "Administración del sistema" rsync mc nmap openssh-server ;;
-		6 ) 	menu_software_propietarios ;;
-		7 )		instala_gestiong ;;
-		9 )	instala_todo_comun ;;
+		3 ) 	clear; instala_thunderbird ;;
+		4 )		clear; instala_programa "Administración del sistema" rsync mc nmap openssh-server ;;
+		5 )		instala_gestiong ;;
 		* )		break ;;
 		esac
 	done
 }
 
+menu_software_no_libre() {
+	while [ 1 ]; do
+		my_dialog --cancel-label "Volver" \
+			--title "=== INSTALACIÓN DE PROGRAMAS ===" \
+			--menu "Elige los programas a instalar" 20 75 9 \
+			1 "Instalar fuentes propietarias de Windows kk" \
+			2 "Codecs propietarios mp3 y otros compatibles con Windows kk" \
+			3 "Programas propietarios: Skype, Spotify, etc." 
+		case `cat /tmp/menuoption.txt` in
+		1 )     clear; instala_fuentes_windows_kk ;;
+		2 ) 	clear; instala_multimedia_prop ;;
+		3 ) 	menu_software_propietarios ;;
+		* )		break ;;
+		esac
+	done
+}
 
 menu_impresoras() {
 	while [ 1 ]; do
@@ -443,24 +459,6 @@ menu_hardware() {
 		esac
 	done
 }
-
-menu_multimedia() {
-	while [ 1 ]; do
-		my_dialog --cancel-label "Volver" \
-			--title "=== MENÚ MULTIMEDIA ===" \
-			--menu "Elige los programas a instalar" 20 75 6 \
-			1 "Reproductores libres de audio y video para KDE" \
-			2 "Reproductores libres de audio y video para GNOME" \
-			3 "Codecs propietarios mp3 y otros compatibles con windows" 
-		case `cat /tmp/menuoption.txt` in
-		1 )	clear; instala_multimedia_libre_kde ;;
-		2 )	clear; instala_multimedia_libre_gnome ;; 
-		3 ) clear; instala_multimedia_prop ;;
-		* )	break ;;
-		esac
-	done
-}
-
 
 menu_graficos() {
 	while [ 1 ]; do
@@ -522,10 +520,10 @@ menu_limpieza() {
 		case `cat /tmp/menuoption.txt` in
 		1 ) 	clear; liberar_espacio_disco ;;
 		2 ) 	clear; borra_programas_huerfanos ;;
-		3 )	clear; borra_bluetooh ;;
+		3 )		clear; borra_bluetooh ;;
 		4 ) 	clear; borra_modem ;;
-		5 )	clear; borra_programas_kde ;;
-		* )	break ;;
+		5 )		clear; borra_programas_kde ;;
+		* )		break ;;
 		esac
 	done
 }
