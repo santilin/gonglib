@@ -312,6 +312,7 @@ bool dbDefinition::isRecordUsed(dbRecord *rec, Xtring *usingtable)
                     }
                 }
             }
+            break;
         }
     }
     usingtable->clear();

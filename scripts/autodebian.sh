@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # probar apt-get -q -y -o APT::Install-Recommends=true -o APT::Get::AutomaticRemove=true install task-spanish-kde-desktop
-# probar unburden-home-dir
+# probar /etc/issue
 
 LATEXFONTS="fonts-lyx"
 
@@ -23,17 +23,21 @@ HAY_INTERNET=0
 LANGUAGE="es"
 DATETIME=`date --rfc-3339=seconds | sed -e "s/[-]//g" -e "s/ /_/" -e "s/:[0-9]*+.*$//" -e "s/://"`
 WIRELESS_FIRMWARE="atmel-firmware firmware-bnx2 firmware-bnx2x firmware-ipw2x00 firmware-iwlwifi firmware-qlogic firmware-qlogic firmware-ralink libertas-firmware linux-wlan-ng-firmware zd1211-firmware b43-fwcutter"
-OPENOFFICE_COMMON="libreoffice libreoffice-l10n-$LANGUAGE libreoffice-help-$LANGUAGE libreoffice-thesaurus-$LANGUAGE libreoffice-hypenation-$LANGUAGE mythes-$LANGUAGE myspell-$LANGUAGE"
-FREEFONTS="ttf-bitstream-vera fonts-breip ttf-dejavu ttf-freefont ttf-liberation ttf-opensymbol ttf-unifont fonts-linuxlibertine"
+OPENOFFICE_COMMON="libreoffice libreoffice-l10n-$LANGUAGE libreoffice-help-$LANGUAGE libreoffice-thesaurus-$LANGUAGE libreoffice-hypenation-$LANGUAGE myspell-$LANGUAGE libreoffice-java-common libreoffice-pdfimport libreoffice-style-human libreoffice-style-tango tango-icon-theme libreoffice-writer2xhtml"
+FREEFONTS="ttf-bitstream-vera fonts-breip ttf-dejavu ttf-freefont ttf-liberation ttf-opensymbol ttf-unifont fonts-linuxlibertine fonts-isabella"
 MSFONTS="ttf-mscorefonts-installer"
+
+pulsa_tecla() 
+{
+	echo "Pulsa una tecla para continuar..."
+	read
+}
 
 instala_programa() {
 	echo "Instalando $1"
 	shift
 	apt-get install -y -q $@
-	echo 
-	echo "Pulsa una tecla para continuar..."
-	read nada
+	pulsa_tecla
 }
 
 aptgetupdate() {
@@ -185,8 +189,7 @@ instala_impresora_hp() {
 # Se necesita python-gobject para hp-sendfax: https://answers.launchpad.net/hplip/+question/30741
 	instala_programa "Impresoras HP" hplip hplip-gui python-gobject hp-ppd hplip-ppds
 	echo "Para configurar tu impresora, ve al menú principal 'K', elige 'Sistema' y luego 'HPLIP ToolBox - Printer Toolbox'"
-	echo "Pulsa una tecla para continuar"
-	read
+	pulsa_tecla
 }
 
 detectar_wifi() {
@@ -222,7 +225,7 @@ reloj_hora() {
 		instala_programa "Programa para sincronizar la hora" ntpdate
 	fi
 	ntpdate $NTPDATE_SERVER
-	read
+	pulsa_tecla
 }
 
 language_espanol() {
@@ -518,7 +521,7 @@ menu_limpieza() {
 			4 "Eliminar modem" \
 			5 "Eliminar programas de KDE" 
 		case `cat /tmp/menuoption.txt` in
-		1 ) 	clear; liberar_espacio_disco ;;
+		1 ) 	clear; liberar_espacio_disco; pulsa_tecla ;;
 		2 ) 	clear; borra_programas_huerfanos ;;
 		3 )		clear; borra_bluetooh ;;
 		4 ) 	clear; borra_modem ;;
@@ -634,9 +637,8 @@ Atención, voy a abrir una ventana para configurar las tarjetas de red que tenga
 Maximiza la ventana y luego pulsa el botón "Administrator mode" (o "Modo Administrador") y a continuación
 teclea la contraseña de root.
 
-Pulsa una tecla para continuar...
 EOF
-				read
+				pulsa_tecla
 				su -c "kcmshell kcm_knetworkconfmodule" $LOGNAME ;
 				exit ;;
 			4)	clear; internet_fuerza_bruta ;;

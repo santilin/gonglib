@@ -2,21 +2,22 @@
 
 == URGENTE ==
 
-== José Castaño ==
-* Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar el socia, se me cierra el programa del tirón, 
-  por lo que me deja sin opción de continuar no hacer nada más, 
-* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
+== TESORERIA ==
+* Añadir extracto a las cuentas, no salen los apuntes
+* Borrar cuenta, si solo se usa como tercero_id, no se detecta si está siendo usada.
+* Generar apunte desde albarán, factura, pago, cobro, etc.
 
-== En los pájaros ==
-* Hay algo extraño con la impresión de los tickets
 
 = PRESCINDIBLE =
 
-== Tesorería ==
-* Documento_id es el albarán, asiento o la factura o lo que sea
-* Falta cuenta del pago y qué documento generar
+== Socias ==
+* Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón, 
+  por lo que me deja sin opción de continuar no hacer nada más, 
+* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
+
 
 == Ofertas ==
+* Añadir botón en albaranes: => Ofertas, y en ofertas: => Albarán
 * Insertar oferta de compra no inserta nada
 * Estadísticas
 * 'Sí a todo' en pasar de albaranes a ofertas

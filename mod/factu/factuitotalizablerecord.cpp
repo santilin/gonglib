@@ -157,7 +157,7 @@ bool ITotalizableRecord::addDescuentoRecargo(double dto, RecArticulo *articulo, 
 	if( nuevo_total != total ) {
 		double precioconiva = nuevo_total - total;
 		dbRecord *detalle = DBAPP->createRecord(pDetalles->at(0)->getTableName());
-		detalle->setValue("NLINEA", pDetalles->size()+1);
+		detalle->setValue("NLINEA", (int)pDetalles->size()+1);
 		detalle->setValue("CANTIDAD", 1.0);
 		detalle->setValue("ARTICULO_ID", articulo->getRecordID());
 		if( mTipo == compra ) {

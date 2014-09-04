@@ -1,6 +1,8 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Registro de apuntes de tesorería
 // MEMBER init
+// MEMBER save
+// MEMBER remove
 // RELATION CuentaTesoreria
 // RELATION TipoApunteTesoreria
 // RELATION empresa::Proyecto
@@ -75,6 +77,61 @@ RecTercero *RecApunteTesoreria::getRecTercero()
 //            pRecTercero->read( getValue( "TERCERO_ID" ).toInt() );
     }
     return pRecTercero;
+}
+
+/*<<<<<APUNTETESORERIA_SAVE*/
+bool RecApunteTesoreria::save(bool saverelated) throw( dbError )
+{
+/*>>>>>APUNTETESORERIA_SAVE*/
+	bool ret = dbRecord::save(saverelated);
+	if( ret ) {
+		actualizaSaldos(true);
+	}
+	return ret;
+}
+
+/*<<<<<APUNTETESORERIA_REMOVE*/
+bool RecApunteTesoreria::remove() throw( dbError )
+{
+/*>>>>>APUNTETESORERIA_REMOVE*/
+	bool ret = dbRecord::remove();
+	if( ret ) {
+		actualizaSaldos(false);
+	}
+	return ret;
+}
+
+void RecApunteTesoreria::actualizaSaldos(bool saving)
+{
+	dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
+	bool cargo = getValue("CARGO").toBool();
+	Money importe = getValue("IMPORTE").toMoney();
+	actSaldoCuenta(ct_id, cargo, importe, saving);
+	// Si el tercero es otra cuenta de tesorería, actualizar su saldo
+	Xtring tabla_terceros = getValue("TABLATERCEROS").toString();
+	if( tabla_terceros == "CUENTATESORERIA" ) 
+		actSaldoCuenta( getValue("TERCERO_ID").toInt(), !cargo, importe, saving);
+}
+
+/**
+ * @brief Actualiza el saldo de la cuenta de tesorería afectada por este apunte
+ */
+void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, bool cargo, const Money& _importe, bool saving)
+{
+	Money importe = saving ? _importe : -_importe; 
+	RecCuentaTesoreria *cuentatesoreria = static_cast<RecCuentaTesoreria*>( DBAPP->createRecord("CUENTATESORERIA") );
+    if ( cuentatesoreria->read( cuentatesoreria_id ) ) {
+		if( cargo ) {
+			cuentatesoreria->setValue( "HABER", cuentatesoreria->getValue( "HABER" ).toMoney() + importe );
+			cuentatesoreria->setValue( "SALDO", cuentatesoreria->getValue( "SALDO" ).toMoney() - importe );
+		} else {
+			cuentatesoreria->setValue( "DEBE", cuentatesoreria->getValue( "DEBE" ).toMoney() + importe );
+			cuentatesoreria->setValue( "SALDO", cuentatesoreria->getValue( "SALDO" ).toMoney() + importe );
+		}
+        cuentatesoreria->save(false);
+    }
+    delete cuentatesoreria;
+    // Actualizar saldo cuenta
 }
 
 

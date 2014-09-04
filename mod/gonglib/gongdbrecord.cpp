@@ -1587,6 +1587,7 @@ dbRecordID dbRecord::seekCode( int &nvalues, const Xtring &fldcod, const Variant
     return recid;
 }
 
+
 #if 0
 /*
 	Esta funcion esta repetida casi identica, la diferencia es que en esta segunda

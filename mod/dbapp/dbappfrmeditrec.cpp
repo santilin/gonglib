@@ -468,7 +468,7 @@ void FrmEditRec::showValidMessages( bool *isvalid, const ValidResult &validresul
 /// \todo {qt} Este set focus causa conflictos con el del choose
     if ( (messages.isEmpty() || validresult.count()) && !sender ) {
 //		if( focusWidget() == pushAccept || focusWidget() == pushCancel ) {
-        _GONG_DEBUG_PRINT(0, "Setting error focus to " + Xtring( validresult.getMessageInfo( 0 ).wrongfield ) );
+//        _GONG_DEBUG_PRINT(0, "Setting error focus to " + Xtring( validresult.getMessageInfo( 0 ).wrongfield ) );
         QWidget *focusw = findControl( validresult.getMessageInfo( 0 ).wrongfield );
         if ( focusw ) {
             if( SearchBox *sb = dynamic_cast<SearchBox *>(focusw) ) {

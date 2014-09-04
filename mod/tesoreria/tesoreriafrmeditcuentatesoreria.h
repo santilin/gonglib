@@ -43,13 +43,18 @@ protected:
 /*>>>>>FRMEDITCUENTATESORERIA_VIRTUALS_FROM_FRMEDITREC*/
 /*<<<<<FRMEDITCUENTATESORERIA_CONTROLS*/
 protected:
-	gong::EditBox *editCodigo;
-	gong::EditBox *editNombre;
 	gong::EditBox *editDebe;
 	gong::EditBox *editHaber;
 	gong::EditBox *editSaldo;
+	gong::EditBox *editCodigo;
+	gong::EditBox *editNombre;
+	gong::EditBox *editSaldoInicial;
+	gong::EditBox *editFechaSaldoInicial;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITCUENTATESORERIA_CONTROLS*/
+	Variant mSaveSaldoInicial, mSaveSaldo;
+    class FrmEditApunteTesoreria *pFrmApunteTesoreria;
+	
 };
 /*<<<<<FRMEDITCUENTATESORERIA_POSTAMBLE*/
 } // namespace tesoreria

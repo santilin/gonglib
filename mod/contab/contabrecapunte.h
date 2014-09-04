@@ -38,8 +38,6 @@ public:
     {}
 
     /*<<<<<APUNTE_MEMBERS*/
-	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
-	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 	bool isEmpty( const Xtring &nocheck_fields = Xtring::null ) const; // from dbRecord
 	virtual void beforeSaveOrDeleteRelated(dbRecord *master, bool saving); // from dbRecord
 /*>>>>>APUNTE_MEMBERS*/

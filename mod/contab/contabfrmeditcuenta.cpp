@@ -20,9 +20,6 @@
 #include "contabcuenta.h"
 #include "contabrecasiento.h"
 #include "contabfrmeditasiento.h"
-//Added by qt3to4:
-#include <Q3HBoxLayout>
-#include <Q3VBoxLayout>
 
 namespace gong {
 namespace contab {

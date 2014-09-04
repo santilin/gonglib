@@ -99,7 +99,7 @@ int main( int argc, char *argv[] )
 		DBAPP->addModule( new reccolor::RecColorModule() );
 #endif
 /*>>>>>LOAD_MODULES*/
-//{capel} Eliminar factumodule y gastostipomodule
+//{capel} Eliminar factumodule
         DBAPP->addModule( new gestiong::GestiongModule() );
         DBAPP->readSettings();
         DBAPP->initDatabases();

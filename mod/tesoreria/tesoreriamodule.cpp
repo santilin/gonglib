@@ -130,6 +130,8 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicCuentaTesoreria->addFieldEmpresaID();
     pFicCuentaTesoreria->addFieldStringCode( "CODIGO", 20 )->setUnique(false);
     pFicCuentaTesoreria->addFieldDesc( "NOMBRE", 150 );
+    pFicCuentaTesoreria->addFieldEuro( "SALDOINICIAL" );
+    pFicCuentaTesoreria->addFieldDate( "FECHASALDOINICIAL" );
     pFicCuentaTesoreria->addFieldEuro( "SALDO" )->setReadOnly( true );
     pFicCuentaTesoreria->addFieldEuro( "DEBE" )->setReadOnly( true );
     pFicCuentaTesoreria->addFieldEuro( "HABER" )->setReadOnly( true );

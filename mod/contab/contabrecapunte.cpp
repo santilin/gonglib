@@ -1,7 +1,5 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Registro de apuntes
-// MEMBER isValid
-// MEMBER toString
 // MEMBER isEmpty
 // MEMBER beforeSaveOrDeleteRelated
 // RELATION Cuenta
@@ -82,23 +80,6 @@ bool RecApunte::isEmpty( const Xtring &nocheck_fields ) const
     if ( !getValue( "NOTAS" ).toString().isEmpty() )
         return false;
     return true;
-}
-
-/*<<<<<APUNTE_ISVALID*/
-bool RecApunte::isValid(ValidResult::Context context, ValidResult *result )
-{
-	bool ret = dbRecord::isValid(context, result);
-/*>>>>>APUNTE_ISVALID*/
-    return ret;
-}
-
-/*<<<<<APUNTE_TOSTRING*/
-Xtring RecApunte::toString(int format, const Xtring &includedFields) const
-{
-	Xtring result;
-/*>>>>>APUNTE_TOSTRING*/
-    result = dbRecord::toString(format, includedFields);
-    return result;
 }
 
 

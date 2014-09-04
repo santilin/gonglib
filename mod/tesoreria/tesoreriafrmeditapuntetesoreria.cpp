@@ -158,6 +158,8 @@ if(empresa::ModuleInstance->usaProyectos()){
 }
 	getRecApunteTesoreria()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITAPUNTETESORERIA_GATHER*/
+	getRecApunteTesoreria()->setValue( "TERCERO_ID", getRecTercero() ? getRecTercero()->getRecordID() : 0 );
+	getRecApunteTesoreria()->setValue( "CONCEPTO_ID", getRecConcepto() ? getRecConcepto()->getRecordID() : 0 );
 }
 
 
@@ -547,12 +549,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 		scatterProyecto();
 }
 /*>>>>>FRMEDITAPUNTETESORERIA_VALIDATE*/
-// {capel} comentar los validSeekCode de cuentatesoreria, tercero y concepto
-	if( getRecCuentaTesoreria() && focusWidget() != pushCuentaTesoreriaCodigo) // To avoid triggering the validating if the button is pressed
-	if( validSeekCode( sender, isvalid, *validresult, editCuentaTesoreriaCodigo, editCuentaTesoreriaNombre, getRecCuentaTesoreria(), 
-			getRecCuentaTesoreria()->getTableDefinition()->getCodeField(), 
-			getRecCuentaTesoreria()->getTableDefinition()->getDescField(), Xtring::null) )
-		scatterCuentaTesoreria();
+// {capel} comentar los validSeekCode de tercero y concepto
 	if( getRecTercero() && focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre, getRecTercero(), 
 			getRecTercero()->getTableDefinition()->getCodeField(), 
@@ -587,7 +584,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 			connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
 			editTerceroCodigo = searchTerceroCodigo->getEditCode();
 			editTerceroNombre = searchTerceroCodigo->getEditDesc();
-			searchTerceroCodigo->setMustBeReadOnly(true);
+//			searchTerceroCodigo->setMustBeReadOnly(true);
 			
 			searchTerceroCodigo->setVisible( true );
 			editTercero->setVisible( false );
@@ -620,7 +617,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 			connect( pushConceptoCodigo, SIGNAL( clicked() ), this, SLOT( pushConceptoCodigo_clicked() ) );
 			editConceptoCodigo = searchConceptoCodigo->getEditCode();
 			editConceptoNombre = searchConceptoCodigo->getEditDesc();
-			searchConceptoCodigo->setMustBeReadOnly(true);
+//			searchConceptoCodigo->setMustBeReadOnly(true);
 			
 			searchConceptoCodigo->setVisible( true );
 			editConcepto->setVisible( false );
@@ -631,6 +628,13 @@ if(empresa::ModuleInstance->usaProyectos()){
 	}
 	if( sender == editTipoApunteTesoreriaCodigo && editTipoApunteTesoreriaCodigo->isJustEdited() ) {
 		changeTipoApunte();
+	}
+	if( !sender ) {
+		if( comboTablaTerceros->getCurrentItemValue() == "CUENTATESORERIA" 
+			&& getRecCuentaTesoreria()->getRecordID() == getRecTercero()->getRecordID() ) {
+			validresult->addError( _("La cuenta de tesorería y la del tercero no pueden ser la misma"), "CUENTATESORERIA");
+			*isvalid = false;
+		}
 	}
 	if( !ir ) {
 		showValidMessages(isvalid, *validresult, sender);

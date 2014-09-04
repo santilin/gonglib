@@ -37,7 +37,7 @@ public:
 	RecApunteTesoreria(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("APUNTETESORERIA"), recid, user)
 /*>>>>>APUNTETESORERIA_CONSTRUCTOR*/
-		, pRecTercero(0), pRecConcepto(0)
+		, pRecConcepto(0), pRecTercero(0)
 	{};
     RecTercero *getRecTercero();	
     RecConcepto *getRecConcepto();	
@@ -50,7 +50,11 @@ public:
 
 /*<<<<<APUNTETESORERIA_MEMBERS*/
 	void init();
+	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool remove() throw( dbError ); // from dbRecord
 /*>>>>>APUNTETESORERIA_MEMBERS*/
+	void actSaldoCuenta(dbRecordID cuentatesoreria_id, bool cargo, const Money &importe, bool saving);
+	void actualizaSaldos( bool saving );
 private:
 	RecConcepto *pRecConcepto;
 	RecTercero *pRecTercero;
