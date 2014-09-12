@@ -250,7 +250,6 @@ void FrmEditRecMaster::setTableDataModel()
                            + Xtring( e.what() ) );
     }
     close();
-    return;
 }
 
 /**

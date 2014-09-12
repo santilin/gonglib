@@ -57,14 +57,13 @@ FrmEditCuentaTesoreria::FrmEditCuentaTesoreria(FrmEditRec *parentfrm, dbRecord *
     RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria*>(ModuleInstance->createRecord("APUNTETESORERIA"));
     dbViewDefinitionDict apunteviews;
     ModuleInstance->getDatabase()->getViewsByName( "APUNTETESORERIA._EXTRACTO_", apunteviews );
-    dbRecordDataModel *apuntedm = new dbRecordDataModel(apunte, apunteviews, "1=0");
+    dbRecordDataModel *apuntedm = new dbRecordDataModel(apunte, apunteviews, "");
     pFrmApunteTesoreria = static_cast<FrmEditApunteTesoreria *>(
                       ModuleInstance->createEditForm(this, apunte, apuntedm, DataTable::browsing,
                               static_cast<dbApplication::EditFlags>(dbApplication::embedded + dbApplication::tableEditEvent ),
                               tabExtracto) );
     pFrmApunteTesoreria->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding);
     tabExtractoLayout->addWidget(pFrmApunteTesoreria);
-    tabExtracto->show();
     pTabWidget->addTab( tabExtracto, "&Extracto" );
 }
 

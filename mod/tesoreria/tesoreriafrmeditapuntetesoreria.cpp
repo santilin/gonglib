@@ -126,6 +126,11 @@ if(empresa::ModuleInstance->usaProyectos()){
 	scatterProyecto();
 }
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTER*/
+	bool isvalid = true;
+	validateFields(comboTablaTerceros, &isvalid);
+	scatterTercero();
+	validateFields(comboTablaConceptos, &isvalid);
+	scatterConcepto();
 	if( isInserting() ) {
 		if( editNumero->toInt() == 0 ) {
 			editNumero->setText( getRecord()->selectNextInt( "NUMERO" ) );

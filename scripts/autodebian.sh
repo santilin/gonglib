@@ -3,6 +3,11 @@
 # probar apt-get -q -y -o APT::Install-Recommends=true -o APT::Get::AutomaticRemove=true install task-spanish-kde-desktop
 # probar /etc/issue
 
+#instalación de un plugin para plama
+# git clone https://github.com/faho/kwin-tiling.git
+# cd kwin-tiling/
+# plasmapkg –type kwinscript -i .
+
 LATEXFONTS="fonts-lyx"
 
 
@@ -45,10 +50,7 @@ aptgetupdate() {
 	debian*)
 		if grep "^deb cdrom" /etc/apt/sources.list; then
 			if ! grep "^deb http" /etc/apt/sources.list; then
-				echo "Tienes un debian instalado desde CDROM pero sin repositorios. ¿Quieres usar los repositorios de Internet?"
-				read siono
-				case $siono in
-				s|S|si|Si|sí|Sí)
+				if pregunta_si "Tienes un debian instalado desde CDROM pero sin repositorios. ¿Quieres usar los repositorios de Internet?"
 					cat > /etc/apt/sources.list <<EOF
 deb http://ftp.gva.es/mirror/debian/ stable main contrib non-free
 deb-src http://ftp.gva.es/mirror/debian/ stable main contrib non-free
@@ -61,11 +63,9 @@ deb-src http://ftp.gva.es/mirror/debian/ stable-updates main
 deb http://security.debian.org/ stable/updates main contrib non-free
 deb-src http://security.debian.org/ stable/updates main contrib non-free
 EOF
-					;;
-				*)
+				else
 					return
-					;;
-				esac
+				fi
 			fi
 		fi
 		;;
@@ -216,7 +216,17 @@ instala_hp_1020() {
 }
 
 instala_skype() {
-	echo "Espera..."
+	case $DISTRO in
+	debian*)
+        wget -O /tmp/skype-install.deb http://www.skype.com/go/getskype-linux-deb
+        dpkg -i /tmp/skype-install.deb || return
+        rm skype-install.deb
+        pausa
+        ;;
+    *)
+        firefox http://www.skype.com/intl/en/get-skype/on-your-computer/linux/
+        ;;
+    esac
 }
 
 reloj_hora() {
