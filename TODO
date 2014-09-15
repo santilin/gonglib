@@ -4,7 +4,6 @@
 
 == TESORERIA ==
 * Extracto: añadir valores de terceros y conceptos
-* Al modificar un apunte no sale la cuenta de teceros ni de conceptos
 * Borrar cuenta, si solo se usa como tercero_id, no se detecta si está siendo usada.
 * Generar apunte desde albarán, factura, pago, cobro, etc.
 

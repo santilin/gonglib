@@ -125,6 +125,7 @@ void FrmEditApunteTesoreria::scatterFields()
 if(empresa::ModuleInstance->usaProyectos()){
 	scatterProyecto();
 }
+	_GONG_DEBUG_PRINT(0, pRecord->toString(TOSTRING_DEBUG_COMPLETE));
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTER*/
 	bool isvalid = true;
 	validateFields(comboTablaTerceros, &isvalid);
@@ -139,8 +140,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 			editFecha->setText( Date::currentDate() );
 		}
 	}
-	validateFields(comboTablaTerceros, 0, 0);
-	validateFields(comboTablaConceptos, 0, 0);
 }
 
 void FrmEditApunteTesoreria::gatherFields()
@@ -326,6 +325,7 @@ void FrmEditApunteTesoreria::pushProyectoCodigo_clicked()
 void FrmEditApunteTesoreria::scatterTercero()
 {
 	if( getRecTercero() ) {
+		_GONG_DEBUG_PRINT(0, getRecTercero()->toString(TOSTRING_DEBUG_COMPLETE));
 		editTerceroCodigo->setText( getRecTercero()->getValue( getRecTercero()->getTableDefinition()->getCodeField() ) );
 		editTerceroNombre->setText( getRecTercero()->getValue( getRecTercero()->getTableDefinition()->getDescField() ) );
 		if (editTercero->toString().isEmpty() ) 
