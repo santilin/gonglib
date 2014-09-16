@@ -3,7 +3,7 @@
 # probar apt-get -q -y -o APT::Install-Recommends=true -o APT::Get::AutomaticRemove=true install task-spanish-kde-desktop
 # probar /etc/issue
 
-#instalación de un plugin para plama
+#instalación de un plugin para plasma
 # git clone https://github.com/faho/kwin-tiling.git
 # cd kwin-tiling/
 # plasmapkg –type kwinscript -i .
@@ -197,6 +197,20 @@ detectar_wifi() {
 	lspci | grep [Ww]ireless
 	dmesg | grep [Ff]irmware
         dmesg | grep [Ww]ireless
+}
+
+instala_firmware() {
+	FIRMWARE=firmware.tar.gz
+	if ! -f $FIRMWARE; then
+		FIRMWARE=$(find . -name firmware.tar.gz)
+	fi
+	if ! -f $FIRMWARE; then
+		echo "No se ha encontrado el archivo firmware.tar.gz. Por favor, cópialo en $(pwd)"
+		exit 1
+	fi
+    cd /lib
+    tar -zxvf $FIRMWARE .
+    pausa
 }
 
 
@@ -463,11 +477,13 @@ menu_hardware() {
 			--menu "Elige el periférico a instalar" 20 75 3 \
 			1 "Instalar una impresora" \
 			2 "No puedo escribir en mi disco externo que está preparado para Windows" \
-			3 "Quiero que funcione mi tarjeta wifi (Inalámbrica)"
+			3 "Quiero que funcione mi tarjeta wifi (Inalámbrica)" \
+			4 "Instalar firmware"
 		case `cat /tmp/menuoption.txt` in
 		1 )	menu_impresoras ;;
 		2 )	instala_programa "Sistema de archivos ntfs" ntfs-3g ;;
 		3 )	menu_internet_inalambrico ;;
+		4 ) instala_firmware ;;
 		* )	break ;;
 		esac
 	done

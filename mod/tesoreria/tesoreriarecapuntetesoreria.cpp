@@ -55,9 +55,10 @@ RecConcepto *RecApunteTesoreria::getRecConcepto()
         }
         if( pRecConcepto == 0 )
             pRecConcepto = DBAPP->createRecord( tablaconceptos, 0, getUser() );
-        if( getValue( "CONCEPTO_ID" ).toUInt() != 0 &&
-			getValue( "CONCEPTO_ID" ).toUInt() != pRecConcepto->getRecordID() )
-            pRecConcepto->read( getValue( "CONCEPTO_ID" ).toInt() );
+		if( getValue( "CONCEPTO_ID" ).toUInt() != pRecConcepto->getRecordID() ) {
+			if( !pRecConcepto->isRead() ) 
+				pRecConcepto->read( getValue( "CONCEPTO_ID" ).toInt() );
+		}
     }
     return pRecConcepto;
 }
@@ -74,9 +75,10 @@ RecTercero *RecApunteTesoreria::getRecTercero()
         }
         if( pRecTercero == 0 )
             pRecTercero = DBAPP->createRecord( tablaterceros, 0, getUser() );
-        if( getValue( "TERCERO_ID" ).toUInt() != 0 &&
-			getValue( "TERCERO_ID" ).toUInt() != pRecTercero->getRecordID() )
-            pRecTercero->read( getValue( "TERCERO_ID" ).toInt() );
+		if( getValue( "TERCERO_ID" ).toUInt() != pRecTercero->getRecordID() ) {
+			if( !pRecTercero->isRead() )
+				pRecTercero->read( getValue( "TERCERO_ID" ).toInt() );
+		}
     }
     return pRecTercero;
 }

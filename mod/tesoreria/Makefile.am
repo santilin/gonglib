@@ -9,7 +9,7 @@ libgongtesoreria_la_SOURCES = tesoreriamodule.cpp \
 	tesoreriafrmedittercerotesoreria.cpp tesoreriarectercerotesoreria.cpp \
 	tesoreriafrmeditconceptotesoreria.cpp tesoreriarecconceptotesoreria.cpp \
 	tesoreriafrmedittipoapuntetesoreria.cpp tesoreriarectipoapuntetesoreria.cpp \
-	tesoreriafldpedircampo.cpp
+	tesoreriafldpedircampo.cpp tesoreriaactnombrebehavior.cpp
 
 libgongtesoreria_la_HEADERS = tesoreriamodule.h \
 	tesoreriamastertable.h \
@@ -18,7 +18,7 @@ libgongtesoreria_la_HEADERS = tesoreriamodule.h \
 	tesoreriafrmedittercerotesoreria.h tesoreriarectercerotesoreria.h \
 	tesoreriafrmeditconceptotesoreria.h tesoreriarecconceptotesoreria.h \
 	tesoreriafrmedittipoapuntetesoreria.h tesoreriarectipoapuntetesoreria.h \
-	tesoreriafldpedircampo.h
+	tesoreriafldpedircampo.h tesoreriaactnombrebehavior.cpp
 
 nodist_libgongtesoreria_la_SOURCES = moc_tesoreriamodule.cpp \
 	moc_tesoreriafrmeditcuentatesoreria.cpp \

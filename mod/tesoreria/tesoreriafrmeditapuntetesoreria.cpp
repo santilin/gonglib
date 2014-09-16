@@ -558,8 +558,9 @@ if(empresa::ModuleInstance->usaProyectos()){
 	if( getRecTercero() && focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre, getRecTercero(), 
 			getRecTercero()->getTableDefinition()->getCodeField(), 
-			getRecTercero()->getTableDefinition()->getDescField(), Xtring::null) )
+			getRecTercero()->getTableDefinition()->getDescField(), Xtring::null) ) {
 		scatterTercero();
+	}
 	if( getRecConcepto() && focusWidget() != pushConceptoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editConceptoCodigo, editConceptoNombre, getRecConcepto(), 
 			getRecConcepto()->getTableDefinition()->getCodeField(), 
