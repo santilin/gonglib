@@ -10,11 +10,11 @@ class ActNombreBehavior: public dbRecordBehavior
 {
 public:
     ActNombreBehavior(const Xtring &myfield, const Xtring &synctable, const Xtring &syncfield, const Xtring &syncidfield )
-		: dbRecordBehavior(), mMyField(myfield), mSyncTable(synctable), mSyncField(syncfield),mSyncIdField(syncidfield) {}
-	virtual bool save(dbRecord *therecord, bool is_pre, bool &result);
+        : dbRecordBehavior(), mMyField(myfield), mSyncTable(synctable), mSyncField(syncfield),mSyncIdField(syncidfield) {}
+    virtual bool save(dbRecord *therecord, bool is_pre, bool &result);
 protected:
-	Xtring mMyField, mSyncTable, mSyncField, mSyncIdField;
-	Variant mOldValue;
+    Xtring mMyField, mSyncTable, mSyncField, mSyncIdField;
+    Variant mOldValue;
 };
 
 } // namespace tesoreria

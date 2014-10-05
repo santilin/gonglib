@@ -90,7 +90,7 @@ private:
     int mCodEmpresa, mEjercicio;
     XtringList mContadorTables;
 
-/*<<<<<EMPRESAMODULE_RECORD_DEFINITIONS*/
+    /*<<<<<EMPRESAMODULE_RECORD_DEFINITIONS*/
 public:
 	empresa::MasterTable *getFicEmpresa() const { return pFicEmpresa; }
 	empresa::MasterTable *getFicDepartamento() const { return pFicDepartamento; }
@@ -124,8 +124,8 @@ protected:
 
 private slots:
     void slotMenuEmpresaCambiarEjercicio();
-	void slotMenuEmpresaEjercicioAnterior();
-	void slotMenuEmpresaEjercicioSiguiente();
+    void slotMenuEmpresaEjercicioAnterior();
+    void slotMenuEmpresaEjercicioSiguiente();
 
     /*<<<<<EMPRESAMODULE_REQUIRES*/
 public:

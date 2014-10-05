@@ -70,7 +70,7 @@ FrmEditAlbaranCompraDet::FrmEditAlbaranCompraDet(FrmEditRecMaster *frmmaster, in
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITALBARANCOMPRADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
-	editArticuloCodigo->setWidthInChars(12);
+    editArticuloCodigo->setWidthInChars(12);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "&Act. coste artículo" ) ) );
@@ -417,10 +417,10 @@ void FrmEditAlbaranCompraDet::updateStatus( bool callbehaviors )
 
 void FrmEditAlbaranCompraDet::slotActPrecioArticulo_clicked()
 {
-	if( ModuleInstance->editCostesArticulo(this, getRecArticulo(), 
-		editCosteSinIVA->toDouble() ) ) {
-		searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
-	}
+    if( ModuleInstance->editCostesArticulo(this, getRecArticulo(),
+                                           editCosteSinIVA->toDouble() ) ) {
+        searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
+    }
 }
 
 /*<<<<<FRMEDITALBARANCOMPRADET_FIN*/

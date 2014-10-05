@@ -29,29 +29,29 @@ namespace tesoreria {
 TesoreriaModule *ModuleInstance = 0;
 
 TesoreriaModule::TesoreriaModule()
-	: dbModule("tesoreria")
+    : dbModule("tesoreria")
 {
-	ModuleInstance = this;
+    ModuleInstance = this;
     _GONG_DEBUG_TRACE(1);
-/*<<<<<TESORERIAMODULE_PUBLIC_INFO*/
+    /*<<<<<TESORERIAMODULE_PUBLIC_INFO*/
 //	mModuleRequires
 	mMasterTables << "APUNTETESORERIA" << "CUENTATESORERIA" << "TERCEROTESORERIA" << "CONCEPTOTESORERIA" << "TIPOAPUNTETESORERIA";
 //	mDetailTables
 /*>>>>>TESORERIAMODULE_PUBLIC_INFO*/
-	mTablasConceptos << "CONCEPTOTESORERIA";
-	mTablasTerceros << "CUENTATESORERIA" << "CONTACTO";
-	mTablasCuentas << "CUENTATESORERIA";
+    mTablasConceptos << "CONCEPTOTESORERIA";
+    mTablasTerceros << "CUENTATESORERIA" << "CONTACTO";
+    mTablasCuentas << "CUENTATESORERIA";
 }
 
 
 TesoreriaModule::~TesoreriaModule()
 {
-	_GONG_DEBUG_TRACE(1);
+    _GONG_DEBUG_TRACE(1);
 }
 
 bool TesoreriaModule::login(FrmLogin* frmlogin, const Xtring& version, Xtring& addTitle, bool startingapp)
 {
-	return true;
+    return true;
 }
 
 
@@ -59,16 +59,16 @@ void TesoreriaModule::afterLoad()
 {
     FldPedirCampo *fpc = new FldPedirCampo( "foo", "bar" );
     fpc->setValuesFromString( ModuleInstance->getModuleSetting( "PEDIRCAMPO.VALUES" ).toString() );
-	delete fpc;
+    delete fpc;
 }
 
 
 bool TesoreriaModule::initDatabase(dbDefinition *db)
 {
-	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
-	_GONG_DEBUG_ASSERT( db );
-	pMainDatabase = db;
-/*<<<<<TESORERIAMODULE_INIT_DATABASE*/
+    _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
+    _GONG_DEBUG_ASSERT( db );
+    pMainDatabase = db;
+    /*<<<<<TESORERIAMODULE_INIT_DATABASE*/
 
 /*>>>>>TESORERIAMODULE_INIT_DATABASE*/
 
@@ -77,30 +77,30 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicTipoApunteTesoreria->addFieldEmpresaID();
     pFicTipoApunteTesoreria->addFieldIntCode( "CODIGO" )->setUnique(false);
     pFicTipoApunteTesoreria->addFieldDesc( "NOMBRE", 50 );
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRFECHA" );
-	pFicTipoApunteTesoreria->addFieldString("FECHA",20);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCARGO" );
-	pFicTipoApunteTesoreria->addFieldBool("CARGO");
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRIMPORTE" );
-	pFicTipoApunteTesoreria->addFieldMoney("IMPORTE");
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRREFERENCIA" );
-	pFicTipoApunteTesoreria->addFieldString("REFERENCIA",100);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCUENTA" );
-	pFicTipoApunteTesoreria->addFieldString("CUENTA",200);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLATERCEROS" );
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRFECHA" );
+    pFicTipoApunteTesoreria->addFieldString("FECHA",20);
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCARGO" );
+    pFicTipoApunteTesoreria->addFieldBool("CARGO");
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRIMPORTE" );
+    pFicTipoApunteTesoreria->addFieldMoney("IMPORTE");
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRREFERENCIA" );
+    pFicTipoApunteTesoreria->addFieldString("REFERENCIA",100);
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCUENTA" );
+    pFicTipoApunteTesoreria->addFieldString("CUENTA",200);
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLATERCEROS" );
     pFicTipoApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),
             "TABLATERCEROS" )->setCanBeNull(true);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTERCERO" );
-	pFicTipoApunteTesoreria->addFieldString("TERCERO",200);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLACONCEPTOS" );
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTERCERO" );
+    pFicTipoApunteTesoreria->addFieldString("TERCERO",200);
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRTABLACONCEPTOS" );
     pFicTipoApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasConceptos(), &getTablasConceptos(),
             "TABLACONCEPTOS" )->setCanBeNull(true);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCONCEPTO" );
-	pFicTipoApunteTesoreria->addFieldString("CONCEPTO",200);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRNOTAS" );
-	pFicTipoApunteTesoreria->addFieldString("VALORNOTAS",200);
-	pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRPROYECTO" );
-	pFicTipoApunteTesoreria->addFieldString("PROYECTO",200);
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCONCEPTO" );
+    pFicTipoApunteTesoreria->addFieldString("CONCEPTO",200);
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRNOTAS" );
+    pFicTipoApunteTesoreria->addFieldString("VALORNOTAS",200);
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRPROYECTO" );
+    pFicTipoApunteTesoreria->addFieldString("PROYECTO",200);
     pFicTipoApunteTesoreria->addFieldNotas("NOTAS");
     pFicTipoApunteTesoreria->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicTipoApunteTesoreria->getTableDefinition() );
@@ -122,7 +122,7 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicConceptoTesoreria->addFieldNotas();
     pFicConceptoTesoreria->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicConceptoTesoreria->getTableDefinition() );
-	
+
 
     // Las cuentas son independientes para cada empresa y ejercicio
     pFicCuentaTesoreria = new MasterTable( *pMainDatabase, "CUENTATESORERIA" );
@@ -139,7 +139,7 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicCuentaTesoreria->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pFicCuentaTesoreria->addMultipleIndex( "cuenta_codigo_unico", "EMPRESA_ID,CUENTA", true );
     pMainDatabase->addTable( pFicCuentaTesoreria->getTableDefinition() );
-	
+
     pFicApunteTesoreria = new MasterTable( *pMainDatabase, "APUNTETESORERIA" );
     pFicApunteTesoreria->addFieldRecordID();
     pFicApunteTesoreria->addFieldEmpresaID();
@@ -159,8 +159,8 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
             "TABLACONCEPTOS" )->setCanBeNull(true);
     pFicApunteTesoreria->addFieldReferenceID( "CONCEPTO_ID", "CONCEPTO.ID" );
     pFicApunteTesoreria->addFieldDesc( "CONCEPTO", 200 )->setCanBeNull( true );
-    pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),
-			"TABLADOCUMENTOS")->setCanBeNull(true);
+    pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasDocumentos(), &getTablasDocumentos(),
+            "TABLADOCUMENTOS")->setCanBeNull(true);
     pFicApunteTesoreria->addFieldReferenceID( "DOCUMENTO_ID", "DOCUMENTO.ID" );
     pFicApunteTesoreria->addFieldDesc( "REFERENCIA", 200 )->setCanBeNull( true );
     pFicApunteTesoreria->addFieldBool( "AUTOMATICO" )->setDefaultValue( "0" )->setReadOnly( true );
@@ -174,8 +174,8 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
 
 dbRecord *TesoreriaModule::createRecord(const Xtring &tablename, dbRecordID recid, dbUser *user)
 {
-	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
-/*<<<<<TESORERIAMODULE_CREATE_RECORD*/
+    _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
+    /*<<<<<TESORERIAMODULE_CREATE_RECORD*/
 	if( tablename.upper() == "APUNTETESORERIA" )
 		return new RecApunteTesoreria(getConnection(), recid, user);
 	if( tablename.upper() == "CUENTATESORERIA" )
@@ -187,16 +187,16 @@ dbRecord *TesoreriaModule::createRecord(const Xtring &tablename, dbRecordID reci
 	if( tablename.upper() == "TIPOAPUNTETESORERIA" )
 		return new RecTipoApunteTesoreria(getConnection(), recid, user);
 /*>>>>>TESORERIAMODULE_CREATE_RECORD*/
-	return 0;
+    return 0;
 }
 
 FrmEditRec *TesoreriaModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm,
-	FrmEditRec::EditMode editmode, dbApplication::EditFlags editflags,
-	QWidget *parent, const char* name, WidgetFlags fl )
+        FrmEditRec::EditMode editmode, dbApplication::EditFlags editflags,
+        QWidget *parent, const char* name, WidgetFlags fl )
 {
-	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
-	Xtring tablename = rec->getTableName();
-/*<<<<<TESORERIAMODULE_CREATE_EDITFORM*/
+    _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
+    Xtring tablename = rec->getTableName();
+    /*<<<<<TESORERIAMODULE_CREATE_EDITFORM*/
 	if( tablename.upper() == "APUNTETESORERIA" )
 		return new FrmEditApunteTesoreria(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 	if( tablename.upper() == "CUENTATESORERIA" )
@@ -208,21 +208,21 @@ FrmEditRec *TesoreriaModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec
 	if( tablename.upper() == "TIPOAPUNTETESORERIA" )
 		return new FrmEditTipoApunteTesoreria(parentfrm, rec, dm, editmode, editflags, parent, name, fl);
 /*>>>>>TESORERIAMODULE_CREATE_EDITFORM*/
-	return 0;
+    return 0;
 }
 
 FrmEditRecDetail *TesoreriaModule::createEditDetailForm(
-	FrmEditRecMaster *frmmaster, int ndetail,
-	dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm,
-	FrmEditRec::EditMode editmode, dbApplication::EditFlags editflags,
-	QWidget *parent, const char* name, WidgetFlags fl )
+    FrmEditRecMaster *frmmaster, int ndetail,
+    dbRecord *rec, const Xtring &dettablename, dbRecordDataModel *dm,
+    FrmEditRec::EditMode editmode, dbApplication::EditFlags editflags,
+    QWidget *parent, const char* name, WidgetFlags fl )
 {
-	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
-	Xtring tablename = rec->getTableName();
-/*<<<<<TESORERIAMODULE_CREATE_EDITFORM_DETAIL*/
+    _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
+    Xtring tablename = rec->getTableName();
+    /*<<<<<TESORERIAMODULE_CREATE_EDITFORM_DETAIL*/
 
 /*>>>>>TESORERIAMODULE_CREATE_EDITFORM_DETAIL*/
-	return 0;
+    return 0;
 }
 
 /*<<<<<TESORERIAMODULE_SLOT_TESORERIACUENTATESORERIA*/
@@ -259,15 +259,15 @@ void TesoreriaModule::slotMenuTesoreriaTipoApunteTesoreria()
 
 bool TesoreriaModule::initMainWindow(MainWindow *mainwin)
 {
-	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
-	_GONG_DEBUG_ASSERT(mainwin);
-	pMainWindow = mainwin;
-	
+    _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
+    _GONG_DEBUG_ASSERT(mainwin);
+    pMainWindow = mainwin;
+
     pMenuTesoreria = new QMenu( pMainWindow );
     pMenuTesoreria->setObjectName( "MenuTesoreria" );
     pMainWindow->menuBar()->insertItem( toGUI( _( "&Tesorería" ) ), pMenuTesoreria );
-	
-/*<<<<<TESORERIAMODULE_INITMAINWINDOW_MENUS*/
+
+    /*<<<<<TESORERIAMODULE_INITMAINWINDOW_MENUS*/
 	{
 		Xtring caption = DBAPP->getDatabase()->findTableDefinition("APUNTETESORERIA")->getDescPlural();
 		pMenuTesoreriaApunteTesoreria = new QAction( toGUI( caption ) + "...", pMainWindow );
@@ -314,12 +314,12 @@ bool TesoreriaModule::initMainWindow(MainWindow *mainwin)
 		pMenuTesoreriaTipoApunteTesoreria->addTo(pMenuTesoreria);
 	}
 /*>>>>>TESORERIAMODULE_INITMAINWINDOW_MENUS*/
-	return true;
+    return true;
 }
 
 #if 0
-RecApunteTesoreria* TesoreriaModule::creaAsientoSimple(FrmEditRec* parent, 
-		RecApunteTesoreria* old_apunte,
+RecApunteTesoreria* TesoreriaModule::creaAsientoSimple(FrmEditRec* parent,
+        RecApunteTesoreria* old_apunte,
         Date fecha, const Xtring& rec_origen,
         dbRecordID proyecto_id, const Xtring& descripcion,
         const Xtring& concepto, dbRecordID cuentadebe_id, Money debe,
@@ -335,11 +335,11 @@ RecApunteTesoreria* TesoreriaModule::creaAsientoSimple(FrmEditRec* parent,
 }
 
 
-RecApunteTesoreria *TesoreriaModule::creaAsientoSimple(FrmEditRec *parent, 
-		RecApunteTesoreria *old_apunte,
-        Date fecha, const Xtring &rec_origen, dbRecordID proyecto_id, 
-		const Xtring &descripcion, const Xtring &concepto, 
-		const Xtring &cuentadebe, Money debe,
+RecApunteTesoreria *TesoreriaModule::creaAsientoSimple(FrmEditRec *parent,
+        RecApunteTesoreria *old_apunte,
+        Date fecha, const Xtring &rec_origen, dbRecordID proyecto_id,
+        const Xtring &descripcion, const Xtring &concepto,
+        const Xtring &cuentadebe, Money debe,
         const Xtring &cuentahaber, Money haber,	bool supervisar)
 {
     Date fechacontable = empresa::ModuleInstance->getRecEmpresa()->getValue("FECHACONTABLE").toDate();
@@ -354,7 +354,7 @@ RecApunteTesoreria *TesoreriaModule::creaAsientoSimple(FrmEditRec *parent,
     apunte->setValue( "FECHA", fecha );
     apunte->setValue( "PROYECTO_ID", proyecto_id );
     apunte->setValue( "DESCRIPCION", descripcion );
-	apunte->setValue( "TIPOAPUNTE", 5 ); // Automático
+    apunte->setValue( "TIPOAPUNTE", 5 ); // Automático
     if( old_apunte ) {
         apunte->rescateValues( old_apunte );
         apunte->setValue( "ID", old_apunte->getRecordID() );
@@ -374,7 +374,7 @@ RecApunteTesoreria *TesoreriaModule::creaAsientoSimple(FrmEditRec *parent,
     apunte->addApunte( apuntehaber );
 
     FrmEditRec *frmeditapunte = DBAPP->createEditForm(parent,
-                                 apunte, 0, DataTable::inserting, dbApplication::simpleEdition, parent );
+                                apunte, 0, DataTable::inserting, dbApplication::simpleEdition, parent );
     if( !supervisar )
         supervisar = !frmeditapunte->showAndSave();
     if( supervisar )
@@ -402,7 +402,7 @@ RecApunteTesoreria *TesoreriaModule::creaAsientoMultiple(FrmEditRec* parent, Rec
     apunte->setValue( "AUTOMATICO", true );
     apunte->setValue( "FECHA", fecha );
     apunte->setValue( "PROYECTO_ID", proyecto_id );
-	apunte->setValue( "TIPOASIENTO", 5 ); // Automático
+    apunte->setValue( "TIPOASIENTO", 5 ); // Automático
 // 	int contador = apunte->getLastNumDocumento( proyecto_id ) + 1;
 // 	apunte->setValue( "CONTADORNUMDOCUMENTO", contador );
 // 	if( apunte->getRecProyecto()->read( proyecto_id ) ) {
@@ -424,7 +424,7 @@ RecApunteTesoreria *TesoreriaModule::creaAsientoMultiple(FrmEditRec* parent, Rec
         apunte->addApunte( apunte );
     }
     FrmEditRec *frmeditapunte = DBAPP->createEditForm(parent,
-                                 apunte, 0, DataTable::inserting, dbApplication::simpleEdition, parent );
+                                apunte, 0, DataTable::inserting, dbApplication::simpleEdition, parent );
     if( !supervisar )
         supervisar = !frmeditapunte->showAndSave();
     if( supervisar )

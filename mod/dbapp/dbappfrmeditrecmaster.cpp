@@ -69,9 +69,9 @@ FrmEditRecMaster::FrmEditRecMaster( FrmEditRec *parentfrm, dbRecord *maestro, db
     pButtonsLayout->insertWidget( 2, pushMiddle );
     pushMiddle->setVisible( false );
 
-	pushRemoveFilter = new QPushButton( this, "pushRemoveFilter" );
+    pushRemoveFilter = new QPushButton( this, "pushRemoveFilter" );
     pushRemoveFilter->setIcon( QIcon::fromTheme("edit-clear", QIcon(":/edit-clear.png")) );
-	pushRemoveFilter->setText( toGUI( _("Quitar filtro") ) );
+    pushRemoveFilter->setText( toGUI( _("Quitar filtro") ) );
     connect( pushRemoveFilter, SIGNAL( clicked() ), this, SLOT( menuTableRemoveFilter_clicked() ) );
     pButtonsLayout->insertWidget( 2, pushRemoveFilter );
     pushRemoveFilter->setVisible( false );
@@ -343,7 +343,7 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
         pMenuTable->setEnabled( false );
         pMenuView->setEnabled( false );
     } else {
-		pushRemoveFilter->setVisible( false );
+        pushRemoveFilter->setVisible( false );
         dbRecordPermissions r = getPermissions();
         if (( mEditMode == DataTable::browsing || mEditMode == DataTable::choosing ) ) {
             pDataTable->setReadOnly( isReadOnly() );
@@ -362,8 +362,8 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
             }
             if ( !pDataModel->getFilter("").isEmpty() ) {
                 title += _( " [Filtrado]" );
-				pushRemoveFilter->setVisible( true );
-			}
+                pushRemoveFilter->setVisible( true );
+            }
             setTitle( title );
             if ( mChoosing && mEditMode == DataTable::choosing ) {
                 if ( pDataModel->getRowCount() == 0 && r.canAdd )
@@ -527,7 +527,7 @@ void FrmEditRecMaster::accept()
     } else {
         DBAPP->waitCursor( true );
         try {
-			bool isvalid = true;
+            bool isvalid = true;
             mEditStatus = not_saved;
             switch ( mEditMode ) {
             case DataTable::inserting:
@@ -645,7 +645,7 @@ bool FrmEditRecMaster::canClose()
         if (( mBrowsing && mEditMode == DataTable::browsing ) || ( mChoosing && mEditMode == DataTable::choosing ) ) {
             // browsing or choosing always closes
             if( wasCancelled() ) // FIXME does not work
-				pDataTable->getSelectedIDs().clear();
+                pDataTable->getSelectedIDs().clear();
             willclose = true;
         } else if ( !isEditing() || isSaved() ) {
             if ( !( mEditFlags & dbApplication::simpleEdition ) && !wasCancelled() ) {
@@ -670,7 +670,7 @@ bool FrmEditRecMaster::canClose()
             // If the form was cancelled after raising an existing record error, try to sync to the existing record
             if( DBAPP->getAnotherRecordID() ) {
                 mLastID = DBAPP->getAnotherRecordID();
-				mMustRefresh = true;
+                mMustRefresh = true;
                 DBAPP->setAnotherRecordID( 0 );
             }
             if( pDataTable && !( mEditMode == DataTable::browsing || mEditMode == DataTable::choosing ) ) {
@@ -920,7 +920,7 @@ void FrmEditRecMaster::initMenus()
     pMenuView = new QMenu( this );
     pMenuBar->insertItem( QString::fromUtf8( _( "&Vistas" ) ), pMenuView );
 
-	text = toGUI( _( "&Reordenar" ) );
+    text = toGUI( _( "&Reordenar" ) );
     pMenuViewReorder = new QAction( text, QKeySequence( "CTRL+R" ), this, 0 );
     pMenuViewReorder->setStatusTip( text );
     pMenuViewReorder->setWhatsThis( toGUI( _( "Cambia el orden de los registros" ) ) );
@@ -1016,13 +1016,13 @@ void FrmEditRecMaster::menuRecordDelete_clicked()
 {
     if( pDataTable->getSelectedIDs().size() > 1 ) {
         if( msgYesNoCancel(this,
-				Xtring::printf(_("Has seleccionado %d registros.\n¿Estás seguro/a de que quieres borrarlos todos?"),
-								pDataTable->getSelectedIDs().size() ) )
+                           Xtring::printf(_("Has seleccionado %d registros.\n¿Estás seguro/a de que quieres borrarlos todos?"),
+                                          pDataTable->getSelectedIDs().size() ) )
                 == FrmBase::Yes ) {
             for( uint nrec = 0; nrec < pDataTable->getSelectedIDs().size(); nrec++ ) {
                 read( pDataTable->getSelectedIDs()[nrec] );
                 beginEdit( pDataTable, DataTable::deleting, dbApplication::editContinuous );
-				DBAPP->processEvents();
+                DBAPP->processEvents();
                 if( !(mEditFlags & dbApplication::editContinuous) ) // cancelled
                     break;
             }
@@ -1252,7 +1252,7 @@ void FrmEditRecMaster::menuTableFilter_clicked()
     filter = pDataModel->getFilter("", filter );
     if ( sel->exec( this, joinedtables, filter ) )
         applyFilter( sel->getSqlExpression() );
-	delete sel;
+    delete sel;
 }
 
 #ifdef HAVE_RTKMODULE
@@ -1384,16 +1384,16 @@ void FrmEditRecMaster::menuTableImport_clicked()
     public:
         FrmImport(dbRecord *r, QWidget *parent, const char *name, WidgetFlags f = 0)
             : FrmCsvParams( FrmCsvParams::importing, parent, _("Importación de registros") ),
-            pRecord(r)
+              pRecord(r)
         {
             XtringList mOpcionesExisteCaptions;
             IntList mOpcionesExisteValues;
             mOpcionesExisteCaptions << "Actualizar el registro" << "Ignorar el registro" << "Cancelar la importación";
             mOpcionesExisteValues << 0 << 1 << 2;
             comboExiste = addComboBoxInt( true, 0, _("Si el registro ya existe..."),
-                                       mOpcionesExisteCaptions, mOpcionesExisteValues );
+                                          mOpcionesExisteCaptions, mOpcionesExisteValues );
             checkRevisar = addCheckBox( 0, _("Revisar los registros uno por uno"), true );
-			pShowTemplate = addButton( this, _("Mostrar plantilla para importar") );
+            pShowTemplate = addButton( this, _("Mostrar plantilla para importar") );
         }
         bool getRevisar() const {
             return checkRevisar->isChecked();
@@ -1402,64 +1402,64 @@ void FrmEditRecMaster::menuTableImport_clicked()
             return comboExiste->currentIndex();
         }
     private:
-		virtual void validate_input(QWidget *w, bool *) {
-			if( w!=pShowTemplate )
-				return;
-			// show a template for importing 
-			Xtring descriptions;
-			Xtring _template;
-			Xtring blankline;
-			const dbTableDefinition *tbldef = pRecord->getTableDefinition();
-			addDescription( tbldef, descriptions, _template, blankline );
-			for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
-				it != tbldef->getRelationDefinitions().end(); ++it ) {
-				if( it->second->getType() == dbRelationDefinition::aggregate ) {
-					dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
-					addDescription( reltbldef, descriptions, _template, blankline );
-				} else if( it->second->getType() == dbRelationDefinition::one2one ) {
-					dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
-					dbFieldDefinition *codefld = reltbldef->findFieldByFlags( dbFieldDefinition::CODE );
-					if( codefld ) {
-						descriptions += codefld->getFullName() + ": ";
-						if( codefld->getDescription().isEmpty() )
-							descriptions += codefld->getCaption() + "\n";
-						else
-							descriptions += codefld->getDescription() + "\n";
-						_template.appendWithSeparator( codefld->getFullName(), getSeparator() );
-						blankline.appendWithSeparator( getDelimiter()+getDelimiter(), getSeparator() );
-					}
-				}
-			}
-			FrmBase::msgOkLarge( this, 
-				Xtring::printf(_("Plantilla para importar %s"), DBAPP->getTableDescPlural( pRecord->getTableName() ).c_str() ),
-				descriptions 
-				+ _( "\nPuedes copiar y pegar el texto entre las dos rayas directamente a una hoja de cálculo:\n")
-				+ "--------------------------\n"
-				+ _template + "\n"
-				+ blankline + "\n\n"
-				+ "--------------------------\n" );
-		}
-		void addDescription( const dbTableDefinition *tbldef, Xtring &descriptions, Xtring &_template, Xtring &blankline ) {
-			for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
-				dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
-				if( flddef->isReference() || flddef->isPrimaryKey() )
-					continue;
-				if( flddef->getName().startsWith("REC_") )
-					continue;
-				descriptions += flddef->getFullName() + ": ";
-				if( flddef->getDescription().isEmpty() )
-					descriptions += flddef->getCaption() + "\n";
-				else
-					descriptions += flddef->getDescription() + "\n";
-				_template.appendWithSeparator( flddef->getFullName(), getSeparator() );
-				blankline.appendWithSeparator( getDelimiter()+getDelimiter(), getSeparator() );
-			}
-		}
-	
-		dbRecord *pRecord;
+        virtual void validate_input(QWidget *w, bool *) {
+            if( w!=pShowTemplate )
+                return;
+            // show a template for importing
+            Xtring descriptions;
+            Xtring _template;
+            Xtring blankline;
+            const dbTableDefinition *tbldef = pRecord->getTableDefinition();
+            addDescription( tbldef, descriptions, _template, blankline );
+            for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
+                    it != tbldef->getRelationDefinitions().end(); ++it ) {
+                if( it->second->getType() == dbRelationDefinition::aggregate ) {
+                    dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+                    addDescription( reltbldef, descriptions, _template, blankline );
+                } else if( it->second->getType() == dbRelationDefinition::one2one ) {
+                    dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+                    dbFieldDefinition *codefld = reltbldef->findFieldByFlags( dbFieldDefinition::CODE );
+                    if( codefld ) {
+                        descriptions += codefld->getFullName() + ": ";
+                        if( codefld->getDescription().isEmpty() )
+                            descriptions += codefld->getCaption() + "\n";
+                        else
+                            descriptions += codefld->getDescription() + "\n";
+                        _template.appendWithSeparator( codefld->getFullName(), getSeparator() );
+                        blankline.appendWithSeparator( getDelimiter()+getDelimiter(), getSeparator() );
+                    }
+                }
+            }
+            FrmBase::msgOkLarge( this,
+                                 Xtring::printf(_("Plantilla para importar %s"), DBAPP->getTableDescPlural( pRecord->getTableName() ).c_str() ),
+                                 descriptions
+                                 + _( "\nPuedes copiar y pegar el texto entre las dos rayas directamente a una hoja de cálculo:\n")
+                                 + "--------------------------\n"
+                                 + _template + "\n"
+                                 + blankline + "\n\n"
+                                 + "--------------------------\n" );
+        }
+        void addDescription( const dbTableDefinition *tbldef, Xtring &descriptions, Xtring &_template, Xtring &blankline ) {
+            for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
+                dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
+                if( flddef->isReference() || flddef->isPrimaryKey() )
+                    continue;
+                if( flddef->getName().startsWith("REC_") )
+                    continue;
+                descriptions += flddef->getFullName() + ": ";
+                if( flddef->getDescription().isEmpty() )
+                    descriptions += flddef->getCaption() + "\n";
+                else
+                    descriptions += flddef->getDescription() + "\n";
+                _template.appendWithSeparator( flddef->getFullName(), getSeparator() );
+                blankline.appendWithSeparator( getDelimiter()+getDelimiter(), getSeparator() );
+            }
+        }
+
+        dbRecord *pRecord;
         ComboBoxInt *comboExiste;
         CheckBox *checkRevisar;
-		PushButton *pShowTemplate;
+        PushButton *pShowTemplate;
     };
 
     FrmImport *frmimport = new FrmImport(pRecord, 0, "FrmImport_FrmEditRecMaster" );
@@ -1496,7 +1496,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
                     && !DBAPP->getDatabase()->findFieldDefinition( *headersit, false )
                     && !DBAPP->getDatabase()->findFieldDefinition( getRecord()->getTableName()+"."+*headersit, false ) ) {
                 unknownfields.appendWithSeparator( *headersit, ", " );
-				headersline.appendWithSeparator( "\"" + *headersit + "\"", "," );
+                headersline.appendWithSeparator( "\"" + *headersit + "\"", "," );
             }
         }
         if ( !unknownfields.isEmpty() ) {
@@ -1520,7 +1520,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
             if( existing_id ) {
                 if( siexiste == 0) { // Actualizar
                     r->read( existing_id );
-					_GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
+                    _GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
                     r->fromString( *linesit, TOSTRING_CSV, headersline );
                 } else if( siexiste == 1 ) { // Ignorar
                     continue; // Leer el siguiente
@@ -1535,7 +1535,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
             bool revisaerroneo = false;
             if( !r->isValid( ValidResult::fixing, 0 ) ) {
                 DBAPP->showOSD( _("Importar"), _("Este registro contiene errores.") );
-				DBAPP->processEvents();
+                DBAPP->processEvents();
                 revisaerroneo = true;
             }
             if( !revisar && !revisaerroneo ) {
@@ -1544,16 +1544,16 @@ void FrmEditRecMaster::menuTableImport_clicked()
                     nimported ++;
                     if( nimported % 5 == 0 ) {
                         DBAPP->showOSD( _("Importando"), Xtring::printf(_("Importados %d registros"), nimported ) ); // TODO descplural
-						DBAPP->processEvents();
-					}
+                        DBAPP->processEvents();
+                    }
                 } catch( dbError &e ) {
                     _GONG_DEBUG_WARNING( e.what() );
                     msgError( this, Xtring( _( "Error al guardar el registro:\n" )) + e.what() );
-					revisaerroneo = true;
+                    revisaerroneo = true;
                 }
-			}
-			if( revisar || revisaerroneo ) {
-				revisaerroneo = false;
+            }
+            if( revisar || revisaerroneo ) {
+                revisaerroneo = false;
                 FrmEditRecMaster *editfrm = static_cast<FrmEditRecMaster *>(
                                                 DBAPP->createEditForm( this, r, 0, DataTable::updating, dbApplication::simpleEdition ) );
                 if ( editfrm ) {
@@ -1589,93 +1589,93 @@ void FrmEditRecMaster::menuTableImport_clicked()
     }
 }
 
-void addFieldValueToCSV(dbRecord *r, const dbTableDefinition *tbldef, 
-						const Xtring &delimiter, const Xtring &separator, 
-						Xtring &csvline, Xtring &headers, bool headercompleted )
+void addFieldValueToCSV(dbRecord *r, const dbTableDefinition *tbldef,
+                        const Xtring &delimiter, const Xtring &separator,
+                        Xtring &csvline, Xtring &headers, bool headercompleted )
 {
-	for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
-		dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
-		if( flddef->isReference() || flddef->isPrimaryKey() )
-			continue;
-		if( flddef->getName().startsWith("REC_") )
-			continue;
-		csvline.appendWithSeparator( delimiter + r->getValue(flddef->getFullName()).toString() + delimiter, separator );
-		if( !headercompleted )
-			headers.appendWithSeparator( flddef->getFullName(), separator );
-	}
+    for( uint i = 0; i < tbldef->getFieldCount(); ++i ) {
+        dbFieldDefinition *flddef = tbldef->getFieldDefinition(i);
+        if( flddef->isReference() || flddef->isPrimaryKey() )
+            continue;
+        if( flddef->getName().startsWith("REC_") )
+            continue;
+        csvline.appendWithSeparator( delimiter + r->getValue(flddef->getFullName()).toString() + delimiter, separator );
+        if( !headercompleted )
+            headers.appendWithSeparator( flddef->getFullName(), separator );
+    }
 }
 
 void FrmEditRecMaster::menuTableExport_clicked()
 {
-	FrmCsvParams *frmcsvparams = new FrmCsvParams( FrmCsvParams::exporting, this, _("Exportar") );
+    FrmCsvParams *frmcsvparams = new FrmCsvParams( FrmCsvParams::exporting, this, _("Exportar") );
     frmcsvparams->showModalFor( this, false, true );
     if( !frmcsvparams->wasCancelled() ) {
-		Xtring delimiter = frmcsvparams->getDelimiter();
-		Xtring separator = frmcsvparams->getSeparator();
-		Xtring exporttext;
-		int range = frmcsvparams->getRange();
-		dbRecord *r = 0;
-		if( frmcsvparams->getFields() == FrmCsvParams::allFields )		
-			r = pRecord->duplicate();
-		Xtring csvheader;
-		bool headercompleted = false;
-		for ( int row = 0; row < pDataTable->numRows(); row ++ ) {
-			if( range == FrmCsvParams::current ) {
-				if( row != pDataTable->currentRow() )
-					continue; // skip
-				else 
-					break; // no more
-			} else if( range == FrmCsvParams::selected ) {
-				if( !pDataTable->isRowSelected(row) ) {
-					continue; // skip
-				}
-			}
-			Xtring csvline;
-			if( frmcsvparams->getFields() == FrmCsvParams::allFields ) {
-				r->read( pDataTable->getDataModel()->getRowID(row) );
-				const dbTableDefinition *tbldef = pRecord->getTableDefinition();
-				addFieldValueToCSV(r, tbldef, delimiter, separator, csvline, csvheader, headercompleted);
-				for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
-					it != tbldef->getRelationDefinitions().end(); ++it ) {
-					if( it->second->getType() == dbRelationDefinition::aggregate ) {
-						dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
-						addFieldValueToCSV(r, reltbldef, delimiter, separator, csvline, csvheader, headercompleted);
-					} else if( it->second->getType() == dbRelationDefinition::one2one ) {
-						dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
-						dbFieldDefinition *codefld = reltbldef->findFieldByFlags( dbFieldDefinition::CODE );
-						if( codefld ) {
-							csvline.appendWithSeparator( r->getValue( codefld->getFullName() ).toString(), separator );
-							if( !headercompleted )
-								csvheader.appendWithSeparator( codefld->getFullName(), separator );
-						}
-					}
-				}
-			} else {
-				for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
-					if( !headercompleted )
-						csvheader.appendWithSeparator( pDataTable->getFldInfo( col )->getFullName(), separator );
-					csvline.appendWithSeparator( delimiter, separator );
-					if( pDataTable->getFldInfo( col )->getSqlColumnType() == SQLDECIMAL
-							|| pDataTable->getFldInfo( col )->getSqlColumnType() == SQLFLOAT ) {
-						csvline += Xtring::number(pDataTable->getDataModel()->getValue(row, col).toDouble()).replace(",",".");
-					} else {
-						csvline += CsvUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), delimiter[0] ); // .replace( "\n", " " );
-					}
-					csvline += delimiter;
-				}
-			}
-			exporttext += csvline + "\n";
-			headercompleted = true;
-		}
-		if( r ) delete r;
-		Xtring csvname = frmcsvparams->getExportFilename();
-		if( csvname.isEmpty() ) {
-			FrmBase::msgOkLarge( this,
-				_( "Puedes copiar y pegar este texto directamente a una hoja de cálculo." ), csvheader + "\n" + exporttext );
-		} else {
-			GuiApplication::writeFile( getTitle(), csvname, csvheader + "\n" + exporttext );
-		}
-	}
+        Xtring delimiter = frmcsvparams->getDelimiter();
+        Xtring separator = frmcsvparams->getSeparator();
+        Xtring exporttext;
+        int range = frmcsvparams->getRange();
+        dbRecord *r = 0;
+        if( frmcsvparams->getFields() == FrmCsvParams::allFields )
+            r = pRecord->duplicate();
+        Xtring csvheader;
+        bool headercompleted = false;
+        for ( int row = 0; row < pDataTable->numRows(); row ++ ) {
+            if( range == FrmCsvParams::current ) {
+                if( row != pDataTable->currentRow() )
+                    continue; // skip
+                else
+                    break; // no more
+            } else if( range == FrmCsvParams::selected ) {
+                if( !pDataTable->isRowSelected(row) ) {
+                    continue; // skip
+                }
+            }
+            Xtring csvline;
+            if( frmcsvparams->getFields() == FrmCsvParams::allFields ) {
+                r->read( pDataTable->getDataModel()->getRowID(row) );
+                const dbTableDefinition *tbldef = pRecord->getTableDefinition();
+                addFieldValueToCSV(r, tbldef, delimiter, separator, csvline, csvheader, headercompleted);
+                for( dbRelationDefinitionDict::const_iterator it = tbldef->getRelationDefinitions().begin();
+                        it != tbldef->getRelationDefinitions().end(); ++it ) {
+                    if( it->second->getType() == dbRelationDefinition::aggregate ) {
+                        dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+                        addFieldValueToCSV(r, reltbldef, delimiter, separator, csvline, csvheader, headercompleted);
+                    } else if( it->second->getType() == dbRelationDefinition::one2one ) {
+                        dbTableDefinition *reltbldef = DBAPP->getDatabase()->findTableDefinition(it->second->getRightTable());
+                        dbFieldDefinition *codefld = reltbldef->findFieldByFlags( dbFieldDefinition::CODE );
+                        if( codefld ) {
+                            csvline.appendWithSeparator( r->getValue( codefld->getFullName() ).toString(), separator );
+                            if( !headercompleted )
+                                csvheader.appendWithSeparator( codefld->getFullName(), separator );
+                        }
+                    }
+                }
+            } else {
+                for ( int col = 1; col < pDataTable->numCols(); col ++ ) {
+                    if( !headercompleted )
+                        csvheader.appendWithSeparator( pDataTable->getFldInfo( col )->getFullName(), separator );
+                    csvline.appendWithSeparator( delimiter, separator );
+                    if( pDataTable->getFldInfo( col )->getSqlColumnType() == SQLDECIMAL
+                            || pDataTable->getFldInfo( col )->getSqlColumnType() == SQLFLOAT ) {
+                        csvline += Xtring::number(pDataTable->getDataModel()->getValue(row, col).toDouble()).replace(",",".");
+                    } else {
+                        csvline += CsvUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), delimiter[0] ); // .replace( "\n", " " );
+                    }
+                    csvline += delimiter;
+                }
+            }
+            exporttext += csvline + "\n";
+            headercompleted = true;
+        }
+        if( r ) delete r;
+        Xtring csvname = frmcsvparams->getExportFilename();
+        if( csvname.isEmpty() ) {
+            FrmBase::msgOkLarge( this,
+                                 _( "Puedes copiar y pegar este texto directamente a una hoja de cálculo." ), csvheader + "\n" + exporttext );
+        } else {
+            GuiApplication::writeFile( getTitle(), csvname, csvheader + "\n" + exporttext );
+        }
+    }
 }
 
 void FrmEditRecMaster::menuTableSelectAll_clicked()

@@ -132,7 +132,7 @@ FrmEditPedidoCompra::FrmEditPedidoCompra(FrmEditRec *parentfrm, dbRecord *master
     editRecargoEquivalencia->setMustBeReadOnly( true );
     editIVA->setMustBeReadOnly( true );
     editProveedoraCodigo->setWidthInChars(5);
-	editNotas->setHeightInLines(3);
+    editNotas->setHeightInLines(3);
     editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
     if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == false ) {
         editRecargoEquivalencia->getLabel()->setVisible( false );

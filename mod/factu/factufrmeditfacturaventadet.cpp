@@ -73,7 +73,7 @@ FrmEditFacturaVentaDet::FrmEditFacturaVentaDet(FrmEditRecMaster *frmmaster, int 
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITFACTURAVENTADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
-	editArticuloCodigo->setWidthInChars(12);
+    editArticuloCodigo->setWidthInChars(12);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "&Act. PVP artículo" ) ) );
@@ -436,28 +436,28 @@ void FrmEditFacturaVentaDet::slotAddAlbaran_clicked()
         }
         // Comprobar si el albarán tiene cobros no pagados aún
         dbRecordList *cobros = recalbaran->getPagos( pagos::PagosModule::ReciboPendiente );
-		Money pendientealbaran = 0.0;
-		if( cobros ) {
-			for( dbRecordList::const_iterator cobrosit = cobros->begin(); cobrosit != cobros->end(); ++cobrosit ) {
-				pendientealbaran += (*cobrosit)->getValue("IMPORTE").toMoney();
-			}
-			delete cobros;
-		}
-		if( pendientealbaran != 0.0 ) {
-			DBAPP->resetCursor();
-			msgOk(this, Xtring::printf("El albarán elegido tiene %s pendientes en la agenda de cobros.\n"
-				"Para facturar este albarán, tienes que borrar esos cobros pendientes.\n"
-				"Lo más fácil es modificar el albarán y ponerle una forma de pago del tipo 'Se ignora'",
-									   pendientealbaran.toString(DBAPP->getRegConfig()).c_str()) );
-			return;
-		}
+        Money pendientealbaran = 0.0;
+        if( cobros ) {
+            for( dbRecordList::const_iterator cobrosit = cobros->begin(); cobrosit != cobros->end(); ++cobrosit ) {
+                pendientealbaran += (*cobrosit)->getValue("IMPORTE").toMoney();
+            }
+            delete cobros;
+        }
+        if( pendientealbaran != 0.0 ) {
+            DBAPP->resetCursor();
+            msgOk(this, Xtring::printf("El albarán elegido tiene %s pendientes en la agenda de cobros.\n"
+                                       "Para facturar este albarán, tienes que borrar esos cobros pendientes.\n"
+                                       "Lo más fácil es modificar el albarán y ponerle una forma de pago del tipo 'Se ignora'",
+                                       pendientealbaran.toString(DBAPP->getRegConfig()).c_str()) );
+            return;
+        }
         // Comprobar si el albarán tiene pagos
-		Money pagosalbaran = recalbaran->getValue("ENTREGA").toMoney() 
-			+ recalbaran->getValue("COBROS").toMoney();
-		if( pagosalbaran != 0.0 ) {
-			msgOk(this, Xtring::printf("El albarán elegido tiene %s en pagos que se descontarán del total de esta factura.",
-									   pagosalbaran.toString().c_str()) );
-		}
+        Money pagosalbaran = recalbaran->getValue("ENTREGA").toMoney()
+                             + recalbaran->getValue("COBROS").toMoney();
+        if( pagosalbaran != 0.0 ) {
+            msgOk(this, Xtring::printf("El albarán elegido tiene %s en pagos que se descontarán del total de esta factura.",
+                                       pagosalbaran.toString().c_str()) );
+        }
         for( dbRecordList::const_iterator it = recalbaran->getListAlbaranVentaDet()->begin();
                 it != recalbaran->getListAlbaranVentaDet()->end();
                 ++ it ) {
@@ -517,7 +517,7 @@ bool FrmEditFacturaVentaDet::canBeginEdit(DataTable::EditMode newmode)
                 getFrmMaster()->updateFromDetails( this );
                 getFrmMaster()->setEdited( true );
                 refresh();
-				msgOk(this, "El albarán se marcará como no facturado cuando grabes esta factura.");
+                msgOk(this, "El albarán se marcará como no facturado cuando grabes esta factura.");
             }
             return false;
         } else if( newmode == DataTable::selecting
@@ -535,11 +535,11 @@ bool FrmEditFacturaVentaDet::canBeginEdit(DataTable::EditMode newmode)
 
 void FrmEditFacturaVentaDet::slotActPrecioArticulo_clicked()
 {
-	if( ModuleInstance->editPVPsArticulo(this, getRecArticulo(), 
-		static_cast<FrmEditFacturaVenta *>(getFrmMaster())->getRecCliente(),
-		editPVP->toDouble() ) ) {
-		searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
-	}
+    if( ModuleInstance->editPVPsArticulo(this, getRecArticulo(),
+                                         static_cast<FrmEditFacturaVenta *>(getFrmMaster())->getRecCliente(),
+                                         editPVP->toDouble() ) ) {
+        searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
+    }
 }
 
 

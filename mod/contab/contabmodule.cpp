@@ -46,18 +46,18 @@ Xtring ContabModule::mLastDocumento;
 ContabModule *ModuleInstance;
 
 static dbModuleSetting _settings[] = {
-	{
-		dbModuleSetting::Bool,
-		"SUPERVISAR_ASIENTOS",
-		_("Supervisar los asientos que se generan automáticamente"),
-		"true",
-		dbModuleSetting::All
-	},
-	// "TIPOASIENTO.VALUES"
-	// "CUENTA_CLIENTE"
-	// "CUENTA_PROVEEDORA"
+    {
+        dbModuleSetting::Bool,
+        "SUPERVISAR_ASIENTOS",
+        _("Supervisar los asientos que se generan automáticamente"),
+        "true",
+        dbModuleSetting::All
+    },
+    // "TIPOASIENTO.VALUES"
+    // "CUENTA_CLIENTE"
+    // "CUENTA_PROVEEDORA"
 
-	{dbModuleSetting::None}
+    {dbModuleSetting::None}
 };
 
 
@@ -124,7 +124,7 @@ bool ContabModule::initDatabase( dbDefinition *db )
     _GONG_DEBUG_ASSERT( db );
     pMainDatabase = db;
 
-/*<<<<<CONTABMODULE_INIT_DATABASE*/
+    /*<<<<<CONTABMODULE_INIT_DATABASE*/
 	pFicTipoAsiento = new NamesListTable( *pMainDatabase, "TIPOASIENTO" );
 	pMainDatabase->addTable( pFicTipoAsiento->getTableDefinition() );
 /*>>>>>CONTABMODULE_INIT_DATABASE*/
@@ -544,7 +544,7 @@ RecAsiento *ContabModule::creaAsientoSimple(FrmEditRec *parent, RecAsiento *old_
     asiento->setValue( "PROYECTO_ID", proyecto_id );
     asiento->setValue( "DESCRIPCION", descripcion );
     asiento->setValue( "REC_ORIGEN", rec_origen );
-	asiento->setValue( "TIPOASIENTO", 5 ); // Automático
+    asiento->setValue( "TIPOASIENTO", 5 ); // Automático
     if( old_asiento ) {
         asiento->rescateValues( old_asiento );
         asiento->setValue( "ID", old_asiento->getRecordID() );
@@ -592,7 +592,7 @@ RecAsiento *ContabModule::creaAsientoMultiple(FrmEditRec* parent, RecAsiento *ol
     asiento->setValue( "AUTOMATICO", true );
     asiento->setValue( "FECHA", fecha );
     asiento->setValue( "PROYECTO_ID", proyecto_id );
-	asiento->setValue( "TIPOASIENTO", 5 ); // Automático
+    asiento->setValue( "TIPOASIENTO", 5 ); // Automático
 // 	int contador = asiento->getLastNumDocumento( proyecto_id ) + 1;
 // 	asiento->setValue( "CONTADORNUMDOCUMENTO", contador );
 // 	if( asiento->getRecProyecto()->read( proyecto_id ) ) {

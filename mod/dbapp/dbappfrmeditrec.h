@@ -122,8 +122,8 @@ public:
                         LineEdit *editAlt = 0, const Xtring &fldaltname = Xtring::null );
     bool showAndSave();
     bool validateControls(bool justedited = false);
-	bool validateControl(QWidget *control, bool justedited = false);
-	
+    bool validateControl(QWidget *control, bool justedited = false);
+
     FrmEditRec* getParentForm() const {
         return pParentForm;
     }
@@ -146,9 +146,9 @@ public:
     CheckBox *addCheckField(QWidget *parent, const Xtring &tablename,
                             const Xtring &fldname, QBoxLayout *layout = 0);
     ComboBoxInt *addComboIntField(QWidget *parent, const Xtring &tablename,
-                                    const Xtring &fldname, QBoxLayout *layout = 0, bool horizontal = true);
+                                  const Xtring &fldname, QBoxLayout *layout = 0, bool horizontal = true);
     ComboBoxXtring *addComboXtringField(QWidget *parent, const Xtring &tablename,
-                                    const Xtring &fldname, QBoxLayout *layout = 0, bool horizontal = true);
+                                        const Xtring &fldname, QBoxLayout *layout = 0, bool horizontal = true);
     SearchBox *addSearchField(QWidget *parent, const Xtring &fullfldname,
                               const Xtring &reftablename, const Xtring &fldnamecodigo,
                               const Xtring &fldnamenombre, QBoxLayout *layout = 0, SearchBox::Flags flags = SearchBox::FlagHorizontal);
@@ -158,7 +158,7 @@ public:
                                   QBoxLayout *layout = 0, bool horizontal = false);
     bool addBehavior(FrmEditRecBehavior *behavior);
     bool removeControl( QWidget *control );
-	QWidget *fixControl(const Xtring &fldname, const Variant &fldvalue);
+    QWidget *fixControl(const Xtring &fldname, const Variant &fldvalue);
 
     // static functions to set fields styles and default values
     static void applyFieldStyle(QLabel *label, const dbFieldDefinition *fielddef);
@@ -184,7 +184,9 @@ protected:
     void enableSearchBoxes(bool enabled);
     void msgInputError(const Xtring &errorText);
     void showValidMessages(bool *isvalid, const ValidResult &validerror, QWidget *sender);
-    Xtring getFrom() { return getRecord()->getTableName(); }
+    Xtring getFrom() {
+        return getRecord()->getTableName();
+    }
     void fixFocusWidgetText();
     void addSpacersToTabs();
 

@@ -35,13 +35,13 @@ public:
 		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
 	RecTipoApunteTesoreria *getRecTipoApunteTesoreria() const { return (RecTipoApunteTesoreria *)getRecord(); }
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_CLASS*/
-/*<<<<<FRMEDITTIPOAPUNTETESORERIA_VIRTUALS_FROM_FRMEDITREC*/
+    /*<<<<<FRMEDITTIPOAPUNTETESORERIA_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_VIRTUALS_FROM_FRMEDITREC*/
-/*<<<<<FRMEDITTIPOAPUNTETESORERIA_CONTROLS*/
+    /*<<<<<FRMEDITTIPOAPUNTETESORERIA_CONTROLS*/
 protected:
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNombre;

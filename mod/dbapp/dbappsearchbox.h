@@ -31,26 +31,58 @@ public:
                const Xtring &fldcode, const Xtring &flddesc,
                QWidget *parent, enum Flags flags = FlagHorizontal );
     ~SearchBox();
-    QBoxLayout *getLayout() const { return pLayout; }
-    QPushButton *getButton() { return this; }
-    LineEdit *getEditCode() const { return pEditCode; }
-    LineEdit *getEditDesc() const { return pEditDesc; }
-    QLabel *getLabelCode() const { return pLabelCode; }
-    QLabel *getLabelDesc() const { return pLabelDesc; }
-    bool mustBeReadOnly() const { return mMustBeReadOnly; }
-    void setMustBeReadOnly(bool must) { mMustBeReadOnly = must; }
-    bool isMultiple() const { return mFlags & FlagMultiple; }
-    void setFocus() { pEditCode->setFocus(); }
+    QBoxLayout *getLayout() const {
+        return pLayout;
+    }
+    QPushButton *getButton() {
+        return this;
+    }
+    LineEdit *getEditCode() const {
+        return pEditCode;
+    }
+    LineEdit *getEditDesc() const {
+        return pEditDesc;
+    }
+    QLabel *getLabelCode() const {
+        return pLabelCode;
+    }
+    QLabel *getLabelDesc() const {
+        return pLabelDesc;
+    }
+    bool mustBeReadOnly() const {
+        return mMustBeReadOnly;
+    }
+    void setMustBeReadOnly(bool must) {
+        mMustBeReadOnly = must;
+    }
+    bool isMultiple() const {
+        return mFlags & FlagMultiple;
+    }
+    void setFocus() {
+        pEditCode->setFocus();
+    }
     void setValue( const Variant &value );
     Variant getValue() const;
-    dbRecord *getRecord() const { return pRecord; }
-    Xtring getTableName() const { return mTableName; }
-    Xtring getFldDesc() const { return mFldDesc; }
-    Xtring getFldCode() const { return mFldCode; }
-    List<dbRecordID> &getRecordIDs() { return mRecordIDs; }
-    Flags getFlags() const { return mFlags; }
-	void setVisible( bool visible );
-	void setCompleter( bool wantit );
+    dbRecord *getRecord() const {
+        return pRecord;
+    }
+    Xtring getTableName() const {
+        return mTableName;
+    }
+    Xtring getFldDesc() const {
+        return mFldDesc;
+    }
+    Xtring getFldCode() const {
+        return mFldCode;
+    }
+    List<dbRecordID> &getRecordIDs() {
+        return mRecordIDs;
+    }
+    Flags getFlags() const {
+        return mFlags;
+    }
+    void setVisible( bool visible );
+    void setCompleter( bool wantit );
 
 public slots:
     void slotClicked();
@@ -66,7 +98,7 @@ private:
     Xtring mTableName, mFldCode, mFldDesc;
     dbRecord *pRecord;
     List<dbRecordID>mRecordIDs;
-	RecordCompleter *pRecordCompleter;
+    RecordCompleter *pRecordCompleter;
 };
 
 } // namespace gong

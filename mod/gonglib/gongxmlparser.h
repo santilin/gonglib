@@ -30,74 +30,74 @@ namespace gong {
 class XmlParser: public SAXParser, public DefaultHandler
 {
 public:
-	XmlParser() {
-		setContentHandler( this );
-		setErrorHandler( this );
-	}
+    XmlParser() {
+        setContentHandler( this );
+        setErrorHandler( this );
+    }
     bool parseFile(const char *filename) {
-		Xtring content = FileUtils::readFile( filename );
-		return parseString( content.c_str() );
-	};
+        Xtring content = FileUtils::readFile( filename );
+        return parseString( content.c_str() );
+    };
     bool parseString(const char *string) {
-		try {
-			parseMemoryNP( string, strlen(string) );
-			return true;
-		} catch( SAXException &exc ) {
-			return false;
-		}
-	}
+        try {
+            parseMemoryNP( string, strlen(string) );
+            return true;
+        } catch( SAXException &exc ) {
+            return false;
+        }
+    }
     void stopParser(bool status)
-	{
-		throw new SAXException();
-	}
+    {
+        throw new SAXException();
+    }
 
-	// virtual void startDocument
-	// virtual void endDocument
-	virtual void startElement( const Xtring &name, const Attributes &attrList ) {}
-	virtual void endElement( const Xtring &name ) {}
-	virtual void characters( const Xtring &data ) {}
-	virtual void comment( const Xtring &data ) {}
-	virtual void error( const Xtring &message ) {}
-	virtual void warning( const Xtring &message ) {}
-	virtual void fatalError( const Xtring &message ) {}
+    // virtual void startDocument
+    // virtual void endDocument
+    virtual void startElement( const Xtring &name, const Attributes &attrList ) {}
+    virtual void endElement( const Xtring &name ) {}
+    virtual void characters( const Xtring &data ) {}
+    virtual void comment( const Xtring &data ) {}
+    virtual void error( const Xtring &message ) {}
+    virtual void warning( const Xtring &message ) {}
+    virtual void fatalError( const Xtring &message ) {}
     const Xtring getAttrValue( const Xtring &name, const Attributes &attrList) {
-		return attrList.getValue( Xtring::null, name );
-	}
+        return attrList.getValue( Xtring::null, name );
+    }
 
 private:
-	// DocumentHandler implementation
-	virtual void startElement( const XMLString & uri, const XMLString & localName, const XMLString & qname, const Attributes & attrList )
-	{
-		startElement( localName, attrList );
-	}
-	virtual void endElement( const XMLString & uri, const XMLString & localName, const XMLString & qname )
-	{
-		endElement( localName );
-	}
-	virtual void characters( const XMLChar ch[], int start, int length )
-	{
-		characters( Xtring( ch, start, length ) );
-	}
-	virtual void ignorableWhitespace( const XMLChar ch[], int start, int length )
-	{
-		comment( Xtring( ch, start, length ) );
-	}
-	// ErrorHandler implementation
-	virtual void error( const SAXException & exc )
-	{
-		_GONG_DEBUG_WARNING( exc.displayText() );
-		error( exc.what() );
-	}
-	virtual void fatalError( const SAXException & exc )
-	{
-		_GONG_DEBUG_WARNING( exc.displayText() );
-		error( exc.what() );
-	}
-	virtual void warning( const SAXException & exc )
-	{
-		_GONG_DEBUG_WARNING( exc.displayText() );
-		error( exc.what() );
-	}
+    // DocumentHandler implementation
+    virtual void startElement( const XMLString & uri, const XMLString & localName, const XMLString & qname, const Attributes & attrList )
+    {
+        startElement( localName, attrList );
+    }
+    virtual void endElement( const XMLString & uri, const XMLString & localName, const XMLString & qname )
+    {
+        endElement( localName );
+    }
+    virtual void characters( const XMLChar ch[], int start, int length )
+    {
+        characters( Xtring( ch, start, length ) );
+    }
+    virtual void ignorableWhitespace( const XMLChar ch[], int start, int length )
+    {
+        comment( Xtring( ch, start, length ) );
+    }
+    // ErrorHandler implementation
+    virtual void error( const SAXException & exc )
+    {
+        _GONG_DEBUG_WARNING( exc.displayText() );
+        error( exc.what() );
+    }
+    virtual void fatalError( const SAXException & exc )
+    {
+        _GONG_DEBUG_WARNING( exc.displayText() );
+        error( exc.what() );
+    }
+    virtual void warning( const SAXException & exc )
+    {
+        _GONG_DEBUG_WARNING( exc.displayText() );
+        error( exc.what() );
+    }
 };
 
 }; // namespace gong

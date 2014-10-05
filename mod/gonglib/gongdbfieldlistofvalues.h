@@ -54,9 +54,15 @@ public:
     {}
     dbFieldListOfValues(const dbFieldListOfValues &other);
 
-    virtual dbFieldListOfValues *clone() const { return new dbFieldListOfValues( *this ); }
-    const ValueListType &getListOfValues() const { return *pListOfValues; }
-    const XtringList &getListOfCaptions() const { return *pListOfCaptions; }
+    virtual dbFieldListOfValues *clone() const {
+        return new dbFieldListOfValues( *this );
+    }
+    const ValueListType &getListOfValues() const {
+        return *pListOfValues;
+    }
+    const XtringList &getListOfCaptions() const {
+        return *pListOfCaptions;
+    }
     virtual bool isValid( dbRecord *r, dbFieldValue *value,
                           ValidResult::Context context, ValidResult *integres) const; // from dbFieldDefinition
     virtual Xtring getDisplayValue(const Variant &value) const; // From dbFieldDefinition
@@ -74,7 +80,7 @@ protected:
     XtringList *pListOfCaptions;
     ValueListType *pListOfValues;
     bool mInsertAllowed;
-	bool mIsRef;
+    bool mIsRef;
 };
 
 }; // namespace gong

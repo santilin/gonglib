@@ -50,8 +50,8 @@ public:
 /*>>>>>ASIENTO_RELATIONS*/
 
     class RecApunte *getRecDetalle(int napunte = -1) const {
-            return getRecApunte(napunte);
-        }
+        return getRecApunte(napunte);
+    }
     dbRecordList *getApuntes() const {
         return getListApunte();
     }

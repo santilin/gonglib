@@ -27,7 +27,7 @@ FrmCalculator::FrmCalculator(bool simple, bool embedded, QWidget *parent)
     : FrmBase(parent, "FrmCalculator")
 {
 
-	sumInMemory = 0.0;
+    sumInMemory = 0.0;
     sumSoFar = 0.0;
     factorSoFar = 0.0;
     waitingForOperand = true;
@@ -83,10 +83,10 @@ FrmCalculator::FrmCalculator(bool simple, bool embedded, QWidget *parent)
 #else
     pGridLayout->setSizeConstraint(QLayout::SetFixedSize);
 #endif
-	if( !embedded )
-		pGridLayout->addWidget(display, 0, 0, 1, 6);
-	else
-		pGridLayout->addWidget(display, 1, 6);
+    if( !embedded )
+        pGridLayout->addWidget(display, 0, 0, 1, 6);
+    else
+        pGridLayout->addWidget(display, 1, 6);
 
     pGridLayout->addWidget(backspaceButton, 2, 6);
     pGridLayout->addWidget(clearAllButton, 3, 6);

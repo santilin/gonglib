@@ -4,13 +4,13 @@
 #include <QKeyEvent>
 
 namespace gong {
-	
-	
+
+
 
 ComboBoxInt::ComboBoxInt( const XtringList &captions, const IntList &values,
-						QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
+                          QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
     : QComboBox(parent, name.c_str()), mRefCaptions( captions ), mRefValues( values ),
-		mHorizontal(horizontal), mMustBeReadOnly(false),
+      mHorizontal(horizontal), mMustBeReadOnly(false),
       mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( true )
 {
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
@@ -26,11 +26,11 @@ ComboBoxInt::ComboBoxInt( const XtringList &captions, const IntList &values,
 }
 
 ComboBoxInt::ComboBoxInt( XtringList &captions, IntList &values,
-					QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
+                          QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
     : QComboBox(parent, name.c_str()), mCaptions(captions), mValues(values),
-    mRefCaptions(mCaptions), mRefValues(mValues),
-    mHorizontal(horizontal), mMustBeReadOnly(false),
-    mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( false )
+      mRefCaptions(mCaptions), mRefValues(mValues),
+      mHorizontal(horizontal), mMustBeReadOnly(false),
+      mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( false )
 {
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     insertItems();
@@ -38,12 +38,12 @@ ComboBoxInt::ComboBoxInt( XtringList &captions, IntList &values,
         pLayout = (QBoxLayout *)new QHBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
     else
         pLayout = (QBoxLayout *)new QVBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
-	if( caption.isEmpty() )
-		pLabel = 0;
-	else {
-		pLabel = new QLabel( parent, ("label_" + name).c_str() );
-		pLabel->setText( toGUI(caption) );
-	}
+    if( caption.isEmpty() )
+        pLabel = 0;
+    else {
+        pLabel = new QLabel( parent, ("label_" + name).c_str() );
+        pLabel->setText( toGUI(caption) );
+    }
     pLayout->addWidget( pLabel );
     pLayout->addWidget( this );
 }
@@ -70,8 +70,8 @@ bool ComboBoxInt::insertItems()
         QComboBox::insertItem( toGUI( *itcaptions ) );
         if( (*itcaptions).isEmpty() )
             oneempty = true;
-		if( mRefValues.size() <= (uint)i ) // \todo refcounting?
-			const_cast<IntList &>(mRefValues).push_back( i );
+        if( mRefValues.size() <= (uint)i ) // \todo refcounting?
+            const_cast<IntList &>(mRefValues).push_back( i );
         i++;
     }
     return oneempty;
@@ -79,41 +79,41 @@ bool ComboBoxInt::insertItems()
 
 int ComboBoxInt::getItemValue(int i) const
 {
-	if( i == -1 )
-		return 0;
-	if( mRefValues.size() == 0 )
-		return i;
-	if( i<(int)mRefValues.size() )
-		return mRefValues[ i ];
-	else
-		return 0;
+    if( i == -1 )
+        return 0;
+    if( mRefValues.size() == 0 )
+        return i;
+    if( i<(int)mRefValues.size() )
+        return mRefValues[ i ];
+    else
+        return 0;
 }
 
 void ComboBoxInt::insertItem(const Xtring& caption, int value, int index)
 {
-	if( !mIsRef ) {
-		if( index == -1 || (uint)index >= mValues.size() ) {
-			mCaptions << caption;
-			mValues << value;
-		} else {
-			mCaptions.insert( mCaptions.begin() + index, caption );
-			mValues.insert( mValues.begin() + index, value);
-		}
-	}
-	QComboBox::insertItem( toGUI(caption), index );
+    if( !mIsRef ) {
+        if( index == -1 || (uint)index >= mValues.size() ) {
+            mCaptions << caption;
+            mValues << value;
+        } else {
+            mCaptions.insert( mCaptions.begin() + index, caption );
+            mValues.insert( mValues.begin() + index, value);
+        }
+    }
+    QComboBox::insertItem( toGUI(caption), index );
 }
 
 bool ComboBoxInt::isNewItem() const
 {
-	if( currentText() == text( currentItem() ) )
-		return false;
-	else {
-		for( int index=0; index < count(); index ++ ) {
-			if( text( index ) == currentText() )
-				return false;
-		}
-	}
-	return true;
+    if( currentText() == text( currentItem() ) )
+        return false;
+    else {
+        for( int index=0; index < count(); index ++ ) {
+            if( text( index ) == currentText() )
+                return false;
+        }
+    }
+    return true;
 }
 
 void ComboBoxInt::setText(const Xtring& caption)
@@ -140,8 +140,8 @@ void ComboBoxInt::setText(const Xtring& caption)
 void ComboBoxInt::setVisible( bool visible )
 {
     QComboBox::setVisible( visible );
-	if( pLabel )
-    	pLabel->setVisible( visible );
+    if( pLabel )
+        pLabel->setVisible( visible );
 }
 
 void ComboBoxInt::keyPressEvent( QKeyEvent *e )
@@ -178,15 +178,15 @@ void ComboBoxInt::keyPressEvent( QKeyEvent *e )
 			itcaptions != mRefCaptions.end(); itcaptions++ ) { \
 				_GONG_DEBUG_PRINT(0, *itcaptions); \
     } \
-
+ 
 
 ComboBoxXtring::ComboBoxXtring( const XtringList &captions, const XtringList &values,
-						QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
+                                QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
     : QComboBox(parent, name.c_str()), mRefCaptions( captions ), mRefValues( values ),
-		mHorizontal(horizontal), mMustBeReadOnly(false),
+      mHorizontal(horizontal), mMustBeReadOnly(false),
       mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( true )
 {
-	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
+    setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     insertItems();
     if( mHorizontal )
         pLayout = (QBoxLayout *)new QHBoxLayout( 0, 0, 6, ("layout_" + name).c_str() );
@@ -199,13 +199,13 @@ ComboBoxXtring::ComboBoxXtring( const XtringList &captions, const XtringList &va
 }
 
 ComboBoxXtring::ComboBoxXtring( XtringList &captions, XtringList &values,
-					QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
+                                QWidget *parent, const Xtring &name, const Xtring &caption, bool horizontal )
     : QComboBox(parent, name.c_str()), mCaptions(captions), mValues(values),
-    mRefCaptions(mCaptions), mRefValues(mValues),
-    mHorizontal(horizontal), mMustBeReadOnly(false),
-    mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( false )
+      mRefCaptions(mCaptions), mRefValues(mValues),
+      mHorizontal(horizontal), mMustBeReadOnly(false),
+      mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( false )
 {
-	DUMP_COMBO
+    DUMP_COMBO
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     insertItems();
     if( mHorizontal )
@@ -233,50 +233,50 @@ void ComboBoxXtring::setCurrentItemByValue(const Xtring &value)
 
 bool ComboBoxXtring::insertItems()
 {
-	bool oneempty = false;
-	for (XtringList::const_iterator itcaptions = mRefCaptions.begin();
-			itcaptions != mRefCaptions.end(); itcaptions++ ) {
-		QComboBox::insertItem( toGUI( *itcaptions ) );
-		if( (*itcaptions).isEmpty() )
-			oneempty = true;
-	}
-	return oneempty;
+    bool oneempty = false;
+    for (XtringList::const_iterator itcaptions = mRefCaptions.begin();
+            itcaptions != mRefCaptions.end(); itcaptions++ ) {
+        QComboBox::insertItem( toGUI( *itcaptions ) );
+        if( (*itcaptions).isEmpty() )
+            oneempty = true;
+    }
+    return oneempty;
 }
 
 void ComboBoxXtring::insertItem(const Xtring& caption, const Xtring &value, int index)
 {
-	if( !mIsRef ) {
-		if( index == -1 || (uint)index >= mValues.size() ) {
-			mCaptions << caption;
-			mValues << value;
-		} else {
-			mCaptions.insert( mCaptions.begin() + index, caption );
-			mValues.insert( mValues.begin() + index, value);
-		}
-	}
-	QComboBox::insertItem( toGUI(caption), index );
+    if( !mIsRef ) {
+        if( index == -1 || (uint)index >= mValues.size() ) {
+            mCaptions << caption;
+            mValues << value;
+        } else {
+            mCaptions.insert( mCaptions.begin() + index, caption );
+            mValues.insert( mValues.begin() + index, value);
+        }
+    }
+    QComboBox::insertItem( toGUI(caption), index );
 }
 
 
 const Xtring &ComboBoxXtring::getItemValue(int i) const
 {
-	if( i != -1 && i<(int)mRefValues.size() )
-		return mRefValues[ i ];
-	else
-		return Xtring::null;
+    if( i != -1 && i<(int)mRefValues.size() )
+        return mRefValues[ i ];
+    else
+        return Xtring::null;
 }
 
 bool ComboBoxXtring::isNewItem() const
 {
-	if( currentText() == text( currentItem() ) )
-		return false;
-	else {
-		for( int index=0; index < count(); index ++ ) {
-			if( text( index ) == currentText() )
-				return false;
-		}
-	}
-	return true;
+    if( currentText() == text( currentItem() ) )
+        return false;
+    else {
+        for( int index=0; index < count(); index ++ ) {
+            if( text( index ) == currentText() )
+                return false;
+        }
+    }
+    return true;
 }
 
 void ComboBoxXtring::setText(const Xtring& caption)
@@ -291,15 +291,15 @@ void ComboBoxXtring::setText(const Xtring& caption)
     } else if( caption.isEmpty() ) {
         for( int index=0; index < count() && !found; index ++ ) {
             if( text( index ) == "" ) {
-				QComboBox::setCurrentText( toGUI(caption) );
+                QComboBox::setCurrentText( toGUI(caption) );
                 found = true;
-			}
+            }
         }
     }
     if( !found ) {
         _GONG_DEBUG_WARNING( "Attempt to set caption '" + caption + "' in combobox with captions: "
                              + mCaptions.join(",") );
-		setCurrentIndex(-1);
+        setCurrentIndex(-1);
     }
 }
 

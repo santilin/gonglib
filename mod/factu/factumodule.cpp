@@ -82,7 +82,7 @@
 #ifdef HAVE_PAGOSMODULE
 #include <pagosmodule.h>
 #endif
-#ifdef HAVE_TESORERIAMODULE	
+#ifdef HAVE_TESORERIAMODULE
 #include "tesoreriaactnombrebehavior.h"
 #endif
 
@@ -97,35 +97,35 @@ static dbModuleSetting _settings[] = {
         "IMGARTFILENAME",
         _("Plantilla del nombre del fichero de las imágenes de los artículos"),
         "%s.jpg",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::Bool,
         "FILTRARARTICULOSPORPROVEEDORA",
         _("Mostrar solo artículos de la proveedora al dar de alta albaranes, facturas, ..."),
         "false",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::Long,
         "CODIGO_PROVEEDORA_GENERICA",
         _("Código de la proveedora genérica (utilizada en los filtros)"),
         "0",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::String,
         "ARTICULO_DESCUENTOS",
         _("Código de los artículos para descuentos"),
         "DESCUENTO",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::String,
         "ARTICULO_RECARGOS",
         _("Código de los artículos para recargos"),
         "RECARGO",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {dbModuleSetting::None}
 };
@@ -261,7 +261,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicProveedora->addFieldListOfValues<int>( false, &RecArticulo::sModalidades,
             &IdentityIntList, "GENCODARTICULO" )->setCanBeNull(true);
     pFicProveedora->addFieldString( "FORMATCODARTICULO", 100 );
-	pFicProveedora->addFieldBool( "USAREFERENCIAS" )->setDefaultValue("0");
+    pFicProveedora->addFieldBool( "USAREFERENCIAS" )->setDefaultValue("0");
 #ifdef HAVE_CONTABMODULE
     if ( pContabModule )
         pFicProveedora->addField<contab::FldCuenta>( "SUBCUENTA" );
@@ -528,6 +528,11 @@ bool FactuModule::initDatabase( dbDefinition *db )
         pFicAlbaranCompra->addFieldReferenceID( "ASIENTO_ID", "ASIENTO.ID" );
     }
 #endif
+#ifdef HAVE_TESORERIAMODULE
+    if ( pTesoreriaModule ) {
+        pFicAlbaranCompra->addFieldReferenceID( "APUNTE_ID", "APUNTETESORERIA.ID" );
+    }
+#endif
     pFicAlbaranCompra->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
     pFicAlbaranCompra->addFieldNotas();
     pFicAlbaranCompra->addBehavior( DBAPP->getRecordTimestampBehavior() );
@@ -580,14 +585,14 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicFacturaCompraDet->addFieldNotas();
     pMainDatabase->addTable( pFicFacturaCompraDet->getTableDefinition() );
 
-	
-#ifdef HAVE_TESORERIAMODULE	
-	pFicAgente->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("RAZONSOCIAL", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
-	pFicCliente->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("RAZONSOCIAL", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
-	pFicProveedora->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("RAZONSOCIAL", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
-	pFicArticulo->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("NOMBRE", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
-	pFicFamilia->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("NOMBRE", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
-#endif		
+
+#ifdef HAVE_TESORERIAMODULE
+    pFicAgente->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("RAZONSOCIAL", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
+    pFicCliente->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("RAZONSOCIAL", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
+    pFicProveedora->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("RAZONSOCIAL", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
+    pFicArticulo->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("NOMBRE", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
+    pFicFamilia->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("NOMBRE", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
+#endif
     return true;
 }
 
@@ -601,14 +606,14 @@ void FactuModule::afterLoad()
 {
     FldIVADetallado *fid = new FldIVADetallado( "foo", "bar" );
     fid->setValuesFromString( ModuleInstance->getModuleSetting( "IVADETALLADO.VALUES" ).toString() );
-	delete fid;
+    delete fid;
 #ifdef HAVE_TESORERIAMODULE
-	if( pTesoreriaModule && pTesoreriaModule->isEnabled() ) {
-		pTesoreriaModule->getTablasTerceros() << "PROVEEDORA" << "CLIENTE" << "AGENTE";
-		pTesoreriaModule->getTablasConceptos() << "ARTICULO" << "FAMILIA";
-		pTesoreriaModule->getTablasDocumentos() << "FACTURAVENTA" << "ALBARANVENTA"
-			<< "FACTURACOMPRA" << "ALBARANCOMPRA";
-	}
+    if( pTesoreriaModule && pTesoreriaModule->isEnabled() ) {
+        pTesoreriaModule->getTablasTerceros() << "PROVEEDORA" << "CLIENTE" << "AGENTE";
+        pTesoreriaModule->getTablasConceptos() << "ARTICULO" << "FAMILIA";
+        pTesoreriaModule->getTablasDocumentos() << "FACTURAVENTA" << "ALBARANVENTA"
+                                                << "FACTURACOMPRA" << "ALBARANCOMPRA";
+    }
 #endif
 }
 
@@ -1134,13 +1139,13 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
         return false;
     Xtring tablename = tables[choosen];
     dbRecord *source = DBAPP->createRecord( tablename );
-	source->removeFilter( source->getTableName()
-		+ ".EJERCICIO=" + source->getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
+    source->removeFilter( source->getTableName()
+                          + ".EJERCICIO=" + source->getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
     dbRecordID source_id = DBAPP->choose( detailform, source );
     if( !source_id )
         return false;
     DBAPP->waitCursor( true );
-	LineEdit *le_tipodoc = 0;
+    LineEdit *le_tipodoc = 0;
     if( dest->isEmpty( "EMPRESA_ID,EJERCICIO,FECHA" ) ) {
         // No quiero copiar en profundidad para que no copie los detalles
         dest->copyRecord( source, false, Xtring::null, "ID,EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR" );
@@ -1234,12 +1239,12 @@ void FactuModule::calcImporteDetalle(dbRecord* detalle, bool redondeaimportes)
     detalle->setValue( "IMPORTECONIVA", importeconiva );
 }
 
-bool FactuModule::editPVPsArticulo(FrmBase *parentform, 
-	RecArticulo *articulo, RecCliente *cliente, double pvp, bool canedit) 
+bool FactuModule::editPVPsArticulo(FrmBase *parentform,
+                                   RecArticulo *articulo, RecCliente *cliente, double pvp, bool canedit)
 {
     if( articulo->getRecordID() != 0 ) {
-		// Puede ocurrir que el artículo estuviera en la lista de detalles y no esté actualizado
-		articulo->read( articulo->getRecordID() );
+        // Puede ocurrir que el artículo estuviera en la lista de detalles y no esté actualizado
+        articulo->read( articulo->getRecordID() );
         int tarifacliente = cliente->getValue("TARIFA").toInt();
         double pvpconiva = articulo->getPVP( tarifacliente );
         if( pvp != pvpconiva ) {
@@ -1247,16 +1252,16 @@ bool FactuModule::editPVPsArticulo(FrmBase *parentform,
                 articulo->setValue("PVPSINIVA", articulo->getRecTipoIVA()->menosIVA(pvp));
                 articulo->setValue("PVP", pvp );
                 articulo->fixMargenYDescuento();
-				bool showosd = false;
-				if( !canedit || articulo->getValue("COSTESINIVA").toDouble() != 0.0 ) {
-					// Si el coste no se queda a cero, se puede grabar ...
-					showosd = articulo->save(false);
-				} else {
-					// ... pero si no, se edita el artículo
-					showosd = DBAPP->editRecord(0, articulo, 0, DataTable::updating,
-									dbApplication::simpleEdition, parentform);
-				}
-				if( showosd ) {
+                bool showosd = false;
+                if( !canedit || articulo->getValue("COSTESINIVA").toDouble() != 0.0 ) {
+                    // Si el coste no se queda a cero, se puede grabar ...
+                    showosd = articulo->save(false);
+                } else {
+                    // ... pero si no, se edita el artículo
+                    showosd = DBAPP->editRecord(0, articulo, 0, DataTable::updating,
+                                                dbApplication::simpleEdition, parentform);
+                }
+                if( showosd ) {
                     DBAPP->showOSD( parentform->getTitle(), Xtring::printf( _( "Se ha actualizado el PVP del artículo: sin IVA: %s, con IVA: %s" ),
                                     articulo->getValue( "PVPSINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
                                     articulo->getValue( "PVP" ).toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
@@ -1273,39 +1278,39 @@ bool FactuModule::editPVPsArticulo(FrmBase *parentform,
             DBAPP->showOSD( parentform->getTitle(), _("El PVP del artículo no ha cambiado") );
         }
     }
-	return false;
+    return false;
 }
 
 bool FactuModule::editCostesArticulo(FrmBase *parentform,
-		RecArticulo *articulo, double costesiniva, bool canedit)
+                                     RecArticulo *articulo, double costesiniva, bool canedit)
 {
     if( articulo->getRecordID() != 0 ) {
-		// Puede ocurrir que el artículo estuviera en la lista de detalles y no esté actualizado
-		articulo->read( articulo->getRecordID() );
+        // Puede ocurrir que el artículo estuviera en la lista de detalles y no esté actualizado
+        articulo->read( articulo->getRecordID() );
         if( costesiniva != articulo->getValue("COSTESINIVA").toDouble() ) {
             articulo->setValue("COSTESINIVA", costesiniva );
             articulo->setValue("COSTE", articulo->getRecTipoIVA()->masIVA(costesiniva) );
             articulo->fixMargenYDescuento();
-			bool showosd = false;
-			if( !canedit || articulo->getValue("PVPSINIVA").toDouble() != 0.0 ) {
-				// Si el pvp no se queda a cero, se puede grabar ...
+            bool showosd = false;
+            if( !canedit || articulo->getValue("PVPSINIVA").toDouble() != 0.0 ) {
+                // Si el pvp no se queda a cero, se puede grabar ...
                 showosd = articulo->save(false);
-			} else {
-				// ... pero si no, se edita el artículo
-				showosd = DBAPP->editRecord(0, articulo, 0, DataTable::updating,
-                                  dbApplication::simpleEdition, parentform);
-			}
-			if( showosd ) {
+            } else {
+                // ... pero si no, se edita el artículo
+                showosd = DBAPP->editRecord(0, articulo, 0, DataTable::updating,
+                                            dbApplication::simpleEdition, parentform);
+            }
+            if( showosd ) {
                 DBAPP->showStickyOSD( parentform->getTitle(), Xtring::printf( _( "Se ha actualizado el coste del artículo: sin IVA: %s, con IVA: %s" ),
                                       articulo->getValue( "COSTESINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
                                       articulo->getValue( "COSTE" ).toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );
             }
-			return true;
+            return true;
         } else {
             DBAPP->showOSD( parentform->getTitle(), _("El coste del artículo no ha cambiado") );
         }
     }
-	return false;
+    return false;
 }
 
 /*<<<<<FACTUMODULE_FIN*/

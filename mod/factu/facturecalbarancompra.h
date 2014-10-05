@@ -35,6 +35,11 @@
 #include "factuiasentables.h"
 #endif
 
+#ifdef HAVE_TESORERIAMODULE
+#include "tesoreriaiapuntablerecord.h"
+#endif
+
+
 namespace gong {
 namespace factu {
 
@@ -44,6 +49,9 @@ class RecAlbaranCompra: public dbRecord,
 	public factu::IIVADesglosable,
 #ifdef HAVE_CONTABMODULE
 	public factu::IAsentableFactura,
+#endif
+#ifdef HAVE_TESORERIAMODULE
+	public tesoreria::IApuntableRecord,
 #endif
 	public factu::ITotalizableRecord
 
@@ -56,6 +64,12 @@ public:
         , IIVADesglosable( this, getListAlbaranCompraDet() )
 #ifdef HAVE_CONTABMODULE
         , IAsentableFactura( this, IAsentableFactura::albarancompra )
+#endif
+#ifdef HAVE_TESORERIAMODULE
+        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "ENTREGA", "NUMERO", 
+							"PROVEEDORA", "PROVEEDORA_ID", Xtring::null, 
+							Xtring::null, Xtring::null, Xtring::null,
+							"NOTAS", "PROYECTO_ID" )
 #endif
         , ITotalizableRecord( this, this->getListAlbaranCompraDet(), compra )
     {

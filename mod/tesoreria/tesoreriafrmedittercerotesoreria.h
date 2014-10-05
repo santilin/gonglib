@@ -36,13 +36,13 @@ public:
 		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
 	RecTerceroTesoreria *getRecTerceroTesoreria() const { return (RecTerceroTesoreria *)getRecord(); }
 /*>>>>>FRMEDITTERCEROTESORERIA_CLASS*/
-/*<<<<<FRMEDITTERCEROTESORERIA_VIRTUALS_FROM_FRMEDITREC*/
+    /*<<<<<FRMEDITTERCEROTESORERIA_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 /*>>>>>FRMEDITTERCEROTESORERIA_VIRTUALS_FROM_FRMEDITREC*/
-/*<<<<<FRMEDITTERCEROTESORERIA_CONTROLS*/
+    /*<<<<<FRMEDITTERCEROTESORERIA_CONTROLS*/
 protected:
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNombre;

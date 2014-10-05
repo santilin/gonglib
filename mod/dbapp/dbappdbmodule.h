@@ -32,7 +32,7 @@ struct dbModuleSetting {
     const char *key;
     const char *description;
     const char *defaultvalue;
-	Scope scope;
+    Scope scope;
     const char *values;
 };
 

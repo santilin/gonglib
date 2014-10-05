@@ -210,12 +210,12 @@ void FrmDatabaseTools::backupDatabase(bool automatic)
             XtringList alltables, validtables;
             if( onlygongtables ) {
                 alltables << "METADBDATA " << DBAPP->getMasterTables() << DBAPP->getDetailTables();
- 				for( XtringList::const_iterator it = alltables.begin(); it != alltables.end(); ++ it ) {
- 					dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( *it );
-					if( tbldef && !tbldef->isTemporary() )
-						validtables << *it;
-				}
-			}
+                for( XtringList::const_iterator it = alltables.begin(); it != alltables.end(); ++ it ) {
+                    dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( *it );
+                    if( tbldef && !tbldef->isTemporary() )
+                        validtables << *it;
+                }
+            }
             if( !dump( fname, DBAPP->getDatabase()->getName(), DBAPP->getDbUser(),
                        DBAPP->getDbHost(), password, validtables, errors ) ) {
                 FrmBase::msgError( this, errors );
@@ -339,7 +339,7 @@ void FrmDatabaseTools::upgradeDatabase()
 {
     DBAPP->waitCursor( true );
     Xtring diff = DBAPP->upgradeDatabase( DBAPP->getConnection(), DBAPP->getDatabase(),
-										  DBAPP->getDatabase()->getName(), true /*purging*/ );
+                                          DBAPP->getDatabase()->getName(), true /*purging*/ );
     if( diff.isEmpty() )
         FrmBase::msgWarning(this, _( "Se ha actualizado la base de datos" ) );
     DBAPP->resetCursor();

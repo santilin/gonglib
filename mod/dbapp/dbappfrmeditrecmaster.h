@@ -113,7 +113,7 @@ protected:
     void setTableDataModel();
 #ifdef HAVE_RTKMODULE
     void printReport(const Xtring &reportname, const Dictionary<Variant> &properties,
-					 const Xtring &filter, PageOrientation po,
+                     const Xtring &filter, PageOrientation po,
                      const Xtring &defines, bool isafilename, bool resortototablename);
 #endif
     virtual void restoreBrowseStatus();

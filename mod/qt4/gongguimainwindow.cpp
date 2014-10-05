@@ -311,9 +311,9 @@ void GuiMainWindow::removeUnusedSubWindows()
     for( int i = 0; i < list.size(); ++i ) {
         QMdiSubWindow *aw = list[i];
         if( aw && (!aw->widget() || !aw->isVisible() ) ) {
-			_GONG_DEBUG_WARNING( Xtring("Borraría ") + aw->name() );
+            _GONG_DEBUG_WARNING( Xtring("Borraría ") + aw->name() );
             pWorkspace->removeSubWindow( aw );
-		}
+        }
     }
 }
 
@@ -329,7 +329,7 @@ void GuiMainWindow::slotUpdateMenuWindow()
     removeUnusedSubWindows();
     QList<QMdiSubWindow *> windows = pWorkspace->subWindowList();
     pMenuWindowSeparator->setVisible( !windows.isEmpty() );
-	QWidget *activeclient = activeClient();
+    QWidget *activeclient = activeClient();
     for ( int i = 0; i < windows.size(); ++i ) {
         QWidget *child = windows.at( i )->widget();
         if( !child )
@@ -352,7 +352,7 @@ void GuiMainWindow::slotUpdateMenuWindow()
 
 void GuiMainWindow::slotSetActiveSubWindow( QWidget *window )
 {
-	_GONG_DEBUG_TRACE(0);
+    _GONG_DEBUG_TRACE(0);
     if ( !window )
         return;
     pWorkspace->setActiveSubWindow( qobject_cast<QMdiSubWindow *>( window ) );
@@ -362,7 +362,7 @@ QWidget *GuiMainWindow::activeClient() const
 {
     if ( QMdiSubWindow *activeSubWindow = pWorkspace->activeSubWindow() ) {
         return activeSubWindow->widget();
-	}
+    }
     return 0;
 }
 

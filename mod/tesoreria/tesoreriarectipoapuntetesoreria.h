@@ -33,7 +33,7 @@ public:
 	RecTipoApunteTesoreria(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("TIPOAPUNTETESORERIA"), recid, user)
 /*>>>>>TIPOAPUNTETESORERIA_CONSTRUCTOR*/
-	{};
+    {};
 }; // end class
 
 /*<<<<<TIPOAPUNTETESORERIA_POSTAMBLE*/

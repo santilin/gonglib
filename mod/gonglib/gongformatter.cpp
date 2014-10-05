@@ -150,9 +150,9 @@ Xtring Formatter::format( double val, const char *aformat, const char *amask ) c
     if ( aformat && strstr(aformat, "%$" ) != 0 ) {
         short int ndecimals = masknum_ndecimals( (amask && *amask)?amask:mRegConfig.getCurrencyMask().c_str() );
         if( ndecimals == -1 )
-			ndecimals = 2;
-		Money m(val, ndecimals);
-		return format( m, aformat, amask );
+            ndecimals = 2;
+        Money m(val, ndecimals);
+        return format( m, aformat, amask );
     } else {
         if( amask && strlen(amask) ) {
             short int ndecimals = masknum_ndecimals( amask );
@@ -193,8 +193,8 @@ Xtring Formatter::format( const Variant &avalue, const char *aformat,
 {
     if( valuetype == Variant::tInvalid )
         valuetype = avalue.type();
-	if( valuetype == Variant::tString && aformat && strstr(aformat,"%$")!=0)
-		valuetype = Variant::tMoney;
+    if( valuetype == Variant::tString && aformat && strstr(aformat,"%$")!=0)
+        valuetype = Variant::tMoney;
     switch ( valuetype ) {
     case Variant::tDate:
         return format( avalue.toDate(), aformat, amask );

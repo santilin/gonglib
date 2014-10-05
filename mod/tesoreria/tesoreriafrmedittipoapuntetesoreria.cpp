@@ -49,7 +49,7 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	if ( !name )
 	    setName( "FrmEditTipoApunteTesoreria" );
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_CONSTRUCTOR*/
-/*<<<<<FRMEDITTIPOAPUNTETESORERIA_INIT_CONTROLS*/
+    /*<<<<<FRMEDITTIPOAPUNTETESORERIA_INIT_CONTROLS*/
 	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
 	QHBoxLayout *leftcargoLayout = new QHBoxLayout(0, 0, 6, "leftcargoLayout");
 	QHBoxLayout *leftFechaLayout = new QHBoxLayout(0, 0, 6, "leftFechaLayout");
@@ -126,7 +126,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 
 void FrmEditTipoApunteTesoreria::scatterFields()
 {
-/*<<<<<FRMEDITTIPOAPUNTETESORERIA_SCATTER*/
+    /*<<<<<FRMEDITTIPOAPUNTETESORERIA_SCATTER*/
 	editCodigo->setText(getRecTipoApunteTesoreria()->getValue("CODIGO").toInt());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editCodigo;
@@ -168,7 +168,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 
 void FrmEditTipoApunteTesoreria::gatherFields()
 {
-/*<<<<<FRMEDITTIPOAPUNTETESORERIA_GATHER*/
+    /*<<<<<FRMEDITTIPOAPUNTETESORERIA_GATHER*/
 	getRecTipoApunteTesoreria()->setValue( "CODIGO", editCodigo->toInt());
 	getRecTipoApunteTesoreria()->setValue( "NOMBRE", editNombre->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRCARGO", comboPedirCargo->getCurrentItemValue());
@@ -205,7 +205,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 
 void FrmEditTipoApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
-/*<<<<<FRMEDITTIPOAPUNTETESORERIA_VALIDATE*/
+    /*<<<<<FRMEDITTIPOAPUNTETESORERIA_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -216,10 +216,10 @@ void FrmEditTipoApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, 
 		if( !sender )
 			*isvalid = false;
 /*>>>>>FRMEDITTIPOAPUNTETESORERIA_VALIDATE*/
-	if( !ir ) {
-		showValidMessages(isvalid, *validresult, sender);
-		delete validresult;
-	}
+    if( !ir ) {
+        showValidMessages(isvalid, *validresult, sender);
+        delete validresult;
+    }
 }
 
 /*<<<<<FRMEDITTIPOAPUNTETESORERIA_FIN*/

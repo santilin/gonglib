@@ -35,9 +35,9 @@ FrmEditEmpresa::FrmEditEmpresa(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 	    setName( "FrmEditEmpresa" );
 /*>>>>>FRMEDITEMPRESA_CONSTRUCTOR*/
     QTabWidget *pFrameContactos = new QTabWidget(this);
-	new QVBoxLayout( pFrameContactos );
+    new QVBoxLayout( pFrameContactos );
     pFrameContactos->setObjectName( "FrameContactos" );
-/*<<<<<FRMEDITEMPRESA_INIT_CONTROLS*/
+    /*<<<<<FRMEDITEMPRESA_INIT_CONTROLS*/
 	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
 	QHBoxLayout *monedaLayout = new QHBoxLayout(0, 0, 6, "monedaLayout");
 	QHBoxLayout *cuentabancoLayout = new QHBoxLayout(0, 0, 6, "cuentabancoLayout");
@@ -62,7 +62,7 @@ FrmEditEmpresa::FrmEditEmpresa(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 	editNotas = addTextField( pControlsFrame, "EMPRESA", "NOTAS", notasLayout );
 	editLogo = addImageField( tabLogo, "EMPRESA", "LOGO", logoLayout );
 	pControlsLayout->addLayout( codigoLayout );
-	pControlsLayout->addWidget( pFrameContactos );
+	pControlsLayout->addWidget( pFrameContactos );	
 	pControlsLayout->addLayout( monedaLayout );
 	pControlsLayout->addLayout( cuentabancoLayout );
 	pControlsLayout->addLayout( opcionesLayout );
@@ -73,7 +73,7 @@ FrmEditEmpresa::FrmEditEmpresa(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 //	pControlsLayout->addWidget( pFrameContactos );
     pEditContactoBehavior = new contactos::FrmEditContactoBehavior( this, pFrameContactos, editNombre );
     addBehavior( pEditContactoBehavior );
-	pEditContactoBehavior->_initGUI();
+    pEditContactoBehavior->_initGUI();
 
     connect( editLogo, SIGNAL( clicked() ), this, SLOT( editLogo_clicked() ) );
     pTabWidget->insertTab( tabLogo, toGUI( _( "&Logo" ) ) );
@@ -82,7 +82,7 @@ FrmEditEmpresa::FrmEditEmpresa(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 void FrmEditEmpresa::scatterFields()
 {
     pEditContactoBehavior->setTabOrders( editNombre, searchMonedaCodigo );
-/*<<<<<FRMEDITEMPRESA_SCATTER*/
+    /*<<<<<FRMEDITEMPRESA_SCATTER*/
 	editCodigo->setText(getRecEmpresa()->getValue("CODIGO").toInt());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editCodigo;

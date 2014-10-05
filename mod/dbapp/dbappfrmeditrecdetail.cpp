@@ -94,8 +94,8 @@ void FrmEditRecDetail::slotDetailUpClicked()
 void FrmEditRecDetail::updateStatus( bool callbehaviors )
 {
     FrmEditRecMaster::updateStatus( callbehaviors );
-	pMenuTable->setEnabled( false );
-	pushRemoveFilter->setVisible( false );
+    pMenuTable->setEnabled( false );
+    pushRemoveFilter->setVisible( false );
     if( pDataTable && pDataTable->isVisible() && !isReadOnly() ) {
         bool down = false;
         bool up = false;
@@ -258,11 +258,11 @@ void FrmEditRecDetail::beginEdit(DataTable *dt, EditMode newmode,
                     }
                 }
                 getFrmMaster()->gather(); // So that the detail form can access the master record's fields
-				DBAPP->resetCursor();
+                DBAPP->resetCursor();
                 detailfrm->showModalFor(getFrmMaster(), true, true ); // Centered
-				DBAPP->waitCursor();
-			}
-			setWiseFocus(dt);
+                DBAPP->waitCursor();
+            }
+            setWiseFocus(dt);
             int r = dt->currentRow(), c = dt->currentColumn();
             if( detailfrm->isSaved() ) {
                 getFrmMaster()->setEdited( true );

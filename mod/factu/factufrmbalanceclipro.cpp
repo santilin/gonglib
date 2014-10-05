@@ -30,7 +30,7 @@ namespace factu {
 FrmBalanceCliPro::FrmBalanceCliPro(QWidget * parent, WidgetFlags fl)
     : FrmReportConds(_("Balances de clientes y proveedoras"), parent, fl)
 {
-	setObjectName( "FrmBalanceCliPro" );
+    setObjectName( "FrmBalanceCliPro" );
     XtringList comprasoventas;
     comprasoventas << "Clientes" << "Proveedoras";
     pComboCliOPro = addComboBoxXtring(true, 0, "Clientes o proveedoras", comprasoventas );
@@ -51,7 +51,7 @@ FrmBalanceCliPro::FrmBalanceCliPro(QWidget * parent, WidgetFlags fl)
 
 
 Xtring FrmBalanceCliPro::createRTK(const Xtring &_template,
-								   Xtring &from, Xtring &where, Xtring &titulo)
+                                   Xtring &from, Xtring &where, Xtring &titulo)
 {
     Xtring compras_where, ventas_where;
     titulo = pEditTitulo->toString();
@@ -145,7 +145,7 @@ Xtring FrmBalanceCliPro::createRTK(const Xtring &_template,
         if( !ventas_where.isEmpty() )
             from += " AND " + ventas_where;
         from +=
-			"	UNION ALL"
+            "	UNION ALL"
             "		SELECT -FV.TOTAL AS TOTAL, FV.FECHA, 'Fv' AS TIPO, FV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, FV.NOTAS"
             "		FROM FACTURAVENTA FV"
             "			INNER JOIN TIPODOC ON TIPODOC.ID = FV.TIPODOC_ID"
@@ -167,7 +167,7 @@ Xtring FrmBalanceCliPro::createRTK(const Xtring &_template,
             "			FROM FACTURAVENTA FV"
             "				INNER JOIN TIPODOC ON TIPODOC.ID = FV.TIPODOC_ID"
             "				INNER JOIN CLIENTE ON FV.CLIENTE_ID = CLIENTE.ID"
-			"			WHERE FV.ENTREGA!=0";
+            "			WHERE FV.ENTREGA!=0";
         if( !ventas_where.isEmpty() )
             from += " WHERE " + Xtring(ventas_where).replace("AV.","FV.");
 
@@ -227,18 +227,18 @@ void FrmBalanceCliPro::accept()
 #endif
 #ifdef HAVE_RTKMODULE
     Xtring from, where, titulo;
-	Xtring _template = "balanceclipro";
+    Xtring _template = "balanceclipro";
     if( pCheckIncCobros->isOn() )
-		_template += "_cobros";
-	Xtring rtkstring = createRTK( _template, from, where, titulo);
-	if( !rtkstring.isEmpty() ) {
+        _template += "_cobros";
+    Xtring rtkstring = createRTK( _template, from, where, titulo);
+    if( !rtkstring.isEmpty() ) {
         AppReport *report = new AppReport(*DBAPP, ModuleInstance->getConnection());
         report->readString( rtkstring.c_str() );
         report->setParameterValue( "EMPRESA", empresa::ModuleInstance->getNombreEmpresa() );
         Dictionary<Variant> properties;
         properties.insert( "TITLE", titulo );
-		report->print(RTK_Screen, properties, Xtring(), Xtring(),
-						DBAPP->getAppSetting( "RTK.LANDSCAPE" ).toBool() ? Landscape : DefaultOrientation, false);
+        report->print(RTK_Screen, properties, Xtring(), Xtring(),
+                      DBAPP->getAppSetting( "RTK.LANDSCAPE" ).toBool() ? Landscape : DefaultOrientation, false);
     }
 #else
     FrmBase::msgOk(this, Xtring("Error"), "Lo siento, en este ordenador no se puede hacer informes" );

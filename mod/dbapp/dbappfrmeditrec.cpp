@@ -1013,59 +1013,59 @@ void FrmEditRec::enableEditControls( bool enabled )
 
 void FrmEditRec::enableEditControl( QWidget *control, bool enabled)
 {
-    if( !control ) 
-		return;
-	if ( EditBox * edit = dynamic_cast<EditBox *>( control ) ) {
+    if( !control )
+        return;
+    if ( EditBox * edit = dynamic_cast<EditBox *>( control ) ) {
         if ( !enabled || edit->mustBeReadOnly() )
-                edit->setReadOnly( true );
-            else
-                edit->setReadOnly( false );
-	} else if ( TextBox * edit = dynamic_cast<TextBox *>( control ) ) {
-		if ( !enabled || edit->mustBeReadOnly() )
-			edit->setReadOnly( true );
-		else
-			edit->setReadOnly( false );
-	} else if ( RichTextBox * edit = dynamic_cast<RichTextBox *>( control ) ) {
-		if ( !enabled || edit->mustBeReadOnly() )
-			edit->setReadOnly( true );
-		else
-			edit->setReadOnly( false );
-	} else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
-		if ( !enabled || search->mustBeReadOnly() ) {
-			search->getEditCode()->setReadOnly( true );
-			search->getEditDesc()->setReadOnly( true );
-			search->getButton()-> setEnabled (true);
-		} else {
-			search->getEditCode()->setReadOnly( false );
-			search->getEditDesc()->setReadOnly( !(search->getFlags() & SearchBox::FlagEditableDesc) );
-			search->getButton()-> setEnabled (true);
-		}
-	} else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
-		if ( !enabled || check->mustBeReadOnly() )
-			check->setEnabled( false );
-		else
-			check->setEnabled( true );
-	} else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( control ) ) {
-		if ( !enabled || combo->mustBeReadOnly() )
-			combo->setEnabled( false );
-		else
-			combo->setEnabled( true );
-	} else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
-		if ( !enabled || combo->mustBeReadOnly() )
-			combo->setEnabled( false );
-		else
-			combo->setEnabled( true );
-	} else if ( ImageBox * img = dynamic_cast<ImageBox *>( control ) ) {
-		if ( !enabled || img->mustBeReadOnly() )
-			img->setEnabled( false );
-		else
-			img->setEnabled( true );
-	} else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
-		if ( !enabled || fnbox->mustBeReadOnly() )
-			fnbox->getEditFileName()->setEnabled( false );
-		else
-			fnbox->getEditFileName()->setEnabled( true );
-	}
+            edit->setReadOnly( true );
+        else
+            edit->setReadOnly( false );
+    } else if ( TextBox * edit = dynamic_cast<TextBox *>( control ) ) {
+        if ( !enabled || edit->mustBeReadOnly() )
+            edit->setReadOnly( true );
+        else
+            edit->setReadOnly( false );
+    } else if ( RichTextBox * edit = dynamic_cast<RichTextBox *>( control ) ) {
+        if ( !enabled || edit->mustBeReadOnly() )
+            edit->setReadOnly( true );
+        else
+            edit->setReadOnly( false );
+    } else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
+        if ( !enabled || search->mustBeReadOnly() ) {
+            search->getEditCode()->setReadOnly( true );
+            search->getEditDesc()->setReadOnly( true );
+            search->getButton()-> setEnabled (true);
+        } else {
+            search->getEditCode()->setReadOnly( false );
+            search->getEditDesc()->setReadOnly( !(search->getFlags() & SearchBox::FlagEditableDesc) );
+            search->getButton()-> setEnabled (true);
+        }
+    } else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
+        if ( !enabled || check->mustBeReadOnly() )
+            check->setEnabled( false );
+        else
+            check->setEnabled( true );
+    } else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( control ) ) {
+        if ( !enabled || combo->mustBeReadOnly() )
+            combo->setEnabled( false );
+        else
+            combo->setEnabled( true );
+    } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
+        if ( !enabled || combo->mustBeReadOnly() )
+            combo->setEnabled( false );
+        else
+            combo->setEnabled( true );
+    } else if ( ImageBox * img = dynamic_cast<ImageBox *>( control ) ) {
+        if ( !enabled || img->mustBeReadOnly() )
+            img->setEnabled( false );
+        else
+            img->setEnabled( true );
+    } else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
+        if ( !enabled || fnbox->mustBeReadOnly() )
+            fnbox->getEditFileName()->setEnabled( false );
+        else
+            fnbox->getEditFileName()->setEnabled( true );
+    }
 }
 
 
@@ -1077,22 +1077,22 @@ void FrmEditRec::enableEditControl( QWidget *control, bool enabled)
 	**/
 void FrmEditRec::enableSearchBoxes( bool enabled )
 {
-	for ( EditControlsList::const_iterator it = mEditControls.begin();
-			it != mEditControls.end();
-	++ it ) {
-		if ( SearchBox * search = dynamic_cast<SearchBox *>( *it ) ) {
-			if ( !enabled || search->mustBeReadOnly() ) {
-				search->getEditCode()->setReadOnly( true );
-				search->getEditDesc()->setReadOnly( true );
-				search->getButton()-> setEnabled (false);
-			} else {
-				search->getEditCode()->setReadOnly( true );
-				search->getEditDesc()->setReadOnly( true );
-				search->getButton()->setEnabled (true);
-				search->getButton()->setFocusPolicy( Qt::TabFocus );
-			}
-		}
-	}
+    for ( EditControlsList::const_iterator it = mEditControls.begin();
+            it != mEditControls.end();
+            ++ it ) {
+        if ( SearchBox * search = dynamic_cast<SearchBox *>( *it ) ) {
+            if ( !enabled || search->mustBeReadOnly() ) {
+                search->getEditCode()->setReadOnly( true );
+                search->getEditDesc()->setReadOnly( true );
+                search->getButton()-> setEnabled (false);
+            } else {
+                search->getEditCode()->setReadOnly( true );
+                search->getEditDesc()->setReadOnly( true );
+                search->getButton()->setEnabled (true);
+                search->getButton()->setFocusPolicy( Qt::TabFocus );
+            }
+        }
+    }
 }
 
 /**
@@ -1103,142 +1103,142 @@ void FrmEditRec::enableSearchBoxes( bool enabled )
 	**/
 bool FrmEditRec::validateControls(bool onlyjustedited)
 {
-	bool isvalid = true;
-	for ( EditControlsList::const_iterator it = mEditControls.begin();
-	it != mEditControls.end(); ++it ) {
-		isvalid &= validateControl(*it, onlyjustedited);
-	}
-	return isvalid;
+    bool isvalid = true;
+    for ( EditControlsList::const_iterator it = mEditControls.begin();
+            it != mEditControls.end(); ++it ) {
+        isvalid &= validateControl(*it, onlyjustedited);
+    }
+    return isvalid;
 }
 
 
 bool FrmEditRec::validateControl(QWidget *control, bool onlyjustedited)
 {
-	bool isvalid = true;
-	if ( EditBox *edit = dynamic_cast<EditBox *>( control ) ) {
-		if( !onlyjustedited )
-			edit->setJustEdited(true);
-		if( edit->isJustEdited() )
-			validate( edit, &isvalid );
-	} else if ( TextBox *edit = dynamic_cast<TextBox *>( control ) ) {
-		if( !onlyjustedited )
-			edit->setJustEdited(true);
-		if( edit->isJustEdited() )
-			validate( edit, &isvalid );
-	} else if ( dynamic_cast<RichTextBox *>( control ) ) {
-		if( !onlyjustedited ) // TODO
-			validate( control, &isvalid );
-	} else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
-		if( !onlyjustedited )
-			search->getEditCode()->setJustEdited(true);
-		if( search->getEditCode()->isJustEdited() )
-			validate( search->getEditCode(), &isvalid );
-	} else if ( CheckBox *cb = dynamic_cast<CheckBox *>( control ) ) {
-		if( !onlyjustedited )
-			cb->setJustEdited( true );
-		if( cb->isJustEdited() )
-			validate( cb, &isvalid );
-	} else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( control ) ) {
-		if( !onlyjustedited )
-			combo->setJustEdited(true);
-		if( combo->isJustEdited() )
-			validate( combo, &isvalid );
-	} else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
-		if( !onlyjustedited )
-			combo->setJustEdited(true);
-		if( combo->isJustEdited() )
-			validate( combo, &isvalid );
-	} else if ( ImageBox *ib = dynamic_cast<ImageBox *>( control ) ) {
-		if( !onlyjustedited )
-			ib->setJustEdited(true);
-		if( ib->isJustEdited() )
-			validate( ib, &isvalid );
-	} else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
-		if( !onlyjustedited )
-			fnbox->getEditFileName()->setJustEdited(true);
-		if( fnbox->getEditFileName()->isJustEdited() )
-			validate( fnbox->getEditFileName(), &isvalid );
-	}
-	return isvalid;
+    bool isvalid = true;
+    if ( EditBox *edit = dynamic_cast<EditBox *>( control ) ) {
+        if( !onlyjustedited )
+            edit->setJustEdited(true);
+        if( edit->isJustEdited() )
+            validate( edit, &isvalid );
+    } else if ( TextBox *edit = dynamic_cast<TextBox *>( control ) ) {
+        if( !onlyjustedited )
+            edit->setJustEdited(true);
+        if( edit->isJustEdited() )
+            validate( edit, &isvalid );
+    } else if ( dynamic_cast<RichTextBox *>( control ) ) {
+        if( !onlyjustedited ) // TODO
+            validate( control, &isvalid );
+    } else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
+        if( !onlyjustedited )
+            search->getEditCode()->setJustEdited(true);
+        if( search->getEditCode()->isJustEdited() )
+            validate( search->getEditCode(), &isvalid );
+    } else if ( CheckBox *cb = dynamic_cast<CheckBox *>( control ) ) {
+        if( !onlyjustedited )
+            cb->setJustEdited( true );
+        if( cb->isJustEdited() )
+            validate( cb, &isvalid );
+    } else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( control ) ) {
+        if( !onlyjustedited )
+            combo->setJustEdited(true);
+        if( combo->isJustEdited() )
+            validate( combo, &isvalid );
+    } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
+        if( !onlyjustedited )
+            combo->setJustEdited(true);
+        if( combo->isJustEdited() )
+            validate( combo, &isvalid );
+    } else if ( ImageBox *ib = dynamic_cast<ImageBox *>( control ) ) {
+        if( !onlyjustedited )
+            ib->setJustEdited(true);
+        if( ib->isJustEdited() )
+            validate( ib, &isvalid );
+    } else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
+        if( !onlyjustedited )
+            fnbox->getEditFileName()->setJustEdited(true);
+        if( fnbox->getEditFileName()->isJustEdited() )
+            validate( fnbox->getEditFileName(), &isvalid );
+    }
+    return isvalid;
 }
 
 bool FrmEditRec::removeControl( QWidget *control )
 {
-	if( !control )
-		return true;
-	for ( EditControlsList::iterator it = mEditControls.begin();
-	it != mEditControls.end(); ++ it ) {
-		if ( EditBox *edit = dynamic_cast<EditBox *>( *it ) ) {
-			if( dynamic_cast<EditBox *>(control) && *it == control) {
-				delete edit;
-				mEditControls.erase( it );
-				return true;
-			}
-		} else if ( TextBox * edit = dynamic_cast<TextBox *>( *it ) ) {
-			if( dynamic_cast<TextBox *>(control) && *it == control) {
-				delete edit;
-				mEditControls.erase( it );
-				return true;
-			}
-		} else if ( RichTextBox *edit = dynamic_cast<RichTextBox *>( *it ) ) {
-			if( dynamic_cast<RichTextBox *>(control) && edit == control) {
-				delete edit;
-				mEditControls.erase( it );
-				return true;
-			}
-		} else if ( SearchBox *search = dynamic_cast<SearchBox *>( *it ) ) {
-			if( dynamic_cast<SearchBox *>(control) && search == control) {
-				delete search;
-				mEditControls.erase( it );
-				return true;
-			}
-		} else if ( CheckBox * check = dynamic_cast<CheckBox *>( *it ) ) {
-			if( dynamic_cast<CheckBox *>(control) && *it == control) {
-				delete check;
-				mEditControls.erase( it );
-				return true;
-			}
-		} else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( *it ) ) {
-			if( dynamic_cast<ComboBoxInt*>(control) && *it == control) {
-				delete combo;
-				mEditControls.erase( it );
-				return true;
-			}
-		} else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( *it ) ) {
-			if( dynamic_cast<ComboBoxXtring*>(control) && *it == control) {
-				delete combo;
-				mEditControls.erase( it );
-				return true;
-			}
-		} else if ( ImageBox *image = dynamic_cast<ImageBox *>( *it ) ) {
-			if( dynamic_cast<ImageBox*>(control) && *it == control) {
-				delete image;
-				mEditControls.erase( it );
-				return true;
-			}
-		} else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( *it ) ) {
-			if( dynamic_cast<FileNameBox *>(control) && *it == control) {
-				delete fnbox;
-				mEditControls.erase( it );
-				return true;
-			}
-		}
-	}
-	return false;
+    if( !control )
+        return true;
+    for ( EditControlsList::iterator it = mEditControls.begin();
+            it != mEditControls.end(); ++ it ) {
+        if ( EditBox *edit = dynamic_cast<EditBox *>( *it ) ) {
+            if( dynamic_cast<EditBox *>(control) && *it == control) {
+                delete edit;
+                mEditControls.erase( it );
+                return true;
+            }
+        } else if ( TextBox * edit = dynamic_cast<TextBox *>( *it ) ) {
+            if( dynamic_cast<TextBox *>(control) && *it == control) {
+                delete edit;
+                mEditControls.erase( it );
+                return true;
+            }
+        } else if ( RichTextBox *edit = dynamic_cast<RichTextBox *>( *it ) ) {
+            if( dynamic_cast<RichTextBox *>(control) && edit == control) {
+                delete edit;
+                mEditControls.erase( it );
+                return true;
+            }
+        } else if ( SearchBox *search = dynamic_cast<SearchBox *>( *it ) ) {
+            if( dynamic_cast<SearchBox *>(control) && search == control) {
+                delete search;
+                mEditControls.erase( it );
+                return true;
+            }
+        } else if ( CheckBox * check = dynamic_cast<CheckBox *>( *it ) ) {
+            if( dynamic_cast<CheckBox *>(control) && *it == control) {
+                delete check;
+                mEditControls.erase( it );
+                return true;
+            }
+        } else if ( ComboBoxInt * combo = dynamic_cast<ComboBoxInt *>( *it ) ) {
+            if( dynamic_cast<ComboBoxInt*>(control) && *it == control) {
+                delete combo;
+                mEditControls.erase( it );
+                return true;
+            }
+        } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( *it ) ) {
+            if( dynamic_cast<ComboBoxXtring*>(control) && *it == control) {
+                delete combo;
+                mEditControls.erase( it );
+                return true;
+            }
+        } else if ( ImageBox *image = dynamic_cast<ImageBox *>( *it ) ) {
+            if( dynamic_cast<ImageBox*>(control) && *it == control) {
+                delete image;
+                mEditControls.erase( it );
+                return true;
+            }
+        } else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( *it ) ) {
+            if( dynamic_cast<FileNameBox *>(control) && *it == control) {
+                delete fnbox;
+                mEditControls.erase( it );
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 
 QWidget *FrmEditRec::fixControl(const Xtring &fldname, const Variant &fldvalue)
 {
-	QWidget *control = findControl(fldname);
-	if( control ) {
-		// Study the value
-		if( fldvalue.isEmpty() )
-			return control;
-		setControlValue(fldname, fldvalue);
-		validateControl(control, false); // force just edited
-	}
-	return control;
+    QWidget *control = findControl(fldname);
+    if( control ) {
+        // Study the value
+        if( fldvalue.isEmpty() )
+            return control;
+        setControlValue(fldname, fldvalue);
+        validateControl(control, false); // force just edited
+    }
+    return control;
 }
 
 /**
@@ -1255,124 +1255,124 @@ QWidget *FrmEditRec::fixControl(const Xtring &fldname, const Variant &fldvalue)
 	* @return bool
 	**/
 bool FrmEditRec::validCodeAndDesc( QWidget *sender, ValidResult &validresult,
-									LineEdit *editCode, LineEdit *editDesc,
-									const Xtring &fldcodename, const Xtring &flddescname,
-									const Xtring &cond, bool codecanbenull )
+                                   LineEdit *editCode, LineEdit *editDesc,
+                                   const Xtring &fldcodename, const Xtring &flddescname,
+                                   const Xtring &cond, bool codecanbenull )
 {
-	_GONG_DEBUG_ASSERT( editCode );
-	if( focusWidget() == pushAccept && sender )
-		return true; // This avoids checking twice when pressing pushAccept while in one of the fields
-	if( sender == editCode || !sender ) {
-		// If value is empty and codecanbenull, do not check dups
-		if( !(codecanbenull && editCode->toString().trim().isEmpty() ) ) {
-			Xtring bigcond;
-			if( editCode->getValueType() == Variant::tString )
-				bigcond = fldcodename + "=" + DBAPP->getConnection()->toSQL( editCode->toString() );
-			else
-				bigcond = fldcodename + "=" + DBAPP->getConnection()->toSQL( editCode->toInt() );
-			if( !cond.isEmpty() )
-				bigcond = "(" + bigcond + ")AND(" + cond + ")";
-			if( !getFormFilter().isEmpty() )
-				bigcond = "(" + bigcond + ")AND(" + getFormFilter() + ")";
-			if( dbRecordID another_id = getRecord()->existsAnother( bigcond ) ) {
-				validresult.addError( Xtring::printf( _("Ya existe %s con el valor '%s' para '%s'"),
-														DBAPP->getTableDescSingular(pRecord->getTableName(), "una").c_str(),
-														editCode->toString().trim().c_str(),
-														getRecord()->findFieldDefinition( fldcodename )->getCaption().c_str()), fldcodename);
-				DBAPP->setAnotherRecordID( another_id );
-				return false;
-			} else {
-				DBAPP->setAnotherRecordID( 0 );
-			}
-		}
-		if( editCode->toString().trim().isEmpty() && !codecanbenull ) {
-			validresult.addError( Xtring::printf( _("'%s' no puede estar en blanco."),
-													getRecord()->findFieldDefinition(fldcodename)->getCaption().c_str()),
-									fldcodename );
-			return false;
-		}
-	}
-	if( editDesc && (sender == editDesc || !sender ) ) {
-		// editDesc puede estar vacío si solo queremos validar el código
-		dbFieldDefinition *flddef = const_cast<dbFieldDefinition *>(getRecord()->findFieldDefinition(flddescname));
-		if( flddef && flddef->isUnique() ) {
-			Xtring bigcond = flddescname + "=" + DBAPP->getConnection()->toSQL( editDesc->toString() );
-			if( !getFormFilter().isEmpty() )
-				bigcond = "(" + bigcond + ")AND(" + getFormFilter() + ")";
-			if( dbRecordID another_id = getRecord()->existsAnother( bigcond )  )
-			{
-				validresult.addError( Xtring::printf( _("Ya existe %s con el valor '%s' para '%s'"),
-														DBAPP->getTableDescSingular(pRecord->getTableName(), "una").c_str(),
-														editDesc->toString().c_str(),
-														getRecord()->findFieldDefinition( flddescname )->getCaption().c_str()), flddescname);
-				DBAPP->setAnotherRecordID( another_id );
-				return false;
-			} else {
-				DBAPP->setAnotherRecordID( 0 );
-			}
-		}
-		if( flddef && !flddef->canBeNull() ) {
-			if( editDesc->toString().trim().isEmpty()  ) {
-				validresult.addError( Xtring::printf( _("'%s' no puede estar en blanco."),
-														getRecord()->findFieldDefinition(flddescname)->getCaption().c_str()),
-										flddescname );
-				return false;
-			}
-		}
-	}
-	return true;
+    _GONG_DEBUG_ASSERT( editCode );
+    if( focusWidget() == pushAccept && sender )
+        return true; // This avoids checking twice when pressing pushAccept while in one of the fields
+    if( sender == editCode || !sender ) {
+        // If value is empty and codecanbenull, do not check dups
+        if( !(codecanbenull && editCode->toString().trim().isEmpty() ) ) {
+            Xtring bigcond;
+            if( editCode->getValueType() == Variant::tString )
+                bigcond = fldcodename + "=" + DBAPP->getConnection()->toSQL( editCode->toString() );
+            else
+                bigcond = fldcodename + "=" + DBAPP->getConnection()->toSQL( editCode->toInt() );
+            if( !cond.isEmpty() )
+                bigcond = "(" + bigcond + ")AND(" + cond + ")";
+            if( !getFormFilter().isEmpty() )
+                bigcond = "(" + bigcond + ")AND(" + getFormFilter() + ")";
+            if( dbRecordID another_id = getRecord()->existsAnother( bigcond ) ) {
+                validresult.addError( Xtring::printf( _("Ya existe %s con el valor '%s' para '%s'"),
+                                                      DBAPP->getTableDescSingular(pRecord->getTableName(), "una").c_str(),
+                                                      editCode->toString().trim().c_str(),
+                                                      getRecord()->findFieldDefinition( fldcodename )->getCaption().c_str()), fldcodename);
+                DBAPP->setAnotherRecordID( another_id );
+                return false;
+            } else {
+                DBAPP->setAnotherRecordID( 0 );
+            }
+        }
+        if( editCode->toString().trim().isEmpty() && !codecanbenull ) {
+            validresult.addError( Xtring::printf( _("'%s' no puede estar en blanco."),
+                                                  getRecord()->findFieldDefinition(fldcodename)->getCaption().c_str()),
+                                  fldcodename );
+            return false;
+        }
+    }
+    if( editDesc && (sender == editDesc || !sender ) ) {
+        // editDesc puede estar vacío si solo queremos validar el código
+        dbFieldDefinition *flddef = const_cast<dbFieldDefinition *>(getRecord()->findFieldDefinition(flddescname));
+        if( flddef && flddef->isUnique() ) {
+            Xtring bigcond = flddescname + "=" + DBAPP->getConnection()->toSQL( editDesc->toString() );
+            if( !getFormFilter().isEmpty() )
+                bigcond = "(" + bigcond + ")AND(" + getFormFilter() + ")";
+            if( dbRecordID another_id = getRecord()->existsAnother( bigcond )  )
+            {
+                validresult.addError( Xtring::printf( _("Ya existe %s con el valor '%s' para '%s'"),
+                                                      DBAPP->getTableDescSingular(pRecord->getTableName(), "una").c_str(),
+                                                      editDesc->toString().c_str(),
+                                                      getRecord()->findFieldDefinition( flddescname )->getCaption().c_str()), flddescname);
+                DBAPP->setAnotherRecordID( another_id );
+                return false;
+            } else {
+                DBAPP->setAnotherRecordID( 0 );
+            }
+        }
+        if( flddef && !flddef->canBeNull() ) {
+            if( editDesc->toString().trim().isEmpty()  ) {
+                validresult.addError( Xtring::printf( _("'%s' no puede estar en blanco."),
+                                                      getRecord()->findFieldDefinition(flddescname)->getCaption().c_str()),
+                                      flddescname );
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 void FrmEditRec::validateComboOrCheck( int activated )
 {
-	bool isvalid = true;
-	CheckBox * check = const_cast<CheckBox *>( dynamic_cast<const CheckBox *>( sender() ) );
-	if( check ) {
-		if( !check->isCheckingProgrammatically() ) {
-			check->setEdited( true );
-			check->setJustEdited( true );
-			validate( check, &isvalid );
-		}
-	} else {
-		ComboBoxInt *comboint = dynamic_cast<ComboBoxInt *>( sender() );
-		if( comboint ) {
-			if( !comboint->isSettingProgrammatically() ) {
-				comboint->setEdited( true );
-				comboint->setJustEdited( true );
-				validate( comboint, &isvalid );
-			}
-		} else {
-			ComboBoxXtring *comboxtr = dynamic_cast<ComboBoxXtring *>( sender() );
-			if( comboxtr ) {
-				if( !comboxtr->isSettingProgrammatically() ) {
-					comboxtr->setEdited( true );
-					comboxtr->setJustEdited( true );
-					validate( comboxtr, &isvalid );
-				}
-			}
-		}
-	}
+    bool isvalid = true;
+    CheckBox * check = const_cast<CheckBox *>( dynamic_cast<const CheckBox *>( sender() ) );
+    if( check ) {
+        if( !check->isCheckingProgrammatically() ) {
+            check->setEdited( true );
+            check->setJustEdited( true );
+            validate( check, &isvalid );
+        }
+    } else {
+        ComboBoxInt *comboint = dynamic_cast<ComboBoxInt *>( sender() );
+        if( comboint ) {
+            if( !comboint->isSettingProgrammatically() ) {
+                comboint->setEdited( true );
+                comboint->setJustEdited( true );
+                validate( comboint, &isvalid );
+            }
+        } else {
+            ComboBoxXtring *comboxtr = dynamic_cast<ComboBoxXtring *>( sender() );
+            if( comboxtr ) {
+                if( !comboxtr->isSettingProgrammatically() ) {
+                    comboxtr->setEdited( true );
+                    comboxtr->setJustEdited( true );
+                    validate( comboxtr, &isvalid );
+                }
+            }
+        }
+    }
 }
 
 bool FrmEditRec::fieldHasChangedAfterSaving(const Xtring & fldname)
 {
-	return pRecord->getValue(fldname) != pOrigRecord->getValue(fldname);
+    return pRecord->getValue(fldname) != pOrigRecord->getValue(fldname);
 }
 
 bool FrmEditRec::validSeekCode(List< dbRecordID >& rids, QWidget* sender, bool* isvalid,
-								ValidResult& validresult, LineEdit* editCode,
-								LineEdit* editDesc, dbRecord* record,
-								const Xtring& fldcodename, const Xtring& flddescname,
-								const Xtring& cond, dbApplication::SeekCodeFlags flags,
-								LineEdit *editAlt, const Xtring &fldaltname )
+                               ValidResult& validresult, LineEdit* editCode,
+                               LineEdit* editDesc, dbRecord* record,
+                               const Xtring& fldcodename, const Xtring& flddescname,
+                               const Xtring& cond, dbApplication::SeekCodeFlags flags,
+                               LineEdit *editAlt, const Xtring &fldaltname )
 {
-	bool ret = validSeekCode( sender, isvalid, validresult, editCode, editDesc,
-								record, fldcodename, flddescname, cond,
-								static_cast<dbApplication::SeekCodeFlags> (flags | dbApplication::SeekCodeMultiple),
-								editAlt, fldaltname );
-	if( ret )
-		rids = DBAPP->getSeekCodeRecordIDs();
-	return ret;
+    bool ret = validSeekCode( sender, isvalid, validresult, editCode, editDesc,
+                              record, fldcodename, flddescname, cond,
+                              static_cast<dbApplication::SeekCodeFlags> (flags | dbApplication::SeekCodeMultiple),
+                              editAlt, fldaltname );
+    if( ret )
+        rids = DBAPP->getSeekCodeRecordIDs();
+    return ret;
 }
 
 /**
@@ -1391,123 +1391,123 @@ bool FrmEditRec::validSeekCode(List< dbRecordID >& rids, QWidget* sender, bool* 
 	* @return bool
 	**/
 bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & validresult,
-								LineEdit * editCode, LineEdit * editDesc, dbRecord * record,
-								const Xtring & fldcodename, const Xtring & flddescname,
-								const Xtring &cond, dbApplication::SeekCodeFlags flags,
-								LineEdit *editAlt, const Xtring &fldaltname )
+                                LineEdit * editCode, LineEdit * editDesc, dbRecord * record,
+                                const Xtring & fldcodename, const Xtring & flddescname,
+                                const Xtring &cond, dbApplication::SeekCodeFlags flags,
+                                LineEdit *editAlt, const Xtring &fldaltname )
 {
-	bool ret = false;
-	if( sender == editDesc && editDesc->isReadOnly() )
-		return false;
-	// First of all, check that the field has just been edited.
-	if ( ( (!sender || sender == editCode) && editCode->isJustEdited() )
-	|| ( editDesc && sender == editDesc && editDesc->isJustEdited() ) ) {
-		QWidget *fw = focusWidget(); // The next focus control, to return to it if everything is ok
-		Xtring codigo_string = editCode->toString().trim();
-		Xtring descripcion;
-		if( editDesc )
-			descripcion = editDesc->toString().trim();
-		dbFieldDefinition *fldcode = DBAPP->getDatabase()->findFieldDefinition( record->getTableName(), fldcodename );
-		// If the field has been cleared, clear the record
-		if( !sender && (codigo_string.isEmpty() || codigo_string == "0") && descripcion.isEmpty() ) {
-			record->clear( true ); // set default custom values
-			ret = true;
-		} else if ( (sender == editCode && (codigo_string.isEmpty() || codigo_string == "0") )
-		|| ( editDesc && sender == editDesc && descripcion.isEmpty() ) ) {
-			record->clear( true ); // set default custom values
-			ret = true;
-		} else {
-			dbRecordID recid = 0;
-			if ( sender == editCode || !sender) {
-				if ( editCode->getValueType() == Variant::tInt ) {  // Son dos funciones distintas
-					int codigo_int = editCode->toInt();
-					recid = DBAPP->seekCode( record, this, fldcodename, codigo_int, flddescname,
-												codigo_int == 0 ? descripcion : Xtring::null, cond, flags );
-				} else
-					recid = DBAPP->seekCode( record, this, fldcodename, codigo_string, flddescname,
-												codigo_string.isEmpty() ? descripcion : Xtring::null, cond, flags );
-				if( recid )  {
-					ret = true;
-					if( fw )
-						setWiseFocus(fw);
-				} else {
-					validresult.addError( Xtring::printf( _("No se ha encontrado %1$s con %2$s \"%3$s\""),
-															DBAPP->getTableDescSingular(record->getTableName(), "la" ).c_str(),
-															fldcode ? fldcode->getCaption().c_str() : fldcodename.c_str(),
-															codigo_string.c_str() ), fldcodename );
-					if( !(flags & dbApplication::AllowNotFound) ) {
-						if( editDesc )
-							editDesc->setText("");
-						ret = false;
-						if( isvalid )
-							*isvalid = false;
-					} else {
-						if( fw )
-							setWiseFocus(fw);
-					}
-				}
-			} else if ( sender == editDesc && editDesc ) {
-				if ( ( recid = DBAPP->seekCode( record, this, fldcodename, Xtring(), flddescname,
-				descripcion, cond, flags ) ) ) {
-					ret = true;
-					if( fw )
-						setWiseFocus(fw);
-				} else {
-					dbFieldDefinition *flddesc = DBAPP->getDatabase()->findFieldDefinition( record->getTableName(), flddescname );
-					validresult.addError( Xtring::printf( _("No se ha encontrado %1$s con %2$s \"%3$s\""),
-															DBAPP->getTableDescSingular(record->getTableName(), "la" ).c_str(),
-															flddesc ? flddesc->getCaption().c_str() : flddescname.c_str(),
-															descripcion.c_str() ), flddescname );
-					if( !(flags & dbApplication::AllowNotFound) ) {
-						ret = false;
-						if( isvalid )
-							*isvalid = false;
-					} else {
-						if( fw )
-							setWiseFocus(fw);
-					}
-				}
-			}
-		}
-	}
-	return ret;
+    bool ret = false;
+    if( sender == editDesc && editDesc->isReadOnly() )
+        return false;
+    // First of all, check that the field has just been edited.
+    if ( ( (!sender || sender == editCode) && editCode->isJustEdited() )
+            || ( editDesc && sender == editDesc && editDesc->isJustEdited() ) ) {
+        QWidget *fw = focusWidget(); // The next focus control, to return to it if everything is ok
+        Xtring codigo_string = editCode->toString().trim();
+        Xtring descripcion;
+        if( editDesc )
+            descripcion = editDesc->toString().trim();
+        dbFieldDefinition *fldcode = DBAPP->getDatabase()->findFieldDefinition( record->getTableName(), fldcodename );
+        // If the field has been cleared, clear the record
+        if( !sender && (codigo_string.isEmpty() || codigo_string == "0") && descripcion.isEmpty() ) {
+            record->clear( true ); // set default custom values
+            ret = true;
+        } else if ( (sender == editCode && (codigo_string.isEmpty() || codigo_string == "0") )
+                    || ( editDesc && sender == editDesc && descripcion.isEmpty() ) ) {
+            record->clear( true ); // set default custom values
+            ret = true;
+        } else {
+            dbRecordID recid = 0;
+            if ( sender == editCode || !sender) {
+                if ( editCode->getValueType() == Variant::tInt ) {  // Son dos funciones distintas
+                    int codigo_int = editCode->toInt();
+                    recid = DBAPP->seekCode( record, this, fldcodename, codigo_int, flddescname,
+                                             codigo_int == 0 ? descripcion : Xtring::null, cond, flags );
+                } else
+                    recid = DBAPP->seekCode( record, this, fldcodename, codigo_string, flddescname,
+                                             codigo_string.isEmpty() ? descripcion : Xtring::null, cond, flags );
+                if( recid )  {
+                    ret = true;
+                    if( fw )
+                        setWiseFocus(fw);
+                } else {
+                    validresult.addError( Xtring::printf( _("No se ha encontrado %1$s con %2$s \"%3$s\""),
+                                                          DBAPP->getTableDescSingular(record->getTableName(), "la" ).c_str(),
+                                                          fldcode ? fldcode->getCaption().c_str() : fldcodename.c_str(),
+                                                          codigo_string.c_str() ), fldcodename );
+                    if( !(flags & dbApplication::AllowNotFound) ) {
+                        if( editDesc )
+                            editDesc->setText("");
+                        ret = false;
+                        if( isvalid )
+                            *isvalid = false;
+                    } else {
+                        if( fw )
+                            setWiseFocus(fw);
+                    }
+                }
+            } else if ( sender == editDesc && editDesc ) {
+                if ( ( recid = DBAPP->seekCode( record, this, fldcodename, Xtring(), flddescname,
+                                                descripcion, cond, flags ) ) ) {
+                    ret = true;
+                    if( fw )
+                        setWiseFocus(fw);
+                } else {
+                    dbFieldDefinition *flddesc = DBAPP->getDatabase()->findFieldDefinition( record->getTableName(), flddescname );
+                    validresult.addError( Xtring::printf( _("No se ha encontrado %1$s con %2$s \"%3$s\""),
+                                                          DBAPP->getTableDescSingular(record->getTableName(), "la" ).c_str(),
+                                                          flddesc ? flddesc->getCaption().c_str() : flddescname.c_str(),
+                                                          descripcion.c_str() ), flddescname );
+                    if( !(flags & dbApplication::AllowNotFound) ) {
+                        ret = false;
+                        if( isvalid )
+                            *isvalid = false;
+                    } else {
+                        if( fw )
+                            setWiseFocus(fw);
+                    }
+                }
+            }
+        }
+    }
+    return ret;
 }
 
 void FrmEditRec::applyBasicStyle(LineEdit *edit, const Xtring &stylename )
 {
-	if( edit->getValueType() == Variant::tInt ) {
-		edit->setAlignment(Qt::AlignRight);
-	} else if( edit->getValueType() == Variant::tDouble ) {
-		edit->setMask(GongLibraryInstance->getRegConfig()->getNumberMask());
-		edit->setAlignment(Qt::AlignRight);
-	} else if( edit->getValueType() == Variant::tMoney ) {
-		edit->setMask(GongLibraryInstance->getRegConfig()->getCurrencyMask());
-		edit->setAlignment(Qt::AlignRight);
-	} else if( edit->getValueType() == Variant::tDate ) {
-		edit->setMask(GongLibraryInstance->getRegConfig()->getDateMask());
-		edit->setFormat(GongLibraryInstance->getRegConfig()->getDateFormat());
-		edit->setAlignment(Qt::AlignLeft);
-	} else if( edit->getValueType() == Variant::tDateTime ) {
-		edit->setMask(GongLibraryInstance->getRegConfig()->getDateTimeMask());
-		edit->setFormat(GongLibraryInstance->getRegConfig()->getDateTimeFormat());
-		edit->setAlignment(Qt::AlignLeft);
-	} else if( edit->getValueType() == Variant::tTime ) {
-		edit->setMask(GongLibraryInstance->getRegConfig()->getTimeMask());
-		edit->setFormat(GongLibraryInstance->getRegConfig()->getTimeFormat());
-		edit->setAlignment(Qt::AlignLeft);
-	}
-	dbFieldStyle *styledef = DBAPP->getDatabase()->findFieldStyle ( stylename );
-	if( styledef )
-	{
-		if( !styledef->getMask().isEmpty() )
-			edit->setMask(styledef->getMask());
-		if( !styledef->getFormat().isEmpty() )
-			edit->setFormat(styledef->getFormat());
-		if( styledef->getHAlignment() != dbFieldStyle::AlignAuto )
-			edit->setAlignment(toGUI(styledef->getHAlignment()));
-	}
-	if( stylename == "PASSWORD" )
-		edit->setEchoMode( QLineEdit::Password );
+    if( edit->getValueType() == Variant::tInt ) {
+        edit->setAlignment(Qt::AlignRight);
+    } else if( edit->getValueType() == Variant::tDouble ) {
+        edit->setMask(GongLibraryInstance->getRegConfig()->getNumberMask());
+        edit->setAlignment(Qt::AlignRight);
+    } else if( edit->getValueType() == Variant::tMoney ) {
+        edit->setMask(GongLibraryInstance->getRegConfig()->getCurrencyMask());
+        edit->setAlignment(Qt::AlignRight);
+    } else if( edit->getValueType() == Variant::tDate ) {
+        edit->setMask(GongLibraryInstance->getRegConfig()->getDateMask());
+        edit->setFormat(GongLibraryInstance->getRegConfig()->getDateFormat());
+        edit->setAlignment(Qt::AlignLeft);
+    } else if( edit->getValueType() == Variant::tDateTime ) {
+        edit->setMask(GongLibraryInstance->getRegConfig()->getDateTimeMask());
+        edit->setFormat(GongLibraryInstance->getRegConfig()->getDateTimeFormat());
+        edit->setAlignment(Qt::AlignLeft);
+    } else if( edit->getValueType() == Variant::tTime ) {
+        edit->setMask(GongLibraryInstance->getRegConfig()->getTimeMask());
+        edit->setFormat(GongLibraryInstance->getRegConfig()->getTimeFormat());
+        edit->setAlignment(Qt::AlignLeft);
+    }
+    dbFieldStyle *styledef = DBAPP->getDatabase()->findFieldStyle ( stylename );
+    if( styledef )
+    {
+        if( !styledef->getMask().isEmpty() )
+            edit->setMask(styledef->getMask());
+        if( !styledef->getFormat().isEmpty() )
+            edit->setFormat(styledef->getFormat());
+        if( styledef->getHAlignment() != dbFieldStyle::AlignAuto )
+            edit->setAlignment(toGUI(styledef->getHAlignment()));
+    }
+    if( stylename == "PASSWORD" )
+        edit->setEchoMode( QLineEdit::Password );
 }
 
 
@@ -1516,240 +1516,240 @@ void FrmEditRec::applyBasicStyle(LineEdit *edit, const Xtring &stylename )
 	*/
 void FrmEditRec::applyFieldStyle(LineEdit *edit, const dbFieldDefinition *fielddef)
 {
-	_GONG_DEBUG_ASSERT(  edit  );
-	if( !fielddef )
-		return;
-	Variant::Type valuetype = fielddef->getVariantType();
-	if( valuetype != Variant::tInvalid )
-	{
-		edit->setValueType(valuetype);
-	}
-	else
-	{
-		_GONG_DEBUG_WARNING("No existe el valuetype");
-		edit->setValueType(Variant::tString);
-	}
-	applyBasicStyle(edit, fielddef->getStyle());
-	unsigned int fldwidth = fielddef->getStyleWidth( DBAPP->getDatabase() );
-	bool hasmaskorstyle = false;
-	_GONG_DEBUG_PRINT( 4, Xtring::printf("%s=>size:%d, mask=%s", edit->name(), fldwidth, edit->getMask().c_str() ) );
-	if( fldwidth < edit->getMask().size() ) {
-		fldwidth = edit->getMask().size();
-		hasmaskorstyle = true;
-	}
-	if( !hasmaskorstyle ) {
-		hasmaskorstyle = true;
-		switch( edit->getValueType() ) {
-		case Variant::tDouble:
-			if( fldwidth == 0 )
-				fldwidth = GongLibraryInstance->getRegConfig()->getNumberMask().size();
-			fldwidth += 1; // for the sign
-			break;
-		case Variant::tMoney:
-			if( fldwidth == 0 )
-				fldwidth = GongLibraryInstance->getRegConfig()->getCurrencyMask().size();
-			fldwidth += 3; // for the currency symbol and sign
-			break;
-		case Variant::tInt:
-			break;
-		case Variant::tDate:
-			if( fldwidth == 0 )
-				fldwidth = GongLibraryInstance->getRegConfig()->getDateMask().size();
-			break;
-		case Variant::tTime:
-			if( fldwidth == 0 )
-				fldwidth = GongLibraryInstance->getRegConfig()->getTimeMask().size();
-			break;
-		case Variant::tDateTime:
-			if( fldwidth == 0 )
-				fldwidth = GongLibraryInstance->getRegConfig()->getDateTimeMask().size();
-			break;
-		default:
-			if( fldwidth == 0 )
-				fldwidth = 100;
-			else
-				edit->setMaxLength( fldwidth );
-			hasmaskorstyle = false;
-			break;
-		}
-	}
-	// Esto está hecho a ojo, basándome en el formulario de contactos
-	if( edit->getValueType() == Variant::tString ) {
-		if( fldwidth <= 15 ) {
-			edit->setMinimumWidth( fldwidth * edit->fontMetrics().width("W") );
-			edit->setMaximumWidth( 15 * edit->fontMetrics().width("W") );
-			edit->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
-		} else if (fldwidth <= 25 ) {
-			edit->setMinimumWidth( fldwidth * edit->fontMetrics().width("W") );
-			edit->setMaximumWidth( 25 * edit->fontMetrics().width("W") );
-			edit->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
-		} else {
-			edit->setMinimumWidth( (fldwidth / 3 > 25 ? 25 : fldwidth/3) * edit->fontMetrics().width("W") );
-			edit->setMaximumWidth( (fldwidth > 150 ? 150 : fldwidth) * edit->fontMetrics().width("W") );
-			edit->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
-		}
-	} else {
-		edit->setMinimumWidth( (fldwidth) * edit->fontMetrics().width("9") );
-		edit->setMaximumWidth( (fldwidth + 2) * edit->fontMetrics().width("9") );
-		edit->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
-	}
-	if( fielddef->getDescription() != fielddef->getCaption() ) {
-		edit->setToolTip( toGUI(fielddef->getDescription()) );
-	}
-	_GONG_DEBUG_PRINT( 10, Xtring::printf("%s=>size:%d, mask=%s", edit->name(), fldwidth, edit->getMask().c_str() ) );
+    _GONG_DEBUG_ASSERT(  edit  );
+    if( !fielddef )
+        return;
+    Variant::Type valuetype = fielddef->getVariantType();
+    if( valuetype != Variant::tInvalid )
+    {
+        edit->setValueType(valuetype);
+    }
+    else
+    {
+        _GONG_DEBUG_WARNING("No existe el valuetype");
+        edit->setValueType(Variant::tString);
+    }
+    applyBasicStyle(edit, fielddef->getStyle());
+    unsigned int fldwidth = fielddef->getStyleWidth( DBAPP->getDatabase() );
+    bool hasmaskorstyle = false;
+    _GONG_DEBUG_PRINT( 4, Xtring::printf("%s=>size:%d, mask=%s", edit->name(), fldwidth, edit->getMask().c_str() ) );
+    if( fldwidth < edit->getMask().size() ) {
+        fldwidth = edit->getMask().size();
+        hasmaskorstyle = true;
+    }
+    if( !hasmaskorstyle ) {
+        hasmaskorstyle = true;
+        switch( edit->getValueType() ) {
+        case Variant::tDouble:
+            if( fldwidth == 0 )
+                fldwidth = GongLibraryInstance->getRegConfig()->getNumberMask().size();
+            fldwidth += 1; // for the sign
+            break;
+        case Variant::tMoney:
+            if( fldwidth == 0 )
+                fldwidth = GongLibraryInstance->getRegConfig()->getCurrencyMask().size();
+            fldwidth += 3; // for the currency symbol and sign
+            break;
+        case Variant::tInt:
+            break;
+        case Variant::tDate:
+            if( fldwidth == 0 )
+                fldwidth = GongLibraryInstance->getRegConfig()->getDateMask().size();
+            break;
+        case Variant::tTime:
+            if( fldwidth == 0 )
+                fldwidth = GongLibraryInstance->getRegConfig()->getTimeMask().size();
+            break;
+        case Variant::tDateTime:
+            if( fldwidth == 0 )
+                fldwidth = GongLibraryInstance->getRegConfig()->getDateTimeMask().size();
+            break;
+        default:
+            if( fldwidth == 0 )
+                fldwidth = 100;
+            else
+                edit->setMaxLength( fldwidth );
+            hasmaskorstyle = false;
+            break;
+        }
+    }
+    // Esto está hecho a ojo, basándome en el formulario de contactos
+    if( edit->getValueType() == Variant::tString ) {
+        if( fldwidth <= 15 ) {
+            edit->setMinimumWidth( fldwidth * edit->fontMetrics().width("W") );
+            edit->setMaximumWidth( 15 * edit->fontMetrics().width("W") );
+            edit->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
+        } else if (fldwidth <= 25 ) {
+            edit->setMinimumWidth( fldwidth * edit->fontMetrics().width("W") );
+            edit->setMaximumWidth( 25 * edit->fontMetrics().width("W") );
+            edit->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
+        } else {
+            edit->setMinimumWidth( (fldwidth / 3 > 25 ? 25 : fldwidth/3) * edit->fontMetrics().width("W") );
+            edit->setMaximumWidth( (fldwidth > 150 ? 150 : fldwidth) * edit->fontMetrics().width("W") );
+            edit->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
+        }
+    } else {
+        edit->setMinimumWidth( (fldwidth) * edit->fontMetrics().width("9") );
+        edit->setMaximumWidth( (fldwidth + 2) * edit->fontMetrics().width("9") );
+        edit->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
+    }
+    if( fielddef->getDescription() != fielddef->getCaption() ) {
+        edit->setToolTip( toGUI(fielddef->getDescription()) );
+    }
+    _GONG_DEBUG_PRINT( 10, Xtring::printf("%s=>size:%d, mask=%s", edit->name(), fldwidth, edit->getMask().c_str() ) );
 }
 
 void FrmEditRec::applyFieldStyle(TextEdit *edit, const dbFieldDefinition *fielddef)
 {
-	_GONG_DEBUG_ASSERT(  edit  );
-	if( !fielddef )
-		return;
+    _GONG_DEBUG_ASSERT(  edit  );
+    if( !fielddef )
+        return;
 }
 
 void FrmEditRec::applyFieldStyle(QLabel *label, const dbFieldDefinition *fielddef)
 {
-	if( fielddef ) {
-		if( fielddef->getCaption() != "~" )
-			label->setText( toGUI(fielddef->getCaption() ) );
-	}
+    if( fielddef ) {
+        if( fielddef->getCaption() != "~" )
+            label->setText( toGUI(fielddef->getCaption() ) );
+    }
 }
 
 void FrmEditRec::applyFieldStyle(QPushButton *button, const dbFieldDefinition *fielddef)
 {
-	_GONG_DEBUG_ASSERT(  button  );
-	if( fielddef ) {
-		if( fielddef->getCaption() != "~" )
-			button->setText( toGUI(fielddef->getCaption()) );
-	}
+    _GONG_DEBUG_ASSERT(  button  );
+    if( fielddef ) {
+        if( fielddef->getCaption() != "~" )
+            button->setText( toGUI(fielddef->getCaption()) );
+    }
 }
 
 void FrmEditRec::applyFieldStyle(QCheckBox *check, const dbFieldDefinition *fielddef)
 {
-	_GONG_DEBUG_ASSERT(  check  );
-	if( fielddef ) {
-		if( fielddef->getCaption() != "~" )
-			check->setText(toGUI(fielddef->getCaption().c_str()));
-	}
+    _GONG_DEBUG_ASSERT(  check  );
+    if( fielddef ) {
+        if( fielddef->getCaption() != "~" )
+            check->setText(toGUI(fielddef->getCaption().c_str()));
+    }
 }
 
 void FrmEditRec::applyFieldStyle(QComboBox *combo, const dbFieldDefinition *fielddef)
 {
-	_GONG_DEBUG_ASSERT( combo );
-	if( fielddef ) {
-		combo->setEnabled(!fielddef->isReadOnly());
-		combo->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
-	}
+    _GONG_DEBUG_ASSERT( combo );
+    if( fielddef ) {
+        combo->setEnabled(!fielddef->isReadOnly());
+        combo->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
+    }
 }
 
 void FrmEditRec::fixFocusWidgetText()
 {
-	setEdited(false);
-	if( !mFocusWidgetText.isEmpty() ) {
-		if( LineEdit *le = dynamic_cast<LineEdit *>(pFocusWidget) ) {
-			le->setText( mFocusWidgetText == "-" ? "-0" : mFocusWidgetText );
-			setEdited(true);
-			le->setJustEdited(true);
-		} else if( TextEdit *te = dynamic_cast<TextEdit *>(pFocusWidget) ) {
-			te->setText( mFocusWidgetText == "-" ? "-0" : mFocusWidgetText );
-			setEdited(true);
-			te->setJustEdited(true);
-			//move the cursor to the end of the text
-			QTextCursor cursor(te->textCursor());
-			cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
-			te->setTextCursor(cursor);
-		}
-		mFocusWidgetText = "";
-	}
+    setEdited(false);
+    if( !mFocusWidgetText.isEmpty() ) {
+        if( LineEdit *le = dynamic_cast<LineEdit *>(pFocusWidget) ) {
+            le->setText( mFocusWidgetText == "-" ? "-0" : mFocusWidgetText );
+            setEdited(true);
+            le->setJustEdited(true);
+        } else if( TextEdit *te = dynamic_cast<TextEdit *>(pFocusWidget) ) {
+            te->setText( mFocusWidgetText == "-" ? "-0" : mFocusWidgetText );
+            setEdited(true);
+            te->setJustEdited(true);
+            //move the cursor to the end of the text
+            QTextCursor cursor(te->textCursor());
+            cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+            te->setTextCursor(cursor);
+        }
+        mFocusWidgetText = "";
+    }
 }
 
 void FrmEditRec::addSpacersToTabs()
 {
-	for( int index = 0; index < pTabWidget->count(); ++index ) {
-		QWidget *tab = pTabWidget->widget( index );
-		if( tab->layout() ) {
-			// Find a control with vertical expanding
-			bool found = false;
-			QList<QWidget *>allwidgets = tab->findChildren<QWidget *>();
-			for( QList<QWidget *>::const_iterator wit = allwidgets.begin();
-			wit != allwidgets.end(); ++wit ) {
-				QSizePolicy sp = (*wit)->sizePolicy();
-				if( sp.verticalPolicy() == QSizePolicy::Maximum
-						|| sp.verticalPolicy() == QSizePolicy::Expanding
-				|| sp.verticalPolicy() == QSizePolicy::MinimumExpanding ) {
-					found = true;
-					break;
-				}
-			}
-			if( !found ) {
-				QSpacerItem *vertSpacer = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
-				tab->layout()->addItem(vertSpacer);
-			}
-		}
-	}
+    for( int index = 0; index < pTabWidget->count(); ++index ) {
+        QWidget *tab = pTabWidget->widget( index );
+        if( tab->layout() ) {
+            // Find a control with vertical expanding
+            bool found = false;
+            QList<QWidget *>allwidgets = tab->findChildren<QWidget *>();
+            for( QList<QWidget *>::const_iterator wit = allwidgets.begin();
+                    wit != allwidgets.end(); ++wit ) {
+                QSizePolicy sp = (*wit)->sizePolicy();
+                if( sp.verticalPolicy() == QSizePolicy::Maximum
+                        || sp.verticalPolicy() == QSizePolicy::Expanding
+                        || sp.verticalPolicy() == QSizePolicy::MinimumExpanding ) {
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                QSpacerItem *vertSpacer = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+                tab->layout()->addItem(vertSpacer);
+            }
+        }
+    }
 }
 
 void FrmEditRec::gather()
 {
-	gatherFields();
-	for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-			bit != mBehaviors.end();
-	++ bit ) {
-		(*bit)->gatherFields();
-	}
+    gatherFields();
+    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+            bit != mBehaviors.end();
+            ++ bit ) {
+        (*bit)->gatherFields();
+    }
 }
 
 void FrmEditRec::scatter()
 {
-	QTabBar *tb = pTabWidget->findChild<QTabBar *>();
-	if( tb && tb->isVisible() )
-		tb->setCurrentIndex( 0 );
-	for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-			bit != mBehaviors.end();
-	++ bit ) {
-		(*bit)->scatterFields( BEHAVIOR_PRE );
-	}
-	scatterFields();
-	for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-			bit != mBehaviors.end();
-	++ bit ) {
-		(*bit)->scatterFields( BEHAVIOR_POST );
-	}
+    QTabBar *tb = pTabWidget->findChild<QTabBar *>();
+    if( tb && tb->isVisible() )
+        tb->setCurrentIndex( 0 );
+    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+            bit != mBehaviors.end();
+            ++ bit ) {
+        (*bit)->scatterFields( BEHAVIOR_PRE );
+    }
+    scatterFields();
+    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+            bit != mBehaviors.end();
+            ++ bit ) {
+        (*bit)->scatterFields( BEHAVIOR_POST );
+    }
 }
 
 void FrmEditRec::validate(QWidget* sender, bool* isvalid, ValidResult* ir)
 {
-	// If ir == 0, we want to show the messages, create a temporary validresult to hold
-	// al the messages.
-	ValidResult *validresult = ( ir ? ir : new ValidResult() );
-	for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-			bit != mBehaviors.end();
-	++ bit ) {
-		(*bit)->validateFields( BEHAVIOR_PRE, sender, isvalid, validresult);
-	}
-	validateFields(sender, isvalid, validresult);
-	for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-			bit != mBehaviors.end();
-	++ bit ) {
-		(*bit)->validateFields( BEHAVIOR_POST, sender, isvalid, validresult);
-	}
-	if ( !ir ) {
-		showValidMessages( isvalid, *validresult, sender );
-		delete validresult;
-	}
+    // If ir == 0, we want to show the messages, create a temporary validresult to hold
+    // al the messages.
+    ValidResult *validresult = ( ir ? ir : new ValidResult() );
+    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+            bit != mBehaviors.end();
+            ++ bit ) {
+        (*bit)->validateFields( BEHAVIOR_PRE, sender, isvalid, validresult);
+    }
+    validateFields(sender, isvalid, validresult);
+    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+            bit != mBehaviors.end();
+            ++ bit ) {
+        (*bit)->validateFields( BEHAVIOR_POST, sender, isvalid, validresult);
+    }
+    if ( !ir ) {
+        showValidMessages( isvalid, *validresult, sender );
+        delete validresult;
+    }
 }
 
 bool FrmEditRec::canBeginEdit(EditMode newmode)
 {
-	DBAPP->waitCursor();
-	for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-	bit != mBehaviors.end(); ++ bit ) {
-		if( !(*bit)->canBeginEdit( newmode ) ) {
-			DBAPP->resetCursor();
-			return false;
-		}
-	}
-	DBAPP->resetCursor();
-	return true;
+    DBAPP->waitCursor();
+    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+            bit != mBehaviors.end(); ++ bit ) {
+        if( !(*bit)->canBeginEdit( newmode ) ) {
+            DBAPP->resetCursor();
+            return false;
+        }
+    }
+    DBAPP->resetCursor();
+    return true;
 }
 
 } // namespace gong

@@ -67,18 +67,18 @@ void FrmGenPedidoCompra::preparaDesdePedidosClientes()
         DBAPP->showOSD("Elige el/los pedidos de venta", "para generar los pedidos de compras" );
         RecPedidoVenta *tmprec = static_cast<RecPedidoVenta *>( DBAPP->createRecord( "PEDIDOVENTA" ) );
         mPedidoVentaIds.clear();
-		Xtring filter;
-		if( pDateRange->getDateFrom().isValid() )
-			filter = "PEDIDOVENTA.FECHA >= " + DBAPP->getConnection()->toSQL( pDateRange->getDateTimeFrom() );
-		if( pDateRange->getDateTo().isValid() ) {
-			if( !filter.isEmpty() )
-				filter += " AND " ;
-			filter += "PEDIDOVENTA.FECHA <= " + DBAPP->getConnection()->toSQL( pDateRange->getDateTimeTo() );
-		}
-		RecPedidoVentaDet *pvdet = static_cast<RecPedidoVentaDet *>( DBAPP->createRecord( "PEDIDOVENTADET" ) );
-		dbViewDefinitionDict pvview;
-		DBAPP->getDatabase()->getViewsForTable( "PEDIDOVENTA", pvview);
-		dbRecordDataModel *pvrdm = new dbRecordDataModel( pvdet, pvview, filter);
+        Xtring filter;
+        if( pDateRange->getDateFrom().isValid() )
+            filter = "PEDIDOVENTA.FECHA >= " + DBAPP->getConnection()->toSQL( pDateRange->getDateTimeFrom() );
+        if( pDateRange->getDateTo().isValid() ) {
+            if( !filter.isEmpty() )
+                filter += " AND " ;
+            filter += "PEDIDOVENTA.FECHA <= " + DBAPP->getConnection()->toSQL( pDateRange->getDateTimeTo() );
+        }
+        RecPedidoVentaDet *pvdet = static_cast<RecPedidoVentaDet *>( DBAPP->createRecord( "PEDIDOVENTADET" ) );
+        dbViewDefinitionDict pvview;
+        DBAPP->getDatabase()->getViewsForTable( "PEDIDOVENTA", pvview);
+        dbRecordDataModel *pvrdm = new dbRecordDataModel( pvdet, pvview, filter);
         dbRecordID pedidoventa_id = DBAPP->chooseMulti( mPedidoVentaIds,
                                     static_cast<FrmEditRecMaster*>(0), tmprec, pvrdm );
         int npedidos = 0;

@@ -4,11 +4,11 @@
 
 namespace gong {
 namespace tesoreria {
-	
+
 } // namespace tesoreria
 } // namespace gong
 
 /*<<<<<MODULE_INFO*/
-// COPYLEFT Registro de 
+// COPYLEFT Registro de
 // TYPE dbRecord tesoreria::TipoApunteTesoreria
 /*>>>>>MODULE_INFO*/

@@ -47,11 +47,11 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	if ( !name )
 	    setName( "FrmEditPago" );
 /*>>>>>FRMEDITPAGO_CONSTRUCTOR*/
-	searchFacturaNumero = 0;
-	searchTerceroCodigo = 0;
+    searchFacturaNumero = 0;
+    searchTerceroCodigo = 0;
     pTercerosLayout = new QHBoxLayout();
-	pControlsLayout->addLayout(pTercerosLayout);
-/*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
+    pControlsLayout->addLayout(pTercerosLayout);
+    /*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *descLayout = new QHBoxLayout(0, 0, 6, "descLayout");
 	QHBoxLayout *fechasLayout = new QHBoxLayout(0, 0, 6, "fechasLayout");
@@ -121,8 +121,8 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         removeControl( searchFacturaNumero );
         if( fldfactcodigo == Xtring::null ) {
             dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablafacturas );
-			mFldFactCodigo = tbldef->getCodeField();
-			mFldFactDesc = tbldef->getDescField();
+            mFldFactCodigo = tbldef->getCodeField();
+            mFldFactDesc = tbldef->getDescField();
         } else {
             mFldFactCodigo = fldfactcodigo;
             mFldFactDesc = fldfactdesc;
@@ -133,8 +133,8 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ) );
         editFacturaNumero = searchFacturaNumero->getEditCode();
         editFacturaDesc = searchFacturaNumero->getEditDesc();
-		editFacturaNumero->setWidthInChars(15);
-		searchFacturaNumero->setMustBeReadOnly(true);
+        editFacturaNumero->setWidthInChars(15);
+        searchFacturaNumero->setMustBeReadOnly(true);
 
         removeControl( searchTerceroCodigo );
         if( fldterccodigo == Xtring::null ) {
@@ -155,7 +155,7 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
         editTerceroCodigo = searchTerceroCodigo->getEditCode();
         editTerceroDesc = searchTerceroCodigo->getEditDesc();
-		searchTerceroCodigo->setMustBeReadOnly(true);
+        searchTerceroCodigo->setMustBeReadOnly(true);
 
         setTabOrder( editFacturaNumero, editTerceroCodigo );
         setTabOrder( editTerceroCodigo, editNumero );
@@ -170,73 +170,73 @@ void FrmEditPago::scatterFactura()
 
 void FrmEditPago::pushFacturaNumero_clicked()
 {
-	char action = mControlKeyPressed;
-	if( !isEditing() || searchFacturaNumero->mustBeReadOnly() )
-		action = 'E';
-	switch( action ) {
-		case 'F':
-		case '\0':
-			editFacturaNumero->setJustEdited( false );
-			editFacturaNumero->setCancelling();
-			if( DBAPP->choose(this, getRecFactura(), 0, dbApplication::editNone, this ) ) {
-				setEdited(true);
-				scatterFactura();
-				editFacturaNumero->setJustEdited( true );
-				setWiseFocus(editFacturaNumero);
-			}
-			break;
-		case 'M':
-			{
-				if( getRecFactura()->getRecordID() ) {
-					editFacturaNumero->setJustEdited( false );
-					if( DBAPP->editRecord(this,
-							getRecFactura(), 0, DataTable::updating,
-							dbApplication::simpleEdition, this ) ) {
-						editFacturaNumero->setJustEdited( true );
-						scatterFactura();
-					}
-				setWiseFocus(editFacturaNumero);
-				}
-			}
-			break;
-		case 'E':
-			{
-				if( getRecFactura()->getRecordID() != 0 ) {
-					editFacturaNumero->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFactura(),
-						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-				}
-			}
-			break;
-		case 'A':
-			{
-				RecFactura *tmprec = static_cast<RecFactura *>(DBAPP->createRecord( getRecFactura()->getTableName() ));
-				editFacturaNumero->setJustEdited( false );
-				tmprec->clear( true ); // set default values
-				DBAPP->setCodeNotFound( editFacturaNumero->toString() );
-				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-					dbApplication::simpleEdition, this ) ) {
-					editFacturaNumero->setJustEdited( true );
-					getRecFactura()->copyRecord( tmprec );
-					scatterFactura();
-				}
-				setWiseFocus(editFacturaNumero);
-				DBAPP->setCodeNotFound( Xtring() );
-			}
-			break;
-	}
+    char action = mControlKeyPressed;
+    if( !isEditing() || searchFacturaNumero->mustBeReadOnly() )
+        action = 'E';
+    switch( action ) {
+    case 'F':
+    case '\0':
+        editFacturaNumero->setJustEdited( false );
+        editFacturaNumero->setCancelling();
+        if( DBAPP->choose(this, getRecFactura(), 0, dbApplication::editNone, this ) ) {
+            setEdited(true);
+            scatterFactura();
+            editFacturaNumero->setJustEdited( true );
+            setWiseFocus(editFacturaNumero);
+        }
+        break;
+    case 'M':
+    {
+        if( getRecFactura()->getRecordID() ) {
+            editFacturaNumero->setJustEdited( false );
+            if( DBAPP->editRecord(this,
+                                  getRecFactura(), 0, DataTable::updating,
+                                  dbApplication::simpleEdition, this ) ) {
+                editFacturaNumero->setJustEdited( true );
+                scatterFactura();
+            }
+            setWiseFocus(editFacturaNumero);
+        }
+    }
+    break;
+    case 'E':
+    {
+        if( getRecFactura()->getRecordID() != 0 ) {
+            editFacturaNumero->setJustEdited( false );
+            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFactura(),
+                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+        }
+    }
+    break;
+    case 'A':
+    {
+        RecFactura *tmprec = static_cast<RecFactura *>(DBAPP->createRecord( getRecFactura()->getTableName() ));
+        editFacturaNumero->setJustEdited( false );
+        tmprec->clear( true ); // set default values
+        DBAPP->setCodeNotFound( editFacturaNumero->toString() );
+        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+                              dbApplication::simpleEdition, this ) ) {
+            editFacturaNumero->setJustEdited( true );
+            getRecFactura()->copyRecord( tmprec );
+            scatterFactura();
+        }
+        setWiseFocus(editFacturaNumero);
+        DBAPP->setCodeNotFound( Xtring() );
+    }
+    break;
+    }
 }
 
 #ifdef HAVE_CONTABMODULE
 void FrmEditPago::scatterCuentaPago()
 {
 #define getRecCuenta getRecCuentaPago
-	if( getRecord()->getTableDefinition()->findFieldDefinition("CUENTAPAGO_ID") ) {
-    /*<<<<<FRMEDITPAGO_SCATTER_CUENTAPAGO*/
+    if( getRecord()->getTableDefinition()->findFieldDefinition("CUENTAPAGO_ID") ) {
+        /*<<<<<FRMEDITPAGO_SCATTER_CUENTAPAGO*/
 	editCuentaPagoCuenta->setText( getRecCuentaPago()->getValue("CUENTA") );
 	editCuentaPagoDescripcion->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
 /*>>>>>FRMEDITPAGO_SCATTER_CUENTAPAGO*/
-	}
+    }
 #undef getRecCuenta
 }
 #endif
@@ -312,61 +312,61 @@ void FrmEditPago::scatterTercero()
 
 void FrmEditPago::pushTerceroCodigo_clicked()
 {
-	char action = mControlKeyPressed;
-	if( !isEditing() || searchTerceroCodigo->mustBeReadOnly() )
-		action = 'E';
-	switch( action ) {
-		case 'F':
-		case '\0':
-			editTerceroCodigo->setJustEdited( false );
-			editTerceroCodigo->setCancelling();
-			if( DBAPP->choose(this, getRecTercero(), 0, dbApplication::editNone, this ) ) {
-				setEdited(true);
-				scatterTercero();
-				editTerceroCodigo->setJustEdited( true );
-				setWiseFocus(editTerceroCodigo);
-			}
-			break;
-		case 'M':
-			{
-				if( getRecTercero()->getRecordID() ) {
-					editTerceroCodigo->setJustEdited( false );
-					if( DBAPP->editRecord(this,
-							getRecTercero(), 0, DataTable::updating,
-							dbApplication::simpleEdition, this ) ) {
-						editTerceroCodigo->setJustEdited( true );
-						scatterTercero();
-					}
-				setWiseFocus(editTerceroCodigo);
-				}
-			}
-			break;
-		case 'E':
-			{
-				if( getRecTercero()->getRecordID() != 0 ) {
-					editTerceroCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTercero(),
-						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-				}
-			}
-			break;
-		case 'A':
-			{
-				RecTercero *tmprec = static_cast<RecTercero *>(DBAPP->createRecord( getRecTercero()->getTableName() ));
-				editTerceroCodigo->setJustEdited( false );
-				tmprec->clear( true ); // set default values
-				DBAPP->setCodeNotFound( editTerceroCodigo->toString() );
-				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-					dbApplication::simpleEdition, this ) ) {
-					editTerceroCodigo->setJustEdited( true );
-					getRecTercero()->copyRecord( tmprec );
-					scatterTercero();
-				}
-				setWiseFocus(editTerceroCodigo);
-				DBAPP->setCodeNotFound( Xtring() );
-			}
-			break;
-	}
+    char action = mControlKeyPressed;
+    if( !isEditing() || searchTerceroCodigo->mustBeReadOnly() )
+        action = 'E';
+    switch( action ) {
+    case 'F':
+    case '\0':
+        editTerceroCodigo->setJustEdited( false );
+        editTerceroCodigo->setCancelling();
+        if( DBAPP->choose(this, getRecTercero(), 0, dbApplication::editNone, this ) ) {
+            setEdited(true);
+            scatterTercero();
+            editTerceroCodigo->setJustEdited( true );
+            setWiseFocus(editTerceroCodigo);
+        }
+        break;
+    case 'M':
+    {
+        if( getRecTercero()->getRecordID() ) {
+            editTerceroCodigo->setJustEdited( false );
+            if( DBAPP->editRecord(this,
+                                  getRecTercero(), 0, DataTable::updating,
+                                  dbApplication::simpleEdition, this ) ) {
+                editTerceroCodigo->setJustEdited( true );
+                scatterTercero();
+            }
+            setWiseFocus(editTerceroCodigo);
+        }
+    }
+    break;
+    case 'E':
+    {
+        if( getRecTercero()->getRecordID() != 0 ) {
+            editTerceroCodigo->setJustEdited( false );
+            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTercero(),
+                                                  0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+        }
+    }
+    break;
+    case 'A':
+    {
+        RecTercero *tmprec = static_cast<RecTercero *>(DBAPP->createRecord( getRecTercero()->getTableName() ));
+        editTerceroCodigo->setJustEdited( false );
+        tmprec->clear( true ); // set default values
+        DBAPP->setCodeNotFound( editTerceroCodigo->toString() );
+        if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+                              dbApplication::simpleEdition, this ) ) {
+            editTerceroCodigo->setJustEdited( true );
+            getRecTercero()->copyRecord( tmprec );
+            scatterTercero();
+        }
+        setWiseFocus(editTerceroCodigo);
+        DBAPP->setCodeNotFound( Xtring() );
+    }
+    break;
+    }
 }
 
 void FrmEditPago::specialControlKeyPressed(QWidget *sender, char key)
@@ -408,7 +408,7 @@ void FrmEditPago::scatterFields()
         getRecPago()->setValue( "ASIENTO_PAGO_ID", 0 );
 #endif
     }
-/*<<<<<FRMEDITPAGO_SCATTER*/
+    /*<<<<<FRMEDITPAGO_SCATTER*/
 	checkAutomatico->setChecked(getRecPago()->getValue("AUTOMATICO").toBool());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = checkAutomatico;
@@ -463,7 +463,7 @@ if( ModuleInstance->getContabModule() ) {
 
 void FrmEditPago::gatherFields()
 {
-/*<<<<<FRMEDITPAGO_GATHER*/
+    /*<<<<<FRMEDITPAGO_GATHER*/
 	getRecPago()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
 	getRecPago()->setValue( "NUMERO", editNumero->toInt());
 	getRecPago()->setValue( "NUMEROAGRUPADO", editNumeroAgrupado->toString());
@@ -499,7 +499,7 @@ void FrmEditPago::scatterMoneda()
 
 void FrmEditPago::pushMonedaCodigo_clicked()
 {
-/*<<<<<FRMEDITPAGO_PUSH_MONEDA_CODIGO_CLICKED*/
+    /*<<<<<FRMEDITPAGO_PUSH_MONEDA_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchMonedaCodigo->mustBeReadOnly() )
 		action = 'E';
@@ -561,7 +561,7 @@ void FrmEditPago::pushMonedaCodigo_clicked()
 
 void FrmEditPago::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
-/*<<<<<FRMEDITPAGO_VALIDATE*/
+    /*<<<<<FRMEDITPAGO_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;

@@ -18,11 +18,13 @@ public:
     enum Tipo { pagos, cobros };
     IPagableRecord( dbRecord *factura, IPagableRecord::Tipo t, const Xtring &total_field,
                     const Xtring &pagos_field, const Xtring &resto_field, const XtringList &other_pagos_fields,
-					const Xtring &tablapagos = Xtring::null );
+                    const Xtring &tablapagos = Xtring::null );
     virtual dbRecordID getProyectoID() const = 0;
     virtual dbRecord *getRecTercero() const = 0;
-	dbRecordList *getPagos( PagosModule::EstadoRecibo estado = PagosModule::ReciboSinEstado );
-	dbRecordList *getCobros( PagosModule::EstadoRecibo estado = PagosModule::ReciboSinEstado ) { return getPagos(estado); }
+    dbRecordList *getPagos( PagosModule::EstadoRecibo estado = PagosModule::ReciboSinEstado );
+    dbRecordList *getCobros( PagosModule::EstadoRecibo estado = PagosModule::ReciboSinEstado ) {
+        return getPagos(estado);
+    }
 #ifdef HAVE_CONTABMODULE
     virtual Xtring getPrefijoContableTercero() const = 0;
 #endif

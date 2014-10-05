@@ -96,3 +96,9 @@ dbRecordID RecCuenta::findCuentaID(dbConnection* conn, const Xtring& cuenta)
 
 } // namespace contab
 } // namespace gong
+/*<<<<<CUENTA_INIT*/
+void RecCuenta::init()
+{
+/*>>>>>CUENTA_INIT*/
+
+}

@@ -50,7 +50,7 @@ protected slots:
     void slot_searchCP_clicked();
     void editContactoImagen_clicked();
 
-/*<<<<<FRMEDITCONTACTO_CONTROLS*/
+    /*<<<<<FRMEDITCONTACTO_CONTROLS*/
 protected:
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNacionalidad;

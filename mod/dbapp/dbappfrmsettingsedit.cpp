@@ -15,11 +15,11 @@ FrmSettingsEdit::FrmSettingsEdit( QWidget* parent, WidgetFlags fl )
     settingsLayout->addWidget( pSettingsTree );
     mainLayout->addLayout(settingsLayout);
 
-	PushButton *pushSearch = new PushButton( this, _("Buscar") );
-	connect( pushSearch, SIGNAL( clicked() ), this, SLOT( slotSearch() ) );
+    PushButton *pushSearch = new PushButton( this, _("Buscar") );
+    connect( pushSearch, SIGNAL( clicked() ), this, SLOT( slotSearch() ) );
     QHBoxLayout *buttonsLayout = new QHBoxLayout();
     buttonsLayout->addWidget(pushCancel);
-	buttonsLayout->addWidget(pushSearch);
+    buttonsLayout->addWidget(pushSearch);
     pushCancel->setText( _("Cerrar") );
     pushAccept->setVisible( false );
     mainLayout->addLayout(buttonsLayout);
@@ -37,14 +37,14 @@ bool FrmSettingsEdit::canClose()
 
 void FrmSettingsEdit::slotSearch()
 {
-	Xtring search_text;
-	if( FrmBase::inputBoxString( search_text, _("Texto:"),
-		_("Buscar en la configuración"), this ) ) {
-		mLastMatchItem = pSettingsTree->findText( search_text, 0, mLastMatchItem );
-		if( mLastMatchItem != 0 ) {
-			pSettingsTree->setCurrentItem( mLastMatchItem, 0, QItemSelectionModel::Select);
-		}
-	}
+    Xtring search_text;
+    if( FrmBase::inputBoxString( search_text, _("Texto:"),
+                                 _("Buscar en la configuración"), this ) ) {
+        mLastMatchItem = pSettingsTree->findText( search_text, 0, mLastMatchItem );
+        if( mLastMatchItem != 0 ) {
+            pSettingsTree->setCurrentItem( mLastMatchItem, 0, QItemSelectionModel::Select);
+        }
+    }
 }
 
 } // namespace gong

@@ -25,22 +25,44 @@ class ImageBox: public QPushButton
 public:
     ImageBox( QWidget *parent, const Xtring &name = Xtring::null,
               const Xtring &caption = Xtring::null, bool horizontal = true );
-    bool isEdited() const { return mEdited; }
-    void setEdited(bool edited) { mEdited = edited; }
-    bool isJustEdited() const { return mJustEdited; }
-    void setJustEdited(bool justedited) { mJustEdited = justedited; }
-    QBoxLayout *getLayout() const { return pLayout; }
-    QPushButton *getButton() { return this; }
-    const QPixmap *getImage() const { return pImageLabel->pixmap(); }
+    bool isEdited() const {
+        return mEdited;
+    }
+    void setEdited(bool edited) {
+        mEdited = edited;
+    }
+    bool isJustEdited() const {
+        return mJustEdited;
+    }
+    void setJustEdited(bool justedited) {
+        mJustEdited = justedited;
+    }
+    QBoxLayout *getLayout() const {
+        return pLayout;
+    }
+    QPushButton *getButton() {
+        return this;
+    }
+    const QPixmap *getImage() const {
+        return pImageLabel->pixmap();
+    }
     bool setImage( QPixmap *image );
-    bool mustBeReadOnly() const { return mMustBeReadOnly; }
-    void setMustBeReadOnly(bool must) { mMustBeReadOnly = must; }
+    bool mustBeReadOnly() const {
+        return mMustBeReadOnly;
+    }
+    void setMustBeReadOnly(bool must) {
+        mMustBeReadOnly = must;
+    }
     bool setImageData( const Variant &data );
     bool loadFromFile( const Xtring &filename );
     Variant toData() const;
     void clear();
-    void setProposedFileName( const Xtring &name ) { mProposedFileName = name; }
-    const Xtring &getProposedFileName() const { return mProposedFileName; }
+    void setProposedFileName( const Xtring &name ) {
+        mProposedFileName = name;
+    }
+    const Xtring &getProposedFileName() const {
+        return mProposedFileName;
+    }
     void displayInfo( const Xtring &errmessage = Xtring::null );
 
 

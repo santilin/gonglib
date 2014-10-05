@@ -49,7 +49,7 @@ class NamesListTable;
 #endif
 
 namespace gong {
-	
+
 class FrmBase;
 
 namespace factu {
@@ -91,6 +91,7 @@ public:
     QMenu *getMenuFacturacion() const {
         return pMenuFacturacion;
     }
+    
     Date getWorkingDate();
     void setWorkingDate( Date dt );
     const XtringList &getInsertables() const {
@@ -104,12 +105,12 @@ public:
                         const Xtring &excludedfields = Xtring::null);
     void calcImporteDetalle( dbRecord *detalle, bool redondeaimportes );
     enum EstadoPedido { PedidoPendiente = 1, PedidoPedido, PedidoRecibido, PedidoEntregado };
-	static bool editPVPsArticulo(FrmBase *parentform, 
-		RecArticulo *articulo, RecCliente *cliente, double pvpconiva, bool canedit = true);
-	static bool editCostesArticulo(FrmBase *parentform,
-		RecArticulo *articulo, double costesiniva, bool canedit = true);
-	
-/*<<<<<FACTUMODULE_RECORD_DEFINITIONS*/
+    static bool editPVPsArticulo(FrmBase *parentform,
+                                 RecArticulo *articulo, RecCliente *cliente, double pvpconiva, bool canedit = true);
+    static bool editCostesArticulo(FrmBase *parentform,
+                                   RecArticulo *articulo, double costesiniva, bool canedit = true);
+
+    /*<<<<<FACTUMODULE_RECORD_DEFINITIONS*/
 public:
 	factu::MasterTable *getFicArticulo() const { return pFicArticulo; }
 	factu::MasterTable *getFicCliente() const { return pFicCliente; }
@@ -167,7 +168,7 @@ private slots:
     void slotMenuFactuGenPedidosCompras();
     void slotMenuFactuRegenAsientos();
     void slotMenuFactuCopiarDocumento();
-/*<<<<<FACTUMODULE_MENU_DEFINITIONS*/
+    /*<<<<<FACTUMODULE_MENU_DEFINITIONS*/
 private slots:
 	void slotMenuFacturacionArticulo();
 	void slotMenuFacturacionCliente();
@@ -218,7 +219,7 @@ public:
         return pMenuFactuBalanceCliPro;
     }
 
-/*<<<<<FACTUMODULE_REQUIRES*/
+    /*<<<<<FACTUMODULE_REQUIRES*/
 public:
 	empresa::EmpresaModule *getEmpresaModule() const { return pEmpresaModule; }
 	pagos::PagosModule *getPagosModule() const { return pPagosModule; }

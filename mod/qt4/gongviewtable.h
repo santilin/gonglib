@@ -46,18 +46,22 @@ public:
     };
 
     ViewTable( dbRecord *record, const dbViewDefinitionDict &vlist,
-			const Xtring &filter = Xtring(), QWidget* parent=0, const char* name=0 );
+               const Xtring &filter = Xtring(), QWidget* parent=0, const char* name=0 );
     ~ViewTable();
 
-	bool setView( int nview );
+    bool setView( int nview );
     void refresh();
 
-	int currentRow() const;
-	void setCurrentRow(int row);
-	int rowCount() const;
-	int columnCount() const;
-    bool isFirstRow() const { return currentRow() == 0; }
-    bool isLastRow() const { return currentRow() == rowCount()-1; }
+    int currentRow() const;
+    void setCurrentRow(int row);
+    int rowCount() const;
+    int columnCount() const;
+    bool isFirstRow() const {
+        return currentRow() == 0;
+    }
+    bool isLastRow() const {
+        return currentRow() == rowCount()-1;
+    }
 
     void setVerticalHeader( bool visible );
 
@@ -103,7 +107,7 @@ private:
     ViewTableModel *pViewTableModel;
     Formatter mFormatter;
     Xtring searchString;
-	int mSortedColumn;
+    int mSortedColumn;
     ViewTable::TableEditMode tbEditMode;
 };
 

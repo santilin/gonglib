@@ -14,53 +14,53 @@ using namespace Poco;
 namespace gong {
 
 SMTPMailSender::SMTPMailSender(const Xtring& smtphost, UInt16 port,
-							   const Xtring& smtpuser, const Xtring& smtpassword)
-	: pSession(0), mHost( smtphost ), mUser( smtpuser ), mPassword( smtpassword ), mPort( port )
+                               const Xtring& smtpuser, const Xtring& smtpassword)
+    : pSession(0), mHost( smtphost ), mUser( smtpuser ), mPassword( smtpassword ), mPort( port )
 {
 }
 
 SMTPMailSender::~SMTPMailSender()
 {
-	if( pSession )
-		delete pSession;
+    if( pSession )
+        delete pSession;
 }
 
 
 void SMTPMailSender::setError(const Xtring &error)
 {
-	mError = error;
+    mError = error;
 }
 
 void SMTPMailSender::clearError()
 {
-	mError = Xtring::null;
+    mError = Xtring::null;
 }
 
 const Xtring& SMTPMailSender::getError() const
 {
-	return mError;
+    return mError;
 }
 
 int SMTPMailSender::open()
 {
-	int ret = 0;
-	clearError();
+    int ret = 0;
+    clearError();
     try {
         pSession = new SMTPClientSession(mHost, mPort);
         pSession->open();
         try {
             pSession->login(SMTPClientSession::AUTH_LOGIN, mUser, mPassword);
-			ret = 1;
+            ret = 1;
         } catch (SMTPException &e) {
             cerr << "SMTPException: " << e.displayText() << endl;
-			setError( e.displayText() );
+            setError( e.displayText() );
             ret = 0;
         }
     } catch (NetException &e) {
-		setError( e.displayText() );
+        setError( e.displayText() );
         ret = 0;
     }
-	return ret;
+    return ret;
 }
 
 // 	std::string logo(reinterpret_cast<const char*>(PocoLogo), sizeof(PocoLogo));
@@ -68,52 +68,52 @@ int SMTPMailSender::open()
 // 	message.addAttachment("logo", new StringPartSource(logo, "image/gif"));
 
 MailMessage *SMTPMailSender::createMessage(const Xtring& from, const Xtring& to, const Xtring& subject,
-						   const Xtring &content, bool html)
+        const Xtring &content, bool html)
 {
-	clearError();
+    clearError();
     Xtring enc_subject = MailMessage::encodeWord(subject, "UTF-8");
     MailMessage *message = new MailMessage();
     message->setSender(from);
-	if( !to.isEmpty() )
-		message->addRecipient(MailRecipient(MailRecipient::PRIMARY_RECIPIENT, to));
+    if( !to.isEmpty() )
+        message->addRecipient(MailRecipient(MailRecipient::PRIMARY_RECIPIENT, to));
     message->setSubject(enc_subject);
-	if( html )
-		message->setContentType("text/html; charset=UTF-8");
-	else
-		message->setContentType("text/plain; charset=UTF-8");
-	Xtring content_without_0a = content;
-	content_without_0a.replace( "\x0a", "\x0d" );
+    if( html )
+        message->setContentType("text/html; charset=UTF-8");
+    else
+        message->setContentType("text/plain; charset=UTF-8");
+    Xtring content_without_0a = content;
+    content_without_0a.replace( "\x0a", "\x0d" );
     message->setContent(content_without_0a, MailMessage::ENCODING_8BIT);
-	return message;
+    return message;
 }
 
 int SMTPMailSender::sendMessage( MailMessage *message )
 {
-	int ret = 0;
+    int ret = 0;
     try {
-		pSession->sendMessage(*message);
-		ret = 1;
-	} catch (SMTPException &e) {
-		cerr << "SMTPException: " << e.displayText() << endl;
-		setError( e.displayText() );
-		ret = 0;
-	} catch( ConnectionResetException &e ) {
-		cerr << "SMTPException: " << e.displayText() << endl;
-		setError( e.displayText() );
-		ret = 0;
-	}
+        pSession->sendMessage(*message);
+        ret = 1;
+    } catch (SMTPException &e) {
+        cerr << "SMTPException: " << e.displayText() << endl;
+        setError( e.displayText() );
+        ret = 0;
+    } catch( ConnectionResetException &e ) {
+        cerr << "SMTPException: " << e.displayText() << endl;
+        setError( e.displayText() );
+        ret = 0;
+    }
     return ret;
 }
 
 
 int SMTPMailSender::close()
 {
-	int ret = 0;
+    int ret = 0;
     try {
-		pSession->close();
-		ret = 1;
+        pSession->close();
+        ret = 1;
     } catch (NetException &e) {
-		setError( e.displayText() );
+        setError( e.displayText() );
         ret = 0;
     }
     return ret;

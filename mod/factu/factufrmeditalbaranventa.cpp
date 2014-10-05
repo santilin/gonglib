@@ -283,13 +283,13 @@ if( ModuleInstance->getContabModule() ) {
     editTotal->setMustBeReadOnly( mHasCobros );
     editEntrega->setMustBeReadOnly( mHasCobros );
     pushCobrar->setVisible( !mHasCobros );
-	scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
-	validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
+    scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
+    validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
 }
 
 void FrmEditAlbaranVenta::gatherFields()
 {
-/*<<<<<FRMEDITALBARANVENTA_GATHER*/
+    /*<<<<<FRMEDITALBARANVENTA_GATHER*/
 	getRecAlbaranVenta()->setValue( "FECHA", editFecha->toDate());
 	getRecAlbaranVenta()->setValue( "TIPODOC_ID", getRecTipoDoc()->getRecordID() );
 	getRecAlbaranVenta()->setValue( "CONTADOR", editContador->toInt());
@@ -739,7 +739,7 @@ void FrmEditAlbaranVenta::pushProyectoCodigo_clicked()
 
 void FrmEditAlbaranVenta::scatterFormaPago()
 {
-/*<<<<<FRMEDITALBARANVENTA_SCATTER_FORMAPAGO*/
+    /*<<<<<FRMEDITALBARANVENTA_SCATTER_FORMAPAGO*/
 	editFormaPagoCodigo->setText( getRecFormaPago()->getValue("CODIGO") );
 	editFormaPagoNombre->setText( getRecFormaPago()->getValue("NOMBRE") );
 /*>>>>>FRMEDITALBARANVENTA_SCATTER_FORMAPAGO*/

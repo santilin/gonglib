@@ -48,7 +48,7 @@ protected:
 /*>>>>>FRMEDITFORMAPAGO_VIRTUALS_FROM_FRMEDITREC*/
     void enableControlesPago();
 
-/*<<<<<FRMEDITFORMAPAGO_SCATTERS_AND_SLOTS*/
+    /*<<<<<FRMEDITFORMAPAGO_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterCuentaTesoreria();
 
@@ -61,8 +61,8 @@ public:
 		{ return static_cast<RecFormaPago*>(getRecord())->getRecCuentaTesoreria(); }
 #endif
 /*>>>>>FRMEDITFORMAPAGO_SCATTERS_AND_SLOTS*/
-	
-/*<<<<<FRMEDITFORMAPAGO_CONTROLS*/
+
+    /*<<<<<FRMEDITFORMAPAGO_CONTROLS*/
 protected:
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNombre;

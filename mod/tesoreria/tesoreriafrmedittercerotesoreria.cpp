@@ -24,7 +24,7 @@ FrmEditTerceroTesoreria::FrmEditTerceroTesoreria(FrmEditRec *parentfrm, dbRecord
 	if ( !name )
 	    setName( "FrmEditTerceroTesoreria" );
 /*>>>>>FRMEDITTERCEROTESORERIA_CONSTRUCTOR*/
-/*<<<<<FRMEDITTERCEROTESORERIA_INIT_CONTROLS*/
+    /*<<<<<FRMEDITTERCEROTESORERIA_INIT_CONTROLS*/
 	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
 	QHBoxLayout *nombreLayout = new QHBoxLayout(0, 0, 6, "nombreLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
@@ -39,7 +39,7 @@ FrmEditTerceroTesoreria::FrmEditTerceroTesoreria(FrmEditRec *parentfrm, dbRecord
 
 void FrmEditTerceroTesoreria::scatterFields()
 {
-/*<<<<<FRMEDITTERCEROTESORERIA_SCATTER*/
+    /*<<<<<FRMEDITTERCEROTESORERIA_SCATTER*/
 	editCodigo->setText(getRecTerceroTesoreria()->getValue("CODIGO").toInt());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editCodigo;
@@ -50,7 +50,7 @@ void FrmEditTerceroTesoreria::scatterFields()
 
 void FrmEditTerceroTesoreria::gatherFields()
 {
-/*<<<<<FRMEDITTERCEROTESORERIA_GATHER*/
+    /*<<<<<FRMEDITTERCEROTESORERIA_GATHER*/
 	getRecTerceroTesoreria()->setValue( "CODIGO", editCodigo->toInt());
 	getRecTerceroTesoreria()->setValue( "NOMBRE", editNombre->toString());
 	getRecTerceroTesoreria()->setValue( "NOTAS", editNotas->toString());
@@ -59,7 +59,7 @@ void FrmEditTerceroTesoreria::gatherFields()
 
 void FrmEditTerceroTesoreria::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
-/*<<<<<FRMEDITTERCEROTESORERIA_VALIDATE*/
+    /*<<<<<FRMEDITTERCEROTESORERIA_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -67,10 +67,10 @@ void FrmEditTerceroTesoreria::validateFields(QWidget *sender, bool *isvalid, Val
 	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
 			*isvalid = false;
 /*>>>>>FRMEDITTERCEROTESORERIA_VALIDATE*/
-	if( !ir ) {
-		showValidMessages(isvalid, *validresult, sender);
-		delete validresult;
-	}
+    if( !ir ) {
+        showValidMessages(isvalid, *validresult, sender);
+        delete validresult;
+    }
 }
 
 /*<<<<<FRMEDITTERCEROTESORERIA_FIN*/

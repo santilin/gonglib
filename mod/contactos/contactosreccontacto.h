@@ -52,7 +52,7 @@ public:
     static bool slotSearchCPClicked( FrmBase *frm, LineEdit *editCP, LineEdit *editBarrio,
                                      LineEdit *editLocalidad, LineEdit *editProvincia );
 
-/*<<<<<CONTACTO_MEMBERS*/
+    /*<<<<<CONTACTO_MEMBERS*/
 	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
 	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 	virtual bool findMatchingRecord(dbRecordID *matchingid) const; // from dbRecord

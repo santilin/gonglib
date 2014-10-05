@@ -108,8 +108,8 @@ void RichTextBox::slotBeginEdit()
 {
     Xtring text = getText();
     if( FrmBase::inputBoxText(text, _("Texto"), fromGUI(getLabel()->text()), this) ) {
-		setText( text );
-	}
+        setText( text );
+    }
 }
 
 void RichTextBox::slotBeginEditHTML()

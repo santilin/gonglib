@@ -39,6 +39,7 @@ public:
     /*<<<<<CUENTA_MEMBERS*/
 	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
 	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
+	void init();
 /*>>>>>CUENTA_MEMBERS*/
     void resetSaldos();
     static RecCuenta *quickCreate( dbConnection *conn, const Xtring &cuenta, const Xtring &desc );

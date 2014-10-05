@@ -17,12 +17,11 @@ class IAsentableRecord
 public:
     IAsentableRecord( dbRecord *record, const Xtring &asiento_id_field );
     virtual dbRecord *getRecTercero() const = 0;
-    virtual RecAsiento *creaAsiento( contab::RecAsiento *old_asiento, bool supervisar ) = 0;
+    virtual RecAsiento *creaAsiento( RecAsiento *old_asiento, bool supervisar ) = 0;
     virtual RecCuenta *getRecCuentaPago() const;
     virtual dbRecordID regenAsiento( bool supervisar );
     virtual RecAsiento *borraAsiento();
-    virtual FrmEditRec *showAsiento( DataTable::EditMode editmode = DataTable::selecting,
-                                     const Xtring &asiento_id_field = Xtring::null );
+    virtual FrmEditRec *showAsiento( DataTable::EditMode editmode = DataTable::selecting );
 protected:
     dbRecord *pRecord;
     Xtring mAsientoIDField;

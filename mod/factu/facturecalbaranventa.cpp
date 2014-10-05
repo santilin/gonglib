@@ -135,22 +135,22 @@ void RecAlbaranVenta::setNextNumero( bool checkdup )
     int contador = ModuleInstance->getMaxContador( "ALBARANVENTA", getValue("EMPRESA_ID").toInt(),
                    ModuleInstance->getEmpresaModule()->getEjercicio(),
                    getRecTipoDoc()->getValue("SERIE").toString() );
-	while( 1 ) {
-		setValue( "CONTADOR", contador );
-		setValue( "NUMERO", factu::RecTipoDoc::formatNumDocumento(
-                  empresa::ModuleInstance->getRecEmpresa()->getValue( "CODIGO" ).toInt(),
-                  empresa::ModuleInstance->getEjercicio(),
-                  contador, getRecAgente()->getValue("CODIGO").toInt(),
-                  getRecTipoDoc()->getValue("FORMATO").toString()) );
-		if( !checkdup )
-			return;
-		// Comprobar que no exista el número que se ha generado automáticamente,
-		if( existsAnother( "NUMERO=" + getConnection()->toSQL( getValue( "NUMERO" ).toString() ) ) ) {
-			contador++;
-		} else {
-			break;
-		}
-	}
+    while( 1 ) {
+        setValue( "CONTADOR", contador );
+        setValue( "NUMERO", factu::RecTipoDoc::formatNumDocumento(
+                      empresa::ModuleInstance->getRecEmpresa()->getValue( "CODIGO" ).toInt(),
+                      empresa::ModuleInstance->getEjercicio(),
+                      contador, getRecAgente()->getValue("CODIGO").toInt(),
+                      getRecTipoDoc()->getValue("FORMATO").toString()) );
+        if( !checkdup )
+            return;
+        // Comprobar que no exista el número que se ha generado automáticamente,
+        if( existsAnother( "NUMERO=" + getConnection()->toSQL( getValue( "NUMERO" ).toString() ) ) ) {
+            contador++;
+        } else {
+            break;
+        }
+    }
 }
 
 } // namespace factu

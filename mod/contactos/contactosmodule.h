@@ -55,9 +55,11 @@ public:
 		QWidget *parent = 0, const char* name = 0,
 		WidgetFlags fl = WidgetFlags(0) );
 /*>>>>>CONTACTOSMODULE_CLASS_DEFINITION*/
-    QAction *getMenuContactos() const { return pMenuContactosContacto; }
+    QAction *getMenuContactos() const {
+        return pMenuContactosContacto;
+    }
 
-/*<<<<<CONTACTOSMODULE_RECORD_DEFINITIONS*/
+    /*<<<<<CONTACTOSMODULE_RECORD_DEFINITIONS*/
 public:
 	contactos::MasterTable *getFicContacto() const { return pFicContacto; }
 	NamesListTable *pFicTratamientoContacto;

@@ -73,7 +73,7 @@ FrmEditFacturaCompraDet::FrmEditFacturaCompraDet(FrmEditRecMaster *frmmaster, in
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITFACTURACOMPRADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
-	editArticuloCodigo->setWidthInChars(12);
+    editArticuloCodigo->setWidthInChars(12);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "Act. coste artículo" ) ) );
@@ -439,20 +439,20 @@ void FrmEditFacturaCompraDet::slotAddAlbaran_clicked()
         }
         // Comprobar si el albarán tiene pagos no pagados aún
         dbRecordList *pagos = recalbaran->getPagos( pagos::PagosModule::ReciboPendiente );
-		Money pendientealbaran = 0.0;
-		if( pagos ) {
-			for( dbRecordList::const_iterator pagosit = pagos->begin(); pagosit != pagos->end(); ++pagosit ) {
-				pendientealbaran += (*pagosit)->getValue("IMPORTE").toMoney();
-			}
-			delete pagos;
-		}
-		if( pendientealbaran != 0.0 ) {
-			msgOk(this, Xtring::printf("El albarán elegido tiene %s pendientes en la agenda de pagos.\n"
-				"Para facturar este albarán, tienes que borrar esos pagos pendientes.\n"
-				"Lo más fácil es modificar el albarán y ponerle una forma de pago del tipo 'Se ignora'",
-									   pendientealbaran.toString(DBAPP->getRegConfig()).c_str()) );
-			return;
-		}
+        Money pendientealbaran = 0.0;
+        if( pagos ) {
+            for( dbRecordList::const_iterator pagosit = pagos->begin(); pagosit != pagos->end(); ++pagosit ) {
+                pendientealbaran += (*pagosit)->getValue("IMPORTE").toMoney();
+            }
+            delete pagos;
+        }
+        if( pendientealbaran != 0.0 ) {
+            msgOk(this, Xtring::printf("El albarán elegido tiene %s pendientes en la agenda de pagos.\n"
+                                       "Para facturar este albarán, tienes que borrar esos pagos pendientes.\n"
+                                       "Lo más fácil es modificar el albarán y ponerle una forma de pago del tipo 'Se ignora'",
+                                       pendientealbaran.toString(DBAPP->getRegConfig()).c_str()) );
+            return;
+        }
         for( dbRecordList::const_iterator it = recalbaran->getListAlbaranCompraDet()->begin();
                 it != recalbaran->getListAlbaranCompraDet()->end();
                 ++ it ) {
@@ -511,7 +511,7 @@ bool FrmEditFacturaCompraDet::canBeginEdit(DataTable::EditMode newmode)
                 getFrmMaster()->updateFromDetails( this );
                 getFrmMaster()->setEdited( true );
                 refresh();
-				msgOk(this, "El albarán se marcará como no facturado cuando grabes esta factura.");
+                msgOk(this, "El albarán se marcará como no facturado cuando grabes esta factura.");
             }
             return false;
         } else if( newmode == DataTable::selecting
@@ -529,10 +529,10 @@ bool FrmEditFacturaCompraDet::canBeginEdit(DataTable::EditMode newmode)
 
 void FrmEditFacturaCompraDet::slotActPrecioArticulo_clicked()
 {
-	if( ModuleInstance->editCostesArticulo(this, getRecArticulo(), 
-		editCosteSinIVA->toDouble() ) ) {
-		searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
-	}
+    if( ModuleInstance->editCostesArticulo(this, getRecArticulo(),
+                                           editCosteSinIVA->toDouble() ) ) {
+        searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
+    }
 }
 
 

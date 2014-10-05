@@ -19,27 +19,27 @@ class dbModule;
 
 class FrmModuleSettings: public FrmCustom
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	typedef struct {
-		QWidget *w;
-		bool edited, resetted;
-		Xtring modulename;
-		const dbModuleSetting *settinginfo;
-		QPushButton *resetButton;
-	} ControlInfo;
-	typedef std::vector<ControlInfo> ControlsList;
+    typedef struct {
+        QWidget *w;
+        bool edited, resetted;
+        Xtring modulename;
+        const dbModuleSetting *settinginfo;
+        QPushButton *resetButton;
+    } ControlInfo;
+    typedef std::vector<ControlInfo> ControlsList;
     FrmModuleSettings( dbModuleSetting::Scope type, QWidget* parent = 0, WidgetFlags fl = 0 );
 
 protected slots:
-	void resetButton_clicked();
+    void resetButton_clicked();
 
 protected:
     virtual void accept(); // from FrmBase
     virtual bool canClose(); // from FrmBase
     virtual void validate_input( QWidget *, bool * ); // from FrmCustom
-	void setControlValue( QWidget *control, const Variant &value );
-	void setControlColor( ControlInfo *ci, const Variant &value );
+    void setControlValue( QWidget *control, const Variant &value );
+    void setControlColor( ControlInfo *ci, const Variant &value );
     void addModuleSettings( dbModule *module, QVBoxLayout *layout );
     void gather();
     void scatter();

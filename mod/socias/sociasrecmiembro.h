@@ -1,5 +1,5 @@
 /*<<<<<COPYLEFT*/
-/** @file sociasrecmiembro.h
+/** @file sociasrecmiembro.h 
  * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or

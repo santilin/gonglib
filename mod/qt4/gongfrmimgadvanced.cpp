@@ -66,7 +66,7 @@ FrmImgAdvanced::FrmImgAdvanced( ImageBox *imgbox, const Xtring &convert_path,
 void FrmImgAdvanced::accept()
 {
     pImageBox->setImageData( getImageData() );
-	FrmBase::accept();
+    FrmBase::accept();
 }
 
 
@@ -126,7 +126,7 @@ void FrmImgAdvanced::setImageData( const Variant &data )
 
 void FrmImgAdvanced::slot_button_clicked()
 {
-	QPushButton *button = static_cast<QPushButton *>(sender());
+    QPushButton *button = static_cast<QPushButton *>(sender());
     if( button == pushReset ) {
         setImageData( pImageBox->toData() );
         pImageLabel->update();
@@ -150,7 +150,7 @@ void FrmImgAdvanced::slot_button_clicked()
             int bytes = fri->getByteCount();
             Xtring command = mConvertPath;
             if( newsizex != 0 || newsizey != 0 ) {
-				command += " -resize ";
+                command += " -resize ";
                 if( newsizex != 0 )
                     command += Xtring::number( newsizex );
                 if( newsizey != 0 )

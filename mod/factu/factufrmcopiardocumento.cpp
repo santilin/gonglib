@@ -23,7 +23,7 @@ FrmCopiarDocumento::FrmCopiarDocumento(QWidget* parent, const char* name, Widget
     pButtonCopiaAlbaranCompra = addButton(0, DBAPP->getTableDescSingular("ALBARANCOMPRA"), "copiaralbarancompra");
     pButtonCopiaFacturaVenta = addButton(0, DBAPP->getTableDescSingular("FACTURAVENTA"), "copiarfacturaventa");
     pButtonCopiaFacturaCompra = addButton(0, DBAPP->getTableDescSingular("FACTURACOMPRA"), "copiarfacturacompra");
-	pFocusWidget = pSearchEmpresa->getEditCode();
+    pFocusWidget = pSearchEmpresa->getEditCode();
 }
 
 void FrmCopiarDocumento::validate_input( QWidget *sender, bool *isvalid )

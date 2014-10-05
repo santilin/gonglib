@@ -36,23 +36,33 @@ RecProyecto *RecMiembro::getRecProyecto() const
 }
 
 #ifdef HAVE_PAGOSMODULE
+if( ModuleInstance->getPagosModule() ) {
 pagos::RecFormaPago *RecMiembro::getRecFormaPago() const
 {
 	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FORMAPAGO_ID"));
 }
+
+}
 #endif
+contactos::RecContacto *RecMiembro::getRecContacto() const
+{
+	return static_cast<contactos::RecContacto*>(findRelatedRecord("CONTACTO_ID"));
+}
 
 #ifdef HAVE_FACTUMODULE
+if( ModuleInstance->getFactuModule() ) {
 factu::RecCliente *RecMiembro::getRecCliente() const
 {
 	return static_cast<factu::RecCliente*>(findRelatedRecord("CLIENTE_ID"));
 }
-#endif
 
+}
+#endif
 RecTipoSocia *RecMiembro::getRecTipoSocia() const
 {
 	return static_cast<RecTipoSocia*>(findRelatedRecord("TIPOSOCIA_ID"));
 }
+
 /*>>>>>MIEMBRO_RELATIONS*/
 // {capel} eliminar getRecContacto()
 

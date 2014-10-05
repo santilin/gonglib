@@ -452,8 +452,8 @@ int FrmSQLSelect::exec( QWidget *parent, const dbRecord *record, const Xtring &c
             pDatabase->findTableDefinition ( record->getTableName() );
         if ( tbldef ) {
             tabledefs.push_back ( tbldef );
-			for( dbRecordRelationDict::const_iterator rrit = record->getRelationsList().begin();
-				rrit != record->getRelationsList().end(); ++rrit ) {
+            for( dbRecordRelationDict::const_iterator rrit = record->getRelationsList().begin();
+                    rrit != record->getRelationsList().end(); ++rrit ) {
                 dbRecordRelation *rel = rrit->second;
                 if ( rel->isEnabled() ) {
                     tbldef = pDatabase->findTableDefinition( rel->getRelationDefinition()->getRightTable() );

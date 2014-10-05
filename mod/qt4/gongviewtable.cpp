@@ -10,17 +10,19 @@ namespace gong {
 class ViewTableModel: public QAbstractTableModel, public dbRecordDataModel
 {
 public:
-	ViewTableModel( QObject *parent, dbRecord *record, const dbViewDefinitionDict &vlist,
-					const Xtring &filter = Xtring() )
-		: QAbstractTableModel( parent ), dbRecordDataModel( record, vlist, filter ) {};
+    ViewTableModel( QObject *parent, dbRecord *record, const dbViewDefinitionDict &vlist,
+                    const Xtring &filter = Xtring() )
+        : QAbstractTableModel( parent ), dbRecordDataModel( record, vlist, filter ) {};
     void addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset);
-	bool setView( int view );
-	void refresh() { reset(); }
+    bool setView( int view );
+    void refresh() {
+        reset();
+    }
 protected:
-	int rowCount( const QModelIndex & parent = QModelIndex() ) const;
-	int columnCount( const QModelIndex & parent = QModelIndex() ) const;
-	QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
-	QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+    int rowCount( const QModelIndex & parent = QModelIndex() ) const;
+    int columnCount( const QModelIndex & parent = QModelIndex() ) const;
+    QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
+    QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 private:
     std::vector<const dbFieldDefinition *> mFields;
     std::vector<QIcon> mIcons;
@@ -28,48 +30,48 @@ private:
 
 int ViewTableModel::columnCount(const QModelIndex& parent) const
 {
-	_GONG_DEBUG_PRINT(0, mFields.size());
-	return mFields.size();
+    _GONG_DEBUG_PRINT(0, mFields.size());
+    return mFields.size();
 }
 
 int ViewTableModel::rowCount(const QModelIndex& parent) const
 {
-	_GONG_DEBUG_PRINT(0, getRowCount() );
-	return getRowCount();
+    _GONG_DEBUG_PRINT(0, getRowCount() );
+    return getRowCount();
 }
 
 QVariant ViewTableModel::data(const QModelIndex& index, int role) const
 {
-	if (!index.isValid())
-		return QVariant();
-	else if( role == Qt::TextAlignmentRole ) {
-		switch( index.column() ) {
-		default:
-			return Qt::AlignRight;
-		}
-	} else if( role == Qt::DisplayRole ) {
-		int column = index.column();
-		int row = index.row();
-		return QVariant( toGUI(getValue(row, column).toString()) );
-	}
-	return QVariant();
+    if (!index.isValid())
+        return QVariant();
+    else if( role == Qt::TextAlignmentRole ) {
+        switch( index.column() ) {
+        default:
+            return Qt::AlignRight;
+        }
+    } else if( role == Qt::DisplayRole ) {
+        int column = index.column();
+        int row = index.row();
+        return QVariant( toGUI(getValue(row, column).toString()) );
+    }
+    return QVariant();
 }
 
 QVariant ViewTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-	if( orientation == Qt::Horizontal ) {
-		if( role == Qt::DisplayRole ) {
-			return QVariant(toGUI( mFields[section]->getCaption()));
-		}
-	}
-	return QVariant();
+    if( orientation == Qt::Horizontal ) {
+        if( role == Qt::DisplayRole ) {
+            return QVariant(toGUI( mFields[section]->getCaption()));
+        }
+    }
+    return QVariant();
 }
 
 
 void ViewTableModel::addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset)
 {
     _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo campo %p,%s a la tabla con caption=%s y width=%d",
-                                         fldinfo, fldinfo->getFullName().c_str(), fldinfo->getCaption().c_str(), fldinfo->getDisplayWidth() ) );
+                                        fldinfo, fldinfo->getFullName().c_str(), fldinfo->getCaption().c_str(), fldinfo->getDisplayWidth() ) );
     mFields.push_back( fldinfo );
     mIcons.push_back( iconset );
 }
@@ -77,8 +79,8 @@ void ViewTableModel::addColumn(const dbFieldDefinition *fldinfo, const QIcon& ic
 
 bool ViewTableModel::setView( int newview )
 {
-	mFields.clear();
-	mIcons.clear();
+    mFields.clear();
+    mIcons.clear();
     if( newview >= (int)getViewCount() )
         newview = 0;
     setViewIndex(newview);
@@ -88,7 +90,7 @@ bool ViewTableModel::setView( int newview )
         for ( unsigned int i = 0; i < curView->getFieldCount(); ++i )
         {
             _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo columna: %s",
-					curView->getFieldDefinition(i)->getName().c_str() ) );
+                                                curView->getFieldDefinition(i)->getName().c_str() ) );
             addColumn( curView->getFieldDefinition(i), QIcon() );
         }
         reset();
@@ -111,13 +113,13 @@ bool ViewTableModel::setView( int newview )
 */
 
 ViewTable::ViewTable( dbRecord *record, const dbViewDefinitionDict &vlist,
-					const Xtring &filter, QWidget * parent, const char * name )
+                      const Xtring &filter, QWidget * parent, const char * name )
     : QTableView( parent ), pDatabase( &record->getTableDefinition()->getdbDefinition() ),
       mFormatter( *GongLibraryInstance->getRegConfig() )
 {
-	setObjectName( name );
-	pViewTableModel = new ViewTableModel( this, record, vlist, filter );
-	setModel( pViewTableModel );
+    setObjectName( name );
+    pViewTableModel = new ViewTableModel( this, record, vlist, filter );
+    setModel( pViewTableModel );
 // 	setSelectionMode( QAbstractItemView::SingleSelection );
 // 	setSelectionBehavior( QAbstractItemView::SelectRows );
 // 	setAlternatingRowColors( true );
@@ -128,19 +130,19 @@ ViewTable::ViewTable( dbRecord *record, const dbViewDefinitionDict &vlist,
 
 ViewTable::~ViewTable()
 {
- 	delete pViewTableModel;
+    delete pViewTableModel;
 }
 
 bool ViewTable::setView(int nview)
 {
     mSortedColumn = 1; // Para saltarse la columna ID
     searchString.clear();
-	return pViewTableModel->setView( nview );
+    return pViewTableModel->setView( nview );
 }
 
 void ViewTable::refresh()
 {
-	pViewTableModel->refresh();
+    pViewTableModel->refresh();
 }
 
 
@@ -162,25 +164,25 @@ QString ViewTable::text ( int row, int col ) const
 
 int ViewTable::currentRow() const
 {
-	int row = -1;
-	const QModelIndexList &selecteds = selectionModel()->selection().indexes();
-	if( selecteds.count() != 0 ) {
-		row = selecteds.at(0).row();
-	}
-	return row;
+    int row = -1;
+    const QModelIndexList &selecteds = selectionModel()->selection().indexes();
+    if( selecteds.count() != 0 ) {
+        row = selecteds.at(0).row();
+    }
+    return row;
 }
 
 
 void ViewTable::setCurrentRow(int row)
 {
-	if( (int)row < model()->rowCount() && (int) row > 0)
-		selectionModel()->setCurrentIndex(model()->index( row, 0),
-			QItemSelectionModel::Select | QItemSelectionModel::Rows );
+    if( (int)row < model()->rowCount() && (int) row > 0)
+        selectionModel()->setCurrentIndex(model()->index( row, 0),
+                                          QItemSelectionModel::Select | QItemSelectionModel::Rows );
 }
 
 int ViewTable::columnCount() const
 {
-	return horizontalHeader()->count();
+    return horizontalHeader()->count();
 }
 
 

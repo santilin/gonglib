@@ -253,7 +253,7 @@ instala_skype() {
     esac
 }
 
-instala_skype() {
+instala_flash() {
 	case $DISTRO in
 	debian*)
 		instala_programa "Flash plugin" flashplugin-nonfree
@@ -299,6 +299,9 @@ instala_libreoffice() {
 	debian*)
 		instala_programa "LibreOffice" $LIBREOFFICE_COMMON $LIBREOFFICE_DEBIAN
 		;;
+        ubuntu*)
+		instala_programa "LibreOffice" $LIBREOFFICE_COMMON
+		;;
 	*)
 		instala_programa "LibreOffice" $LIBREOFFICE_COMMON $LIBREOFFICE_OTHER
 		;;
@@ -309,6 +312,8 @@ instala_libreoffice() {
         if test "x$GNOME" = "x1"; then
 		instala_programa "LibreOffice KDE" libreoffice-gtk
         fi
+	echo "Para instalar diccionario, sinónimos y guionado en español, visita: http://forja.rediris.es/frs/?group_id=341"
+	pausa
 }
 
 instala_thunderbird() {

@@ -133,9 +133,9 @@ void Cif::eliminarCharControl()
 
 Xtring Cif::validate( RecContacto::Tratamiento tratamiento, bool fixme )
 {
-	// Si no se utilizan los tratamientos, no dar errores si hubiera grabado un tratamiento
-	if( ModuleInstance->getModuleSetting( "USAR_TRATAMIENTOS" ).toBool() == false )
-		tratamiento = RecContacto::TratamientoNo;
+    // Si no se utilizan los tratamientos, no dar errores si hubiera grabado un tratamiento
+    if( ModuleInstance->getModuleSetting( "USAR_TRATAMIENTOS" ).toBool() == false )
+        tratamiento = RecContacto::TratamientoNo;
     Xtring ret;
     unsigned int i;
     if( fixme ) {

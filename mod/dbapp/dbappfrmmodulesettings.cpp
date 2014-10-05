@@ -7,7 +7,7 @@ namespace gong {
 FrmModuleSettings::FrmModuleSettings(dbModuleSetting::Scope scope, QWidget* parent, WidgetFlags fl)
     : FrmCustom( parent, "FrmModuleSettings", fl ), mSettingsScope( scope )
 {
-	switch( mSettingsScope ) {
+    switch( mSettingsScope ) {
     case dbModuleSetting::Machine:
         pSettings = DBAPP->getMachineSettings();
         break;
@@ -20,61 +20,61 @@ FrmModuleSettings::FrmModuleSettings(dbModuleSetting::Scope scope, QWidget* pare
     case dbModuleSetting::Global:
         pSettings = DBAPP->getGlobalSettings();
         break;
-	default:
-		throw std::runtime_error( "Wrong parameter scope in FrmModuleSettings" );
+    default:
+        throw std::runtime_error( "Wrong parameter scope in FrmModuleSettings" );
     }
     setTitle( pSettings->getDescription() );
     pTabWidget = new QTabWidget( pControlsFrame );
     pControlsLayout->addWidget(pTabWidget);
-	QLabel *lbl1 = new QLabel( this );
-	lbl1->setStyleSheet( "color:black" );
-	lbl1->setText( toGUI( _("Valores en negro = Valores por defecto") ) );
-	QLabel *lbl2 = new QLabel( this );
-	lbl2->setStyleSheet( "color:green" );
-	lbl2->setText( toGUI( _("Valores en verde = cambiados y se usarán") ) );
-	QLabel *lbl3 = new QLabel( this );
-	lbl3->setStyleSheet( "color:red" );
-	lbl3->setText( toGUI( _("Valores en rojo = cambiados pero no se usarán porque tienen preferencia otros valores") ) );
-	pControlsLayout->addWidget( lbl1 );
-	pControlsLayout->addWidget( lbl2 );
-	pControlsLayout->addWidget( lbl3 );
+    QLabel *lbl1 = new QLabel( this );
+    lbl1->setStyleSheet( "color:black" );
+    lbl1->setText( toGUI( _("Valores en negro = Valores por defecto") ) );
+    QLabel *lbl2 = new QLabel( this );
+    lbl2->setStyleSheet( "color:green" );
+    lbl2->setText( toGUI( _("Valores en verde = cambiados y se usarán") ) );
+    QLabel *lbl3 = new QLabel( this );
+    lbl3->setStyleSheet( "color:red" );
+    lbl3->setText( toGUI( _("Valores en rojo = cambiados pero no se usarán porque tienen preferencia otros valores") ) );
+    pControlsLayout->addWidget( lbl1 );
+    pControlsLayout->addWidget( lbl2 );
+    pControlsLayout->addWidget( lbl3 );
     scatter();
 }
 
 void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
 {
     const dbModuleSetting *pms;
-	if( module )
-		pms = module->getModuleSettings();
-	else
-		pms = DBAPP->getModuleSettings();
+    if( module )
+        pms = module->getModuleSettings();
+    else
+        pms = DBAPP->getModuleSettings();
     while( pms && pms->type != dbModuleSetting::None ) {
-		if( !(pms->scope & mSettingsScope) ) {
-			pms++;
-			continue;
-		}
-		QHBoxLayout *hboxlayout = new QHBoxLayout();
-		layout->addLayout( hboxlayout );
+        if( !(pms->scope & mSettingsScope) ) {
+            pms++;
+            continue;
+        }
+        QHBoxLayout *hboxlayout = new QHBoxLayout();
+        layout->addLayout( hboxlayout );
         ControlInfo scinfo;
-		scinfo.resetButton = new QPushButton( this );
-		scinfo.resetButton->setFocusPolicy( Qt::ClickFocus );
-		scinfo.resetButton->setIcon( QIcon::fromTheme("edit-clear-locationbar-ltr", QIcon(":/edit-clear-locationbar-ltr.png")) );
-		scinfo.resetButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
-		connect( scinfo.resetButton, SIGNAL( clicked() ), this, SLOT( resetButton_clicked() ) );
+        scinfo.resetButton = new QPushButton( this );
+        scinfo.resetButton->setFocusPolicy( Qt::ClickFocus );
+        scinfo.resetButton->setIcon( QIcon::fromTheme("edit-clear-locationbar-ltr", QIcon(":/edit-clear-locationbar-ltr.png")) );
+        scinfo.resetButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+        connect( scinfo.resetButton, SIGNAL( clicked() ), this, SLOT( resetButton_clicked() ) );
 
-		hboxlayout->addWidget( scinfo.resetButton );
+        hboxlayout->addWidget( scinfo.resetButton );
         scinfo.settinginfo = pms;
-		if( module )
-			scinfo.modulename = "MODULE." + module->getUnixName() + ".";
-		else
-			scinfo.modulename = "";
+        if( module )
+            scinfo.modulename = "MODULE." + module->getUnixName() + ".";
+        else
+            scinfo.modulename = "";
         scinfo.edited = false;
         Variant value = pSettings->getValue( scinfo.modulename.upper() + pms->key, Variant() );
-		if( value.type() == Variant::tInvalid ) {
-			value = scinfo.settinginfo->defaultvalue;
-			scinfo.resetted = true;
-		} else
-			scinfo.resetted = false;
+        if( value.type() == Variant::tInvalid ) {
+            value = scinfo.settinginfo->defaultvalue;
+            scinfo.resetted = true;
+        } else
+            scinfo.resetted = false;
         switch( pms->type ) {
         case dbModuleSetting::Bool:
             scinfo.w = addCheckBox(this, pms->description, value.toBool(), 0, hboxlayout );
@@ -135,9 +135,9 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
         break;
         case dbModuleSetting::DirName:
         {
-             FileNameBox *fnbox = addDirNameBox(this, pms->description, 0, hboxlayout );
-             fnbox->setFileName( value.toString() );
-             scinfo.w = fnbox;
+            FileNameBox *fnbox = addDirNameBox(this, pms->description, 0, hboxlayout );
+            fnbox->setFileName( value.toString() );
+            scinfo.w = fnbox;
         }
         break;
         case dbModuleSetting::Image: /// TODO
@@ -156,15 +156,15 @@ void FrmModuleSettings::addModuleSettings(dbModule* module, QVBoxLayout* layout)
 
 void FrmModuleSettings::resetButton_clicked()
 {
-	QPushButton *rb = static_cast< QPushButton *>(sender() );
-	for( ControlsList::const_iterator it = mControls.begin(); it != mControls.end(); ++ it ) {
-		ControlInfo ci = *it;
-		if( ci.resetButton == rb ) {
-			setControlValue( ci.w, ci.settinginfo->defaultvalue );
-			ci.w->setStyleSheet( "" );
-			ci.resetted = true;
-		}
-	}
+    QPushButton *rb = static_cast< QPushButton *>(sender() );
+    for( ControlsList::const_iterator it = mControls.begin(); it != mControls.end(); ++ it ) {
+        ControlInfo ci = *it;
+        if( ci.resetButton == rb ) {
+            setControlValue( ci.w, ci.settinginfo->defaultvalue );
+            ci.w->setStyleSheet( "" );
+            ci.resetted = true;
+        }
+    }
 }
 
 
@@ -175,14 +175,14 @@ bool FrmModuleSettings::canClose()
 
 void FrmModuleSettings::scatter()
 {
-	// DBAPP
-	QWidget *moduleWidget = new QWidget(pTabWidget);
-	moduleWidget->setObjectName("ControlsFrameDBAPP");
-	QVBoxLayout *moduleLayout = new QVBoxLayout( moduleWidget );
-	pTabWidget->addTab( moduleWidget, _("Sistema") );
-	addModuleSettings( 0, moduleLayout );
-	// MODULES
-	for ( unsigned int i=0; i< DBAPP->getModules().size(); i++ ) {
+    // DBAPP
+    QWidget *moduleWidget = new QWidget(pTabWidget);
+    moduleWidget->setObjectName("ControlsFrameDBAPP");
+    QVBoxLayout *moduleLayout = new QVBoxLayout( moduleWidget );
+    pTabWidget->addTab( moduleWidget, _("Sistema") );
+    addModuleSettings( 0, moduleLayout );
+    // MODULES
+    for ( unsigned int i=0; i< DBAPP->getModules().size(); i++ ) {
         dbModule *module = DBAPP->getModules().seq_at(i);
         if( module->isEnabled() && module->getModuleSettings() ) {
             QWidget *moduleWidget = new QWidget(pTabWidget);
@@ -237,60 +237,60 @@ void FrmModuleSettings::gather()
 void FrmModuleSettings::validate_input(QWidget *control , bool* )
 {
     bool edited = false;
-	Variant value;
+    Variant value;
     if ( LineEdit * edit = dynamic_cast<LineEdit *>( control ) ) {
         if ( edit->edited() ) {
             edited = true;
-			value = edit->toString();
-		}
+            value = edit->toString();
+        }
     } else if ( TextEdit * edit = dynamic_cast<TextEdit *>( control ) ) {
         if ( edit->isEdited() ) {
             edited = true;
-			value = edit->toString();
-		}
+            value = edit->toString();
+        }
     } else if ( RichTextBox * edit = dynamic_cast<RichTextBox *>( control ) ) {
         if ( edit->isEdited() ) {
             edited = true;
-			value = edit->toString();
-		}
+            value = edit->toString();
+        }
     } else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
         if ( search->getEditCode()->edited() || search->getEditDesc()->edited() ) {
             edited = true;
-			value = search->getEditCode()->toString();
-		}
+            value = search->getEditCode()->toString();
+        }
     } else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
         if ( check->isEdited() ) {
             edited = true;
-			value = check->isOn();
-		}
+            value = check->isOn();
+        }
     } else if ( ComboBoxInt *combo = dynamic_cast<ComboBoxInt *>( control ) ) {
         if ( combo->isEdited() ) {
             edited = true;
-			value = combo->getCurrentItemValue();
-		}
+            value = combo->getCurrentItemValue();
+        }
     } else if ( ComboBoxXtring *combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
         if ( combo->isEdited() ) {
             edited = true;
-			value = combo->getCurrentItemValue();
-		}
+            value = combo->getCurrentItemValue();
+        }
     } else if ( ImageBox *image = dynamic_cast<ImageBox *>( control ) ) {
         if ( image->isEdited() ) {
             edited = true;
-			value = image->toData();
-		}
+            value = image->toData();
+        }
     } else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
         if( fnbox->getEditFileName()->isEdited() ) {
             edited = true;
-			value = fnbox->getFileName();
-		}
+            value = fnbox->getFileName();
+        }
     }
     if( edited ) {
         for( ControlsList::iterator it = mControls.begin();
                 it != mControls.end(); ++ it ) {
             if( it->w == control ) {
-				setControlColor( &(*it), value );
+                setControlColor( &(*it), value );
                 it->edited = true;
-				it->resetted = false;
+                it->resetted = false;
                 return;
             }
         }
@@ -299,38 +299,38 @@ void FrmModuleSettings::validate_input(QWidget *control , bool* )
 
 void FrmModuleSettings::setControlValue(QWidget* control, const Variant& value)
 {
-	bool edited;
+    bool edited;
     if ( LineEdit * edit = dynamic_cast<LineEdit *>( control ) ) {
-		edit->setText( value );
-		edited = true;
+        edit->setText( value );
+        edited = true;
     } else if ( TextEdit * edit = dynamic_cast<TextEdit *>( control ) ) {
-		edit->setText( value.toString() );
-		edited = true;
+        edit->setText( value.toString() );
+        edited = true;
     } else if ( RichTextBox * edit = dynamic_cast<RichTextBox *>( control ) ) {
-		edit->setText( value.toString() );
-		edited = true;
+        edit->setText( value.toString() );
+        edited = true;
     } else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
-		search->getEditCode()->setText( value );
-		edited = true;
+        search->getEditCode()->setText( value );
+        edited = true;
     } else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
-		check->setChecked( value.toBool() );
-		edited = true;
+        check->setChecked( value.toBool() );
+        edited = true;
     } else if ( ComboBoxInt *combo = dynamic_cast<ComboBoxInt *>( control ) ) {
-		combo->setCurrentItemByValue( value.toInt() );
-		edited = true;
+        combo->setCurrentItemByValue( value.toInt() );
+        edited = true;
     } else if ( ComboBoxXtring *combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
-		combo->setCurrentItemByValue( value.toString() );
-		edited = true;
+        combo->setCurrentItemByValue( value.toString() );
+        edited = true;
     } else if ( ImageBox *image = dynamic_cast<ImageBox *>( control ) ) {
-		image->setImageData( value.toString() );
-		edited = true;
+        image->setImageData( value.toString() );
+        edited = true;
     } else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
-		fnbox->setFileName( value.toString() );
-		edited = true;
+        fnbox->setFileName( value.toString() );
+        edited = true;
     }
     if( edited ) {
         for( ControlsList::iterator it = mControls.begin(); it != mControls.end(); ++ it ) {
-			setControlColor( &(*it), value );
+            setControlColor( &(*it), value );
             if( it->w == control ) {
                 it->edited = true;
                 return;
@@ -351,19 +351,19 @@ void FrmModuleSettings::setControlValue(QWidget* control, const Variant& value)
  **/
 void FrmModuleSettings::setControlColor(FrmModuleSettings::ControlInfo* ci, const Variant& value)
 {
-	if( ci->resetted )
-		/*|| value.toString().isEmpty()*/
-		/*|| value.toString() == ci->settinginfo->defaultvalue */
-		ci->w->setStyleSheet( "color:black" );
-	else if( mSettingsScope == dbModuleSetting::Local )
-		ci->w->setStyleSheet( "color:green" );
-	else {
-		Xtring s( DBAPP->getUserLocalSetting( ci->modulename.upper() + ci->settinginfo->key, Variant() ).toString() );
-		if( s.isEmpty() || ci->settinginfo->defaultvalue == s )
-			ci->w->setStyleSheet( "color:green" );
-		else
-			ci->w->setStyleSheet( "color:red" );
-	}
+    if( ci->resetted )
+        /*|| value.toString().isEmpty()*/
+        /*|| value.toString() == ci->settinginfo->defaultvalue */
+        ci->w->setStyleSheet( "color:black" );
+    else if( mSettingsScope == dbModuleSetting::Local )
+        ci->w->setStyleSheet( "color:green" );
+    else {
+        Xtring s( DBAPP->getUserLocalSetting( ci->modulename.upper() + ci->settinginfo->key, Variant() ).toString() );
+        if( s.isEmpty() || ci->settinginfo->defaultvalue == s )
+            ci->w->setStyleSheet( "color:green" );
+        else
+            ci->w->setStyleSheet( "color:red" );
+    }
 }
 
 void FrmModuleSettings::accept()

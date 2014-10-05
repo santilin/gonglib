@@ -301,8 +301,8 @@ INPUT default {
             value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
             posx = 9.0;
             sizex = 57.0;
-			adjustment = "grow";
-		}
+            adjustment = "grow";
+        }
         OBJECT PRESUPUESTOVENTADET_PVPSINIVA {
             halignment = "right";
             value = "=input.PRESUPUESTOVENTADET_PVPSINIVA;";

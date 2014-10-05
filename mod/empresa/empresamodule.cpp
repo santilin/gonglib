@@ -59,15 +59,15 @@ static dbModuleSetting _settings[] = {
         "false",
         dbModuleSetting::Global
     },
-	{ dbModuleSetting::None }
+    { dbModuleSetting::None }
 };
 
 EmpresaModule::EmpresaModule()
     : dbModule( "empresa" ), pRecEmpresa( 0 ), mCodEmpresa( 0 ), mEjercicio( 0 )
 {
     ModuleInstance = this;
-     pModuleSettings = _settings;
-   _GONG_DEBUG_TRACE( 1 );
+    pModuleSettings = _settings;
+    _GONG_DEBUG_TRACE( 1 );
     mDescription = "Módulo de definición de la organización";
     /*<<<<<EMPRESAMODULE_PUBLIC_INFO*/
 	mModuleRequires << "contactos";
@@ -139,22 +139,22 @@ bool EmpresaModule::login( FrmLogin *frmlogin, const Xtring &version,
     getConnection()->selectValues( "SELECT NOMBRE, SOLOLECTURA FROM EMPRESA WHERE CODIGO="
                                    + getConnection()->toSQL( getCodEmpresa() ), &nombre, &sololectura);
     if( nombre.toString().isEmpty() ) {
-		nombre = Xtring::printf( _("%s %d - %s"),
-									DBAPP->getTableDescSingular("EMPRESA", "").proper().c_str(),
-									getCodEmpresa(), DBAPP->getPackageString().c_str() );
-		if( getConnection()->exec( "INSERT INTO EMPRESA(CODIGO,NOMBRE)VALUES("
-									+ getConnection()->toSQL( getCodEmpresa() ) + ","
-									+ getConnection()->toSQL( nombre.toString() ) + ")" ) == 0 ) {
-			FrmBase::msgError( DBAPP->getPackageString(),
-				Xtring::printf(_("No se ha podido crear %s de código %d.\n%s terminará ahora"),
-						DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
-						getCodEmpresa(), DBAPP->getPackageString().c_str()) );
-			exit( 1 );
-		} else {
-                DBAPP->showOSD( DBAPP->getPackageString(),
-					Xtring::printf( _("Se ha creado %s '%s'."),
-						DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
-						nombre.toString().c_str() ) );
+        nombre = Xtring::printf( _("%s %d - %s"),
+                                 DBAPP->getTableDescSingular("EMPRESA", "").proper().c_str(),
+                                 getCodEmpresa(), DBAPP->getPackageString().c_str() );
+        if( getConnection()->exec( "INSERT INTO EMPRESA(CODIGO,NOMBRE)VALUES("
+                                   + getConnection()->toSQL( getCodEmpresa() ) + ","
+                                   + getConnection()->toSQL( nombre.toString() ) + ")" ) == 0 ) {
+            FrmBase::msgError( DBAPP->getPackageString(),
+                               Xtring::printf(_("No se ha podido crear %s de código %d.\n%s terminará ahora"),
+                                              DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
+                                              getCodEmpresa(), DBAPP->getPackageString().c_str()) );
+            exit( 1 );
+        } else {
+            DBAPP->showOSD( DBAPP->getPackageString(),
+                            Xtring::printf( _("Se ha creado %s '%s'."),
+                                            DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
+                                            nombre.toString().c_str() ) );
         }
     } else {
         DBAPP->showOSD( DBAPP->getPackageString(),
@@ -180,29 +180,29 @@ void EmpresaModule::slotMenuEmpresaCambiarEjercicio()
             : FrmCustom( 0, "FrmCambiarEjercicio" )
         {
             setTitle( caption );
-			pSearchEjercicios = addButton(0, _("¿Ejercicios?") );
+            pSearchEjercicios = addButton(0, _("¿Ejercicios?") );
             pSearchEmpresa = addSearchField( 0, "Empresa", "CODIGO", "NOMBRE" );
             pSearchEmpresa->getEditCode()->setWidthInChars(4);
-			pSearchEmpresa->setValue( codempresa );
-			pSearchEmpresa->getEditCode()->setSelectedOnEntry( true );
+            pSearchEmpresa->setValue( codempresa );
+            pSearchEmpresa->getEditCode()->setSelectedOnEntry( true );
             pEditEjercicio = addInput( 0, _("Ejercicio"), Variant( ejercicio ), "INTEGER" );
-			pEditEjercicio->setSelectedOnEntry( true );
+            pEditEjercicio->setSelectedOnEntry( true );
             pFocusWidget = pSearchEmpresa->getEditCode();
         }
         void validate_input( QWidget *sender, bool *isvalid ) { // from FrmCustom
-			if( sender == pSearchEjercicios ) {
-				IntList ejercicios;
-				ModuleInstance->getEjercicios( ejercicios );
-				XtringList sejercicios;
-				for( IntList::const_iterator it = ejercicios.begin(); it!=ejercicios.end();++it)
-					sejercicios << Xtring::number( *it );
-				int elegido = msgXtringList( this, _("Elige uno de los ejercicios para los que hay datos"), sejercicios );
-				if( elegido != -1 ) {
-					elegido = 2010 + elegido;
-					pEditEjercicio->setText( elegido );
-				}
-			}
-		}
+            if( sender == pSearchEjercicios ) {
+                IntList ejercicios;
+                ModuleInstance->getEjercicios( ejercicios );
+                XtringList sejercicios;
+                for( IntList::const_iterator it = ejercicios.begin(); it!=ejercicios.end(); ++it)
+                    sejercicios << Xtring::number( *it );
+                int elegido = msgXtringList( this, _("Elige uno de los ejercicios para los que hay datos"), sejercicios );
+                if( elegido != -1 ) {
+                    elegido = 2010 + elegido;
+                    pEditEjercicio->setText( elegido );
+                }
+            }
+        }
         int getCodEmpresa() const {
             return pSearchEmpresa->getEditCode()->toInt();
         }
@@ -210,7 +210,7 @@ void EmpresaModule::slotMenuEmpresaCambiarEjercicio()
             return pEditEjercicio->toInt();
         }
     private:
-		PushButton *pSearchEjercicios;
+        PushButton *pSearchEjercicios;
         LineEdit *pEditEjercicio;
         SearchBox *pSearchEmpresa;
     };
@@ -259,22 +259,22 @@ void EmpresaModule::slotMenuEmpresaCambiarEjercicio()
 
 void EmpresaModule::slotMenuEmpresaEjercicioAnterior()
 {
-	DBAPP->waitCursor( true );
-	DBAPP->setUserLocalSetting( "Ejercicio", getEjercicio() - 1);
-	DBAPP->login( PACKAGE_VERSION, false, true );
-	rereadEmpresa();
-	DBAPP->setTitle();
-	DBAPP->resetCursor();
+    DBAPP->waitCursor( true );
+    DBAPP->setUserLocalSetting( "Ejercicio", getEjercicio() - 1);
+    DBAPP->login( PACKAGE_VERSION, false, true );
+    rereadEmpresa();
+    DBAPP->setTitle();
+    DBAPP->resetCursor();
 }
 
 void EmpresaModule::slotMenuEmpresaEjercicioSiguiente()
 {
-	DBAPP->waitCursor( true );
-	DBAPP->setUserLocalSetting( "Ejercicio", getEjercicio() + 1);
-	DBAPP->login( PACKAGE_VERSION, false, true );
-	rereadEmpresa();
-	DBAPP->setTitle();
-	DBAPP->resetCursor();
+    DBAPP->waitCursor( true );
+    DBAPP->setUserLocalSetting( "Ejercicio", getEjercicio() + 1);
+    DBAPP->login( PACKAGE_VERSION, false, true );
+    rereadEmpresa();
+    DBAPP->setTitle();
+    DBAPP->resetCursor();
 }
 
 bool EmpresaModule::initDatabase( dbDefinition *db )
@@ -458,7 +458,7 @@ bool EmpresaModule::initMainWindow( MainWindow *mainwin )
                                         pMenuEmpresa );
     {
         QString text = toGUI( Xtring::printf( _("Cambiar de %s y/o ejercicio"),
-                                          DBAPP->getTableDescSingular("EMPRESA", "").c_str() ).c_str() );
+                                              DBAPP->getTableDescSingular("EMPRESA", "").c_str() ).c_str() );
         pMenuEmpresaCambiarEjercicio = new QAction(text + "...", 0, pMainWindow,0);
         pMenuEmpresaCambiarEjercicio->setStatusTip(text);
         pMainWindow->connect(pMenuEmpresaCambiarEjercicio, SIGNAL(activated()), this, SLOT(slotMenuEmpresaCambiarEjercicio()));
@@ -551,29 +551,29 @@ void EmpresaModule::rereadEmpresa()
 #endif
     if ( !pRecEmpresa->getRecMoneda()->getRecordID() || !pRecEmpresa->getRecContacto()->getRecordID() ) {
         theGuiApp->waitCursor( true );
-		if ( !pRecEmpresa->getRecMoneda()->getRecordID() ) {
-			dbRecordID monedaid = getConnection()->selectInt( "SELECT MIN(ID) FROM MONEDA" );
-			if( monedaid != 0 ) {
-				pRecEmpresa->setValue( "MONEDA_ID", monedaid );
-				pRecEmpresa->readRelated( true );
-				pRecEmpresa->getRecMoneda()->setRegConfigFromValues( *DBAPP->getRegConfig() );
-			} else {
-				pRecEmpresa->getRecMoneda()->clear( true );
-				pRecEmpresa->getRecMoneda()->setValue( "NOMBRE", "Moneda" );
-				pRecEmpresa->getRecMoneda()->setValue( "CODIGO", 1 );
-				pRecEmpresa->getRecMoneda()->setValuesFromRegConfig( *DBAPP->getRegConfig() );
-				pRecEmpresa->getRecMoneda()->save(false);
-				pRecEmpresa->setValue( "MONEDA_ID", pRecEmpresa->getRecMoneda()->getRecordID() );
-				pRecEmpresa->save(false);
-				DBAPP->showStickyOSD( DBAPP->getPackageString(),
-									_("Se ha definido una moneda por defecto, revísala para confirmar que es la moneda que quieres utilizar.") );
-			}
-		}
-		if( !pRecEmpresa->getRecContacto()->getRecordID() ) {
-			DBAPP->showStickyOSD( DBAPP->getPackageString(),
-				Xtring::printf(_("%s no tiene definidos sus datos de contacto. El programa no funcionará correctamente hasta que los definas."),
-					DBAPP->getTableDescSingular("EMPRESA", "la").c_str() ) );
-		}
+        if ( !pRecEmpresa->getRecMoneda()->getRecordID() ) {
+            dbRecordID monedaid = getConnection()->selectInt( "SELECT MIN(ID) FROM MONEDA" );
+            if( monedaid != 0 ) {
+                pRecEmpresa->setValue( "MONEDA_ID", monedaid );
+                pRecEmpresa->readRelated( true );
+                pRecEmpresa->getRecMoneda()->setRegConfigFromValues( *DBAPP->getRegConfig() );
+            } else {
+                pRecEmpresa->getRecMoneda()->clear( true );
+                pRecEmpresa->getRecMoneda()->setValue( "NOMBRE", "Moneda" );
+                pRecEmpresa->getRecMoneda()->setValue( "CODIGO", 1 );
+                pRecEmpresa->getRecMoneda()->setValuesFromRegConfig( *DBAPP->getRegConfig() );
+                pRecEmpresa->getRecMoneda()->save(false);
+                pRecEmpresa->setValue( "MONEDA_ID", pRecEmpresa->getRecMoneda()->getRecordID() );
+                pRecEmpresa->save(false);
+                DBAPP->showStickyOSD( DBAPP->getPackageString(),
+                                      _("Se ha definido una moneda por defecto, revísala para confirmar que es la moneda que quieres utilizar.") );
+            }
+        }
+        if( !pRecEmpresa->getRecContacto()->getRecordID() ) {
+            DBAPP->showStickyOSD( DBAPP->getPackageString(),
+                                  Xtring::printf(_("%s no tiene definidos sus datos de contacto. El programa no funcionará correctamente hasta que los definas."),
+                                                 DBAPP->getTableDescSingular("EMPRESA", "la").c_str() ) );
+        }
         DBAPP->resetCursor();
     }
 }
@@ -601,8 +601,8 @@ void EmpresaModule::addContadorTable(const Xtring& tablename)
 int EmpresaModule::getMaxContador() const
 {
     int max = 0;
-	if( getModuleSetting( "USAR_MAXCONTADOR" ).toBool() == false )
-		return max;
+    if( getModuleSetting( "USAR_MAXCONTADOR" ).toBool() == false )
+        return max;
     if( mContadorTables.size() ) {
         for( XtringList::const_iterator it = mContadorTables.begin();
                 it != mContadorTables.end(); ++it ) {
@@ -623,32 +623,32 @@ int EmpresaModule::getMaxContador() const
 
 int EmpresaModule::getEjercicios(IntList& ejercicios) const
 {
-	// Buscar todas las tablas que tienen ejercicio
-	DBAPP->waitCursor( true );
-	uint eje_min = Date::currentDate().getYear(), eje_max = eje_min;
-	dbTableDefinitionDict tables = DBAPP->getDatabase()->getTables();
-	for( dbTableDefinitionDict::const_iterator it = tables.begin(); it != tables.end(); ++it ) {
-		dbTableDefinition *tbldef = it->second;
-		FldEjercicio *fldeje = dynamic_cast<FldEjercicio *>(tbldef->findFieldDefinition( "EJERCICIO" ));
-		if( fldeje ) {
-			Variant min = 0, max = 0;
-			if( DBAPP->getConnection()->selectValues(
-				"SELECT MIN(" + DBAPP->getConnection()->nameToSQL("EJERCICIO") + "),"
-				" MAX(" + DBAPP->getConnection()->nameToSQL("EJERCICIO") + ")"
-				" FROM " + DBAPP->getConnection()->nameToSQL( tbldef->getName() ),
-				&min, &max ) ) {
-				if( min.toUInt() != 0 && min.toUInt() < eje_min )
-					eje_min = min.toUInt();
-				if( max.toUInt() != 0 && max.toUInt() < eje_max )
-					eje_max = max.toUInt();
-			}
-		}
-	}
-	ejercicios.clear();
-	for( uint eje = eje_min; eje <= eje_max; ++eje )
-		ejercicios << eje;
-	DBAPP->resetCursor();
-	return ejercicios.size();
+    // Buscar todas las tablas que tienen ejercicio
+    DBAPP->waitCursor( true );
+    uint eje_min = Date::currentDate().getYear(), eje_max = eje_min;
+    dbTableDefinitionDict tables = DBAPP->getDatabase()->getTables();
+    for( dbTableDefinitionDict::const_iterator it = tables.begin(); it != tables.end(); ++it ) {
+        dbTableDefinition *tbldef = it->second;
+        FldEjercicio *fldeje = dynamic_cast<FldEjercicio *>(tbldef->findFieldDefinition( "EJERCICIO" ));
+        if( fldeje ) {
+            Variant min = 0, max = 0;
+            if( DBAPP->getConnection()->selectValues(
+                        "SELECT MIN(" + DBAPP->getConnection()->nameToSQL("EJERCICIO") + "),"
+                        " MAX(" + DBAPP->getConnection()->nameToSQL("EJERCICIO") + ")"
+                        " FROM " + DBAPP->getConnection()->nameToSQL( tbldef->getName() ),
+                        &min, &max ) ) {
+                if( min.toUInt() != 0 && min.toUInt() < eje_min )
+                    eje_min = min.toUInt();
+                if( max.toUInt() != 0 && max.toUInt() < eje_max )
+                    eje_max = max.toUInt();
+            }
+        }
+    }
+    ejercicios.clear();
+    for( uint eje = eje_min; eje <= eje_max; ++eje )
+        ejercicios << eje;
+    DBAPP->resetCursor();
+    return ejercicios.size();
 }
 
 

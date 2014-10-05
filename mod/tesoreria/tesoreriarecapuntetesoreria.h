@@ -37,27 +37,28 @@ public:
 	RecApunteTesoreria(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("APUNTETESORERIA"), recid, user)
 /*>>>>>APUNTETESORERIA_CONSTRUCTOR*/
-		, pRecConcepto(0), pRecTercero(0)
-	{};
-    RecTercero *getRecTercero();	
-    RecConcepto *getRecConcepto();	
-	
-/*<<<<<APUNTETESORERIA_RELATIONS*/
+        , pRecConcepto(0), pRecTercero(0)
+    {};
+    RecTercero *getRecTercero();
+    RecConcepto *getRecConcepto();
+
+    /*<<<<<APUNTETESORERIA_RELATIONS*/
 	RecCuentaTesoreria *getRecCuentaTesoreria() const;
 	RecTipoApunteTesoreria *getRecTipoApunteTesoreria() const;
 	empresa::RecProyecto *getRecProyecto() const;
 /*>>>>>APUNTETESORERIA_RELATIONS*/
 
-/*<<<<<APUNTETESORERIA_MEMBERS*/
+    /*<<<<<APUNTETESORERIA_MEMBERS*/
 	void init();
 	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
 	virtual bool remove() throw( dbError ); // from dbRecord
 /*>>>>>APUNTETESORERIA_MEMBERS*/
-	void actSaldoCuenta(dbRecordID cuentatesoreria_id, bool cargo, const Money &importe, bool saving);
-	void actualizaSaldos( bool saving );
+    void actSaldoCuenta(dbRecordID cuentatesoreria_id, bool cargo, const Money &importe, bool saving);
+    void actualizaSaldos( bool saving );
+	bool generaContrapartida();
 private:
-	RecConcepto *pRecConcepto;
-	RecTercero *pRecTercero;
+    RecConcepto *pRecConcepto;
+    RecTercero *pRecTercero;
 }; // class
 
 /*<<<<<APUNTETESORERIA_POSTAMBLE*/

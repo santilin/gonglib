@@ -23,7 +23,7 @@
 /*>>>>>FRMEDITAPUNTETESORERIA_INCLUDES*/
 #include <empresarecproyecto.h>
 
-namespace gong {	
+namespace gong {
 namespace tesoreria {
 
 /*<<<<<FRMEDITAPUNTETESORERIA_CLASS*/
@@ -37,16 +37,16 @@ public:
 		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
 	RecApunteTesoreria *getRecApunteTesoreria() const { return (RecApunteTesoreria *)getRecord(); }
 /*>>>>>FRMEDITAPUNTETESORERIA_CLASS*/
-/*<<<<<FRMEDITAPUNTETESORERIA_VIRTUALS_FROM_FRMEDITREC*/
+    /*<<<<<FRMEDITAPUNTETESORERIA_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 	void specialControlKeyPressed(QWidget *sender, char key);
 /*>>>>>FRMEDITAPUNTETESORERIA_VIRTUALS_FROM_FRMEDITREC*/
-	void changeTipoApunte();
-	
-/*<<<<<FRMEDITAPUNTETESORERIA_SCATTERS_AND_SLOTS*/
+    void changeTipoApunte();
+
+    /*<<<<<FRMEDITAPUNTETESORERIA_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterTipoApunteTesoreria();
 	void scatterCuentaTesoreria();
@@ -65,17 +65,21 @@ public:
 	empresa::RecProyecto* getRecProyecto() const
 		{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecProyecto(); }
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTERS_AND_SLOTS*/
-	RecTercero* getRecTercero() const
-			{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecTercero(); }
-	RecConcepto* getRecConcepto() const
-			{ return static_cast<RecApunteTesoreria*>(getRecord())->getRecConcepto(); }
+    RecTercero* getRecTercero() const
+    {
+        return static_cast<RecApunteTesoreria*>(getRecord())->getRecTercero();
+    }
+    RecConcepto* getRecConcepto() const
+    {
+        return static_cast<RecApunteTesoreria*>(getRecord())->getRecConcepto();
+    }
 protected:
-	void scatterTercero();
-	void scatterConcepto();
+    void scatterTercero();
+    void scatterConcepto();
 private slots:
-	void pushTerceroCodigo_clicked();
-	void pushConceptoCodigo_clicked();
-	
+    void pushTerceroCodigo_clicked();
+    void pushConceptoCodigo_clicked();
+
 
 /*<<<<<FRMEDITAPUNTETESORERIA_CONTROLS*/
 protected:
@@ -103,15 +107,15 @@ protected:
 	gong::LineEdit *editProyectoNombre;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITAPUNTETESORERIA_CONTROLS*/
-	QBoxLayout *pTercerosLayout, *pConceptosLayout;
-	gong::SearchBox *searchTerceroCodigo;
-	QPushButton *pushTerceroCodigo;
-	gong::LineEdit *editTerceroCodigo;
-	gong::LineEdit *editTerceroNombre;
-	gong::SearchBox *searchConceptoCodigo;
-	QPushButton *pushConceptoCodigo;
-	gong::LineEdit *editConceptoCodigo;
-	gong::LineEdit *editConceptoNombre;
+    QBoxLayout *pTercerosLayout, *pConceptosLayout;
+    gong::SearchBox *searchTerceroCodigo;
+    QPushButton *pushTerceroCodigo;
+    gong::LineEdit *editTerceroCodigo;
+    gong::LineEdit *editTerceroNombre;
+    gong::SearchBox *searchConceptoCodigo;
+    QPushButton *pushConceptoCodigo;
+    gong::LineEdit *editConceptoCodigo;
+    gong::LineEdit *editConceptoNombre;
     Xtring mFldConcCodigo, mFldConcDesc, mFldTercCodigo, mFldTercDesc;
 };
 

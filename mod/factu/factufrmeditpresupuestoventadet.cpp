@@ -72,7 +72,7 @@ FrmEditPresupuestoVentaDet::FrmEditPresupuestoVentaDet(FrmEditRecMaster *frmmast
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITPRESUPUESTOVENTADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
-	editArticuloCodigo->setWidthInChars(12);
+    editArticuloCodigo->setWidthInChars(12);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "&Act. PVP artículo" ) ) );
@@ -391,11 +391,11 @@ void FrmEditPresupuestoVentaDet::validateFields( QWidget *sender, bool *isvalid,
 
 void FrmEditPresupuestoVentaDet::slotActPrecioArticulo_clicked()
 {
-	if( ModuleInstance->editPVPsArticulo(this, getRecArticulo(), 
-		static_cast<FrmEditPresupuestoVenta *>(getFrmMaster())->getRecCliente(),
-		editPVP->toDouble() ) ) {
-		searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
-	}
+    if( ModuleInstance->editPVPsArticulo(this, getRecArticulo(),
+                                         static_cast<FrmEditPresupuestoVenta *>(getFrmMaster())->getRecCliente(),
+                                         editPVP->toDouble() ) ) {
+        searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
+    }
 }
 
 void FrmEditPresupuestoVentaDet::slotInsertTable_clicked()

@@ -122,9 +122,9 @@ void ITotalizableRecord::actTotales()
             entrega = 0.0;
             resto = 0.0;
         } else if( pRecord->getTableDefinition()->findFieldDefinition( "ENTREGA" ) ) {
-				entrega = pRecord->getValue( "ENTREGA" ).toDouble();
-				resto -= entrega;
-		}
+            entrega = pRecord->getValue( "ENTREGA" ).toDouble();
+            resto -= entrega;
+        }
     } else {
         resto -= entrega;
     }
@@ -139,43 +139,43 @@ void ITotalizableRecord::actTotales()
 
 bool ITotalizableRecord::addDescuentoRecargo(double dto, RecArticulo *articulo, int redondeo)
 {
-	if( !pDetalles->size() )
-		return false;
-	actTotales();
-	double total = pRecord->getValue("TOTAL").toDouble();
-	double variacion = total * ( dto / 100 );
-	double nuevo_total = total + variacion;
-	if( redondeo != 0 ) {
-		long nuevo_total_centimos = long(ceil(nuevo_total*100.0));
-		// El redondeo hay que hacerlo sobre las decenas y unidades, sin las centenas
-		// Así funciona un redondeo de 7, 20, 30, etc.
-		int resto_redondeo = (nuevo_total_centimos % 100) % redondeo;
-		if (resto_redondeo != 0 ) {
-			nuevo_total = double(nuevo_total_centimos + redondeo - resto_redondeo) / 100.0;
-		}
-	}
-	if( nuevo_total != total ) {
-		double precioconiva = nuevo_total - total;
-		dbRecord *detalle = DBAPP->createRecord(pDetalles->at(0)->getTableName());
-		detalle->setValue("NLINEA", (int)pDetalles->size()+1);
-		detalle->setValue("CANTIDAD", 1.0);
-		detalle->setValue("ARTICULO_ID", articulo->getRecordID());
-		if( mTipo == compra ) {
-			detalle->setValue("COSTE", precioconiva);
-			detalle->setValue("COSTESINIVA", articulo->getRecTipoIVA()->menosIVA( precioconiva ) );
-		} else {
-			detalle->setValue("PVP", precioconiva);
-			detalle->setValue("PVPSINIVA", articulo->getRecTipoIVA()->menosIVA( precioconiva ) );
-		}
-		detalle->setValue("DTOPP", 0.0);
-		detalle->setValue("IMPORTE", articulo->getRecTipoIVA()->menosIVA( precioconiva ) );
-		detalle->setValue("IMPORTECONIVA", precioconiva);
-		detalle->setValue("TIPOIVA_ID", articulo->getRecTipoIVA()->getRecordID() );
-		pDetalles->addRecord( detalle );
-		actTotales();
-		return true;
-	}
-	return false;
+    if( !pDetalles->size() )
+        return false;
+    actTotales();
+    double total = pRecord->getValue("TOTAL").toDouble();
+    double variacion = total * ( dto / 100 );
+    double nuevo_total = total + variacion;
+    if( redondeo != 0 ) {
+        long nuevo_total_centimos = long(ceil(nuevo_total*100.0));
+        // El redondeo hay que hacerlo sobre las decenas y unidades, sin las centenas
+        // Así funciona un redondeo de 7, 20, 30, etc.
+        int resto_redondeo = (nuevo_total_centimos % 100) % redondeo;
+        if (resto_redondeo != 0 ) {
+            nuevo_total = double(nuevo_total_centimos + redondeo - resto_redondeo) / 100.0;
+        }
+    }
+    if( nuevo_total != total ) {
+        double precioconiva = nuevo_total - total;
+        dbRecord *detalle = DBAPP->createRecord(pDetalles->at(0)->getTableName());
+        detalle->setValue("NLINEA", (int)pDetalles->size()+1);
+        detalle->setValue("CANTIDAD", 1.0);
+        detalle->setValue("ARTICULO_ID", articulo->getRecordID());
+        if( mTipo == compra ) {
+            detalle->setValue("COSTE", precioconiva);
+            detalle->setValue("COSTESINIVA", articulo->getRecTipoIVA()->menosIVA( precioconiva ) );
+        } else {
+            detalle->setValue("PVP", precioconiva);
+            detalle->setValue("PVPSINIVA", articulo->getRecTipoIVA()->menosIVA( precioconiva ) );
+        }
+        detalle->setValue("DTOPP", 0.0);
+        detalle->setValue("IMPORTE", articulo->getRecTipoIVA()->menosIVA( precioconiva ) );
+        detalle->setValue("IMPORTECONIVA", precioconiva);
+        detalle->setValue("TIPOIVA_ID", articulo->getRecTipoIVA()->getRecordID() );
+        pDetalles->addRecord( detalle );
+        actTotales();
+        return true;
+    }
+    return false;
 }
 
 

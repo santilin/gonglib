@@ -11,12 +11,12 @@ class FrmReportConds: public FrmCustom
 {
 public:
     FrmReportConds(const Xtring &titulo,
-				   QWidget* parent = 0, WidgetFlags fl = 0 );
+                   QWidget* parent = 0, WidgetFlags fl = 0 );
 protected:
     Xtring readRTK( const Xtring &_template );
 
-	LineEdit *pEditTitulo;
-	ComboBoxInt *pComboOutputs;
+    LineEdit *pEditTitulo;
+    ComboBoxInt *pComboOutputs;
     CheckBox *pCheckResumido, *pCheckApaisado;
 };
 

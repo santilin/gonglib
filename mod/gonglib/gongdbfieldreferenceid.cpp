@@ -21,18 +21,18 @@ bool dbFieldReferenceID::isValid( dbRecord *r, dbFieldValue *value, ValidResult:
 /*>>>>>DBFIELD_REFERENCEID_ISVALID*/
     if (!canBeNull() && ( value->isNull() || value->toVariant().toInt() == 0 ) ) {
         if( integres ) {
-			Xtring ref_table = getReference().mid(0, getReference().find("."));
+            Xtring ref_table = getReference().mid(0, getReference().find("."));
             const dbTableDefinition *tbldef = r->getTableDefinition()->getdbDefinition().findTableDefinition( ref_table );
             if( tbldef ) {
                 const char *demostrativo;
-				const char *vacio;
+                const char *vacio;
                 if( tbldef->isFemenina() ) {
                     demostrativo = _("La");
-					vacio = "vacía";
-				} else {
+                    vacio = "vacía";
+                } else {
                     demostrativo = _("El");
-					vacio = "vacío";
-				}
+                    vacio = "vacío";
+                }
                 integres->addError( Xtring::printf( _("%1$s %2$s no puede estar %3$s."),
                                                     demostrativo, tbldef->getDescSingular().c_str(), vacio ),
                                     getName() );

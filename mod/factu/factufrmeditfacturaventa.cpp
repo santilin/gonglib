@@ -933,29 +933,29 @@ if(empresa::ModuleInstance->usaProyectos()){
 	if( sender == editEntrega )
 		actTotales();
 /*>>>>>FRMEDITFACTURAVENTA_CABECERA_VALIDATE*/
-/*
-    if( sender == editFecha )
-        if( editFechaIVA->toDate().isNull() )
-            editFechaIVA->setText( editFecha->toDate() );
-    if( sender == editFechaIVA || sender == editFecha || !sender ) {
-        if( editFechaIVA->toDate().isNull() ) {
-            validresult->addError(_("La fecha del IVA no puede estar vacía."),
-                                  "FECHAIVA" );
-        } else {
-            Date primerodetrimestre = Date( editFecha->toDate().getYear(),
-                                            ((editFecha->toDate().getQuarter()-1) * 3) + 1, 1 );
-            Date primerodetrimestresiguiente = (primerodetrimestre + 93).firstDayOfMonth();
-            if( editFechaIVA->toDate() < primerodetrimestre ) {
-                validresult->addError(_("La fecha del IVA no puede ser de un ejercicio o trimestre anterior a la fecha de la factura"),
+    /*
+        if( sender == editFecha )
+            if( editFechaIVA->toDate().isNull() )
+                editFechaIVA->setText( editFecha->toDate() );
+        if( sender == editFechaIVA || sender == editFecha || !sender ) {
+            if( editFechaIVA->toDate().isNull() ) {
+                validresult->addError(_("La fecha del IVA no puede estar vacía."),
                                       "FECHAIVA" );
-                *isvalid = false;
-            } else if( editFechaIVA->toDate() >= primerodetrimestresiguiente ) {
-                validresult->addError(_("La fecha del IVA es de un ejercicio o trimestre posterior a la fecha de la factura."),
-                                      "FECHAIVA" );
+            } else {
+                Date primerodetrimestre = Date( editFecha->toDate().getYear(),
+                                                ((editFecha->toDate().getQuarter()-1) * 3) + 1, 1 );
+                Date primerodetrimestresiguiente = (primerodetrimestre + 93).firstDayOfMonth();
+                if( editFechaIVA->toDate() < primerodetrimestre ) {
+                    validresult->addError(_("La fecha del IVA no puede ser de un ejercicio o trimestre anterior a la fecha de la factura"),
+                                          "FECHAIVA" );
+                    *isvalid = false;
+                } else if( editFechaIVA->toDate() >= primerodetrimestresiguiente ) {
+                    validresult->addError(_("La fecha del IVA es de un ejercicio o trimestre posterior a la fecha de la factura."),
+                                          "FECHAIVA" );
+                }
             }
         }
-    }
-    */
+        */
     if( sender == editContador || (sender == editAgenteCodigo && editAgenteCodigo->isJustEdited()) ) {
         editNumero->setText( RecTipoDoc::formatNumDocumento(
                                  empresa::ModuleInstance->getRecEmpresa()->getValue( "CODIGO" ).toInt(),

@@ -71,7 +71,7 @@ FrmEditAlbaranVentaDet::FrmEditAlbaranVentaDet(FrmEditRecMaster *frmmaster, int 
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITALBARANVENTADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
-	editArticuloCodigo->setWidthInChars(12);
+    editArticuloCodigo->setWidthInChars(12);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "&Act. PVP artículo" ) ) );
@@ -415,11 +415,11 @@ void FrmEditAlbaranVentaDet::updateStatus( bool callbehaviors )
 
 void FrmEditAlbaranVentaDet::slotActPrecioArticulo_clicked()
 {
-	if( ModuleInstance->editPVPsArticulo(this, getRecArticulo(), 
-		static_cast<FrmEditAlbaranVenta *>(getFrmMaster())->getRecCliente(),
-		editPVP->toDouble() ) ) {
-		searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
-	}
+    if( ModuleInstance->editPVPsArticulo(this, getRecArticulo(),
+                                         static_cast<FrmEditAlbaranVenta *>(getFrmMaster())->getRecCliente(),
+                                         editPVP->toDouble() ) ) {
+        searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
+    }
 }
 
 /*<<<<<FRMEDITALBARANVENTADET_FIN*/

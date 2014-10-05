@@ -53,7 +53,7 @@ class FrmCustom: public FrmBase
     Q_OBJECT
 public:
     FrmCustom( QWidget *parent=0, const char *name=0, WidgetFlags fl = 0 );
-	// Tab widget
+    // Tab widget
     void showTabs(bool show = true );
     QWidget *insertTab(QWidget *tab, const Xtring &label, int index = -1);
     void setTabTitle( QWidget *tab, const Xtring &title );
@@ -67,14 +67,14 @@ public:
     CheckBox *addCheckBox( QWidget *parent, const Xtring &caption,
                            bool value, const char *name = 0, QBoxLayout *layout = 0 );
     ComboBoxXtring *addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
-                                   const XtringList &captions, const XtringList &values, const Xtring &empty = Xtring::null,
-                                   const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
+                                       const XtringList &captions, const XtringList &values, const Xtring &empty = Xtring::null,
+                                       const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
     ComboBoxXtring *addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
-                                   const XtringList &captions_values, const Xtring &empty = Xtring::null,
-                                   const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
+                                       const XtringList &captions_values, const Xtring &empty = Xtring::null,
+                                       const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
     ComboBoxInt *addComboBoxInt( bool byref, QWidget *parent, const Xtring &caption,
-                                const XtringList &captions, const IntList &values, const Xtring &empty = Xtring::null,
-                                const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
+                                 const XtringList &captions, const IntList &values, const Xtring &empty = Xtring::null,
+                                 const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
     GroupBox *addGroupBox( QWidget *parent, XtringList &options, const Xtring &caption,
                            int selected, bool horiz = true, QBoxLayout *layout = 0 );
     DateRangeBox *addDateRangeBox( QWidget *parent, const Xtring &caption,
@@ -97,13 +97,13 @@ public:
                               const Xtring &tablename, const Xtring &fldname, bool value,
                               const char *name = 0, QBoxLayout *layout = 0  );
     ComboBoxInt *addComboIntField( QWidget *parent, const Xtring &caption, const Xtring &tablename,
-                                     const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
-                                     const Xtring &empty = Xtring::null,
-                                     const char *name = 0, QBoxLayout * layout = 0 );
+                                   const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
+                                   const Xtring &empty = Xtring::null,
+                                   const char *name = 0, QBoxLayout * layout = 0 );
     ComboBoxXtring *addComboXtringField( QWidget *parent, const Xtring &caption, const Xtring &tablename,
-                                     const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
-                                     const Xtring &empty = Xtring::null,
-                                     const char *name = 0, QBoxLayout * layout = 0 );
+                                         const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
+                                         const Xtring &empty = Xtring::null,
+                                         const char *name = 0, QBoxLayout * layout = 0 );
     SearchBox *addSearchField( QWidget *parent, const Xtring &tablename,
                                const Xtring &fldnamecodigo, const Xtring &fldnamenombre, QBoxLayout *layout = 0,
                                SearchBox::Flags flags = SearchBox::FlagHorizontal );
@@ -111,10 +111,12 @@ public:
                                        const Xtring &fldnamecodigo, const Xtring &fldnamenombre, QBoxLayout *layout = 0 );
     SearchBox *addLabeledSearchField( QWidget *parent, const Xtring &tablename,
                                       const Xtring &fldnamecodigo, const Xtring &fldnamenombre, QBoxLayout *layout = 0 );
-	virtual void accept(); // from FrmBase
+    virtual void accept(); // from FrmBase
 protected slots:
     virtual void validate_input( QWidget *, bool * );
-    virtual bool validate() { return true; }
+    virtual bool validate() {
+        return true;
+    }
     void combo_activated( int );
     void button_clicked();
 

@@ -29,61 +29,61 @@ NamesListTable::NamesListTable( dbDefinition &db, const Xtring &name )
  **/
 void NamesListTable::fillInfoList(dbConnection* conn)
 {
-	for( NamesListTable::InfoDict::const_iterator itt = mNamesListTables.begin();
-		itt != mNamesListTables.end(); ++ itt ) {
-		const Xtring &tablename = (*itt).first;
-		Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + tablename + ".VALUES" ).toString();
-		if( values.isEmpty() )
-			_GONG_DEBUG_WARNING( "DBDEF.TABLE." + tablename + ".VALUES not found" );
-		NamesListTable::Info *info = (*itt).second;
-		// TODO: This connection should be the one from the module that defines the nameslisttable
-		Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn->nameToSQL( tablename );
-		dbResultSet *rs = conn->select( sql );
-		while( rs->next() ) {
-			info->values.push_back( rs->toInt(0) );
-			info->captions.push_back( rs->toString(1) );
-		}
-		if( info->values.size() == 0 ) {
-			// Fill in from read only configuration
-			// see void dbFieldListOfValues<int>::setValuesFromString(const Xtring &values)
-			XtringList valuesandcaptions;
-			Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + tablename + ".VALUES" ).toString();
-			values.tokenize( valuesandcaptions, "|" );
-			uint nitem = 1;
-			dbRecord *r = DBAPP->createRecord( tablename );
-			for( XtringList::const_iterator itv = valuesandcaptions.begin();
-					itv != valuesandcaptions.end();
-					++itv, ++nitem ) {
-				Xtring value, caption;
-				(*itv).splitIn2( value, caption, "=" );
-				if( caption.isEmpty() ) { // Empty caption, so caption is also the value
-					info->values.push_back( nitem );
-					info->captions.push_back( value );
-					info->types.push_back( nitem );
-					r->setValue( "CODIGO", nitem );
-					r->setValue( "NOMBRE", value );
-					r->setValue( "TIPO", nitem );
-				} else {
-					Xtring scaption, stype;
-					caption.splitIn2( scaption, stype, "," );
-					if( stype.isEmpty() ) {
-						info->types.push_back( value.toInt() );
-						r->setValue( "TIPO", value.toInt() );
-					} else {
-						info->types.push_back( stype.toInt() );
-						r->setValue( "TIPO", stype.toInt() );
-					}
-					info->values.push_back( value.toInt() );
-					info->captions.push_back( caption );
-					r->setValue( "CODIGO", value.toInt() );
-					r->setValue( "NOMBRE", caption );
-				}
-				r->save( false );
-				r->setNew( true );
-			}
-			delete r;
-		}
-	}
+    for( NamesListTable::InfoDict::const_iterator itt = mNamesListTables.begin();
+            itt != mNamesListTables.end(); ++ itt ) {
+        const Xtring &tablename = (*itt).first;
+        Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + tablename + ".VALUES" ).toString();
+        if( values.isEmpty() )
+            _GONG_DEBUG_WARNING( "DBDEF.TABLE." + tablename + ".VALUES not found" );
+        NamesListTable::Info *info = (*itt).second;
+        // TODO: This connection should be the one from the module that defines the nameslisttable
+        Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn->nameToSQL( tablename );
+        dbResultSet *rs = conn->select( sql );
+        while( rs->next() ) {
+            info->values.push_back( rs->toInt(0) );
+            info->captions.push_back( rs->toString(1) );
+        }
+        if( info->values.size() == 0 ) {
+            // Fill in from read only configuration
+            // see void dbFieldListOfValues<int>::setValuesFromString(const Xtring &values)
+            XtringList valuesandcaptions;
+            Xtring values = DBAPP->getMachineSetting( "DBDEF.TABLE." + tablename + ".VALUES" ).toString();
+            values.tokenize( valuesandcaptions, "|" );
+            uint nitem = 1;
+            dbRecord *r = DBAPP->createRecord( tablename );
+            for( XtringList::const_iterator itv = valuesandcaptions.begin();
+                    itv != valuesandcaptions.end();
+                    ++itv, ++nitem ) {
+                Xtring value, caption;
+                (*itv).splitIn2( value, caption, "=" );
+                if( caption.isEmpty() ) { // Empty caption, so caption is also the value
+                    info->values.push_back( nitem );
+                    info->captions.push_back( value );
+                    info->types.push_back( nitem );
+                    r->setValue( "CODIGO", nitem );
+                    r->setValue( "NOMBRE", value );
+                    r->setValue( "TIPO", nitem );
+                } else {
+                    Xtring scaption, stype;
+                    caption.splitIn2( scaption, stype, "," );
+                    if( stype.isEmpty() ) {
+                        info->types.push_back( value.toInt() );
+                        r->setValue( "TIPO", value.toInt() );
+                    } else {
+                        info->types.push_back( stype.toInt() );
+                        r->setValue( "TIPO", stype.toInt() );
+                    }
+                    info->values.push_back( value.toInt() );
+                    info->captions.push_back( caption );
+                    r->setValue( "CODIGO", value.toInt() );
+                    r->setValue( "NOMBRE", caption );
+                }
+                r->save( false );
+                r->setNew( true );
+            }
+            delete r;
+        }
+    }
 }
 
 
@@ -101,34 +101,34 @@ FldNamesListTable::FldNamesListTable(const Xtring &tablename, const Xtring& fldn
                                      dbFieldDefinition::Flags flags, const Xtring& defaultvalue)
     : dbFieldListOfValues<int>( false, tablename, fldname,
                                 SQLINTEGER, 5, 0, flags, defaultvalue ),
-								mNamesListTableName( fldname )
+    mNamesListTableName( fldname )
 {
-	init();
+    init();
 }
 
 FldNamesListTable::FldNamesListTable(const Variant &knameslisttable,
-									 const Xtring &tablename, const Xtring& fldname,
+                                     const Xtring &tablename, const Xtring& fldname,
                                      dbFieldDefinition::Flags flags, const Xtring& defaultvalue)
     : dbFieldListOfValues<int>( false, tablename, fldname,
                                 SQLINTEGER, 5, 0, flags, defaultvalue )
 {
-	mNamesListTableName = knameslisttable.toString();
-	if( mNamesListTableName.isEmpty() )
-		mNamesListTableName = fldname;
-	init();
+    mNamesListTableName = knameslisttable.toString();
+    if( mNamesListTableName.isEmpty() )
+        mNamesListTableName = fldname;
+    init();
 }
 
 void FldNamesListTable::init()
 {
-	// info must be a pointer because it can not be created on the stack, as its fields will disappear off
-	NamesListTable::InfoDict::const_iterator it = NamesListTable::getNamesListTables().find( mNamesListTableName );
-	if(  it == NamesListTable::getNamesListTables().end() ) {
-		NamesListTable::Info *info = new NamesListTable::Info();
-		NamesListTable::getNamesListTables().insert( mNamesListTableName, info );
-	}
-	it = NamesListTable::getNamesListTables().find( mNamesListTableName );
-	pListOfCaptions = const_cast<XtringList *>(&(*it).second->captions);
-	pListOfValues = const_cast<IntList *>(&(*it).second->values);
+    // info must be a pointer because it can not be created on the stack, as its fields will disappear off
+    NamesListTable::InfoDict::const_iterator it = NamesListTable::getNamesListTables().find( mNamesListTableName );
+    if(  it == NamesListTable::getNamesListTables().end() ) {
+        NamesListTable::Info *info = new NamesListTable::Info();
+        NamesListTable::getNamesListTables().insert( mNamesListTableName, info );
+    }
+    it = NamesListTable::getNamesListTables().find( mNamesListTableName );
+    pListOfCaptions = const_cast<XtringList *>(&(*it).second->captions);
+    pListOfValues = const_cast<IntList *>(&(*it).second->values);
 }
 
 void FldNamesListTable::fill( dbConnection &conn )
@@ -159,7 +159,7 @@ int FldNamesListTable::findCode(const Xtring& name) const
 bool FldNamesListTable::isValid( dbRecord *r, dbFieldValue *value,
                                  ValidResult::Context context, ValidResult *integres) const
 {
-	/// TODO: check that the field values contains value
+    /// TODO: check that the field values contains value
     bool ret = dbFieldDefinition::isValid(r, value, context, integres);
     if( context == ValidResult::fixing ) {
         if( value->toVariant().type() == Variant::tString ) {

@@ -29,12 +29,14 @@ public:
     FldEmpresaID( const Xtring &tablename, const Xtring &name,
                   dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
                   const Xtring &reference = "EMPRESA_ID" );
-/*<<<<<DBFIELD_EMPRESAID_MEMBERS*/
+    /*<<<<<DBFIELD_EMPRESAID_MEMBERS*/
 	virtual bool isValid( dbRecord *r, dbFieldValue *value,
 		ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
 	virtual Variant customDefaultValue() const; // from dbFieldDefinition 
 /*>>>>>DBFIELD_EMPRESAID_MEMBERS*/
-    virtual FldEmpresaID *clone() const { return new FldEmpresaID( *this ); }
+    virtual FldEmpresaID *clone() const {
+        return new FldEmpresaID( *this );
+    }
 }; // class
 
 /*<<<<<EMPRESAID_POSTAMBLE*/

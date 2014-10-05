@@ -25,7 +25,7 @@ FrmEditConceptoTesoreria::FrmEditConceptoTesoreria(FrmEditRec *parentfrm, dbReco
 	if ( !name )
 	    setName( "FrmEditConceptoTesoreria" );
 /*>>>>>FRMEDITCONCEPTOTESORERIA_CONSTRUCTOR*/
-/*<<<<<FRMEDITCONCEPTOTESORERIA_INIT_CONTROLS*/
+    /*<<<<<FRMEDITCONCEPTOTESORERIA_INIT_CONTROLS*/
 	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
 	QHBoxLayout *nombreLayout = new QHBoxLayout(0, 0, 6, "nombreLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
@@ -40,7 +40,7 @@ FrmEditConceptoTesoreria::FrmEditConceptoTesoreria(FrmEditRec *parentfrm, dbReco
 
 void FrmEditConceptoTesoreria::scatterFields()
 {
-/*<<<<<FRMEDITCONCEPTOTESORERIA_SCATTER*/
+    /*<<<<<FRMEDITCONCEPTOTESORERIA_SCATTER*/
 	editCodigo->setText(getRecConceptoTesoreria()->getValue("CODIGO").toInt());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editCodigo;
@@ -54,7 +54,7 @@ void FrmEditConceptoTesoreria::scatterFields()
 
 void FrmEditConceptoTesoreria::gatherFields()
 {
-/*<<<<<FRMEDITCONCEPTOTESORERIA_GATHER*/
+    /*<<<<<FRMEDITCONCEPTOTESORERIA_GATHER*/
 	getRecConceptoTesoreria()->setValue( "CODIGO", editCodigo->toInt());
 	getRecConceptoTesoreria()->setValue( "NOMBRE", editNombre->toString());
 	getRecConceptoTesoreria()->setValue( "NOTAS", editNotas->toString());
@@ -63,7 +63,7 @@ void FrmEditConceptoTesoreria::gatherFields()
 
 void FrmEditConceptoTesoreria::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
-/*<<<<<FRMEDITCONCEPTOTESORERIA_VALIDATE*/
+    /*<<<<<FRMEDITCONCEPTOTESORERIA_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -74,10 +74,10 @@ void FrmEditConceptoTesoreria::validateFields(QWidget *sender, bool *isvalid, Va
 		if( !sender )
 			*isvalid = false;
 /*>>>>>FRMEDITCONCEPTOTESORERIA_VALIDATE*/
-	if( !ir ) {
-		showValidMessages(isvalid, *validresult, sender);
-		delete validresult;
-	}
+    if( !ir ) {
+        showValidMessages(isvalid, *validresult, sender);
+        delete validresult;
+    }
 }
 
 /*<<<<<FRMEDITCONCEPTOTESORERIA_FIN*/

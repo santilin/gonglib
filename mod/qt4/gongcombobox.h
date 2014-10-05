@@ -26,31 +26,55 @@ class ComboBoxInt: public QComboBox
 {
 public:
     ComboBoxInt( const XtringList &captions, const IntList &values,
-              QWidget *parent, const Xtring &name, const Xtring &caption,
-              bool horizontal = true );
+                 QWidget *parent, const Xtring &name, const Xtring &caption,
+                 bool horizontal = true );
     ComboBoxInt( XtringList &captions, IntList &values,
-              QWidget *parent, const Xtring &name, const Xtring &caption,
-              bool horizontal = true );
+                 QWidget *parent, const Xtring &name, const Xtring &caption,
+                 bool horizontal = true );
     void setVisible( bool visible );
     void setText(const Xtring &caption);
     void setCurrentItemByValue(int value);
-    int getCurrentItemValue() const { return getItemValue( currentItem() ); }
+    int getCurrentItemValue() const {
+        return getItemValue( currentItem() );
+    }
     int getItemValue(int i) const;
-	bool isEdited() const { return mEdited; }
-    void setEdited(bool edited) { mEdited = edited; }
-    bool isJustEdited() const { return mJustEdited; }
-    void setJustEdited( bool justedited = true ) { mJustEdited = justedited; }
+    bool isEdited() const {
+        return mEdited;
+    }
+    void setEdited(bool edited) {
+        mEdited = edited;
+    }
+    bool isJustEdited() const {
+        return mJustEdited;
+    }
+    void setJustEdited( bool justedited = true ) {
+        mJustEdited = justedited;
+    }
     bool insertItems();
-	void insertItem(const Xtring &caption, int value, int index = -1);
-	QBoxLayout *getLayout() const { return pLayout; }
-    QLabel *getLabel() const { return pLabel; }
-    bool mustBeReadOnly() const { return mMustBeReadOnly; }
-    void setMustBeReadOnly(bool must) { mMustBeReadOnly = must; }
-    bool isSettingProgrammatically() const { return mSettingProgrammatically; }
-    Xtring toString() const { return fromGUI(currentText()); }
+    void insertItem(const Xtring &caption, int value, int index = -1);
+    QBoxLayout *getLayout() const {
+        return pLayout;
+    }
+    QLabel *getLabel() const {
+        return pLabel;
+    }
+    bool mustBeReadOnly() const {
+        return mMustBeReadOnly;
+    }
+    void setMustBeReadOnly(bool must) {
+        mMustBeReadOnly = must;
+    }
+    bool isSettingProgrammatically() const {
+        return mSettingProgrammatically;
+    }
+    Xtring toString() const {
+        return fromGUI(currentText());
+    }
     bool isNewItem() const;
     // Overloaded
-    Xtring currentString() const { return fromGUI( currentText() ); }
+    Xtring currentString() const {
+        return fromGUI( currentText() );
+    }
 
 protected:
     virtual void keyPressEvent( QKeyEvent *e ); // from QWidget
@@ -71,31 +95,55 @@ class ComboBoxXtring: public QComboBox
 {
 public:
     ComboBoxXtring( const XtringList &captions, const XtringList &values,
-              QWidget *parent, const Xtring &name, const Xtring &caption,
-              bool horizontal = true );
+                    QWidget *parent, const Xtring &name, const Xtring &caption,
+                    bool horizontal = true );
     ComboBoxXtring( XtringList &captions, XtringList &values,
-              QWidget *parent, const Xtring &name, const Xtring &caption,
-              bool horizontal = true );
+                    QWidget *parent, const Xtring &name, const Xtring &caption,
+                    bool horizontal = true );
     void setVisible( bool visible );
     void setText(const Xtring &caption);
     void setCurrentItemByValue(const Xtring &value);
-    const Xtring &getCurrentItemValue() const { return getItemValue( currentItem() ); }
+    const Xtring &getCurrentItemValue() const {
+        return getItemValue( currentItem() );
+    }
     const Xtring &getItemValue(int i) const;
-	bool isEdited() const { return mEdited; }
-    void setEdited(bool edited) { mEdited = edited; }
-    bool isJustEdited() const { return mJustEdited; }
-    void setJustEdited( bool justedited = true ) { mJustEdited = justedited; }
+    bool isEdited() const {
+        return mEdited;
+    }
+    void setEdited(bool edited) {
+        mEdited = edited;
+    }
+    bool isJustEdited() const {
+        return mJustEdited;
+    }
+    void setJustEdited( bool justedited = true ) {
+        mJustEdited = justedited;
+    }
     bool insertItems();
-	void insertItem(const Xtring &caption, const Xtring &value, int index = -1);
-	QBoxLayout *getLayout() const { return pLayout; }
-    QLabel *getLabel() const { return pLabel; }
-    bool mustBeReadOnly() const { return mMustBeReadOnly; }
-    void setMustBeReadOnly(bool must) { mMustBeReadOnly = must; }
-    bool isSettingProgrammatically() const { return mSettingProgrammatically; }
-    Xtring toString() const { return fromGUI(currentText()); }
+    void insertItem(const Xtring &caption, const Xtring &value, int index = -1);
+    QBoxLayout *getLayout() const {
+        return pLayout;
+    }
+    QLabel *getLabel() const {
+        return pLabel;
+    }
+    bool mustBeReadOnly() const {
+        return mMustBeReadOnly;
+    }
+    void setMustBeReadOnly(bool must) {
+        mMustBeReadOnly = must;
+    }
+    bool isSettingProgrammatically() const {
+        return mSettingProgrammatically;
+    }
+    Xtring toString() const {
+        return fromGUI(currentText());
+    }
     bool isNewItem() const;
     // Overloaded
-    Xtring currentString() const { return fromGUI( currentText() ); }
+    Xtring currentString() const {
+        return fromGUI( currentText() );
+    }
 
 protected:
     virtual void keyPressEvent( QKeyEvent *e ); // from QWidget

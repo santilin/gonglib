@@ -145,7 +145,7 @@ FrmEditPedidoVenta::FrmEditPedidoVenta(FrmEditRec *parentfrm, dbRecord *master, 
     editIVA->setMustBeReadOnly( true );
     editClienteCodigo->setWidthInChars(8);
     editAgenteCodigo->setWidthInChars(8);
-	editNotas->setHeightInLines(3);
+    editNotas->setHeightInLines(3);
     editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
 }
 

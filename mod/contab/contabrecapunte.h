@@ -18,7 +18,6 @@
 #include "gongmoney.h"
 /*<<<<<APUNTE_INCLUDES*/
 #include <dbappdbapplication.h>
-#include <gongdbvalidresult.h>
 
 #include "contabreccuenta.h"
 /*>>>>>APUNTE_INCLUDES*/

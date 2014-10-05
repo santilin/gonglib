@@ -41,19 +41,19 @@ namespace gong
 bool dbIndexDefinition::create( dbConnection *conn, const dbTableDefinition *tbldef,
                                 bool ignoreerrors )
 {
-	Xtring ddl;
-	if( conn->isMySQL() )
-		ddl = "ALTER TABLE " + tbldef->getName() + " ADD";
-	else if( conn->isSQLite() )
-		ddl = "CREATE";
+    Xtring ddl;
+    if( conn->isMySQL() )
+        ddl = "ALTER TABLE " + tbldef->getName() + " ADD";
+    else if( conn->isSQLite() )
+        ddl = "CREATE";
     if( isUnique() )
         ddl += " UNIQUE";
     ddl += " INDEX " _GONG_INDEX_PREFIX;
-	if( conn->isSQLite() ) 
-		ddl += tbldef->getName() + "_" + getName() + " ON " + tbldef->getName();
-	else
-		ddl += getName();
-	ddl += " (";
+    if( conn->isSQLite() )
+        ddl += tbldef->getName() + "_" + getName() + " ON " + tbldef->getName();
+    else
+        ddl += getName();
+    ddl += " (";
     for( unsigned int i = 0; i < getFieldCount(); i++ ) {
         if( i > 0 )
             ddl += ",";
@@ -82,10 +82,10 @@ bool dbIndexDefinition::drop( dbConnection *conn, const dbTableDefinition *tblde
                               bool ignoreerrors )
 {
     Xtring ddl;
-	if( conn->isSQLite() )
-		ddl = Xtring("DROP INDEX IF EXISTS ") + _GONG_INDEX_PREFIX + tbldef->getName() + "_" + getName();
-	else
-		ddl = Xtring("ALTER TABLE ") + tbldef->getName() + " DROP INDEX " _GONG_INDEX_PREFIX + getName();
+    if( conn->isSQLite() )
+        ddl = Xtring("DROP INDEX IF EXISTS ") + _GONG_INDEX_PREFIX + tbldef->getName() + "_" + getName();
+    else
+        ddl = Xtring("ALTER TABLE ") + tbldef->getName() + " DROP INDEX " _GONG_INDEX_PREFIX + getName();
     return conn->exec( ddl, ignoreerrors);
 }
 

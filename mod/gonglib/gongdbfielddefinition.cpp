@@ -40,8 +40,8 @@ dbFieldDefinition::dbFieldDefinition(const dbFieldDefinition &other)
 void dbFieldDefinition::init_class()
 {
     _GONG_DEBUG_ASSERT( !mName.isEmpty() );
-	if( mName.endsWith("_ID") )
-		setIsReference( true );
+    if( mName.endsWith("_ID") )
+        setIsReference( true );
     if( isSequence() )
         setPrimaryKey( true );
     if( isPrimaryKey() )
@@ -118,12 +118,12 @@ Xtring dbFieldDefinition::sameSQLSchema( const dbFieldDefinition *other, dbConne
     if( getName().upper() != other->getName().upper() )
         ret = "ALTER TABLE " + getTableName() + " ADD COLUMN " + getName() + " " + toDDL(conn) + ";\n";
     else if( getName().upper() == "ID" ) {
-		; // Ids are defined very differently in each dbrms
-	} else if( (getName() != other->getName()) // Puede que hayan cambiado las mayusculas del nombre
-             || ( getSqlColumnType() != other->getSqlColumnType() )
-             || ( isPrimaryKey() != other->isPrimaryKey() )
-             || ( isSequence() != other->isSequence() )
-           )  {
+        ; // Ids are defined very differently in each dbrms
+    } else if( (getName() != other->getName()) // Puede que hayan cambiado las mayusculas del nombre
+               || ( getSqlColumnType() != other->getSqlColumnType() )
+               || ( isPrimaryKey() != other->isPrimaryKey() )
+               || ( isSequence() != other->isSequence() )
+             )  {
         _GONG_DEBUG_PRINT(0, Xtring::printf("Column type: %d, %d", getSqlColumnType(), other->getSqlColumnType() ) );
         _GONG_DEBUG_PRINT(0, Xtring::printf("Primary key: %d, %d", isPrimaryKey(), other->isPrimaryKey() ) );
         _GONG_DEBUG_PRINT(0, Xtring::printf("Sequence: %d, %d", isSequence(), other->isSequence() ) );
@@ -141,10 +141,10 @@ Xtring dbFieldDefinition::sameSQLSchema( const dbFieldDefinition *other, dbConne
             bool changed = false;
             if( getSqlColumnType() == SQLDATE ) {
                 if( getDefaultValue().isEmpty() && other->getDefaultValue() != "0000-00-00" /*mysql*/
-					&& other->getDefaultValue() != "0" /*sqlite3*/ )
+                        && other->getDefaultValue() != "0" /*sqlite3*/ )
                     changed = true;
                 else if( other->getDefaultValue().isEmpty() && getDefaultValue() != "0000-00-00" /*mysql*/
-					&& getDefaultValue() != "0" /*sqlite3*/ )
+                         && getDefaultValue() != "0" /*sqlite3*/ )
                     changed = true;
             }
             if( changed ) {
@@ -254,7 +254,7 @@ Xtring dbFieldDefinition::toSQL( dbConnection *conn, const dbFieldValue &value, 
  */
 Xtring dbFieldDefinition::toDDL( dbConnection *conn) const
 {
-	_GONG_DEBUG_ASSERT( conn );
+    _GONG_DEBUG_ASSERT( conn );
     Xtring ddl;
     switch( getSqlColumnType() ) {
     case SQLTEXT:
@@ -264,10 +264,10 @@ Xtring dbFieldDefinition::toDDL( dbConnection *conn) const
         ddl = "VARCHAR(" + Xtring::number(mSqlWidth?mSqlWidth:100) + ")";
         break;
     case SQLINTEGER:
-		if( conn->isSQLite() && isPrimaryKey() )
-			ddl = "INTEGER";
-		else
-			ddl = "INTEGER(" + Xtring::number(mSqlWidth?mSqlWidth:10) + ")";
+        if( conn->isSQLite() && isPrimaryKey() )
+            ddl = "INTEGER";
+        else
+            ddl = "INTEGER(" + Xtring::number(mSqlWidth?mSqlWidth:10) + ")";
         break;
     case SQLDECIMAL:
         ddl = "DECIMAL(" + Xtring::number(mSqlWidth?mSqlWidth:10) + "," + Xtring::number(mDecimals) + ")";
@@ -304,8 +304,8 @@ Xtring dbFieldDefinition::toDDL( dbConnection *conn) const
             ddl += " AUTO_INCREMENT";
         else if( conn->isPGSQL() )
             ddl += " SERIAL";
-		else if( conn->isSQLite() )
-			ddl += " AUTOINCREMENT";
+        else if( conn->isSQLite() )
+            ddl += " AUTOINCREMENT";
     } else if( getDefaultValue().isEmpty() && !canBeNull() ) {
         switch( getSqlColumnType() ) {
         case SQLTEXT:
@@ -414,15 +414,15 @@ int dbFieldDefinition::getStyleWidth( const dbDefinition* pdb ) const
 
 dbRelationDefinition* dbFieldDefinition::findRelationDefinition(const dbTableDefinition &tbldef) const
 {
-	for( dbRelationDefinitionDict::const_iterator it = tbldef.getRelationDefinitions().begin();
-		it != tbldef.getRelationDefinitions().end(); ++it ) {
-		dbRelationDefinition *reldef = it->second;
-		if( reldef->getLeftField() == getName() )
-			return reldef;
-	}
-	_GONG_DEBUG_WARNING( Xtring::printf("Relation not found for field '%s' in table '%s'",
-										getName().c_str(), tbldef.getName().c_str() ) );
-	return 0;
+    for( dbRelationDefinitionDict::const_iterator it = tbldef.getRelationDefinitions().begin();
+            it != tbldef.getRelationDefinitions().end(); ++it ) {
+        dbRelationDefinition *reldef = it->second;
+        if( reldef->getLeftField() == getName() )
+            return reldef;
+    }
+    _GONG_DEBUG_WARNING( Xtring::printf("Relation not found for field '%s' in table '%s'",
+                                        getName().c_str(), tbldef.getName().c_str() ) );
+    return 0;
 }
 
 

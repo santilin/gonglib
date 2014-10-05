@@ -67,17 +67,17 @@ dbDefinition *dbDefinition::fromSQLSchema( dbConnection *conn, const Xtring &dbn
     Xtring tblname;
     dbDefinition *dbdef = 0;
 
-	dbdef = new dbDefinition( dbname, "Generated from Schema" );
-	std::auto_ptr<dbResultSet> rsTables(conn->select( "SHOW TABLES" ));
-	while( rsTables->next() ) {
-		tblname = rsTables->toString(0);
+    dbdef = new dbDefinition( dbname, "Generated from Schema" );
+    std::auto_ptr<dbResultSet> rsTables(conn->select( "SHOW TABLES" ));
+    while( rsTables->next() ) {
+        tblname = rsTables->toString(0);
 #ifdef HAVE_SQLITE3
-		if( tblname == "sqlite_sequence" )
-			continue;
+        if( tblname == "sqlite_sequence" )
+            continue;
 #endif
-		dbTableDefinition *tbldef = dbTableDefinition::fromSQLSchema( conn, *dbdef, tblname );
-		dbdef->addTable( tbldef );
-	}
+        dbTableDefinition *tbldef = dbTableDefinition::fromSQLSchema( conn, *dbdef, tblname );
+        dbdef->addTable( tbldef );
+    }
     return dbdef;
 }
 
@@ -190,8 +190,8 @@ Xtring dbDefinition::sameSQLSchema( const dbDefinition *other, dbConnection *con
 {
     Xtring ret;
     for( unsigned int nt = 0; nt < getTables().size(); nt++ ) {
-		if( getTableDefinition(nt)->isTemporary() )
-			continue;
+        if( getTableDefinition(nt)->isTemporary() )
+            continue;
         const dbTableDefinition *othertabledef = other->findTableDefinition( getTableDefinition(nt)->getName() );
         if( othertabledef )
             ret += getTableDefinition(nt)->sameSQLSchema( othertabledef, conn, purging );
@@ -295,14 +295,14 @@ bool dbDefinition::isRecordUsed(dbRecord *rec, Xtring *usingtable)
 {
     Xtring tablename = rec->getTableName();
     dbRecordID recid = rec->getRecordID();
-	// Recorrer las tablas de la base de datos
-	for( dbTableDefinitionDict::const_iterator tblit = mTables.begin();
-		tblit != mTables.end(); ++ tblit ) {
+    // Recorrer las tablas de la base de datos
+    for( dbTableDefinitionDict::const_iterator tblit = mTables.begin();
+            tblit != mTables.end(); ++ tblit ) {
         dbTableDefinition *tbldef = tblit->second;
         if( tbldef->getName().upper() != tablename.upper() ) {
             // Recorrer las relaciones de esa tabla
-			for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
-				relit != tbldef->getRelationDefinitions().end(); ++relit ) {
+            for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
+                    relit != tbldef->getRelationDefinitions().end(); ++relit ) {
                 dbRelationDefinition *reldef = relit->second;
                 if( reldef->getRightTable().upper() == tablename.upper() ) { /// @todo Comprobar si enabled?
                     if( rec->getConnection()->selectInt("SELECT ID FROM " + rec->getConnection()->nameToSQL( reldef->getLeftTable() ) +
@@ -588,7 +588,7 @@ int dbDefinition::getViewsForTable(const Xtring &tablename, dbViewDefinitionDict
     _GONG_DEBUG_PRINT(3, "Table: " + tablename );
     for( unsigned int i=0; i<getViews().size(); i++ ) {
         // Startswith, because the from clause may contain JOIN
-		dbViewDefinition *viewdef = getViews().seq_at(i);
+        dbViewDefinition *viewdef = getViews().seq_at(i);
         if( viewdef->getFirstFrom().upper() == tablename.upper() ) {
             _GONG_DEBUG_PRINT(4, "FROM of the view: " + viewdef->getFirstFrom().upper() );
             if( !viewdef->getName().upper().startsWith( tablename.upper() + "._" ) ) { // Some views are hidden
@@ -612,7 +612,7 @@ int dbDefinition::getViewsByName(const Xtring &viewname, dbViewDefinitionDict &c
     int count = 0;
     _GONG_DEBUG_PRINT(3, "Looking for viewname: " + viewname );
     for( unsigned int i=0; i<getViews().size(); i++ ) {
-		dbViewDefinition *viewdef = getViews().seq_at(i);
+        dbViewDefinition *viewdef = getViews().seq_at(i);
         _GONG_DEBUG_PRINT(4, "Comparing with viewname: " + viewdef->getName() );
         if( viewdef->getName().upper().startsWith(viewname.upper()) ) {
             container.insert( viewdef->getName(), viewdef );
@@ -658,8 +658,8 @@ const dbTableDefinition *dbDefinition::getTableDefinition(unsigned int i) const
 std::ostream &operator<<(std::ostream &out, const dbDefinition &dbdef)
 {
     out << dbdef.getName() << '\t' << dbdef.getDescription() << std::endl;
-	for( dbTableDefinitionDict::const_iterator tblit = dbdef.getTables().begin();
-		tblit != dbdef.getTables().end(); ++tblit ) 
+    for( dbTableDefinitionDict::const_iterator tblit = dbdef.getTables().begin();
+            tblit != dbdef.getTables().end(); ++tblit )
         out << const_cast<dbTableDefinition &>(*tblit->second);
     return out;
 }

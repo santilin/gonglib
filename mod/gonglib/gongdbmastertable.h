@@ -153,8 +153,8 @@ public:
     }
 
     dbRelationDefinition *addRelationDefinition( const dbRelationDefinition::Type& type,
-                                       const Xtring &lefttable, const Xtring &leftfield,
-                                       const Xtring &righttable, const Xtring &rightfield ) {
+            const Xtring &lefttable, const Xtring &leftfield,
+            const Xtring &righttable, const Xtring &rightfield ) {
         return pTableDefinition->addRelationDefinition( type, lefttable, leftfield, righttable, rightfield );
     }
     dbIndexDefinition *addIndex( const dbIndexDefinition *idxdef ) {

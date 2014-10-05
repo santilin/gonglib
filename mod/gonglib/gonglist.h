@@ -125,8 +125,8 @@ std::string List<long>::join(const std::string &sep) const
     for( const_iterator it = begin(); it != end(); ++it ) {
         if( result.size() )
             result += sep;
-		char buffer[ 64 ];
-		sprintf ( buffer, "%ld", *it );
+        char buffer[ 64 ];
+        sprintf ( buffer, "%ld", *it );
         result += buffer;
     }
     return result;
@@ -139,8 +139,8 @@ std::string List<int>::join(const std::string &sep) const
     for( const_iterator it = begin(); it != end(); ++it ) {
         if( result.size() )
             result += sep;
-		char buffer[ 64 ];
-		sprintf ( buffer, "%d", *it );
+        char buffer[ 64 ];
+        sprintf ( buffer, "%d", *it );
         result += buffer;
     }
     return result;
@@ -153,8 +153,8 @@ std::string List<unsigned int>::join(const std::string &sep) const
     for( const_iterator it = begin(); it != end(); ++it ) {
         if( result.size() )
             result += sep;
-		char buffer[ 64 ];
-		sprintf ( buffer, "%d", *it );
+        char buffer[ 64 ];
+        sprintf ( buffer, "%d", *it );
         result += buffer;
     }
     return result;

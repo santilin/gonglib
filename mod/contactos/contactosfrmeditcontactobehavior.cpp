@@ -50,11 +50,11 @@ void FrmEditContactoBehavior::initGUI()
 
 void FrmEditContactoBehavior::_initGUI()
 {
-    // {capel} añadir a addSearchField de CIF
+    // {capel} añadir a addSearchField de ContactoCIF
     // static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
     QHBoxLayout *pushLayout = new QHBoxLayout();
 
-/*<<<<<FRMEDITCONTACTOBEHAVIOR_INITGUI*/
+    /*<<<<<FRMEDITCONTACTOBEHAVIOR_INITGUI*/
 	QWidget *pControlsFrame = getControlsFrame();
 	QVBoxLayout* pControlsLayout = getControlsLayout();
 	QWidget *tabContacto = getOrCreateTab( "tabContacto" );
@@ -112,7 +112,8 @@ void FrmEditContactoBehavior::_initGUI()
 	tabContactoMoreLayout->addLayout( claveLayout );
 	tabContactoMoreLayout->addLayout( nonameLayout );
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_INITGUI*/
-	(void)pControlsFrame; (void)pControlsLayout;
+    (void)pControlsFrame;
+    (void)pControlsLayout;
     editContacto_Telefono->setHeightInLines(2);
     editContacto_Provincia->setWidthInChars(20);
     pFrameContactos->insertTab( tabContacto, toGUI( _( "&Contacto" ) ) );
@@ -143,7 +144,7 @@ void FrmEditContactoBehavior::_initGUI()
     pushLayout->insertWidget( 0, pushARazonSocial );
     pushLayout->insertWidget( 0, searchContactoCIF );
     pushLayout->insertWidget( 0, pushEditFull);
-	pushEditFull->setVisible( false ); /// TODO
+    pushEditFull->setVisible( false ); /// TODO
     tabContactoLayout->insertLayout(0, pushLayout );
     mUsarTratamiento = ModuleInstance->getModuleSetting( "USAR_TRATAMIENTOS" ).toBool();
     comboContacto_TratamientoContacto->setVisible( mUsarTratamiento );
@@ -350,12 +351,12 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
                                        Xtring::printf( _("'%s' no puede estar vacío. ¿Quieres crear un valor provisional?"),
                                                        cifdef->getCaption().c_str() ) ) ) {
                     editContactoCIF->setText( cifdef->customDefaultValue() );
-					*isvalid = true;
+                    *isvalid = true;
                 } else {
-					*isvalid = false;
-					validresult->addError( Xtring::printf( _("'%s' no puede estar vacío."),
-													cifdef->getCaption().c_str() ), "CIF" );
-				}
+                    *isvalid = false;
+                    validresult->addError( Xtring::printf( _("'%s' no puede estar vacío."),
+                                                           cifdef->getCaption().c_str() ), "CIF" );
+                }
                 return;
             }
         }

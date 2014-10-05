@@ -29,13 +29,13 @@ public:
 protected:
     virtual bool canClose(); // from FrmBase
 protected slots:
-	void slotSearch();
+    void slotSearch();
 
 private:
-	SettingsTree *pSettingsTree;
-	PushButton *pushSearch;
+    SettingsTree *pSettingsTree;
+    PushButton *pushSearch;
     QVBoxLayout *mainLayout, *settingsLayout;
-	QTreeWidgetItem *mLastMatchItem;
+    QTreeWidgetItem *mLastMatchItem;
 };
 
 }

@@ -35,13 +35,13 @@ public:
 		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
 	RecCuentaTesoreria *getRecCuentaTesoreria() const { return (RecCuentaTesoreria *)getRecord(); }
 /*>>>>>FRMEDITCUENTATESORERIA_CLASS*/
-/*<<<<<FRMEDITCUENTATESORERIA_VIRTUALS_FROM_FRMEDITREC*/
+    /*<<<<<FRMEDITCUENTATESORERIA_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 /*>>>>>FRMEDITCUENTATESORERIA_VIRTUALS_FROM_FRMEDITREC*/
-/*<<<<<FRMEDITCUENTATESORERIA_CONTROLS*/
+    /*<<<<<FRMEDITCUENTATESORERIA_CONTROLS*/
 protected:
 	gong::EditBox *editDebe;
 	gong::EditBox *editHaber;
@@ -52,9 +52,9 @@ protected:
 	gong::EditBox *editFechaSaldoInicial;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITCUENTATESORERIA_CONTROLS*/
-	Variant mSaveSaldoInicial, mSaveSaldo;
+    Variant mSaveSaldoInicial, mSaveSaldo;
     class FrmEditApunteTesoreria *pFrmApunteTesoreria;
-	
+
 };
 /*<<<<<FRMEDITCUENTATESORERIA_POSTAMBLE*/
 } // namespace tesoreria

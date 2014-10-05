@@ -150,7 +150,9 @@ public:
     bool readMachineSettings( const Xtring &filename);
     bool readUserLocalSettings( const Xtring &filename);
     bool readDatabaseSettings(const Xtring &tablename, const Xtring &filter);
-    const dbModuleSetting *getModuleSettings() const { return pModuleSettings; }
+    const dbModuleSetting *getModuleSettings() const {
+        return pModuleSettings;
+    }
 
 public:	// Edit forms
     enum EditFlags {
@@ -254,7 +256,7 @@ public:	// Edit forms
         return mDetailTables;
     }
     static long version2Long( const Xtring &version );
-	
+
 protected:
     dbConnection *pConnection;
     dbDefinition *pDatabase;
@@ -265,7 +267,7 @@ protected:
     bool mDatabaseChanged;
     bool mReadOnly;
     Xtring mDbUser, mDbHost, mDbUserPassword, mReportsLocalPath, mReportsGlobalPath;
-	dbModuleSetting *pModuleSettings;
+    dbModuleSetting *pModuleSettings;
     static XtringList mMasterTables, mDetailTables;
     static Xtring sCodeNotFound, sDescNotFound, sClipBoardContent;
     static List<dbRecordID> sSeekCodeRecordIDs;

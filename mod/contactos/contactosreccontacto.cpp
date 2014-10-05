@@ -297,10 +297,10 @@ Xtring RecContacto::normalizaEmpresa(const Xtring& nombre, bool force )
         return nombre;
     switch( formato ) {
     case 1: // Programación Social, S.Coop
-		formato = 1;
+        formato = 1;
         break;
     case 2: // PROGRAMACIÓN SOCIAL, S.Coop
-		formato = 3;
+        formato = 3;
         break;
     }
     Xtring ret = normalizaNombreOEmpresa(formato, nombre, force);
@@ -329,7 +329,7 @@ Xtring RecContacto::normalizaEmpresa(const Xtring& nombre, bool force )
             ret = ret.mid(0, pos) + ", S. Coop.";
         else if( coletilla == "S COOP" )
             ret = ret.mid(0, pos) + ", S. Coop.";
-		// TODO Usar expresiones regulares
+        // TODO Usar expresiones regulares
     }
     if( formato == 2 )
         ret = ret.upper();
@@ -339,7 +339,7 @@ Xtring RecContacto::normalizaEmpresa(const Xtring& nombre, bool force )
 Xtring RecContacto::normalizaNombre(const Xtring& nombre, bool force)
 {
     int formato = ModuleInstance->getModuleSetting("FORMATO_NOMBRE").toInt();
-	return normalizaNombreOEmpresa( formato, nombre, force );
+    return normalizaNombreOEmpresa( formato, nombre, force );
 }
 
 

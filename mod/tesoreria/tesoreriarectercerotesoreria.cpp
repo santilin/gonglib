@@ -3,7 +3,7 @@
 /*>>>>>TERCEROTESORERIA_INCLUDES*/
 
 /*<<<<<MODULE_INFO*/
-// COPYLEFT Registro de 
+// COPYLEFT Registro de
 // TYPE dbRecord tesoreria::TerceroTesoreria
 /*>>>>>MODULE_INFO*/
 

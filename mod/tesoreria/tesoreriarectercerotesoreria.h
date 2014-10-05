@@ -33,7 +33,7 @@ public:
 	RecTerceroTesoreria(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("TERCEROTESORERIA"), recid, user)
 /*>>>>>TERCEROTESORERIA_CONSTRUCTOR*/
-	{};
+    {};
 }; // end class
 
 /*<<<<<TERCEROTESORERIA_POSTAMBLE*/

@@ -15,7 +15,7 @@ namespace factu {
 
 void FrmEditEmpresaBehavior::initGUI()
 {
-/*<<<<<FRMEDITEMPRESABEHAVIOR_INITGUI*/
+    /*<<<<<FRMEDITEMPRESABEHAVIOR_INITGUI*/
 	QWidget *pControlsFrame = getControlsFrame();
 	QVBoxLayout* pControlsLayout = getControlsLayout();
 	QWidget *tabFactu = getOrCreateTab( "tabFactu" );
@@ -24,8 +24,9 @@ void FrmEditEmpresaBehavior::initGUI()
 	checkRecargoEquivalencia = pTheForm->addCheckField( tabFactu, "EMPRESA", "RECARGOEQUIVALENCIA", recargoequivalenciaLayout );
 	tabFactuLayout->addLayout( recargoequivalenciaLayout );
 /*>>>>>FRMEDITEMPRESABEHAVIOR_INITGUI*/
-	(void)pControlsFrame; (void)pControlsLayout;
-	pTheForm->setTabTitle( tabFactu, _("Facturación") );
+    (void)pControlsFrame;
+    (void)pControlsLayout;
+    pTheForm->setTabTitle( tabFactu, _("Facturación") );
 }
 
 void FrmEditEmpresaBehavior::scatterFields( bool is_pre )

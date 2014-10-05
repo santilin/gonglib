@@ -38,7 +38,8 @@ struct stReportInfo {
 };
 typedef std::vector<stReportInfo> ReportsList;
 enum RTK_Output_Type { RTK_Screen = 0, RTK_Printer_Without_Dialog, RTK_Printer_With_Dialog,
-	RTK_PDF, RTK_OpenOffice_Calc, RTK_CSV, RTK_PostScript, RTK_Text, RTK_GNumeric,  };
+                       RTK_PDF, RTK_OpenOffice_Calc, RTK_CSV, RTK_PostScript, RTK_Text, RTK_GNumeric,
+                     };
 
 class AppReport : public RTK::Report
 {
@@ -60,14 +61,30 @@ public:
     }
     static void readAllReports( bool force = false );
     static int readReportsFromPath(const Xtring &pathorig, ReportsList &reportslist = mReportsList );
-    static const ReportsList &getReportsList() { return mReportsList; }
-    static void clearList() { mReportsList.clear(); }
-    static Xtring getReportSubTitle() { return sReportSubTitle; }
-    static void setReportSubTitle( const Xtring &title ) { sReportSubTitle = title; }
-    static Xtring getReportAuthor() { return sReportAuthor; }
-    static void setReportAuthor( const Xtring &title ) { sReportAuthor = title; }
-    static Xtring getReportCompany() { return sReportCompany; }
-    static void setReportCompany( const Xtring &title ) { sReportCompany = title; }
+    static const ReportsList &getReportsList() {
+        return mReportsList;
+    }
+    static void clearList() {
+        mReportsList.clear();
+    }
+    static Xtring getReportSubTitle() {
+        return sReportSubTitle;
+    }
+    static void setReportSubTitle( const Xtring &title ) {
+        sReportSubTitle = title;
+    }
+    static Xtring getReportAuthor() {
+        return sReportAuthor;
+    }
+    static void setReportAuthor( const Xtring &title ) {
+        sReportAuthor = title;
+    }
+    static Xtring getReportCompany() {
+        return sReportCompany;
+    }
+    static void setReportCompany( const Xtring &title ) {
+        sReportCompany = title;
+    }
 
     /* Looks for a property in the whole report, usually called from formulae */
     virtual Variant getExternalPropertyValue(const Xtring &propname) const; // from Report
@@ -76,7 +93,7 @@ public:
 private:
     ReportViewer *mViewer;
     static ReportsList mReportsList;
-	dbConnection *pConnection;
+    dbConnection *pConnection;
     RTK::Input *pGongInput;
     const dbApplication &mdbApp;
     static Xtring sReportAuthor, sReportCompany, sReportSubTitle;

@@ -25,7 +25,7 @@ class SettingsTree: public QTreeWidget
 
 public:
     SettingsTree(QWidget *parent = 0);
-	QTreeWidgetItem *findText( const Xtring &text, uint column, QTreeWidgetItem *start );
+    QTreeWidgetItem *findText( const Xtring &text, uint column, QTreeWidgetItem *start );
 
     QSize sizeHint() const;
 

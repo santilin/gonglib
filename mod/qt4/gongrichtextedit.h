@@ -41,11 +41,15 @@ public:
     void setCustomStyles( const XtringList &customstyles );
     QString getText() const;
     void setText( const QString &text );
-	bool wasCancelled() const { return mWasCancelled; }
-	bool isEdited() const;
-	void setEdited( bool e );
-	bool isJustEdited() const;
-	void setJustEdited( bool je ) { mJustEdited = je; }
+    bool wasCancelled() const {
+        return mWasCancelled;
+    }
+    bool isEdited() const;
+    void setEdited( bool e );
+    bool isJustEdited() const;
+    void setJustEdited( bool je ) {
+        mJustEdited = je;
+    }
 
 protected:
     virtual void closeEvent(QCloseEvent *e);
@@ -55,7 +59,7 @@ protected:
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
 signals:
-	void validate(QWidget *sender, bool *isvalid);
+    void validate(QWidget *sender, bool *isvalid);
 
 private:
     void setup();
@@ -90,10 +94,10 @@ private slots:
 
     void clipboardDataChanged();
     void printPreview(QPrinter *);
-	void textHasChanged();
+    void textHasChanged();
 
-	void accept_clicked();
-	void cancel_clicked();
+    void accept_clicked();
+    void cancel_clicked();
 
 private:
     void fontChanged(const QFont &f);

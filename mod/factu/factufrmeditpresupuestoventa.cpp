@@ -137,7 +137,7 @@ FrmEditPresupuestoVenta::FrmEditPresupuestoVenta(FrmEditRec *parentfrm, dbRecord
     editTipoDocCodigo->setWidthInChars(8);
     editClienteCodigo->setWidthInChars(8);
     editAgenteCodigo->setWidthInChars(8);
-	editNotas->setHeightInLines(3);
+    editNotas->setHeightInLines(3);
     editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
 }
 

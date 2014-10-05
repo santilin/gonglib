@@ -45,7 +45,7 @@ void FugitImporter::addMessage(const Xtring &message) const
         if( TextEdit *te = dynamic_cast<TextEdit *>(pWidgetMessages) ) {
             /// TODO: rename appendPlainText to append
             te->appendPlainText( toGUI(message) );
-			DBAPP->processEvents();
+            DBAPP->processEvents();
         }
     }
     _GONG_DEBUG_PRINT( 4, message );
@@ -375,7 +375,7 @@ bool FugitImporter::importRecord( const Xtring &tablename )
             addMessage( mRecError );
     }
     _GONG_DEBUG_PRINT(6, Xtring::printf("RecordIDMap_%s[%d]=%d", mCurTable.c_str(), oldid, existingid ) );
-	ImportTableInfo iti = mFilesInfo[mCurTable];
+    ImportTableInfo iti = mFilesInfo[mCurTable];
     iti.mRecordIDMap[oldid] = existingid;
     mRecToString.clear();
     mRecError.clear();
@@ -400,9 +400,9 @@ bool FugitImporter::importDetalle( const Xtring &tablename )
  */
 void FugitImporter::actRelations(dbRecord *rec)
 {
-	for( dbFieldDefinitionDict::const_iterator fldit = rec->getTableDefinition()->getFieldDefinitions().begin();
-		fldit != rec->getTableDefinition()->getFieldDefinitions().end(); ++fldit ) {
-		const dbFieldDefinition *flddef = fldit->second;
+    for( dbFieldDefinitionDict::const_iterator fldit = rec->getTableDefinition()->getFieldDefinitions().begin();
+            fldit != rec->getTableDefinition()->getFieldDefinitions().end(); ++fldit ) {
+        const dbFieldDefinition *flddef = fldit->second;
         const Xtring &reference = flddef->getReference();
         if( !reference.isEmpty() && !flddef->getName().startsWith("REC_") ) {
             Xtring relTable = dbFieldDefinition::extractTableName( reference );

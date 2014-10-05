@@ -155,8 +155,8 @@ Xtring FileUtils::findInPath(const Xtring &path, const Xtring &file, const Xtrin
     if( path.tokenize(paths, ":") != 0 ) {
         for( XtringList::iterator it = paths.begin(); it!=paths.end(); ++it ) {
             Xtring onepath = *it;
-			if( it->isEmpty() )
-				continue;
+            if( it->isEmpty() )
+                continue;
             if( !onepath.endsWith( "/" ) )
                 onepath += "/";
             foundfile = onepath + file;
@@ -210,8 +210,8 @@ int FileUtils::execProcess(const Xtring& _command, Xtring& messages, Xtring& err
     if( &errors != &Xtring::null ) {
         errors = FileUtils::readFile( tmpfilename );
         unlink( tmpfilename.c_str() );
-		if( !errors.isEmpty() )
-			_GONG_DEBUG_WARNING( errors );
+        if( !errors.isEmpty() )
+            _GONG_DEBUG_WARNING( errors );
     }
     return ret;
 }

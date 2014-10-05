@@ -34,7 +34,7 @@ public:
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("FORMAPAGO"), recid, user)
 /*>>>>>FORMAPAGO_CONSTRUCTOR*/
     {}
-/*<<<<<FORMAPAGO_RELATIONS*/
+    /*<<<<<FORMAPAGO_RELATIONS*/
 #ifdef HAVE_TESORERIAMODULE
 	tesoreria::RecCuentaTesoreria *getRecCuentaTesoreria() const;
 #endif

@@ -72,8 +72,8 @@ public:
     bool deleteField( const Xtring &name );
 
     dbRelationDefinition *addRelationDefinition( const dbRelationDefinition::Type& type,
-                                       const Xtring &lefttable, const Xtring &leftfield,
-                                       const Xtring &righttable, const Xtring &rightfield );
+            const Xtring &lefttable, const Xtring &leftfield,
+            const Xtring &righttable, const Xtring &rightfield );
     dbIndexDefinition *addIndex( const dbIndexDefinition *idxdef );
     dbIndexDefinition *addIndex( const dbFieldDefinition *flddef );
     dbIndexDefinition *addMultipleIndex( const char *name, const Xtring &fields, bool unique = false );

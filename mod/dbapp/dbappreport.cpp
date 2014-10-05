@@ -39,7 +39,7 @@ private:
 
 void ReportViewer::keyPressEvent( QKeyEvent *ke )
 {
-	_GONG_DEBUG_PRINT(0, ke->key() );
+    _GONG_DEBUG_PRINT(0, ke->key() );
     if( !(ke->state() & (Qt::ControlModifier | Qt::ShiftModifier | Qt::MetaModifier | Qt::AltModifier )) )
         if( ke->key() == Qt::Key_Escape ) {
             close();
@@ -96,9 +96,9 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
         title = _("Informe");
     if( !filter.isEmpty() ) /// TODO: mezclar con report.filter
         setParameterValue( "report_filter", filter );
-	setParameterValue( "COMPANY", sReportCompany );
-	setParameterValue( "AUTHOR", sReportAuthor );
-	setParameterValue( "SUBTITLE", sReportSubTitle );
+    setParameterValue( "COMPANY", sReportCompany );
+    setParameterValue( "AUTHOR", sReportAuthor );
+    setParameterValue( "SUBTITLE", sReportSubTitle );
     if ( askforparameters && getParametersCount() )  // Is there any parameter?
     {
         ReportQtFrmParams *frmparam = new ReportQtFrmParams ( *this );
@@ -229,8 +229,8 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
         for( Dictionary<Variant>::const_iterator propit = properties.begin();
                 propit != properties.end(); ++ propit ) {
             if( !setPropOrigValue( propit->first, propit->second.toString() ) )
-				if( !setParameterValue( propit->first, propit->second.toString()) )
-                _GONG_DEBUG_WARNING( "Neither property nor parameter '" + propit->first + "'  found in report" );
+                if( !setParameterValue( propit->first, propit->second.toString()) )
+                    _GONG_DEBUG_WARNING( "Neither property nor parameter '" + propit->first + "'  found in report" );
         }
         try {
             ret = Report::print ( pGongInput, salida );
@@ -334,18 +334,18 @@ int AppReport::readAndPrint(RTK_Output_Type tiposalida, const Xtring& rtkfilenam
     if( ret ) {
         ret = print( tiposalida, properties, filter, Xtring::null,
                      po, askforparameters );
-	}
-	if( !ret ) {
-		if ( errorsCount() != 0 ) {
-			FrmBase::msgError( DBAPP->getPackageString(), Xtring::printf(
-							_( "En el informe %.100s:\n%s" ),
-							rtkfilename.c_str(), lastError()->message() ) );
-		} else {
-			FrmBase::msgError( DBAPP->getPackageString(), Xtring::printf(
-						_( "Imposible encontrar el informe %s.\nBuscando en %s" ),
-						rtkfilename.c_str(),
-						paths.replace( ":", "\n" ).c_str() ) );
-		}
+    }
+    if( !ret ) {
+        if ( errorsCount() != 0 ) {
+            FrmBase::msgError( DBAPP->getPackageString(), Xtring::printf(
+                                   _( "En el informe %.100s:\n%s" ),
+                                   rtkfilename.c_str(), lastError()->message() ) );
+        } else {
+            FrmBase::msgError( DBAPP->getPackageString(), Xtring::printf(
+                                   _( "Imposible encontrar el informe %s.\nBuscando en %s" ),
+                                   rtkfilename.c_str(),
+                                   paths.replace( ":", "\n" ).c_str() ) );
+        }
     }
     DBAPP->resetCursor();
     return ret;
@@ -506,13 +506,13 @@ Variant AppReport::getExternalPropertyValue( const Xtring &propname ) const
 
 Variant AppReport::callExternalFunction(const Xtring& _function, Variant& value1, Variant &value2)
 {
-	const char *function = _function.c_str();
-	if( strcasecmp( function, "getDisplayValue") == 0 ) {
-		const dbFieldDefinition *flddef = DBAPP->getDatabase()->findFieldDefinition( value1.toString() );
-		return flddef->getDisplayValue( value2 );
-	}
-	_GONG_DEBUG_WARNING( "Function " + _function + " not found" );
-	return Report::callExternalFunction( _function, value1, value2 );
+    const char *function = _function.c_str();
+    if( strcasecmp( function, "getDisplayValue") == 0 ) {
+        const dbFieldDefinition *flddef = DBAPP->getDatabase()->findFieldDefinition( value1.toString() );
+        return flddef->getDisplayValue( value2 );
+    }
+    _GONG_DEBUG_WARNING( "Function " + _function + " not found" );
+    return Report::callExternalFunction( _function, value1, value2 );
 }
 
 Xtring AppReport::fromViewDefinition( const dbViewDefinition* viewdef, bool totals ) const

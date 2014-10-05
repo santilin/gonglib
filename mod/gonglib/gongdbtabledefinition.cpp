@@ -48,7 +48,7 @@ dbTableDefinition::dbTableDefinition( dbDefinition &db, const Xtring& name,
                                       const Xtring& from, const Xtring& where,
                                       const Xtring& orderby, const Xtring& groupby )
     : mdbDefinition( db ), mName( name ), mFemenina( true ), mTemporary( false ),
-    mFrom( from ), mWhere( where ), mOrderBy( orderby ), mGroupBy( groupby )
+      mFrom( from ), mWhere( where ), mOrderBy( orderby ), mGroupBy( groupby )
 {
     if ( mDescSingular.isEmpty() )
         mDescSingular = name.proper();
@@ -64,29 +64,29 @@ dbTableDefinition::dbTableDefinition( const dbTableDefinition &other )
     // We use the integer iterator because we don't want them in alpha order
     for( std::size_t f = 0; f < other.mFieldDefinitions.size(); f++ ) {
         dbFieldDefinition *flddefcloned = other.mFieldDefinitions.seq_at(f)->clone();
-		mFieldDefinitions.insert( other.mFieldDefinitions.getKey( f ), flddefcloned );
+        mFieldDefinitions.insert( other.mFieldDefinitions.getKey( f ), flddefcloned );
     }
     for( std::size_t i = 0; i < other.mIndexDefinitions.size(); i++ ) {
         dbIndexDefinition *idxdef = new dbIndexDefinition( *other.mIndexDefinitions[i] );
         mIndexDefinitions.push_back( idxdef );
     }
     for( std::size_t r = 0; r < other.mRelationDefinitions.size(); r++ ) {
-		dbRelationDefinition *reldef = new dbRelationDefinition( *other.mRelationDefinitions.seq_at(r) );
-		mRelationDefinitions.insert( other.mRelationDefinitions.getKey(r), reldef );
-	}
+        dbRelationDefinition *reldef = new dbRelationDefinition( *other.mRelationDefinitions.seq_at(r) );
+        mRelationDefinitions.insert( other.mRelationDefinitions.getKey(r), reldef );
+    }
 }
 
 dbTableDefinition::~dbTableDefinition()
 {
-	for( dbRelationDefinitionDict::const_iterator relit = mRelationDefinitions.begin();
-		relit != mRelationDefinitions.end(); ++relit ) 
-			delete relit->second;
-	for( dbIndexDefinitionList::const_iterator idxit = mIndexDefinitions.begin();
-		idxit != mIndexDefinitions.end(); ++idxit ) 
-		delete *idxit;
-	for( dbFieldDefinitionDict::const_iterator fldit = mFieldDefinitions.begin();
-		fldit != mFieldDefinitions.end(); ++fldit ) 
-		delete fldit->second;
+    for( dbRelationDefinitionDict::const_iterator relit = mRelationDefinitions.begin();
+            relit != mRelationDefinitions.end(); ++relit )
+        delete relit->second;
+    for( dbIndexDefinitionList::const_iterator idxit = mIndexDefinitions.begin();
+            idxit != mIndexDefinitions.end(); ++idxit )
+        delete *idxit;
+    for( dbFieldDefinitionDict::const_iterator fldit = mFieldDefinitions.begin();
+            fldit != mFieldDefinitions.end(); ++fldit )
+        delete fldit->second;
 }
 
 void dbTableDefinition::clearFields()
@@ -230,9 +230,9 @@ bool dbTableDefinition::create( dbConnection *conn, bool ifnotexists,
     if( mTemporary )
         extraargs += " TEMPORARY";
     Xtring fieldsdef, tabledef = "CREATE";
-	if( !extraargs.isEmpty() )
-		tabledef += " " + extraargs;
-	tabledef += " TABLE ";
+    if( !extraargs.isEmpty() )
+        tabledef += " " + extraargs;
+    tabledef += " TABLE ";
     if ( conn->isMySQL() && ifnotexists )
         tabledef += "IF NOT EXISTS ";
     tabledef += conn->nameToSQL( getName() ) + "(";
@@ -253,14 +253,14 @@ bool dbTableDefinition::createIndexes( dbConnection *conn, bool ignoreerrors )
     for ( unsigned int i = 0; i < getFieldDefinitions().size(); i++ ) {
         dbFieldDefinition *flddef = getFieldDefinition( i );
         if ( flddef->isUnique() && !flddef->isPrimaryKey() ) {
-			if( conn->isMySQL() ) {
-				// The index may not exists
-				conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + flddef->getName(), true );
-				conn->exec( "ALTER TABLE " + getName() + " ADD UNIQUE INDEX (" + flddef->getName() + ")", true );
-			} else if( conn->isSQLite() ) {
-				conn->exec( "DROP INDEX IF EXISTS " + getName() + "_" + flddef->getName(), true );
-				conn->exec( "CREATE UNIQUE INDEX " + getName() + "_" + flddef->getName() + " ON " + getName() + "(" + flddef->getName() + ")", true );
-			}
+            if( conn->isMySQL() ) {
+                // The index may not exists
+                conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + flddef->getName(), true );
+                conn->exec( "ALTER TABLE " + getName() + " ADD UNIQUE INDEX (" + flddef->getName() + ")", true );
+            } else if( conn->isSQLite() ) {
+                conn->exec( "DROP INDEX IF EXISTS " + getName() + "_" + flddef->getName(), true );
+                conn->exec( "CREATE UNIQUE INDEX " + getName() + "_" + flddef->getName() + " ON " + getName() + "(" + flddef->getName() + ")", true );
+            }
         }
     }
     for ( unsigned int i = 0; i < getIndexDefinitions().size(); i++ ) {
@@ -283,10 +283,10 @@ bool dbTableDefinition::dropIndexes( dbConnection *conn, bool removeall, bool ig
     for ( unsigned int i = 0; i < getFieldDefinitions().size(); i++ ) {
         dbFieldDefinition *flddef = getFieldDefinition( i );
         if ( flddef->isUnique() && !flddef->isPrimaryKey() ) {
-			if( conn->isSQLite() )
-				conn->exec( "DROP INDEX IF EXISTS " + getName() + "_" + flddef->getName(), ignoreerrors );
-			else
-				conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + flddef->getName(), ignoreerrors );
+            if( conn->isSQLite() )
+                conn->exec( "DROP INDEX IF EXISTS " + getName() + "_" + flddef->getName(), ignoreerrors );
+            else
+                conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + flddef->getName(), ignoreerrors );
         }
     }
     for ( unsigned int i = 0; i < getIndexDefinitions().size(); i++ ) {
@@ -296,14 +296,14 @@ bool dbTableDefinition::dropIndexes( dbConnection *conn, bool removeall, bool ig
     // Remove any remaining index with _gong_ prefix
     dbResultSet *rsIndexes = conn->select( "SHOW INDEXES FROM " + getName() );
     while( rsIndexes->next() ) {
-		int name_pos = conn->isSQLite() ? 0 : 2;
+        int name_pos = conn->isSQLite() ? 0 : 2;
         Xtring idxname = rsIndexes->toString( name_pos );
         if (( removeall || idxname.startsWith( _GONG_INDEX_PREFIX ) ) && idxname != "PRIMARY" ) {
-			if( conn->isSQLite() )
-				conn->exec( "DROP INDEX IF EXISTS " + idxname, ignoreerrors );
-			else
-				conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + idxname, ignoreerrors );
-		}
+            if( conn->isSQLite() )
+                conn->exec( "DROP INDEX IF EXISTS " + idxname, ignoreerrors );
+            else
+                conn->exec( "ALTER TABLE " + getName() + " DROP INDEX " + idxname, ignoreerrors );
+        }
     }
     /// FIXME: {autodelete} Check if this resultsets are deleted when an exception is issued
     delete rsIndexes;
@@ -314,11 +314,11 @@ bool dbTableDefinition::dropIndex(dbConnection* conn, const Xtring& indexname, b
 {
     for ( unsigned int i = 0; i < getIndexDefinitions().size(); i++ ) {
         dbIndexDefinition *idxdef = getIndexDefinition( i );
-		if( idxdef->getName() == indexname || getName() + "_" + idxdef->getName() == indexname ) {
-			return idxdef->drop( conn, this, ignoreerrors );
-		}
-	}
-	return false;
+        if( idxdef->getName() == indexname || getName() + "_" + idxdef->getName() == indexname ) {
+            return idxdef->drop( conn, this, ignoreerrors );
+        }
+    }
+    return false;
 }
 
 
@@ -345,40 +345,40 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
                 tmpflags |= dbFieldDefinition::UNIQUE;
             if ( rsFields->toString( 3 ) == "PRI" ) {
                 tmpflags |= dbFieldDefinition::PRIMARYKEY;
-				tbldef->mFldIDName = fldname;
-			}
+                tbldef->mFldIDName = fldname;
+            }
             if ( rsFields->toString( 5 ) == "auto_increment" )
                 tmpflags |= dbFieldDefinition::SEQUENCE;
             dbFieldDefinition *flddef = new dbFieldDefinition(
                 tblname, fldname, t, w, d,
                 tmpflags, // null, primarykey, ...
                 rsFields->toString( 4 ) ); // default value
-			flddef->setOrigDDL( rsFields->toString(1) );
+            flddef->setOrigDDL( rsFields->toString(1) );
             flddef->setCaption( fldname.proper() );
             flddef->setDescription( tblname + "." + fldname );
             tbldef->addField( flddef );
         }
-		Xtring createtablesql = conn->selectString( "SHOW CREATE TABLE " + conn->nameToSQL( tblname ), 1 );
-		// Esta expresión regular da error ocasionalmente con las pocolib
+        Xtring createtablesql = conn->selectString( "SHOW CREATE TABLE " + conn->nameToSQL( tblname ), 1 );
+        // Esta expresión regular da error ocasionalmente con las pocolib
 //		RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+");
-		// Esta es la original
-		RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+([^\\(^\\s]+)\\s*\\(([^\\)]+)\\)");
-		// Read primary keys to get the relations
-		Xtring::size_type pos = 0;
-		RegExpMatchList matches;
-		RegExpIterator res(createtablesql.begin(), createtablesql.end(), r), end;
-		for (; res != end; ++res) {
-			Xtring leftfield = (*res)[1].str();
-			Xtring righttable = (*res)[2].str();
-			Xtring rightfield = (*res)[3].str();
-			_GONG_DEBUG_PRINT(4, Xtring::printf("Matched %s, %s,%s,%s",
-												(*res)[0].str().c_str(), leftfield.c_str(),
-												righttable.c_str(), rightfield.c_str()));
-			tbldef->addRelationDefinition(dbRelationDefinition::one2one, tblname, leftfield.replace("`",""),
-										  righttable.replace("`",""), rightfield.replace("`","") );
-		}
+        // Esta es la original
+        RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+([^\\(^\\s]+)\\s*\\(([^\\)]+)\\)");
+        // Read primary keys to get the relations
+        Xtring::size_type pos = 0;
+        RegExpMatchList matches;
+        RegExpIterator res(createtablesql.begin(), createtablesql.end(), r), end;
+        for (; res != end; ++res) {
+            Xtring leftfield = (*res)[1].str();
+            Xtring righttable = (*res)[2].str();
+            Xtring rightfield = (*res)[3].str();
+            _GONG_DEBUG_PRINT(4, Xtring::printf("Matched %s, %s,%s,%s",
+                                                (*res)[0].str().c_str(), leftfield.c_str(),
+                                                righttable.c_str(), rightfield.c_str()));
+            tbldef->addRelationDefinition(dbRelationDefinition::one2one, tblname, leftfield.replace("`",""),
+                                          righttable.replace("`",""), rightfield.replace("`","") );
+        }
     } else if( conn->isSQLite() ) {
-		std::auto_ptr<dbResultSet> rsFields( conn->select( "PRAGMA table_info(" + tblname + ")" ) );
+        std::auto_ptr<dbResultSet> rsFields( conn->select( "PRAGMA table_info(" + tblname + ")" ) );
         tbldef = new dbTableDefinition( db, tblname );
         tbldef->setDescSingular( db.getName() + "." + tblname + " from SQL Schema" );
         tbldef->mFrom = tblname;
@@ -398,7 +398,7 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
             tbldef->addField( flddef );
         }
 
-	}
+    }
     return tbldef;
 }
 
@@ -421,13 +421,13 @@ Xtring dbTableDefinition::sameSQLSchema( const dbTableDefinition *other, dbConne
         if ( !existe  )  {
             ret += "ALTER TABLE " + getName() + " ADD COLUMN "
                    + flddef->getName() + " " + flddef->toDDL( conn );
-			if (!conn->isSQLite() ) {
-				if ( nf == 0 )
-					ret += " FIRST;";
-				else
-					ret += " AFTER " + getFieldDefinition( nf - 1 )->getName() + ";";
-			}
-			ret.append("\n");
+            if (!conn->isSQLite() ) {
+                if ( nf == 0 )
+                    ret += " FIRST;";
+                else
+                    ret += " AFTER " + getFieldDefinition( nf - 1 )->getName() + ";";
+            }
+            ret.append("\n");
         }
     }
     if( purging ) {
@@ -567,17 +567,17 @@ std::ostream &operator<<( std::ostream &out, const dbTableDefinition &tbldef )
     out << "DBDEF.TABLE." << tbldef.getName() << ".DESC_SINGULAR(string)=\"" << tbldef.getDescSingular() << "\";" << std::endl;
     out << "DBDEF.TABLE." << tbldef.getName() << ".DESC_PLURAL(string)=\"" << tbldef.getDescPlural() << "\";" << std::endl;
     out << "DBDEF.TABLE." << tbldef.getName() << ".FEMENINA(bool)=\"" << ( tbldef.isFemenina() ? "true" : "false" ) << "\";" << std::endl;
-	for( dbFieldDefinitionDict::const_iterator fldit = tbldef.getFieldDefinitions().begin();
-		fldit != tbldef.getFieldDefinitions().end(); ++fldit ) 
+    for( dbFieldDefinitionDict::const_iterator fldit = tbldef.getFieldDefinitions().begin();
+            fldit != tbldef.getFieldDefinitions().end(); ++fldit )
         out << fldit->second;
     out << "\t\tRelations" << std::endl;
-	for( dbRelationDefinitionDict::const_iterator relit = tbldef.getRelationDefinitions().begin();
-		relit != tbldef.getRelationDefinitions().end(); ++relit ) 
-		out << relit->second;
+    for( dbRelationDefinitionDict::const_iterator relit = tbldef.getRelationDefinitions().begin();
+            relit != tbldef.getRelationDefinitions().end(); ++relit )
+        out << relit->second;
     out << "\t\tIndexes" << std::endl;
-	for( dbIndexDefinitionList::const_iterator idxit = tbldef.getIndexDefinitions().begin();
-		idxit != tbldef.getIndexDefinitions().end(); ++idxit ) 
-		out << *idxit;
+    for( dbIndexDefinitionList::const_iterator idxit = tbldef.getIndexDefinitions().begin();
+            idxit != tbldef.getIndexDefinitions().end(); ++idxit )
+        out << *idxit;
     return out;
 }
 #endif
@@ -585,22 +585,22 @@ std::ostream &operator<<( std::ostream &out, const dbTableDefinition &tbldef )
 
 const Xtring& dbTableDefinition::getCodeField() const
 {
-	dbFieldDefinition *fld = findFieldByFlags( dbFieldDefinition::CODE );
-	if( fld ) {
-		return fld->getName();
-	} else {
-		return Xtring::null;
-	}
+    dbFieldDefinition *fld = findFieldByFlags( dbFieldDefinition::CODE );
+    if( fld ) {
+        return fld->getName();
+    } else {
+        return Xtring::null;
+    }
 }
 
 const Xtring& dbTableDefinition::getDescField() const
 {
-	dbFieldDefinition *fld = findFieldByFlags( dbFieldDefinition::DESCRIPTION );
-	if( fld ) {
-		return fld->getName();
-	} else {
-		return Xtring::null;
-	}
+    dbFieldDefinition *fld = findFieldByFlags( dbFieldDefinition::DESCRIPTION );
+    if( fld ) {
+        return fld->getName();
+    } else {
+        return Xtring::null;
+    }
 }
 
 

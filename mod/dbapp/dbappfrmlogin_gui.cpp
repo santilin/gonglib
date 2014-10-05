@@ -24,12 +24,12 @@ GuiFrmLogin::GuiFrmLogin( QWidget* parent, const char* name, WidgetFlags fl )
 {
     if ( !name )
         setName( "GuiFrmLogin" );
-	if( !image0.load( toGUI(DBAPP->getGonglibDataDir() + Xtring(DBAPP->getPackageName()).lower() + "logo.jpg") ) )
-		image0.load( toGUI(DBAPP->getGonglibDataDir() + "dbapp/logogestiong.jpg") );
+    if( !image0.load( toGUI(DBAPP->getGonglibDataDir() + Xtring(DBAPP->getPackageName()).lower() + "logo.jpg") ) )
+        image0.load( toGUI(DBAPP->getGonglibDataDir() + "dbapp/logogestiong.jpg") );
 
-	QVBoxLayout *formLayout = new QVBoxLayout( this );
+    QVBoxLayout *formLayout = new QVBoxLayout( this );
 
-	pTabWidget = new QTabWidget( this );
+    pTabWidget = new QTabWidget( this );
 
     pageConexion = new QWidget( this, "pageConexion" );
     pageConexionLayout = new QVBoxLayout( pageConexion );
@@ -77,11 +77,11 @@ GuiFrmLogin::GuiFrmLogin( QWidget* parent, const char* name, WidgetFlags fl )
 
     layout95 = new QHBoxLayout();
 
-	groupBox2 = new QGroupBox( pageConexion, "groupBox2" );
+    groupBox2 = new QGroupBox( pageConexion, "groupBox2" );
 //     groupBox2->setColumnLayout(0, Qt::Vertical );
 //     groupBox2->layout()->setSpacing( 6 );
 //     groupBox2->layout()->setMargin( 11 );
-	groupBox2Layout = new QVBoxLayout( groupBox2 );
+    groupBox2Layout = new QVBoxLayout( groupBox2 );
     groupBox2Layout->setAlignment( Qt::AlignTop );
 
     layout94 = new QVBoxLayout();
@@ -121,7 +121,7 @@ GuiFrmLogin::GuiFrmLogin( QWidget* parent, const char* name, WidgetFlags fl )
 //     groupBox1->layout()->setSpacing( 6 );
 //     groupBox1->layout()->setMargin( 11 );
     groupBox1Layout = new QVBoxLayout( groupBox1 );
-	groupBox1Layout->setAlignment( Qt::AlignTop );
+    groupBox1Layout->setAlignment( Qt::AlignTop );
 
     layout46 = new QVBoxLayout();
 
@@ -176,7 +176,7 @@ GuiFrmLogin::GuiFrmLogin( QWidget* parent, const char* name, WidgetFlags fl )
     layout95->addWidget( groupBox1 );
     layout96->addLayout( layout95 );
     pageConexionLayout->addLayout( layout96 );
-	pTabWidget->addTab( pageConexion, toGUI(_("Conexión") ) );
+    pTabWidget->addTab( pageConexion, toGUI(_("Conexión") ) );
 
     pageCreaDB = new QWidget( this, "pageCreaDB" );
     pageCreaDBLayout = new QVBoxLayout( pageCreaDB );
@@ -327,19 +327,19 @@ GuiFrmLogin::GuiFrmLogin( QWidget* parent, const char* name, WidgetFlags fl )
     pageCreaDBLayout->addLayout( layout109 );
     pTabWidget->addTab( pageCreaDB, toGUI( _("Crear") ) );
 
-	pTabWidget->setTabEnabled( 1, false );
+    pTabWidget->setTabEnabled( 1, false );
 
     languageChange();
     resize( QSize(694, 523).expandedTo(minimumSizeHint()) );
 
-	formLayout->addWidget( pTabWidget );
+    formLayout->addWidget( pTabWidget );
     QHBoxLayout *pButtonsLayout = new QHBoxLayout();
     QDialogButtonBox *buttonBox = new QDialogButtonBox(
         QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this );
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     pButtonsLayout->addWidget( buttonBox );
-	formLayout->addLayout( pButtonsLayout );
+    formLayout->addLayout( pButtonsLayout );
 
     editPort->setValueType( Variant::tInt );
     editPort->setMask("00000");

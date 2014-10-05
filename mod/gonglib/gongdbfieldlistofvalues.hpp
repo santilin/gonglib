@@ -17,19 +17,19 @@ namespace gong {
 
 template<>
 dbFieldListOfValues<int>::dbFieldListOfValues(const dbFieldListOfValues<int> &other)
-	: dbFieldDefinition( other ),
-	mListOfCaptions( other.mListOfCaptions ), mListOfValues( other.mListOfValues ),
-	pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
-    mInsertAllowed( other.mInsertAllowed ), mIsRef( other.mIsRef )
+    : dbFieldDefinition( other ),
+      mListOfCaptions( other.mListOfCaptions ), mListOfValues( other.mListOfValues ),
+      pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
+      mInsertAllowed( other.mInsertAllowed ), mIsRef( other.mIsRef )
 {
 }
 
 template<>
 dbFieldListOfValues<Xtring>::dbFieldListOfValues(const dbFieldListOfValues<Xtring> &other)
-	: dbFieldDefinition( other ),
-	mListOfCaptions( other.mListOfCaptions ), mListOfValues( other.mListOfValues ),
-	pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
-    mInsertAllowed( other.mInsertAllowed ), mIsRef( other.mIsRef )
+    : dbFieldDefinition( other ),
+      mListOfCaptions( other.mListOfCaptions ), mListOfValues( other.mListOfValues ),
+      pListOfCaptions( other.pListOfCaptions ), pListOfValues( other.pListOfValues ),
+      mInsertAllowed( other.mInsertAllowed ), mIsRef( other.mIsRef )
 {
 }
 
@@ -39,7 +39,7 @@ void dbFieldListOfValues<T>::addValue(const Xtring &newcaption, const T &newvalu
     if( pListOfCaptions->contains( newcaption ) )
         return;
     pListOfCaptions->push_back( newcaption );
-	pListOfValues->push_back( newvalue );
+    pListOfValues->push_back( newvalue );
 }
 
 template<class T>
@@ -131,7 +131,7 @@ void dbFieldListOfValues<int>::setValuesFromString(const Xtring &values)
         } else {
             addValue( caption, value.toInt() );
         }
-	}
+    }
 }
 
 template<>

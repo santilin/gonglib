@@ -9,24 +9,24 @@ namespace gong {
 class RecordCompleterModel: public QAbstractListModel
 {
 public:
-	RecordCompleterModel(dbRecord *record, const Xtring &fldname, QObject *parent = 0 );
-	virtual ~RecordCompleterModel();
+    RecordCompleterModel(dbRecord *record, const Xtring &fldname, QObject *parent = 0 );
+    virtual ~RecordCompleterModel();
 
-	int rowCount( const QModelIndex & parent = QModelIndex() ) const;
-	QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
+    int rowCount( const QModelIndex & parent = QModelIndex() ) const;
+    QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 private:
-	dbResultSet *pResultSet;
+    dbResultSet *pResultSet;
 };
 
 class RecordCompleter: public QCompleter
 {
 public:
-	RecordCompleter( dbRecord *record, const Xtring &fldname, QObject *parent = 0);
-	RecordCompleter( dbDefinition *db, dbConnection *conn,
-			   const Xtring &tablename, const Xtring &fldname, QObject *parent = 0 );
-	virtual ~RecordCompleter();
+    RecordCompleter( dbRecord *record, const Xtring &fldname, QObject *parent = 0);
+    RecordCompleter( dbDefinition *db, dbConnection *conn,
+                     const Xtring &tablename, const Xtring &fldname, QObject *parent = 0 );
+    virtual ~RecordCompleter();
 private:
-	RecordCompleterModel *pRecCompModel;
+    RecordCompleterModel *pRecCompModel;
 };
 
 } // namespace gong

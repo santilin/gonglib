@@ -70,7 +70,7 @@ FrmEditPedidoCompraDet::FrmEditPedidoCompraDet(FrmEditRecMaster *frmmaster, int 
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITPEDIDOCOMPRADET_INIT_CONTROLS*/
     editNLinea->setMustBeReadOnly( true );
-	editArticuloCodigo->setWidthInChars(12);
+    editArticuloCodigo->setWidthInChars(12);
 
     pushActPrecioArticulo = new QPushButton(this, "pushActPrecioArticulo" );
     pushActPrecioArticulo->setText( toGUI( _( "Act. coste artículo" ) ) );
@@ -391,10 +391,10 @@ void FrmEditPedidoCompraDet::validateFields( QWidget *sender, bool *isvalid, Val
 
 void FrmEditPedidoCompraDet::slotActPrecioArticulo_clicked()
 {
-	if( ModuleInstance->editCostesArticulo(this, getRecArticulo(), 
-		editCosteSinIVA->toDouble() ) ) {
-		searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
-	}
+    if( ModuleInstance->editCostesArticulo(this, getRecArticulo(),
+                                           editCosteSinIVA->toDouble() ) ) {
+        searchArticuloCodigo->setValue( getRecArticulo()->getValue("CODIGO").toString() );
+    }
 }
 
 void FrmEditPedidoCompraDet::slotInsertTable_clicked()

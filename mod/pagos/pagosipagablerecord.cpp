@@ -18,17 +18,17 @@ namespace pagos {
 IPagableRecord::IPagableRecord(dbRecord* pFactura, Tipo t,
                                const Xtring& total_field, const Xtring& pagos_field,
                                const Xtring& resto_field, const XtringList& other_pagos_fields,
-							   const Xtring& tablapagos )
+                               const Xtring& tablapagos )
     : pFactura( pFactura ), mTipo( t ), mTotalField( total_field ), mPagosField( pagos_field ),
       mRestoField( resto_field ), mOtherPagosFields( other_pagos_fields )
 {
-	if( tablapagos.isEmpty() ) {
-		if( mTipo == IPagableRecord::pagos )
-			mTablaPagos = "PAGO";
-		else
-			mTablaPagos = "COBRO";
-	} else
-		mTablaPagos = tablapagos;
+    if( tablapagos.isEmpty() ) {
+        if( mTipo == IPagableRecord::pagos )
+            mTablaPagos = "PAGO";
+        else
+            mTablaPagos = "COBRO";
+    } else
+        mTablaPagos = tablapagos;
 }
 
 dbRecord *IPagableRecord::createRecibo()
@@ -64,57 +64,57 @@ int IPagableRecord::hasPagos(int estado_si, int estado_no, bool soloautomaticos)
 
 /**
  * @brief Borra los pagos de un documento
- * 
+ *
  * @param borratodos ...
  * @return bool si ha borrado alguno o no
  */
 bool IPagableRecord::delPagos( bool borratodos )
 {
-	int nrecibos = 0;
+    int nrecibos = 0;
     dbRecord *recibo = createRecibo();
     Xtring id_field = pFactura->getTableName() + "_ID";
     Xtring sql = "SELECT ID FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName())
                  + recibo->getFilter( "WHERE", getFacturaWhere() );
-				 
+
     if( !borratodos ) {
         sql += " AND ESTADORECIBO=" + pFactura->getConnection()->toSQL( PagosModule::ReciboPendiente )
-			+ " AND AUTOMATICO=1";
-	}
+               + " AND AUTOMATICO=1";
+    }
     dbResultSet *rs = pFactura->getConnection()->select( sql );
     while( rs->next() ) {
         dbRecordID pago_id = rs->toLong( 0 );
         if( recibo->read( pago_id ) ) {
-			nrecibos++;
+            nrecibos++;
             recibo->remove();
         }
     }
     delete rs;
-	if( nrecibos ) {
+    if( nrecibos ) {
         DBAPP->showStickyOSD( pFactura->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
                               Xtring::printf(_("Se han borrado <b>%d</b> recibos"), nrecibos) );
-	}		
+    }
     return nrecibos;
 }
 
 dbRecordList* IPagableRecord::getPagos( PagosModule::EstadoRecibo estado )
 {
-	dbRecordList *result = 0;
+    dbRecordList *result = 0;
     dbRecord *recibo = createRecibo();
     Xtring id_field = pFactura->getTableName() + "_ID";
     Xtring sql = "SELECT ID FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName())
                  + recibo->getFilter( "WHERE", getFacturaWhere() );
     if( estado != PagosModule::ReciboSinEstado ) {
         sql += " AND ESTADORECIBO=" + pFactura->getConnection()->toSQL( estado );
-	}
+    }
     dbResultSet *rs = pFactura->getConnection()->select( sql );
-	if( rs->getRowCount() ) {
-		result = new dbRecordList();
-		while( rs->next() ) {
-			dbRecordID pago_id = rs->toLong( 0 );
-			if( recibo->read( pago_id ) ) {
-				result->addRecord( recibo );
-			}
-		}
+    if( rs->getRowCount() ) {
+        result = new dbRecordList();
+        while( rs->next() ) {
+            dbRecordID pago_id = rs->toLong( 0 );
+            if( recibo->read( pago_id ) ) {
+                result->addRecord( recibo );
+            }
+        }
     }
     delete rs;
     return result;
@@ -132,14 +132,14 @@ void IPagableRecord::actRestoFactura()
     dbRecord *formapago = pFactura->findRelatedRecord( "FORMAPAGO_ID" );
     _GONG_DEBUG_ASSERT( formapago );
     if( formapago->getValue( "TIPOFORMAPAGO" ).toInt() != RecFormaPago::SeIgnora ) {
-		resto = pFactura->getValue( mTotalField ).toMoney();
-		Money pagos = pFactura->getValue( mPagosField ).toMoney();
-		resto = resto - pagos;
-		for( XtringList::const_iterator it = mOtherPagosFields.begin();
-				it != mOtherPagosFields.end(); ++ it ) {
-			resto = resto - pFactura->getValue( *it ).toMoney();
-		}
-	}
+        resto = pFactura->getValue( mTotalField ).toMoney();
+        Money pagos = pFactura->getValue( mPagosField ).toMoney();
+        resto = resto - pagos;
+        for( XtringList::const_iterator it = mOtherPagosFields.begin();
+                it != mOtherPagosFields.end(); ++ it ) {
+            resto = resto - pFactura->getValue( *it ).toMoney();
+        }
+    }
     pFactura->setValue( mRestoField, resto );
 }
 
@@ -183,11 +183,11 @@ int IPagableRecord::genPagos()
     }
     uint diasprimerplazo = formapago->getValue("DIASPRIMERPLAZO").toInt();
     uint diasentreplazos = formapago->getValue("DIASENTREPLAZOS").toInt();
-	// Si esto es una factura y tiene un albarán del que ya se han generado pagos, se volverían a generar los pagos de ese albarán
-	// Hay que detectar esto y restarle al resto de esta factura el importe de los pagos de ese albarán
-	// Soluciones:
-	// a) modificar el resto de la factura al añadir un albarán: es decir, 
-	
+    // Si esto es una factura y tiene un albarán del que ya se han generado pagos, se volverían a generar los pagos de ese albarán
+    // Hay que detectar esto y restarle al resto de esta factura el importe de los pagos de ese albarán
+    // Soluciones:
+    // a) modificar el resto de la factura al añadir un albarán: es decir,
+
     double importe = pFactura->getValue("RESTO").toDouble();
     // Calcular número de recibos según la forma de pago
     if( importe == 0.0 || nrecibos == 0 ) {
@@ -279,16 +279,16 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
         numeroagrupado = recibo->getValue( "NUMERO" ).toString();
 #ifdef HAVE_CONTABMODULE
     has_contab = contab::ModuleInstance->isContabActive()
-		&& recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
-	dbRecord *cuentapago = 0;
-	dbRecordID cuentapago_id;
-	contab::Cuenta cuenta_pago( contab::ModuleInstance->getDigitosTrabajo() );
-	contab::Cuenta cuenta_pago_contraida( cuenta_pago );
-	contab::RecCuenta *cuenta_origen = 0;
-	dbRecordID proyecto_id = 0;
+                 && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
+    dbRecord *cuentapago = 0;
+    dbRecordID cuentapago_id;
+    contab::Cuenta cuenta_pago( contab::ModuleInstance->getDigitosTrabajo() );
+    contab::Cuenta cuenta_pago_contraida( cuenta_pago );
+    contab::RecCuenta *cuenta_origen = 0;
+    dbRecordID proyecto_id = 0;
     if( has_contab ) {
-		cuentapago = recibo->findRelatedRecord( "CUENTAPAGO_ID" );
-		proyecto_id = getProyectoID();
+        cuentapago = recibo->findRelatedRecord( "CUENTAPAGO_ID" );
+        proyecto_id = getProyectoID();
         contab::Cuenta str_cuenta_origen( recibo->getValue( "CUENTAORIGEN" ).toString(),
                                           contab::ModuleInstance->getDigitosTrabajo() );
         str_cuenta_origen.expandir();
@@ -325,7 +325,7 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
 //             // Si se acaba de borrar un recibo, sLastFechaPago tiene la fecha de pago de ese recibo
 //             fechapago = PagosModule::sLastFechaPago;
 //         } else
-		fechapago = recibo->getValue( "VENCIMIENTO" ).toDate();
+        fechapago = recibo->getValue( "VENCIMIENTO" ).toDate();
         PagosModule::sLastMonedaCodigo = recmoneda->getValue( "CODIGO" ).toString();
         if( pago_multiple == false ) { // Si no estamos en un pago múltiple, pedir datos
             FrmPagarRecibo *pr = new FrmPagarRecibo( has_contab, pago, fechapago,
@@ -683,37 +683,37 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                                        dbRecord* recibo )
 {
     if( recibo->getValue( "ESTADORECIBO" ).toInt() == PagosModule::ReciboPagado ) {
-		bool anularpago = false;
-		bool pideanularpago = true;
+        bool anularpago = false;
+        bool pideanularpago = true;
 #ifdef HAVE_CONTABMODULE
-		bool has_contab = false;
+        bool has_contab = false;
         has_contab = contab::ModuleInstance->isContabActive()
-			&& recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
-		if( has_contab ) {
-			dbRecord *cuentapago;
-			if( mTipo == pagos ) {
-				cuentapago = static_cast<RecPago *>(recibo)->getRecCuentaPago();
-			} else {
-				cuentapago = static_cast<RecCobro *>(recibo)->getRecCuentaPago();
-			}
-			anularpago = FrmBase::msgYesNoCancel( parent,
-						Xtring::printf( _("¿Estás segura de borrar este pago realizado el día %s por un importe de %f,\n"
-											" por la cuenta '%s' y mediante el documento '%s'?"),
-											recibo->getValue( "FECHAPAGO" ).toDate().toString().c_str(),
-											recibo->getValue( "IMPORTE" ).toMoney().toDouble(),
-											cuentapago->getValue( "DESCRIPCION" ).toString().c_str(),
-											recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes;
-			pideanularpago = false;
-		}
+                     && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
+        if( has_contab ) {
+            dbRecord *cuentapago;
+            if( mTipo == pagos ) {
+                cuentapago = static_cast<RecPago *>(recibo)->getRecCuentaPago();
+            } else {
+                cuentapago = static_cast<RecCobro *>(recibo)->getRecCuentaPago();
+            }
+            anularpago = FrmBase::msgYesNoCancel( parent,
+                                                  Xtring::printf( _("¿Estás segura de borrar este pago realizado el día %s por un importe de %f,\n"
+                                                          " por la cuenta '%s' y mediante el documento '%s'?"),
+                                                          recibo->getValue( "FECHAPAGO" ).toDate().toString().c_str(),
+                                                          recibo->getValue( "IMPORTE" ).toMoney().toDouble(),
+                                                          cuentapago->getValue( "DESCRIPCION" ).toString().c_str(),
+                                                          recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes;
+            pideanularpago = false;
+        }
 #endif
-		if( pideanularpago )
-			anularpago = FrmBase::msgYesNoCancel( parent,
-                                     Xtring::printf( _("¿Estás segura de borrar este pago realizado el día %s por un importe de %f,\n"
-                                             "y mediante el documento '%s'?"),
-                                             recibo->getValue( "FECHAPAGO" ).toDate().toString().c_str(),
-                                             recibo->getValue( "IMPORTE" ).toMoney().toDouble(),
-                                             recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes;
-		if( anularpago ) {
+        if( pideanularpago )
+            anularpago = FrmBase::msgYesNoCancel( parent,
+                                                  Xtring::printf( _("¿Estás segura de borrar este pago realizado el día %s por un importe de %f,\n"
+                                                          "y mediante el documento '%s'?"),
+                                                          recibo->getValue( "FECHAPAGO" ).toDate().toString().c_str(),
+                                                          recibo->getValue( "IMPORTE" ).toMoney().toDouble(),
+                                                          recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes;
+        if( anularpago ) {
             bool anulapago = true;
             int npagosagrupados = recibo->getConnection()->selectInt(
                                       "SELECT COUNT(*) FROM " + recibo->getConnection()->nameToSQL(recibo->getTableName()) +
@@ -763,15 +763,15 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                 recibo->setNullValue( "FECHAPAGO" );
                 recibo->setNullValue( "DOCUMENTOPAGO" );
 #ifdef HAVE_CONTABMODULE
-				// Puede que dé error de que no existen, pero mejor que lo de a que se quede un valor erróneo
-				recibo->setNullValue( "ASIENTO_PAGO_ID" );
-				recibo->setNullValue( "CUENTAPAGO_ID" );
-				if( has_contab ) {
-					if( mTipo == pagos )
-						PagosModule::sLastCuentaPago = static_cast<RecPago *>(recibo)->getRecCuentaPago()->getValue( "CUENTA" ).toString();
-					else
-						PagosModule::sLastCuentaPago = static_cast<RecCobro *>(recibo)->getRecCuentaPago()->getValue( "CUENTA" ).toString();
-				}
+                // Puede que dé error de que no existen, pero mejor que lo de a que se quede un valor erróneo
+                recibo->setNullValue( "ASIENTO_PAGO_ID" );
+                recibo->setNullValue( "CUENTAPAGO_ID" );
+                if( has_contab ) {
+                    if( mTipo == pagos )
+                        PagosModule::sLastCuentaPago = static_cast<RecPago *>(recibo)->getRecCuentaPago()->getValue( "CUENTA" ).toString();
+                    else
+                        PagosModule::sLastCuentaPago = static_cast<RecCobro *>(recibo)->getRecCuentaPago()->getValue( "CUENTA" ).toString();
+                }
 #endif
                 try {
                     if( recibo->save(false) )

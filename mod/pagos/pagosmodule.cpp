@@ -44,7 +44,7 @@ static dbModuleSetting _settings[] = {
         "USAR_REMESAS",
         _("Si se utilizarán remesas de recibos"),
         "false",
-		dbModuleSetting::Global
+        dbModuleSetting::Global
     },
     {dbModuleSetting::None}
 };
@@ -112,7 +112,7 @@ bool PagosModule::initDatabase(dbDefinition *db)
 #endif
 #ifdef HAVE_TESORERIAMODULE
     pFicFormaPago->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
-#endif	
+#endif
     pFicFormaPago->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicFormaPago->getTableDefinition() );
 
@@ -327,6 +327,7 @@ bool PagosModule::initMainWindow(MainWindow *mainwin)
 		pMenuPagosRemesaCobro->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
 		pMenuPagosRemesaCobro->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
 		pMainWindow->connect(pMenuPagosRemesaCobro, SIGNAL(activated()), this, SLOT(slotMenuPagosRemesaCobro()));
+//		pMenuPagosRemesaCobro->addTo(pMenuPagos);
 	}
 	{
 		Xtring caption = DBAPP->getDatabase()->findTableDefinition("COBRO")->getDescPlural();
@@ -335,6 +336,7 @@ bool PagosModule::initMainWindow(MainWindow *mainwin)
 		pMenuPagosCobro->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
 		pMenuPagosCobro->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
 		pMainWindow->connect(pMenuPagosCobro, SIGNAL(activated()), this, SLOT(slotMenuPagosCobro()));
+//		pMenuPagosCobro->addTo(pMenuPagos);
 	}
 	{
 		Xtring caption = DBAPP->getDatabase()->findTableDefinition("PAGO")->getDescPlural();
@@ -343,6 +345,7 @@ bool PagosModule::initMainWindow(MainWindow *mainwin)
 		pMenuPagosPago->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
 		pMenuPagosPago->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
 		pMainWindow->connect(pMenuPagosPago, SIGNAL(activated()), this, SLOT(slotMenuPagosPago()));
+//		pMenuPagosPago->addTo(pMenuPagos);
 	}
 /*>>>>>PAGOSMODULE_INITMAINWINDOW_MENUS*/
 // {capel} eliminar:

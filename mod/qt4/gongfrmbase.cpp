@@ -140,13 +140,13 @@ void FrmBase::keyPressEvent ( QKeyEvent *e )
     }
 #ifdef _GONG_DEBUG
     if( e->key() == Qt::Key_F10 ) {
-		_GONG_DEBUG_WARNING( Xtring("ClassName: ") + metaObject()->className());
-		_GONG_DEBUG_WARNING( Xtring("ObjectName: " + objectName()) );
+        _GONG_DEBUG_WARNING( Xtring("ClassName: ") + metaObject()->className());
+        _GONG_DEBUG_WARNING( Xtring("ObjectName: " + objectName()) );
         _GONG_DEBUG_WARNING( Xtring::printf("FocusWidget: %s", theGuiApp->focusWidget()->name() ) );
-		QWidget *widget = qApp->widgetAt(QCursor::pos());
+        QWidget *widget = qApp->widgetAt(QCursor::pos());
         _GONG_DEBUG_WARNING( Xtring::printf("Widget under mouse: (%s) %s",
-											widget->metaObject()->className(), widget->name() ) );
-	}
+                                            widget->metaObject()->className(), widget->name() ) );
+    }
 #endif
     QWidget::keyPressEvent ( e );
 }
@@ -177,11 +177,11 @@ void FrmBase::showEvent(QShowEvent *event)
 void FrmBase::accept()
 {
     mWasCancelled = false;
-	mClosingExternally = false;
-	close();
-	mClosingExternally = true;
-	if( pEventLoop )
-		pEventLoop->exit( 0 ); // mWasCancelled = false
+    mClosingExternally = false;
+    close();
+    mClosingExternally = true;
+    if( pEventLoop )
+        pEventLoop->exit( 0 ); // mWasCancelled = false
 }
 
 void FrmBase::cancel()
@@ -189,9 +189,9 @@ void FrmBase::cancel()
     if( LineEdit *le = dynamic_cast<LineEdit *>(focusWidget()) )
         le->setCancelling();
     mWasCancelled = true;
-	mClosingExternally = false;
-	close();
-	mClosingExternally = true;
+    mClosingExternally = false;
+    close();
+    mClosingExternally = true;
 }
 
 /**
@@ -214,23 +214,23 @@ void FrmBase::closeEvent ( QCloseEvent *e )
                 pw->close();
             }
         }
-		if( pEventLoop )
-			pEventLoop->exit( mWasCancelled );
-		if ( pShowModalFor ) {
-  			_GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
+        if( pEventLoop )
+            pEventLoop->exit( mWasCancelled );
+        if ( pShowModalFor ) {
+            _GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
             pShowModalFor->setEnabled( true );
-			pShowModalFor->hide();
-			theGuiApp->processEvents();
+            pShowModalFor->hide();
+            theGuiApp->processEvents();
 //            if ( pShowModalFor->isMinimized() )
-			pShowModalFor->showNormal();
+            pShowModalFor->showNormal();
             pShowModalFor->activateWindow();
-			pShowModalFor->raise();
+            pShowModalFor->raise();
             pShowModalFor = 0;
-			if( pSavedFocusWidget ) {
-				_GONG_DEBUG_PRINT(0, "Setting focus to " + Xtring( pSavedFocusWidget->name() ) );
-				pSavedFocusWidget->setFocus();
-				pSavedFocusWidget = 0;
-			}
+            if( pSavedFocusWidget ) {
+                _GONG_DEBUG_PRINT(0, "Setting focus to " + Xtring( pSavedFocusWidget->name() ) );
+                pSavedFocusWidget->setFocus();
+                pSavedFocusWidget = 0;
+            }
         }
         e->accept();
     } else {
@@ -252,7 +252,7 @@ void FrmBase::refresh()
 void FrmBase::setInitialFocus()
 {
     if( pFocusWidget && pFocusWidget != focusWidget() ) {
-		setWiseFocus( pFocusWidget );
+        setWiseFocus( pFocusWidget );
     }
 }
 
@@ -265,36 +265,36 @@ void FrmBase::setInitialFocus()
  **/
 void FrmBase::setWiseFocus(QWidget *w)
 {
-	if( !w )
-		return;
-	QWidget *grandpa = static_cast<QWidget *>(w->parentWidget());
-	bool exit = false;
-	while( grandpa && !exit ) {
-		if( QTabWidget *tabwidget = dynamic_cast<QTabWidget *>(grandpa) ) {
-			for( int i = 0; i < tabwidget->count() && !exit; ++i ) {
-				QWidget *tab = tabwidget->widget(i);
-				if( tab == tabwidget->currentWidget() )
-					break;
-				/// TODO: Look up a function QWidget->child( QWidget *)
-				QList<QWidget *>allwidgets = tab->findChildren<QWidget *>();
-				for( QList<QWidget *>::const_iterator wit = allwidgets.begin();
-                    wit != allwidgets.end(); ++wit ) {
-					if( *wit == w ) {
-						tabwidget->setCurrentWidget( tab );
-						exit = true;
-						break;
-					}
-				}
-			}
-		}
-		grandpa = static_cast<QWidget *>(grandpa->parentWidget());
-	}
-	w->setFocus( Qt::OtherFocusReason );
-	if( LineEdit *le = dynamic_cast<LineEdit *>(w) ) {
-		if( le->getValueType() == Variant::tDouble
-				|| le->getValueType() == Variant::tMoney )
-			le->setCursorAtDecPoint();
-	}
+    if( !w )
+        return;
+    QWidget *grandpa = static_cast<QWidget *>(w->parentWidget());
+    bool exit = false;
+    while( grandpa && !exit ) {
+        if( QTabWidget *tabwidget = dynamic_cast<QTabWidget *>(grandpa) ) {
+            for( int i = 0; i < tabwidget->count() && !exit; ++i ) {
+                QWidget *tab = tabwidget->widget(i);
+                if( tab == tabwidget->currentWidget() )
+                    break;
+                /// TODO: Look up a function QWidget->child( QWidget *)
+                QList<QWidget *>allwidgets = tab->findChildren<QWidget *>();
+                for( QList<QWidget *>::const_iterator wit = allwidgets.begin();
+                        wit != allwidgets.end(); ++wit ) {
+                    if( *wit == w ) {
+                        tabwidget->setCurrentWidget( tab );
+                        exit = true;
+                        break;
+                    }
+                }
+            }
+        }
+        grandpa = static_cast<QWidget *>(grandpa->parentWidget());
+    }
+    w->setFocus( Qt::OtherFocusReason );
+    if( LineEdit *le = dynamic_cast<LineEdit *>(w) ) {
+        if( le->getValueType() == Variant::tDouble
+                || le->getValueType() == Variant::tMoney )
+            le->setCursorAtDecPoint();
+    }
 }
 
 
@@ -308,7 +308,7 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
     pShowModalFor = parent;
     bool wasmaximized = false;
     if( parent ) {
-		_GONG_DEBUG_PRINT(0, parent->name() );
+        _GONG_DEBUG_PRINT(0, parent->name() );
         wasmaximized = parent->parentWidget() && parent->parentWidget()->isMaximized();
         parent->setEnabled ( false );
     }
@@ -365,13 +365,13 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
 //         theGuiApp->processEvents();
 //         usleep ( 1000 );
 //     }
-	pEventLoop = new QEventLoop();
+    pEventLoop = new QEventLoop();
     QPointer<FrmBase> guard = this;
     mWasCancelled = pEventLoop->exec(QEventLoop::DialogExec);
     if( guard.isNull() )
-		mWasCancelled = true;
-	delete pEventLoop;
-	pEventLoop = 0;
+        mWasCancelled = true;
+    delete pEventLoop;
+    pEventLoop = 0;
 //     theGuiApp->resetCursor();
     if( wasmaximized )
         parent->parentWidget()->showMaximized();
@@ -397,14 +397,14 @@ void FrmBase::alignLayout( QBoxLayout *layout, bool totheleft )
 void FrmBase::justShown(bool firsttime)
 {
     if( firsttime ) {
-		if( pShowModalFor )
-			pSavedFocusWidget = pShowModalFor->focusWidget();
-		else
-			pSavedFocusWidget = theGuiApp->focusWidget();
-		if( pSavedFocusWidget )
-			_GONG_DEBUG_PRINT(0, "El foco estaba en " + Xtring(pSavedFocusWidget->name()) );
+        if( pShowModalFor )
+            pSavedFocusWidget = pShowModalFor->focusWidget();
+        else
+            pSavedFocusWidget = theGuiApp->focusWidget();
+        if( pSavedFocusWidget )
+            _GONG_DEBUG_PRINT(0, "El foco estaba en " + Xtring(pSavedFocusWidget->name()) );
         setInitialFocus();
-	}
+    }
 }
 
 /**
@@ -631,7 +631,7 @@ int FrmBase::msgYesNoAllCancel(const Xtring& caption, const Xtring& text, bool d
 {
     QApplication::setOverrideCursor ( QCursor ( Qt::ArrowCursor ) );
     QMessageBox msgBox( parent );
-	msgBox.setWindowTitle( toGUI(caption) );
+    msgBox.setWindowTitle( toGUI(caption) );
     msgBox.setInformativeText( toGUI( text ) );
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::YesToAll | QMessageBox::NoToAll | QMessageBox::Cancel);
     msgBox.setDefaultButton(defbutton?QMessageBox::Yes:QMessageBox::No);

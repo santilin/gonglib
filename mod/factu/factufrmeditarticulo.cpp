@@ -18,9 +18,9 @@
 // FIELD PVP3 money - pvpn
 // FIELD UsarStocks bool - Stock
 // FIELD Stock double - Stock
-// FIELD StockInicial double - Stock
-// FIELD StockMaximo double - Stock
-// FIELD StockMinimo double - Stock
+// FIELD StockInicial double - Stock2
+// FIELD StockMaximo double - Stock2
+// FIELD StockMinimo double - Stock2
 // FIELD EnUso bool - flags
 // FIELD Novedad bool - flags
 // FIELD Oferta bool - flags
@@ -66,6 +66,7 @@ FrmEditArticulo::FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	QHBoxLayout *pvpsLayout = new QHBoxLayout(0, 0, 6, "pvpsLayout");
 	QHBoxLayout *pvpnLayout = new QHBoxLayout(0, 0, 6, "pvpnLayout");
 	QHBoxLayout *StockLayout = new QHBoxLayout(0, 0, 6, "StockLayout");
+	QHBoxLayout *Stock2Layout = new QHBoxLayout(0, 0, 6, "Stock2Layout");
 	QHBoxLayout *flagsLayout = new QHBoxLayout(0, 0, 6, "flagsLayout");
 	showTabs(true);
 	QWidget *tabExtra = new QWidget( pTabWidget, "tabExtra" );
@@ -110,9 +111,9 @@ FrmEditArticulo::FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	editPVP3 = addEditField( pControlsFrame, "ARTICULO", "PVP3", pvpnLayout );
 	checkUsarStocks = addCheckField( pControlsFrame, "ARTICULO", "USARSTOCKS", StockLayout );
 	editStock = addEditField( pControlsFrame, "ARTICULO", "STOCK", StockLayout );
-	editStockInicial = addEditField( pControlsFrame, "ARTICULO", "STOCKINICIAL", StockLayout );
-	editStockMaximo = addEditField( pControlsFrame, "ARTICULO", "STOCKMAXIMO", StockLayout );
-	editStockMinimo = addEditField( pControlsFrame, "ARTICULO", "STOCKMINIMO", StockLayout );
+	editStockInicial = addEditField( pControlsFrame, "ARTICULO", "STOCKINICIAL", Stock2Layout );
+	editStockMaximo = addEditField( pControlsFrame, "ARTICULO", "STOCKMAXIMO", Stock2Layout );
+	editStockMinimo = addEditField( pControlsFrame, "ARTICULO", "STOCKMINIMO", Stock2Layout );
 	checkEnUso = addCheckField( pControlsFrame, "ARTICULO", "ENUSO", flagsLayout );
 	checkNovedad = addCheckField( pControlsFrame, "ARTICULO", "NOVEDAD", flagsLayout );
 	checkOferta = addCheckField( pControlsFrame, "ARTICULO", "OFERTA", flagsLayout );
@@ -136,6 +137,7 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( pvpsLayout );
 	pControlsLayout->addLayout( pvpnLayout );
 	pControlsLayout->addLayout( StockLayout );
+	pControlsLayout->addLayout( Stock2Layout );
 	pControlsLayout->addLayout( flagsLayout );
 	tabExtraLayout->addLayout( notasLayout );
 	tabExtraLayout->addLayout( descripcionLayout );
@@ -226,7 +228,7 @@ if( ModuleInstance->getContabModule() ) {
 
 void FrmEditArticulo::gatherFields()
 {
-/*<<<<<FRMEDITARTICULO_GATHER*/
+    /*<<<<<FRMEDITARTICULO_GATHER*/
 	getRecArticulo()->setValue( "FAMILIA_ID", getRecFamilia()->getRecordID() );
 	getRecArticulo()->setValue( "PROVEEDORA_ID", getRecProveedora()->getRecordID() );
 	getRecArticulo()->setValue( "NOMBRE", editNombre->toString());
@@ -338,11 +340,11 @@ void FrmEditArticulo::scatterProveedora()
 	editProveedoraCodigo->setText( getRecProveedora()->getValue("CODIGO") );
 	editProveedoraRazonSocial->setText( getRecProveedora()->getValue("RAZONSOCIAL") );
 /*>>>>>FRMEDITARTICULO_SCATTER_PROVEEDORA*/
-	if( getRecProveedora()->getValue("USAREFERENCIAS").toBool() ) {
-		editCodigoInterno->setEnabled(true);
-	} else {
-		editCodigoInterno->setEnabled(false);
-	}
+    if( getRecProveedora()->getValue("USAREFERENCIAS").toBool() ) {
+        editCodigoInterno->setEnabled(true);
+    } else {
+        editCodigoInterno->setEnabled(false);
+    }
 }
 
 void FrmEditArticulo::pushProveedoraCodigo_clicked()
@@ -565,7 +567,7 @@ void FrmEditArticulo::pushArticuloBaseCodigo_clicked()
 
 void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
-/*<<<<<FRMEDITARTICULO_VALIDATE*/
+    /*<<<<<FRMEDITARTICULO_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -585,8 +587,8 @@ void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResul
 		getRecTipoIVA(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterTipoIVA();
 /*>>>>>FRMEDITARTICULO_VALIDATE*/
-	if( sender == editCodigo && editCodigo->isJustEdited() )
-		editArticuloImagen_Imagen->setProposedFileName( editCodigo->toString() + ".jpg" );
+    if( sender == editCodigo && editCodigo->isJustEdited() )
+        editArticuloImagen_Imagen->setProposedFileName( editCodigo->toString() + ".jpg" );
     if( focusWidget() != pushArticuloBaseCodigo) // To avoid triggering the validate event if the button is pressed
         if( validSeekCode( sender, isvalid, *validresult, editArticuloBaseCodigo, editArticuloBaseNombre,
                            getRecArticuloBase(), "CODIGO", "NOMBRE", Xtring::null) ) {
@@ -672,12 +674,12 @@ void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResul
         }
     }
     if( sender == editStockInicial && editStockInicial->isJustEdited() ) {
-		double prev_value = editStockInicial->getPreviousValue().toDouble();
-		double new_value = editStockInicial->toDouble(); 
-		if( !gong::areSame(prev_value, new_value ) ) {
-			editStock->setText( editStock->toDouble() - prev_value + new_value);
-		}
-	}
+        double prev_value = editStockInicial->getPreviousValue().toDouble();
+        double new_value = editStockInicial->toDouble();
+        if( !gong::areSame(prev_value, new_value ) ) {
+            editStock->setText( editStock->toDouble() - prev_value + new_value);
+        }
+    }
     if ( !ir ) {
         showValidMessages( isvalid, *validresult, sender );
         delete validresult;

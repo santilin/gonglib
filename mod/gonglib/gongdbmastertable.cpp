@@ -44,8 +44,8 @@ dbFieldDefinition *dbMasterTable::addFieldListOfValues(bool insertallowed,
 {
     /// \todo {0.3.4} Calcular la longitud máxima de los captions?
     return pTableDefinition->addField(new dbFieldListOfValues<Xtring>(
-		insertallowed, captions, values, pTableDefinition->getName(), name, SQLSTRING, 100, 0,
-		dbFieldDefinition::NOTNULL));
+                                          insertallowed, captions, values, pTableDefinition->getName(), name, SQLSTRING, 100, 0,
+                                          dbFieldDefinition::NOTNULL));
 }
 
 // Adds a list of values field whose values and captions are references, so a copy is made
@@ -55,8 +55,8 @@ dbFieldDefinition *dbMasterTable::addFieldListOfValues(bool insertallowed,
 {
     /// \todo {0.3.4} Calcular la longitud máxima de los captions?
     return pTableDefinition->addField(new dbFieldListOfValues<Xtring>(
-		insertallowed, captions, values, pTableDefinition->getName(), name, SQLSTRING, 100, 0,
-		dbFieldDefinition::NOTNULL));
+                                          insertallowed, captions, values, pTableDefinition->getName(), name, SQLSTRING, 100, 0,
+                                          dbFieldDefinition::NOTNULL));
 }
 
 template<>

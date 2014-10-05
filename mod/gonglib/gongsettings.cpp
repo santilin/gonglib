@@ -12,7 +12,7 @@ bool Settings::read(const Xtring &filename)
     std::ifstream f;
     f.open( cfilename, std::ios_base::binary | std::ios_base::in );
     if ( !f.is_open() || !f.good() ) {
-        _GONG_DEBUG_WARNING( Xtring::printf("%s: %s", strerror( errno ), cfilename) );
+        _GONG_DEBUG_PRINT(1, Xtring::printf("%s: %s", strerror( errno ), cfilename) );
         return false;
     }
     _GONG_DEBUG_PRINT(2, Xtring::printf("Reading settings from %s", cfilename) );
@@ -85,8 +85,8 @@ bool Settings::write(const Xtring &filename)
         _GONG_DEBUG_PERROR(cfilename);
         return false;
     } else {
-		for( SettingsDict::const_iterator setit = mSettingsDict.begin();
-			setit != mSettingsDict.end(); ++setit ) {
+        for( SettingsDict::const_iterator setit = mSettingsDict.begin();
+                setit != mSettingsDict.end(); ++setit ) {
             Variant v( setit->second );
             Xtring s_v = v.toString();
             s_v = s_v.replace("\\", "\\\\").replace("\"", "\\\"");

@@ -49,8 +49,8 @@ Measure ReportQtOutput::startPage()
     if( mCurrentPageInFolio <= 1 ) {
         QPicture *aPicture = new QPicture();
 #ifdef _GONG_DEBUG
-		_GONG_DEBUG_PRINT(0, Xtring::printf("Page: %f x %f, margins: %f, %f, %f, %f",
-											sizeX(), sizeY(), marginLeft(), marginTop(), marginRight(), marginBottom() ) );
+        _GONG_DEBUG_PRINT(0, Xtring::printf("Page: %f x %f, margins: %f, %f, %f, %f",
+                                            sizeX(), sizeY(), marginLeft(), marginTop(), marginRight(), marginBottom() ) );
         if( __gong_debug::_gong_debug_level == 3 ) {
             std::cout << "DeviceMetrics:w:"
                       << aPicture->width() << ",h:" << aPicture->height() << ",wMM:" << aPicture->widthMM() << ",hMM:" << aPicture->heightMM()
@@ -134,7 +134,7 @@ void ReportQtOutput::drawGraphics( const Object &object, int x0, int y0, int wid
 #ifdef _GONG_DEBUG
     QColor painterbc = mPainter.brush().color();
     _GONG_DEBUG_PRINT(10, Xtring::printf("Color de fondo del objeto: %s", bc.name().latin1() ) );
-	_GONG_DEBUG_PRINT(10, Xtring::printf("Color de fondo del painter: %s", painterbc.name().latin1() ) );
+    _GONG_DEBUG_PRINT(10, Xtring::printf("Color de fondo del painter: %s", painterbc.name().latin1() ) );
 #endif
     if( bc != mPainter.brush().color() && beforetext ) { // Pintar el fondo del objeto
         QPen linePen( bc, 0, Qt::NoPen);
@@ -284,7 +284,7 @@ Measure ReportQtOutput::printObject( const Object &object )
         Xtring text( object.formattedText() );
         if ( text.size() ) {
             // Set the font
-			double fs = object.realFontSize();
+            double fs = object.realFontSize();
             QFont font( object.fontFamily(), fs == 0.0 ? 10 : int(round(fs, 0)),
                         object.fontWeight(), object.fontItalic() );
             mPainter.setFont( font );
@@ -302,7 +302,7 @@ Measure ReportQtOutput::printObject( const Object &object )
                 else
                     tf = Qt::AlignLeft;
                 break;
-			case AlignLeft:
+            case AlignLeft:
                 tf = Qt::AlignLeft;
                 break;
             case AlignTop:

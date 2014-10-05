@@ -122,7 +122,7 @@ FrmEditContacto::FrmEditContacto(FrmEditRec *parentfrm, dbRecord *master, dbReco
     cpLayout->addWidget( pSearchCP );
     connect( pSearchCP, SIGNAL( clicked() ), this, SLOT( slot_searchCP_clicked() ) );
     mUsarTratamiento = ModuleInstance->getModuleSetting( "USAR_TRATAMIENTOS" ).toBool();
-	comboTratamientoContacto->setVisible( mUsarTratamiento );
+    comboTratamientoContacto->setVisible( mUsarTratamiento );
 }
 
 void FrmEditContacto::scatterFields()

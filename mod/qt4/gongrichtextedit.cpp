@@ -39,7 +39,7 @@ RichTextEdit::RichTextEdit(Xtring &text, QWidget *parent)
 {
     setup();
     setText( mPlainText );
-	textEdit->setFocus();
+    textEdit->setFocus();
 }
 
 RichTextEdit::RichTextEdit(QLabel *txtlabel, QWidget *parent, bool modal)
@@ -65,8 +65,8 @@ void RichTextEdit::setup()
     setupEditActions();
     setupTextActions();
 
-	QFrame *mainFrame = new QFrame( this );
-	QVBoxLayout *mainLayout = new QVBoxLayout( mainFrame );
+    QFrame *mainFrame = new QFrame( this );
+    QVBoxLayout *mainLayout = new QVBoxLayout( mainFrame );
 
     textEdit = new QTextEdit(mainFrame);
     connect(textEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
@@ -74,20 +74,20 @@ void RichTextEdit::setup()
     connect(textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
     connect(textEdit, SIGNAL(textChanged()), this, SLOT(textHasChanged()));
 
-	mainLayout->addWidget( textEdit );
+    mainLayout->addWidget( textEdit );
 
-	pushAccept = new QPushButton ( toGUI ( _ ( "&Aceptar" ) ), this, "pushAccept" );
+    pushAccept = new QPushButton ( toGUI ( _ ( "&Aceptar" ) ), this, "pushAccept" );
     pushAccept->setIcon( pushAccept->style()->standardIcon( QStyle::SP_DialogYesButton ) );
     pushAccept->setDefault ( true );
     pushCancel = new QPushButton ( toGUI ( _ ( "&Cancelar" ) ), this, "pushCancel" );
     pushCancel->setIcon( pushAccept->style()->standardIcon( QStyle::SP_DialogCancelButton ) );
     connect ( pushAccept, SIGNAL ( clicked() ), this, SLOT ( accept_clicked() ) );
     connect ( pushCancel, SIGNAL ( clicked() ), this, SLOT ( cancel_clicked() ) );
-	QHBoxLayout *buttonsLayout = new QHBoxLayout();
-	buttonsLayout->addWidget( pushAccept );
-	buttonsLayout->addWidget( pushCancel );
+    QHBoxLayout *buttonsLayout = new QHBoxLayout();
+    buttonsLayout->addWidget( pushAccept );
+    buttonsLayout->addWidget( pushCancel );
 
-	mainLayout->addLayout( buttonsLayout );
+    mainLayout->addLayout( buttonsLayout );
 
     setCentralWidget(mainFrame);
     textEdit->setFocus();
@@ -133,27 +133,27 @@ void RichTextEdit::setup()
 
 void RichTextEdit::accept_clicked()
 {
-	_GONG_DEBUG_TRACE(0);
-	bool isvalid = true;
-	emit validate( this, &isvalid );
-	if( isvalid ) {
-		mWasCancelled = false;
-		close();
-	} else {
-		mWasCancelled = true; // For if later on the form is closed from the window close button
-	}
+    _GONG_DEBUG_TRACE(0);
+    bool isvalid = true;
+    emit validate( this, &isvalid );
+    if( isvalid ) {
+        mWasCancelled = false;
+        close();
+    } else {
+        mWasCancelled = true; // For if later on the form is closed from the window close button
+    }
 }
 
 void RichTextEdit::cancel_clicked()
 {
-	mWasCancelled = true;
-	close();
+    mWasCancelled = true;
+    close();
 }
 
 void RichTextEdit::setText(const QString &text)
 {
     textEdit->setText( text );
-	mJustEdited = false;
+    mJustEdited = false;
 }
 
 QString RichTextEdit::getText() const
@@ -178,12 +178,12 @@ void RichTextEdit::closeEvent(QCloseEvent *e)
                 p->setEnabled(true);
         }
         if( theGuiApp->getMainWindow() ) {
-			QMdiSubWindow *pw = theGuiApp->getMainWindow()->findClient( this );
-			if( pw ) {
-				pw->deleteLater();
-				pw->close();
-			}
-		}
+            QMdiSubWindow *pw = theGuiApp->getMainWindow()->findClient( this );
+            if( pw ) {
+                pw->deleteLater();
+                pw->close();
+            }
+        }
         e->accept();
     } else
         e->ignore();
@@ -436,7 +436,7 @@ void RichTextEdit::setupTextActions()
 
     QFontDatabase db;
     foreach(int size, db.standardSizes())
-    comboSize->addItem(QString::number(size));
+        comboSize->addItem(QString::number(size));
 
     connect(comboSize, SIGNAL(activated(QString)),
             this, SLOT(textSize(QString)));
@@ -504,7 +504,7 @@ void RichTextEdit::fileNew()
 {
     if (maybeSave()) {
         textEdit->clear();
-		textEdit->setFocus();
+        textEdit->setFocus();
         setCurrentFileName(QString());
     }
 }
@@ -803,28 +803,28 @@ void RichTextEdit::textCustomStyle(int customStyleIndex)
 
 void RichTextEdit::textHasChanged()
 {
-	mJustEdited = true;
+    mJustEdited = true;
 }
 
 bool RichTextEdit::isEdited() const
 {
-	return textEdit->document()->isModified();
+    return textEdit->document()->isModified();
 }
 
 bool RichTextEdit::isJustEdited() const
 {
-	return mJustEdited;
+    return mJustEdited;
 }
 
 void RichTextEdit::setEdited(bool e)
 {
-	textEdit->document()->setModified( e );
+    textEdit->document()->setModified( e );
 }
 
 void RichTextEdit::focusInEvent(QFocusEvent* event)
 {
     QWidget::focusInEvent(event);
-	mJustEdited = false;
+    mJustEdited = false;
 }
 
 void RichTextEdit::focusOutEvent(QFocusEvent* event)

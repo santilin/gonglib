@@ -36,7 +36,7 @@ public:
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_CLASS*/
         , pFrameContactos(0), editRazonSocial(0)
         , mSetContactoIDNoNullAgain(false), mSearching(0) {}
-	virtual void _initGUI();
+    virtual void _initGUI();
     RecContacto *getRecContacto() const;
     FrmEditContactoBehavior( FrmEditRec *theform, QTabWidget *holder, gong::LineEdit *razonsocial ):
         FrmEditRecBehavior( theform ), pFrameContactos( holder ), editRazonSocial( razonsocial ),
@@ -49,7 +49,9 @@ public:
     }
     bool setCIFAndLookForIt( const Xtring &cif );
     void setTabOrders( QWidget *pre, QWidget *post );
-    bool isCreating() const { return getRecContacto()->isNew(); }
+    bool isCreating() const {
+        return getRecContacto()->isNew();
+    }
 
 protected slots:
     void slotSearchCP_clicked();

@@ -61,7 +61,7 @@ dbResultSet::~dbResultSet()
         sqlite3_finalize( _data.sqlite3.pResult );
         delete _data.sqlite3.pRows;
 #endif
-	case dbConnection::DRIVER_POSTGRESQL:
+    case dbConnection::DRIVER_POSTGRESQL:
         break;
     };
 }
@@ -70,7 +70,7 @@ dbResultSet::size_type dbResultSet::getRowCount()
 {
     switch( pConnection->getSqlDriver() ) {
     case dbConnection::DRIVER_MYSQL:
-		/// TODO The same than sqlite3, do not store resultsets
+        /// TODO The same than sqlite3, do not store resultsets
         return mRowCount;
     case dbConnection::DRIVER_SQLITE3:
 #ifdef HAVE_SQLITE3
@@ -79,9 +79,9 @@ dbResultSet::size_type dbResultSet::getRowCount()
         }
         return mRowCount;
 #endif
-	case dbConnection::DRIVER_POSTGRESQL:
-	default:
-		return 0; /// TODO
+    case dbConnection::DRIVER_POSTGRESQL:
+    default:
+        return 0; /// TODO
     }
 }
 
@@ -140,9 +140,9 @@ Xtring dbResultSet::toString(unsigned colnum) const
         ret = (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].toString();
 #endif
         break;
-	case dbConnection::DRIVER_POSTGRESQL:
-		break;
-	}
+    case dbConnection::DRIVER_POSTGRESQL:
+        break;
+    }
     if( pConnection->getIConvSelectPtr() )
         ret = pConnection->getIConvSelectPtr()->convert(ret);
     return ret;
@@ -159,9 +159,9 @@ Variant dbResultSet::toBinary(unsigned colnum) const
 #ifdef HAVE_SQLITE3
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum];
 #endif
-		break;
-	case dbConnection::DRIVER_POSTGRESQL:
-		break;
+        break;
+    case dbConnection::DRIVER_POSTGRESQL:
+        break;
     }
     throw new std::runtime_error( "Feature unsupported" );
 }
@@ -191,10 +191,10 @@ double dbResultSet::toDouble(unsigned colnum) const
 #ifdef HAVE_SQLITE3
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].toDouble();
 #endif
-		break;
-	case dbConnection::DRIVER_POSTGRESQL:
-		break;
-	}
+        break;
+    case dbConnection::DRIVER_POSTGRESQL:
+        break;
+    }
     throw new std::runtime_error( "Feature unsupported" );
 }
 
@@ -217,10 +217,10 @@ Money dbResultSet::toMoney(unsigned colnum) const
 #ifdef HAVE_SQLITE3
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].toMoney();
 #endif
-		break;
-	case dbConnection::DRIVER_POSTGRESQL:
-		break;
-	}
+        break;
+    case dbConnection::DRIVER_POSTGRESQL:
+        break;
+    }
     throw new std::runtime_error( "Feature unsupported" );
 }
 
@@ -258,10 +258,10 @@ bool dbResultSet::isNull(unsigned colnum) const
 #ifdef HAVE_SQLITE3
         return (*_data.sqlite3.pRows)[mRowNumber * mColumnCount + colnum].type() == Variant::tInvalid;
 #endif
-		break;
-	case dbConnection::DRIVER_POSTGRESQL:
-		break;
-	}
+        break;
+    case dbConnection::DRIVER_POSTGRESQL:
+        break;
+    }
     throw new std::runtime_error( "Feature unsupported" );
 }
 
@@ -318,9 +318,9 @@ bool dbResultSet::next()
         switch(res) {
         case SQLITE_ROW:
         {
-			mRowCount++;
-			mRowNumber++;
-			for (uint i = 0; i < mColumnCount; ++i) {
+            mRowCount++;
+            mRowNumber++;
+            for (uint i = 0; i < mColumnCount; ++i) {
                 switch (sqlite3_column_type(_data.sqlite3.pResult, i)) {
                 case SQLITE_BLOB:
                     _data.sqlite3.pRows->push_back(
@@ -332,7 +332,7 @@ bool dbResultSet::next()
                     break;
                 case SQLITE_FLOAT:
                     _data.sqlite3.pRows->push_back( sqlite3_column_double(_data.sqlite3.pResult, i) );
-					break;
+                    break;
                 case SQLITE_NULL:
                     _data.sqlite3.pRows->push_back( Variant( Xtring::null ) );
                     break;
@@ -365,9 +365,9 @@ bool dbResultSet::next()
         }
     }
 #endif
-	case dbConnection::DRIVER_POSTGRESQL:
-	default:
-		return false; /// TODO
+    case dbConnection::DRIVER_POSTGRESQL:
+    default:
+        return false; /// TODO
     }
 }
 
@@ -381,7 +381,7 @@ const char *dbResultSet::getColumnName(unsigned int colnum) const
         return _data.mysql.pFieldDefs[colnum].name;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
-		throw;
+        throw;
 #endif
     default:
         return ""; /// TODO
@@ -400,10 +400,10 @@ SqlColumnType dbResultSet::getColumnType( unsigned int colnum ) const
     }
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
-	{
+    {
         Variant::Type vt = dbConnection::SQLiteTypetoVariantType( sqlite3_column_decltype( _data.sqlite3.pResult, colnum ) );
         return dbConnection::toSqlColumnType( vt );
-	}
+    }
 #endif
     default:
         return SQLSTRING; /// TODO
@@ -419,7 +419,7 @@ unsigned int dbResultSet::getColumnWidth( unsigned int colnum ) const
         return _data.mysql.pFieldDefs[colnum].length;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
-		throw;
+        throw;
         break;
 #endif
     default:
@@ -436,7 +436,7 @@ unsigned int dbResultSet::getColumnDecimals( unsigned int colnum ) const
         return _data.mysql.pFieldDefs[colnum].decimals;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
-		throw; /// TODO
+        throw; /// TODO
         break;
 #endif
     default:

@@ -60,7 +60,7 @@ public:
         return pRealParent;
     }
     void setInitialFocus();
-	void setWiseFocus(QWidget *w);
+    void setWiseFocus(QWidget *w);
     QWidget *saveFocusWidget();
     QWidget *restoreFocusWidget();
     void alignLayout( QBoxLayout *layout, bool totheleft = true );
@@ -110,7 +110,7 @@ public:
 
     static int msgYesNoAllCancel ( QWidget *parent, const Xtring &text, bool defbutton=true );
     static int msgYesNoAllCancel ( const Xtring &caption, const Xtring &text,
-                                bool defbutton=true, QWidget *parent = 0 );
+                                   bool defbutton=true, QWidget *parent = 0 );
 
     /** Shows a messagebox with yes/no buttons */
     static bool msgYesNoLarge ( QWidget *parent, const Xtring &text,
@@ -139,7 +139,7 @@ protected:
     bool mWasCancelled, mShownYet, mClosingExternally;
     QWidget *pShowModalFor, *pRealParent, *pFocusWidget, *pSavedFocusWidget;
     QPushButton *pushCancel, *pushAccept;
-	QEventLoop *pEventLoop;
+    QEventLoop *pEventLoop;
 };
 
 class QDialogWithSaveAs: public QDialog

@@ -177,28 +177,28 @@ FrmViewEdit::FrmViewEdit(DataTable::EditMode editmode,
     chkIncludeFilter->setText( toGUI( _("Incluir el filtro actual" ) ) );
     comboSetting->insertItem( toGUI( DBAPP->getUserLocalSettings()->getDescription() ) );
     comboSetting->insertItem( toGUI( DBAPP->getGlobalSettings()->getDescription() ) );
-	if( mEditMode == DataTable::updating )
-		comboSetting->insertItem( toGUI( _("No cambiar" ) ) );
-	pushAccept->setText( toGUI( _("Grabar") ) );
+    if( mEditMode == DataTable::updating )
+        comboSetting->insertItem( toGUI( _("No cambiar" ) ) );
+    pushAccept->setText( toGUI( _("Grabar") ) );
     pushCancel->setText( toGUI( _("Cancelar") ) );
 
     txtViewName->setText( viewdef->getCaption() );
     txtViewOrigin->setText( viewdef->getOrigin() );
     txtOrderBy->setText( viewdef->getOrderBy() );
     Xtring title,
-		arg = viewdef->getOrigin().startsWith("DEFAULT:") || pViewDefinition->getName().endsWith(".DEFAULT")
-              ? _( "por defecto" ) : pViewDefinition->getCaption().c_str();
+           arg = viewdef->getOrigin().startsWith("DEFAULT:") || pViewDefinition->getName().endsWith(".DEFAULT")
+                 ? _( "por defecto" ) : pViewDefinition->getCaption().c_str();
     switch( mEditMode ) {
     case DataTable::inserting:
         pFocusWidget = txtViewName;
         txtOrderBy->setText("2");
         title = _("Añadiendo una nueva vista a la tabla de %s");
-		arg = pRecord->getTableDefinition()->getDescPlural();
+        arg = pRecord->getTableDefinition()->getDescPlural();
         break;
     case DataTable::updating:
         title = _("Modificando la vista '%s'");
         txtViewName->setEnabled( false );
-		comboSetting->setCurrentIndex( 2 );
+        comboSetting->setCurrentIndex( 2 );
         break;
     case DataTable::deleting:
         title = _("Eliminando la vista '%1s'");
@@ -382,8 +382,8 @@ int FrmViewEdit::exec()
     showModalFor( getRealParent(), false, true );
     if( !wasCancelled() ) {
         if( pViewDefinition->isModified()
-			|| pViewDefinition->getCaption() != txtViewName->toString()
-			|| mSaveSettingIndex != comboSetting->currentIndex() ) {
+                || pViewDefinition->getCaption() != txtViewName->toString()
+                || mSaveSettingIndex != comboSetting->currentIndex() ) {
             updateView();
             saveView();
         }
@@ -411,7 +411,7 @@ void FrmViewEdit::addRelatedFields(XtringList &fieldnames, const dbDefinition *d
                            + flddef->getFullName();
         }
         for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
-			relit != tbldef->getRelationDefinitions().end(); ++relit ) {
+                relit != tbldef->getRelationDefinitions().end(); ++relit ) {
             dbRelationDefinition *reldef = relit->second;
             Xtring relatedtable = reldef->getRightTable();
             Xtring others = othertables;
@@ -442,17 +442,17 @@ bool FrmViewEdit::saveView()
     pViewDefinition->setOrderBy( txtOrderBy->toString() );
     _GONG_DEBUG_PRINT(0, "Must save view " + pViewDefinition->getCaption() +
                       " to origin " + origin + "=" + pViewDefinition->toConfigString() );
-	switch( comboSetting->currentIndex() ) {
-		case 0:
-			DBAPP->getUserLocalSettings()->setValue( origin, pViewDefinition->toConfigString() );
-			break;
-		case 1:
-			DBAPP->getGlobalSettings()->setValue( origin, pViewDefinition->toConfigString() );
-			break;
-		case 2:
-			DBAPP->updateSetting( origin, pViewDefinition->toConfigString() );
-			break;
-	}
+    switch( comboSetting->currentIndex() ) {
+    case 0:
+        DBAPP->getUserLocalSettings()->setValue( origin, pViewDefinition->toConfigString() );
+        break;
+    case 1:
+        DBAPP->getGlobalSettings()->setValue( origin, pViewDefinition->toConfigString() );
+        break;
+    case 2:
+        DBAPP->updateSetting( origin, pViewDefinition->toConfigString() );
+        break;
+    }
     pViewDefinition->setModified( false );
     DBAPP->setViewsFromConfig();
     return true;

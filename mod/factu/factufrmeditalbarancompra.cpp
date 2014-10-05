@@ -275,7 +275,7 @@ if( ModuleInstance->getContabModule() ) {
     }
     pFrmAlbaranCompraDet->addDetailIfNeeded();
     if( editContador->toInt() == 0 )
-        editContador->setText( empresa::ModuleInstance->getMaxContador() );    
+        editContador->setText( empresa::ModuleInstance->getMaxContador() );
     searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
     searchFormaPagoCodigo->setMustBeReadOnly( mHasPagos );
     editFecha->setMustBeReadOnly( mHasPagos );

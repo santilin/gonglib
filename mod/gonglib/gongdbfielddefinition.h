@@ -112,7 +112,9 @@ public:
         mSqlColumnType = sqlcolumntype;
         return this;
     }
-    const Xtring &getOrigDDL() const { return mOrigDDL; }
+    const Xtring &getOrigDDL() const {
+        return mOrigDDL;
+    }
 
     dbFieldDefinition* setSqlWidth( const unsigned& sqlwidth );
     dbFieldDefinition* setDecimals( const unsigned& decimals ) {
@@ -148,9 +150,9 @@ public:
         return this;
     }
     dbFieldDefinition* setOrigDDL( const Xtring &origddl ) {
-		mOrigDDL = origddl;
-		return this;
-	}
+        mOrigDDL = origddl;
+        return this;
+    }
 
 public:
     bool canBeNull() const {
@@ -274,8 +276,8 @@ public:
     /** Extracts the Field part of a full qualified field name */
     static Xtring extractFieldName( const Xtring &fullfldname );
     dbFieldValue *createFieldValue() const;
-	/** finds the relation definition for this field in its parent's definition */
-	class dbRelationDefinition *findRelationDefinition( const dbTableDefinition &tlbdef ) const;
+    /** finds the relation definition for this field in its parent's definition */
+    class dbRelationDefinition *findRelationDefinition( const dbTableDefinition &tlbdef ) const;
 private:
     void init_class();
 
@@ -291,7 +293,7 @@ private:
     Xtring mReference;
     Xtring mStyle;
     unsigned mDisplayWidth;
-	Xtring mOrigDDL; // Only if created with fromSqlSchema
+    Xtring mOrigDDL; // Only if created with fromSqlSchema
 };
 
 

@@ -31,9 +31,9 @@ public:
 	RecCuentaTesoreria(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("CUENTATESORERIA"), recid, user)
 /*>>>>>CUENTATESORERIA_CONSTRUCTOR*/
-	{};
+    {};
 
-/*<<<<<CUENTATESORERIA_MEMBERS*/
+    /*<<<<<CUENTATESORERIA_MEMBERS*/
 	void init();
 /*>>>>>CUENTATESORERIA_MEMBERS*/
 

@@ -23,9 +23,9 @@ public:
 
 private:
 #ifdef HAVE_POCOLIB
-	virtual void startElement( const Xtring &name, const Attributes &attrList );
-	virtual void endElement( const Xtring &name );
-	virtual void characters( const Xtring &characters );
+    virtual void startElement( const Xtring &name, const Attributes &attrList );
+    virtual void endElement( const Xtring &name );
+    virtual void characters( const Xtring &characters );
 #else
     virtual void startElement( const xmlChar *name, const xmlChar **attributes ); // From XmlParser
     virtual void endElement( const xmlChar *name ); // From XmlParser
@@ -155,7 +155,7 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
             text += "(new)";
         for ( i=0; i<getFieldCount(); i++ )
         {
-			const dbFieldDefinition *flddef = getFieldDefinition(i);
+            const dbFieldDefinition *flddef = getFieldDefinition(i);
             if( flddef->getSqlColumnType() == SQLBLOB )
                 continue;
             if( !mFieldValues.seq_at(i)->isModified() )
@@ -177,16 +177,16 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
         text += ": ";
         for ( i=0; i<getFieldCount(); i++ )
         {
-			const dbFieldDefinition *flddef = getFieldDefinition(i);
+            const dbFieldDefinition *flddef = getFieldDefinition(i);
             if( flddef->getSqlColumnType() == SQLBLOB )
                 continue;
             if ( i!=0 )
                 text += ",";
             text += flddef->getName() + "=" + getValue(i).toString();
         }
-		for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
-			relit != mRecordRelations.end(); ++relit ) {
-			dbRecordRelation *recrel = relit->second;
+        for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+                relit != mRecordRelations.end(); ++relit ) {
+            dbRecordRelation *recrel = relit->second;
             if ( recrel->isEnabled() )
             {
                 if ( recrel->getType() == dbRelationDefinition::one2many )
@@ -199,10 +199,10 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
                         text += "\n\t(" + Xtring::number ( i+1 ) + "/" + Xtring::number(recrel->getRelatedRecordList()->size())
                                 + "): " + ( *detail )->toString ( format, includedFields );
                     }
-				} else if ( recrel->getType() == dbRelationDefinition::aggregate ) {
- 					text += "\n\t" + recrel->getLeftField() + ": "
- 					        + recrel->getRelatedRecord(-1)->toString ( format, includedFields );
-				}
+                } else if ( recrel->getType() == dbRelationDefinition::aggregate ) {
+                    text += "\n\t" + recrel->getLeftField() + ": "
+                            + recrel->getRelatedRecord(-1)->toString ( format, includedFields );
+                }
             }
         }
     }
@@ -240,9 +240,9 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
                 text += svalue.XMLProtect() + "</" + getFieldDefinition ( i )->getName().upper() + ">\n";
             }
         }
-		for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
-			relit != mRecordRelations.end(); ++relit ) {
-			dbRecordRelation *recrel = relit->second;
+        for( dbRecordRelationDict::const_iterator relit = mRecordRelations.begin();
+                relit != mRecordRelations.end(); ++relit ) {
+            dbRecordRelation *recrel = relit->second;
             if ( recrel->isEnabled() )
             {
                 if ( recrel->getType() == dbRelationDefinition::one2many )
@@ -322,95 +322,95 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
 {
     // Si un valor está en blanco, no se importa, se conserva el valor que tenía.
     // Para forzar un valor a estar vacío, debe tener el valor ~
-    if ( format == TOSTRING_CSV ) 
+    if ( format == TOSTRING_CSV )
     {
         _GONG_DEBUG_PRINT ( 4, "Import to " + getTableName() + " from " + source );
         XtringList names, values, related_tables;
         CsvUtils::tokenize( values, source, '\"', ',' );
         CsvUtils::tokenize( names, includedFields, '\"', ',' );
-		uint i = 0;
+        uint i = 0;
         for ( XtringList::const_iterator namesit = names.begin();
                 namesit != names.end(); ++namesit) {
             Xtring fldname = *namesit;
-			if( i >= values.size() ) {
+            if( i >= values.size() ) {
                 _GONG_DEBUG_WARNING( "Importing CSV for table " + getTableName() + ": there is no value for field " + fldname );
-				continue;
-			}
+                continue;
+            }
             Xtring fldvalue = values[i++];
             if( fldvalue == "~" ) {
                 setValue( fldname, Variant() );
             } else if( !fldvalue.isEmpty() ) {
                 dbFieldDefinition *flddef = getTableDefinition()->findFieldDefinition(fldname, false);
                 if( !flddef ) {
-					Xtring reftable, reffield;
-					fldname.splitIn2(reftable, reffield, ".");
-					if ( !reftable.isEmpty() && reftable != getTableName() ) {
-						dbTableDefinition *tbldef = getTableDefinition()->getdbDefinition().findTableDefinition( reftable );
-						if( tbldef ) {
-							flddef = tbldef->findFieldDefinition( reffield );
-							related_tables << reftable;
-						} else {
-							_GONG_DEBUG_WARNING("Related field " + fldname + " not found in table " + getTableName() );
-						}
-					}
-				}
-				if( flddef ) {
+                    Xtring reftable, reffield;
+                    fldname.splitIn2(reftable, reffield, ".");
+                    if ( !reftable.isEmpty() && reftable != getTableName() ) {
+                        dbTableDefinition *tbldef = getTableDefinition()->getdbDefinition().findTableDefinition( reftable );
+                        if( tbldef ) {
+                            flddef = tbldef->findFieldDefinition( reffield );
+                            related_tables << reftable;
+                        } else {
+                            _GONG_DEBUG_WARNING("Related field " + fldname + " not found in table " + getTableName() );
+                        }
+                    }
+                }
+                if( flddef ) {
                     if( dbFieldListOfValues<int> *fldlov = dynamic_cast< dbFieldListOfValues<int> *>(flddef) ) {
                         int value = fldlov->findValue( fldvalue );
                         if( value == 0 )
                             value = fldvalue.toInt();
                         setValue( fldname, fldvalue );
                     } else {
-						setValue( fldname, fldvalue );
-					}
+                        setValue( fldname, fldvalue );
+                    }
                 } else {
-					setValue( fldname, fldvalue );
-				}
+                    setValue( fldname, fldvalue );
+                }
             }
         }
         _GONG_DEBUG_PRINT(0, toString( TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS ));
         // Find or create related records
         for( XtringList::const_iterator relit = related_tables.begin();
-			relit != related_tables.end(); ++relit ) {
-			dbRecordRelation *relation = findRelationByRelatedTable( *relit );
-			if( relation ) {
-				dbRecord *relrecord = relation->getRelatedRecord();
-				if( relrecord ) {
-					pTableDef = relrecord->getTableDefinition();
-					/// TODO: Refactor, make this a function as it it used in existAnother
-					Xtring codecond;
-					for ( unsigned int nf = 0; nf < pTableDef->getFieldCount(); nf ++ )
-					{
-						const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
-						if( !flddef->isPrimaryKey() && flddef->isCode() )
-						{
-							Variant fldvalue = relrecord->getValue( flddef->getName() );
-							if( !( flddef->canBeNull() && fldvalue.isEmpty() ) )
-							{
-								if ( !codecond.isEmpty() )
-									codecond += "OR";
-								codecond += "(" + getConnection()->nameToSQL ( flddef->getName() )
-											+ "=" + getConnection()->toSQL ( fldvalue ) + ")";
-							}
-						}
-					}
-					dbRecordID recid = 0;
-					if( !codecond.isEmpty() ) {
-						recid = relrecord->getConnection()->selectInt( "SELECT ID FROM " + relrecord->getTableName()
-								+ relrecord->getFilter("WHERE", codecond ) );
-					}
-					if( recid == 0 && relation->getType() == dbRelationDefinition::aggregate ) {
-						if( relrecord->save(false) )
-							recid = relrecord->getRecordID();
-					}
-					setValue( *relit + "_ID", recid );
-				} else {
-					_GONG_DEBUG_WARNING("In table " + getTableName() + ", related record for table " + *relit + " not found");
-				}
-			} else {
-				_GONG_DEBUG_WARNING("In table " + getTableName() + ", relation for table " + *relit + " not found" );
-			}
-		}					
+                relit != related_tables.end(); ++relit ) {
+            dbRecordRelation *relation = findRelationByRelatedTable( *relit );
+            if( relation ) {
+                dbRecord *relrecord = relation->getRelatedRecord();
+                if( relrecord ) {
+                    pTableDef = relrecord->getTableDefinition();
+                    /// TODO: Refactor, make this a function as it it used in existAnother
+                    Xtring codecond;
+                    for ( unsigned int nf = 0; nf < pTableDef->getFieldCount(); nf ++ )
+                    {
+                        const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
+                        if( !flddef->isPrimaryKey() && flddef->isCode() )
+                        {
+                            Variant fldvalue = relrecord->getValue( flddef->getName() );
+                            if( !( flddef->canBeNull() && fldvalue.isEmpty() ) )
+                            {
+                                if ( !codecond.isEmpty() )
+                                    codecond += "OR";
+                                codecond += "(" + getConnection()->nameToSQL ( flddef->getName() )
+                                            + "=" + getConnection()->toSQL ( fldvalue ) + ")";
+                            }
+                        }
+                    }
+                    dbRecordID recid = 0;
+                    if( !codecond.isEmpty() ) {
+                        recid = relrecord->getConnection()->selectInt( "SELECT ID FROM " + relrecord->getTableName()
+                                + relrecord->getFilter("WHERE", codecond ) );
+                    }
+                    if( recid == 0 && relation->getType() == dbRelationDefinition::aggregate ) {
+                        if( relrecord->save(false) )
+                            recid = relrecord->getRecordID();
+                    }
+                    setValue( *relit + "_ID", recid );
+                } else {
+                    _GONG_DEBUG_WARNING("In table " + getTableName() + ", related record for table " + *relit + " not found");
+                }
+            } else {
+                _GONG_DEBUG_WARNING("In table " + getTableName() + ", relation for table " + *relit + " not found" );
+            }
+        }
     }
     else if ( format == TOSTRING_FUGIT )
     {
@@ -418,7 +418,7 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
         FugitRecordImporter recimporter( this, &getTableDefinition()->getdbDefinition() );
         recimporter.parseString( source.c_str() );
 #else
-		throw std::runtime_error( "Xml not supported in dbRecord::toString()" );
+        throw std::runtime_error( "Xml not supported in dbRecord::toString()" );
 #endif
     }
     return true;

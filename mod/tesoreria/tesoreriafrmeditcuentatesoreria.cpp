@@ -32,7 +32,7 @@ FrmEditCuentaTesoreria::FrmEditCuentaTesoreria(FrmEditRec *parentfrm, dbRecord *
 	if ( !name )
 	    setName( "FrmEditCuentaTesoreria" );
 /*>>>>>FRMEDITCUENTATESORERIA_CONSTRUCTOR*/
-/*<<<<<FRMEDITCUENTATESORERIA_INIT_CONTROLS*/
+    /*<<<<<FRMEDITCUENTATESORERIA_INIT_CONTROLS*/
 	showTabs(true);
 	QWidget *tabExtracto = new QWidget( pTabWidget, "tabExtracto" );
 	QVBoxLayout *tabExtractoLayout = new QVBoxLayout(tabExtracto, 11, 6, "tabExtractoLayout");
@@ -59,9 +59,9 @@ FrmEditCuentaTesoreria::FrmEditCuentaTesoreria(FrmEditRec *parentfrm, dbRecord *
     ModuleInstance->getDatabase()->getViewsByName( "APUNTETESORERIA._EXTRACTO_", apunteviews );
     dbRecordDataModel *apuntedm = new dbRecordDataModel(apunte, apunteviews, "");
     pFrmApunteTesoreria = static_cast<FrmEditApunteTesoreria *>(
-                      ModuleInstance->createEditForm(this, apunte, apuntedm, DataTable::browsing,
-                              static_cast<dbApplication::EditFlags>(dbApplication::embedded + dbApplication::tableEditEvent ),
-                              tabExtracto) );
+                              ModuleInstance->createEditForm(this, apunte, apuntedm, DataTable::browsing,
+                                      static_cast<dbApplication::EditFlags>(dbApplication::embedded + dbApplication::tableEditEvent ),
+                                      tabExtracto) );
     pFrmApunteTesoreria->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding);
     tabExtractoLayout->addWidget(pFrmApunteTesoreria);
     pTabWidget->addTab( tabExtracto, "&Extracto" );
@@ -69,7 +69,7 @@ FrmEditCuentaTesoreria::FrmEditCuentaTesoreria(FrmEditRec *parentfrm, dbRecord *
 
 void FrmEditCuentaTesoreria::scatterFields()
 {
-/*<<<<<FRMEDITCUENTATESORERIA_SCATTER*/
+    /*<<<<<FRMEDITCUENTATESORERIA_SCATTER*/
 	editDebe->setText(getRecCuentaTesoreria()->getValue("DEBE").toMoney());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editDebe;
@@ -81,14 +81,14 @@ void FrmEditCuentaTesoreria::scatterFields()
 	editFechaSaldoInicial->setText(getRecCuentaTesoreria()->getValue("FECHASALDOINICIAL").toDate());
 	editNotas->setText(getRecCuentaTesoreria()->getValue("NOTAS").toString());
 /*>>>>>FRMEDITCUENTATESORERIA_SCATTER*/
-	if( !mSaveSaldoInicial.isValid() ) {
-		mSaveSaldoInicial = editSaldoInicial->toVariant();
-		mSaveSaldo = editSaldo->toVariant();
-	}
+    if( !mSaveSaldoInicial.isValid() ) {
+        mSaveSaldoInicial = editSaldoInicial->toVariant();
+        mSaveSaldo = editSaldo->toVariant();
+    }
     if( !isDeleting() ) {
-		Xtring id_cond = getRecord()->getConnection()->toSQL(getRecCuentaTesoreria()->getRecordID());
-        pFrmApunteTesoreria->setFormFilter( "APUNTETESORERIA.CUENTATESORERIA_ID=" + id_cond 
-			+ " OR (APUNTETESORERIA.TABLATERCEROS='APUNTETESORERIA' AND APUNTETESORERIA.TERCERO_ID=" + id_cond + ")");
+        Xtring id_cond = getRecord()->getConnection()->toSQL(getRecCuentaTesoreria()->getRecordID());
+        pFrmApunteTesoreria->setFormFilter( "APUNTETESORERIA.CUENTATESORERIA_ID=" + id_cond
+                                            + " OR (APUNTETESORERIA.TABLATERCEROS='APUNTETESORERIA' AND APUNTETESORERIA.TERCERO_ID=" + id_cond + ")");
         // Si no, no se llama al showEvent que es el que hace el setdatamodel
         pTabWidget->setCurrentPage( 1 );
     }
@@ -103,7 +103,7 @@ void FrmEditCuentaTesoreria::scatterFields()
 
 void FrmEditCuentaTesoreria::gatherFields()
 {
-/*<<<<<FRMEDITCUENTATESORERIA_GATHER*/
+    /*<<<<<FRMEDITCUENTATESORERIA_GATHER*/
 	getRecCuentaTesoreria()->setValue( "DEBE", editDebe->toMoney());
 	getRecCuentaTesoreria()->setValue( "HABER", editHaber->toMoney());
 	getRecCuentaTesoreria()->setValue( "SALDO", editSaldo->toMoney());
@@ -117,7 +117,7 @@ void FrmEditCuentaTesoreria::gatherFields()
 
 void FrmEditCuentaTesoreria::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
-/*<<<<<FRMEDITCUENTATESORERIA_VALIDATE*/
+    /*<<<<<FRMEDITCUENTATESORERIA_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -125,14 +125,14 @@ void FrmEditCuentaTesoreria::validateFields(QWidget *sender, bool *isvalid, Vali
 	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
 			*isvalid = false;
 /*>>>>>FRMEDITCUENTATESORERIA_VALIDATE*/
-	if( !ir ) {
-		showValidMessages(isvalid, *validresult, sender);
-		delete validresult;
-	}
-	if (sender == editSaldoInicial && editSaldoInicial->isJustEdited()) {
-		editSaldo->setText( mSaveSaldo - mSaveSaldoInicial + editSaldoInicial->toVariant() );
-		editFechaSaldoInicial->setText( Date::currentDate() );
-	}
+    if( !ir ) {
+        showValidMessages(isvalid, *validresult, sender);
+        delete validresult;
+    }
+    if (sender == editSaldoInicial && editSaldoInicial->isJustEdited()) {
+        editSaldo->setText( mSaveSaldo - mSaveSaldoInicial + editSaldoInicial->toVariant() );
+        editFechaSaldoInicial->setText( Date::currentDate() );
+    }
 }
 
 /*<<<<<FRMEDITCUENTATESORERIA_FIN*/

@@ -91,9 +91,9 @@ dbRecord *RecCobro::getRecFactura()
         if( pRecFactura == 0 )
             pRecFactura = DBAPP->createRecord( tablafacturas, 0, getUser() );
         if( getValue( "FACTURA_ID" ).toUInt() != pRecFactura->getRecordID() ) {
-			if( !pRecFactura->isRead() )
-				pRecFactura->read( getValue( "FACTURA_ID" ).toInt() );
-		}
+            if( !pRecFactura->isRead() )
+                pRecFactura->read( getValue( "FACTURA_ID" ).toInt() );
+        }
     } else {
         _GONG_DEBUG_WARNING( "COBRO.TABLAFACTURAS está vacío" );
     }
@@ -113,9 +113,9 @@ dbRecord *RecCobro::getRecTercero()
         if( pRecTercero == 0 )
             pRecTercero = DBAPP->createRecord( tablaterceros, 0, getUser() );
         if( getValue( "TERCERO_ID" ).toUInt() != pRecTercero->getRecordID() ) {
-			if( !pRecTercero->isRead() )
-				pRecTercero->read( getValue( "TERCERO_ID" ).toInt() );
-		}
+            if( !pRecTercero->isRead() )
+                pRecTercero->read( getValue( "TERCERO_ID" ).toInt() );
+        }
     } else {
         _GONG_DEBUG_WARNING( "COBRO.TABLATERCEROS está vacío" );
     }

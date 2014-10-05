@@ -57,7 +57,7 @@ static dbModuleSetting _settings[] = {
         "{direccion}, {barrio}\n{cp} {localidad}, {provincia}. {pais}\nTel: {telefono}, Fax: {fax}\n{email}",
         dbModuleSetting::All
     },
-	{dbModuleSetting::None}
+    {dbModuleSetting::None}
 };
 
 ContactosModule::ContactosModule()
@@ -94,7 +94,7 @@ bool ContactosModule::initDatabase(dbDefinition *db)
     _GONG_DEBUG_ASSERT( db );
     pMainDatabase = db;
 
-/*<<<<<CONTACTOSMODULE_INIT_DATABASE*/
+    /*<<<<<CONTACTOSMODULE_INIT_DATABASE*/
 	pFicTratamientoContacto = new NamesListTable( *pMainDatabase, "TRATAMIENTOCONTACTO" );
 	pMainDatabase->addTable( pFicTratamientoContacto->getTableDefinition() );
 /*>>>>>CONTACTOSMODULE_INIT_DATABASE*/

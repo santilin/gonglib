@@ -23,7 +23,7 @@ Date dbApplication::sWorkingDate = Date::currentDate();
 dbRecordID dbApplication::sAnotherRecordID = 0;
 XtringList dbApplication::mMasterTables, dbApplication::mDetailTables;
 dbRecordTimestampBehavior *dbApplication::sTimestampBehavior
-	= new dbRecordTimestampBehavior( "REC_FECHA_CREA", "REC_FECHA_MODIF" );
+    = new dbRecordTimestampBehavior( "REC_FECHA_CREA", "REC_FECHA_MODIF" );
 
 static dbModuleSetting _settings[] = {
     {
@@ -31,7 +31,7 @@ static dbModuleSetting _settings[] = {
         "AUTOLOGIN",
         _("Conectar automáticamente a la base de datos al iniciar el programa"),
         "false",
-		dbModuleSetting::Local
+        dbModuleSetting::Local
     },
 // TODO
 //     {
@@ -40,105 +40,105 @@ static dbModuleSetting _settings[] = {
 //         _("Recordar tamaños y posiciones de las ventanas"),
 //         "true"
 //     },
-	// INFORMES
+    // INFORMES
     {
         dbModuleSetting::DirName,
         "RTK.PATH",
         _("Ruta de búsqueda de informes"),
         "",
-		dbModuleSetting::Local
+        dbModuleSetting::Local
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PRINTER.MARGINLEFT",
         _("Margen izquierdo de los informes en impresora y pantalla"),
         "20",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PRINTER.MARGINRIGHT",
         _("Margen derecho de los informes en impresora y pantalla"),
         "20",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PRINTER.MARGINTOP",
         _("Margen superior de los informes en impresora y pantalla"),
         "20",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PRINTER.MARGININFERIOR",
         _("Margen inferior de los informes en impresora y pantalla"),
         "20",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PDF.MARGINLEFT",
         _("Margen izquierdo de los informes en PDF"),
         "20",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PDF.MARGINRIGHT",
         _("Margen derecho de los informes en PDF"),
         "20",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PDF.MARGINTOP",
         _("Margen superior de los informes en PDF"),
         "20",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
     {
         dbModuleSetting::Int,
         "RTK.OUTPUT.PDF.MARGININFERIOR",
         _("Margen inferior de los informes en PDF"),
         "20",
-		dbModuleSetting::All
+        dbModuleSetting::All
     },
-	{
-		dbModuleSetting::String,
-		"SMTP_FROM",
-		_("Remitente de los envíos de emails masivos"),
-		"",
+    {
+        dbModuleSetting::String,
+        "SMTP_FROM",
+        _("Remitente de los envíos de emails masivos"),
+        "",
         dbModuleSetting::All
-	},
-	{
-		dbModuleSetting::String,
-		"SMTP_HOST",
-		_("Host del servidor SMTP"),
-		"",
+    },
+    {
+        dbModuleSetting::String,
+        "SMTP_HOST",
+        _("Host del servidor SMTP"),
+        "",
         dbModuleSetting::All
-	},
-	{
-		dbModuleSetting::String,
-		"SMTP_USER",
-		_("Usuaria del servidor SMTP"),
-		"",
+    },
+    {
+        dbModuleSetting::String,
+        "SMTP_USER",
+        _("Usuaria del servidor SMTP"),
+        "",
         dbModuleSetting::All
-	},
-	{
-		dbModuleSetting::Int,
-		"SMTP_PORT",
-		_("Puerto del servidor SMTP (25)"),
-		"25",
+    },
+    {
+        dbModuleSetting::Int,
+        "SMTP_PORT",
+        _("Puerto del servidor SMTP (25)"),
+        "25",
         dbModuleSetting::All
-	},
-	{
-		dbModuleSetting::String,
-		"ICON_THEME",
-		_("Tema de los iconos"),
-		"",
-		dbModuleSetting::All
-	},
+    },
+    {
+        dbModuleSetting::String,
+        "ICON_THEME",
+        _("Tema de los iconos"),
+        "",
+        dbModuleSetting::All
+    },
     {dbModuleSetting::None}
 };
 
@@ -159,7 +159,7 @@ dbApplication::dbApplication ( const char *dbversion, const char *datadir,
     pUserLocalSettings = new Settings( getLocalDataDir() + "settings.rc",
                                        _("Configuración local para este ordenador") );
     pUserLocalSettings->read(); // will be read again later
-	pModuleSettings = _settings;
+    pModuleSettings = _settings;
 }
 
 dbApplication::~dbApplication()
@@ -192,41 +192,41 @@ void dbApplication::readSettings()
     _GONG_DEBUG_PRINT(1, "Reading settings for the application" );
     // Local machine settings are read before everything else
     QString ss( styleSheet() );
-	bool ssread = false;
+    bool ssread = false;
     if( FileUtils::exists( (getGonglibDataDir() + "dbapp/stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getGonglibDataDir() + "dbapp/stylesheet.css" ).c_str();
-		ssread = true;
+        ssread = true;
         _GONG_DEBUG_PRINT(2, "Adding stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
     } else {
         _GONG_DEBUG_PRINT(3, "NOT ADDING stylesheet: " + getGonglibDataDir() + "dbapp/stylesheet.css" );
     }
     if( ssread )
-		setStyleSheet( ss );
-	ssread = false;
+        setStyleSheet( ss );
+    ssread = false;
     mReportsGlobalPath = getGonglibDataDir() + "dbapp/informes/";
     // Now, each module's global and local settings
     for ( unsigned int i=0; i < mModules.size(); i++ ) {
-		dbModule *mod = mModules.seq_at(i);
+        dbModule *mod = mModules.seq_at(i);
         if( mod->isEnabled() )
-			mod->readSettings();
-	}
+            mod->readSettings();
+    }
     // Each module has added its reports path in readSettings
-	mReportsGlobalPath += ":" + getGlobalDataDir() + "informes/";
-	if( !mReportsLocalPath.endsWith(":") )
-		mReportsLocalPath += ":";
+    mReportsGlobalPath += ":" + getGlobalDataDir() + "informes/";
+    if( !mReportsLocalPath.endsWith(":") )
+        mReportsLocalPath += ":";
     mReportsLocalPath += getLocalDataDir() + "informes/";
     // dbModules might have set the stylesheet, so I read it again
     ss = styleSheet();
     if( FileUtils::exists( (getGlobalDataDir() + "stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getGlobalDataDir() + "stylesheet.css" ).c_str();
-		ssread = true;
+        ssread = true;
         _GONG_DEBUG_PRINT(2, "Adding stylesheet: " + getGlobalDataDir() + "stylesheet.css" );
     } else {
         _GONG_DEBUG_PRINT(3, "NOT ADDING stylesheet: " + getGlobalDataDir() + "stylesheet.css" );
     }
     if( FileUtils::exists( (getLocalDataDir() + "stylesheet.css").c_str() ) ) {
         ss += FileUtils::readFile( getLocalDataDir() + "stylesheet.css" ).c_str();
-		ssread = true;
+        ssread = true;
         _GONG_DEBUG_PRINT(2, "Adding stylesheet: " + getLocalDataDir() + "stylesheet.css" );
     } else {
         _GONG_DEBUG_PRINT(3, "NOT ADDING stylesheet: " + getLocalDataDir() + "stylesheet.css" );
@@ -380,18 +380,18 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
     // Do the login of the plugins and add their title to the application title
     mTitle = getPackageString();
     for ( unsigned int i=0; i < mModules.size(); i++ ) {
-		dbModule *mod = mModules.seq_at(i);
-		if( mod->isEnabled() ) {
-			Xtring title;
-			_GONG_DEBUG_PRINT(2, "Module " + mod->getUnixName() + " logging in" );
-			if ( !mod->login ( pFrmLogin, version, title, startingapp ) ) {
-				_GONG_DEBUG_WARNING( "Module " + mod->getUnixName() + " has not logged in" );
-				mod->setEnabled( false );
-			} else {
-				if( !title.isEmpty() )
-					mTitle += " " + title;
-			}
-		}
+        dbModule *mod = mModules.seq_at(i);
+        if( mod->isEnabled() ) {
+            Xtring title;
+            _GONG_DEBUG_PRINT(2, "Module " + mod->getUnixName() + " logging in" );
+            if ( !mod->login ( pFrmLogin, version, title, startingapp ) ) {
+                _GONG_DEBUG_WARNING( "Module " + mod->getUnixName() + " has not logged in" );
+                mod->setEnabled( false );
+            } else {
+                if( !title.isEmpty() )
+                    mTitle += " " + title;
+            }
+        }
     }
 
 
@@ -405,7 +405,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         _GONG_DEBUG_ASSERT( module );
         _GONG_DEBUG_ASSERT( module->getConnection() );
         for ( unsigned int i=0; i < mModules.size(); i++ ) {
-			dbModule *mod = mModules.seq_at(i);
+            dbModule *mod = mModules.seq_at(i);
             if( !mod->isEnabled() )
                 continue;
             Xtring mod_name = mod->getUnixName().upper();
@@ -470,7 +470,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
                                               pFrmLogin->getDBName().c_str() ) );
         DBAPP->processEvents();
         Xtring diff = upgradeDatabase( getConnection(), getDatabase(),
-									   pFrmLogin->getDBName(), false /*not purging*/ );
+                                       pFrmLogin->getDBName(), false /*not purging*/ );
         if( !diff.isEmpty() ) {
             pFrmLogin->addMessage( Xtring::printf( _("La base de datos de %s no está actualizada\n"),
                                                    getPackageString().c_str() ) );
@@ -489,16 +489,16 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
 
     // Postload tasks for every module.
     for ( unsigned int i=0; i < mModules.size(); i++ ) {
-		dbModule *mod = mModules.seq_at(i);
+        dbModule *mod = mModules.seq_at(i);
         if( mod->isEnabled() )
             mod->afterLoad();
-	}
+    }
 
     /// after all the settings have been read and the database upgraded, configure the database
     setDDDFromConfig( pDatabase );
     setViewsFromConfig( pDatabase );
     setStylesFromConfig( pDatabase );
-	NamesListTable::fillInfoList( getConnection() );
+    NamesListTable::fillInfoList( getConnection() );
 
     if( !startingapp ) {
         delete pFrmLogin;
@@ -534,12 +534,12 @@ bool dbApplication::initDatabases()
     pDatabase->addTable( pFicGlobalConfig->getTableDefinition() );
 
     for ( unsigned int i=0; i<mModules.size(); i++ ) {
-		dbModule *mod = mModules.seq_at(i);
+        dbModule *mod = mModules.seq_at(i);
         if( mod->isEnabled() ) {
-			mod->initDatabase ( pDatabase );
-			mMasterTables << mod->getMasterTables();
-			mDetailTables << mod->getDetailTables();
-		}
+            mod->initDatabase ( pDatabase );
+            mMasterTables << mod->getMasterTables();
+            mDetailTables << mod->getDetailTables();
+        }
     }
     // This is done again later, but we do this now to show correct table names while login
     setDDDFromConfig( pDatabase );
@@ -572,10 +572,10 @@ bool dbApplication::initMainWindow()
     setMainWidget ( pMainWindow );
     bool ret = true;
     for ( unsigned int i=0; i<mModules.size(); i++ ) {
-		dbModule *mod = mModules.seq_at(i);
+        dbModule *mod = mModules.seq_at(i);
         if( mod->isEnabled() )
             ret &= mod->initMainWindow ( static_cast<MainWindow *>(pMainWindow) );
-	}
+    }
     pMainWindow->finishGUI();
     getMainWindow()->setWindowTitle( toGUI( mTitle ) );
     if( pFrmLogin ) {
@@ -609,8 +609,8 @@ bool dbApplication::initMainWindow()
     }
     _GONG_DEBUG_PRINT(1, QIcon::themeName().latin1() );
     const char *tn = getAppSetting( "ICON_THEME" ).toString().c_str();
-	if( !strempty(tn) && tn != QIcon::themeName() )
-		QIcon::setThemeName( tn );
+    if( !strempty(tn) && tn != QIcon::themeName() )
+        QIcon::setThemeName( tn );
     return ret;
 }
 
@@ -636,7 +636,7 @@ FrmEditRec *dbApplication::createEditForm ( FrmEditRec *parentfrm,
     FrmEditRec *frm = 0;
     int i;
     for( i = mModules.size()-1; i>=0; i-- ) {
-		dbModule *mod = mModules.seq_at(i);
+        dbModule *mod = mModules.seq_at(i);
         if( !mod->isEnabled() )
             continue;
         frm = mod->createEditForm ( parentfrm, rec, dm, editmode, editflags, parent, name, fl );
@@ -645,7 +645,7 @@ FrmEditRec *dbApplication::createEditForm ( FrmEditRec *parentfrm,
     }
     if( frm ) {
         for	( i = 0; i < (int)mModules.size(); ++i ) {
-			dbModule *mod = mModules.seq_at(i);
+            dbModule *mod = mModules.seq_at(i);
             if( !mod->isEnabled() )
                 continue;
             _GONG_DEBUG_PRINT(4, "Calling afterCreateEditForm on module " + mod->getUnixName() + " for record " + rec->getTableName() );
@@ -667,17 +667,17 @@ FrmEditRecDetail *dbApplication::createEditDetailForm (
     FrmEditRecDetail *frm = 0;
     int i;
     for( i = mModules.size()-1; i>=0; i-- ) {
-		dbModule *mod = mModules.seq_at(i);
+        dbModule *mod = mModules.seq_at(i);
         if( !mod->isEnabled() )
             continue;
         frm = mod->createEditDetailForm ( frmmaster, ndetalle, rec, dettablename,
-                dm, editmode, editflags, parent, name, fl );
+                                          dm, editmode, editflags, parent, name, fl );
         if ( frm )
             break;
     }
     if( frm ) {
         for	( i = 0; i < (int)mModules.size(); ++i ) {
-			dbModule *mod = mModules.seq_at(i);
+            dbModule *mod = mModules.seq_at(i);
             if( !mod->isEnabled() )
                 continue;
             mod->afterCreateEditForm( frm, rec );
@@ -707,7 +707,7 @@ dbRecord *dbApplication::createRecord( const Xtring &tablename, dbRecordID recid
     dbRecord *rec = 0;
     int i;
     for ( i = mModules.size()-1; i>=0; i-- ) {
-		dbModule *mod = mModules.seq_at(i);
+        dbModule *mod = mModules.seq_at(i);
         if( !mod->isEnabled() )
             continue;
         try
@@ -726,21 +726,21 @@ dbRecord *dbApplication::createRecord( const Xtring &tablename, dbRecordID recid
     }
     if( rec ) {
         for ( i = mModules.size()-1; i>=0; i-- ) {
-			dbModule *mod = mModules.seq_at(i);
+            dbModule *mod = mModules.seq_at(i);
             if( mod->isEnabled() )
                 mod->afterCreateRecord( rec );
         }
     } else {
-		class DerivedRecord: public dbRecord {
-		public:
-			DerivedRecord(gong::dbConnection *conn, gong::dbTableDefinition *tbldef, gong::dbRecordID recid=0, gong::dbUser *user=0)
-				:dbRecord(conn, tbldef, recid, user) {}
-		};
-		DerivedRecord *rec = new DerivedRecord( getConnection(), 
-												getDatabase()->findTableDefinition(tablename), 
-												recid, user );
+        class DerivedRecord: public dbRecord {
+        public:
+            DerivedRecord(gong::dbConnection *conn, gong::dbTableDefinition *tbldef, gong::dbRecordID recid=0, gong::dbUser *user=0)
+                :dbRecord(conn, tbldef, recid, user) {}
+        };
+        DerivedRecord *rec = new DerivedRecord( getConnection(),
+                                                getDatabase()->findTableDefinition(tablename),
+                                                recid, user );
         _GONG_DEBUG_WARNING ( "Creating a default record for the table " + tablename );
-		return rec;
+        return rec;
     }
     return rec;
 }
@@ -856,10 +856,10 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
     sCodeNotFound = code.toString();
     sDescNotFound = desc.toString();
     sSeekCodeRecordIDs.clear();
-	Xtring lastCond = Xtring::null;
-	dbRecordID recid = rec->seekCode(nvalues, fldcod, code, flddesc, desc, cond, flags, lastCond);
+    Xtring lastCond = Xtring::null;
+    dbRecordID recid = rec->seekCode(nvalues, fldcod, code, flddesc, desc, cond, flags, lastCond);
     if ( recid == 0 || ( nvalues == 1 && (flags & AskIfFoundOne ) ) ) {
-		Xtring addcond = rec->getFilter( "", cond );
+        Xtring addcond = rec->getFilter( "", cond );
         Xtring message, message_cond;
         if( nvalues == 0 ) {
             message = Xtring::printf( _("No se han encontrado %s que contengan \"%s\""),
@@ -873,7 +873,7 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
             message = Xtring::printf( _("%s que contienen \"%s\""),
                                       rec->getTableDefinition()->getDescPlural().c_str(),
                                       sDescNotFound.isEmpty() ? sCodeNotFound.c_str() : sDescNotFound.c_str() );
-		}
+        }
         if( (flags & DontShowBrowse) && !( nvalues == 1 && (flags & AskIfFoundOne ) ) ) {
             showOSD( message, Xtring::null );
         } else if( flags & InsertIfNotFound && nvalues == 0) {
@@ -899,8 +899,8 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
                                 owner ) )
                     if( sSeekCodeRecordIDs.size() ) {
                         recid = sSeekCodeRecordIDs[0];
-						rec->read(recid);
-					}
+                        rec->read(recid);
+                    }
             } else
                 recid = choose ( 0, rec, &dm,
                                  (flags & dbApplication::SeekCodeReadonly) ? dbApplication::readOnly : dbApplication::editNone,
@@ -1070,7 +1070,7 @@ dbModule *dbApplication::findModule ( const Xtring &name ) const
 {
     dbModule *p = mModules[name];
     if ( !p )
-        _GONG_DEBUG_WARNING ( "Module " + name + " no encontrado. Los módulos son: " + mModules.toString() );
+        _GONG_DEBUG_PRINT(1, "Module " + name + " no encontrado. Los módulos son: " + mModules.toString() );
     return p;
 }
 
@@ -1088,9 +1088,9 @@ void dbApplication::writeSettings()
             pGlobalSettings->write();
     }
     if( pUserLocalSettings )
-		pUserLocalSettings->write();
-	if( pMachineSettings )
-		pMachineSettings->write();
+        pUserLocalSettings->write();
+    if( pMachineSettings )
+        pMachineSettings->write();
 }
 
 /**
@@ -1118,19 +1118,19 @@ Variant dbApplication::getAppSetting(const Xtring &settingname, const Variant &d
     if( !v.isValid() )
         v = pMachineSettings->getValue( settingname );
     if( !v.isValid() ) {
-		if( defaultvalue.isValid() || settingname.startsWith("MODULE") )
-			return defaultvalue;
-		else {
-			// Search the default value in the application settings
-			const dbModuleSetting *ms = getModuleSettings();
-			while( ms && ms->type != dbModuleSetting::None ) {
-				if( strcmp( ms->key, settingname.c_str() ) == 0 ) {
-					return Variant(ms->defaultvalue);
-				}
-				ms++;
-			}
-			return defaultvalue;
-		}
+        if( defaultvalue.isValid() || settingname.startsWith("MODULE") )
+            return defaultvalue;
+        else {
+            // Search the default value in the application settings
+            const dbModuleSetting *ms = getModuleSettings();
+            while( ms && ms->type != dbModuleSetting::None ) {
+                if( strcmp( ms->key, settingname.c_str() ) == 0 ) {
+                    return Variant(ms->defaultvalue);
+                }
+                ms++;
+            }
+            return defaultvalue;
+        }
     } else
         return v;
 }
@@ -1239,8 +1239,8 @@ void dbApplication::setStylesFromConfig(dbDefinition* pdb)
 {
     SettingsDict styles;
     getSettingsValues("DBDEF.STYLE", styles);
-	for( SettingsDict::const_iterator stit = styles.begin();
-		stit != styles.end(); ++stit ) {
+    for( SettingsDict::const_iterator stit = styles.begin();
+            stit != styles.end(); ++stit ) {
         Xtring stylename = stit->first.mid( stit->first.find_last_of('.') + 1 );
         pdb->addStyleFromString( stylename, stit->second.toString() );
     }
@@ -1395,8 +1395,8 @@ int dbApplication::setViewsFromConfig(dbDefinition *dbdef)
     SettingsDict views;
     dbdef->getViews().clear();
     getSettingsValues("VIEW", views);
-	for( SettingsDict::const_iterator viewit = views.begin();
-		viewit!=views.end(); ++viewit ) {
+    for( SettingsDict::const_iterator viewit = views.begin();
+            viewit!=views.end(); ++viewit ) {
         Xtring viewname = viewit->first.mid( viewit->first.find_last_of('.') + 1 );
         dbdef->addViewFromString( viewname, "SELECT " + viewit->second.toString(),
                                   "CONFIG:" + viewit->first );
@@ -1413,7 +1413,7 @@ int dbApplication::setViewsFromConfig(dbDefinition *dbdef)
  * @return Xtring
  **/
 Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* programdb,
-									   const gong::Xtring& sqldbname, bool purging, bool silent)
+                                       const gong::Xtring& sqldbname, bool purging, bool silent)
 {
     waitCursor( true );
     dbDefinition *oldschema = dbDefinition::fromSQLSchema( conn, sqldbname);
@@ -1423,14 +1423,14 @@ Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* program
             _GONG_DEBUG_PRINT(2, diff );
             XtringList querys;
             diff.tokenize( querys, ";\n" );
-			bool doit = true;
-			if( !silent )
-				doit = FrmBase::msgYesNoLarge( _("Actualización de la base de datos"),
-                                        Xtring::printf( _("La base de datos de %1s ('%2s') no está actualizada.\n¿Quieres actualizarla ahora?"),
-                                                getPackageName(), sqldbname.c_str() ),
-                                        diff );
-			if( doit ) {
-				DBAPP->showStickyOSD( DBAPP->getPackageString(), _("Actualizando la base de datos"), 0 );
+            bool doit = true;
+            if( !silent )
+                doit = FrmBase::msgYesNoLarge( _("Actualización de la base de datos"),
+                                               Xtring::printf( _("La base de datos de %1s ('%2s') no está actualizada.\n¿Quieres actualizarla ahora?"),
+                                                       getPackageName(), sqldbname.c_str() ),
+                                               diff );
+            if( doit ) {
+                DBAPP->showStickyOSD( DBAPP->getPackageString(), _("Actualizando la base de datos"), 0 );
                 purging = false; // Do not create the indexes again later
                 programdb->dropIndexes(conn, false, true);
                 conn->exec( querys );
@@ -1439,8 +1439,8 @@ Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* program
                     // Creates new tables, the existing ones are not touched
                     programdb->createTables( conn, Xtring(), true );
                 } else {
-	                programdb->createIndexes(conn, true);
-				}
+                    programdb->createIndexes(conn, true);
+                }
             }
         }
         if( purging ) {
@@ -1448,7 +1448,7 @@ Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* program
             programdb->dropIndexes(conn, false, true);
             programdb->createIndexes(conn, true);
         }
-		DBAPP->hideOSD();
+        DBAPP->hideOSD();
     } catch( dbError e ) {
         FrmBase::msgError( getPackageString(), e.what() );
     }

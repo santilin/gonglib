@@ -18,7 +18,7 @@ RecCuenta *IAsentableRecord::getRecCuentaPago() const
 
 RecAsiento* IAsentableRecord::borraAsiento()
 {
-    RecAsiento *asiento = static_cast<contab::RecAsiento *>(DBAPP->createRecord( "ASIENTO" ));
+    RecAsiento *asiento = static_cast<RecAsiento *>(DBAPP->createRecord( "ASIENTO" ));
     if( pRecord->getValue( mAsientoIDField ).toInt() && asiento->read( pRecord->getValue( mAsientoIDField ).toInt() ) ) {
         asiento->remove();
     }
@@ -41,7 +41,7 @@ dbRecordID IAsentableRecord::regenAsiento(bool supervisar)
     return ret;
 }
 
-FrmEditRec *IAsentableRecord::showAsiento( DataTable::EditMode editmode, const Xtring& asiento_id_field)
+FrmEditRec *IAsentableRecord::showAsiento( DataTable::EditMode editmode)
 {
     FrmEditRec *frm = DBAPP->createEditForm(0, pRecord, 0, editmode);
     DBAPP->getMainWindow()->createClient( frm );

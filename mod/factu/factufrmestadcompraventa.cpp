@@ -11,7 +11,7 @@ namespace factu {
 FrmEstadCompraVenta::FrmEstadCompraVenta(QWidget * parent, WidgetFlags fl)
     : FrmReportConds( _("Estadísticas de compras y ventas"), parent, fl)
 {
-	setObjectName( "FrmEstadCompraVenta" );
+    setObjectName( "FrmEstadCompraVenta" );
     XtringList comprasoventas;
     comprasoventas << _("Compras y ventas") << _("Sólo compras") << _("Sólo ventas");
     pComboComprasOVentas = addComboBoxXtring(false, 0, _("Compras o ventas"), comprasoventas );
@@ -29,8 +29,8 @@ FrmEstadCompraVenta::FrmEstadCompraVenta(QWidget * parent, WidgetFlags fl)
     agrupar_por << "No agrupar" << "Artículo" << "Razón social" << "Fecha (diario)" << "Documento";
     pComboAgruparPor = addComboBoxXtring( false, 0, _("Agrupar  por"), agrupar_por );
     pCheckPreciosConIVA = addCheckBox( 0, _("Precios con IVA"), true );
-	XtringList albaranesofacturas;
-	albaranesofacturas << _("Albaranes y facturas") << _("Sólo facturas") << _("Sólo albaranes");
+    XtringList albaranesofacturas;
+    albaranesofacturas << _("Albaranes y facturas") << _("Sólo facturas") << _("Sólo albaranes");
     pComboAlbaranesFacturas = addComboBoxXtring( false, 0, _("Albaranes/facturas"), albaranesofacturas );
     pCheckTodasLasEmpresas = addCheckBox(0, _("Todas las empresas"), false );
     pCheckGranTotal = addCheckBox( 0, _("Incluir gran total"), true );
@@ -156,121 +156,121 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
     if( ESTAD_COMPRASYVENTAS )
         signo_ventas = "-";
     if( ESTAD_COMPRAS ) {
-		if( !ESTAD_SOLOFACTURAS ) {
-			from +=
-				"		SELECT SUM(ACD.CANTIDAD) AS CANTIDAD, SUM(ACD.IMPORTE) AS IMPORTE, SUM(ACD.IMPORTECONIVA) AS IMPORTECONIVA, ACD.COSTESINIVA AS PRECIOSINIVA, ACD.COSTE AS PRECIOCONIVA, ACD.DTOP100, ACD.TIPOIVA_ID, TIPOIVA.CODIGO AS TIPOIVA_CODIGO, ACD.ARTICULO_ID, AC.FECHA, 'Ac' AS TIPO, AC.NUMERO, TIPODOC.NOMBRE AS TIPODOC, PROVEEDORA.CODIGO AS RAZONSOCIAL_CODIGO, PROVEEDORA.RAZONSOCIAL AS RAZONSOCIAL, PROVEEDORA.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, ACD.NOTAS AS NOTAS"
-				"			FROM ALBARANCOMPRADET ACD"
-				"           INNER JOIN ALBARANCOMPRA AC ON ACD.ALBARANCOMPRA_ID=AC.ID";
-			if( ESTAD_ALBARANESYFACTURAS )
-				from += " AND AC.FACTURADO=0";
-			from +=
-				"				INNER JOIN TIPODOC ON TIPODOC.ID = AC.TIPODOC_ID"
-				"				INNER JOIN TIPOIVA ON TIPOIVA.ID = ACD.TIPOIVA_ID"
-				"				INNER JOIN PROVEEDORA ON AC.PROVEEDORA_ID = PROVEEDORA.ID";
-			if( agente_ids.size() )
-				from += "				INNER JOIN AGENTE ON AC.AGENTE_ID = AGENTE.ID";
-			if( formapago_ids.size() )
-				from += "				INNER JOIN FORMAPAGO ON AC.FORMAPAGO_ID = FORMAPAGO.ID";
-			from += getExtraSQL( ComprasAlbaranesFrom );
-			if( !compras_where.isEmpty() )
-				from += " WHERE " + compras_where;
-			if( !extra_compras_albaranes_where.isEmpty() ) {
-				if( !compras_where.isEmpty() )
-					from += " AND ";
-				from += extra_compras_albaranes_where;
-			}
-			from +=
-				"			GROUP BY ACD.ID, ACD.COSTESINIVA, ACD.DTOP100, ACD.TIPOIVA_ID";
-		}
-		if( !ESTAD_SOLOALBARANES && !ESTAD_SOLOFACTURAS )
-			from += "		UNION ALL";
-		if( !ESTAD_SOLOALBARANES ) {
-			from +=
-				"	      SELECT SUM(FCD.CANTIDAD) AS CANTIDAD, SUM(FCD.IMPORTE) AS IMPORTE, SUM(FCD.IMPORTECONIVA) AS IMPORTECONIVA, FCD.COSTESINIVA AS PRECIOSINIVA, FCD.COSTE AS PRECIOCONIVA, FCD.DTOP100, FCD.TIPOIVA_ID, TIPOIVA.CODIGO AS TIPOIVA_CODIGO,FCD.ARTICULO_ID, FC.FECHA, 'Fc' AS TIPO, FC.NUMERO, TIPODOC.NOMBRE AS TIPODOC, PROVEEDORA.CODIGO AS RAZONSOCIAL_CODIGO, PROVEEDORA.RAZONSOCIAL AS RAZONSOCIAL, PROVEEDORA.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, FCD.NOTAS AS NOTAS"
-				"			FROM FACTURACOMPRADET FCD"
-				"				INNER JOIN FACTURACOMPRA FC ON FCD.FACTURACOMPRA_ID=FC.ID"
-				"				INNER JOIN TIPODOC ON TIPODOC.ID = FC.TIPODOC_ID"
-				"				INNER JOIN TIPOIVA ON TIPOIVA.ID = FCD.TIPOIVA_ID"
-				"				INNER JOIN PROVEEDORA ON FC.PROVEEDORA_ID = PROVEEDORA.ID";
-			if( agente_ids.size() )
-				from += "				INNER JOIN AGENTE ON FC.AGENTE_ID = AGENTE.ID";
-			if( formapago_ids.size() )
-				from += "				INNER JOIN FORMAPAGO ON FC.FORMAPAGO_ID = FORMAPAGO.ID";
-			from += getExtraSQL( ComprasFacturasFrom );
-			if( !compras_where.isEmpty() )
-				from += " WHERE " + compras_where.replace("AC.","FC.");
-			if( !extra_compras_facturas_where.isEmpty() ) {
-				if( !compras_where.isEmpty() )
-					from += " AND ";
-				from += extra_compras_facturas_where;
-			}
-			from +=
-				"			GROUP BY FCD.ID, FCD.COSTESINIVA, FCD.DTOP100, FCD.TIPOIVA_ID";
-		}
+        if( !ESTAD_SOLOFACTURAS ) {
+            from +=
+                "		SELECT SUM(ACD.CANTIDAD) AS CANTIDAD, SUM(ACD.IMPORTE) AS IMPORTE, SUM(ACD.IMPORTECONIVA) AS IMPORTECONIVA, ACD.COSTESINIVA AS PRECIOSINIVA, ACD.COSTE AS PRECIOCONIVA, ACD.DTOP100, ACD.TIPOIVA_ID, TIPOIVA.CODIGO AS TIPOIVA_CODIGO, ACD.ARTICULO_ID, AC.FECHA, 'Ac' AS TIPO, AC.NUMERO, TIPODOC.NOMBRE AS TIPODOC, PROVEEDORA.CODIGO AS RAZONSOCIAL_CODIGO, PROVEEDORA.RAZONSOCIAL AS RAZONSOCIAL, PROVEEDORA.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, ACD.NOTAS AS NOTAS"
+                "			FROM ALBARANCOMPRADET ACD"
+                "           INNER JOIN ALBARANCOMPRA AC ON ACD.ALBARANCOMPRA_ID=AC.ID";
+            if( ESTAD_ALBARANESYFACTURAS )
+                from += " AND AC.FACTURADO=0";
+            from +=
+                "				INNER JOIN TIPODOC ON TIPODOC.ID = AC.TIPODOC_ID"
+                "				INNER JOIN TIPOIVA ON TIPOIVA.ID = ACD.TIPOIVA_ID"
+                "				INNER JOIN PROVEEDORA ON AC.PROVEEDORA_ID = PROVEEDORA.ID";
+            if( agente_ids.size() )
+                from += "				INNER JOIN AGENTE ON AC.AGENTE_ID = AGENTE.ID";
+            if( formapago_ids.size() )
+                from += "				INNER JOIN FORMAPAGO ON AC.FORMAPAGO_ID = FORMAPAGO.ID";
+            from += getExtraSQL( ComprasAlbaranesFrom );
+            if( !compras_where.isEmpty() )
+                from += " WHERE " + compras_where;
+            if( !extra_compras_albaranes_where.isEmpty() ) {
+                if( !compras_where.isEmpty() )
+                    from += " AND ";
+                from += extra_compras_albaranes_where;
+            }
+            from +=
+                "			GROUP BY ACD.ID, ACD.COSTESINIVA, ACD.DTOP100, ACD.TIPOIVA_ID";
+        }
+        if( !ESTAD_SOLOALBARANES && !ESTAD_SOLOFACTURAS )
+            from += "		UNION ALL";
+        if( !ESTAD_SOLOALBARANES ) {
+            from +=
+                "	      SELECT SUM(FCD.CANTIDAD) AS CANTIDAD, SUM(FCD.IMPORTE) AS IMPORTE, SUM(FCD.IMPORTECONIVA) AS IMPORTECONIVA, FCD.COSTESINIVA AS PRECIOSINIVA, FCD.COSTE AS PRECIOCONIVA, FCD.DTOP100, FCD.TIPOIVA_ID, TIPOIVA.CODIGO AS TIPOIVA_CODIGO,FCD.ARTICULO_ID, FC.FECHA, 'Fc' AS TIPO, FC.NUMERO, TIPODOC.NOMBRE AS TIPODOC, PROVEEDORA.CODIGO AS RAZONSOCIAL_CODIGO, PROVEEDORA.RAZONSOCIAL AS RAZONSOCIAL, PROVEEDORA.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, FCD.NOTAS AS NOTAS"
+                "			FROM FACTURACOMPRADET FCD"
+                "				INNER JOIN FACTURACOMPRA FC ON FCD.FACTURACOMPRA_ID=FC.ID"
+                "				INNER JOIN TIPODOC ON TIPODOC.ID = FC.TIPODOC_ID"
+                "				INNER JOIN TIPOIVA ON TIPOIVA.ID = FCD.TIPOIVA_ID"
+                "				INNER JOIN PROVEEDORA ON FC.PROVEEDORA_ID = PROVEEDORA.ID";
+            if( agente_ids.size() )
+                from += "				INNER JOIN AGENTE ON FC.AGENTE_ID = AGENTE.ID";
+            if( formapago_ids.size() )
+                from += "				INNER JOIN FORMAPAGO ON FC.FORMAPAGO_ID = FORMAPAGO.ID";
+            from += getExtraSQL( ComprasFacturasFrom );
+            if( !compras_where.isEmpty() )
+                from += " WHERE " + compras_where.replace("AC.","FC.");
+            if( !extra_compras_facturas_where.isEmpty() ) {
+                if( !compras_where.isEmpty() )
+                    from += " AND ";
+                from += extra_compras_facturas_where;
+            }
+            from +=
+                "			GROUP BY FCD.ID, FCD.COSTESINIVA, FCD.DTOP100, FCD.TIPOIVA_ID";
+        }
     }
     if( ESTAD_VENTAS ) {
         if( !from.isEmpty() )
             from += " UNION ALL ";
-		if( !ESTAD_SOLOFACTURAS ) {
-			from +=
-				"		SELECT " + signo_ventas + "SUM(AVD.CANTIDAD) AS CANTIDAD, " + signo_ventas + "SUM(AVD.IMPORTE) AS IMPORTE, " + signo_ventas + "SUM(AVD.IMPORTECONIVA) AS IMPORTECONIVA, AVD.PVPSINIVA AS PRECIOSINIVA, AVD.PVP AS PRECIOCONIVA, AVD.DTOP100, AVD.TIPOIVA_ID, TIPOIVA.CODIGO AS TIPOIVA_CODIGO, AVD.ARTICULO_ID, AV.FECHA, 'Av' AS TIPO, AV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.CODIGO AS RAZONSOCIAL_CODIGO, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, AVD.NOTAS AS NOTAS"
-				"			FROM ALBARANVENTADET AVD"
-				"				INNER JOIN ALBARANVENTA AV ON AVD.ALBARANVENTA_ID=AV.ID";
-			if( usa_prov_articulo ) {
-				from += " INNER JOIN ARTICULO ON AVD.ARTICULO_ID=ARTICULO.ID AND ARTICULO.PROVEEDORA_ID IN("
-						+ proveedora_ids.join(",") + ")";
-			}
-			if( ESTAD_ALBARANESYFACTURAS )
-				from += " AND AV.FACTURADO=0";
-			from +=
-				"				INNER JOIN TIPODOC ON TIPODOC.ID = AV.TIPODOC_ID"
-				"				INNER JOIN TIPOIVA ON TIPOIVA.ID = AVD.TIPOIVA_ID"
-				"				INNER JOIN CLIENTE ON AV.CLIENTE_ID = CLIENTE.ID";
-			if( agente_ids.size() )
-				from += "				INNER JOIN AGENTE ON AV.AGENTE_ID = AGENTE.ID";
-			if( formapago_ids.size() )
-				from += "				INNER JOIN FORMAPAGO ON AV.FORMAPAGO_ID = FORMAPAGO.ID";
-			from += getExtraSQL( VentasAlbaranesFrom );
-			if( !ventas_where.isEmpty() )
-				from += " WHERE " + ventas_where;
-			if( !extra_ventas_albaranes_where.isEmpty() ) {
-				if( !ventas_where.isEmpty() )
-					from += " AND ";
-				from += extra_ventas_albaranes_where;
-			}
-			from +=
-				"			GROUP BY AVD.ID, AVD.PVPSINIVA, AVD.DTOP100, AVD.TIPOIVA_ID";
-		}
-		if( !ESTAD_SOLOALBARANES && !ESTAD_SOLOFACTURAS )
-			from += "		UNION ALL";
-		if( !ESTAD_SOLOALBARANES ) {
-			from +=
-				"	      SELECT " + signo_ventas + "SUM(FVD.CANTIDAD) AS CANTIDAD, " + signo_ventas + "SUM(FVD.IMPORTE) AS IMPORTE, " + signo_ventas + "SUM(FVD.IMPORTECONIVA) AS IMPORTECONIVA, FVD.PVPSINIVA AS PRECIOSINIVA, FVD.PVP AS PRECIOCONIVA, FVD.DTOP100, FVD.TIPOIVA_ID, TIPOIVA.CODIGO AS TIPOIVA_CODIGO, FVD.ARTICULO_ID, FV.FECHA, 'Fv' AS TIPO, FV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.CODIGO AS RAZONSOCIAL_CODIGO, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, FVD.NOTAS AS NOTAS"
-				"			FROM FACTURAVENTADET FVD"
-				"				INNER JOIN FACTURAVENTA FV ON FVD.FACTURAVENTA_ID=FV.ID";
-			if( usa_prov_articulo ) {
-				from += " INNER JOIN ARTICULO ON FVD.ARTICULO_ID=ARTICULO.ID AND ARTICULO.PROVEEDORA_ID IN("
-						+ proveedora_ids.join(",") + ")";
-			}
-			from +=
-				"				INNER JOIN TIPODOC ON TIPODOC.ID = FV.TIPODOC_ID"
-				"				INNER JOIN TIPOIVA ON TIPOIVA.ID = FVD.TIPOIVA_ID"
-				"				INNER JOIN CLIENTE ON FV.CLIENTE_ID = CLIENTE.ID";
-			if( agente_ids.size() )
-				from += "				INNER JOIN AGENTE ON FV.AGENTE_ID = AGENTE.ID";
-			if( formapago_ids.size() )
-				from += "				INNER JOIN FORMAPAGO ON FV.FORMAPAGO_ID = FORMAPAGO.ID";
-			from += getExtraSQL( VentasFacturasFrom );
-			if( !ventas_where.isEmpty() )
-				from += " WHERE " + ventas_where.replace("AV.","FV.").replace("AVD.","FVD.");
-			if( !extra_ventas_facturas_where.isEmpty() ) {
-				if( !ventas_where.isEmpty() )
-					from += " AND ";
-				from += extra_ventas_facturas_where;
-			}
-			from +=
-				"			GROUP BY FVD.ID, FVD.PVPSINIVA, FVD.DTOP100, FVD.TIPOIVA_ID";
-		}
+        if( !ESTAD_SOLOFACTURAS ) {
+            from +=
+                "		SELECT " + signo_ventas + "SUM(AVD.CANTIDAD) AS CANTIDAD, " + signo_ventas + "SUM(AVD.IMPORTE) AS IMPORTE, " + signo_ventas + "SUM(AVD.IMPORTECONIVA) AS IMPORTECONIVA, AVD.PVPSINIVA AS PRECIOSINIVA, AVD.PVP AS PRECIOCONIVA, AVD.DTOP100, AVD.TIPOIVA_ID, TIPOIVA.CODIGO AS TIPOIVA_CODIGO, AVD.ARTICULO_ID, AV.FECHA, 'Av' AS TIPO, AV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.CODIGO AS RAZONSOCIAL_CODIGO, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, AVD.NOTAS AS NOTAS"
+                "			FROM ALBARANVENTADET AVD"
+                "				INNER JOIN ALBARANVENTA AV ON AVD.ALBARANVENTA_ID=AV.ID";
+            if( usa_prov_articulo ) {
+                from += " INNER JOIN ARTICULO ON AVD.ARTICULO_ID=ARTICULO.ID AND ARTICULO.PROVEEDORA_ID IN("
+                        + proveedora_ids.join(",") + ")";
+            }
+            if( ESTAD_ALBARANESYFACTURAS )
+                from += " AND AV.FACTURADO=0";
+            from +=
+                "				INNER JOIN TIPODOC ON TIPODOC.ID = AV.TIPODOC_ID"
+                "				INNER JOIN TIPOIVA ON TIPOIVA.ID = AVD.TIPOIVA_ID"
+                "				INNER JOIN CLIENTE ON AV.CLIENTE_ID = CLIENTE.ID";
+            if( agente_ids.size() )
+                from += "				INNER JOIN AGENTE ON AV.AGENTE_ID = AGENTE.ID";
+            if( formapago_ids.size() )
+                from += "				INNER JOIN FORMAPAGO ON AV.FORMAPAGO_ID = FORMAPAGO.ID";
+            from += getExtraSQL( VentasAlbaranesFrom );
+            if( !ventas_where.isEmpty() )
+                from += " WHERE " + ventas_where;
+            if( !extra_ventas_albaranes_where.isEmpty() ) {
+                if( !ventas_where.isEmpty() )
+                    from += " AND ";
+                from += extra_ventas_albaranes_where;
+            }
+            from +=
+                "			GROUP BY AVD.ID, AVD.PVPSINIVA, AVD.DTOP100, AVD.TIPOIVA_ID";
+        }
+        if( !ESTAD_SOLOALBARANES && !ESTAD_SOLOFACTURAS )
+            from += "		UNION ALL";
+        if( !ESTAD_SOLOALBARANES ) {
+            from +=
+                "	      SELECT " + signo_ventas + "SUM(FVD.CANTIDAD) AS CANTIDAD, " + signo_ventas + "SUM(FVD.IMPORTE) AS IMPORTE, " + signo_ventas + "SUM(FVD.IMPORTECONIVA) AS IMPORTECONIVA, FVD.PVPSINIVA AS PRECIOSINIVA, FVD.PVP AS PRECIOCONIVA, FVD.DTOP100, FVD.TIPOIVA_ID, TIPOIVA.CODIGO AS TIPOIVA_CODIGO, FVD.ARTICULO_ID, FV.FECHA, 'Fv' AS TIPO, FV.NUMERO, TIPODOC.NOMBRE AS TIPODOC, CLIENTE.CODIGO AS RAZONSOCIAL_CODIGO, CLIENTE.RAZONSOCIAL AS RAZONSOCIAL, CLIENTE.ID AS RAZONSOCIAL_ID, TIPODOC.ID AS TIPODOC_ID, FVD.NOTAS AS NOTAS"
+                "			FROM FACTURAVENTADET FVD"
+                "				INNER JOIN FACTURAVENTA FV ON FVD.FACTURAVENTA_ID=FV.ID";
+            if( usa_prov_articulo ) {
+                from += " INNER JOIN ARTICULO ON FVD.ARTICULO_ID=ARTICULO.ID AND ARTICULO.PROVEEDORA_ID IN("
+                        + proveedora_ids.join(",") + ")";
+            }
+            from +=
+                "				INNER JOIN TIPODOC ON TIPODOC.ID = FV.TIPODOC_ID"
+                "				INNER JOIN TIPOIVA ON TIPOIVA.ID = FVD.TIPOIVA_ID"
+                "				INNER JOIN CLIENTE ON FV.CLIENTE_ID = CLIENTE.ID";
+            if( agente_ids.size() )
+                from += "				INNER JOIN AGENTE ON FV.AGENTE_ID = AGENTE.ID";
+            if( formapago_ids.size() )
+                from += "				INNER JOIN FORMAPAGO ON FV.FORMAPAGO_ID = FORMAPAGO.ID";
+            from += getExtraSQL( VentasFacturasFrom );
+            if( !ventas_where.isEmpty() )
+                from += " WHERE " + ventas_where.replace("AV.","FV.").replace("AVD.","FVD.");
+            if( !extra_ventas_facturas_where.isEmpty() ) {
+                if( !ventas_where.isEmpty() )
+                    from += " AND ";
+                from += extra_ventas_facturas_where;
+            }
+            from +=
+                "			GROUP BY FVD.ID, FVD.PVPSINIVA, FVD.DTOP100, FVD.TIPOIVA_ID";
+        }
     }
     from += getExtraSQL( AnotherUnionAll );
     from = "ARTICULO A INNER JOIN (" + from + ") VT ON VT.ARTICULO_ID = A.ID";
@@ -306,7 +306,7 @@ void FrmEstadCompraVenta::accept()
     List<dbRecordID> &proveedora_ids = pSearchProveedora->getRecordIDs();
     if( proveedora_ids.size() && cliente_ids.size() && ! ESTAD_COMPRASYVENTAS ) {
         FrmBase::msgWarning(this,
-			_("Has seleccionado clientes y proveedoras, así que el informe se hará de compras y ventas") );
+                            _("Has seleccionado clientes y proveedoras, así que el informe se hará de compras y ventas") );
         pComboComprasOVentas->setCurrentIndex( 0 );
     }
 // 	if( proveedora_ids.size() ) {
@@ -318,7 +318,7 @@ void FrmEstadCompraVenta::accept()
     if( cliente_ids.size() || agente_ids.size() ) {
         if( ESTAD_SOLOCOMPRAS ) {
             FrmBase::msgWarning(this,
-				_("Has seleccionado clientes o agentes en un listado solo de compras. No se tendrá en cuenta a las clientes.") );
+                                _("Has seleccionado clientes o agentes en un listado solo de compras. No se tendrá en cuenta a las clientes.") );
         }
     }
     Xtring from, where, titulo;

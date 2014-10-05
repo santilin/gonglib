@@ -100,7 +100,7 @@ if( ModuleInstance->getContabModule() ) {
     pEditContactoBehavior = new contactos::FrmEditContactoBehavior( this, pFrameContactos, editRazonSocial );
     addBehavior( pEditContactoBehavior );
     pTabWidget->insertTab( tabExtra, toGUI( _( "&Extra" ) ) );
-	pEditContactoBehavior->_initGUI();
+    pEditContactoBehavior->_initGUI();
     tabExtraLayout->addWidget( frameGenCodArt );
 }
 

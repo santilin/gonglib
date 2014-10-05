@@ -33,7 +33,7 @@ public:
 	RecConceptoTesoreria(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("CONCEPTOTESORERIA"), recid, user)
 /*>>>>>CONCEPTOTESORERIA_CONSTRUCTOR*/
-	{};
+    {};
 }; // end class
 
 /*<<<<<CONCEPTOTESORERIA_POSTAMBLE*/

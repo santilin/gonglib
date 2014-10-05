@@ -87,7 +87,7 @@ FrmCustom::FrmCustom ( QWidget *parent, const char *name, WidgetFlags f )
     pControlsFrame->setObjectName("ControlsFrame");
     pControlsLayout = new QVBoxLayout(pControlsFrame);
     pControlsLayout->setObjectName("ControlsLayout");
-	pTabWidget->setFocusPolicy( Qt::ClickFocus );
+    pTabWidget->setFocusPolicy( Qt::ClickFocus );
     pTabWidget->addTab( pControlsFrame, "&General" );
     showTabs( false );
     pMainLayout->addWidget(pTabWidget);
@@ -219,7 +219,8 @@ RichTextBox* FrmCustom::addRichTextBox(QWidget* parent, const Xtring& caption,
                                          name ? (Xtring("editRich_") + name).c_str() : "", "", false);
     rich->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     connect( rich, SIGNAL ( validate ( QWidget *, bool * ) ),
-              this, SLOT ( validate_input ( QWidget *, bool * ) ) );    QLabel *label = new QLabel ( parent ? parent : pControlsFrame,
+             this, SLOT ( validate_input ( QWidget *, bool * ) ) );
+    QLabel *label = new QLabel ( parent ? parent : pControlsFrame,
                                  ( "label_" + Xtring(name) ).c_str() );
     label->setText ( toGUI(caption) );
     QHBoxLayout *hlay = new QHBoxLayout();
@@ -277,12 +278,12 @@ ComboBoxXtring *FrmCustom::addComboBoxXtring(bool byref, QWidget* parent, const 
     if( name.isEmpty() )
         name = "combo_" + Xtring(caption).replace(" ", "_");
     ComboBoxXtring *combo;
-	if( byref )
-		combo = new ComboBoxXtring( captions, values, parent ? parent : pControlsFrame,
-									name.c_str(), caption, horiz );
-	else
-		combo = new ComboBoxXtring( const_cast<XtringList &>(captions), const_cast<XtringList&>(values),
-									parent ? parent : pControlsFrame, name.c_str(), caption, horiz );
+    if( byref )
+        combo = new ComboBoxXtring( captions, values, parent ? parent : pControlsFrame,
+                                    name.c_str(), caption, horiz );
+    else
+        combo = new ComboBoxXtring( const_cast<XtringList &>(captions), const_cast<XtringList&>(values),
+                                    parent ? parent : pControlsFrame, name.c_str(), caption, horiz );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, "", 0 );
         combo->setCurrentIndex( 0 );
@@ -300,26 +301,26 @@ ComboBoxXtring *FrmCustom::addComboBoxXtring( bool byref, QWidget *parent, const
         const char *name, QBoxLayout* layout, bool horiz )
 {
     return addComboBoxXtring( byref, parent, caption, captions_values, captions_values,
-							  empty, name, layout, horiz );
+                              empty, name, layout, horiz );
 }
 
 ComboBoxInt *FrmCustom::addComboBoxInt( bool byref, QWidget *parent, const Xtring &caption,
-	const XtringList &captions, const IntList &values, const Xtring &empty,
-	const char *name, QBoxLayout * layout, bool horiz )
+                                        const XtringList &captions, const IntList &values, const Xtring &empty,
+                                        const char *name, QBoxLayout * layout, bool horiz )
 {
-	ComboBoxInt *combo;
-	if( byref )
-		combo = new ComboBoxInt( captions, values, parent ? parent : pControlsFrame, name, caption, horiz );
-	else
-		combo = new ComboBoxInt( const_cast<XtringList &>(captions), const_cast<IntList &>(values),
-								 parent ? parent : pControlsFrame, name, caption, horiz );
+    ComboBoxInt *combo;
+    if( byref )
+        combo = new ComboBoxInt( captions, values, parent ? parent : pControlsFrame, name, caption, horiz );
+    else
+        combo = new ComboBoxInt( const_cast<XtringList &>(captions), const_cast<IntList &>(values),
+                                 parent ? parent : pControlsFrame, name, caption, horiz );
     if( !empty.isEmpty() ) {
         combo->insertItem( empty, -1, 0 );
         combo->setCurrentIndex( 0 );
     }
     if ( !layout )
         layout = pControlsLayout;
-	layout->addLayout( combo->getLayout() );
+    layout->addLayout( combo->getLayout() );
     connect( combo, SIGNAL( currentIndexChanged( int ) ), this, SLOT( combo_activated( int ) ) );
     return combo;
 }
@@ -412,8 +413,8 @@ CheckBox* FrmCustom::addCheckField(QWidget *parent, const Xtring& caption,
 }
 
 ComboBoxInt *FrmCustom::addComboIntField(QWidget* parent, const Xtring& _caption,
-                                        const Xtring& tablename, const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
-                                        const Xtring& empty, const char* _name, QBoxLayout* layout)
+        const Xtring& tablename, const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
+        const Xtring& empty, const char* _name, QBoxLayout* layout)
 {
     FldNamesListTable *flddef = dynamic_cast<FldNamesListTable *>(
                                     DBAPP->getDatabase()->findFieldDefinition(tablename, fldnamecaptions) );
@@ -422,7 +423,7 @@ ComboBoxInt *FrmCustom::addComboIntField(QWidget* parent, const Xtring& _caption
         name = "combo_" + tablename + "_" + fldnamevalues;
     if( flddef ) {
         ComboBoxInt *combo = addComboBoxInt( true, parent, caption, flddef->getListOfCaptions(),
-                                            flddef->getListOfValues(), empty, name.c_str(), layout );
+                                             flddef->getListOfValues(), empty, name.c_str(), layout );
         FrmEditRec::applyFieldStyle( combo, flddef );
         FrmEditRec::applyFieldStyle( combo->getLabel(), flddef );
         if( !caption.isEmpty() )
@@ -509,14 +510,14 @@ SearchBox* FrmCustom::addLabeledSearchField(QWidget* parent, const Xtring& table
 
 void FrmCustom::accept()
 {
-	if( validate() )
-		FrmBase::accept();
+    if( validate() )
+        FrmBase::accept();
 }
 
 void FrmCustom::validate_input( QWidget *sender, bool *is_valid )
 {
-	if (is_valid)
-		*is_valid = true;
+    if (is_valid)
+        *is_valid = true;
 }
 
 void FrmCustom::combo_activated( int )

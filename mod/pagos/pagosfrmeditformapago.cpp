@@ -80,7 +80,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 void FrmEditFormaPago::scatterCuentaTesoreria()
 {
 #ifdef HAVE_TESORERIAMODULE
-/*<<<<<FRMEDITFORMAPAGO_SCATTER_CUENTATESORERIA*/
+    /*<<<<<FRMEDITFORMAPAGO_SCATTER_CUENTATESORERIA*/
 	editCuentaTesoreriaCodigo->setText( getRecCuentaTesoreria()->getValue("CODIGO") );
 	editCuentaTesoreriaNombre->setText( getRecCuentaTesoreria()->getValue("NOMBRE") );
 /*>>>>>FRMEDITFORMAPAGO_SCATTER_CUENTATESORERIA*/
@@ -90,7 +90,7 @@ void FrmEditFormaPago::scatterCuentaTesoreria()
 void FrmEditFormaPago::pushCuentaTesoreriaCodigo_clicked()
 {
 #ifdef HAVE_TESORERIAMODULE
-/*<<<<<FRMEDITFORMAPAGO_PUSH_CUENTATESORERIA_CODIGO_CLICKED*/
+    /*<<<<<FRMEDITFORMAPAGO_PUSH_CUENTATESORERIA_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaTesoreriaCodigo->mustBeReadOnly() )
 		action = 'E';
@@ -152,7 +152,7 @@ void FrmEditFormaPago::pushCuentaTesoreriaCodigo_clicked()
 
 void FrmEditFormaPago::specialControlKeyPressed(QWidget *sender, char key)
 {
-/*<<<<<FRMEDITFORMAPAGO_SPECIALACTION*/
+    /*<<<<<FRMEDITFORMAPAGO_SPECIALACTION*/
 	mControlKeyPressed = key;
 	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
 #ifdef HAVE_TESORERIAMODULE
@@ -266,17 +266,17 @@ if( ModuleInstance->getTesoreriaModule() ) {
     case RecFormaPago::SeIgnora:
         break;
     case RecFormaPago::GeneraRecibos:
-		if( editNumPlazos->isJustEdited() ) {
-			if( editNumPlazos->toInt() == 0 ) {
-				validresult->addError( _("El número de plazos tiene que ser mayor que cero"), "NUMPLAZOS" );
-				*isvalid = false;
-			} else if( editNumPlazos->toInt() > 0 ) {
-				if( !sender && editDiasEntrePlazos->toInt() == 0 && editDiasPrimerPlazo->toInt() == 0 ) {
-					validresult->addError( _("El número de días entre plazos o de días hasta el primer plazo tiene que ser mayor que cero"), "NUMPLAZOS" );
-					*isvalid = false;
-				}
-			}
-		}
+        if( editNumPlazos->isJustEdited() ) {
+            if( editNumPlazos->toInt() == 0 ) {
+                validresult->addError( _("El número de plazos tiene que ser mayor que cero"), "NUMPLAZOS" );
+                *isvalid = false;
+            } else if( editNumPlazos->toInt() > 0 ) {
+                if( !sender && editDiasEntrePlazos->toInt() == 0 && editDiasPrimerPlazo->toInt() == 0 ) {
+                    validresult->addError( _("El número de días entre plazos o de días hasta el primer plazo tiene que ser mayor que cero"), "NUMPLAZOS" );
+                    *isvalid = false;
+                }
+            }
+        }
         break;
     }
     if ( !ir ) {

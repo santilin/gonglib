@@ -319,10 +319,10 @@ void FrmLogin::accept()
         /// La conexión se ha realizado con éxito y la base de datos existe
         addMessage( _("Conexión satisfactoria.") );
         mStatus = ok;
-        if( mAutoLogin ) 
+        if( mAutoLogin )
             setResult( QDialog::Accepted );
-		updateConfig();
-		QDialog::accept();
+        updateConfig();
+        QDialog::accept();
     }
     else
     {

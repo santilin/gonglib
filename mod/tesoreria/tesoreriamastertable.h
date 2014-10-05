@@ -6,8 +6,8 @@
 
 namespace gong {
 namespace tesoreria {
-	
-	
+
+
 class MasterTable: public empresa::MasterTable
 {
 public:
@@ -16,7 +16,7 @@ public:
         : empresa::MasterTable( db, name, from, where, orderby ) {}
     MasterTable( dbTableDefinition *tbldef )
         : empresa::MasterTable( tbldef ) {}
-};	
+};
 
 } // namespace tesoreria
 } // namespace gong

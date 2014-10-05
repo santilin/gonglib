@@ -21,10 +21,12 @@ protected:
         ComprasAlbaranesWhere, VentasAlbaranesWhere, ComprasFacturasWhere, VentasFacturasWhere,
         AnotherUnionAll
     };
-    virtual Xtring getExtraSQL( ExtraSQLWhat what ) { return Xtring::null; }
+    virtual Xtring getExtraSQL( ExtraSQLWhat what ) {
+        return Xtring::null;
+    }
     DateRangeBox *pDateRange;
     SearchBox *pSearchArticulo, *pSearchTipoDoc, *pSearchCliente, *pSearchProveedora,
-		*pSearchFamilia, *pSearchAgente, *pSearchFormaPago;
+              *pSearchFamilia, *pSearchAgente, *pSearchFormaPago;
     ComboBoxXtring *pComboAgruparPor, *pComboComprasOVentas, *pComboAlbaranesFacturas;
     CheckBox *pCheckPreciosConIVA, *pCheckIncNotas, *pCheckTodasLasEmpresas, *pCheckGranTotal;
 };

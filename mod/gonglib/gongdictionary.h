@@ -46,7 +46,7 @@ public:
     iterator find(const Xtring &__k) {
         return std::map<Xtring, T>::find( __k.upper() );
     }
-    
+
     const_iterator find(const Xtring &__k) const {
         return std::map<Xtring, T>::find( __k.upper() );
     }
@@ -93,7 +93,7 @@ public:
         }
     }
 
-	mapped_type &at(const key_type& __k) 
+    mapped_type &at(const key_type& __k)
     {
         return std::map<Xtring, T>::at(__k.upper() );
     }
@@ -102,13 +102,13 @@ public:
     {
         return std::map<Xtring, T>::at(__k.upper() );
     }
-    
-    /* This function is const because we want to avoid the insert syntax: Dict[key] = value; 
-	 Use set(key,value) instead */
+
+    /* This function is const because we want to avoid the insert syntax: Dict[key] = value;
+     Use set(key,value) instead */
     const mapped_type &operator[](const key_type& __k) const
     {
         const_iterator __i = this->find( __k.upper() );
-        if( __i == this->end() ) 
+        if( __i == this->end() )
             return mNullValue; // Not to return a temporary value
         return (*__i).second;
     }

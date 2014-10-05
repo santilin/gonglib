@@ -30,20 +30,20 @@ protected:
     void addEmailToList( XtringList &list, const Xtring &email,
                          const Xtring &nombre, bool include_names) const;
     virtual void validate_input( QWidget *sender, bool *isvalid ); // from FrmCustom
-	void accept(); // from FrmBase
-	void addMessage( TextEdit *dest, const Xtring &message );
+    void accept(); // from FrmBase
+    void addMessage( TextEdit *dest, const Xtring &message );
 private:
     QTabWidget *tabFrameEdit;
     QWidget *tabSeleccion, *tabContenido, *tabMailsExtra, *tabConfiguracion, *tabResultado;
     LineEdit *pFrom, *pSubject;
     class RichTextBox *pHTMLBody;
-	class FileNameBox *pAttachment;
+    class FileNameBox *pAttachment;
     LineEdit *pHost, *pUser, *pPassword, *pPort, *pGrouping;
     List<SearchBox *> mSearchBoxes;
     PushButton *pushShowEMails, *pushShowEMailsAndNames;
-	TextEdit *pMailsExtra, *pBody, *pResultado, *pOks, *pErrors;
-	QCheckBox *pCheckSaveSettings;
-	QLabel *lblProgreso;
+    TextEdit *pMailsExtra, *pBody, *pResultado, *pOks, *pErrors;
+    QCheckBox *pCheckSaveSettings;
+    QLabel *lblProgreso;
 };
 
 } // namespace contactos

@@ -57,7 +57,7 @@ protected:
     virtual void updateStatus( bool callbehaviors );
     virtual bool canBeginEdit(EditMode newmode); // From FrmEditRec
 
-/*<<<<<FRMEDITCOBRO_VIRTUALS_FROM_FRMEDITREC*/
+    /*<<<<<FRMEDITCOBRO_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
@@ -67,13 +67,13 @@ protected:
 
 protected slots:
     virtual void pushPagar_clicked();
-	void pushFacturaNumero_clicked();
-	void pushTerceroCodigo_clicked();
-protected:	
-	void scatterFactura();
-	void scatterTercero();
+    void pushFacturaNumero_clicked();
+    void pushTerceroCodigo_clicked();
+protected:
+    void scatterFactura();
+    void scatterTercero();
 
-/*<<<<<FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
+    /*<<<<<FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterRemesaCobro();
 	void scatterMoneda();
@@ -95,10 +95,14 @@ public:
 #endif
 /*>>>>>FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
 public:
-	RecFactura *getRecFactura() const
-		{ return static_cast<RecCobro*>(getRecord())->getRecFactura(); }
-	RecTercero *getRecTercero() const
-		{ return static_cast<RecCobro*>(getRecord())->getRecTercero(); }
+    RecFactura *getRecFactura() const
+    {
+        return static_cast<RecCobro*>(getRecord())->getRecFactura();
+    }
+    RecTercero *getRecTercero() const
+    {
+        return static_cast<RecCobro*>(getRecord())->getRecTercero();
+    }
 
     gong::SearchBox *getSearchRemesaCobroNumero() const {
         return searchRemesaCobroNumero;
@@ -110,7 +114,7 @@ public:
         return searchTerceroCodigo;
     }
 
-/*<<<<<FRMEDITCOBRO_CONTROLS*/
+    /*<<<<<FRMEDITCOBRO_CONTROLS*/
 protected:
 	gong::SearchBox *searchRemesaCobroNumero;
 	QPushButton *pushRemesaCobroNumero;
@@ -144,12 +148,12 @@ protected:
 /*>>>>>FRMEDITCOBRO_CONTROLS*/
     QPushButton *pushPagar;
     QHBoxLayout *pTercerosLayout;
-	gong::SearchBox *searchFacturaNumero;
-	QPushButton *pushFacturaNumero;
-	gong::LineEdit *editFacturaNumero, *editFacturaDesc;
-	gong::SearchBox *searchTerceroCodigo;
-	QPushButton *pushTerceroCodigo;
-	gong::LineEdit *editTerceroCodigo, *editTerceroDesc;
+    gong::SearchBox *searchFacturaNumero;
+    QPushButton *pushFacturaNumero;
+    gong::LineEdit *editFacturaNumero, *editFacturaDesc;
+    gong::SearchBox *searchTerceroCodigo;
+    QPushButton *pushTerceroCodigo;
+    gong::LineEdit *editTerceroCodigo, *editTerceroDesc;
     Xtring mFldFactCodigo, mFldFactDesc, mFldTercCodigo, mFldTercDesc;
     bool mUsarRemesas;
 };

@@ -66,10 +66,10 @@ ImageBox::ImageBox( QWidget *parent, const Xtring &name, const Xtring &caption, 
 
 void ImageBox::clear()
 {
-	pImageLabel->clear();
-	displayInfo();
-	setEdited( true );
-	setJustEdited( true );
+    pImageLabel->clear();
+    displayInfo();
+    setEdited( true );
+    setJustEdited( true );
 }
 
 void ImageBox::displayInfo( const Xtring &errmsg )
@@ -96,16 +96,16 @@ void ImageBox::slot_button_clicked()
     if( sender() == pushClear ) {
         clear();
     } else if( sender() == pushPaste ) {
-		theGuiApp->waitCursor( true );
+        theGuiApp->waitCursor( true );
         pImageLabel->setPixmap( QPixmap::fromImage(QApplication::clipboard()->image()) );
         displayInfo();
-		setEdited( true );
-		setJustEdited( true );
-		theGuiApp->resetCursor();
+        setEdited( true );
+        setJustEdited( true );
+        theGuiApp->resetCursor();
     } else if( sender() == pushCopy ) {
-		theGuiApp->waitCursor( true );
+        theGuiApp->waitCursor( true );
         QApplication::clipboard()->setImage( getImage()->toImage() );
-		theGuiApp->resetCursor();
+        theGuiApp->resetCursor();
     } else if( sender() == pushSaveAs ) {
         Xtring fname = theGuiApp->getSaveFileName(
                            _("Elige el fichero donde guardar esta imagen"),
@@ -118,12 +118,12 @@ void ImageBox::slot_button_clicked()
         FrmImgAdvanced *advform = new FrmImgAdvanced(
             this, "convert", parentWidget(), "FrmImgAdvanced");
         advform->showModalFor( parentWidget(), false, true );
-		if( !advform->wasCancelled() ) {
-			displayInfo();
-			setEdited( true );
-			setJustEdited( true );
-		}
-		delete advform;
+        if( !advform->wasCancelled() ) {
+            displayInfo();
+            setEdited( true );
+            setJustEdited( true );
+        }
+        delete advform;
     }
 }
 
@@ -138,8 +138,8 @@ bool ImageBox::loadFromFile( const Xtring &filename )
         pImageLabel->update();
         mByteCount = FileUtils( filename ).size();
         displayInfo();
-		setEdited( true );
-		setJustEdited( true );
+        setEdited( true );
+        setJustEdited( true );
         ret = true;
     } else
         displayInfo( Xtring::printf(_("Fichero %s no encontrado o erróneo"), filename.c_str() ) );
@@ -149,12 +149,12 @@ bool ImageBox::loadFromFile( const Xtring &filename )
 
 bool ImageBox::setImage(QPixmap* image)
 {
-	pImageLabel->setPixmap( *image);
+    pImageLabel->setPixmap( *image);
     pImageLabel->update();
     displayInfo();
     setEdited( true );
-	setJustEdited( true );
-	return true;
+    setJustEdited( true );
+    return true;
 }
 
 bool ImageBox::setImageData( const Variant &data )
@@ -163,8 +163,8 @@ bool ImageBox::setImageData( const Variant &data )
     if( mByteCount == 0 ) {
         pImageLabel->clear();
         displayInfo();
-		setEdited( true );
-		setJustEdited( true );
+        setEdited( true );
+        setJustEdited( true );
         return true;
     }
     QImage imagefromdata;
@@ -186,7 +186,7 @@ bool ImageBox::setImageData( const Variant &data )
     pImageLabel->update();
     displayInfo();
     setEdited( true );
-	setJustEdited( true );
+    setJustEdited( true );
     return true;
 }
 

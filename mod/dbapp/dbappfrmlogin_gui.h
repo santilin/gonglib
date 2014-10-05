@@ -39,7 +39,7 @@ class GuiFrmLogin: public QDialog
 public:
     GuiFrmLogin( QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
 
-	QTabWidget *pTabWidget;
+    QTabWidget *pTabWidget;
     QWidget* pageConexion;
     QLabel* textWelcome;
     QLabel* PixmapGestiong;
