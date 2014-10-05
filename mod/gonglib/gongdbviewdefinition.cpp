@@ -36,11 +36,11 @@ dbViewDefinition::dbViewDefinition(const Xtring &name, dbDefinition &dbdef,
             else
                 firstfrom = from;
         } else { //  Give a chance to the recorddatamodel to add its tablename
-            _GONG_DEBUG_WARNING( "View " + name + " lacks FROM" );
+            _GONG_DEBUG_PRINT(1, "View " + name + " lacks FROM" );
         }
         dbTableDefinition *firsttbldef = dbdef.findTableDefinition(firstfrom);
         if( !firsttbldef ) {
-            _GONG_DEBUG_WARNING( "Table '" + firstfrom + "' not found in view '" + name + "'" );
+            _GONG_DEBUG_PRINT(1, "Table '" + firstfrom + "' not found in view '" + name + "'" );
         } else {
             setDescSingular( firsttbldef->getDescPlural() );
             setDescPlural( getDescSingular() );
@@ -89,7 +89,7 @@ dbViewDefinition::dbViewDefinition(const Xtring &name, dbDefinition &dbdef,
                                                     flddef, flddef->getFullName().c_str(), flddef->getCaption().c_str(), flddef->getDisplayWidth(), this, getName().c_str() ) );
                 addField ( flddef );
             } else {
-                _GONG_DEBUG_WARNING( Xtring::printf("Field %s of the view %s not found",
+                _GONG_DEBUG_PRINT(1, Xtring::printf("Field %s of the view %s not found",
                                                     fldname.c_str(), origin.c_str() ) );
             }
             if( mCaption.isEmpty() )

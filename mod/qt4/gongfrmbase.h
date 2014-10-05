@@ -28,7 +28,7 @@ class FrmBase: public QWidget
 {
     Q_OBJECT
 public:
-    enum { Yes=QMessageBox::Yes, No=QMessageBox::No, Cancel = QMessageBox::Cancel, YesToAll = QMessageBox::YesToAll };
+    enum { NoButton = QMessageBox::NoButton, Yes=QMessageBox::Yes, No=QMessageBox::No, Cancel = QMessageBox::Cancel, YesToAll = QMessageBox::YesToAll, NoToAll = QMessageBox::NoToAll };
 
     FrmBase ( QWidget *parent=0, const Xtring &name = Xtring(), WidgetFlags f=0 );
     virtual ~FrmBase();
@@ -109,6 +109,8 @@ public:
                                 bool defbutton=true, QWidget *parent = 0 );
 
     static int msgYesNoAllCancel ( QWidget *parent, const Xtring &text, bool defbutton=true );
+    static int msgYesNoAllCancel ( const Xtring &caption, const Xtring &text,
+                                bool defbutton=true, QWidget *parent = 0 );
 
     /** Shows a messagebox with yes/no buttons */
     static bool msgYesNoLarge ( QWidget *parent, const Xtring &text,

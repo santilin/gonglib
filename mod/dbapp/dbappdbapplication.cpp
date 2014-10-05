@@ -648,7 +648,7 @@ FrmEditRec *dbApplication::createEditForm ( FrmEditRec *parentfrm,
 			dbModule *mod = mModules.seq_at(i);
             if( !mod->isEnabled() )
                 continue;
-            _GONG_DEBUG_PRINT(10, "Calling afterCreateEditForm on module " + mod->getUnixName() + " for record " + rec->getTableName() );
+            _GONG_DEBUG_PRINT(4, "Calling afterCreateEditForm on module " + mod->getUnixName() + " for record " + rec->getTableName() );
             mod->afterCreateEditForm( frm, rec );
         }
     } else {

@@ -619,18 +619,21 @@ int FrmBase::msgYesNoCancel ( const Xtring &caption, const Xtring &text, bool de
     return ret;
 }
 
-
 int FrmBase::msgYesNoAllCancel( QWidget *parent, const Xtring &text, bool defbutton )
+{
+    if( parent )
+        return FrmBase::msgYesNoAllCancel( fromGUI(parent->windowTitle()), text, defbutton, parent );
+    else
+        return FrmBase::msgYesNoAllCancel(theGuiApp->getPackageString(), text, defbutton, parent );
+}
+
+int FrmBase::msgYesNoAllCancel(const Xtring& caption, const Xtring& text, bool defbutton, QWidget* parent)
 {
     QApplication::setOverrideCursor ( QCursor ( Qt::ArrowCursor ) );
     QMessageBox msgBox( parent );
-
-    if( parent )
-        msgBox.setWindowTitle( parent->windowTitle() );
-    else
-        msgBox.setWindowTitle( toGUI( theGuiApp->getPackageString() ) );
+	msgBox.setWindowTitle( toGUI(caption) );
     msgBox.setInformativeText( toGUI( text ) );
-    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::YesToAll | QMessageBox::Cancel);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::YesToAll | QMessageBox::NoToAll | QMessageBox::Cancel);
     msgBox.setDefaultButton(defbutton?QMessageBox::Yes:QMessageBox::No);
     int ret = msgBox.exec();
     QApplication::restoreOverrideCursor();

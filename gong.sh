@@ -50,8 +50,14 @@ do_cleanup()
 	_PWD=`pwd`
 	_CURDIR=`basename $_PWD`
 	if test $PROYECTO == $_CURDIR; then
-		find . -iname "autom4te.cache" -a -type d | xargs rm -rf
+		# Ficheros generados por make -f Makefile.csv y configure
+		rm Makefile.in aclocal.m4 compile config.guess config.h.in config.log config.sub configure depcomp install-sh ltmain.sh missing src/Makefile.in
+		rm -rf autom4te.cache
+		rm m4/libtool.m4 m4/ltoptions.m4 m4/ltsugar.m4 m4/ltversion.m4 m4/lt~obsolete.m4
+		find . -iname "Makefile.in" -o -iname "Makefile" | xargs rm -fv
+
 		find . -iname "Debug" -a -type d | xargs rm -rf
+		find . -iname "Release" -a -type d | xargs rm -rf
 		find . -iname "bin" -a -type d | xargs rm -rf
 		find . -iname ".libs" -a -type d | xargs rm -rf
 		find . -iname ".deps" -a -type d | xargs rm -rf
@@ -61,17 +67,11 @@ do_cleanup()
 		rm -rf .anjuta .anjuta_sym_db.db TODO.tasks
 		find . -iname "*.kdevses" -o -iname "*.kdevelop.pcs" | xargs rm -fv
 
-		rm -f configure config.sub config.status config.guess ltmain.sh libtool install-sh stamp-h1
-		rm -f missing depcomp config.log config.h* aclocal.m4 rm po/POTFILES tags
-		rm m4 # m4/libtool.m4 m4/lt~obsolete.m4  m4/ltoptions.m4  m4/ltsugar.m4  m4/libtool.m4  m4/ltversion.m4
-.
-		#rm debian/files debian/gestiong.substvars debian/gestiong_0.3.3-r0-1.dsc debian/gestiong.debhelper.log
+		rm po/POTFILES tags
 
 		find . -iname "*~" -o -iname "*#" -o -iname "*.tmp" -o -iname "*.tag" -o -iname "*.o" -o -iname "*.a" \
 			-o -iname "*.bak" -o -iname "\.#*" -o -iname "*.gmo" -o -iname "*.lo" -o -iname "*la" | xargs rm -fv
 		find . -iname "moc_*.cpp" | xargs rm -fv
-		find . -iname "Makefile.in" -o -iname "Makefile" | xargs rm -fv
-		#find . -iname ".svn" -o -iname "CVS" | xargs rm -rfv
 		echo "Proyecto $PROYECTO limpiado"
 	else
 		echo "Tienes que estar en el directorio $PROYECTO para limpiarlo"

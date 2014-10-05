@@ -22,13 +22,22 @@ else
    KDE="1"
 fi
 GNOME="0"
+if test "x$DESKTOP_SESSION" = "xLXDE"; then
+	LXDE="1"
+else
+	LXDE="0"
+fi 
 PING_TEST_IP="208.67.222.222"
 NTPDATE_SERVER="pool.ntp.org"
 HAY_INTERNET=0
 LANGUAGE="es"
 DATETIME=`date --rfc-3339=seconds | sed -e "s/[-]//g" -e "s/ /_/" -e "s/:[0-9]*+.*$//" -e "s/://"`
 WIRELESS_FIRMWARE="atmel-firmware firmware-bnx2 firmware-bnx2x firmware-ipw2x00 firmware-iwlwifi firmware-qlogic firmware-qlogic firmware-ralink libertas-firmware linux-wlan-ng-firmware zd1211-firmware b43-fwcutter"
-OPENOFFICE_COMMON="libreoffice libreoffice-l10n-$LANGUAGE libreoffice-help-$LANGUAGE libreoffice-thesaurus-$LANGUAGE libreoffice-hypenation-$LANGUAGE myspell-$LANGUAGE libreoffice-java-common libreoffice-pdfimport libreoffice-style-human libreoffice-style-tango tango-icon-theme libreoffice-writer2xhtml"
+LIBREOFFICE_COMMON="libreoffice libreoffice-l10n-$LANGUAGE libreoffice-help-$LANGUAGE myspell-$LANGUAGE libreoffice-java-common libreoffice-pdfimport libreoffice-style-tango tango-icon-theme libreoffice-writer2xhtml"
+LIBREOFFICE_DEBIAN="hyphen-es mythes-es libreoffice-grammarcheck-es"
+LIBREOFFICE_OTHER="libreoffice-thesaurus-$LANGUAGE libreoffice-hypenation-$LANGUAGE libreoffice-style-human"
+
+
 FREEFONTS="ttf-bitstream-vera fonts-breip ttf-dejavu ttf-freefont ttf-liberation ttf-opensymbol ttf-unifont fonts-linuxlibertine fonts-isabella"
 MSFONTS="ttf-mscorefonts-installer"
 
@@ -50,7 +59,7 @@ aptgetupdate() {
 	debian*)
 		if grep "^deb cdrom" /etc/apt/sources.list; then
 			if ! grep "^deb http" /etc/apt/sources.list; then
-				if pregunta_si "Tienes un debian instalado desde CDROM pero sin repositorios. ¿Quieres usar los repositorios de Internet?"
+				if pregunta_si "Tienes un debian instalado desde CDROM pero sin repositorios. ¿Quieres usar los repositorios de Internet?"; then
 					cat > /etc/apt/sources.list <<EOF
 deb http://ftp.gva.es/mirror/debian/ stable main contrib non-free
 deb-src http://ftp.gva.es/mirror/debian/ stable main contrib non-free
@@ -86,10 +95,10 @@ pregunta_si() {
 	read siono
 	case $siono in
 		s|S|si|Si|sí|Sí)
-			return 1
+			return 0
 			;;
 		*)
-			return 0
+			return 1
 			;;
 	esac
 }
@@ -102,32 +111,33 @@ completar_escritorio() {
 }
 
 completar_kde() {
-	completar_escritorio
 	if test "x$KDE" = "x0"; then
 		if ! pregunta_si "No parece que estés usando KDE. ¿Quieres continuar?"; then
-			exit 0
+			return
 		fi
 	fi
+	completar_escritorio
 	instala_multimedia_libre_kde
 }	
 
 completar_lxde() {
-	completar_escritorio
 	if test "x$LXDE" = "x0"; then
 		if ! pregunta_si "No parece que estés usando LXDE. ¿Quieres continuar?"; then
-			exit 0
+			return
 		fi
 	fi
+	apt-get install xfce4-mixer gstreamer0.10-alsa
+	completar_escritorio
 }	
 
 
 completar_gnome() {
-	completar_escritorio
 	if test "x$GNOME" = "x0"; then
 		if ! pregunta_si "No parece que estés usando GNOME. ¿Quieres continuar?"; then
-			exit 0
+			return
 		fi
 	fi
+	completar_escritorio
 	instala_multimedia_libre_gnome	
 }
 
@@ -243,6 +253,18 @@ instala_skype() {
     esac
 }
 
+instala_skype() {
+	case $DISTRO in
+	debian*)
+		instala_programa "Flash plugin" flashplugin-nonfree
+        ;;
+    *)
+	echo "No sé como instalarlo en tu sistema"
+        ;;
+    esac
+    pausa
+}
+
 reloj_hora() {
 	which_ntpdate=`which ntpdate`
 	if [ ! -e "$which_ntpdate" -o ! -x "$which_ntpdate" ]; then
@@ -273,7 +295,14 @@ instala_fuentes_libres() {
 }
 
 instala_libreoffice() {
-	instala_programa "LibreOffice" $OPENOFFICE_COMMON
+	case $DISTRO in
+	debian*)
+		instala_programa "LibreOffice" $LIBREOFFICE_COMMON $LIBREOFFICE_DEBIAN
+		;;
+	*)
+		instala_programa "LibreOffice" $LIBREOFFICE_COMMON $LIBREOFFICE_OTHER
+		;;
+	esac
         if test "x$KDE" = "x1"; then
 		instala_programa "LibreOffice KDE" libreoffice-kde libreoffice-style-oxygen
         fi
@@ -283,14 +312,21 @@ instala_libreoffice() {
 }
 
 instala_thunderbird() {
-	instala_programa "Thunderbird" thunderbird thunderbird-locale-$LANGUAGE enigmail
+	case $DISTRO in
+	debian*)
+		instala_programa "Thunderbird" icedove icedove-l10n-$LANGUAGE* enigmail
+		;;
+	*)
+		instala_programa "Thunderbird" thunderbird thunderbird-locale-$LANGUAGE* enigmail
+		;;
+	esac
 }
 
 instala_gestiong() {
 	case $DISTRO in 
 	debian*)
 		case $DISTRO_VER in
-			7) instala_programa aptitude install build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev
+			7) instala_programa "GestiONG" build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev
 			;;
 		esac
 		;;
@@ -443,7 +479,7 @@ menu_software_no_libre() {
 			--menu "Elige los programas a instalar" 20 75 9 \
 			1 "Instalar fuentes propietarias de Windows kk" \
 			2 "Codecs propietarios mp3 y otros compatibles con Windows kk" \
-			3 "Programas propietarios: Skype, Spotify, etc." 
+			3 "Programas propietarios: Flash, Skype, Spotify, etc." 
 		case `cat /tmp/menuoption.txt` in
 		1 )     clear; instala_fuentes_windows_kk ;;
 		2 ) 	clear; instala_multimedia_prop ;;
@@ -526,10 +562,12 @@ menu_software_propietarios() {
 			--title "=== MENÚ INSTALAR PROGRAMAS PROPIETARIOS ===" \
 			--menu "Elige el programa a instalar" 20 75 2 \
 			1 "Skype"  \
-			2 "Acrobar Reader para PDF"
+			2 "Acrobar Reader para PDF" \
+			3 "Flash plugin"
 		case `cat /tmp/menuoption.txt` in
 		1 )		instala_skype ;;
 		2 ) 	instala_acrobar_reader ;;
+		3 )     instala_flash ;;
 		* )	break ;;
 		esac
 	done

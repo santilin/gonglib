@@ -1,9 +1,11 @@
-== HECHO ==
+== HACIENDO ==
+* Añadir botón en albaranes => Ofertas, y en ofertas => Albarán
 
-== URGENTE ==
+== ERRORES ==
+* Cuando se añade una liquidación a un albarán, se borra el número del albarán
+
 
 == TESORERIA ==
-* Extracto: añadir valores de terceros y conceptos
 * Borrar cuenta, si solo se usa como tercero_id, no se detecta si está siendo usada.
 * Generar apunte desde albarán, factura, pago, cobro, etc.
 
@@ -17,10 +19,8 @@
 
 
 == Ofertas ==
-* Añadir botón en albaranes: => Ofertas, y en ofertas: => Albarán
 * Insertar oferta de compra no inserta nada
 * Estadísticas
-* 'Sí a todo' en pasar de albaranes a ofertas
 
 == gong-tpv ==
 * tpv: Pagos por rondas: buscar un FrmList animado
@@ -34,6 +34,7 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
+* Cortar en dos líneas los campos de stocks de los artículos.
 * Formulario datos ventas y compras de artículos
 * Clientes especiales, con un porcentaje extra.
 * Enviar/recibir facturas a/de otro gestiong
@@ -105,6 +106,8 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Exportar: Pedir bien el fichero
+* Copia de seguridad: No pedir la carpeta.
 * Imprimir todo si hay un filtro tiene que imprimir solo los del filtro
 * dbRecord::seekCode, buscar por todos los códigos de la tabla
 ** Pensarlo mejor porque habría que pasar otro parámetro, quizás un flag: SeekCodeInAllCodes
