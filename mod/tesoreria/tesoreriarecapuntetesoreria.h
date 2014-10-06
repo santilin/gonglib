@@ -54,7 +54,6 @@ public:
 	virtual bool remove() throw( dbError ); // from dbRecord
 /*>>>>>APUNTETESORERIA_MEMBERS*/
     void actSaldoCuenta(dbRecordID cuentatesoreria_id, bool cargo, const Money &importe, bool saving);
-    void actualizaSaldos( bool saving );
 	bool generaContrapartida();
 private:
     RecConcepto *pRecConcepto;

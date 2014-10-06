@@ -87,12 +87,21 @@ RecTercero *RecApunteTesoreria::getRecTercero()
 bool RecApunteTesoreria::save(bool saverelated) throw( dbError )
 {
 /*>>>>>APUNTETESORERIA_SAVE*/
-	bool wasnew = isNew();
-	if( !wasnew ) 
-		actualizaSaldos(false);
     bool ret = dbRecord::save(saverelated);
     if( ret ) {
-        actualizaSaldos(true);
+		// Descontar el original
+		Money importe = getOrigValue("IMPORTE").toDouble();
+		if( importe != 0.0) {
+			dbRecordID ct_id = getOrigValue("CUENTATESORERIA_ID").toInt();
+			bool cargo = getOrigValue("CARGO").toBool();
+			actSaldoCuenta(ct_id, cargo, importe, false); 
+		}
+		Money importe = getValue("IMPORTE").toDouble();
+		if( importe != 0.0 ) {
+			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
+			bool cargo = getValue("CARGO").toBool();
+			actSaldoCuenta(ct_id, cargo, importe, true); 
+		}
 		if( !wasnew ) {
 			if( generaContrapartida() )	{
 				DBAPP->showStickyOSD( toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
@@ -109,21 +118,14 @@ bool RecApunteTesoreria::remove() throw( dbError )
 /*>>>>>APUNTETESORERIA_REMOVE*/
     bool ret = dbRecord::remove();
     if( ret ) {
-        actualizaSaldos(false);
+		Money importe = getValue("IMPORTE").toDouble();
+		if( importe != 0.0 ) {
+			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
+			bool cargo = getValue("CARGO").toBool();
+			actSaldoCuenta(ct_id, cargo, importe, false); 
+		}
     }
     return ret;
-}
-
-void RecApunteTesoreria::actualizaSaldos(bool saving)
-{
-    dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
-    bool cargo = getValue("CARGO").toBool();
-    Money importe = getValue("IMPORTE").toMoney();
-    actSaldoCuenta(ct_id, cargo, importe, saving);
-    // Si el tercero es otra cuenta de tesorería, actualizar su saldo
-    Xtring tabla_terceros = getValue("TABLATERCEROS").toString();
-    if( tabla_terceros == "CUENTATESORERIA" )
-        actSaldoCuenta( getValue("TERCERO_ID").toInt(), !cargo, importe, saving);
 }
 
 /**
