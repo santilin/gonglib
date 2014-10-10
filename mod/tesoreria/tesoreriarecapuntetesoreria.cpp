@@ -87,6 +87,7 @@ RecTercero *RecApunteTesoreria::getRecTercero()
 bool RecApunteTesoreria::save(bool saverelated) throw( dbError )
 {
 /*>>>>>APUNTETESORERIA_SAVE*/
+	bool wasnew = isNew();
     bool ret = dbRecord::save(saverelated);
     if( ret ) {
 		// Descontar el original
@@ -96,7 +97,7 @@ bool RecApunteTesoreria::save(bool saverelated) throw( dbError )
 			bool cargo = getOrigValue("CARGO").toBool();
 			actSaldoCuenta(ct_id, cargo, importe, false); 
 		}
-		Money importe = getValue("IMPORTE").toDouble();
+		importe = getValue("IMPORTE").toDouble();
 		if( importe != 0.0 ) {
 			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
 			bool cargo = getValue("CARGO").toBool();

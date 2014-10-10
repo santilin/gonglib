@@ -53,6 +53,91 @@ dbConnection::dbConnection()
 #endif
 }
 
+#ifdef HAVE_SQLITE3
+static dbResultSet *doSqliteShowFields(dbConnection *sqliteconn, const Xtring &query)
+{
+    Xtring tablename = query.mid( query.find(" FROM ") + 6);
+    return sqliteconn->select("pragma table_info(" + tablename + ")");
+}
+
+static dbError doSqliteAlterTable(dbConnection *sqliteconn, const Xtring &query)
+{
+    dbError err(Xtring::null);
+    XtringList parts;
+    query.tokenize(parts, " ");
+    if (parts.size() < 5 )
+        return dbError( "ALTER TABLE syntax error", 1064, query );
+    Xtring &tablename = parts[2];
+    Xtring &operation = parts[3];
+    if( operation.upper() == "DROP" ) {
+        Xtring &column = parts[4];
+        if( column.upper() == "COLUMN" && parts.size()>=6)
+            column = parts[5];
+        // Simulate ALTER TABLE ... DROP COLUMN ...
+        Xtring create = sqliteconn->selectString(
+                            "select group_concat(SQL, x'0A' || ';' || x'0A') from SQLite_Master where tbl_name = '" + tablename + "'");
+        _GONG_DEBUG_PRINT(0, create);
+        Xtring::size_type col_start = create.find("\"" + column + "\"");
+        if(col_start == Xtring::npos) // sometimes there are no double quotes
+            col_start = create.find("(" + column + " "); // Maybe is the first column
+        if(col_start == Xtring::npos)
+            col_start = create.find(" " + column + " ");
+        if(col_start == Xtring::npos)
+            return dbError( Xtring::printf("Can't DROP '%s'; check that column/key exist",
+                                           column.c_str()), 1091, query);
+        Xtring::size_type nextnull = create.find(" NULL,", col_start);
+        int null_length = 5;
+        if( nextnull == Xtring::npos ) {
+            nextnull = create.find(" NULL)", col_start);
+        } else {
+            null_length = 6;
+        }
+        if( nextnull == Xtring::npos)
+            return dbError( Xtring::printf("Can't DROP '%s'; check that column/key exist",
+                                           column.c_str()), 1091, query);
+        create.erase(create.begin() + col_start, create.begin()+nextnull + null_length );
+        // @todo Remove triggers and indexes
+        _GONG_DEBUG_PRINT(0, create);
+        Xtring insert = "INSERT INTO \"" + tablename + "\" SELECT ";
+        bool firstfield = true;
+        dbResultSet *rs = sqliteconn->select( "SHOW FIELDS FROM " + tablename );
+        while( rs->next() ) {
+            Xtring fld = rs->toString(1);
+            if( fld != column ) {
+                if( firstfield ) {
+                    firstfield = false;
+                } else {
+                    insert.append(",");
+                }
+                insert.append( fld );
+            }
+        }
+        insert.append(" FROM temp.Cache");
+        XtringList querys;
+        querys  << "begin immediate"
+                << "pragma foreign_keys = NO"
+                << "pragma triggers = NO"
+                << "create temp table \"Cache\" as select * from \"" + tablename + "\""
+                << "drop table " + tablename
+                << create
+                << insert
+                << "drop table temp.Cache"
+                << "pragma foreign_keys = YES";
+        if( sqliteconn->exec(querys, false) ) {
+            sqliteconn->exec( "commit" );
+            return err;
+        } else {
+            sqliteconn->exec( "rollback" );
+            return dbError(sqliteconn->getLastError());
+        }
+    } else {
+        return err;
+    }
+
+}
+#endif
+
+
 void dbConnection::clearIConv()
 {
     if( pIConvSelect ) {
@@ -1247,91 +1332,6 @@ XtringList dbConnection::extractSqlTables(const Xtring & select)
     }
     return tables;
 }
-
-#ifdef HAVE_SQLITE3
-static dbResultSet *doSqliteShowFields(dbConnection *sqliteconn, const Xtring &query)
-{
-    Xtring tablename = query.mid( query.find(" FROM ") + 6);
-    return sqliteconn->select("pragma table_info(" + tablename + ")");
-}
-
-static dbError doSqliteAlterTable(dbConnection *sqliteconn, const Xtring &query)
-{
-    dbError err(Xtring::null);
-    XtringList parts;
-    query.tokenize(parts, " ");
-    if (parts.size() < 5 )
-        return dbError( "ALTER TABLE syntax error", 1064, query );
-    Xtring &tablename = parts[2];
-    Xtring &operation = parts[3];
-    if( operation.upper() == "DROP" ) {
-        Xtring &column = parts[4];
-        if( column.upper() == "COLUMN" && parts.size()>=6)
-            column = parts[5];
-        // Simulate ALTER TABLE ... DROP COLUMN ...
-        Xtring create = sqliteconn->selectString(
-                            "select group_concat(SQL, x'0A' || ';' || x'0A') from SQLite_Master where tbl_name = '" + tablename + "'");
-        _GONG_DEBUG_PRINT(0, create);
-        Xtring::size_type col_start = create.find("\"" + column + "\"");
-        if(col_start == Xtring::npos) // sometimes there are no double quotes
-            col_start = create.find("(" + column + " "); // Maybe is the first column
-        if(col_start == Xtring::npos)
-            col_start = create.find(" " + column + " ");
-        if(col_start == Xtring::npos)
-            return dbError( Xtring::printf("Can't DROP '%s'; check that column/key exist",
-                                           column.c_str()), 1091, query);
-        Xtring::size_type nextnull = create.find(" NULL,", col_start);
-        int null_length = 5;
-        if( nextnull == Xtring::npos ) {
-            nextnull = create.find(" NULL)", col_start);
-        } else {
-            null_length = 6;
-        }
-        if( nextnull == Xtring::npos)
-            return dbError( Xtring::printf("Can't DROP '%s'; check that column/key exist",
-                                           column.c_str()), 1091, query);
-        create.erase(create.begin() + col_start, create.begin()+nextnull + null_length );
-        // @todo Remove triggers and indexes
-        _GONG_DEBUG_PRINT(0, create);
-        Xtring insert = "INSERT INTO \"" + tablename + "\" SELECT ";
-        bool firstfield = true;
-        dbResultSet *rs = sqliteconn->select( "SHOW FIELDS FROM " + tablename );
-        while( rs->next() ) {
-            Xtring fld = rs->toString(1);
-            if( fld != column ) {
-                if( firstfield ) {
-                    firstfield = false;
-                } else {
-                    insert.append(",");
-                }
-                insert.append( fld );
-            }
-        }
-        insert.append(" FROM temp.Cache");
-        XtringList querys;
-        querys  << "begin immediate"
-                << "pragma foreign_keys = NO"
-                << "pragma triggers = NO"
-                << "create temp table \"Cache\" as select * from \"" + tablename + "\""
-                << "drop table " + tablename
-                << create
-                << insert
-                << "drop table temp.Cache"
-                << "pragma foreign_keys = YES";
-        if( sqliteconn->exec(querys, false) ) {
-            sqliteconn->exec( "commit" );
-            return err;
-        } else {
-            sqliteconn->exec( "rollback" );
-            return dbError(sqliteconn->getLastError());
-        }
-    } else {
-        return err;
-    }
-
-}
-#endif
-
 
 
 } // Namespace
