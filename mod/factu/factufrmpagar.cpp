@@ -37,6 +37,12 @@ FrmPagar::FrmPagar(bool has_contab,
         editCuentaPago->getEditCode()->setText( cuentapago );
         editCuentaPago->getEditCode()->setJustEdited( true );
     }
+#elif defined( HAVE_TESORERIAMODULE )
+    if( has_contab ) {
+        editCuentaPago = addSearchField( 0, "CUENTATESORERIA", "CODIGO", "NOMBRE" );
+        editCuentaPago->getEditCode()->setText( cuentapago );
+        editCuentaPago->getEditCode()->setJustEdited( true );
+    }
 #endif
     editDocumentoPago = addInputField( 0, Xtring::null, "COBRO", "DOCUMENTOPAGO", documentopago );
 }

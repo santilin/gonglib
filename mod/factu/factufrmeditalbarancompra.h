@@ -24,6 +24,9 @@
 #ifdef HAVE_CONTABMODULE
 #include <contabreccuenta.h>
 typedef gong::contab::RecCuenta RecCuentaPago;
+#elif defined (HAVE_TESORERIAMODULE)
+#include <tesoreriareccuentatesoreria.h>
+typedef gong::tesoreria::RecCuentaTesoreria RecCuentaPago;
 #endif
 
 namespace gong {
@@ -63,7 +66,7 @@ protected:
 protected slots:
     void slotPagar();
 
-    /*<<<<<FRMEDITALBARANCOMPRA_SCATTERS_AND_SLOTS*/
+/*<<<<<FRMEDITALBARANCOMPRA_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterTipoDoc();
 	void scatterProveedora();
@@ -76,7 +79,7 @@ private slots:
 	void pushProveedoraCodigo_clicked();
 	void pushFormaPagoCodigo_clicked();
 	void pushProyectoCodigo_clicked();
-	void pushCuentaPagoCuenta_clicked();
+	void pushCuentaPagoCodigo_clicked();
 
 public:
 	RecTipoDoc* getRecTipoDoc() const
@@ -87,7 +90,7 @@ public:
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecFormaPago(); }
 	empresa::RecProyecto* getRecProyecto() const
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecProyecto(); }
-#ifdef HAVE_CONTABMODULE
+#ifdef HAVE_TESORERIAMODULE
 	RecCuentaPago* getRecCuentaPago() const
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecCuentaPago(); }
 #endif
@@ -130,11 +133,11 @@ protected:
 	gong::EditBox *editDesgloseIVA;
 	gong::EditBox *editDocumentoPago;
 	gong::EditBox *editFechaPago;
-#ifdef HAVE_CONTABMODULE
-	gong::SearchBox *searchCuentaPagoCuenta;
-	QPushButton *pushCuentaPagoCuenta;
-	gong::LineEdit *editCuentaPagoCuenta;
-	gong::LineEdit *editCuentaPagoDescripcion;
+#ifdef HAVE_TESORERIAMODULE
+	gong::SearchBox *searchCuentaPagoCodigo;
+	QPushButton *pushCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoNombre;
 #endif
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITALBARANCOMPRA_CONTROLS*/

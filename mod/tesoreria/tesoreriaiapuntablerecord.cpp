@@ -19,12 +19,11 @@ IApuntableRecord::IApuntableRecord(dbRecord* record, const Xtring& apunte_id_fie
 {
 }
 
-/*
 RecCuentaTesoreria *IApuntableRecord::getRecCuentaPago() const
 {
+	_GONG_DEBUG_PRINT(0, pRecord->toString(TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS));
     return static_cast<RecCuentaTesoreria*>(pRecord->findRelatedRecord("CUENTAPAGO_ID"));
 }
-*/
 
 RecApunteTesoreria* IApuntableRecord::borraApunte()
 {
@@ -62,6 +61,7 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	if( pRecord->getValue(mImporteField).toDouble() == 0.0 )
 		return 0;
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord("APUNTETESORERIA"));
+	apunte->setValue( "NUMERO", apunte->selectNextInt( "NUMERO" ) );
 	apunte->setValue( "EMPRESA_ID", pRecord->getValue("EMPRESA_ID") );
 	apunte->setValue( "EJERCICIO", pRecord->getValue("EJERCICIO") );
 	apunte->setValue( "FECHA", pRecord->getValue(mFechaField) );

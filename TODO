@@ -1,12 +1,14 @@
 == HACIENDO ==
 
+
+== HACER ==
+* Comprobar pasar de oferta a albarán.
+
 == ERRORES ==
 * Cuando se añade una liquidación a un albarán, se borra el número del albarán
 
 
 == TESORERIA ==
-* Borrar cuenta, si solo se usa como tercero_id, no se detecta si está siendo usada.
-* Si terceros es una cuenta de tesorería, generar el apunte contrario
 * Generar apunte desde albarán, factura, pago, cobro, etc.
 * No funciona CTRL+F ni F3 en los searchs de terceros
 
@@ -82,6 +84,9 @@
 ** Regenerar asientos de pagos: si no hay cuenta origen, dar error y no generarlo
 ** Añadir IAsentable a pagos y cobros para regenerar los pagos y cobros
 * Si un pago es mayor que el total, y no hay más facturas, entonces ¿hay que crear un nuevo pago por el resto?
+
+== gong-tesoreria ==
+* Borrar cuenta, si solo se usa como tercero_id, no se detecta si está siendo usada.
 
 == gong-contab ==
 * No genera el contador en los asientos nuevos

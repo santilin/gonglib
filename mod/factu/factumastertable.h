@@ -40,7 +40,7 @@ public:
                 pMasterTable->addFieldString( "DOCUMENTOPAGO", 50 );
 #ifdef HAVE_CONTABMODULE 
                 pMasterTable->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTA.ID" )->setCanBeNull(true);
-#elseif defined( HAVE_TESORERIAMODULE )
+#elif defined( HAVE_TESORERIAMODULE )
                 pMasterTable->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTATESORERIA.ID" )->setCanBeNull(true);
 #else				
                 pMasterTable->addFieldString( "CUENTAPAGO", 20 );

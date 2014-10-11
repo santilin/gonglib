@@ -920,6 +920,9 @@ int dbRecord::getRelationIndex( const Xtring &relname ) const
         else if( getRelation( i )->getName() == getTableName() + "." + relname )
             return i;
     }
+    for ( unsigned int i=0; i<mRecordRelations.size(); i++ ) {
+		_GONG_DEBUG_PRINT(0, getRelation(i)->getRelationDefinition()->getFullName());
+	}
     return -1;
 }
 

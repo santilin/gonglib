@@ -24,6 +24,7 @@ public:
     virtual dbRecordID regenApunte( bool supervisar );
     virtual RecApunteTesoreria *borraApunte();
     virtual FrmEditRec *showApunte( DataTable::EditMode editmode = DataTable::selecting );
+	RecCuentaTesoreria *getRecCuentaPago() const;
 protected:
     dbRecord *pRecord;
     Xtring mApunteIDField, mCuentaPagoIDField, mFechaField, mImporteField, mReferenciaField,

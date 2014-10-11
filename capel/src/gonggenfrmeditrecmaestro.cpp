@@ -331,7 +331,7 @@ void addFrmEditRecMasterFields(CppModule *cpcpp, CppModule *cph, const Xtring &f
 			Xtring applicationflags;
 			if( codedesc.size() > 4 )
 				applicationflags = codedesc[4];
-			scatterrels += cscpp + "\tscatter" + referredfieldcontrolname + "();\n" + cecpp;
+			scatterrels += csh + cscpp + "\tscatter" + referredfieldcontrolname + "();\n" + cecpp + ceh;
 			if( firstfield && _inherit.isEmpty() ) {
 				scatter += "\tif( isEditing() && (pFocusWidget == 0) )\n";
 				scatter += "\t\tpFocusWidget = edit" + referredfieldcontrolname + fldcode + ";\n";
