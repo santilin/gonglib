@@ -109,6 +109,9 @@ void ContabModule::afterCreateEditForm(FrmEditRec* frm, dbRecord* rec)
     if( rec->getTableName() == "TIPOIVA" ) {
         frm->addBehavior( new FrmEditTipoIVABehavior( frm ) );
     }
+    if( rec->getTableName() == "EMPRESA" ) {
+        frm->addBehavior( new FrmEditEmpresaBehavior( frm ) );
+    }
 }
 
 bool ContabModule::isContabActive(empresa::RecEmpresa* recempresa) const

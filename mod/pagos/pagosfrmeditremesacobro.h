@@ -44,8 +44,10 @@ protected:
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 	void specialControlKeyPressed(QWidget *sender, char key);
 /*>>>>>FRMEDITREMESACOBRO_VIRTUALS_FROM_FRMEDITREC*/
-    bool usarProyecto() const;
-    /*<<<<<FRMEDITREMESACOBRO_SCATTERS_AND_SLOTS*/
+    bool pedirProyecto() const;
+	virtual bool canBeginEdit(EditMode newmode); // from FrmEditRec
+
+/*<<<<<FRMEDITREMESACOBRO_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterProyecto();
 
@@ -59,11 +61,11 @@ public:
     /*<<<<<FRMEDITREMESACOBRO_CONTROLS*/
 protected:
 	gong::EditBox *editNumero;
-	gong::EditBox *editDescripcion;
 	gong::SearchBox *searchProyectoCodigo;
 	QPushButton *pushProyectoCodigo;
 	gong::LineEdit *editProyectoCodigo;
 	gong::LineEdit *editProyectoNombre;
+	gong::EditBox *editDescripcion;
 	gong::CheckBox *checkCerrada;
 	gong::EditBox *editFechaEmision;
 	gong::EditBox *editFechaCargo;

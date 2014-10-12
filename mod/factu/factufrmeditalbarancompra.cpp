@@ -1044,11 +1044,11 @@ void FrmEditAlbaranCompra::slotPagar()
             if( has_contab ) {
                 contab::Cuenta cuenta_pago = contab::Cuenta( pr->getCuentaPago(), contab::ModuleInstance->getDigitosTrabajo() );
                 cuenta_pago.expandir();
-                editCuentaPagoCuenta->setText( cuenta_pago );
+                searchCuentaPagoCuenta->setValue( cuenta_pago );
             }
 #elif defined (HAVE_TESORERIAMODULE)
             if( has_contab ) {
-                editCuentaPagoCodigo->setText( pr->getCuentaPago() );
+                searchCuentaPagoCodigo->setValue( pr->getCuentaPago() );
 			}
 #endif
             if( editTotal->toDouble() == 0.0 )

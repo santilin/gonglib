@@ -36,7 +36,7 @@ public:
 		: FrmEditRecBehavior( theform )
 /*>>>>>FRMEDITREMESACOBROBEHAVIOR_CLASS*/
     {}
-    // virtual void updateStatus();
+    virtual void updateStatus();
     // virtual bool canClose();
     /*<<<<<FRMEDITREMESACOBROBEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
 protected:

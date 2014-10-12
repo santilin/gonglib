@@ -6,12 +6,12 @@
 namespace gong {
 namespace tesoreria {
 
-IApuntableRecord::IApuntableRecord(dbRecord* record, const Xtring& apunte_id_field, const Xtring& cuenta_pago_id_field, 
+IApuntableRecord::IApuntableRecord(dbRecord* record, const Xtring& apunte_id_field, const Xtring& cuenta_tesoreria_id_field, 
 	const Xtring& fecha_field, const Xtring& importe_field, const Xtring& referencia_field, 
 	const Xtring& tablaterceros, const Xtring& tercero_id_field, const Xtring& tercero_field, 
 	const Xtring& tablaconceptos, const Xtring& concepto_id_field, const Xtring& concepto_field, 
 	const Xtring& notas_field, const Xtring& proyecto_id_field)
-	: pRecord(record), mApunteIDField(apunte_id_field), mCuentaPagoIDField(cuenta_pago_id_field), mFechaField(fecha_field), 
+	: pRecord(record), mApunteIDField(apunte_id_field), mCuentaTesoreriaIDField(cuenta_tesoreria_id_field), mFechaField(fecha_field), 
 		mImporteField(importe_field), mReferenciaField(referencia_field), mTablaTerceros(tablaterceros), 
 		mTerceroIDField(tercero_id_field), mTerceroField(tercero_field), mTablaConceptos(tablaconceptos),
 		mConceptoIDField(concepto_id_field), mConceptoField(concepto_field), mNotasField(notas_field),
@@ -19,10 +19,9 @@ IApuntableRecord::IApuntableRecord(dbRecord* record, const Xtring& apunte_id_fie
 {
 }
 
-RecCuentaTesoreria *IApuntableRecord::getRecCuentaPago() const
+RecCuentaTesoreria *IApuntableRecord::getRecCuentaTesoreria() const
 {
-	_GONG_DEBUG_PRINT(0, pRecord->toString(TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS));
-    return static_cast<RecCuentaTesoreria*>(pRecord->findRelatedRecord("CUENTAPAGO_ID"));
+    return static_cast<RecCuentaTesoreria*>(pRecord->findRelatedRecord(mCuentaTesoreriaIDField));
 }
 
 RecApunteTesoreria* IApuntableRecord::borraApunte()
@@ -57,7 +56,6 @@ FrmEditRec *IApuntableRecord::showApunte( DataTable::EditMode editmode)
 
 RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte, bool supervisar)
 {
-	/// TODO: Buscar el apunte anterior para modificarlo 
 	if( pRecord->getValue(mImporteField).toDouble() == 0.0 )
 		return 0;
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord("APUNTETESORERIA"));
@@ -67,6 +65,7 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	apunte->setValue( "FECHA", pRecord->getValue(mFechaField) );
 	apunte->setValue( "IMPORTE", pRecord->getValue(mImporteField) );
 	apunte->setValue( "REFERENCIA", pRecord->getValue(mReferenciaField) );
+	apunte->setValue( "CUENTATESORERIA_ID", pRecord->getValue(mCuentaTesoreriaIDField) );
 	if( mTablaTerceros == Xtring::null && mTerceroField == Xtring::null ) {
 	} else if( mTablaTerceros != Xtring::null ) {
 		apunte->setValue( "TABLATERCEROS", mTablaTerceros );

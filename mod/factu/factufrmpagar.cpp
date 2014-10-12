@@ -77,12 +77,6 @@ void FrmPagar::validate_input(QWidget* search, bool* is_valid)
 }
 
 
-FrmPagar::~FrmPagar()
-{
-	_GONG_DEBUG_PRINT(0, "Borro frmpagar");
-}
-
-
 } // namespace gong
 } // namespace sociasfrmpagarrecibo
 

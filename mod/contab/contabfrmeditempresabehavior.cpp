@@ -8,7 +8,7 @@
 // FIELD CuentaCaja string tabContab
 // FIELD MaxNivelGrupo int tabContab
 // INHERIT empresa::Empresa
-// TYPE FrmEditRecMaster contab::Empresa
+// TYPE FrmEditRecBehavior contab::Empresa
 /*>>>>>MODULE_INFO*/
 
 /*<<<<<FRMEDITEMPRESA_INCLUDES*/

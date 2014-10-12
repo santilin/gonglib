@@ -430,7 +430,10 @@ void FrmEditRecMaster::updateStatus( bool callbehaviors )
         } else if ( mEditMode == DataTable::choosing && pMenuRecordAdd->isEnabled()  ) {
             pushMiddle->setVisible( true );
             pushMiddle->setText( toGUI( _( "&Añadir" ) ) );
-        }
+//         } else if ( mEditMode == DataTable::browsing && pMenuRecordAdd->isEnabled() && fromGUI(pushAccept->text()) != _( "&Añadir" ) ) {
+// 			pushMiddle->setVisible( true );
+// 			pushMiddle->setText( toGUI( _( "&Añadir" ) ) );
+		}
     }
     if( callbehaviors ) {
         for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();

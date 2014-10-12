@@ -52,7 +52,10 @@ public:
 		QWidget *parent = 0, const char* name = 0,
 		WidgetFlags fl = WidgetFlags(0) );
 /*>>>>>TESORERIAMODULE_CLASS_DEFINITION*/
-    virtual void afterLoad();
+
+	virtual void afterCreateEditForm(FrmEditRec* frm, dbRecord* rec); // from dbModule
+    virtual void afterLoad(); // from dbModule
+	
     XtringList &getTablasTerceros() {
         return mTablasTerceros;
     }

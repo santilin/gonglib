@@ -11,14 +11,13 @@
 // FIELD FechaEmision date - fechas
 // FIELD Vencimiento date - fechas
 // FIELD FechaValor date - fechas
-// FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - importes
+// FIELD EstadoRecibo comboint - importes
 // FIELD Importe money - importes
 // FIELD Resto Money - importes
-// FIELD EstadoRecibo comboint - importes
 // FIELD FechaPago date - pago
 // FIELD DocumentoPago string - pago
+// FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - pago
 // FIELD CuentaPago_ID Reference(contab::Cuenta,Cuenta,Descripcion) - contab MODULE_INCLUDED(Contab)
-// FIELD CuentaOrigen string - contab
 // FIELD Notas text - notas
 // TYPE FrmEditRecMaster pagos::Cobro
 /*>>>>>MODULE_INFO*/
@@ -51,8 +50,7 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
     searchFacturaNumero = 0;
     searchTerceroCodigo = 0;
     pTercerosLayout = new QHBoxLayout();
-    pControlsLayout->addLayout(pTercerosLayout);
-    /*<<<<<FRMEDITCOBRO_INIT_CONTROLS*/
+/*<<<<<FRMEDITCOBRO_INIT_CONTROLS*/
 	QHBoxLayout *remesaLayout = new QHBoxLayout(0, 0, 6, "remesaLayout");
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *descLayout = new QHBoxLayout(0, 0, 6, "descLayout");
@@ -75,17 +73,17 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	editFechaEmision = addEditField( pControlsFrame, "COBRO", "FECHAEMISION", fechasLayout );
 	editVencimiento = addEditField( pControlsFrame, "COBRO", "VENCIMIENTO", fechasLayout );
 	editFechaValor = addEditField( pControlsFrame, "COBRO", "FECHAVALOR", fechasLayout );
+	comboEstadoRecibo = addComboIntField( pControlsFrame, "COBRO", "ESTADORECIBO", importesLayout );
+	editImporte = addEditField( pControlsFrame, "COBRO", "IMPORTE", importesLayout );
+	editResto = addEditField( pControlsFrame, "COBRO", "RESTO", importesLayout );
+	editFechaPago = addEditField( pControlsFrame, "COBRO", "FECHAPAGO", pagoLayout );
+	editDocumentoPago = addEditField( pControlsFrame, "COBRO", "DOCUMENTOPAGO", pagoLayout );
 
-	searchMonedaCodigo = addSearchField( pControlsFrame, "MONEDA_ID", "MONEDA", "CODIGO", "NOMBRE", importesLayout );
+	searchMonedaCodigo = addSearchField( pControlsFrame, "MONEDA_ID", "MONEDA", "CODIGO", "NOMBRE", pagoLayout );
 	pushMonedaCodigo = searchMonedaCodigo->getButton();
 	connect( pushMonedaCodigo, SIGNAL( clicked() ), this, SLOT( pushMonedaCodigo_clicked() ) );
 	editMonedaCodigo = searchMonedaCodigo->getEditCode();
 	editMonedaNombre = searchMonedaCodigo->getEditDesc();
-	editImporte = addEditField( pControlsFrame, "COBRO", "IMPORTE", importesLayout );
-	editResto = addEditField( pControlsFrame, "COBRO", "RESTO", importesLayout );
-	comboEstadoRecibo = addComboIntField( pControlsFrame, "COBRO", "ESTADORECIBO", importesLayout );
-	editFechaPago = addEditField( pControlsFrame, "COBRO", "FECHAPAGO", pagoLayout );
-	editDocumentoPago = addEditField( pControlsFrame, "COBRO", "DOCUMENTOPAGO", pagoLayout );
 
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
@@ -96,9 +94,9 @@ if( ModuleInstance->getContabModule() ) {
 	editCuentaPagoDescripcion = searchCuentaPagoCuenta->getEditDesc();
 }
 #endif
-	editCuentaOrigen = addEditField( pControlsFrame, "COBRO", "CUENTAORIGEN", contabLayout );
 	editNotas = addTextField( pControlsFrame, "COBRO", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( remesaLayout );
+	pControlsLayout->addLayout(pTercerosLayout);
 	pControlsLayout->addLayout( numeroLayout );
 	pControlsLayout->addLayout( descLayout );
 	pControlsLayout->addLayout( fechasLayout );
@@ -107,6 +105,8 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( contabLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITCOBRO_INIT_CONTROLS*/
+// {capel} añadir pControlsLayout->addLayout(pTercerosLayout); después de remesaLayout
+
     editContador->setMustBeReadOnly( true );
     editFechaPago->setMustBeReadOnly(true);
 #ifdef HAVE_CONTABMODULE
@@ -121,9 +121,10 @@ if( ModuleInstance->getContabModule() ) {
     checkAutomatico->setMustBeReadOnly( true );
 }
 
-void FrmEditCobro::setUsarRemesas(bool usar)
+void FrmEditCobro::setUsarRemesas(bool usar, bool fijar)
 {
     searchRemesaCobroNumero->setVisible( usar );
+	searchRemesaCobroNumero->setMustBeReadOnly( fijar );
 }
 
 
@@ -149,33 +150,38 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
         connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ) );
         editFacturaNumero = searchFacturaNumero->getEditCode();
         editFacturaDesc = searchFacturaNumero->getEditDesc();
-        editFacturaNumero->setWidthInChars(15);
-        searchFacturaNumero->setMustBeReadOnly(true);
+		if( !isInserting() )
+			searchFacturaNumero->setMustBeReadOnly(true);
+        setTabOrder( editRemesaCobroNumero, editFacturaNumero );
+		setTabOrder( editFacturaNumero, editNumero );
 
         removeControl( searchTerceroCodigo );
-        if( fldterccodigo == Xtring::null ) {
-            dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablaterceros );
-            dbFieldDefinition *flddeffc = tbldef->findFieldByFlags( dbFieldDefinition::CODE );
-            if( flddeffc )
-                mFldTercCodigo = flddeffc->getName();
-            dbFieldDefinition *flddeffd = tbldef->findFieldByFlags( dbFieldDefinition::DESCRIPTION );
-            if( flddeffd )
-                mFldTercDesc = flddeffd->getName();
-        } else {
-            mFldTercCodigo = fldterccodigo;
-            mFldTercDesc = fldtercdesc;
-        }
-        searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", tablaterceros,
-                                              mFldTercCodigo, mFldTercDesc, pTercerosLayout );
-        pushTerceroCodigo = searchTerceroCodigo->getButton();
-        connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
-        editTerceroCodigo = searchTerceroCodigo->getEditCode();
-        editTerceroDesc = searchTerceroCodigo->getEditDesc();
-        searchTerceroCodigo->setMustBeReadOnly(true);
+		if( tablaterceros != Xtring::null) {
+			if( fldterccodigo == Xtring::null ) {
+				dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablaterceros );
+				dbFieldDefinition *flddeffc = tbldef->findFieldByFlags( dbFieldDefinition::CODE );
+				if( flddeffc )
+					mFldTercCodigo = flddeffc->getName();
+				dbFieldDefinition *flddeffd = tbldef->findFieldByFlags( dbFieldDefinition::DESCRIPTION );
+				if( flddeffd )
+					mFldTercDesc = flddeffd->getName();
+			} else {
+				mFldTercCodigo = fldterccodigo;
+				mFldTercDesc = fldtercdesc;
+			}
+			searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", tablaterceros,
+												mFldTercCodigo, mFldTercDesc, pTercerosLayout );
+			pushTerceroCodigo = searchTerceroCodigo->getButton();
+			connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
+			editTerceroCodigo = searchTerceroCodigo->getEditCode();
+			editTerceroDesc = searchTerceroCodigo->getEditDesc();
+			if( !isInserting() ) 
+				searchTerceroCodigo->setMustBeReadOnly(true);
+			setTabOrder( editFacturaNumero, editTerceroCodigo );
+			setTabOrder( editTerceroCodigo, editNumero );
+			editFacturaNumero->setWidthInChars(15);
+		}
 
-        setTabOrder( editRemesaCobroNumero, editFacturaNumero );
-        setTabOrder( editFacturaNumero, editTerceroCodigo );
-        setTabOrder( editTerceroCodigo, editNumero );
     }
 }
 
@@ -454,19 +460,20 @@ void FrmEditCobro::scatterFields()
 	editFechaEmision->setText(getRecCobro()->getValue("FECHAEMISION").toDate());
 	editVencimiento->setText(getRecCobro()->getValue("VENCIMIENTO").toDate());
 	editFechaValor->setText(getRecCobro()->getValue("FECHAVALOR").toDate());
+	comboEstadoRecibo->setCurrentItemByValue(getRecCobro()->getValue("ESTADORECIBO").toInt());
 	editImporte->setText(getRecCobro()->getValue("IMPORTE").toMoney());
 	editResto->setText(getRecCobro()->getValue("RESTO").toMoney());
-	comboEstadoRecibo->setCurrentItemByValue(getRecCobro()->getValue("ESTADORECIBO").toInt());
 	editFechaPago->setText(getRecCobro()->getValue("FECHAPAGO").toDate());
 	editDocumentoPago->setText(getRecCobro()->getValue("DOCUMENTOPAGO").toString());
-	editCuentaOrigen->setText(getRecCobro()->getValue("CUENTAORIGEN").toString());
 	editNotas->setText(getRecCobro()->getValue("NOTAS").toString());
 	scatterRemesaCobro();
 	scatterMoneda();
 #ifdef HAVE_CONTABMODULE
+#ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	scatterCuentaPago();
 }
+#endif
 #endif
 /*>>>>>FRMEDITCOBRO_SCATTER*/
     if( isInserting() ) {
@@ -486,7 +493,6 @@ if( ModuleInstance->getContabModule() ) {
         editImporte->setMustBeReadOnly(true);
         comboEstadoRecibo->setMustBeReadOnly(true);
         editResto->setMustBeReadOnly(true);
-        editCuentaOrigen->setMustBeReadOnly(true);
         searchMonedaCodigo->setMustBeReadOnly(true);
     } else {
         if( editNumero->toInt() == 0 )
@@ -521,18 +527,17 @@ void FrmEditCobro::gatherFields()
 	getRecCobro()->setValue( "FECHAEMISION", editFechaEmision->toDate());
 	getRecCobro()->setValue( "VENCIMIENTO", editVencimiento->toDate());
 	getRecCobro()->setValue( "FECHAVALOR", editFechaValor->toDate());
-	getRecCobro()->setValue( "MONEDA_ID", getRecMoneda()->getRecordID() );
+	getRecCobro()->setValue( "ESTADORECIBO", comboEstadoRecibo->getCurrentItemValue());
 	getRecCobro()->setValue( "IMPORTE", editImporte->toMoney());
 	getRecCobro()->setValue( "RESTO", editResto->toMoney());
-	getRecCobro()->setValue( "ESTADORECIBO", comboEstadoRecibo->getCurrentItemValue());
 	getRecCobro()->setValue( "FECHAPAGO", editFechaPago->toDate());
 	getRecCobro()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
+	getRecCobro()->setValue( "MONEDA_ID", getRecMoneda()->getRecordID() );
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	getRecCobro()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
 }
 #endif
-	getRecCobro()->setValue( "CUENTAORIGEN", editCuentaOrigen->toString());
 	getRecCobro()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITCOBRO_GATHER*/
     getRecCobro()->setValue( "RAZONSOCIAL", getRecTercero()->getValue( mFldTercDesc ) );

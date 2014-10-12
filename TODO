@@ -9,6 +9,8 @@
 
 
 == TESORERIA ==
+* OSD grabar albarán, muestra 2 veces el contador y además es el mismo.
+* Modificar apunte generado desde albarán, el tercero no se ha grabado bien porque sale dos veces el control de terceros.
 * Generar apunte desde albarán, factura, pago, cobro, etc.
 * No funciona CTRL+F ni F3 en los searchs de terceros
 

@@ -21,6 +21,7 @@
 #include "tesoreriafrmeditconceptotesoreria.h"
 #include "tesoreriafrmedittipoapuntetesoreria.h"
 /*>>>>>TESORERIAMODULE_INCLUDES*/
+#include "tesoreriafrmeditempresabehavior.h"
 
 
 namespace gong {
@@ -28,12 +29,53 @@ namespace tesoreria {
 
 TesoreriaModule *ModuleInstance = 0;
 
+static dbModuleSetting _settings[] = {
+    {
+        dbModuleSetting::Bool,
+        "SUPERVISAR_APUNTES",
+        _("Supervisar los apuntes que se generan automáticamente"),
+        "true",
+        dbModuleSetting::All
+    },
+    {
+        dbModuleSetting::Bool,
+        "FILTRARARTICULOSPORPROVEEDORA",
+        _("Mostrar solo artículos de la proveedora al dar de alta albaranes, facturas, ..."),
+        "false",
+        dbModuleSetting::All
+    },
+    {
+        dbModuleSetting::Long,
+        "CODIGO_PROVEEDORA_GENERICA",
+        _("Código de la proveedora genérica (utilizada en los filtros)"),
+        "0",
+        dbModuleSetting::All
+    },
+    {
+        dbModuleSetting::String,
+        "ARTICULO_DESCUENTOS",
+        _("Código de los artículos para descuentos"),
+        "DESCUENTO",
+        dbModuleSetting::All
+    },
+    {
+        dbModuleSetting::String,
+        "ARTICULO_RECARGOS",
+        _("Código de los artículos para recargos"),
+        "RECARGO",
+        dbModuleSetting::All
+    },
+    {dbModuleSetting::None}
+};
+
+
 TesoreriaModule::TesoreriaModule()
     : dbModule("tesoreria")
 {
-    ModuleInstance = this;
     _GONG_DEBUG_TRACE(1);
-    /*<<<<<TESORERIAMODULE_PUBLIC_INFO*/
+    ModuleInstance = this;
+    pModuleSettings = _settings;
+/*<<<<<TESORERIAMODULE_PUBLIC_INFO*/
 //	mModuleRequires
 	mMasterTables << "APUNTETESORERIA" << "CUENTATESORERIA" << "TERCEROTESORERIA" << "CONCEPTOTESORERIA" << "TIPOAPUNTETESORERIA";
 //	mDetailTables
@@ -68,9 +110,13 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     _GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
     _GONG_DEBUG_ASSERT( db );
     pMainDatabase = db;
-    /*<<<<<TESORERIAMODULE_INIT_DATABASE*/
+/*<<<<<TESORERIAMODULE_INIT_DATABASE*/
 
 /*>>>>>TESORERIAMODULE_INIT_DATABASE*/
+
+    tesoreria::MasterTable *cmt = new tesoreria::MasterTable( db->findTableDefinition( "EMPRESA" ) );
+    cmt->addFieldString( "CUENTACAJA", 14 );
+    delete cmt;
 
     pFicTipoApunteTesoreria = new MasterTable( *pMainDatabase, "TIPOAPUNTETESORERIA" );
     pFicTipoApunteTesoreria->addFieldRecordID();
@@ -210,6 +256,15 @@ FrmEditRec *TesoreriaModule::createEditForm(FrmEditRec *parentfrm, dbRecord *rec
 /*>>>>>TESORERIAMODULE_CREATE_EDITFORM*/
     return 0;
 }
+
+
+void TesoreriaModule::afterCreateEditForm(FrmEditRec* frm, dbRecord* rec)
+{
+    if( rec->getTableName() == "EMPRESA" ) {
+        frm->addBehavior( new FrmEditEmpresaBehavior( frm ) );
+    }
+}
+
 
 FrmEditRecDetail *TesoreriaModule::createEditDetailForm(
     FrmEditRecMaster *frmmaster, int ndetail,

@@ -49,7 +49,7 @@ public:
 		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
 	RecCobro *getRecCobro() const { return (RecCobro *)getRecord(); }
 /*>>>>>FRMEDITCOBRO_CLASS*/
-    void setUsarRemesas( bool usar );
+    void setUsarRemesas( bool usar, bool fijar );
     void completa(const Xtring &tablafacturas, const Xtring &fldfactcodigo, const Xtring &fldfactdesc,
                   const Xtring &tablaterceros, const Xtring &fldterccodigo, const Xtring &fldtercdesc,
                   const Xtring &descsingular, const Xtring &descplural, bool femenina );
@@ -128,22 +128,21 @@ protected:
 	gong::EditBox *editFechaEmision;
 	gong::EditBox *editVencimiento;
 	gong::EditBox *editFechaValor;
+	gong::ComboBoxInt *comboEstadoRecibo;
+	gong::EditBox *editImporte;
+	gong::EditBox *editResto;
+	gong::EditBox *editFechaPago;
+	gong::EditBox *editDocumentoPago;
 	gong::SearchBox *searchMonedaCodigo;
 	QPushButton *pushMonedaCodigo;
 	gong::LineEdit *editMonedaCodigo;
 	gong::LineEdit *editMonedaNombre;
-	gong::EditBox *editImporte;
-	gong::EditBox *editResto;
-	gong::ComboBoxInt *comboEstadoRecibo;
-	gong::EditBox *editFechaPago;
-	gong::EditBox *editDocumentoPago;
 #ifdef HAVE_CONTABMODULE
 	gong::SearchBox *searchCuentaPagoCuenta;
 	QPushButton *pushCuentaPagoCuenta;
 	gong::LineEdit *editCuentaPagoCuenta;
 	gong::LineEdit *editCuentaPagoDescripcion;
 #endif
-	gong::EditBox *editCuentaOrigen;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITCOBRO_CONTROLS*/
     QPushButton *pushPagar;

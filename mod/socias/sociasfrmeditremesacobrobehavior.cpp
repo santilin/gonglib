@@ -59,9 +59,6 @@ void FrmEditRemesaCobroBehavior::validateFields(bool is_pre,
 
 void FrmEditRemesaCobroBehavior::slotGenerarRecibo_clicked()
 {
-    if( !pTheForm->read(0) )
-        return;
-
     pagos::RecCobro *cobro = static_cast<pagos::RecCobro *>( DBAPP->createRecord( "COBRO" ) );
     cobro->setValue( "TABLAFACTURAS", "MIEMBRO" );
     cobro->setValue( "REMESA_ID", pTheForm->getRecord()->getValue( "ID" ) );
@@ -75,18 +72,26 @@ void FrmEditRemesaCobroBehavior::slotGenerarRecibo_clicked()
 #ifdef HAVE_FACTUMODULE
     if( ModuleInstance->getFactuModule() )
         frm->completa( "MIEMBRO", "NUMEROSOCIA", "FECHAALTA",
-                       "CLIENTE", "CODIGO", "RAZONSOCIAL", Xtring::null, Xtring::null, true );
+                       Xtring::null, Xtring::null, Xtring::null, Xtring::null, Xtring::null, true );
     else
 #endif
         frm->completa( "MIEMBRO", "NUMEROSOCIA", "FECHAALTA", "CONTACTO", "CIF", "NOMBRE",
                        Xtring::null, Xtring::null, true );
     if( frm ) {
-        frm->setUsarRemesas( true );
+        frm->setUsarRemesas( true/*ver*/,true/*fijar*/ );
         frm->showModalFor( pTheForm, false, true );
         delete frm;
     }
 }
 
+void FrmEditRemesaCobroBehavior::updateStatus()
+{
+	if( pTheForm->isEditing() ) {
+		pushGenerarRecibo->show();
+	} else {
+		pushGenerarRecibo->hide();
+	}
+}
 
 /*<<<<<FRMEDITREMESACOBROBEHAVIOR_FIN*/
 } // namespace socias

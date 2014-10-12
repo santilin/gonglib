@@ -12,9 +12,10 @@ public:
     FrmPagar( bool has_contab, const Money &importe, Date fechapago,
               const Xtring &cuentapago, const Xtring &documentopago,
               QWidget *parent=0, const char *name=0, WidgetFlags f=0 );
-	virtual ~FrmPagar();
-    void accept();
-    Date getFechaPago() {
+
+	void accept();
+
+	Date getFechaPago() {
         return editFechaPago->toDate();
     }
     Xtring getCuentaPago() {

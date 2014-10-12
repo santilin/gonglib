@@ -363,6 +363,14 @@ instala_gestiong() {
 	esac
 }
 
+
+borra_dev_doc() {
+	# borrar los paquetes -dev
+	apt-get autoremove --purge $(dpkg -l "*-dev$*" | grep ii | grep -v libqt4-dev | grep -v python-dbus-dev | awk '{print $2}')
+	# borrar los paquetes -doc
+	apt-get autoremove --purge $(dpkg -l "*-doc$*" | grep ii | awk '{print $2}')
+}
+
 my_dialog() {
 	if test "x$HAY_DIALOG" == "xtrue"; then
 		dialog "$@" 2> /tmp/menuoption.txt
@@ -600,18 +608,20 @@ menu_limpieza() {
 	while [ 1 ]; do
 		my_dialog --cancel-label "Volver" \
 			--title "=== LIMPIEZA ===" \
-			--menu "Elige la sección" 20 75 5 \
+			--menu "Elige la sección" 20 75 6 \
 			1 "Liberar espacio en disco" \
-			2 "Borrar programas huérfanos" \
+			2 "Borrar programas de desarrollo y de documentación" \
 			3 "Eliminar bluetooh" \
 			4 "Eliminar modem" \
 			5 "Eliminar programas de KDE" 
+			6 "Borrar programas huérfanos" 
 		case `cat /tmp/menuoption.txt` in
 		1 ) 	clear; liberar_espacio_disco; pulsa_tecla ;;
-		2 ) 	clear; borra_programas_huerfanos ;;
+		2 )	    clear; borra_dev_doc;; pulsa_tecla;
 		3 )		clear; borra_bluetooh ;;
 		4 ) 	clear; borra_modem ;;
 		5 )		clear; borra_programas_kde ;;
+		2 ) 	clear; borra_programas_huerfanos ;;
 		* )		break ;;
 		esac
 	done
