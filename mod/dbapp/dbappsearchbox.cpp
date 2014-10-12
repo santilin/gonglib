@@ -11,9 +11,9 @@ SearchBox::SearchBox( const Xtring &caption, const Xtring &tablename,
                       const Xtring &fldcode, const Xtring &flddesc,
                       QWidget *parent, enum Flags flags )
 : QPushButton( parent, ("push_" + tablename + "_id_" + fldcode ).c_str() ),
-mFlags(flags), mMustBeReadOnly(false),
-mTableName( tablename ), mFldCode( fldcode ), mFldDesc( flddesc ),
-pRecordCompleter(0)
+	mFlags(flags), mMustBeReadOnly(false),
+	mTableName( tablename ), mFldCode( fldcode ), mFldDesc( flddesc ),
+	pRecordCompleter(0)
 {
     setIcon( QIcon::fromTheme("edit-find", QIcon(":/edit-find.png")) );
     pLayout = (QBoxLayout *)new QHBoxLayout( 0, 0, 6, ("layout_" + mTableName).c_str() );
@@ -43,8 +43,8 @@ pRecordCompleter(0)
 
 SearchBox::~SearchBox()
 {
-    delete pEditCode;
-    delete pEditDesc;
+//    delete pEditCode;
+//    delete pEditDesc;
     if( pRecord )
         delete pRecord;
     if( pRecordCompleter )

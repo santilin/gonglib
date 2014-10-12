@@ -22,10 +22,11 @@ else
    KDE="1"
 fi
 GNOME="0"
-if test "x$DESKTOP_SESSION" = "xLXDE"; then
-	LXDE="1"
-else
+LXDE=$(ps ax | grep lxsession | grep LXDE)
+if test "x$LXDE" = "x"; then
 	LXDE="0"
+else
+	LXDE="1"
 fi 
 PING_TEST_IP="208.67.222.222"
 NTPDATE_SERVER="pool.ntp.org"
@@ -38,7 +39,7 @@ LIBREOFFICE_DEBIAN="hyphen-es mythes-es libreoffice-grammarcheck-es"
 LIBREOFFICE_OTHER="libreoffice-thesaurus-$LANGUAGE libreoffice-hypenation-$LANGUAGE libreoffice-style-human"
 
 
-FREEFONTS="ttf-bitstream-vera fonts-breip ttf-dejavu ttf-freefont ttf-liberation ttf-opensymbol ttf-unifont fonts-linuxlibertine ttf-isabella"
+FREEFONTS="ttf-bitstream-vera fonts-breip ttf-dejavu ttf-freefont ttf-liberation ttf-opensymbol ttf-unifont fonts-linuxlibertine fonts-isabella"
 MSFONTS="ttf-mscorefonts-installer"
 
 pulsa_tecla() 
@@ -51,6 +52,7 @@ instala_programa() {
 	echo "Instalando $1"
 	shift
 	apt-get install -y -q $@
+	pulsa_tecla
 }
 
 aptgetupdate() {
@@ -117,7 +119,7 @@ completar_kde() {
 	fi
 	completar_escritorio
 	instala_multimedia_libre_kde
-}		
+}	
 
 completar_lxde() {
 	if test "x$LXDE" = "x0"; then
@@ -125,8 +127,29 @@ completar_lxde() {
 			return
 		fi
 	fi
-	instala_programa "Accesorios de LXDE" xfce4-mixer gstreamer0.10-alsa fdpowermon
 	completar_escritorio
+	if pregunta_si "¿Quieres instalar el control de batería?"; then
+		apt-get install fdpowermon
+	fi
+	if pregunta_si "¿Quieres instalar el control de volumen?"; then
+		instala_programa "Para compilar" build-essential libasound2-dev libglib2.0-dev libgtk-3-dev git libnotify
+		cd /tmp
+		git clone https://github.com/Maato/volumeicon.git
+		cd volumeicon
+		bash autogen.sh
+		./configure --enable-notify
+		make
+		if make install; then
+			if grep volumeicon /etc/xdg/lxsession/autostart; then
+				echo "Ya estaba añadido a autoarranque"
+			else
+				echo "@volumeicon" >> /etc/xdg/lxsession/autostart
+				ech "Instalado"
+			fi
+		else	
+			echo "Error instalando el control de volumen"
+		fi
+	fi
 }	
 
 
@@ -144,13 +167,7 @@ instala_multimedia_prop() {
 	instala_multimedia_libre
 	instala_programa "Codecs mp3" lame lame-extras gstreamer0.8-lame w32codecs
 	if test "x$KDE" = "x1"; then
-		case $DISTRO in
-			ubuntu)
-				instala_programa "Extras" kubuntu_restricted_extras flashplugin-installer oxideqt-codecs-extra ttf-mscorefonts-installer libav-tools
-				;;
-			*)
-				;;
-		esac
+		instala_programa kubuntu_restricted_extras
 	fi
 	if test "x$GNOME" = "x1"; then
 		instala_programa ubuntu_restricted_extras
@@ -204,6 +221,7 @@ instala_impresora_hp() {
 # Se necesita python-gobject para hp-sendfax: https://answers.launchpad.net/hplip/+question/30741
 	instala_programa "Impresoras HP" hplip hplip-gui python-gobject hp-ppd hplip-ppds
 	echo "Para configurar tu impresora, ve al menú principal 'K', elige 'Sistema' y luego 'HPLIP ToolBox - Printer Toolbox'"
+	pulsa_tecla
 }
 
 detectar_wifi() {
@@ -224,6 +242,7 @@ instala_firmware() {
 	fi
     cd /lib
     tar -zxvf $FIRMWARE .
+    pausa
 }
 
 
@@ -248,6 +267,7 @@ instala_skype() {
         wget -O /tmp/skype-install.deb http://www.skype.com/go/getskype-linux-deb
         dpkg -i /tmp/skype-install.deb || return
         rm skype-install.deb
+        pausa
         ;;
     *)
         firefox http://www.skype.com/intl/en/get-skype/on-your-computer/linux/
@@ -255,7 +275,7 @@ instala_skype() {
     esac
 }
 
-instala_flash() {
+instala_skype() {
 	case $DISTRO in
 	debian*)
 		instala_programa "Flash plugin" flashplugin-nonfree
@@ -264,6 +284,7 @@ instala_flash() {
 	echo "No sé como instalarlo en tu sistema"
         ;;
     esac
+    pausa
 }
 
 reloj_hora() {
@@ -272,6 +293,7 @@ reloj_hora() {
 		instala_programa "Programa para sincronizar la hora" ntpdate
 	fi
 	ntpdate $NTPDATE_SERVER
+	pulsa_tecla
 }
 
 language_espanol() {
@@ -282,6 +304,7 @@ language_espanol() {
 		;;
 	debian*)
 		echo "Lo siento, tienes que hacerlo a mano"
+		read
 	esac
 }
 
@@ -298,9 +321,6 @@ instala_libreoffice() {
 	debian*)
 		instala_programa "LibreOffice" $LIBREOFFICE_COMMON $LIBREOFFICE_DEBIAN
 		;;
-        ubuntu*)
-		instala_programa "LibreOffice" $LIBREOFFICE_COMMON
-		;;
 	*)
 		instala_programa "LibreOffice" $LIBREOFFICE_COMMON $LIBREOFFICE_OTHER
 		;;
@@ -311,7 +331,6 @@ instala_libreoffice() {
         if test "x$GNOME" = "x1"; then
 		instala_programa "LibreOffice KDE" libreoffice-gtk
         fi
-	echo "Para instalar diccionario, sinónimos y guionado en español, visita: http://forja.rediris.es/frs/?group_id=341"
 }
 
 instala_thunderbird() {
@@ -422,13 +441,13 @@ menu_sistema() {
 			5 "Limpieza" \
 			9 "Ver si hay una nueva versión de este programa"
 		case `cat /tmp/menuoption.txt` in
-		1 )     clear; aptgetupdate; pulsa_tecla;;
-		2 ) 	clear; language_espanol; pulsa_tecla ;;
-		3 )		clear; reloj_hora; pulsa_tecla ;;
+		1 )     clear; aptgetupdate ;;
+		2 ) 	clear; language_espanol ;;
+		3 )		clear; reloj_hora ;;
 # http://www.spencerstirling.com/computergeek/NFS_samba.html
-		4 ) 	clear; instala_programa "NFS" nfs-kernel-server nfs-common portmap kdenetwork-filesharing ; pulsa_tecla ;;
+		4 ) 	clear; instala_programa "NFS" nfs-kernel-server nfs-common portmap kdenetwork-filesharing ;;
 		5 ) 	menu_limpieza ;;
-		9 ) 	check_new_version; pulsa_tecla ;;
+		9 ) 	check_new_version ;;
 		* )		break ;;
 		esac
 	done
@@ -442,12 +461,12 @@ menu_escritorio() {
 			1 "Completar el escritorio: multimedia, tipos de letra, etc" \
 			2 "Completar KDE" \
 			3 "Completar GNOME y MATE" \
-			4 "Completar LXDE" 
+			4 "Completar LXDE"
 		case `cat /tmp/menuoption.txt` in
-		1 )     clear; completar_escritorio; pulsa_tecla;;
-		2 )     clear; completar_kde; pulsa_tecla;;
-		3 )     clear; completar_gnome; pulsa_tecla;;
-		4 )     clear; completar_lxde; pulsa_tecla;;
+		1 )     clear; completar_escritorio;;
+		2 )     clear; completar_kde;;
+		3 )     clear; completar_gnome;;
+		4 )     clear; completar_lxde;;
 		* )	break ;;
 		esac
 	done
@@ -465,11 +484,11 @@ menu_software_libre() {
 			4 "Programas para administradoras del sistema" \
 			5 "GestiONG" 
 		case `cat /tmp/menuoption.txt` in
-		1 ) 	clear; instala_libreoffice; pulsa_tecla ;;
+		1 ) 	clear; instala_libreoffice ;;
 		2 )		menu_graficos ;;
-		3 ) 	clear; instala_thunderbird; pulsa_tecla ;;
-		4 )		clear; instala_programa "Administración del sistema" rsync mc nmap openssh-server; pulsa_tecla ;;
-		5 )		instala_gestiong; pulsa_tecla ;;
+		3 ) 	clear; instala_thunderbird ;;
+		4 )		clear; instala_programa "Administración del sistema" rsync mc nmap openssh-server ;;
+		5 )		instala_gestiong ;;
 		* )		break ;;
 		esac
 	done
@@ -484,8 +503,8 @@ menu_software_no_libre() {
 			2 "Codecs propietarios mp3 y otros compatibles con Windows kk" \
 			3 "Programas propietarios: Flash, Skype, Spotify, etc." 
 		case `cat /tmp/menuoption.txt` in
-		1 )     clear; instala_fuentes_windows_kk; pulsa_tecla ;;
-		2 ) 	clear; instala_multimedia_prop; pulsa_tecla ;;
+		1 )     clear; instala_fuentes_windows_kk ;;
+		2 ) 	clear; instala_multimedia_prop ;;
 		3 ) 	menu_software_propietarios ;;
 		* )		break ;;
 		esac
@@ -501,9 +520,9 @@ menu_impresoras() {
 			2 "Otra impresora HP" \
 			9 "Cualquier otra"
 		case `cat /tmp/menuoption.txt` in
-		1 )	clear; instala_hp_1020; pulsa_tecla ;;
-		2 ) clear; instala_impresora_hp; pulsa_tecla ;;
-		9 ) clear; instala_programas_impresora; pulsa_tecla ;;
+		1 )	clear; instala_hp_1020 ;;
+		2 ) clear; instala_impresora_hp ;;
+		9 ) clear; instala_programas_impresora ;;
 		* )	break ;;
 		esac
 	done
@@ -520,9 +539,9 @@ menu_hardware() {
 			4 "Instalar firmware"
 		case `cat /tmp/menuoption.txt` in
 		1 )	menu_impresoras ;;
-		2 )	instala_programa "Sistema de archivos ntfs" ntfs-3g; pulsa_tecla ;;
+		2 )	instala_programa "Sistema de archivos ntfs" ntfs-3g ;;
 		3 )	menu_internet_inalambrico ;;
-		4 ) instala_firmware; pulsa_tecla ;;
+		4 ) instala_firmware ;;
 		* )	break ;;
 		esac
 	done
@@ -536,8 +555,8 @@ menu_graficos() {
 			1 "Gimp -- Retoque fotográfico" \
 			2 "InkScape -- Dibujo vectorial"
 		case `cat /tmp/menuoption.txt` in
-		1 )	instala_programa Gimp gimp; pulsa_tecla ;;
-		2 ) instala_programa InkScape inkscape; pulsa_tecla ;;
+		1 )	instala_programa Gimp gimp ;;
+		2 ) instala_programa InkScape inkscape ;;
 		* )	break ;;
 		esac
 	done
@@ -551,8 +570,8 @@ menu_internet_inalambrico() {
 			1 "Detectar mi tarjeta wifi" \
 			2 "Instalar firmwares no libres"
 		case `cat /tmp/menuoption.txt` in
-		1 ) clear; detectar_wifi; pulsa_tecla ;;
-		2 ) clear; instala_programa "Firmwares no libres" $WIRELESS_FIRMWARE; pulsa_tecla ;;
+		1 ) clear; detectar_wifi; read ;;
+		2 ) clear; instala_programa "Firmwares no libres" $WIRELESS_FIRMWARE ;;
 		* )	break ;;
 		esac
 	done
@@ -568,9 +587,9 @@ menu_software_propietarios() {
 			2 "Acrobar Reader para PDF" \
 			3 "Flash plugin"
 		case `cat /tmp/menuoption.txt` in
-		1 )		instala_skype; pulsa_tecla ;;
-		2 ) 	instala_acrobar_reader; pulsa_tecla ;;
-		3 )     instala_flash; pulsa_tecla ;;
+		1 )		instala_skype ;;
+		2 ) 	instala_acrobar_reader ;;
+		3 )     instala_flash ;;
 		* )	break ;;
 		esac
 	done
@@ -589,10 +608,10 @@ menu_limpieza() {
 			5 "Eliminar programas de KDE" 
 		case `cat /tmp/menuoption.txt` in
 		1 ) 	clear; liberar_espacio_disco; pulsa_tecla ;;
-		2 ) 	clear; borra_programas_huerfanos; pulsa_tecla ;;
-		3 )		clear; borra_bluetooh; pulsa_tecla ;;
-		4 ) 	clear; borra_modem; pulsa_tecla ;;
-		5 )		clear; borra_programas_kde; pulsa_tecla ;;
+		2 ) 	clear; borra_programas_huerfanos ;;
+		3 )		clear; borra_bluetooh ;;
+		4 ) 	clear; borra_modem ;;
+		5 )		clear; borra_programas_kde ;;
 		* )		break ;;
 		esac
 	done
@@ -608,8 +627,8 @@ menu_usuarias() {
 			1 "Añadir una usuaria" \
 			2 "Arreglar problema al iniciar KDE o GNOME"
 		case `cat /tmp/menuoption.txt` in
-		1 ) 	clear; anadir_usuaria; pulsa_tecla ;;
-		2 ) 	clear; arreglar_permisos_usuaria; pulsa_tecla ;;
+		1 ) 	clear; anadir_usuaria ;;
+		2 ) 	clear; arreglar_permisos_usuaria ;;
 		* )	break ;;
 		esac
 	done
@@ -651,8 +670,6 @@ liberar_espacio_disco() {
 	apt-get autoremove -y
 	apt-get autoclean -y -q
 
-	rm -rf .cache/ .mozilla/firefox/Crash Reports .thumbnails/*
-
 	clear
 	echo "Espacio antes de liberar"
 	cat /tmp/espacioendisco.txt
@@ -660,6 +677,7 @@ liberar_espacio_disco() {
 	echo
 	echo "Espacio despues de liberar"
 	df -h
+	read
 }
 
 
@@ -789,6 +807,7 @@ check_new_version() {
 		clear
 		echo "No hay una nueva versión de este programa: v$VERSION"
 		rm $NEWFILE
+		read
 	fi
 }
 

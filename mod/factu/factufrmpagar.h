@@ -12,12 +12,13 @@ public:
     FrmPagar( bool has_contab, const Money &importe, Date fechapago,
               const Xtring &cuentapago, const Xtring &documentopago,
               QWidget *parent=0, const char *name=0, WidgetFlags f=0 );
+	virtual ~FrmPagar();
     void accept();
     Date getFechaPago() {
         return editFechaPago->toDate();
     }
     Xtring getCuentaPago() {
-        return editCuentaPago->getEditCode()->toString();
+        return searchCuentaPago->getEditCode()->toString();
     }
     Money getImporte() {
         return editImporte->toMoney();
@@ -30,7 +31,7 @@ public:
     virtual void validate_input( QWidget *search, bool *is_valid); // from FrmCustom
 private:
     LineEdit *editFechaPago;
-    SearchBox *editCuentaPago;
+    SearchBox *searchCuentaPago;
     LineEdit *editImporte;
     LineEdit *editDocumentoPago;
     bool mHasContab;

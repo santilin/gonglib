@@ -1054,7 +1054,7 @@ void FrmEditAlbaranCompra::slotPagar()
             if( editTotal->toDouble() == 0.0 )
                 pushPagar->setText( _("&Borrar entrega") );
         }
-        delete pr;
+		delete pr;
     }
 }
 

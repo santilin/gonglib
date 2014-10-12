@@ -31,17 +31,18 @@ FrmPagar::FrmPagar(bool has_contab,
     setCaption( _("Pagar/cobrar recibo") );
     pFocusWidget = editImporte = addInputField( 0, Xtring::null,  "COBRO", "IMPORTE", importe );
     editFechaPago = addInputField( 0, Xtring::null, "COBRO", "FECHAPAGO", fechapago );
+	searchCuentaPago = 0;
 #ifdef HAVE_CONTABMODULE
     if( has_contab ) {
-        editCuentaPago = addSearchField( 0, "CUENTA", "CUENTA", "DESCRIPCION" );
-        editCuentaPago->getEditCode()->setText( cuentapago );
-        editCuentaPago->getEditCode()->setJustEdited( true );
+        searchCuentaPago = addSearchField( 0, "CUENTA", "CUENTA", "DESCRIPCION" );
+        searchCuentaPago->getEditCode()->setText( cuentapago );
+        searchCuentaPago->getEditCode()->setJustEdited( true );
     }
 #elif defined( HAVE_TESORERIAMODULE )
     if( has_contab ) {
-        editCuentaPago = addSearchField( 0, "CUENTATESORERIA", "CODIGO", "NOMBRE" );
-        editCuentaPago->getEditCode()->setText( cuentapago );
-        editCuentaPago->getEditCode()->setJustEdited( true );
+        searchCuentaPago = addSearchField( 0, "CUENTATESORERIA", "CODIGO", "NOMBRE" );
+        searchCuentaPago->getEditCode()->setText( cuentapago );
+        searchCuentaPago->getEditCode()->setJustEdited( true );
     }
 #endif
     editDocumentoPago = addInputField( 0, Xtring::null, "COBRO", "DOCUMENTOPAGO", documentopago );
@@ -62,17 +63,23 @@ void FrmPagar::validate_input(QWidget* search, bool* is_valid)
 {
 #ifdef HAVE_CONTABMODULE
     if( mHasContab ) {
-        if( search == editCuentaPago->getEditCode() ) {
-            contab::Cuenta c( editCuentaPago->getEditCode()->toString(),
+        if( search == searchCuentaPago->getEditCode() ) {
+            contab::Cuenta c( searchCuentaPago->getEditCode()->toString(),
                               contab::ModuleInstance->getDigitosTrabajo() );
             c.expandir();
-            editCuentaPago->getEditCode()->setText( c.toString() );
-            editCuentaPago->getEditCode()->setJustEdited( true );
+            searchCuentaPago->getEditCode()->setText( c.toString() );
+            searchCuentaPago->getEditCode()->setJustEdited( true );
             return;
         }
     }
 #endif
     FrmCustom::validate_input( search, is_valid );
+}
+
+
+FrmPagar::~FrmPagar()
+{
+	_GONG_DEBUG_PRINT(0, "Borro frmpagar");
 }
 
 
