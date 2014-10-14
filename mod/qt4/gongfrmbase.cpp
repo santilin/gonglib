@@ -217,7 +217,7 @@ void FrmBase::closeEvent ( QCloseEvent *e )
         if( pEventLoop )
             pEventLoop->exit( mWasCancelled );
         if ( pShowModalFor ) {
-            _GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
+//            _GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
             pShowModalFor->setEnabled( true );
             pShowModalFor->hide();
             theGuiApp->processEvents();
@@ -227,7 +227,7 @@ void FrmBase::closeEvent ( QCloseEvent *e )
             pShowModalFor->raise();
             pShowModalFor = 0;
             if( pSavedFocusWidget ) {
-                _GONG_DEBUG_PRINT(0, "Setting focus to " + Xtring( pSavedFocusWidget->name() ) );
+//                _GONG_DEBUG_PRINT(0, "Setting focus to " + Xtring( pSavedFocusWidget->name() ) );
                 pSavedFocusWidget->setFocus();
                 pSavedFocusWidget = 0;
             }

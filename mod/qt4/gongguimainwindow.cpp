@@ -581,7 +581,7 @@ void GuiMainWindow::slotWindowStateChanged(Qt::WindowStates oldState, Qt::Window
                         pLastWindowDeactivated->showNormal();
                         donothing = false;
                     }
-                    _GONG_DEBUG_PRINT(0, Xtring("Voy a activar ") + pLastWindowDeactivated->name() );
+                    _GONG_DEBUG_PRINT(3, Xtring("Voy a activar ") + pLastWindowDeactivated->name() );
                     QMdiSubWindow *activaresta = pLastWindowDeactivated;
                     pLastWindowDeactivated = 0;
                     QRect r = activaresta->geometry();

@@ -4,19 +4,19 @@
 // COPYLEFT Fichero de edición de cobros
 // FIELD RemesaCobro_ID Reference(RemesaCobro,Numero,Descripcion) - remesaLayout
 // FIELD Automatico bool - numero
-// FIELD Numero int - numero
-// FIELD NumeroAgrupado string - numero
-// FIELD Contador int - numero
+// FIELD Numero int - numero4
+// FIELD NumeroAgrupado string - numero2
+// FIELD Contador int - numero3
 // FIELD Descripcion string - desc
 // FIELD FechaEmision date - fechas
-// FIELD Vencimiento date - fechas
-// FIELD FechaValor date - fechas
-// FIELD EstadoRecibo comboint - importes
+// FIELD Vencimiento date - fechas1
+// FIELD FechaValor date - fechas2
+// FIELD EstadoRecibo comboint - importes3
 // FIELD Importe money - importes
-// FIELD Resto Money - importes
-// FIELD FechaPago date - pago
+// FIELD Resto Money - importes2
+// FIELD FechaPago date - pago2
 // FIELD DocumentoPago string - pago
-// FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - pago
+// FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - pago3
 // FIELD CuentaPago_ID Reference(contab::Cuenta,Cuenta,Descripcion) - contab MODULE_INCLUDED(Contab)
 // FIELD Notas text - notas
 // TYPE FrmEditRecMaster pagos::Cobro
@@ -53,10 +53,19 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 /*<<<<<FRMEDITCOBRO_INIT_CONTROLS*/
 	QHBoxLayout *remesaLayout = new QHBoxLayout(0, 0, 6, "remesaLayout");
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
+	QHBoxLayout *numero4Layout = new QHBoxLayout(0, 0, 6, "numero4Layout");
+	QHBoxLayout *numero2Layout = new QHBoxLayout(0, 0, 6, "numero2Layout");
+	QHBoxLayout *numero3Layout = new QHBoxLayout(0, 0, 6, "numero3Layout");
 	QHBoxLayout *descLayout = new QHBoxLayout(0, 0, 6, "descLayout");
 	QHBoxLayout *fechasLayout = new QHBoxLayout(0, 0, 6, "fechasLayout");
+	QHBoxLayout *fechas1Layout = new QHBoxLayout(0, 0, 6, "fechas1Layout");
+	QHBoxLayout *fechas2Layout = new QHBoxLayout(0, 0, 6, "fechas2Layout");
+	QHBoxLayout *importes3Layout = new QHBoxLayout(0, 0, 6, "importes3Layout");
 	QHBoxLayout *importesLayout = new QHBoxLayout(0, 0, 6, "importesLayout");
+	QHBoxLayout *importes2Layout = new QHBoxLayout(0, 0, 6, "importes2Layout");
+	QHBoxLayout *pago2Layout = new QHBoxLayout(0, 0, 6, "pago2Layout");
 	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
+	QHBoxLayout *pago3Layout = new QHBoxLayout(0, 0, 6, "pago3Layout");
 	QHBoxLayout *contabLayout = new QHBoxLayout(0, 0, 6, "contabLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 
@@ -66,20 +75,20 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	editRemesaCobroNumero = searchRemesaCobroNumero->getEditCode();
 	editRemesaCobroDescripcion = searchRemesaCobroNumero->getEditDesc();
 	checkAutomatico = addCheckField( pControlsFrame, "COBRO", "AUTOMATICO", numeroLayout );
-	editNumero = addEditField( pControlsFrame, "COBRO", "NUMERO", numeroLayout );
-	editNumeroAgrupado = addEditField( pControlsFrame, "COBRO", "NUMEROAGRUPADO", numeroLayout );
-	editContador = addEditField( pControlsFrame, "COBRO", "CONTADOR", numeroLayout );
+	editNumero = addEditField( pControlsFrame, "COBRO", "NUMERO", numero4Layout );
+	editNumeroAgrupado = addEditField( pControlsFrame, "COBRO", "NUMEROAGRUPADO", numero2Layout );
+	editContador = addEditField( pControlsFrame, "COBRO", "CONTADOR", numero3Layout );
 	editDescripcion = addEditField( pControlsFrame, "COBRO", "DESCRIPCION", descLayout );
 	editFechaEmision = addEditField( pControlsFrame, "COBRO", "FECHAEMISION", fechasLayout );
-	editVencimiento = addEditField( pControlsFrame, "COBRO", "VENCIMIENTO", fechasLayout );
-	editFechaValor = addEditField( pControlsFrame, "COBRO", "FECHAVALOR", fechasLayout );
-	comboEstadoRecibo = addComboIntField( pControlsFrame, "COBRO", "ESTADORECIBO", importesLayout );
+	editVencimiento = addEditField( pControlsFrame, "COBRO", "VENCIMIENTO", fechas1Layout );
+	editFechaValor = addEditField( pControlsFrame, "COBRO", "FECHAVALOR", fechas2Layout );
+	comboEstadoRecibo = addComboIntField( pControlsFrame, "COBRO", "ESTADORECIBO", importes3Layout );
 	editImporte = addEditField( pControlsFrame, "COBRO", "IMPORTE", importesLayout );
-	editResto = addEditField( pControlsFrame, "COBRO", "RESTO", importesLayout );
-	editFechaPago = addEditField( pControlsFrame, "COBRO", "FECHAPAGO", pagoLayout );
+	editResto = addEditField( pControlsFrame, "COBRO", "RESTO", importes2Layout );
+	editFechaPago = addEditField( pControlsFrame, "COBRO", "FECHAPAGO", pago2Layout );
 	editDocumentoPago = addEditField( pControlsFrame, "COBRO", "DOCUMENTOPAGO", pagoLayout );
 
-	searchMonedaCodigo = addSearchField( pControlsFrame, "MONEDA_ID", "MONEDA", "CODIGO", "NOMBRE", pagoLayout );
+	searchMonedaCodigo = addSearchField( pControlsFrame, "MONEDA_ID", "MONEDA", "CODIGO", "NOMBRE", pago3Layout );
 	pushMonedaCodigo = searchMonedaCodigo->getButton();
 	connect( pushMonedaCodigo, SIGNAL( clicked() ), this, SLOT( pushMonedaCodigo_clicked() ) );
 	editMonedaCodigo = searchMonedaCodigo->getEditCode();
@@ -96,12 +105,20 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 	editNotas = addTextField( pControlsFrame, "COBRO", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( remesaLayout );
-	pControlsLayout->addLayout(pTercerosLayout);
 	pControlsLayout->addLayout( numeroLayout );
+	pControlsLayout->addLayout( numero4Layout );
+	pControlsLayout->addLayout( numero2Layout );
+	pControlsLayout->addLayout( numero3Layout );
 	pControlsLayout->addLayout( descLayout );
 	pControlsLayout->addLayout( fechasLayout );
+	pControlsLayout->addLayout( fechas1Layout );
+	pControlsLayout->addLayout( fechas2Layout );
+	pControlsLayout->addLayout( importes3Layout );
 	pControlsLayout->addLayout( importesLayout );
+	pControlsLayout->addLayout( importes2Layout );
+	pControlsLayout->addLayout( pago2Layout );
 	pControlsLayout->addLayout( pagoLayout );
+	pControlsLayout->addLayout( pago3Layout );
 	pControlsLayout->addLayout( contabLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITCOBRO_INIT_CONTROLS*/
@@ -119,6 +136,9 @@ if( ModuleInstance->getContabModule() ) {
     pButtonsLayout->addWidget( pushPagar );
     mUsarRemesas = ModuleInstance->getModuleSetting("USAR_REMESAS").toBool();
     checkAutomatico->setMustBeReadOnly( true );
+	
+	delete editFacturaDesc, editMonedaNombre;
+	
 }
 
 void FrmEditCobro::setUsarRemesas(bool usar, bool fijar)
@@ -180,6 +200,9 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
 			setTabOrder( editFacturaNumero, editTerceroCodigo );
 			setTabOrder( editTerceroCodigo, editNumero );
 			editFacturaNumero->setWidthInChars(15);
+		} else {
+			searchTerceroCodigo = 0;
+			pushTerceroCodigo = 0;
 		}
 
     }
@@ -507,6 +530,8 @@ if( ModuleInstance->getContabModule() ) {
     }
     if( editContador->toInt() == 0 )
         editContador->setText( empresa::ModuleInstance->getMaxContador() );
+	if( isInserting() ) 
+		editResto->setMustBeReadOnly(true);
     if( ModuleInstance->getRecRemesaCobroPadre( this ) && !editRemesaCobroNumero->isReadOnly() )
         pFocusWidget = editRemesaCobroNumero;
     else if( editFacturaNumero->isEnabled() )
@@ -706,7 +731,7 @@ void FrmEditCobro::validateFields(QWidget *sender, bool *isvalid, ValidResult *i
             getRecord()->setValue( "FACTURA_ID", 0 );
             scatterFactura();
         }
-    if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
+    if( pushTerceroCodigo && focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
         if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroDesc,
                            getRecTercero(), mFldTercCodigo, mFldTercDesc, Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) ) {
             getRecord()->setValue( "TERCERO_ID", 0 );
