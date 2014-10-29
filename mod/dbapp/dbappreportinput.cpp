@@ -51,6 +51,7 @@ bool ReportInput::init()
     if ( !strempty ( orderBy() ) )
         select += Xtring ( " ORDER BY " ) + orderBy();
     pResultSet = pConnection->select ( select, true ); // Ignore errors
+	_GONG_DEBUG_WARNING(select);
     if ( !pResultSet )
     {
         mReport.addError ( Error::SqlQuery, "ReportInput", 0, pConnection->getLastError().what(), select.c_str() );

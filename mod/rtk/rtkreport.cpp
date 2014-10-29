@@ -13,9 +13,6 @@
 #include "rtkoutputcached.h"
 #include "rtkformula.h"
 
-/// \todo {rtk} Compile formulae code
-/// \todo {bug} The currency symbol does not work for monetary fields
-
 namespace gong {}
 namespace RTK = gong;
 
@@ -879,6 +876,7 @@ int Report::printSection( Output *out, Section *section )
 		- This is not the first line in the page
 		- The closest previous object that had to be supressed has in fact been supressed, so the
 		  supressed values are done from left to right
+		- This is not the first record in this section
 	* @param out
 	* @param object
 	* @return
@@ -893,8 +891,9 @@ int Report::printObject( Output *out, Object *object )
         if ( !object->visible() || object->supressed() )
             return 0;
     }
+    Section *s = (object->parent() && object->parent()->isSection()) ? static_cast<Section *>(object->parent()) : 0;
     if( object->supressDup()
-            && (object->parent() && object->parent()->isSection() && static_cast<Section *>(object->parent())->recordCount() > 0 )
+            && ( s && s->recordCount() > 0 && s->recordNumber() > 0 )
             && !mNewPageIssued
             && !object->formattedValueChanged() && mDupObjectCanBeSupr ) {
         Xtring saved = object->mFormattedText;

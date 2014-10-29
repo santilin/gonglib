@@ -37,7 +37,7 @@ namespace gong {
 ReportQtPageDisplay::ReportQtPageDisplay( QWidget *parent, const char *name )
     : QWidget( parent, name )
 {
-    buffer.resize( 1, 1 );
+//    buffer.resize( 1, 1 );
 }
 
 /** Destructor */

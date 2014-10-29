@@ -89,11 +89,9 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
     DBAPP->waitCursor ( true );
     int ret = 0;
     bool goon = true;
-    Xtring title = properties["TITLE"].toString();
-    if( title.isEmpty() )
-        title = propTitle.getOrig();
-    if( title.isEmpty() )
-        title = _("Informe");
+	Xtring title = propTitle.getOrig();
+	if( title.isEmpty() )
+		title = _("Informe");
     if( !filter.isEmpty() ) /// TODO: mezclar con report.filter
         setParameterValue( "report_filter", filter );
     setParameterValue( "COMPANY", sReportCompany );
@@ -243,6 +241,13 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                 || tiposalida == RTK_Printer_Without_Dialog ) {
             if ( ret == true ) {
                 // No borrar salida, que ya la borrará el viewer
+				title = propTitle.get();
+				if( title.isEmpty() )
+					title = properties["TITLE"].toString();
+				if( title.isEmpty() )
+					title = propTitle.getOrig();
+				if( title.isEmpty() )
+					title = _("Informe");
                 mViewer = new ReportViewer ( salida, true, DBAPP->getMainWindow()->getViewport() );
                 mViewer->setObjectName( tmpnam(0) );
                 mViewer->setCaption ( toGUI( Xtring::printf( _( "Informe: %s" ), title.c_str() ) ) );

@@ -1,5 +1,13 @@
 == HACIENDO ==
 
+== CATS ==
+* Explicar que la relación en la tabla de princesas solo se utiliza para el informe de princesa y familiares.
+* Explicar que las personas contactadas, cuando se agrupa, no se puede totalizar para todo el informe
+* WARNING: DBDEF.TABLE.RELACIONPRINCESA.VALUES not found [static void gong::NamesListTable::fillInfoList(gong::dbConnection*)] : Está bien
+* Ver edad de Linda Ucrania Huertas, Valeria colombia El Molino, Nizar Marruecos Hijo Mbarka
+* No mostrar total de atenciones en el informe cuando es agrupado
+* No suprimir un valor en cambio de sección
+* Informe resumido agrupado: no cuenta bien las personas contactadas en el segundo grupo ni ordena bien las atenciones
 
 == HACER ==
 * Comprobar pasar de oferta a albarán.
