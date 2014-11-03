@@ -8,7 +8,7 @@ FrmAbout::FrmAbout(QWidget* parent, WidgetFlags fl)
     QHBoxLayout *descLayout = new QHBoxLayout();
     QLabel *descLabel = new QLabel( this );
     descLabel->setText( toGUI( _( "Una bonita aplicación desarrollada por Santilín (gestiong@programacionsocial.net).\n\n"
-                                  "\nVersión de construcción del 16 de julio de 2014") ) );
+                                  "\nVersión de construcción del 31 de octubre de 2014") ) );
     descLayout->addWidget( descLabel );
     pControlsLayout->addLayout( descLayout );
 

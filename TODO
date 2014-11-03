@@ -11,6 +11,12 @@
 
 == HACER ==
 * Comprobar pasar de oferta a albarán.
+* Factura de compra: Valor por defecto del tipo de documento no funciona
+* Sale mensaje de la fecha del IVA al dar de alta una nueva factura de compra
+* Al copiar las ofertas a mysql, mostrar osd
+* Añadir libsqlite3-dev a instalación de gestiong
+* Búsquedas por nombre alternativo
+* Tesorería de ofertas
 
 == ERRORES ==
 * Cuando se añade una liquidación a un albarán, se borra el número del albarán
