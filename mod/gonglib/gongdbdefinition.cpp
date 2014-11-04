@@ -430,7 +430,17 @@ int dbDefinition::readDescriptionsFromFile( const Xtring &filename )
     return count;
 }
 
-/// TODO: it might not be necessary the caption field, we can use mDescSingular
+/**
+ * @brief Añade una vista a esta base de datos a partir de una cadena. 
+ * 
+ * @param caption Título de la vista
+ * @param viewstr Definición de la vista
+ * @param origin El origen de la vista, por ejemplo, la clave en el diccionario de settings
+ * @return int el número de vistas en la base de datos
+ * @see dbViewDefinition::dbViewDefinition
+ * 
+ * @todo: it might not be necessary the caption field, we can use mDescSingular
+ */
 int dbDefinition::addViewFromString( const Xtring &caption, const Xtring &viewstr, const Xtring &origin)
 {
     dbViewDefinition *viewdef = new dbViewDefinition(Xtring::null, *this, viewstr, origin, caption );

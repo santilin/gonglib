@@ -4,6 +4,16 @@
 
 namespace gong {
 
+/**
+ * Las vistas se pueden crear de varias maneras.
+ * a) A partir de una cadena, por ejemplo, en un fichero de configuración, en dbApplication::setViewsFromConfig que llama a 
+ *   dbDefinition->addViewFromString
+ *    La cadena es un SELECT con algunos atributos extra en la definición de los campos.
+ * b) A partir de un dbResultSet
+ * c) Copiada a partir de una definición de tabla
+ * d) Copiada a partir de una definición de vista 
+ */
+	
 dbViewDefinition::dbViewDefinition(const dbTableDefinition &other)
     : dbTableDefinition(other),
       mOrigin("DEFAULT:" + other.getName()),
@@ -19,8 +29,23 @@ dbViewDefinition::dbViewDefinition(const dbViewDefinition &other)
 {
 }
 
-// Warning: The fields in the select clause must be separated by ", "
-dbViewDefinition::dbViewDefinition(const Xtring &name, dbDefinition &dbdef,
+
+/**
+ * @brief Crea una vista a partir de una expresión SQL SELECT con información extra en los campos del SELECT
+ * 
+ * @param name Nombre con el que se indexará la vista en el diccionario de vistas de la base de datos
+ * @param dbdef Base de datos de la que se saca información adicional sobre los campos y las tablas
+ * @param select Expresión SQL SELECT con información extra
+ *   Los campos en la expresión tienen que estar separados exactamente por ", "
+ *   Se pueden añadir atributos a los campos separándolos con |
+ *      * w => Tamaño
+ *      * d => descripción
+ *      * c => Caption
+ *      * s => Style
+ * @param origin El origen de la expresión SQL SELECT
+ * @param caption Título o descripción de la vista
+ */
+ dbViewDefinition::dbViewDefinition(const Xtring &name, dbDefinition &dbdef,
                                    const Xtring &select, const Xtring &origin, const Xtring& caption)
     : dbTableDefinition(dbdef, name),
       mOrigin(origin), mCaption(caption), mModified(false)
@@ -105,6 +130,15 @@ dbViewDefinition::dbViewDefinition(const Xtring &name, dbDefinition &dbdef,
 }
 
 
+/**
+ * @brief Crea una vista a partir de una expresión SQL SELECT con información extra en los campos del SELECT
+ * 
+ * @param name Nombre con el que se indexará la vista en el diccionario de vistas de la base de datos
+ * @param rs 
+ * @param dbdef Base de datos de la que se saca información adicional sobre los campos y las tablas
+ * @param origin El origen de la expresión SQL SELECT
+ * @param caption Título o descripción de la vista
+ */
 dbViewDefinition::dbViewDefinition(const Xtring &name, dbResultSet *rs, dbDefinition &dbdef,
                                    const Xtring &origin, const Xtring &caption)
     : dbTableDefinition(dbdef, name), mOrigin( origin ), mCaption( caption ), mModified( false )

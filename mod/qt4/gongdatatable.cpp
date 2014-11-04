@@ -39,7 +39,7 @@ public:
     std::vector<const dbFieldDefinition *> fldInfo;
     std::vector< QIcon > fldIcon;
     TableDataModel *pDataModel;
-    Xtring searchString;
+    QString searchString;
     DataTable::TableEditMode tbEditMode;
 };
 
@@ -392,16 +392,16 @@ void DataTable::keyPressEvent( QKeyEvent *ke )
         switch( d->tbEditMode )
         {
         case None:
-            d->searchString += ke->text().latin1();
+            d->searchString += ke->text();
             theGuiApp->hideOSD();
-            theGuiApp->showOSD( _("Buscando"), d->searchString );
+            theGuiApp->showOSD( _("Buscando"), fromGUI(d->searchString) );
             findInColumn(d->sortedColumn, d->searchString, false, false);
             break;
         case Inline:
         case Event:
             d->searchString.clear();
             theGuiApp->hideOSD();
-            emit beginEditSignal(this, defaulteditmode, Xtring(ke->text().latin1()));
+            emit beginEditSignal(this, defaulteditmode, fromGUI(ke->text()));
             return;
         }
     }
@@ -411,7 +411,7 @@ void DataTable::keyPressEvent( QKeyEvent *ke )
         {
             d->searchString = d->searchString.mid(0, d->searchString.length()-1);
             theGuiApp->hideOSD();
-            theGuiApp->showOSD( _("Buscando"), d->searchString );
+            theGuiApp->showOSD( _("Buscando"), fromGUI(d->searchString) );
             findInColumn(d->sortedColumn, d->searchString, false, true);
         }
     }
@@ -474,25 +474,25 @@ void DataTable::contentsContextMenuEvent( QContextMenuEvent* e )
     {
         d->searchString.clear();
         theGuiApp->hideOSD();
-        emit beginEditSignal(this, selecting, Xtring(text(currentRow(), currentColumn()).latin1()) );
+        emit beginEditSignal(this, selecting, fromGUI(text(currentRow(), currentColumn())) );
     }
     else if ( r == id[ IdInsert ] )
     {
         d->searchString.clear();
         theGuiApp->hideOSD();
-        emit beginEditSignal(this, inserting, Xtring(text(currentRow(), currentColumn()).latin1()) );
+        emit beginEditSignal(this, inserting, fromGUI(text(currentRow(), currentColumn())) );
     }
     else if ( r == id[ IdUpdate ] )
     {
         d->searchString.clear();
         theGuiApp->hideOSD();
-        emit beginEditSignal(this, updating, Xtring(text(currentRow(), currentColumn()).latin1()) );
+        emit beginEditSignal(this, updating, fromGUI(text(currentRow(), currentColumn())) );
     }
     else if ( r == id[ IdDelete ] )
     {
         d->searchString.clear();
         theGuiApp->hideOSD();
-        emit beginEditSignal(this, deleting, Xtring(text(currentRow(), currentColumn()).latin1()) );
+        emit beginEditSignal(this, deleting, fromGUI(text(currentRow(), currentColumn())) );
     }
     e->accept();
 }
@@ -676,84 +676,74 @@ void DataTable::sync(dbRecordID id)
     theGuiApp->resetCursor();
 }
 
-/*
-    Look for a substring in a column.
-    Used to find a substring typed from the keyboard.
+/**
+ * @brief Busca una subcadena en una columna mostrando un OSD con la subcadena
+ * Se llama desde el keypress
+ * 
+ * @param column ...
+ * @param str ...
+ * @param caseSensitive ...
+ * @param backwards ...
+ * @return void
 */
-
-void DataTable::findInColumn( int column, const Xtring & str,
-                              bool caseSensitive, bool backwards )
+void DataTable::findInColumn( int column, const QString &str, bool caseSensitive, bool backwards )
 {
     _GONG_DEBUG_ASSERT(  d->pDataModel  );
-    _GONG_DEBUG_PRINT(10, Xtring::printf("Buscando: %s en la columna %d", str.c_str(), column));
-    Xtring tmp, text;
+    QString tmp, text;
     unsigned int  row = currentRow(), startRow = row;
     bool  wrap = true, found = false;
 
     if( str.isEmpty() )
         return;
+    theGuiApp->waitCursor(true);
 
     if( !caseSensitive )
         tmp = str.lower();
     else
         tmp = str;
-    theGuiApp->waitCursor(true);
-    while( wrap )
-    {
-        while( !found && row < d->pDataModel->getRowCount() )
-        {
-#if 0
-            const dbFieldDefinition *flddef = d->fldInfo[indexOf(column)];
-            _GONG_DEBUG_ASSERT(  flddef  );
-            dbFieldStyle *fldstyle = theGuiApp->getDatabase()->findFieldStyle(flddef->getStyle());
-            if( fldstyle )
-            {
-                text = mFormatter.format(d->pDataModel->getValue(row, indexOf( column )),
-                                         fldstyle->getFormat().c_str(), fldstyle->getMask().c_str(), flddef->getVariantType() );
+	const dbFieldDefinition *flddef = d->fldInfo[indexOf(column)];
+	_GONG_DEBUG_ASSERT(  flddef  );
+	dbFieldStyle *fldstyle = 0;
+	if( flddef->getStyle() != "" ) {
+		dbViewDefinition *viewdef = d->pDataModel->getCurrentView();
+		_GONG_DEBUG_ASSERT(  viewdef  );
+		dbDefinition &dbdef = viewdef->getdbDefinition();
+		dbFieldStyle *fldstyle = dbdef.findFieldStyle(flddef->getStyle());
+	}
+    while( wrap ) {
+        while( !found && row < d->pDataModel->getRowCount() ) {
+            if( fldstyle ) {
+                text = toGUI(mFormatter.format(d->pDataModel->getValue(row, indexOf( column )),
+                                         fldstyle->getFormat().c_str(), fldstyle->getMask().c_str(), flddef->getVariantType() ));
             } else {
-                text = this->text(row, indexOf(column) ).latin1();
+                text = this->text(row, indexOf(column) );
             }
-#endif
-            text = this->text(row, indexOf(column) ).latin1();
-            if( !caseSensitive )
-            {
+            if( !caseSensitive ) {
                 text = text.lower();
             }
-            if( text.startsWith( tmp ) )
-            {
+            _GONG_DEBUG_PRINT(0, "Comparando '" + fromGUI(text) + "' con '" + fromGUI(tmp) + "'");
+            if( text.startsWith( tmp ) ) {
                 clearSelection();
                 setCurrentCell( row, column );
                 found = true;
             }
-            if( !backwards )
-            {
+            if( !backwards ) {
                 row++;
-            }
-            else
-            {
+            } else {
                 row--;
             }
         }
-        if( !backwards )
-        {
-            if( startRow != 0 )
-            {
+        if( !backwards ) {
+            if( startRow != 0 ) {
                 startRow = 0;
-            }
-            else
-            {
+            } else {
                 wrap = false;
             }
             row = 0;
-        }
-        else
-        {
-            if( startRow != (unsigned int) (numRows() - 1) )
-            {
+        } else {
+            if( startRow != (unsigned int) (numRows() - 1) ) {
                 startRow = numRows() - 1;
-            }
-            else
-            {
+            } else {
                 wrap = false;
             }
             row = numRows() - 1;

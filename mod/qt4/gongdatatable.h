@@ -123,7 +123,7 @@ protected:
     virtual void focusOutEvent( QFocusEvent *e); // from QWidget
 
 private:
-    void findInColumn( int column, const Xtring & str, bool caseSensitive, bool backwards );
+    void findInColumn( int column, const QString & str, bool caseSensitive, bool backwards );
     void reset();
     void init();
 

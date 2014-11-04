@@ -617,7 +617,7 @@ menu_limpieza() {
 			6 "Borrar programas huérfanos" 
 		case `cat /tmp/menuoption.txt` in
 		1 ) 	clear; liberar_espacio_disco; pulsa_tecla ;;
-		2 )	    clear; borra_dev_doc;; pulsa_tecla;
+		2 )	    clear; borra_dev_doc; pulsa_tecla;;
 		3 )		clear; borra_bluetooh ;;
 		4 ) 	clear; borra_modem ;;
 		5 )		clear; borra_programas_kde ;;

@@ -6,6 +6,7 @@ DBDEF.STYLE.DATE(string)="m:dd/mm/yy|f:%x|a:left";
 DBDEF.STYLE.LONGDATE(string)="m:dd/mm/yyyy|f:%d/%m/%Y|a:left";
 DBDEF.STYLE.TIME(string)="w:8|m:HH:MM:SS|f:%X|a:left";
 DBDEF.STYLE.DATETIME(string)="m:dd/mm/yy HH:MM:SS|f:%x %X|a:left";
+DBDEF.STYLE.YEARFIRST(string)="m:yyyy/mm/dd|f:%Y/%m/%d|a:left";
 DBDEF.STYLE.PERCENT(string)="w:7|m:###0.99|f:%v%%|a:right";
 DBDEF.STYLE.CODE(string)="w:8|m:9999990|a:right";
 DBDEF.STYLE.BOOL(string)="w:2|f:No~Sí|a:center";
