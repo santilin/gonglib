@@ -394,6 +394,15 @@ void FrmBase::alignLayout( QBoxLayout *layout, bool totheleft )
 }
 
 
+/**
+ * @brief This function gets called every time the form receives a ShowEvent
+ * 	Sets the initial focus of the form
+ * 
+ * You can override this function to do something the first time the form is shown
+ * 
+ * @param firsttime whether this is the first time that this form is shown
+ * @return void
+ */
 void FrmBase::justShown(bool firsttime)
 {
     if( firsttime ) {
@@ -401,8 +410,6 @@ void FrmBase::justShown(bool firsttime)
             pSavedFocusWidget = pShowModalFor->focusWidget();
         else
             pSavedFocusWidget = theGuiApp->focusWidget();
-        if( pSavedFocusWidget )
-            _GONG_DEBUG_PRINT(0, "El foco estaba en " + Xtring(pSavedFocusWidget->name()) );
         setInitialFocus();
     }
 }

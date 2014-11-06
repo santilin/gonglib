@@ -20,7 +20,6 @@
 // FIELD Resto money - noaddrightResto
 // FIELD Entrega money - noaddrightEntrega
 // FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre) tabPagos proyecto if(empresa::ModuleInstance->usaProyectos())
-// FIELD FechaIVA date tabPagos desgloseiva
 // FIELD DesgloseIVA string tabPagos desgloseiva
 // FIELD DocumentoPago string tabPagos pago
 // FIELD FechaPago date tabPagos pago
@@ -132,7 +131,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 	editProyectoCodigo = searchProyectoCodigo->getEditCode();
 	editProyectoNombre = searchProyectoCodigo->getEditDesc();
 }
-	editFechaIVA = addEditField( tabPagos, "FACTURACOMPRA", "FECHAIVA", desgloseivaLayout );
 	editDesgloseIVA = addEditField( tabPagos, "FACTURACOMPRA", "DESGLOSEIVA", desgloseivaLayout );
 	editDocumentoPago = addEditField( tabPagos, "FACTURACOMPRA", "DOCUMENTOPAGO", pagoLayout );
 	editFechaPago = addEditField( tabPagos, "FACTURACOMPRA", "FECHAPAGO", pagoLayout );
@@ -207,7 +205,7 @@ if( ModuleInstance->getContabModule() ) {
 
 void FrmEditFacturaCompra::scatterFields()
 {
-    if( isDuplicating() ) {
+    if( isDuplicating() && mIsFirstScatter ) {
         getRecFacturaCompra()->setValue( "NUMERO", "" );
         getRecFacturaCompra()->setValue( "CONTADOR", 0 );
         getRecFacturaCompra()->setValue( "ENTREGAALBARANES", 0 );
@@ -231,10 +229,13 @@ void FrmEditFacturaCompra::scatterFields()
             }
         }
     }
-    /*<<<<<FRMEDITFACTURACOMPRA_SCATTER*/
+/*<<<<<FRMEDITFACTURACOMPRA_SCATTER*/
 	editFecha->setText(getRecFacturaCompra()->getValue("FECHA").toDate());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editFecha;
+	if( mIsFirstScatter ) {
+		getRecFacturaCompra()->setValue("TIPODOC_ID", 2);
+	}
 	editNumero->setText(getRecFacturaCompra()->getValue("NUMERO").toString());
 	comboIVADetallado->setCurrentItemByValue(getRecFacturaCompra()->getValue("IVADETALLADO").toInt());
 	editContador->setText(getRecFacturaCompra()->getValue("CONTADOR").toInt());
@@ -249,7 +250,6 @@ void FrmEditFacturaCompra::scatterFields()
 	editEntregaAlbaranes->setText(getRecFacturaCompra()->getValue("ENTREGAALBARANES").toMoney());
 	editResto->setText(getRecFacturaCompra()->getValue("RESTO").toMoney());
 	editEntrega->setText(getRecFacturaCompra()->getValue("ENTREGA").toMoney());
-	editFechaIVA->setText(getRecFacturaCompra()->getValue("FECHAIVA").toDate());
 	editDesgloseIVA->setText(getRecFacturaCompra()->getValue("DESGLOSEIVA").toString());
 	editDocumentoPago->setText(getRecFacturaCompra()->getValue("DOCUMENTOPAGO").toString());
 	editFechaPago->setText(getRecFacturaCompra()->getValue("FECHAPAGO").toDate());
@@ -261,40 +261,42 @@ if(empresa::ModuleInstance->usaProyectos()){
 	scatterProyecto();
 }
 #ifdef HAVE_CONTABMODULE
+#ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	scatterCuentaPago();
 }
 #endif
+#endif
 /*>>>>>FRMEDITFACTURACOMPRA_SCATTER*/
-    if( isInserting() ) {
-        if( !isDuplicating() && editFecha->toDate().isNull() )
-            editFecha->setText( ModuleInstance->getWorkingDate() );
-        empresa::EmpresaModule *em = ModuleInstance->getEmpresaModule();
-        if( em && em->getRecEmpresa() ) {
-            if( em->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() )
-                comboIVADetallado->setCurrentItemByValue( FldIVADetallado::con_recargo );
-        }
-        if( isDuplicating() ) {
-            editTipoDocCodigo->setJustEdited( true );
-            validateFields( editTipoDocCodigo, 0 );
-        }
-    } else if( isUpdating() ) {
-        pFocusWidget = pFrmFacturaCompraDet;
-    }
-    pFrmFacturaCompraDet->addDetailIfNeeded();
-    if( editContador->toInt() == 0 )
-        editContador->setText( empresa::ModuleInstance->getMaxContador() );
-    searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
-    searchFormaPagoCodigo->setMustBeReadOnly( mHasPagos );
-    editFecha->setMustBeReadOnly( mHasPagos );
-    editDtoP100->setMustBeReadOnly( mHasPagos );
-    editTotal->setMustBeReadOnly( mHasPagos );
-    editEntrega->setMustBeReadOnly( mHasPagos );
-    pushPagar->setVisible( !mHasPagos );
-    scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
-    if( editFechaIVA->toDate().isNull() )
-        editFechaIVA->setText( editFecha->toDate() );
-    validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
+	if( mIsFirstScatter ) {
+		if( isInserting() ) {
+			if( !isDuplicating() && editFecha->toDate().isNull() )
+				editFecha->setText( ModuleInstance->getWorkingDate() );
+			empresa::EmpresaModule *em = ModuleInstance->getEmpresaModule();
+			if( em && em->getRecEmpresa() ) {
+				if( em->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() )
+					comboIVADetallado->setCurrentItemByValue( FldIVADetallado::con_recargo );
+			}
+			if( isDuplicating() ) {
+				editTipoDocCodigo->setJustEdited( true );
+				validateFields( editTipoDocCodigo, 0 );
+			}
+		} else if( isUpdating() ) {
+			pFocusWidget = pFrmFacturaCompraDet;
+		}
+		pFrmFacturaCompraDet->addDetailIfNeeded();
+		if( editContador->toInt() == 0 )
+			editContador->setText( empresa::ModuleInstance->getMaxContador() );
+		searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
+		searchFormaPagoCodigo->setMustBeReadOnly( mHasPagos );
+		editFecha->setMustBeReadOnly( mHasPagos );
+		editDtoP100->setMustBeReadOnly( mHasPagos );
+		editTotal->setMustBeReadOnly( mHasPagos );
+		editEntrega->setMustBeReadOnly( mHasPagos );
+		pushPagar->setVisible( !mHasPagos );
+		scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
+		validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
+	}
 }
 
 void FrmEditFacturaCompra::gatherFields()
@@ -321,7 +323,6 @@ void FrmEditFacturaCompra::gatherFields()
 if(empresa::ModuleInstance->usaProyectos()){
 	getRecFacturaCompra()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
 }
-	getRecFacturaCompra()->setValue( "FECHAIVA", editFechaIVA->toDate());
 	getRecFacturaCompra()->setValue( "DESGLOSEIVA", editDesgloseIVA->toString());
 	getRecFacturaCompra()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
 	getRecFacturaCompra()->setValue( "FECHAPAGO", editFechaPago->toDate());
@@ -351,7 +352,7 @@ void FrmEditFacturaCompra::genNumeroDocumento()
 
 void FrmEditFacturaCompra::scatterTipoDoc()
 {
-    /*<<<<<FRMEDITFACTURACOMPRA_SCATTER_TIPODOC*/
+/*<<<<<FRMEDITFACTURACOMPRA_SCATTER_TIPODOC*/
 	editTipoDocCodigo->setText( getRecTipoDoc()->getValue("CODIGO") );
 	editTipoDocNombre->setText( getRecTipoDoc()->getValue("NOMBRE") );
 /*>>>>>FRMEDITFACTURACOMPRA_SCATTER_TIPODOC*/
@@ -880,26 +881,6 @@ if(empresa::ModuleInstance->usaProyectos()){
         validresult->addError( Xtring::printf( _("No puedes modificar el total de %s porque tiene pagos ya pagados"),
                                                DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str() ), "TIPODOC_ID" );
         *isvalid = false;
-    }
-    if( sender == editFecha && editFecha->isJustEdited() )
-        editFechaIVA->setText( editFecha->toDate() );
-    if( sender == editFechaIVA || sender == editFecha || !sender ) {
-        if( editFechaIVA->toDate().isNull() ) {
-            validresult->addError(_("La fecha del IVA no puede estar vacía."),
-                                  "FECHAIVA" );
-        } else {
-            Date primerodetrimestre = Date( editFecha->toDate().getYear(),
-                                            ((editFecha->toDate().getQuarter()-1) * 3) + 1, 1 );
-            Date primerodetrimestresiguiente = (primerodetrimestre + 93).firstDayOfMonth();
-            if( editFechaIVA->toDate() < primerodetrimestre ) {
-                validresult->addError(_("La fecha del IVA no puede ser de un ejercicio o trimestre anterior a la fecha de la factura"),
-                                      "FECHAIVA" );
-                *isvalid = false;
-            } else if( editFechaIVA->toDate() >= primerodetrimestresiguiente ) {
-                validresult->addError(_("La fecha del IVA es de un ejercicio o trimestre posterior a la fecha de la factura."),
-                                      "FECHAIVA" );
-            }
-        }
     }
     if ( !ir ) {
         showValidMessages( isvalid, *validresult, sender );

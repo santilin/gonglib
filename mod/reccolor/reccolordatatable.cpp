@@ -77,6 +77,5 @@ bool DataTable::setView(int newview)
     }
 }
 
-
 } // namespace reccolor
 } // namespace gong

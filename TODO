@@ -1,3 +1,5 @@
+== HECHO ==
+
 == HACIENDO ==
 
 == CATS ==
@@ -9,9 +11,9 @@
 * No suprimir un valor en cambio de sección
 
 == HACER ==
+* dbApp: Carga la configuración de los módulos antes del login, con lo cual se queda aunque luego el login sea false, esto provoca errores en las vistas, por ejemplo.
 * Comprobar pasar de oferta a albarán.
-* Factura de compra: Valor por defecto del tipo de documento no funciona
-* Sale mensaje de la fecha del IVA al dar de alta una nueva factura de compra
+* Factura de compra: Valor por defecto del tipo de documento no funciona: Comprobar que cuando se hace clear(true), el setValue llama al setRelatedID
 * Al copiar las ofertas a mysql, mostrar osd
 * Añadir libsqlite3-dev a instalación de gestiong
 * Búsquedas por nombre alternativo
@@ -20,6 +22,9 @@
 == ERRORES ==
 * Cuando se añade una liquidación a un albarán, se borra el número del albarán
 
+
+== MODELOSFISCALES ==
+* Implementar algún día
 
 == TESORERIA ==
 * OSD grabar albarán, muestra 2 veces el contador y además es el mismo.

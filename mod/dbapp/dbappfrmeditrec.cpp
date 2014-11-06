@@ -2,7 +2,6 @@
 #include <QMenuBar>
 #include <QHBoxLayout>
 #include <QShowEvent>
-#include <boost/iterator/iterator_concepts.hpp>
 #include <gonggettext.h>
 #include <gongdbfieldlistofvalues.h>
 #include <gongguicontrols.h>
@@ -21,7 +20,8 @@ FrmEditRec::FrmEditRec( FrmEditRec *parentfrm, dbRecord *arecord,
     : FrmBase( parent, name, fl ),
       pMenuBar( 0 ), pMenuRecord( 0 ), pMenuTable(0), pParentForm( parentfrm),
       pOrigRecord( arecord ), mEditMode( editmode ), mEditFlags( editflags ),
-      mEditStatus( never_shown ), mLastID( 0 ), mEdited( false ), mControlKeyPressed('\0')
+      mEditStatus( never_shown ), mLastID( 0 ), mEdited( false ), mIsFirstScatter(true),
+	  mControlKeyPressed('\0')
 {
     _GONG_DEBUG_ASSERT(  arecord  );
     pRecord = DBAPP->createRecord( arecord->getTableName(), 0, arecord->getUser() );
@@ -1714,6 +1714,7 @@ void FrmEditRec::scatter()
             ++ bit ) {
         (*bit)->scatterFields( BEHAVIOR_POST );
     }
+    mIsFirstScatter = false;
 }
 
 void FrmEditRec::validate(QWidget* sender, bool* isvalid, ValidResult* ir)

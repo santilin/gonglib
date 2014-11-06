@@ -129,7 +129,6 @@ protected:
 	QPushButton *pushProyectoCodigo;
 	gong::LineEdit *editProyectoCodigo;
 	gong::LineEdit *editProyectoNombre;
-	gong::EditBox *editFechaIVA;
 	gong::EditBox *editDesgloseIVA;
 	gong::EditBox *editDocumentoPago;
 	gong::EditBox *editFechaPago;

@@ -5,7 +5,6 @@
 #include <QMenuBar>
 #include <QFocusEvent>
 #include <QMdiSubWindow>
-#include <boost/concept_check.hpp>
 #include <gonggettext.h>
 #include <gongdbrecorddatamodel.h>
 #include <gongcsvutils.h>
@@ -253,8 +252,14 @@ void FrmEditRecMaster::setTableDataModel()
 }
 
 /**
-  No llama a la función FrmEditRec::justShown()
 */
+/**
+ * @brief Inicializa los menus y otros elementos del formulario una vez que se ha mostrado la primera vez
+ * No llama a la función FrmEditRec::justShown()
+ * 
+ * @param firsttime ...
+ * @return void
+ */
 void FrmEditRecMaster::justShown( bool firsttime )
 {
     DBAPP->waitCursor(true);
@@ -605,6 +610,7 @@ void FrmEditRecMaster::accept()
                 } else if (( mEditFlags & dbApplication::simpleEdition ) && mEditStatus == saved && ( mEditFlags & dbApplication::editContinuous ) ) {
                     pRecord->setNew( true );
                     pRecord->clear( true ); // set custom default values
+					mIsFirstScatter = true;
                     scatter();
                     fixFocusWidgetText();
                     setInitialFocus();
@@ -718,7 +724,7 @@ void FrmEditRecMaster::ensureEditView()
     if ( mMustRead ) {
         if ( pDataTable->currentRow() != -1 && pDataTable->currentRow() < ( int ) pDataModel->getRowCount() ) {
             read( getTableRecordID() );
-            _GONG_DEBUG_PRINT( 5, getRecord()->toString( TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS ) );
+			mIsFirstScatter = true;
         }
         mMustRead = false;
     }

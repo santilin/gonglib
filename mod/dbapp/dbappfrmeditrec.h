@@ -210,7 +210,7 @@ protected:
     dbRecordID mLastID;
     EditControlsList mEditControls;
     Xtring mFormFilter, mFocusWidgetText;
-    bool mEdited;
+    bool mEdited, mIsFirstScatter;
     char mControlKeyPressed;
     List<FrmEditRecBehavior *> mBehaviors;
     friend class FrmEditRecBehavior;

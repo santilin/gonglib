@@ -201,7 +201,8 @@ protected:
     QMenu *pMenuFacturacion, *pMenuCompras, *pMenuVentas, *pMenuInformes, *pMenuOperaciones;
     QAction *pMenuFactuRegenAsientos, *pMenuFactuCopiarDocumento;
     QAction *pMenuFactuEstadCompraVenta, *pMenuFactuGenPedidosCompras, *pMenuFactuBalanceCliPro;
-    QAction *pMenuFactuCambiosMasivosArticulos, *pMenuFactuMod303;
+    QAction *pMenuFactuCambiosMasivosArticulos;
+	
 public:
     QMenu *getMenuVentas() const {
         return pMenuVentas;

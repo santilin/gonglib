@@ -21,7 +21,6 @@
 // FIELD Entrega money - noaddrightEntrega
 // FIELD Resto money - noaddrightResto
 // FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre) tabPagos proyecto if(empresa::ModuleInstance->usaProyectos())
-// FIELD FechaIVA date tabPagos desgloseiva
 // FIELD DesgloseIVA string tabPagos desgloseiva
 // FIELD DocumentoPago string tabPagos pago
 // FIELD FechaPago date tabPagos pago
@@ -141,7 +140,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 	editProyectoCodigo = searchProyectoCodigo->getEditCode();
 	editProyectoNombre = searchProyectoCodigo->getEditDesc();
 }
-	editFechaIVA = addEditField( tabPagos, "FACTURAVENTA", "FECHAIVA", desgloseivaLayout );
 	editDesgloseIVA = addEditField( tabPagos, "FACTURAVENTA", "DESGLOSEIVA", desgloseivaLayout );
 	editDocumentoPago = addEditField( tabPagos, "FACTURAVENTA", "DOCUMENTOPAGO", pagoLayout );
 	editFechaPago = addEditField( tabPagos, "FACTURAVENTA", "FECHAPAGO", pagoLayout );
@@ -257,7 +255,6 @@ void FrmEditFacturaVenta::scatterFields()
 	editCobros->setText(getRecFacturaVenta()->getValue("COBROS").toMoney());
 	editEntrega->setText(getRecFacturaVenta()->getValue("ENTREGA").toMoney());
 	editResto->setText(getRecFacturaVenta()->getValue("RESTO").toMoney());
-	editFechaIVA->setText(getRecFacturaVenta()->getValue("FECHAIVA").toDate());
 	editDesgloseIVA->setText(getRecFacturaVenta()->getValue("DESGLOSEIVA").toString());
 	editDocumentoPago->setText(getRecFacturaVenta()->getValue("DOCUMENTOPAGO").toString());
 	editFechaPago->setText(getRecFacturaVenta()->getValue("FECHAPAGO").toDate());
@@ -270,9 +267,11 @@ if(empresa::ModuleInstance->usaProyectos()){
 	scatterProyecto();
 }
 #ifdef HAVE_CONTABMODULE
+#ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	scatterCuentaPago();
 }
+#endif
 #endif
 /*>>>>>FRMEDITFACTURAVENTA_SCATTER*/
     if( isInserting() ) {
@@ -294,8 +293,6 @@ if( ModuleInstance->getContabModule() ) {
     editEntrega->setMustBeReadOnly( mHasCobros );
     pushCobrar->setVisible( !mHasCobros );
     scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
-    if( editFechaIVA->toDate().isNull() )
-        editFechaIVA->setText( editFecha->toDate() );
     validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
 }
 
@@ -324,7 +321,6 @@ void FrmEditFacturaVenta::gatherFields()
 if(empresa::ModuleInstance->usaProyectos()){
 	getRecFacturaVenta()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
 }
-	getRecFacturaVenta()->setValue( "FECHAIVA", editFechaIVA->toDate());
 	getRecFacturaVenta()->setValue( "DESGLOSEIVA", editDesgloseIVA->toString());
 	getRecFacturaVenta()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
 	getRecFacturaVenta()->setValue( "FECHAPAGO", editFechaPago->toDate());
@@ -933,29 +929,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 	if( sender == editEntrega )
 		actTotales();
 /*>>>>>FRMEDITFACTURAVENTA_CABECERA_VALIDATE*/
-    /*
-        if( sender == editFecha )
-            if( editFechaIVA->toDate().isNull() )
-                editFechaIVA->setText( editFecha->toDate() );
-        if( sender == editFechaIVA || sender == editFecha || !sender ) {
-            if( editFechaIVA->toDate().isNull() ) {
-                validresult->addError(_("La fecha del IVA no puede estar vacía."),
-                                      "FECHAIVA" );
-            } else {
-                Date primerodetrimestre = Date( editFecha->toDate().getYear(),
-                                                ((editFecha->toDate().getQuarter()-1) * 3) + 1, 1 );
-                Date primerodetrimestresiguiente = (primerodetrimestre + 93).firstDayOfMonth();
-                if( editFechaIVA->toDate() < primerodetrimestre ) {
-                    validresult->addError(_("La fecha del IVA no puede ser de un ejercicio o trimestre anterior a la fecha de la factura"),
-                                          "FECHAIVA" );
-                    *isvalid = false;
-                } else if( editFechaIVA->toDate() >= primerodetrimestresiguiente ) {
-                    validresult->addError(_("La fecha del IVA es de un ejercicio o trimestre posterior a la fecha de la factura."),
-                                          "FECHAIVA" );
-                }
-            }
-        }
-        */
     if( sender == editContador || (sender == editAgenteCodigo && editAgenteCodigo->isJustEdited()) ) {
         editNumero->setText( RecTipoDoc::formatNumDocumento(
                                  empresa::ModuleInstance->getRecEmpresa()->getValue( "CODIGO" ).toInt(),

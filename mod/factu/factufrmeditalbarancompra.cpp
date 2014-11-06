@@ -1072,7 +1072,6 @@ void FrmEditAlbaranCompra::actTotales()
 } // namespace gong
 /*>>>>>FRMEDITALBARANCOMPRA_FIN*/
 
-
 #if 0
 /*<<<<<FRMEDITALBARANCOMPRA_CABECERA_GENNUMDOC*/
 void FrmEditAlbaranCompra::genNumeroDocumento()
