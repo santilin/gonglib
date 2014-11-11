@@ -2,6 +2,14 @@
 
 == HACIENDO ==
 
+== ANGEL ==
+* Tipo de códigos de los artículos: Código de barras, código QR, etc.
+* Imprimir etiquetas con códigos de barras
+* Usar referencias: Default = true
+* Menú empresas => Mi empresa
+* Ocultar múltiplo base por defecto, opción en configuración.
+
+
 == CATS ==
 * Explicar que la relación en la tabla de princesas solo se utiliza para el informe de princesa y familiares.
 * Explicar que las personas contactadas, cuando se agrupa, no se puede totalizar para todo el informe
