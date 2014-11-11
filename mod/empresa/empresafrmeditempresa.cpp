@@ -105,6 +105,11 @@ void FrmEditEmpresa::scatterFields()
 		editNombre->setJustEdited( true );
 		}
 	}
+	if( isInserting() ) {
+		getRecMoneda()->setValue( "ID", getRecEmpresa()->getValue("MONEDA_ID") );
+		getRecMoneda()->read( getRecMoneda()->getRecordID());
+	}	
+	
 	scatterMoneda();
 /*>>>>>FRMEDITEMPRESA_SCATTER*/
     pFocusWidget = editNombre;

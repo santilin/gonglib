@@ -277,46 +277,48 @@ void dbRecord::clear( bool setcustomvalues )
             mOrigFieldValues.seq_at(i)->clear();
         } else {
             const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
-//  		_GONG_DEBUG_PRINT(0, Xtring::printf("Set custom default value for '%s'(%s) to '%s'(%s)",
-//  								flddef->getFullName().c_str(),
-//  								Variant::typeToName(mFieldValues.seq_at(i)->toVariant().type() ),
-//  								flddef->customDefaultValue().toString().c_str(),
-//  								flddef->getDefaultValue().c_str() ) );
+		Variant customvalue = flddef->customDefaultValue();
+  		_GONG_DEBUG_PRINT(0, Xtring::printf("Set custom default value for '%s'(%s) to '%s'(%s)",
+  								flddef->getFullName().c_str(),
+  								Variant::typeToName(mFieldValues.seq_at(i)->toVariant().type() ),
+  								customvalue.toString().c_str(),
+  								flddef->getDefaultValue().c_str() ) );
+			
             switch ( flddef->getSqlColumnType() ) {
             case SQLINTEGER:
-                mFieldValues.seq_at(i)->clear( flddef->customDefaultValue().toInt() );
-                mOrigFieldValues.seq_at(i)->clear( flddef->customDefaultValue().toInt() );
+                mFieldValues.seq_at(i)->clear( customvalue.toInt() );
+                mOrigFieldValues.seq_at(i)->clear( customvalue.toInt() );
                 break;
             case SQLSTRING:
             case SQLBLOB:
             case SQLTEXT:
-                mFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toString() );
-                mOrigFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toString() );
+                mFieldValues.seq_at(i)->clear ( customvalue.toString() );
+                mOrigFieldValues.seq_at(i)->clear ( customvalue.toString() );
                 break;
             case SQLDATE:
-                mFieldValues.seq_at(i)->clear ( Date ( flddef->customDefaultValue().toString() ) );
-                mOrigFieldValues.seq_at(i)->clear ( Date ( flddef->customDefaultValue().toString() ) );
+                mFieldValues.seq_at(i)->clear ( customvalue.toString() );
+                mOrigFieldValues.seq_at(i)->clear ( customvalue.toString() );
                 break;
             case SQLTIME:
-                mFieldValues.seq_at(i)->clear ( Time ( flddef->customDefaultValue().toString() ) );
-                mOrigFieldValues.seq_at(i)->clear ( Time ( flddef->customDefaultValue().toString() ) );
+                mFieldValues.seq_at(i)->clear ( customvalue.toString() );
+                mOrigFieldValues.seq_at(i)->clear ( customvalue.toString() );
                 break;
             case SQLDATETIME:
             case SQLTIMESTAMP:
-                mFieldValues.seq_at(i)->clear ( DateTime ( flddef->customDefaultValue().toString() ) );
-                mOrigFieldValues.seq_at(i)->clear ( DateTime ( flddef->customDefaultValue().toString() ) );
+                mFieldValues.seq_at(i)->clear ( customvalue.toDateTime() );
+                mOrigFieldValues.seq_at(i)->clear ( customvalue.toDateTime() );
                 break;
             case SQLDECIMAL:
-                mFieldValues.seq_at(i)->clear ( Money ( flddef->customDefaultValue().toString().toDoubleLocIndep(), flddef->getDecimals() ) );
-                mOrigFieldValues.seq_at(i)->clear ( Money ( flddef->customDefaultValue().toString().toDoubleLocIndep(), flddef->getDecimals() ) );
+                mFieldValues.seq_at(i)->clear ( Money ( customvalue.toString().toDoubleLocIndep(), flddef->getDecimals() ) );
+                mOrigFieldValues.seq_at(i)->clear ( Money ( customvalue.toString().toDoubleLocIndep(), flddef->getDecimals() ) );
                 break;
             case SQLFLOAT:
-                mFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toString().toDoubleLocIndep() );
-                mOrigFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toString().toDoubleLocIndep() );
+                mFieldValues.seq_at(i)->clear ( customvalue.toString().toDoubleLocIndep() );
+                mOrigFieldValues.seq_at(i)->clear ( customvalue.toString().toDoubleLocIndep() );
                 break;
             case SQLBOOL:
-                mFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toBool() );
-                mOrigFieldValues.seq_at(i)->clear ( flddef->customDefaultValue().toBool() );
+                mFieldValues.seq_at(i)->clear ( customvalue.toBool() );
+                mOrigFieldValues.seq_at(i)->clear ( customvalue.toBool() );
                 break;
             }
         }
