@@ -85,10 +85,31 @@ EOF
 }
 
 instala_multimedia_libre() {
-	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc
+	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc clementine
+	if [ ! -b /dev/cdrom ]; then
+		echo "/dev/cdrom existe";
+	else 
+		cd /dev
+		ln -s sr0 cdrom
+	fi
+        if [ ! -b /dev/dvd ]; then
+                echo "/dev/dvd existe";
+        else 
+                cd /dev
+                ln -s sr0 dvd
+        fi
+		
 	echo "Para ver DVD comerciales"
-	apt-get install -y libdvdread4
-  	/usr/share/doc/libdvdread4/install-css.sh
+	apt-get install -y libdvdread4 
+	case $DISTRO in
+	debian*)
+		wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_i386.deb -O /tmp/libdvdcss.deb
+		dpkg -i /tmp/libdvdcss.deb && rm /tmp/libdvdcss.deb
+		;;
+	*)
+	  	/usr/share/doc/libdvdread4/install-css.sh
+		;;
+	esac
 }
 
 pregunta_si() {
@@ -128,11 +149,12 @@ completar_lxde() {
 		fi
 	fi
 	completar_escritorio
+	instala_programa "Grabador de cd" xfburn
 	if pregunta_si "¿Quieres instalar el control de batería?"; then
 		apt-get install fdpowermon
 	fi
 	if pregunta_si "¿Quieres instalar el control de volumen?"; then
-		instala_programa "Para compilar" build-essential libasound2-dev libglib2.0-dev libgtk-3-dev git libnotify
+		instala_programa "Para compilar" build-essential libasound2-dev libglib2.0-dev libgtk-3-dev git libnotify-dev autoconf intltool
 		cd /tmp
 		git clone https://github.com/Maato/volumeicon.git
 		cd volumeicon
@@ -165,7 +187,14 @@ completar_gnome() {
 
 instala_multimedia_prop() {
 	instala_multimedia_libre
-	instala_programa "Codecs mp3" lame lame-extras gstreamer0.8-lame w32codecs
+	case $DISTRO in
+	debian*)
+		instala_programa "Codecs mp3" lame gstreamer0.10-plugins-ugly
+		;;
+	*)
+		instala_programa "Codecs mp3" lame lame-extras gstreamer0.8-lame w32codecs
+		;;
+	esac
 	if test "x$KDE" = "x1"; then
 		instala_programa kubuntu_restricted_extras
 	fi
@@ -214,7 +243,7 @@ borra_modem() {
 }
 
 instala_programas_impresora() {
-	instala_programa "Impresoras" smbclient
+	instala_programa "Impresoras" smbclient cups cups-browsed printer-driver-hpcups system-config-printer-udev
 }
 
 instala_impresora_hp() {
@@ -264,6 +293,7 @@ instala_hp_1020() {
 instala_skype() {
 	case $DISTRO in
 	debian*)
+	instala_programa "Necesario para skype" libqt4-dbus libqt4-network libqt4-xml libqtwebkit4 libxss1 libasound2-plugins
         wget -O /tmp/skype-install.deb http://www.skype.com/go/getskype-linux-deb
         dpkg -i /tmp/skype-install.deb || return
         rm skype-install.deb
@@ -275,7 +305,7 @@ instala_skype() {
     esac
 }
 
-instala_skype() {
+instala_flash_player() {
 	case $DISTRO in
 	debian*)
 		instala_programa "Flash plugin" flashplugin-nonfree
@@ -441,20 +471,22 @@ menu_sistema() {
 		BACKTITLE=`uname -a`
 		my_dialog --cancel-label "Volver" \
 			--title "=== SISTEMA ===" \
-			--menu "Elige la sección" 20 75 5 \
-			1 "Actualizar el sistema" \
-			2 "Descargar versiones en español de los programas instalados" \
-			3 "Poner el reloj en hora" \
-			4 "Compartir los archivos de este ordenador" \
-			5 "Limpieza" \
+			--menu "Elige la sección" 20 75 6 \
+			1 "Reparar el sistema" \
+			2 "Actualizar el sistema" \
+			3 "Descargar versiones en español de los programas instalados" \
+			4 "Poner el reloj en hora" \
+			5 "Compartir los archivos de este ordenador" \
+			6 "Limpieza" \
 			9 "Ver si hay una nueva versión de este programa"
 		case `cat /tmp/menuoption.txt` in
-		1 )     clear; aptgetupdate ;;
-		2 ) 	clear; language_espanol ;;
-		3 )		clear; reloj_hora ;;
+		1 )     clear; apt-get -f install; dpkg --reconfigure -a; pulsa_tecla ;;
+		2 )     clear; aptgetupdate ;;
+		3 ) 	clear; language_espanol ;;
+		4 )		clear; reloj_hora ;;
 # http://www.spencerstirling.com/computergeek/NFS_samba.html
-		4 ) 	clear; instala_programa "NFS" nfs-kernel-server nfs-common portmap kdenetwork-filesharing ;;
-		5 ) 	menu_limpieza ;;
+		5 ) 	clear; instala_programa "NFS" nfs-kernel-server nfs-common portmap kdenetwork-filesharing ;;
+		6 ) 	menu_limpieza ;;
 		9 ) 	check_new_version ;;
 		* )		break ;;
 		esac
@@ -590,12 +622,12 @@ menu_software_propietarios() {
 	while [ 1 ]; do
 		my_dialog --cancel-label "Volver" \
 			--title "=== MENÚ INSTALAR PROGRAMAS PROPIETARIOS ===" \
-			--menu "Elige el programa a instalar" 20 75 2 \
+			--menu "Elige el programa a instalar" 20 75 3 \
 			1 "Skype"  \
 			2 "Acrobar Reader para PDF" \
 			3 "Flash plugin"
 		case `cat /tmp/menuoption.txt` in
-		1 )		instala_skype ;;
+		1 )	instala_skype ;;
 		2 ) 	instala_acrobar_reader ;;
 		3 )     instala_flash ;;
 		* )	break ;;
@@ -617,7 +649,7 @@ menu_limpieza() {
 			6 "Borrar programas huérfanos" 
 		case `cat /tmp/menuoption.txt` in
 		1 ) 	clear; liberar_espacio_disco; pulsa_tecla ;;
-		2 )	    clear; borra_dev_doc;; pulsa_tecla;
+		2 )	    clear; borra_dev_doc; pulsa_tecla ;;
 		3 )		clear; borra_bluetooh ;;
 		4 ) 	clear; borra_modem ;;
 		5 )		clear; borra_programas_kde ;;

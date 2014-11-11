@@ -270,7 +270,7 @@ void FrmEditContactoBehavior::scatterFields( bool is_pre )
 	editContacto_web->setText( pTheForm->getRecord()->getValue("CONTACTO.WEB").toString());
 	editContacto_clave->setText( pTheForm->getRecord()->getValue("CONTACTO.CLAVE").toString());
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_SCATTER*/
-    if( pTheForm->isInserting() && editContacto_Codigo->toInt() == 0 )
+    if(is_pre && pTheForm->isInserting() && editContacto_Codigo->toInt() == 0 )
         editContacto_Codigo->setText( getRecContacto()->selectNextInt("CODIGO", Xtring::null, true ) );
 }
 
