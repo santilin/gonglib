@@ -1,13 +1,16 @@
 == HECHO ==
-* Usar referencias: Default = true
-* Para tpv: default = true
-* Menú empresas => Mi empresa
-* Ocultar múltiplo base por defecto, opción en configuración.
 
 == HACIENDO ==
+* Factura de compra: Valor por defecto del tipo de documento no funciona: Comprobar que cuando se hace clear(true), el setValue llama al setRelatedID
+
+== HACER ==
+* Al copiar las ofertas a mysql, mostrar osd
+* Añadir libsqlite3-dev a instalación de gestiong
+* Búsquedas por nombre alternativo
+* Tesorería de ofertas
+
 
 == ANGEL ==
-* Tipo de códigos de los artículos: Código de barras, código QR, etc.
 * Imprimir etiquetas con códigos de barras
 
 
@@ -22,13 +25,6 @@
 * Agrupar por último lugar de trabajo, para que aparezcan una sola vez.
 
 
-== HACER ==
-* Comprobar pasar de oferta a albarán.
-* Factura de compra: Valor por defecto del tipo de documento no funciona: Comprobar que cuando se hace clear(true), el setValue llama al setRelatedID
-* Al copiar las ofertas a mysql, mostrar osd
-* Añadir libsqlite3-dev a instalación de gestiong
-* Búsquedas por nombre alternativo
-* Tesorería de ofertas
 
 == ERRORES ==
 * Cuando se añade una liquidación a un albarán, se borra el O del albarán

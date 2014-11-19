@@ -270,6 +270,8 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
 
 void dbRecord::clear( bool setcustomvalues )
 {
+	// Clear relations first and then set default values of reference ids
+    clearRelations(); // Do not set customvalues on related records
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
     {
         if( !setcustomvalues ) {
@@ -286,8 +288,14 @@ void dbRecord::clear( bool setcustomvalues )
 			
             switch ( flddef->getSqlColumnType() ) {
             case SQLINTEGER:
-                mFieldValues.seq_at(i)->clear( customvalue.toInt() );
-                mOrigFieldValues.seq_at(i)->clear( customvalue.toInt() );
+				// If this field is a reference, setting its default value must set the id of the related record, which setValue does
+				if( customvalue.toInt() && dynamic_cast<const dbFieldReferenceID*>(flddef) ) {
+					setValue(i, customvalue.toInt() );
+					mOrigFieldValues.seq_at(i)->clear( customvalue.toInt() );
+				} else {
+					mFieldValues.seq_at(i)->clear( customvalue.toInt() );
+					mOrigFieldValues.seq_at(i)->clear( customvalue.toInt() );
+				}
                 break;
             case SQLSTRING:
             case SQLBLOB:
@@ -324,7 +332,6 @@ void dbRecord::clear( bool setcustomvalues )
         }
     }
     setModified ( false );
-    clearRelations(); // Do not set customvalues on related records
     for( dbRecordBehaviorsList::const_iterator bit = getTableDefinition()->getRecordBehaviors().begin();
             bit != getTableDefinition()->getRecordBehaviors().end(); ++ bit ) {
         (*bit)->clear( this, setcustomvalues );
@@ -1256,12 +1263,13 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
         // If the field is null and the value is empty, do not change anything
         if( !(wasnull && value.isEmpty()) ) {
             mFieldValues.seq_at(nfield)->setValue ( value );
-            if( value.type() == Variant::tInt || value.type() == Variant::tLong )
+			const dbFieldDefinition *flddef = getTableDefinition()->getFieldDefinition ( nfield );
+			if( dynamic_cast<const dbFieldReferenceID*>(flddef) ) {
                 setRelatedID( nfield, value );
+			}
             // If value is empty and the field was not null, set it to null if it can be null
             if ( value.isEmpty() && !wasnull )
             {
-                const dbFieldDefinition *flddef = getTableDefinition()->getFieldDefinition ( nfield );
                 if ( flddef->canBeNull() &&
                         ( flddef->isReference()
                           || flddef->getSqlColumnType() == SQLSTRING || flddef->getSqlColumnType() == SQLTEXT
@@ -1303,11 +1311,12 @@ bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
             // If the field is null and the value is empty, do not change anything
             if( !(wasnull && value.isEmpty()) ) {
                 it->second->setValue( value );
-                if( getTableDefinition()->findFieldDefinition( fldname )->isReference() )
+				const dbFieldDefinition *flddef = getTableDefinition()->findFieldDefinition( fldname );
+				if( dynamic_cast<const dbFieldReferenceID*>(flddef) ) {
                     setRelatedID( getTableDefinition()->getFieldPosition(fldname), value );
+				}
                 // If value is empty and the field was not null, set it to null if it can be null
                 if ( value.isEmpty() && !wasnull ) {
-                    const dbFieldDefinition *flddef = getTableDefinition()->findFieldDefinition( fldname );
                     if ( flddef->canBeNull() &&
                             ( flddef->isReference()
                               || flddef->getSqlColumnType() == SQLSTRING || flddef->getSqlColumnType() == SQLTEXT

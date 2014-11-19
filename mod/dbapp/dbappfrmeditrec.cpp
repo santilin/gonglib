@@ -418,8 +418,7 @@ bool FrmEditRec::remove()
 }
 
 /**
-  Vacía los campos del registro del formulario y lo pone como nuevo,
-  preparado para añadir.
+  Vacía los campos del registro del formulario y lo pone como nuevo, preparado para añadir.
   */
 void FrmEditRec::clearRecord( bool duplicating )
 {

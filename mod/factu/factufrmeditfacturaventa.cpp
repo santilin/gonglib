@@ -281,6 +281,10 @@ if( ModuleInstance->getContabModule() ) {
             editTipoDocCodigo->setJustEdited( true );
             validateFields( editTipoDocCodigo, 0 );
         }
+		// Si estamos duplicando o copiando desde cualquier otro documento y no tenemos contador, generarlo, pero si es una 
+		// inserción normal, no generarlo hasta que se meta el tipo de documento
+		if( editContador->toInt() == 0 && editTipoDocCodigo->toInt() != 0 && isFirstScatter() ) 
+		   genNumeroDocumento();
     } else if( isUpdating() ) {
         pFocusWidget = pFrmFacturaVentaDet;
     }
