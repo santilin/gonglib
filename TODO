@@ -1,25 +1,28 @@
 == HECHO ==
+* Usar referencias: Default = true
+* Para tpv: default = true
+* Menú empresas => Mi empresa
+* Ocultar múltiplo base por defecto, opción en configuración.
 
 == HACIENDO ==
 
 == ANGEL ==
 * Tipo de códigos de los artículos: Código de barras, código QR, etc.
 * Imprimir etiquetas con códigos de barras
-* Usar referencias: Default = true
-* Menú empresas => Mi empresa
-* Ocultar múltiplo base por defecto, opción en configuración.
 
 
 == CATS ==
 * Explicar que la relación en la tabla de princesas solo se utiliza para el informe de princesa y familiares.
-* Explicar que las personas contactadas, cuando se agrupa, no se puede totalizar para todo el informe
-** No mostrar total de atenciones en el informe cuando es agrupado
-* WARNING: DBDEF.TABLE.RELACIONPRINCESA.VALUES not found [static void gong::NamesListTable::fillInfoList(gong::dbConnection*)] : Está bien
+* Mostrar el total de personas contactadas en los informes.
 * Ver edad de Linda Ucrania Huertas, Valeria colombia El Molino, Nizar Marruecos Hijo Mbarka
 * No suprimir un valor en cambio de sección
+* Informe resumido no saca las personas contactadas
+* Informe resumido, lugar de trabajo. Ex: Error
+* Ver si agrupar por primera atención es la de la ficha o la del año.
+* Agrupar por último lugar de trabajo, para que aparezcan una sola vez.
+
 
 == HACER ==
-* dbApp: Carga la configuración de los módulos antes del login, con lo cual se queda aunque luego el login sea false, esto provoca errores en las vistas, por ejemplo.
 * Comprobar pasar de oferta a albarán.
 * Factura de compra: Valor por defecto del tipo de documento no funciona: Comprobar que cuando se hace clear(true), el setValue llama al setRelatedID
 * Al copiar las ofertas a mysql, mostrar osd
@@ -28,7 +31,7 @@
 * Tesorería de ofertas
 
 == ERRORES ==
-* Cuando se añade una liquidación a un albarán, se borra el número del albarán
+* Cuando se añade una liquidación a un albarán, se borra el O del albarán
 
 
 == MODELOSFISCALES ==
@@ -140,6 +143,7 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* dbApp: Carga la configuración de los módulos antes del login, con lo cual se queda aunque luego el login sea false, esto provoca errores en las vistas, por ejemplo.
 * Exportar: Pedir bien el fichero
 * Copia de seguridad: No pedir la carpeta.
 * Imprimir todo si hay un filtro tiene que imprimir solo los del filtro

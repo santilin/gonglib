@@ -37,34 +37,6 @@ static dbModuleSetting _settings[] = {
         "true",
         dbModuleSetting::All
     },
-    {
-        dbModuleSetting::Bool,
-        "FILTRARARTICULOSPORPROVEEDORA",
-        _("Mostrar solo artículos de la proveedora al dar de alta albaranes, facturas, ..."),
-        "false",
-        dbModuleSetting::All
-    },
-    {
-        dbModuleSetting::Long,
-        "CODIGO_PROVEEDORA_GENERICA",
-        _("Código de la proveedora genérica (utilizada en los filtros)"),
-        "0",
-        dbModuleSetting::All
-    },
-    {
-        dbModuleSetting::String,
-        "ARTICULO_DESCUENTOS",
-        _("Código de los artículos para descuentos"),
-        "DESCUENTO",
-        dbModuleSetting::All
-    },
-    {
-        dbModuleSetting::String,
-        "ARTICULO_RECARGOS",
-        _("Código de los artículos para recargos"),
-        "RECARGO",
-        dbModuleSetting::All
-    },
     {dbModuleSetting::None}
 };
 

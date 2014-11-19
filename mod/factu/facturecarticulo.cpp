@@ -203,7 +203,10 @@ XtringList RecArticulo::sModalidades = XtringList()
                                        << _("Siguiente código de la proveedora")
                                        << _("Siguiente código de la familia")
                                        << _("Siguiente código de la familia y la proveedora")
-                                       << _("Siguiente código global de los artículos");
+                                       << _("Siguiente código global de los artículos")
+									   << _("Código de barras") 
+									   << _("ISBN")
+									   << _("Código QR");
 
 Xtring RecArticulo::genCodigoArticulo(int modalidad, const Xtring &formato,
                                       const Xtring &nameart, int codfam, const Xtring &namefam,

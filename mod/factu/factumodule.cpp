@@ -1,3 +1,4 @@
+
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Módulo de facturación de gonglib
 // RECORD Articulo FrmEditRecMaster Facturacion

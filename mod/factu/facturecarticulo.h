@@ -37,8 +37,7 @@ public:
 /*>>>>>ARTICULO_CONSTRUCTOR*/
     {}
     enum GenCodArt { GenCodArtFijo = 0, GenCodArtNextProv, GenCodArtNextFam, GenCodArtNextProvFam,
-                     GenCodArtNextArt
-                   };
+                     GenCodArtNextArt, GenCodArtEAN, GenCodArtISBN, GenCodArtQR };
     /*<<<<<ARTICULO_RELATIONS*/
 	RecFamilia *getRecFamilia() const;
 	empresa::RecTipoIVA *getRecTipoIVA() const;

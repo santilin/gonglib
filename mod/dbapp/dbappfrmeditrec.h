@@ -65,47 +65,24 @@ public:
     void setEditMode(EditMode p_editmode) {
         mEditMode = p_editmode;
     }
-    EditStatus getEditStatus() {
-        return mEditStatus;
-    }
-    bool isSaved() const {
-        return mEditStatus == saved;
-    }
-    bool isInserting() const {
-        return mEditMode == DataTable::inserting || mEditMode == DataTable::duplicating;
-    };
-    bool isDuplicating() const {
-        return mEditMode == DataTable::duplicating;
-    }
-    bool isEditing() const  {
-        return ( isInserting() || isUpdating() || isDeleting() || isDuplicating() );
-    }
-    bool isDeleting() const {
-        return mEditMode == DataTable::deleting;
-    }
-    bool isUpdating() const {
-        return mEditMode == DataTable::updating;
-    };
-    bool isSelecting() const {
-        return mEditMode == DataTable::selecting || mEditMode == DataTable::choosing;
-    };
-    bool isReadOnly() const {
-        return mEditFlags & dbApplication::readOnly;
-    }
-    void setReadOnly(bool ro = true);
-    void setFormFilter(const Xtring &filter) {
-        mFormFilter = filter;
-    }
-    const Xtring &getFormFilter() const {
-        return mFormFilter;
-    }
+    EditStatus getEditStatus() { return mEditStatus; }
+    bool isSaved() const { return mEditStatus == saved; }
+    bool isInserting() const { return mEditMode == DataTable::inserting || mEditMode == DataTable::duplicating; };
+    bool isDuplicating() const { return mEditMode == DataTable::duplicating; }
+    bool isEditing() const  { return ( isInserting() || isUpdating() || isDeleting() || isDuplicating() ); }
+    bool isDeleting() const { return mEditMode == DataTable::deleting; }
+    bool isUpdating() const { return mEditMode == DataTable::updating; };
+    bool isSelecting() const { return mEditMode == DataTable::selecting || mEditMode == DataTable::choosing; };
+    bool isReadOnly() const { return mEditFlags & dbApplication::readOnly; }
+    bool isFirstScatter() const { return mIsFirstScatter; }
+    void setFormFilter(const Xtring &filter) { mFormFilter = filter; }
+    const Xtring &getFormFilter() const { return mFormFilter; }
     QWidget *findControl(const Xtring &fieldname) const;
     Variant getControlValue( const Xtring &fieldname ) const;
     bool setControlValue( const Xtring &fieldname, const Variant &value );
     void setEdited(bool edited);
-    void setFocusWidgetText( const Xtring &text) {
-        mFocusWidgetText = text;
-    }
+    void setReadOnly(bool ro = true);
+    void setFocusWidgetText( const Xtring &text) { mFocusWidgetText = text; }
     bool fieldHasChangedAfterSaving(const Xtring &fldname);
     bool validCodeAndDesc( QWidget *sender, ValidResult &validerror, LineEdit *editCode, LineEdit *editDesc,
                            const Xtring &fldcodename, const Xtring &flddescname, const Xtring &cond = Xtring::null, bool codecanbenull = false );

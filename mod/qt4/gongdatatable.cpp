@@ -708,7 +708,7 @@ void DataTable::findInColumn( int column, const QString &str, bool caseSensitive
 		dbViewDefinition *viewdef = d->pDataModel->getCurrentView();
 		_GONG_DEBUG_ASSERT(  viewdef  );
 		dbDefinition &dbdef = viewdef->getdbDefinition();
-		dbFieldStyle *fldstyle = dbdef.findFieldStyle(flddef->getStyle());
+		fldstyle = dbdef.findFieldStyle(flddef->getStyle());
 	}
     while( wrap ) {
         while( !found && row < d->pDataModel->getRowCount() ) {
@@ -719,10 +719,9 @@ void DataTable::findInColumn( int column, const QString &str, bool caseSensitive
                 text = this->text(row, indexOf(column) );
             }
             if( !caseSensitive ) {
-                text = text.lower();
+                text = text.trimmed().lower();
             }
-            _GONG_DEBUG_PRINT(0, "Comparando '" + fromGUI(text) + "' con '" + fromGUI(tmp) + "'");
-            if( text.startsWith( tmp ) ) {
+            if( text.trimmed().startsWith( tmp ) ) {
                 clearSelection();
                 setCurrentCell( row, column );
                 found = true;

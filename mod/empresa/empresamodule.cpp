@@ -478,9 +478,9 @@ bool EmpresaModule::initMainWindow( MainWindow *mainwin )
         pMainWindow->connect(pMenuEmpresaEjercicioSiguiente, SIGNAL(activated()), this, SLOT(slotMenuEmpresaEjercicioSiguiente()));
         pMenuEmpresaEjercicioSiguiente->addTo(pMenuEmpresa);
     }
-    /*<<<<<EMPRESAMODULE_INITMAINWINDOW_MENUS*/
+/*<<<<<EMPRESAMODULE_INITMAINWINDOW_MENUS*/
 	{
-		Xtring caption = DBAPP->getDatabase()->findTableDefinition("EMPRESA")->getDescPlural();
+		Xtring caption = "Mi " + DBAPP->getDatabase()->findTableDefinition("EMPRESA")->getDescSingular();
 		pMenuEmpresaEmpresa = new QAction( toGUI( caption ) + "...", pMainWindow );
 		pMenuEmpresaEmpresa->setObjectName( "MenuEmpresaEmpresa" );
 		pMenuEmpresaEmpresa->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
@@ -525,6 +525,9 @@ bool EmpresaModule::initMainWindow( MainWindow *mainwin )
 		pMenuEmpresaProyecto->addTo(pMenuEmpresa);
 	}
 /*>>>>>EMPRESAMODULE_INITMAINWINDOW_MENUS*/
+/* {capel}
+		Xtring caption = "Mi " + DBAPP->getDatabase()->findTableDefinition("EMPRESA")->getDescSingular();
+*/
     pContactosModule->getMenuContactos()->addTo( pMenuEmpresa );
     QAction *menucontactosmailing = DBAPP->getMainWindow()->findAction( "MenuContactosMailing" );
     if( menucontactosmailing )
