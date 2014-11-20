@@ -41,7 +41,11 @@ FrmEditApunteTesoreria::FrmEditApunteTesoreria(FrmEditRec *parentfrm, dbRecord *
 	    setName( "FrmEditApunteTesoreria" );
 /*>>>>>FRMEDITAPUNTETESORERIA_CONSTRUCTOR*/
     searchTerceroCodigo = 0;
+	editTerceroCodigo = 0;
+	editTerceroNombre = 0;
     searchConceptoCodigo = 0;
+	editConceptoCodigo = 0;
+	editConceptoNombre = 0;
     /*<<<<<FRMEDITAPUNTETESORERIA_INIT_CONTROLS*/
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *tipoapunteLayout = new QHBoxLayout(0, 0, 6, "tipoapunteLayout");
@@ -592,7 +596,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 
             searchTerceroCodigo->setVisible( true );
             editTercero->setVisible( false );
-            searchTerceroCodigo->getButton()->setText( comboTablaTerceros->currentText() );
+            searchTerceroCodigo->getButton()->setText( toGUI(tbldef->getDescSingular()) );
             setTabOrder( comboTablaTerceros, editTerceroCodigo );
             setTabOrder( editTerceroCodigo, comboTablaConceptos );
         }
@@ -625,7 +629,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 
             searchConceptoCodigo->setVisible( true );
             editConcepto->setVisible( false );
-            searchConceptoCodigo->getButton()->setText( comboTablaConceptos->currentText() );
+            searchConceptoCodigo->getButton()->setText( toGUI(tbldef->getDescSingular()));
             setTabOrder( comboTablaConceptos, editConceptoCodigo );
             setTabOrder( editConceptoCodigo, editReferencia );
         }

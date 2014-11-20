@@ -3,8 +3,8 @@
 == HACIENDO ==
 
 == TESORERIA ==
-* No se graba el tercero_id al grabar un albarán de compra.
-* Modificar apunte generado desde albarán, el tercero no se ha grabado bien porque sale dos veces el control de terceros.
+* Cuando se modifique un apunte automático, no dejar cambiar casi nada
+* Borrar apunte, no descuenta el saldo
 * Generar apunte desde albarán, factura, pago, cobro, etc.
 * No funciona CTRL+F ni F3 en los searchs de terceros
 * Tesorería de ofertas

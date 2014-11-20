@@ -61,6 +61,7 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord("APUNTETESORERIA"));
 	if( old_apunte ) // Recycle the id
 		apunte->setRecordID( old_apunte->getRecordID() );
+	apunte->setValue( "AUTOMATICO", true );
 	apunte->setValue( "NUMERO", apunte->selectNextInt( "NUMERO" ) );
 	apunte->setValue( "EMPRESA_ID", pRecord->getValue("EMPRESA_ID") );
 	apunte->setValue( "EJERCICIO", pRecord->getValue("EJERCICIO") );
@@ -72,6 +73,11 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	} else if( mTablaTerceros != Xtring::null ) {
 		apunte->setValue( "TABLATERCEROS", mTablaTerceros );
 		apunte->setValue( "TERCERO_ID", pRecord->getValue(mTerceroIDField) );
+		dbRecordRelation *rel_tercero = pRecord->findRelationByRelatedTable(mTablaTerceros);
+		if( rel_tercero ) {
+			dbRecord *tercero = rel_tercero->getRelatedRecord(-1);
+			apunte->setValue( "TERCERO", tercero->toString(TOSTRING_CODE_AND_DESC) );
+		}
 	} else 
 		apunte->setValue( "TERCERO", pRecord->getValue(mTerceroField) );
 	if( mTablaConceptos == Xtring::null && mConceptoField == Xtring::null ) {
@@ -79,6 +85,11 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	} else if( mTablaConceptos != Xtring::null ) {
 		apunte->setValue( "TABLACONCEPTOS", mTablaConceptos );
 		apunte->setValue( "CONCEPTO_ID", pRecord->getValue(mConceptoIDField) );
+		dbRecordRelation *rel_concepto = pRecord->findRelationByRelatedTable(mTablaConceptos);
+		if( rel_concepto ) {
+			dbRecord *concepto = rel_concepto->getRelatedRecord(-1);
+			apunte->setValue( "TERCERO", concepto->toString(TOSTRING_CODE_AND_DESC) );
+		}
 	} else 
 		apunte->setValue( "CONCEPTO", pRecord->getValue(mConceptoField) );
 	if( mNotasField != Xtring::null )

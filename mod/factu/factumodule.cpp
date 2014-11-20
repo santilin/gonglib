@@ -586,13 +586,12 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicFacturaCompraDet->addFieldNotas();
     pMainDatabase->addTable( pFicFacturaCompraDet->getTableDefinition() );
 
-
 #ifdef HAVE_TESORERIAMODULE
     pFicAgente->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("RAZONSOCIAL", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
     pFicCliente->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("RAZONSOCIAL", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
     pFicProveedora->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("RAZONSOCIAL", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
-    pFicArticulo->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("NOMBRE", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
-    pFicFamilia->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("NOMBRE", "APUNTETESORERIA", "TERCERO", "TERCERO_ID") );
+    pFicArticulo->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("NOMBRE", "APUNTETESORERIA", "CONCEPTO", "CONCEPTO_ID") );
+    pFicFamilia->getTableDefinition()->addBehavior( new tesoreria::ActNombreBehavior("NOMBRE", "APUNTETESORERIA", "CONCEPTO", "CONCEPTO_ID") );
 #endif
     return true;
 }

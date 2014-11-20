@@ -279,13 +279,14 @@ void dbRecord::clear( bool setcustomvalues )
             mOrigFieldValues.seq_at(i)->clear();
         } else {
             const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
-		Variant customvalue = flddef->customDefaultValue();
-  		_GONG_DEBUG_PRINT(0, Xtring::printf("Set custom default value for '%s'(%s) to '%s'(%s)",
+			Variant customvalue = flddef->customDefaultValue();
+/*		
+			_GONG_DEBUG_PRINT(0, Xtring::printf("Set custom default value for '%s'(%s) to '%s'(%s)",
   								flddef->getFullName().c_str(),
   								Variant::typeToName(mFieldValues.seq_at(i)->toVariant().type() ),
   								customvalue.toString().c_str(),
   								flddef->getDefaultValue().c_str() ) );
-			
+*/			
             switch ( flddef->getSqlColumnType() ) {
             case SQLINTEGER:
 				// If this field is a reference, setting its default value must set the id of the related record, which setValue does
