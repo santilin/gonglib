@@ -94,12 +94,14 @@ Xtring RecAlbaranCompra::toString(int format, const Xtring &includedFields) cons
 bool RecAlbaranCompra::save(bool saverelated) throw( dbError )
 {
 /*>>>>>ALBARANCOMPRA_SAVE*/
-    if( getValue( "CONTADOR" ).toInt() == 0 )
-        setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
+	if( saverelated ) {
+		if( getValue( "CONTADOR" ).toInt() == 0 )
+			setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
 #ifdef HAVE_PAGOSMODULE
-	if( DBAPP->findModule("pagos") ) 
-		actRestoFactura();
+		if( DBAPP->findModule("pagos") ) 
+			actRestoFactura();
 #endif
+	}
     bool ret = dbRecord::save(saverelated);
     if( ret && saverelated ) {
 #ifdef HAVE_PAGOSMODULE
@@ -122,10 +124,9 @@ bool RecAlbaranCompra::save(bool saverelated) throw( dbError )
             regenApunte( supervisar );
         }
 #endif
-    }
-    if( ret )
         DBAPP->showStickyOSD( toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
 			Xtring::printf( _("Contador: %d"), getValue( "CONTADOR" ).toInt() ) );
+    }
     return ret;
 }
 

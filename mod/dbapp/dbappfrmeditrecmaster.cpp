@@ -1146,19 +1146,15 @@ void FrmEditRecMaster::beginEdit( DataTable *dt, DataTable::EditMode newmode,
         } else if( !(mEditFlags & dbApplication::onlyBrowse) ) {
             if ( newmode == DataTable::inserting && r.canAdd ) {
                 mMustRead = false;
-	_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));
-	clearRecord();
-	_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));
-	if( canBeginEdit( DataTable::inserting ) ) {
-	_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));
-	setEdited( true );  // to get all fields validated (default values)
+                clearRecord();
+                if( canBeginEdit( DataTable::inserting ) ) {
+                    setEdited( true );  // to get all fields validated (default values)
                     mWasBrowsing = mBrowsing;
                     mEditMode = DataTable::inserting;
                     mEditFlags = static_cast<dbApplication::EditFlags>(mEditFlags | dbApplication::editContinuous );
                     mEditStatus = not_saved;
-                    	_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));
-						ensureEditView();
-	_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));                }
+                    ensureEditView();
+                }
             } else if ( newmode == DataTable::duplicating && r.canAdd ) {
                 if( mMustRead )
                     read( getTableRecordID() );

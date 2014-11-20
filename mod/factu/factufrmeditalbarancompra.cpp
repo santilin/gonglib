@@ -334,8 +334,6 @@ if( ModuleInstance->getTesoreriaModule() ) {
 void FrmEditAlbaranCompra::scatterTipoDoc()
 {
     /*<<<<<FRMEDITALBARANCOMPRA_SCATTER_TIPODOC*/
-	_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));
-	_GONG_DEBUG_PRINT(0, getRecTipoDoc()->toString(TOSTRING_DEBUG_COMPLETE));
 	editTipoDocCodigo->setText( getRecTipoDoc()->getValue("CODIGO") );
 	editTipoDocNombre->setText( getRecTipoDoc()->getValue("NOMBRE") );
 /*>>>>>FRMEDITALBARANCOMPRA_SCATTER_TIPODOC*/

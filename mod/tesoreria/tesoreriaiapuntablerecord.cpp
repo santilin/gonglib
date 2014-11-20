@@ -59,6 +59,8 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	if( pRecord->getValue(mImporteField).toDouble() == 0.0 )
 		return 0;
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord("APUNTETESORERIA"));
+	if( old_apunte ) // Recycle the id
+		apunte->setRecordID( old_apunte->getRecordID() );
 	apunte->setValue( "NUMERO", apunte->selectNextInt( "NUMERO" ) );
 	apunte->setValue( "EMPRESA_ID", pRecord->getValue("EMPRESA_ID") );
 	apunte->setValue( "EJERCICIO", pRecord->getValue("EJERCICIO") );

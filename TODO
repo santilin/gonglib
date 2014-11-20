@@ -1,13 +1,17 @@
 == HECHO ==
 
 == HACIENDO ==
-* Factura de compra: Valor por defecto del tipo de documento no funciona: Comprobar que cuando se hace clear(true), el setValue llama al setRelatedID
+
+== TESORERIA ==
+* No se graba el tercero_id al grabar un albarán de compra.
+* Modificar apunte generado desde albarán, el tercero no se ha grabado bien porque sale dos veces el control de terceros.
+* Generar apunte desde albarán, factura, pago, cobro, etc.
+* No funciona CTRL+F ni F3 en los searchs de terceros
+* Tesorería de ofertas
 
 == HACER ==
 * Al copiar las ofertas a mysql, mostrar osd
-* Añadir libsqlite3-dev a instalación de gestiong
 * Búsquedas por nombre alternativo
-* Tesorería de ofertas
 
 
 == ANGEL ==
@@ -24,20 +28,12 @@
 * Ver si agrupar por primera atención es la de la ficha o la del año.
 * Agrupar por último lugar de trabajo, para que aparezcan una sola vez.
 
-
-
 == ERRORES ==
 * Cuando se añade una liquidación a un albarán, se borra el O del albarán
 
 
 == MODELOSFISCALES ==
 * Implementar algún día
-
-== TESORERIA ==
-* OSD grabar albarán, muestra 2 veces el contador y además es el mismo.
-* Modificar apunte generado desde albarán, el tercero no se ha grabado bien porque sale dos veces el control de terceros.
-* Generar apunte desde albarán, factura, pago, cobro, etc.
-* No funciona CTRL+F ni F3 en los searchs de terceros
 
 
 = PRESCINDIBLE =
