@@ -1,6 +1,7 @@
 #include <dbappdbapplication.h>
 #include <dbappmainwindow.h>
 #include <dbappfrmeditrec.h>
+#include <empresamodule.h>
 #include "tesoreriaiapuntablerecord.h"
 
 namespace gong {
@@ -24,11 +25,16 @@ RecCuentaTesoreria *IApuntableRecord::getRecCuentaTesoreria() const
     return static_cast<RecCuentaTesoreria*>(pRecord->findRelatedRecord(mCuentaTesoreriaIDField));
 }
 
-RecApunteTesoreria* IApuntableRecord::borraApunte()
+RecApunteTesoreria* IApuntableRecord::borraApunte(bool regenerando)
 {
     RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord( "APUNTETESORERIA" ));
     if( pRecord->getValue( mApunteIDField ).toInt() && apunte->read( pRecord->getValue( mApunteIDField ).toInt() ) ) {
-        apunte->remove();
+        if (apunte->remove() ) {
+			if (!regenerando) {
+				DBAPP->showStickyOSD( pRecord->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
+							  "Apunte borrado en tesorería");
+			}
+		}
     }
     pRecord->setValue( mApunteIDField, 0 );
     return apunte;
@@ -37,7 +43,7 @@ RecApunteTesoreria* IApuntableRecord::borraApunte()
 dbRecordID IApuntableRecord::regenApunte(bool supervisar)
 {
     dbRecordID ret = 0;
-    RecApunteTesoreria *old_apunte = borraApunte();
+    RecApunteTesoreria *old_apunte = borraApunte( true /*regenerando*/);
     RecApunteTesoreria *apunte = creaApunte( old_apunte, supervisar );
     if( apunte )
         ret = apunte->getRecordID();
@@ -58,8 +64,14 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 {
 	if( pRecord->getValue(mImporteField).toDouble() == 0.0 )
 		return 0;
+	dbRecordID cuenta_pago_id = pRecord->getValue(mCuentaTesoreriaIDField).toInt();
+	if( cuenta_pago_id == 0 ) {
+		FrmBase::msgError( "Tesorería", _("No se ha generado el apunte en tesorería porque no se ha introducido una cuenta de pago"));
+		return 0;
+	}
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord("APUNTETESORERIA"));
-	if( old_apunte ) // Recycle the id
+	apunte->setValue( "CUENTATESORERIA_ID", cuenta_pago_id );
+	if( old_apunte->isRead() ) // Recycle the id
 		apunte->setRecordID( old_apunte->getRecordID() );
 	apunte->setValue( "AUTOMATICO", true );
 	apunte->setValue( "NUMERO", apunte->selectNextInt( "NUMERO" ) );
@@ -68,7 +80,6 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	apunte->setValue( "FECHA", pRecord->getValue(mFechaField) );
 	apunte->setValue( "IMPORTE", pRecord->getValue(mImporteField) );
 	apunte->setValue( "REFERENCIA", pRecord->getValue(mReferenciaField) );
-	apunte->setValue( "CUENTATESORERIA_ID", pRecord->getValue(mCuentaTesoreriaIDField) );
 	if( mTablaTerceros == Xtring::null && mTerceroField == Xtring::null ) {
 	} else if( mTablaTerceros != Xtring::null ) {
 		apunte->setValue( "TABLATERCEROS", mTablaTerceros );
@@ -96,13 +107,15 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 		apunte->setValue( "NOTAS", pRecord->getValue(mNotasField) );
 	if( mProyectoIDField != Xtring::null )
 		apunte->setValue( "PROYECTO_ID", pRecord->getValue(mProyectoIDField) );
+	apunte->setValue("TABLADOCUMENTOS", pRecord->getTableName() );
+	apunte->setValue("DOCUMENTO_ID", pRecord->getRecordID() );
 	if( apunte->save(false) ) {
 		pRecord->setValue(mApunteIDField, apunte->getRecordID() );
 		if( pRecord->isModified() ) {
 			pRecord->save( false );
 		}
         DBAPP->showStickyOSD( pRecord->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
-							  "Apunte generado en tesorería");
+							  old_apunte->isRead() ? "Apunte regenerado en tesorería" : "Apunte generado en tesorería");
 	}
 	return apunte;
 }

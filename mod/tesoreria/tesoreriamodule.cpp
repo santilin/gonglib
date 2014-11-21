@@ -36,7 +36,7 @@ static dbModuleSetting _settings[] = {
         _("Supervisar los apuntes que se generan automáticamente"),
         "true",
         dbModuleSetting::All
-    },
+	},
     {dbModuleSetting::None}
 };
 

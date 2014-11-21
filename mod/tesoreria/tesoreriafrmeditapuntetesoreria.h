@@ -45,6 +45,7 @@ protected:
 	void specialControlKeyPressed(QWidget *sender, char key);
 /*>>>>>FRMEDITAPUNTETESORERIA_VIRTUALS_FROM_FRMEDITREC*/
     void changeTipoApunte();
+    virtual bool canBeginEdit( EditMode newmode ); // from FrmEditRec
 
     /*<<<<<FRMEDITAPUNTETESORERIA_SCATTERS_AND_SLOTS*/
 protected:

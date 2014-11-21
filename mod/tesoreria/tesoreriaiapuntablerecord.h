@@ -22,7 +22,7 @@ public:
 		const Xtring &notas_field, const Xtring &proyecto_id_field);
     virtual RecApunteTesoreria *creaApunte( RecApunteTesoreria *old_apunte, bool supervisar );
     virtual dbRecordID regenApunte( bool supervisar );
-    virtual RecApunteTesoreria *borraApunte();
+    virtual RecApunteTesoreria *borraApunte( bool regenerando );
     virtual FrmEditRec *showApunte( DataTable::EditMode editmode = DataTable::selecting );
 	RecCuentaTesoreria *getRecCuentaTesoreria() const;
 	RecCuentaTesoreria *getRecCuentaPago() const { return getRecCuentaTesoreria(); }

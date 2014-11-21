@@ -143,6 +143,24 @@ if(empresa::ModuleInstance->usaProyectos()){
             editFecha->setText( Date::currentDate() );
         }
     }
+	if( checkAutomatico->isOn() ) {
+		if( isFirstScatter() ) {
+			searchTipoApunteTesoreriaCodigo->setMustBeReadOnly(true);
+			checkCargo->setMustBeReadOnly(true);
+			editFecha->setMustBeReadOnly(true);
+			editImporte->setMustBeReadOnly(true);
+			editTercero->setMustBeReadOnly(true);
+			editConcepto->setMustBeReadOnly(true);
+			searchCuentaTesoreriaCodigo->setMustBeReadOnly(true);
+			comboTablaTerceros->hide();
+			comboTablaConceptos->hide();
+			editReferencia->setMustBeReadOnly(true);
+		}
+		if( searchTerceroCodigo ) 
+			searchTerceroCodigo->setMustBeReadOnly(true);
+		if( searchConceptoCodigo ) 
+			searchConceptoCodigo->setMustBeReadOnly(true);
+	}
 }
 
 void FrmEditApunteTesoreria::gatherFields()
@@ -690,7 +708,7 @@ void FrmEditApunteTesoreria::changeTipoApunte()
             ///@todo buscar field = value y pasarlo al campo. si es un searchbox, pasar la condición tal cual
             // Sólo si es un searchField
         {
-            Xtring sfield, svalue;
+             Xtring sfield, svalue;
             value.toString().splitIn2(sfield, svalue, "=");
         }
         break;
@@ -705,6 +723,17 @@ void FrmEditApunteTesoreria::changeTipoApunte()
         }
     }
 }
+
+bool FrmEditApunteTesoreria::canBeginEdit(EditMode newmode)
+{
+	if( newmode == DataTable::deleting && getRecord()->getValue("AUTOMATICO").toBool() ) {
+		msgOk(this, Xtring::printf("No se puede borrar este apunte porque proviene de %s", 
+			DBAPP->getTableDescSingular( getRecord()->getValue("TABLADOCUMENTOS").toString(), "una").c_str() ) );
+		return false;
+	}
+	return FrmEditRecMaster::canBeginEdit(newmode);
+}
+
 
 
 /*<<<<<FRMEDITAPUNTETESORERIA_FIN*/

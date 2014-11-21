@@ -635,10 +635,17 @@ void FrmEditAlbaranCompra::pushProyectoCodigo_clicked()
 
 void FrmEditAlbaranCompra::scatterFormaPago()
 {
-    /*<<<<<FRMEDITALBARANCOMPRA_SCATTER_FORMAPAGO*/
+/*<<<<<FRMEDITALBARANCOMPRA_SCATTER_FORMAPAGO*/
 	editFormaPagoCodigo->setText( getRecFormaPago()->getValue("CODIGO") );
 	editFormaPagoNombre->setText( getRecFormaPago()->getValue("NOMBRE") );
 /*>>>>>FRMEDITALBARANCOMPRA_SCATTER_FORMAPAGO*/
+	if( editFormaPagoCodigo->isJustEdited() ) {
+#ifdef HAVE_CONTABMODULE
+		searchCuentaPagoCuenta->setValue(getRecFormaPago()->getRecCuentaPago()->getValue("CODIGO").toString());
+#elif defined( HAVE_TESORERIAMODULE )
+		searchCuentaPagoCodigo->setValue(getRecFormaPago()->getValue("CUENTATESORERIA.CODIGO").toString());
+#endif		
+	}
     if( getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::Contado
             || getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::SeIgnora ) {
         pushPagar->setVisible( false );
@@ -647,6 +654,7 @@ void FrmEditAlbaranCompra::scatterFormaPago()
         pushPagar->setVisible( true );
         editEntrega->setReadOnly( false );
     }
+    
     actTotales();
     if( editEntrega->toDouble() != 0.0 && editTotal->toDouble() != 0.0 )
         pushPagar->setText( _("&Borrar entrega") );
@@ -805,7 +813,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 
 void FrmEditAlbaranCompra::validateFields( QWidget *sender, bool *isvalid, ValidResult *ir )
 {
-    /*<<<<<FRMEDITALBARANCOMPRA_VALIDATE*/
+/*<<<<<FRMEDITALBARANCOMPRA_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -847,7 +855,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 #include <contabvalidatecuenta.inc>
 #endif
 
-    if( sender == editEntrega && editEntrega->isJustEdited() ) {
+    if( !sender ) {
         if( editEntrega->toDouble() == 0.0 ) {
             editFechaPago->setText( Xtring::null );
             editDocumentoPago->setText( "" );
@@ -857,25 +865,22 @@ if( ModuleInstance->getTesoreriaModule() ) {
             searchCuentaPagoCodigo->setValue( "" );
 #endif
         } else {
-            if( editFechaPago->toString().isEmpty()
-#if defined (HAVE_CONTABMODULE) 
-                    && editCuentaPagoCuenta->toString().isEmpty()
-#elif defined (HAVE_TESORERIAMODULE)
-                    && editCuentaPagoCodigo->toString().isEmpty()
-#endif
-              ) {
+			if( editFechaPago->toString().isEmpty()) {
                 editFechaPago->setText( editFecha->toDate() );
+			}
 #if defined (HAVE_CONTABMODULE) 
-                searchCuentaPagoCuenta->setValue( empresa::ModuleInstance->getRecEmpresa()->getValue("CUENTACAJA").toString() );
+            if( editCuentaPagoCuenta->toString().isEmpty() ) {
 #elif defined (HAVE_TESORERIAMODULE)
-                searchCuentaPagoCodigo->setValue( empresa::ModuleInstance->getRecEmpresa()->getValue("CUENTACAJA").toString() );
+            if( editCuentaPagoCodigo->toString().isEmpty() ) {
 #endif
-                editDocumentoPago->setText( _("Pago alb. " + editNumero->toString() ) );
-            }
-        }
+				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida", "CUENTAPAGO_ID");
+			}
+		}
+	}
+	if( sender == editEntrega && editEntrega->isJustEdited() ) {	
         actTotales();
     }
-    /*<<<<<FRMEDITALBARANCOMPRA_CABECERA_VALIDATE*/
+/*<<<<<FRMEDITALBARANCOMPRA_CABECERA_VALIDATE*/	
 	if( sender == editDtoP100 && editDtoP100->isJustEdited() ) {
 		editDescuento->setText( 0.0 );
 		actTotales();
@@ -1007,10 +1012,6 @@ void FrmEditAlbaranCompra::slotPagar()
         editEntrega->setText( 0.0 );
         editFechaPago->setText( "" );
         editDocumentoPago->setText( "" );
-#if defined (HAVE_CONTABMODULE) or defined (HAVE_TESORERIAMODULE)
-        getRecCuentaPago()->clear( false );
-        scatterCuentaPago();
-#endif
         pushPagar->setText( _("&Entrega") );
     } else {
         Date fechapago = editFechaPago->toDate();

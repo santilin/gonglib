@@ -148,7 +148,7 @@ bool RecAlbaranCompra::remove() throw( dbError )
 #endif
 #ifdef HAVE_TESORERIAMODULE
         if( DBAPP->findModule("tesoreria") ) {
-            delete borraApunte();
+            delete borraApunte( false /*no regenerando*/);
         }
 #endif
     }
