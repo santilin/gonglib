@@ -130,8 +130,10 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         searchFacturaNumero = addSearchField( pControlsFrame, "FACTURA_ID", tablafacturas,
                                               mFldFactCodigo, mFldFactDesc, pTercerosLayout );
         pushFacturaNumero = searchFacturaNumero->getButton();
-        connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ) );
+        connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ), Qt::UniqueConnection );
         editFacturaNumero = searchFacturaNumero->getEditCode();
+		connect( editFacturaNumero, SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
+				this, SLOT( specialControlKeyPressed( QWidget *, char ) ), Qt::UniqueConnection );
         editFacturaDesc = searchFacturaNumero->getEditDesc();
         editFacturaNumero->setWidthInChars(15);
         searchFacturaNumero->setMustBeReadOnly(true);
@@ -152,8 +154,10 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", tablaterceros,
                                               mFldTercCodigo, mFldTercDesc, pTercerosLayout );
         pushTerceroCodigo = searchTerceroCodigo->getButton();
-        connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
+        connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ), Qt::UniqueConnection );
         editTerceroCodigo = searchTerceroCodigo->getEditCode();
+		connect( editTerceroCodigo, SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
+				this, SLOT( specialControlKeyPressed( QWidget *, char ) ), Qt::UniqueConnection );
         editTerceroDesc = searchTerceroCodigo->getEditDesc();
         searchTerceroCodigo->setMustBeReadOnly(true);
 

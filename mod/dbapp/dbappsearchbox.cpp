@@ -43,7 +43,6 @@ SearchBox::SearchBox( const Xtring &caption, const Xtring &tablename,
 
 SearchBox::~SearchBox()
 {
-	// No borrar los edits, ya se borran cuando se borra el formulario padre
 	if( pEditCode ) {
 		delete pEditCode;
 		pEditCode = 0;

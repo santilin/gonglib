@@ -1,14 +1,12 @@
 == HECHO ==
-* Crear albarán de compra: No coge la cuenta de la forma de pago.
-* Crear albarán: sale el mensaje "regenerado"
-* Cuando se modifique un apunte automático, no dejar cambiar casi nada. No mostrar tabla terceros ni tabla conceptos.
-* Borrar apunte, no descuenta el saldo
+* No funciona CTRL+F ni F3 en los searchs de terceros
 
 == HACIENDO ==
 
 == TESORERIA ==
+* El pago de gestiong da error al modificarlo.
+* Debe, haber y saldo en vez de cargo e importe.
 * Generar apunte desde albarán, factura, pago, cobro, etc.
-* No funciona CTRL+F ni F3 en los searchs de terceros
 * Tesorería de ofertas
 
 == HACER ==

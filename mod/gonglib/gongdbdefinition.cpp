@@ -605,7 +605,7 @@ int dbDefinition::getViewsForTable(const Xtring &tablename, dbViewDefinitionDict
                 container.insert( viewdef->getName(), viewdef );
                 count++;
             } else {
-                _GONG_DEBUG_PRINT(1, "Skipping hidden view: " + viewdef->getName() );
+                _GONG_DEBUG_PRINT(2, "Skipping hidden view: " + viewdef->getName() );
             }
         }
     }

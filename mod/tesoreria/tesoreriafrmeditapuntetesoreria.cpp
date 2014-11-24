@@ -1,4 +1,4 @@
-// FIELD Tercero_ID Reference(Tercero,Codigo,Nombre) - terceros
+// // FIELD Tercero_ID Reference(Tercero,Codigo,Nombre) - terceros
 // FIELD Concepto_ID Reference(ConceptoTesoreria,Codigo,Nombre) - conceptos
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de
@@ -143,24 +143,23 @@ if(empresa::ModuleInstance->usaProyectos()){
             editFecha->setText( Date::currentDate() );
         }
     }
-	if( checkAutomatico->isOn() ) {
-		if( isFirstScatter() ) {
-			searchTipoApunteTesoreriaCodigo->setMustBeReadOnly(true);
-			checkCargo->setMustBeReadOnly(true);
-			editFecha->setMustBeReadOnly(true);
-			editImporte->setMustBeReadOnly(true);
-			editTercero->setMustBeReadOnly(true);
-			editConcepto->setMustBeReadOnly(true);
-			searchCuentaTesoreriaCodigo->setMustBeReadOnly(true);
-			comboTablaTerceros->hide();
-			comboTablaConceptos->hide();
-			editReferencia->setMustBeReadOnly(true);
-		}
-		if( searchTerceroCodigo ) 
-			searchTerceroCodigo->setMustBeReadOnly(true);
-		if( searchConceptoCodigo ) 
-			searchConceptoCodigo->setMustBeReadOnly(true);
+    bool esAutomatico = checkAutomatico->isOn();
+	if( isFirstScatter() ) {
+		checkCargo->setMustBeReadOnly(esAutomatico);
+		editFecha->setMustBeReadOnly(esAutomatico);
+		editImporte->setMustBeReadOnly(esAutomatico);
+		editTercero->setMustBeReadOnly(esAutomatico);
+		editConcepto->setMustBeReadOnly(esAutomatico);
+		searchCuentaTesoreriaCodigo->setMustBeReadOnly(esAutomatico);
+		comboTablaTerceros->setVisible(!esAutomatico);
+		comboTablaConceptos->setVisible(!esAutomatico);
+		editReferencia->setMustBeReadOnly(esAutomatico);
+		searchTipoApunteTesoreriaCodigo->setVisible(!esAutomatico);
 	}
+	if( searchTerceroCodigo ) 
+		searchTerceroCodigo->setMustBeReadOnly(esAutomatico);
+	if( searchConceptoCodigo ) 
+		searchConceptoCodigo->setMustBeReadOnly(esAutomatico);
 }
 
 void FrmEditApunteTesoreria::gatherFields()
@@ -190,7 +189,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 
 void FrmEditApunteTesoreria::specialControlKeyPressed(QWidget *sender, char key)
 {
-    /*<<<<<FRMEDITAPUNTETESORERIA_SPECIALACTION*/
+/*<<<<<FRMEDITAPUNTETESORERIA_SPECIALACTION*/
 	mControlKeyPressed = key;
 	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
 	if( sender == editTipoApunteTesoreriaCodigo )
@@ -203,6 +202,12 @@ if(empresa::ModuleInstance->usaProyectos()){
 }
 	mControlKeyPressed = '\0';
 /*>>>>>FRMEDITAPUNTETESORERIA_SPECIALACTION*/
+	mControlKeyPressed = key;
+	if( sender == editConceptoCodigo )
+		pushConceptoCodigo_clicked();
+	if( sender == editTerceroCodigo )
+		pushTerceroCodigo_clicked();
+	mControlKeyPressed = '\0';
 }
 
 void FrmEditApunteTesoreria::scatterTipoApunteTesoreria()
@@ -552,7 +557,7 @@ void FrmEditApunteTesoreria::pushCuentaTesoreriaCodigo_clicked()
 
 void FrmEditApunteTesoreria::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
-    /*<<<<<FRMEDITAPUNTETESORERIA_VALIDATE*/
+/*<<<<<FRMEDITAPUNTETESORERIA_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -607,11 +612,11 @@ if(empresa::ModuleInstance->usaProyectos()){
             searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", tablaterceros,
                                                   mFldTercCodigo, mFldTercDesc, pTercerosLayout );
             pushTerceroCodigo = searchTerceroCodigo->getButton();
-            connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ) );
+            connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ), Qt::UniqueConnection );
             editTerceroCodigo = searchTerceroCodigo->getEditCode();
+			connect( editTerceroCodigo, SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
+                 this, SLOT( specialControlKeyPressed( QWidget *, char ) ), Qt::UniqueConnection );
             editTerceroNombre = searchTerceroCodigo->getEditDesc();
-//			searchTerceroCodigo->setMustBeReadOnly(true);
-
             searchTerceroCodigo->setVisible( true );
             editTercero->setVisible( false );
             searchTerceroCodigo->getButton()->setText( toGUI(tbldef->getDescSingular()) );
@@ -640,8 +645,10 @@ if(empresa::ModuleInstance->usaProyectos()){
             searchConceptoCodigo = addSearchField( pControlsFrame, "CONCEPTO_ID", tablaterceros,
                                                    mFldTercCodigo, mFldTercDesc, pConceptosLayout );
             pushConceptoCodigo = searchConceptoCodigo->getButton();
-            connect( pushConceptoCodigo, SIGNAL( clicked() ), this, SLOT( pushConceptoCodigo_clicked() ) );
+            connect( pushConceptoCodigo, SIGNAL( clicked() ), this, SLOT( pushConceptoCodigo_clicked() ), Qt::UniqueConnection );
             editConceptoCodigo = searchConceptoCodigo->getEditCode();
+			connect( editConceptoCodigo, SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
+                 this, SLOT( specialControlKeyPressed( QWidget *, char ) ), Qt::UniqueConnection );
             editConceptoNombre = searchConceptoCodigo->getEditDesc();
 //			searchConceptoCodigo->setMustBeReadOnly(true);
 
