@@ -80,7 +80,7 @@ int OutputODFCalc1::startReport()
     case ADD_LAST_SHEET:
     case REPLACE_FIRST_SHEET:
     case REPLACE_LAST_SHEET:
-        mReport.addError( Error::FeatureNotSupported, "OutputODFCalc1",
+        mReport.addError( Error::FeatureNotSupported, "OutputODFCalc1", 0,
                           "Open Office create option '%d' not supported yet", replaceContent());
         return 1;
     default:

@@ -380,7 +380,7 @@ bool ReportDefParser::parseReport( const char *wholetext, const char *defaultinp
             pReport->setName( token.c_str() );
             token = getNextToken( text );
             if ( !strequal( token, "{" ) ) {
-                pReport->addError( Error::ParseReportOpenBracket, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addError( Error::ParseReportOpenBracket, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                    pReport->name(), "REPORT", pReport->name() );
                 return false;
             }
@@ -393,7 +393,7 @@ bool ReportDefParser::parseReport( const char *wholetext, const char *defaultinp
                 // Report Properties
                 Xtring value = getNextValue( text );
                 if ( value.isEmpty() )
-                    pReport->addWarning( Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
+                    pReport->addWarning( Error::ParseReportValueMissing, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                          token.c_str(), "REPORT", pReport->name() );
                 /*<<<<<REPORT_READRTK*/
 				if( strcaseequal(token, "Title") )
@@ -525,21 +525,21 @@ bool ReportDefParser::parseReport( const char *wholetext, const char *defaultinp
 /*>>>>>REPORT_READRTK*/
                 else if( strcaseequal(token, "Include") ) {
                     if ( getNextToken( text ) != ";" ) {
-                        pReport->addError( Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol, value.c_str(), "REPORT", pReport->name() );
+                        pReport->addError( Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol, value.c_str(), "REPORT", pReport->name() );
                         return false;
                     }
                     if( !insertFile( value.c_str(), &wholetext, text, bufferExpanded ) ) {
-                        pReport->addWarning( Error::ParseReportIncludeFileNotFound, __FUNCTION__, 0, pFileName, mLine, mCol, value.c_str(),
+                        pReport->addWarning( Error::ParseReportIncludeFileNotFound, __FUNCTION__, *text, 0, pFileName, mLine, mCol, value.c_str(),
                                              pReport->includePath() );
                     } else
                         bufferExpanded = true;
                     skipsemicolon = true;
                 }
                 else
-                    pReport->addError( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "REPORT", pReport->name() );
+                    pReport->addError( Error::ParseReportProperty, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "REPORT", pReport->name() );
                 if( !skipsemicolon ) {
                     if ( getNextToken( text ) != ";" ) {
-                        pReport->addError( Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol, value.c_str(), "REPORT", 	pReport->name() );
+                        pReport->addError( Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol, value.c_str(), "REPORT", 	pReport->name() );
                         return false;
                     }
                 }
@@ -547,10 +547,10 @@ bool ReportDefParser::parseReport( const char *wholetext, const char *defaultinp
             } else { /* Report object */
                 if ( strequal( name, "{" ) ) {
                     name = "(unnamed)";
-                    pReport->addWarning( Error::ParseReportName, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str() );
+                    pReport->addWarning( Error::ParseReportName, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str() );
                 } else {
                     if ( !strequal( getNextToken( text ), "{" ) ) {
-                        pReport->addError( Error::ParseReportOpenBracket, __FUNCTION__, 0, pFileName, mLine, mCol,
+                        pReport->addError( Error::ParseReportOpenBracket, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                            token.c_str(), "REPORT", pReport->name() );
                         return false;
                     }
@@ -589,13 +589,13 @@ bool ReportDefParser::parseReport( const char *wholetext, const char *defaultinp
                     if( pParameter )
                         pReport->insertParameter( pParameter );
                 } else {
-                    pReport->addError( Error::ParseReportElement, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "REPORT" );
+                    pReport->addError( Error::ParseReportElement, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "REPORT" );
                     return false;
                 }
             }
         }
     } else {
-        pReport->addError( Error::ParseReportElement, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "RTK::Report definition" );
+        pReport->addError( Error::ParseReportElement, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "RTK::Report definition" );
         return false;
     }
     if( bufferExpanded )
@@ -629,7 +629,7 @@ Section *ReportDefParser::parseSection( Section::SectionType type, const char *s
             // Section Properties
             Xtring value = getNextValue( text );
             if ( value.isEmpty() )
-                pReport->addWarning( Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addWarning( Error::ParseReportValueMissing, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                      token.c_str(), "SECTION", sectname );
             /*<<<<<SECTION_READRTK*/
 				if( strcaseequal(token, "Columns") )
@@ -762,24 +762,24 @@ Section *ReportDefParser::parseSection( Section::SectionType type, const char *s
             } else if ( strcaseequal( token, "GroupValue" ) )
                 pSection->setOrigValue( value.c_str() );
             else
-                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "SECTION", sectname );
+                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "SECTION", sectname );
             if( getNextToken( text ) != ";" ) {
-                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol, value.c_str(), "SECTION", sectname );
+                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol, value.c_str(), "SECTION", sectname );
                 return 0;
             }
         } else { /* Section object */
             if ( strequal( name, "{" ) ) {
                 name = "(unnamed)";
-                pReport->addError( Error::ParseReportName, __FUNCTION__, 0, pFileName, mLine, mCol, "parseSection" );
+                pReport->addError( Error::ParseReportName, __FUNCTION__, *text, 0, pFileName, mLine, mCol, "parseSection" );
             } else if( !strequal(getNextToken(text), "{") ) {
-                pReport->addError(Error::ParseReportOpenBracket, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addError(Error::ParseReportOpenBracket, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                   token.c_str(), "SECTION", sectname );
                 return 0;
             }
             if ( strcaseequal( token, "object" ) ) {
                 parseObject( pSection, name.c_str(), text );
             } else {
-                pReport->addError( Error::ParseReportElement, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "SECTION" );
+                pReport->addError( Error::ParseReportElement, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "SECTION" );
                 return 0;
             }
         }
@@ -802,7 +802,7 @@ Object *ReportDefParser::parseObject( Section *psect, const char *objectname, co
             // Section Properties
             Xtring value = getNextValue( text );
             if( value.isEmpty() )
-                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                     token.c_str(), "OBJECT", objectname );
 /*<<<<<OBJECT_READRTK*/
 				if( strcaseequal(token, "Value") )
@@ -916,15 +916,15 @@ Object *ReportDefParser::parseObject( Section *psect, const char *objectname, co
             else if ( strcaseequal( token, "VAlign" ) )
                 pObject->setOrigVAlignment( value.c_str() );
             else
-                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "OBJECT", objectname );
+                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "OBJECT", objectname );
             if( getNextToken( text ) != ";" ) {
-                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                   value.c_str(), "OBJECT", objectname );
                 return 0;
             }
         } else {
             // Ojbects have not got inner objects
-            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, 0, pFileName, mLine, mCol, "OBJECT", objectname );
+            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, *text, 0, pFileName, mLine, mCol, "OBJECT", objectname );
             return 0;
         }
     }
@@ -946,7 +946,7 @@ Style *ReportDefParser::parseStyle( const char *stylename, const char **text, bo
             // Section Properties
             Xtring value = getNextValue( text );
             if( value.isEmpty() )
-                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                     token.c_str(), "STYLE", stylename );
 /*<<<<<STYLE_READRTK*/
 				if( strcaseequal(token, "MarginLeft") )
@@ -1045,15 +1045,15 @@ Style *ReportDefParser::parseStyle( const char *stylename, const char **text, bo
 					pStyle->setOrigPrintInFirstPage( value.c_str() );
 /*>>>>>STYLE_READRTK*/
             else
-                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "STYLE", stylename );
+                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "STYLE", stylename );
             if( getNextToken( text ) != ";" ) {
-                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                   value.c_str(), "STYLE", stylename );
                 return 0;
             }
         } else {
             // Ojbects have not got inner objects
-            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, 0, pFileName, mLine, mCol, "STYLE", stylename );
+            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, *text, 0, pFileName, mLine, mCol, "STYLE", stylename );
             delete pStyle;
             return 0;
         }
@@ -1076,7 +1076,7 @@ Parameter *ReportDefParser::parseParameter( const char *paramname, const char **
             Xtring value = getNextValue( text );
 #if 0 // These values are normally empty
             if( value.isEmpty() )
-                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                     token.c_str(), "PARAMETER", paramname );
 #endif
             if ( strcaseequal( token, "Value" ) )
@@ -1086,16 +1086,16 @@ Parameter *ReportDefParser::parseParameter( const char *paramname, const char **
             else if ( strcaseequal( token, "Caption" ) )
                 paramCaption = value;
             else
-                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "PARAMETER", paramname );
+                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "PARAMETER", paramname );
             if( getNextToken( text ) != ";" ) {
-                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                   value.c_str(), "PARAMETER", paramname );
                 return 0;
             }
 
         } else {
             // Ojbects have not got inner objects
-            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, 0, pFileName, mLine, mCol, "PARAMETER", paramname );
+            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, *text, 0, pFileName, mLine, mCol, "PARAMETER", paramname );
             return 0;
         }
     }
@@ -1118,7 +1118,7 @@ Image *ReportDefParser::parseImage( const char *imagename, const char **text, bo
             // Section Properties
             Xtring value = getNextValue( text );
             if( value.isEmpty() )
-                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                     token.c_str(), "IMAGE", imagename );
             /*<<<<<IMAGE_READRTK*/
 				if( strcaseequal(token, "Url") )
@@ -1129,15 +1129,15 @@ Image *ReportDefParser::parseImage( const char *imagename, const char **text, bo
 					pImage->setOrigImageStyle( value.c_str() );
 /*>>>>>IMAGE_READRTK*/
             else
-                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "IMAGE", imagename );
+                pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "IMAGE", imagename );
             if( getNextToken( text ) != ";" ) {
-                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                   value.c_str(), "IMAGE", imagename );
                 return 0;
             }
         } else {
             // Images have not got inner objects
-            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, 0, pFileName, mLine, mCol, "IMAGE", imagename );
+            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, *text, 0, pFileName, mLine, mCol, "IMAGE", imagename );
             delete pImage;
             return 0;
         }
@@ -1148,30 +1148,67 @@ Image *ReportDefParser::parseImage( const char *imagename, const char **text, bo
 Input *ReportDefParser::parseInput( const char *inputname, Input *usethisinput, const char **text, bool skipping )
 {
     _GONG_DEBUG_TRACE(5);
-    Input * pInput = pReport->defaultInput();
+    Input *pInput = usethisinput;
+	if( pInput == 0 )
+		pInput = pReport->defaultInput();
     Xtring drivername;
     if( pInput == 0 ) {
         // First property must be drivername
         drivername = getNextToken( text );
         if ( !skipping && !strcaseequal( drivername, "driver" ) ) {
-            pReport->addError( Error::ParseReportInputDriverName, __FUNCTION__, 0, pFileName, mLine, mCol, drivername.c_str() );
+            pReport->addError( Error::ParseReportInputDriverName, __FUNCTION__, *text, 0, pFileName, mLine, mCol, drivername.c_str() );
             return 0;
         }
         drivername = getNextToken( text );
         if ( !strequal( drivername, "=" ) ) {
-            pReport->addError( Error::ParseReportColon, __FUNCTION__, 0, pFileName, mLine, mCol, drivername.c_str() );
+            pReport->addError( Error::ParseReportColon, __FUNCTION__, *text, 0, pFileName, mLine, mCol, drivername.c_str() );
             return 0;
         }
         drivername = getNextValue( text );
         if( getNextToken( text ) != ";" ) {
-            pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol,
+            pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                               drivername.c_str(), "INPUT", inputname );
             return 0;
         }
-    } else {
-        drivername = pInput->driver();
-        usethisinput = pInput;
-    }
+		if ( !skipping  ) {
+			if ( strcaseequal( drivername, "mysql" ) ) {
+#ifdef HAVE_MYSQL
+				pInput = new InputMySql( *pReport, inputname );
+#else
+				pReport->addError( Error::FeatureNotCompiled, __FUNCTION__, 0, "MySQL" );
+				pInput = new NullInput( *pReport, inputname );
+#endif
+			} else if ( strcaseequal( drivername, "pgsql" ) || strcaseequal( drivername, "postgres" )
+					|| strcaseequal( drivername, "postgresql" ) ) {
+#ifdef HAVE_PGSQL
+				pInput = new InputPgSql( *pReport, inputname );
+#else
+				pReport->addError( Error::FeatureNotCompiled, __FUNCTION__, 0, "PostGreSQL" );
+				pInput = new NullInput( *pReport, inputname );
+#endif
+			} else if ( strcaseequal( drivername, "xbase" ) || strcaseequal( drivername, "xbasesql" ) ) {
+#ifdef RTK_HAVE_XBASE
+				pInput = usethisinput = new InputXBase( *pReport, inputname );
+#else
+				pReport->addError( Error::FeatureNotCompiled, __FUNCTION__, 0, "XBaseSQL" );
+				pInput = new NullInput( *pReport, inputname );
+#endif
+			} else if ( strcaseequal( drivername, "csv" ) ) {
+				pInput = new InputCsv( *pReport, inputname );
+			} else {
+			/// \todo {?} Look up the registered inputs table for this driver
+#if 0
+                    if ( !pInput )
+                        pInput = Report::createRegisteredInput( inputname, drivername.c_str() );
+#endif
+				if( !pInput ) {
+					pReport->addError( Error::ParseReportInputDriverNotRegistered,
+							__FUNCTION__, *text, 0, pFileName, mLine, mCol, drivername.c_str() );
+					skipping = true; // Skip rest of input
+				}
+			}
+		}
+	}
     // Rest of properties
     Xtring token;
     while ( ( token = getNextToken( text ) ) != "}" ) {
@@ -1180,92 +1217,42 @@ Input *ReportDefParser::parseInput( const char *inputname, Input *usethisinput, 
             // Section Properties
             Xtring value = getNextValue( text );
             if( value.isEmpty() )
-                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                     token.c_str(), "INPUT", inputname );
-            if ( !skipping ) {
-                if ( strcaseequal( drivername, "mysql" ) ) {
-                    if ( !usethisinput && !pInput ) {
-#ifdef HAVE_MYSQL
-                        pInput = usethisinput = new InputMySql( *pReport, inputname );
-#else
-
-                        pReport->addError( Error::FeatureNotCompiled, __FUNCTION__, 0, "MySQL" );
-                        pInput = usethisinput = new NullInput( *pReport, inputname );
-#endif
-
-                    }
-                } else if ( strcaseequal( drivername, "pgsql" ) || strcaseequal( drivername, "postgres" )
-                            || strcaseequal( drivername, "postgresql" ) ) {
-                    if ( !usethisinput && !pInput ) {
-#ifdef HAVE_PGSQL
-                        pInput = usethisinput = new InputPgSql( *pReport, inputname );
-#else
-
-                        pReport->addError( Error::FeatureNotCompiled, __FUNCTION__, 0, "PostGreSQL" );
-                        pInput = usethisinput = new NullInput( *pReport, inputname );
-#endif
-                    }
-                } else if ( strcaseequal( drivername, "xbase" ) || strcaseequal( drivername, "xbasesql" ) ) {
-                    if ( !usethisinput && !pInput ) {
-#ifdef RTK_HAVE_XBASE
-                        pInput = usethisinput = new InputXBase( *pReport, inputname );
-#else
-
-                        pReport->addError( Error::FeatureNotCompiled, __FUNCTION__, 0, "XBaseSQL" );
-                        pInput = usethisinput = new NullInput( *pReport, inputname );
-#endif
-                    }
-                } else if ( strcaseequal( drivername, "csv" ) ) {
-                    if ( !usethisinput && !pInput )
-                        pInput = usethisinput = new InputCsv( *pReport, inputname );
-                } else {
-                    /// \todo {?} Look up the registered inputs table for this driver
-#if 0
-                    if ( !pInput )
-                        pInput = Report::createRegisteredInput( inputname, drivername.c_str() );
-#endif
-
-                    if ( !usethisinput ) {
-                        pReport->addError( Error::ParseReportInputDriverNotRegistered,
-                                           __FUNCTION__, 0, pFileName, mLine, mCol, drivername.c_str() );
-                        skipping = true; // Skip rest of input
-                    }
-                }
                 // If there is an input, parse this attribute in its specialized class
-                if ( usethisinput ) {
-                    if( strcaseequal(token, "Encoding") )
-                        usethisinput->propEncoding.setOrig( value.c_str() );
-                    else if ( !usethisinput->parseAttribute( token.c_str(), value.c_str() ) )
-                        pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "INPUT", inputname );
-                }
-            } // skipping
+			if ( pInput ) {
+				if( strcaseequal(token, "Encoding") )
+					pInput->propEncoding.setOrig( value.c_str() );
+				else if ( !pInput->parseAttribute( token.c_str(), value.c_str() ) )
+					pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "INPUT", inputname );
+			}
             if( getNextToken( text ) != ";" ) {
-                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                   value.c_str(), "INPUT", inputname );
                 return 0;
             }
         } else { /* Input fields */
             if ( strequal( name, "{" ) ) {
                 name = "(unnamed)";
-                pReport->addError( Error::ParseReportName, __FUNCTION__, 0, pFileName, mLine, mCol, "parseInput" );
+                pReport->addError( Error::ParseReportName, __FUNCTION__, *text, 0, pFileName, mLine, mCol, "parseInput" );
             } else if( !strequal(getNextToken(text), "{") ) {
-                pReport->addError(Error::ParseReportOpenBracket, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addError(Error::ParseReportOpenBracket, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                   token.c_str(), "INPUT", inputname );
                 if ( pInput )
                     delete pInput;
                 return 0;
             }
             if ( strcaseequal( token, "inputfield" ) ) {
-                parseInputField( usethisinput, name.c_str(), text, skipping );
+                parseInputField( pInput, name.c_str(), text, skipping );
             } else {
-                pReport->addError( Error::ParseReportElement, __FUNCTION__, 0, pFileName, mLine, mCol, token.c_str(), "INPUT" );
+                pReport->addError( Error::ParseReportElement, __FUNCTION__, *text, 0, pFileName, mLine, mCol, token.c_str(), "INPUT" );
                 if ( pInput )
                     delete pInput;
                 return 0;
             }
         }
     }
-    return usethisinput;
+    return pInput;
 }
 
 InputField *ReportDefParser::parseInputField( Input *pInput, const char *ifname, const char **text, bool skipping )
@@ -1286,7 +1273,7 @@ InputField *ReportDefParser::parseInputField( Input *pInput, const char *ifname,
             // Section Properties
             Xtring value = getNextValue( text );
             if( value.isEmpty() )
-                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addWarning(Error::ParseReportValueMissing, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                     token.c_str(), "INPUTFIELD", ifname );
 
             if ( !skipping && pInputField ) {
@@ -1299,18 +1286,18 @@ InputField *ReportDefParser::parseInputField( Input *pInput, const char *ifname,
                 else if( strcaseequal(token, "Type") )
                     pInputField->setOrigType( value.c_str() );
                 else
-                    pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, 0, pFileName, mLine, mCol,
+                    pReport->addWarning( Error::ParseReportProperty, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                          token.c_str(), "INPUTFIELD", ifname );
             }
             if( getNextToken( text ) != ";" ) {
-                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, 0, pFileName, mLine, mCol,
+                pReport->addError(Error::ParseReportSemicolon, __FUNCTION__, *text, 0, pFileName, mLine, mCol,
                                   value.c_str(), "INPUTFIELD", ifname );
                 delete pInputField;
                 return 0;
             }
         } else {
             // Inputfields have not got inner objects
-            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, 0, pFileName, mLine, mCol, "INPUTFIELD", ifname );
+            pReport->addError( Error::ParseReportCloseBracket, __FUNCTION__, *text, 0, pFileName, mLine, mCol, "INPUTFIELD", ifname );
             delete pInputField;
             return 0;
         }
@@ -1377,7 +1364,7 @@ bool Report::readRtkString( const char *rtkstring, const char *defaultinput,
                             const char *filename, Input *usethisinput, const Xtring &initdefines )
 {
     _GONG_DEBUG_TRACE(3);
-    setDefaultInput( 0 );
+    setDefaultInput( usethisinput );
     if ( strempty( defaultinput ) )
         defaultinput = "default";
     ReportDefParser parser( this );

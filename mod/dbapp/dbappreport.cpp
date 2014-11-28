@@ -233,9 +233,9 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
         try {
             ret = Report::print ( pGongInput, salida );
         } catch ( const dbError &e ) {
-            addError ( RTK::Error::InternalError, "RtkGongInput", e.what() );
+            addError ( RTK::Error::InternalError, "RtkGongInput", 0, e.what() );
         } catch ( std::exception &e ) {
-            addError ( RTK::Error::InternalError, 0, e.what() );
+            addError ( RTK::Error::InternalError, 0, 0, e.what() );
         }
         if ( tiposalida == RTK_Screen || tiposalida == 	RTK_Printer_With_Dialog
                 || tiposalida == RTK_Printer_Without_Dialog ) {
@@ -284,24 +284,24 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
             for ( e = 0; e < errorsCount() && maxerrs > 0; e++ ) {
                 if ( !getError(e) ->isWarning() ) {
                     maxerrs --;
-                    errores += Xtring::printf ( "Error: %s: %s\n",
-                                                getError(e)->location(), getError(e) ->message() );
+                    errores += Xtring::printf ( "Error: %s: %s\n%100s",
+                                                getError(e)->location(), getError(e)->message(), getError(e)->text() );
                 }
             }
             if( maxerrs < 10 ) {
                 for ( e = 0; e < errorsCount() && --maxerrs > 0; e++ ) {
                     if ( getError(e) ->isWarning() ) {
                         maxerrs --;
-                        errores += Xtring::printf ( "Warning: %s: %s\n",
-                                                    getError(e)->location(), getError(e) ->message() );
+                        errores += Xtring::printf ( "Warning: %s: %s\n%100s",
+                                                    getError(e)->location(), getError(e)->message(), getError(e)->text() );
                     }
                 }
             } else {
                 for ( e = 0; e < errorsCount() && --maxerrs > 0; e++ ) {
                     if ( getError(e) ->isWarning() ) {
                         maxerrs --;
-                        _GONG_DEBUG_WARNING( Xtring::printf ( "Warning: %s: %s",
-                                                              getError(e)->location(), getError(e) ->message() ) );
+                        _GONG_DEBUG_WARNING( Xtring::printf ( "Warning: %s: %s\n%100s",
+                                                              getError(e)->location(), getError(e)->message(), getError(e)->text() ) );
                     }
                 }
             }
@@ -405,10 +405,11 @@ int AppReport::readReportsFromPath ( const Xtring &pathorig, ReportsList &report
                 reportslist.push_back ( ri );
             } else {
                 for ( int e=0; e < r->errorsCount(); e++ ) {
-                    _GONG_DEBUG_WARNING ( Xtring::printf ( "%s: %s: %s",
+                    _GONG_DEBUG_WARNING ( Xtring::printf ( "%s: %s: %s\n%100s",
                                                            r->getError(e)->isWarning() ? "Warning":"Error",
                                                            r->getError(e)->location(),
-                                                           r->getError(e)->message() ) );
+                                                           r->getError(e)->message(),
+														   r->getError(e)->text()) );
                 }
             }
             delete r;

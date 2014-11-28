@@ -73,32 +73,17 @@ public:
 
     };
 
-    Error(ErrorType type, ErrorCode code, const char *loc, const char *message);
+    Error(ErrorType type, ErrorCode code, const char *loc, const char *message, const char *text);
     virtual ~Error() throw();
-    bool isWarning() const {
-        return mType == EWarning;
-    }
-    bool isError() const {
-        return mType == EError;
-    }
-    bool isNotice() const {
-        return mType == ENotice;
-    }
-    ErrorType type() const {
-        return mType;
-    }
-    ErrorCode code() const {
-        return mCode;
-    }
-    const char *location() const {
-        return pLocation;
-    }
-    const char *message() const {
-        return what();
-    }
-    static AbortType errorAbort() {
-        return sErrorAbort;
-    }
+    bool isWarning() const { return mType == EWarning; }
+    bool isError() const { return mType == EError; }
+    bool isNotice() const { return mType == ENotice; }
+    ErrorType type() const { return mType; }
+    ErrorCode code() const { return mCode; }
+    const char *text() const { return pText; }
+    const char *location() const { return pLocation; }
+    const char *message() const { return what(); }
+    static AbortType errorAbort() { return sErrorAbort; }
     static const char *getFormat(int code);
     static AbortType sErrorAbort;
 
@@ -106,6 +91,7 @@ private:
     ErrorCode mCode;
     ErrorType mType;
     const char *pLocation;
+	const char *pText;
 };
 
 } // namespace RTK

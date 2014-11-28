@@ -121,14 +121,12 @@ public:
 
     /** @brief Appends an Error to the Report */
     int addError( Error *anError );
-    int addError( Error::ErrorCode code, const char *loc, const char *message...);
-    int addWarning( Error::ErrorCode code, const char *loc, const char *message...);
-    int addNotice( Error::ErrorCode code, const char *loc, const char *message...);
+    int addError( Error::ErrorCode code, const char *loc, const char *text, const char *message...);
+    int addWarning( Error::ErrorCode code, const char *loc, const char *text, const char *message...);
+    int addNotice( Error::ErrorCode code, const char *loc, const char *text, const char *message...);
     const Error *lastError() const;
     const Error *getError(uint i) const;
-    int errorsCount() const {
-        return mErrors.size();
-    }
+    int errorsCount() const { return mErrors.size(); }
 
     void setImagesPath(const Xtring &path);
     void setStylesPath(const Xtring &path);

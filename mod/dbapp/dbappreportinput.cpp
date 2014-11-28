@@ -202,8 +202,10 @@ bool ReportInput::parseAttribute ( const char *token, const char *value )
         setOrigDatabase ( value );
     else if ( strcaseequal ( token, "From" ) )
         setOrigFrom ( value );
-    else if ( strcaseequal ( token, "Where" ) )
+    else if ( strcaseequal ( token, "Where" ) ) {
         setOrigWhere ( value );
+		_GONG_DEBUG_PRINT(0, value);
+	}
     else if ( strcaseequal ( token, "OrderBy" ) )
         setOrigOrderBy ( value );
     else if ( strcaseequal ( token, "GroupBy" ) )
@@ -213,8 +215,8 @@ bool ReportInput::parseAttribute ( const char *token, const char *value )
     else if ( strcaseequal ( token, "PostSQL" ) )
         setOrigPostSQL ( value );
     else
-        return false;
-    return true;
+        return Input::parseAttribute(token, value);
+	return true;
 }
 
 }

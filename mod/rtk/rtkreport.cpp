@@ -1626,12 +1626,12 @@ int Report::addError( Error *anError )
 {
     mErrors.push_back( anError );
     if( (anError->isError() && (Error::errorAbort() == Error::ThrowOnError) ) )
-        throw Error( anError->type(), anError->code(), anError->location(), anError->what() );
+        throw Error( anError->type(), anError->code(), anError->location(), anError->what(), anError->text() );
     if( (anError->isError() && (Error::errorAbort() == Error::AbortOnError) )
             || Error::sErrorAbort == Error::AbortAlways ) {
         for( int e=0; e < errorsCount(); e++ ) {
             std::cerr << "RTK " << (getError(e)->isWarning()? "Warning: ":"Error: ")
-                      << getError(e)->location() << ": " << getError(e)->message() << std::endl;
+                      << getError(e)->location() << ": " << getError(e)->message() << std::endl << getError(e)->text() << std::endl;
         }
         std::cerr << "RTK Aborting ( Error::sErrorAbort = " <<
                   ((Error::sErrorAbort == Error::AbortAlways) ?  "AbortAlways" :
@@ -1661,7 +1661,7 @@ int Report::showProgress(const Xtring &, int, int)
 }
 
 
-int Report::addError( Error::ErrorCode code, const char *loc, const char *message, ...)
+int Report::addError( Error::ErrorCode code, const char *loc, const char *text, const char *message, ...)
 {
     va_list args;
     char buffer[2040] = "";
@@ -1674,11 +1674,11 @@ int Report::addError( Error::ErrorCode code, const char *loc, const char *messag
         vsnprintf(buffer, 2039, message, args);
         va_end( args );
     }
-    Error *perr = new Error(Error::EError, code, loc, buffer);
+    Error *perr = new Error(Error::EError, code, loc, buffer, text);
     return addError(perr);
 }
 
-int Report::addWarning( Error::ErrorCode code, const char *loc, const char *message, ...)
+int Report::addWarning( Error::ErrorCode code, const char *loc, const char *text, const char *message, ...)
 {
     va_list args;
     char buffer[2040] = "";
@@ -1691,11 +1691,11 @@ int Report::addWarning( Error::ErrorCode code, const char *loc, const char *mess
         vsnprintf(buffer, 2039, message, args);
         va_end( args );
     }
-    Error *perr = new Error(Error::EWarning, code, loc, buffer);
+    Error *perr = new Error(Error::EWarning, code, loc, buffer, text);
     return addError(perr);
 }
 
-int Report::addNotice( Error::ErrorCode code, const char *loc, const char *message, ...)
+int Report::addNotice( Error::ErrorCode code, const char *loc, const char *text, const char *message, ...)
 {
     va_list args;
     char buffer[2040] = "";
@@ -1708,7 +1708,7 @@ int Report::addNotice( Error::ErrorCode code, const char *loc, const char *messa
         vsnprintf(buffer, 2039, message, args);
         va_end( args );
     }
-    Error *perr = new Error(Error::ENotice, code, loc, buffer);
+    Error *perr = new Error(Error::ENotice, code, loc, buffer, text);
     return addError(perr);
 }
 

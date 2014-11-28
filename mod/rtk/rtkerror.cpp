@@ -13,8 +13,8 @@ namespace gong {
 
 Error::AbortType Error::sErrorAbort = AbortNever;
 
-Error::Error(ErrorType type, ErrorCode code, const char *loc, const char *message)
-    : std::runtime_error(message), mCode(code), mType(type)
+Error::Error(ErrorType type, ErrorCode code, const char *loc, const char *message, const char *text)
+    : std::runtime_error(message), mCode(code), mType(type), pText(text)
 {
     if( !strempty(loc) )
         pLocation = strdup(loc);

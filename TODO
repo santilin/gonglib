@@ -22,7 +22,6 @@
 * Explicar que la relación en la tabla de princesas solo se utiliza para el informe de princesa y familiares.
 * Mostrar el total de personas contactadas en los informes.
 * Ver edad de Linda Ucrania Huertas, Valeria colombia El Molino, Nizar Marruecos Hijo Mbarka
-* No suprimir un valor en cambio de sección
 * Informe resumido no saca las personas contactadas
 * Informe resumido, lugar de trabajo. Ex: Error
 * Ver si agrupar por primera atención es la de la ficha o la del año.
@@ -191,6 +190,7 @@
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
+* No suprimir un valor en cambio de sección
 * Visor:
 ** Mostrar número de página/total páginas
 ** Añadir opción enviar por correo

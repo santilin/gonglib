@@ -295,11 +295,11 @@ int OutputGNumeric::startReport()
     case ADD_LAST_SHEET:
     case REPLACE_FIRST_SHEET:
     case REPLACE_LAST_SHEET:
-        mReport.addError( Error::FeatureNotSupported, "OutputGNumeric",
+        mReport.addError( Error::FeatureNotSupported, "OutputGNumeric", 0,
                           "GNumeric create option '%d' not supported yet", replaceContent());
         return 1;
     default:
-        mReport.addError( Error::InvalidArgument, "OutputGNumeric",
+        mReport.addError( Error::InvalidArgument, "OutputGNumeric", 0,
                           0, Xtring::number(replaceContent()).c_str(), __FUNCTION__);
         return 1;
     }

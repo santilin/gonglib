@@ -238,10 +238,10 @@ Measure OutputPS::printObject( const Object &object )
                         break;
                     }
                 } else {
-                    mReport.addError(Error::ImageFileNotFound, __FUNCTION__, rtkimage->url());
+                    mReport.addError(Error::ImageFileNotFound, __FUNCTION__, rtkimage->url(), 0);
                 }
             } else {
-                mReport.addWarning(Error::ImageNotDefined, __FUNCTION__, object.backgroundImage());
+                mReport.addWarning(Error::ImageNotDefined, __FUNCTION__, object.backgroundImage(), 0);
             }
         }
     }
