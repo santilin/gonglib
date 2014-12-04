@@ -92,7 +92,7 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
+        setReadOnly(mMustBeReadOnly = must);
     }
     void setVisible( bool visible );
 };
@@ -117,7 +117,7 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
+        setReadOnly(mMustBeReadOnly = must);
     }
     void setHeightInLines(int lines);
 };
@@ -155,7 +155,7 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
+        setReadOnly(mMustBeReadOnly = must);
     }
     bool isReadOnly() const {
         return mIsReadOnly;
@@ -197,7 +197,7 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
+        setEnabled(!(mMustBeReadOnly = must));
     }
     void setFocus() {
         pEditFileName->setFocus();
@@ -227,7 +227,7 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
+        setReadOnly(mMustBeReadOnly = must);
     }
     bool isReadOnly() const {
         return isEnabled();

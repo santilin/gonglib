@@ -53,8 +53,9 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
-    }
+		setReadOnly(!(mMustBeReadOnly=must));
+	}
+	void setReadOnly(bool readonly);
     bool isMultiple() const {
         return mFlags & FlagMultiple;
     }

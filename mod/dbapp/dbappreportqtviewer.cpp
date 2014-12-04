@@ -224,10 +224,10 @@ void ReportQtViewer::slotLastPage()
 
 // Return the preferred size.
 
-QSize ReportQtViewer::sizeHint() const
-{
-    return QSize(800,600); // scroller -> sizeHint();
-}
+// QSize ReportQtViewer::sizeHint() const
+// {
+//     return QSize(800,600); // scroller -> sizeHint();
+// }
 
 void ReportQtViewer::setPageCollection( const QtPageCollection *pc )
 {

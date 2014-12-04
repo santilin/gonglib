@@ -266,8 +266,8 @@ void FrmEditRecDetail::beginEdit(DataTable *dt, EditMode newmode,
             int r = dt->currentRow(), c = dt->currentColumn();
             if( detailfrm->isSaved() ) {
                 getFrmMaster()->setEdited( true );
-                getFrmMaster()->updateFromDetails( this );
                 addDetailIfNeeded( detailfrm->mMustRefresh );
+                getFrmMaster()->updateFromDetails( this );
                 r = dt->numRows() - 1;
             }
             dt->setCurrentCell( r, c );

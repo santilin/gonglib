@@ -1,31 +1,30 @@
 == HECHO ==
-* No funciona CTRL+F ni F3 en los searchs de terceros
 
 == HACIENDO ==
 
+== BIOSEGURA ==
+Informes -> Socios -> Saldos -> Normales fecha mostrar
+
 == TESORERIA ==
-* El pago de gestiong da error al modificarlo.
 * Debe, haber y saldo en vez de cargo e importe.
 * Generar apunte desde albarán, factura, pago, cobro, etc.
 * Tesorería de ofertas
+
+== PAGOS ==
+* Albarán de compra: Forma de pago en mano, permite cambiar el importe, pero se queda igual.
+* Pagos: Visualizar: No se muestra el albarán ni el proveedor.
 
 == HACER ==
 * Al copiar las ofertas a mysql, mostrar osd
 * Búsquedas por nombre alternativo
 
-
 == ANGEL ==
 * Imprimir etiquetas con códigos de barras
 
-
 == CATS ==
-* Explicar que la relación en la tabla de princesas solo se utiliza para el informe de princesa y familiares.
-* Mostrar el total de personas contactadas en los informes.
 * Ver edad de Linda Ucrania Huertas, Valeria colombia El Molino, Nizar Marruecos Hijo Mbarka
-* Informe resumido no saca las personas contactadas
-* Informe resumido, lugar de trabajo. Ex: Error
-* Ver si agrupar por primera atención es la de la ficha o la del año.
-* Agrupar por último lugar de trabajo, para que aparezcan una sola vez.
+* Exportar e importar ficheros de salidas a clubs.
+
 
 == ERRORES ==
 * Cuando se añade una liquidación a un albarán, se borra el O del albarán

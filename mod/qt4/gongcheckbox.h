@@ -37,7 +37,7 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
+        setEnabled(!(mMustBeReadOnly = must));
     }
     void setChecked( bool checked );
     bool isCheckingProgrammatically() const {

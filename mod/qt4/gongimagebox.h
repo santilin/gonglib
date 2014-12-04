@@ -51,7 +51,7 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
+        setEnabled(!(mMustBeReadOnly = must));
     }
     bool setImageData( const Variant &data );
     bool loadFromFile( const Xtring &filename );

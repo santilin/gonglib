@@ -62,7 +62,7 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
+        setEnabled(!(mMustBeReadOnly = must));
     }
     bool isSettingProgrammatically() const {
         return mSettingProgrammatically;
@@ -131,7 +131,7 @@ public:
         return mMustBeReadOnly;
     }
     void setMustBeReadOnly(bool must) {
-        mMustBeReadOnly = must;
+        setEnabled(!(mMustBeReadOnly = must));
     }
     bool isSettingProgrammatically() const {
         return mSettingProgrammatically;

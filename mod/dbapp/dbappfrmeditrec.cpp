@@ -1031,13 +1031,9 @@ void FrmEditRec::enableEditControl( QWidget *control, bool enabled)
             edit->setReadOnly( false );
     } else if ( SearchBox * search = dynamic_cast<SearchBox *>( control ) ) {
         if ( !enabled || search->mustBeReadOnly() ) {
-            search->getEditCode()->setReadOnly( true );
-            search->getEditDesc()->setReadOnly( true );
-            search->getButton()-> setEnabled (true);
+            search->setReadOnly(true);
         } else {
-            search->getEditCode()->setReadOnly( false );
-            search->getEditDesc()->setReadOnly( !(search->getFlags() & SearchBox::FlagEditableDesc) );
-            search->getButton()-> setEnabled (true);
+            search->setReadOnly(false);
         }
     } else if ( CheckBox * check = dynamic_cast<CheckBox *>( control ) ) {
         if ( !enabled || check->mustBeReadOnly() )
@@ -1048,7 +1044,7 @@ void FrmEditRec::enableEditControl( QWidget *control, bool enabled)
         if ( !enabled || combo->mustBeReadOnly() )
             combo->setEnabled( false );
         else
-            combo->setEnabled( true );
+            combo->setEnabled( true);
     } else if ( ComboBoxXtring * combo = dynamic_cast<ComboBoxXtring *>( control ) ) {
         if ( !enabled || combo->mustBeReadOnly() )
             combo->setEnabled( false );
@@ -1061,9 +1057,9 @@ void FrmEditRec::enableEditControl( QWidget *control, bool enabled)
             img->setEnabled( true );
     } else if ( FileNameBox *fnbox = dynamic_cast<FileNameBox *>( control ) ) {
         if ( !enabled || fnbox->mustBeReadOnly() )
-            fnbox->getEditFileName()->setEnabled( false );
+            fnbox->setEnabled( false );
         else
-            fnbox->getEditFileName()->setEnabled( true );
+            fnbox->setEnabled( true );
     }
 }
 

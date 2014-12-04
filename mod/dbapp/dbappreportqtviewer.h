@@ -68,7 +68,7 @@ public:
     void printWithoutDialog() {
         _print( false );
     }
-    QSize sizeHint() const;
+//    QSize sizeHint() const;
 
 public slots:
     void slotPrint();

@@ -190,4 +190,16 @@ void SearchBox::setCompleter(bool wantit)
     }
 }
 
+void SearchBox::setReadOnly(bool readonly)
+{
+	setEnabled(!readonly);
+	pEditCode->setReadOnly(readonly);
+	if (!readonly && (getFlags() & SearchBox::FlagEditableDesc)) {
+		pEditDesc->setReadOnly(false);
+	} else {
+		pEditDesc->setReadOnly(true);
+	}
+}
+
+
 } // namespace

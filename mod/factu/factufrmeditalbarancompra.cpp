@@ -288,7 +288,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
     editTotal->setMustBeReadOnly( mHasPagos );
     editEntrega->setMustBeReadOnly( mHasPagos );
     pushPagar->setVisible( !mHasPagos );
-    scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
+//    scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
     validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
 }
 
@@ -649,12 +649,13 @@ void FrmEditAlbaranCompra::scatterFormaPago()
     if( getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::Contado
             || getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::SeIgnora ) {
         pushPagar->setVisible( false );
-        editEntrega->setReadOnly( true );
+        editEntrega->setMustBeReadOnly( true );
+        editEntrega->setMustBeReadOnly( true );
     } else {
         pushPagar->setVisible( true );
         editEntrega->setReadOnly( false );
+        editEntrega->setMustBeReadOnly( false );
     }
-    
     actTotales();
     if( editEntrega->toDouble() != 0.0 && editTotal->toDouble() != 0.0 )
         pushPagar->setText( _("&Borrar entrega") );
@@ -1055,7 +1056,7 @@ void FrmEditAlbaranCompra::slotPagar()
             if( editTotal->toDouble() == 0.0 )
                 pushPagar->setText( _("&Borrar entrega") );
         }
-		delete pr;
+//		delete pr;
     }
 }
 

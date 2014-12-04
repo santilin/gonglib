@@ -119,13 +119,14 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
             || !searchTerceroCodigo || tablaterceros != searchTerceroCodigo->getTableName() ) {
 
         removeControl( searchFacturaNumero );
+		mFldFactCodigo = fldfactcodigo;
+		mFldFactDesc = fldfactdesc;
         if( fldfactcodigo == Xtring::null ) {
             dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablafacturas );
-            mFldFactCodigo = tbldef->getCodeField();
-            mFldFactDesc = tbldef->getDescField();
-        } else {
-            mFldFactCodigo = fldfactcodigo;
-            mFldFactDesc = fldfactdesc;
+			if( tbldef ) {
+				mFldFactCodigo = tbldef->getCodeField();
+				mFldFactDesc = tbldef->getDescField();
+			}
         }
         searchFacturaNumero = addSearchField( pControlsFrame, "FACTURA_ID", tablafacturas,
                                               mFldFactCodigo, mFldFactDesc, pTercerosLayout );
@@ -139,17 +140,18 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
         searchFacturaNumero->setMustBeReadOnly(true);
 
         removeControl( searchTerceroCodigo );
+		mFldTercCodigo = fldterccodigo;
+		mFldTercDesc = fldtercdesc;
         if( fldterccodigo == Xtring::null ) {
             dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablaterceros );
-            dbFieldDefinition *flddeffc = tbldef->findFieldByFlags( dbFieldDefinition::CODE );
-            if( flddeffc )
-                mFldTercCodigo = flddeffc->getName();
-            dbFieldDefinition *flddeffd = tbldef->findFieldByFlags( dbFieldDefinition::DESCRIPTION );
-            if( flddeffd )
-                mFldTercDesc = flddeffd->getName();
-        } else {
-            mFldTercCodigo = fldterccodigo;
-            mFldTercDesc = fldtercdesc;
+			if( tbldef ) {
+				dbFieldDefinition *flddeffc = tbldef->findFieldByFlags( dbFieldDefinition::CODE );
+				if( flddeffc )
+					mFldTercCodigo = flddeffc->getName();
+				dbFieldDefinition *flddeffd = tbldef->findFieldByFlags( dbFieldDefinition::DESCRIPTION );
+				if( flddeffd )
+					mFldTercDesc = flddeffd->getName();
+			}
         }
         searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", tablaterceros,
                                               mFldTercCodigo, mFldTercDesc, pTercerosLayout );
