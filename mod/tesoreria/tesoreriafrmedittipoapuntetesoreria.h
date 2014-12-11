@@ -45,12 +45,12 @@ protected:
 protected:
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNombre;
-	gong::ComboBoxInt *comboPedirCargo;
-	gong::CheckBox *checkCargo;
 	gong::ComboBoxInt *comboPedirFecha;
 	gong::EditBox *editFecha;
-	gong::ComboBoxInt *comboPedirImporte;
-	gong::EditBox *editImporte;
+	gong::ComboBoxInt *comboPedirDebe;
+	gong::EditBox *editDebe;
+	gong::ComboBoxInt *comboPedirHaber;
+	gong::EditBox *editHaber;
 	gong::ComboBoxInt *comboPedirReferencia;
 	gong::EditBox *editReferencia;
 	gong::ComboBoxInt *comboPedirCuenta;
@@ -63,8 +63,6 @@ protected:
 	gong::ComboBoxXtring *comboTablaConceptos;
 	gong::ComboBoxInt *comboPedirConcepto;
 	gong::EditBox *editConcepto;
-	gong::ComboBoxInt *comboPedirTablaDocumentos;
-	gong::EditBox *editTablaDocumentos;
 	gong::ComboBoxInt *comboPedirProyecto;
 	gong::EditBox *editProyecto;
 	gong::ComboBoxInt *comboPedirNotas;

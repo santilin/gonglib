@@ -44,11 +44,11 @@ SearchBox::SearchBox( const Xtring &caption, const Xtring &tablename,
 SearchBox::~SearchBox()
 {
 	if( pEditCode ) {
-		delete pEditCode;
+//		delete pEditCode;
 		pEditCode = 0;
 	}
 	if( pEditDesc ) {
-		delete pEditDesc;
+//		delete pEditDesc;
 		pEditDesc = 0;
 	}
     if( pRecord )
@@ -192,7 +192,7 @@ void SearchBox::setCompleter(bool wantit)
 
 void SearchBox::setReadOnly(bool readonly)
 {
-	setEnabled(!readonly);
+	setEnabled(true);
 	pEditCode->setReadOnly(readonly);
 	if (!readonly && (getFlags() & SearchBox::FlagEditableDesc)) {
 		pEditDesc->setReadOnly(false);

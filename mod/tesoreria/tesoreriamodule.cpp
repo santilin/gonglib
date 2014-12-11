@@ -97,10 +97,10 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicTipoApunteTesoreria->addFieldDesc( "NOMBRE", 50 );
     pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRFECHA" );
     pFicTipoApunteTesoreria->addFieldString("FECHA",20);
-    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCARGO" );
-    pFicTipoApunteTesoreria->addFieldBool("CARGO");
-    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRIMPORTE" );
-    pFicTipoApunteTesoreria->addFieldMoney("IMPORTE");
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRDEBE" );
+    pFicTipoApunteTesoreria->addFieldMoney("DEBE");
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRHABER" );
+    pFicTipoApunteTesoreria->addFieldMoney("HABER");
     pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRREFERENCIA" );
     pFicTipoApunteTesoreria->addFieldString("REFERENCIA",100);
     pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCUENTA" );
@@ -165,8 +165,8 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicApunteTesoreria->addFieldOne2OneRelation( "TIPOAPUNTETESORERIA_ID", "TIPOAPUNTETESORERIA.ID" );
     pFicApunteTesoreria->addFieldInt( "NUMERO" );
     pFicApunteTesoreria->addFieldDate( "FECHA" );
-    pFicApunteTesoreria->addFieldBool( "CARGO" );
-    pFicApunteTesoreria->addFieldEuro( "IMPORTE" );
+    pFicApunteTesoreria->addFieldEuro( "DEBE" );
+    pFicApunteTesoreria->addFieldEuro( "HABER" );
     pFicApunteTesoreria->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
     pFicApunteTesoreria->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
     pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),

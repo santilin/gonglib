@@ -164,7 +164,7 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pFicCobro->addFieldReferenceID( "ASIENTO_PAGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
 #endif
 #ifdef HAVE_TESORERIAMODULE
-    pFicCobro->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTATESORERIA.ID" );
+    pFicCobro->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTATESORERIA.ID" )->setCanBeNull( true );
 #endif
     pFicCobro->addFieldNotas();
     pFicCobro->addBehavior( DBAPP->getRecordTimestampBehavior() );
@@ -203,7 +203,7 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pFicPago->addFieldReferenceID( "ASIENTO_PAGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
 #endif
 #ifdef HAVE_TESORERIAMODULE
-    pFicPago->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTATESORERIA.ID" );
+    pFicPago->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTATESORERIA.ID" )->setCanBeNull( true );
 #endif
     pFicPago->addFieldNotas();
     pFicPago->addBehavior( DBAPP->getRecordTimestampBehavior() );

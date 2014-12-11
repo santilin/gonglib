@@ -90,9 +90,9 @@ protected:
 	QPushButton *pushTipoApunteTesoreriaCodigo;
 	gong::LineEdit *editTipoApunteTesoreriaCodigo;
 	gong::LineEdit *editTipoApunteTesoreriaNombre;
-	gong::CheckBox *checkCargo;
 	gong::EditBox *editFecha;
-	gong::EditBox *editImporte;
+	gong::EditBox *editDebe;
+	gong::EditBox *editHaber;
 	gong::SearchBox *searchCuentaTesoreriaCodigo;
 	QPushButton *pushCuentaTesoreriaCodigo;
 	gong::LineEdit *editCuentaTesoreriaCodigo;

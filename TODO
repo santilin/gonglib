@@ -125,6 +125,7 @@ Informes -> Socios -> Saldos -> Normales fecha mostrar
 ** Niveles del plan contable
 
 == gong-contactos ==
+* Visualizar contacto embebido: readonly botones
 * Enviar adjuntos por email
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Utilizar campo alternativo para buscar clientes, proveedoras y contactos

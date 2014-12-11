@@ -25,12 +25,12 @@ FrmPagarRecibo::FrmPagarRecibo(bool has_contab, const Money &importe, Date fecha
 #elif defined ( HAVE_TESORERIAMODULE )
     if( has_contab ) {
         searchCuentaPago = addSearchField( 0, "CUENTATESORERIA", "CODIGO", "NOMBRE" );
-        //searchCuentaPago->setValue( cuentapago );
+        searchCuentaPago->setValue( cuentapago );
     }
 #endif
     editDocumentoPago = addInputField( 0, Xtring::null, "COBRO", "DOCUMENTOPAGO", documentopago );
     searchMoneda = addSearchField( 0, "MONEDA", "CODIGO", "NOMBRE" );
-//    searchMoneda->setValue( moneda_codigo );
+    searchMoneda->setValue( moneda_codigo );
 }
 
 dbRecordID FrmPagarRecibo::getRecMonedaID() const

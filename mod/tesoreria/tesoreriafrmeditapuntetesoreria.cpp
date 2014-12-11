@@ -5,9 +5,9 @@
 // FIELD Numero int - numero
 // FIELD Automatico bool - numero
 // FIELD TipoApunteTesoreria_ID Reference(TipoApunteTesoreria,Codigo,Nombre) - tipoapunte
-// FIELD Cargo bool - fecha
 // FIELD Fecha date - fecha
-// FIELD Importe Money - fecha
+// FIELD Debe Money - fecha
+// FIELD Haber Money - fecha
 // FIELD CuentaTesoreria_ID Reference(CuentaTesoreria,Codigo,Nombre)
 // FIELD TablaTerceros combostring - terceros
 // FIELD Tercero string - terceros
@@ -65,9 +65,9 @@ FrmEditApunteTesoreria::FrmEditApunteTesoreria(FrmEditRec *parentfrm, dbRecord *
 	connect( pushTipoApunteTesoreriaCodigo, SIGNAL( clicked() ), this, SLOT( pushTipoApunteTesoreriaCodigo_clicked() ) );
 	editTipoApunteTesoreriaCodigo = searchTipoApunteTesoreriaCodigo->getEditCode();
 	editTipoApunteTesoreriaNombre = searchTipoApunteTesoreriaCodigo->getEditDesc();
-	checkCargo = addCheckField( pControlsFrame, "APUNTETESORERIA", "CARGO", fechaLayout );
 	editFecha = addEditField( pControlsFrame, "APUNTETESORERIA", "FECHA", fechaLayout );
-	editImporte = addEditField( pControlsFrame, "APUNTETESORERIA", "IMPORTE", fechaLayout );
+	editDebe = addEditField( pControlsFrame, "APUNTETESORERIA", "DEBE", fechaLayout );
+	editHaber = addEditField( pControlsFrame, "APUNTETESORERIA", "HABER", fechaLayout );
 
 	searchCuentaTesoreriaCodigo = addSearchField( pControlsFrame, "CUENTATESORERIA_ID", "CUENTATESORERIA", "CODIGO", "NOMBRE", cuentatesoreria_idLayout );
 	pushCuentaTesoreriaCodigo = searchCuentaTesoreriaCodigo->getButton();
@@ -115,9 +115,9 @@ void FrmEditApunteTesoreria::scatterFields()
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editNumero;
 	checkAutomatico->setChecked(getRecApunteTesoreria()->getValue("AUTOMATICO").toBool());
-	checkCargo->setChecked(getRecApunteTesoreria()->getValue("CARGO").toBool());
 	editFecha->setText(getRecApunteTesoreria()->getValue("FECHA").toDate());
-	editImporte->setText(getRecApunteTesoreria()->getValue("IMPORTE").toMoney());
+	editDebe->setText(getRecApunteTesoreria()->getValue("DEBE").toMoney());
+	editHaber->setText(getRecApunteTesoreria()->getValue("HABER").toMoney());
 	comboTablaTerceros->setText(getRecApunteTesoreria()->getValue("TABLATERCEROS").toString());
 	editTercero->setText(getRecApunteTesoreria()->getValue("TERCERO").toString());
 	comboTablaConceptos->setText(getRecApunteTesoreria()->getValue("TABLACONCEPTOS").toString());
@@ -145,9 +145,9 @@ if(empresa::ModuleInstance->usaProyectos()){
     }
     bool esAutomatico = checkAutomatico->isOn();
 	if( isFirstScatter() ) {
-		checkCargo->setMustBeReadOnly(esAutomatico);
 		editFecha->setMustBeReadOnly(esAutomatico);
-		editImporte->setMustBeReadOnly(esAutomatico);
+		editDebe->setMustBeReadOnly(esAutomatico);
+		editHaber->setMustBeReadOnly(esAutomatico);
 		editTercero->setMustBeReadOnly(esAutomatico);
 		editConcepto->setMustBeReadOnly(esAutomatico);
 		searchCuentaTesoreriaCodigo->setMustBeReadOnly(esAutomatico);
@@ -168,9 +168,9 @@ void FrmEditApunteTesoreria::gatherFields()
 	getRecApunteTesoreria()->setValue( "NUMERO", editNumero->toInt());
 	getRecApunteTesoreria()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
 	getRecApunteTesoreria()->setValue( "TIPOAPUNTETESORERIA_ID", getRecTipoApunteTesoreria()->getRecordID() );
-	getRecApunteTesoreria()->setValue( "CARGO", checkCargo->isChecked());
 	getRecApunteTesoreria()->setValue( "FECHA", editFecha->toDate());
-	getRecApunteTesoreria()->setValue( "IMPORTE", editImporte->toMoney());
+	getRecApunteTesoreria()->setValue( "DEBE", editDebe->toMoney());
+	getRecApunteTesoreria()->setValue( "HABER", editHaber->toMoney());
 	getRecApunteTesoreria()->setValue( "CUENTATESORERIA_ID", getRecCuentaTesoreria()->getRecordID() );
 	getRecApunteTesoreria()->setValue( "TABLATERCEROS", comboTablaTerceros->toString());
 	getRecApunteTesoreria()->setValue( "TERCERO", editTercero->toString());

@@ -24,6 +24,9 @@
 
 
 namespace gong {
+	
+typedef empresa::RecEmpresa RecEmpresa;	
+	
 namespace tesoreria {
 
 /*<<<<<FRMEDITEMPRESABEHAVIOR_CLASS*/
@@ -31,7 +34,7 @@ class FrmEditEmpresaBehavior: public FrmEditRecBehavior
 {
 public:
 	virtual void initGUI();
-	empresa::RecEmpresa *getRecEmpresa() const { return static_cast<empresa::RecEmpresa *>(pTheForm->getRecord()); }
+	RecEmpresa *getRecEmpresa() const { return static_cast<RecEmpresa *>(pTheForm->getRecord()); }
 	FrmEditEmpresaBehavior( FrmEditRec *theform )
 		: FrmEditRecBehavior( theform )
 /*>>>>>FRMEDITEMPRESABEHAVIOR_CLASS*/
