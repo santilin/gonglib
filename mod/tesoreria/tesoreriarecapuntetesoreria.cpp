@@ -192,6 +192,5 @@ bool RecApunteTesoreria::generaContrapartida()
 		
 }
 
-
 } // namespace tesoreria
 } // namespace gong

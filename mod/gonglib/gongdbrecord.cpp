@@ -1139,7 +1139,9 @@ Variant dbRecord::getValue( const Xtring &fullfldname ) const
             return calcValue( fldname );
         } else if ( mFieldValues.find ( fldname ) != mFieldValues.end() ) {
             return mFieldValues[fldname]->toVariant();
-        }
+        } else if (!flddef) {
+			return toString(TOSTRING_CODE_AND_DESC);
+		}
     } else {
         /* get a value from a related table
          * If the id of the related record doesn't match the reference id field in this record

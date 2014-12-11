@@ -163,6 +163,9 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pFicCobro->addFieldReferenceID( "ASIENTO_CARGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
     pFicCobro->addFieldReferenceID( "ASIENTO_PAGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
 #endif
+#ifdef HAVE_TESORERIAMODULE
+    pFicCobro->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTATESORERIA.ID" );
+#endif
     pFicCobro->addFieldNotas();
     pFicCobro->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pFicCobro->addMultipleIndex( "empresa_numero_unico",
@@ -198,6 +201,9 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pFicPago->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTA.ID" )->setCanBeNull( true );
     pFicPago->addFieldReferenceID( "ASIENTO_CARGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
     pFicPago->addFieldReferenceID( "ASIENTO_PAGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
+#endif
+#ifdef HAVE_TESORERIAMODULE
+    pFicPago->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTATESORERIA.ID" );
 #endif
     pFicPago->addFieldNotas();
     pFicPago->addBehavior( DBAPP->getRecordTimestampBehavior() );

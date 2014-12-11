@@ -6,15 +6,16 @@
 Informes -> Socios -> Saldos -> Normales fecha mostrar
 
 == TESORERIA ==
+* Pagar pago o cobro: Pedir cuenta de tesorería
 * Debe, haber y saldo en vez de cargo e importe.
 * Generar apunte desde albarán, factura, pago, cobro, etc.
 * Tesorería de ofertas
 
 == PAGOS ==
-* Albarán de compra: Forma de pago en mano, permite cambiar el importe, pero se queda igual.
-* Pagos: Visualizar: No se muestra el albarán ni el proveedor.
 
 == HACER ==
+* Duplicar código albarán compra en albaran venta, factura venta, pedido compra, pedido venta, factura compra, liquidaciones
+* Duplicar código pagos en cobros
 * Al copiar las ofertas a mysql, mostrar osd
 * Búsquedas por nombre alternativo
 

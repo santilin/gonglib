@@ -232,6 +232,7 @@ int IPagableRecord::genPagos()
         recibo->setValue( "RESTO", importe );
         recibo->setValue( "ESTADORECIBO", PagosModule::ReciboPendiente );
 #ifdef HAVE_CONTABMODULE
+		// en tesorería no hace falta la cuenta de origen?
         recibo->setValue( "CUENTAORIGEN", str_cuenta_origen );
 #endif
         informe += Xtring::printf("\tImporte: %f,\tFecha de valor: %s\n",
@@ -305,12 +306,26 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
         }
         if( cuenta_origen->getRecordID() == 0 ) {
             FrmBase::msgError(parent,
-                              Xtring::printf( _("No se puede realizar el %s porque la cuenta %s de la forma de pago no existe"),
+                              Xtring::printf( _("No se puede realizar el asiento de %s porque la cuenta de origen '%s' no existe"),
                                               que_es.lower().c_str(), str_cuenta_origen.c_str()) );
             delete cuenta_origen;
             return;
         }
     }
+#endif
+#ifdef HAVE_TESORERIAMODULE
+    has_contab = DBAPP->findModule("tesoreria")
+                 && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
+    dbRecordID proyecto_id = 0;
+    dbRecord *cuentapago = recibo->findRelatedRecord( "CUENTAPAGO_ID" );
+    dbRecordID cuentapago_id = 0;
+	if (!cuentapago) {
+		dbRecord *formapago = recibo->findRelatedRecord( "FORMAPAGO_ID" );
+		if( formapago ) {
+			cuentapago = recibo->findRelatedRecord( "CUENTAPAGO_ID" );
+		}
+	}
+	PagosModule::sLastCuentaPago = cuentapago->getValue( "CODIGO" ).toString();
 #endif
     while( reciboid ) {
         recibo->read( reciboid );
@@ -321,10 +336,6 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
             pago = importe;
         dbRecordID moneda_id;
         Date fechapago;
-//         if( !PagosModule::sLastFechaPago.isNull() ) {
-//             // Si se acaba de borrar un recibo, sLastFechaPago tiene la fecha de pago de ese recibo
-//             fechapago = PagosModule::sLastFechaPago;
-//         } else
         fechapago = recibo->getValue( "VENCIMIENTO" ).toDate();
         PagosModule::sLastMonedaCodigo = recmoneda->getValue( "CODIGO" ).toString();
         if( pago_multiple == false ) { // Si no estamos en un pago múltiple, pedir datos
@@ -341,8 +352,15 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                 cuenta_pago_contraida = cuenta_pago;
                 cuenta_pago_contraida.contraer( contab::ModuleInstance->getMaxNivelGrupo() );
                 PagosModule::sLastCuentaPago = cuenta_pago;
+				cuentapago_id = pr->getCuentaPagoID();
             }
 #endif
+#ifdef HAVE_TESORERIAMODULE
+            if( has_contab ) {
+				PagosModule::sLastCuentaPago = pr->getCuentaPago();
+				cuentapago_id = pr->getCuentaPagoID();
+            }
+#endif				
             PagosModule::sLastDocumentoPago = pr->getDocumentoPago();
             fechapago = pr->getFechaPago();
             moneda_id = pr->getRecMonedaID();
@@ -356,16 +374,8 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
             } else if( has_contab && PagosModule::sLastCuentaPago.isEmpty() ) {
                 FrmBase::msgError( parent, _("Por favor, rellena la cuenta del pago") );
             } else {
-#ifdef HAVE_CONTABMODULE
                 if( has_contab ) {
-                    if( cuentapago_id == 0 ) {
-                        cuentapago_id = cuenta_origen->getConnection()->
-                                        selectInt( "SELECT ID FROM CUENTA" +  cuenta_origen->getFilter( "WHERE",
-                                                   "CUENTA=" + cuenta_origen->getConnection()->toSQL( PagosModule::sLastCuentaPago ) ) );
-                    }
-                    /// \todo si la cuenta no existe, choose
                 }
-#endif
                 if( pago == importe && asientoid == 0) {
                     // Pagar el recibo
                     if( moneda_id != recibo->getValue( "MONEDA_ID" ).toUInt() ) {
@@ -380,7 +390,7 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                     recibo->setValue( "ESTADORECIBO", PagosModule::ReciboPagado );
                     recibo->setValue( "RESTO", Money(0.0) );
                     recibo->setValue( "DOCUMENTOPAGO", PagosModule::sLastDocumentoPago );
-#ifdef HAVE_CONTABMODULE
+#if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
                     recibo->setValue( "CUENTAPAGO_ID", cuentapago_id );
 #endif
                     recibo->setValue( "FECHAPAGO", fechapago );
@@ -450,6 +460,8 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                         recibo->setValue( "DOCUMENTOPAGO", PagosModule::sLastDocumentoPago );
 #ifdef HAVE_CONTABMODULE
                         Xtring cuentaorigen = recibo->getValue( "CUENTAORIGEN" ).toString();
+#endif						
+#if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
                         recibo->setValue( "CUENTAPAGO_ID", cuentapago_id );
                         cuentapago->clear(false);
 #endif
@@ -530,6 +542,8 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
 #ifdef HAVE_CONTABMODULE
                         recibo->setValue( "CUENTAORIGEN", cuentaorigen );
                         recibo->setNullValue( "ASIENTO_PAGO_ID" );
+#endif						
+#if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
                         recibo->setNullValue( "CUENTAPAGO_ID" );
 #endif
                         recibo->setNullValue( "DOCUMENTOPAGO" );
@@ -571,7 +585,7 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                         recibo->setValue( "ESTADORECIBO", PagosModule::ReciboPagado );
                         recibo->setValue( "RESTO", 0 );
                         recibo->setValue( "DOCUMENTOPAGO", PagosModule::sLastDocumentoPago );
-#ifdef HAVE_CONTABMODULE
+#if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
                         recibo->setValue( "CUENTAPAGO_ID", cuentapago_id );
 #endif
                         recibo->setValue( "FECHAPAGO", fechapago );

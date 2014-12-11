@@ -19,6 +19,9 @@ public:
     Xtring getCuentaPago() const {
         return searchCuentaPago->getEditCode()->toString();
     }
+    dbRecordID getCuentaPagoID() const {
+		return searchCuentaPago->getRecord()->getRecordID();
+	}
     Money getImporte() const {
         return editImporte->toMoney();
     }

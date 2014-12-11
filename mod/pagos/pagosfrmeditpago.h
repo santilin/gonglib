@@ -116,26 +116,28 @@ protected:
 	gong::EditBox *editFechaEmision;
 	gong::EditBox *editVencimiento;
 	gong::EditBox *editFechaValor;
-	gong::SearchBox *searchMonedaCodigo;
-	QPushButton *pushMonedaCodigo;
-	gong::LineEdit *editMonedaCodigo;
-	gong::LineEdit *editMonedaNombre;
 	gong::EditBox *editImporte;
 	gong::EditBox *editResto;
 	gong::ComboBoxInt *comboEstadoRecibo;
 	gong::EditBox *editFechaPago;
 	gong::EditBox *editDocumentoPago;
+	gong::SearchBox *searchMonedaCodigo;
+	QPushButton *pushMonedaCodigo;
+	gong::LineEdit *editMonedaCodigo;
+	gong::LineEdit *editMonedaNombre;
 #ifdef HAVE_CONTABMODULE
 	gong::SearchBox *searchCuentaPagoCuenta;
 	QPushButton *pushCuentaPagoCuenta;
 	gong::LineEdit *editCuentaPagoCuenta;
 	gong::LineEdit *editCuentaPagoDescripcion;
 #endif
+#ifdef HAVE_CONTABMODULE
 	gong::EditBox *editCuentaOrigen;
+#endif
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITPAGO_CONTROLS*/
     QPushButton *pushPagar;
-    QHBoxLayout *pTercerosLayout;
+    QHBoxLayout *pTercerosLayout, *pFacturasLayout;
     gong::SearchBox *searchFacturaNumero;
     QPushButton *pushFacturaNumero;
     gong::LineEdit *editFacturaNumero, *editFacturaDesc;

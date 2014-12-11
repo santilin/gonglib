@@ -371,7 +371,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicPedidoVenta->addFieldOne2OneRelation( "TIPODOC_ID", "TIPODOC.ID", false );
     pFicPedidoVenta->addFieldInt( "CONTADOR" );
     pFicPedidoVenta->addFieldStringCode( "NUMERO", 30 )->setUnique(false);
-    pFicPedidoVenta->addFieldFecha();
+    pFicPedidoVenta->addFieldFecha()->setIsDescription(true);
     pFicPedidoVenta->addField<FldNamesListTable>( "ESTADOPEDIDO" )->setInsertAllowed(false);
     pFicPedidoVenta->addFieldOne2OneRelation( "CLIENTE_ID", "CLIENTE.ID", false );
     pFicPedidoVenta->addFieldOne2OneRelation( "AGENTE_ID", "AGENTE.ID", true );
@@ -405,7 +405,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicAlbaranVenta->addFieldOne2OneRelation( "TIPODOC_ID", "TIPODOC.ID", false );
     pFicAlbaranVenta->addFieldInt( "CONTADOR" );
     pFicAlbaranVenta->addFieldStringCode( "NUMERO", 30 )->setUnique( false );
-    pFicAlbaranVenta->addFieldFecha();
+    pFicAlbaranVenta->addFieldFecha()->setIsDescription(true);
     pFicAlbaranVenta->addFieldBool( "FACTURADO" )->setDefaultValue( "0" );
     pFicAlbaranVenta->addFieldBool( "NOFACTURABLE" )->setDefaultValue( "0" );
     pFicAlbaranVenta->addFieldOne2OneRelation( "CLIENTE_ID", "CLIENTE.ID", false );
@@ -442,7 +442,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicFacturaVenta->addFieldOne2OneRelation( "TIPODOC_ID", "TIPODOC.ID", false );
     pFicFacturaVenta->addFieldInt( "CONTADOR" );
     pFicFacturaVenta->addFieldStringCode( "NUMERO", 30 )->setUnique( false );
-    pFicFacturaVenta->addFieldFecha();
+    pFicFacturaVenta->addFieldFecha()->setIsDescription(true);
     pFicFacturaVenta->addFieldOne2OneRelation( "CLIENTE_ID", "CLIENTE.ID", false );
     pFicFacturaVenta->addFieldOne2OneRelation( "AGENTE_ID", "AGENTE.ID", true );
     pFicFacturaVenta->addFieldOne2OneRelation( "FORMAPAGO_ID", "FORMAPAGO.ID", true );
@@ -479,7 +479,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicPedidoCompra->addFieldOne2OneRelation( "TIPODOC_ID", "TIPODOC.ID", false );
     pFicPedidoCompra->addFieldInt( "CONTADOR" );
     pFicPedidoCompra->addFieldStringCode( "NUMERO", 30 )->setUnique( false );
-    pFicPedidoCompra->addFieldFecha();
+    pFicPedidoCompra->addFieldFecha()->setIsDescription(true);
     pFicPedidoCompra->addField<FldNamesListTable>( "ESTADOPEDIDO" )->setInsertAllowed(false);
     pFicPedidoCompra->addFieldOne2OneRelation( "PROVEEDORA_ID", "PROVEEDORA.ID", false );
     pFicPedidoCompra->addFieldOne2OneRelation( "AGENTE_ID", "AGENTE.ID", true );
@@ -513,7 +513,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicAlbaranCompra->addFieldOne2OneRelation( "TIPODOC_ID", "TIPODOC.ID", false );
     pFicAlbaranCompra->addFieldInt( "CONTADOR" );
     pFicAlbaranCompra->addFieldStringCode( "NUMERO", 30 )->setUnique(false);
-    pFicAlbaranCompra->addFieldFecha();
+    pFicAlbaranCompra->addFieldFecha()->setIsDescription(true);
     pFicAlbaranCompra->addFieldBool( "FACTURADO" )->setDefaultValue( "0" );
     pFicAlbaranCompra->addFieldBool( "NOFACTURABLE" )->setDefaultValue( "0" );
     pFicAlbaranCompra->addFieldOne2OneRelation( "PROVEEDORA_ID", "PROVEEDORA.ID", false );
@@ -555,7 +555,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicFacturaCompra->addFieldOne2OneRelation( "TIPODOC_ID", "TIPODOC.ID", false );
     pFicFacturaCompra->addFieldInt( "CONTADOR" );
     pFicFacturaCompra->addFieldStringCode( "NUMERO", 30 )->setUnique(false);
-    pFicFacturaCompra->addFieldFecha();
+    pFicFacturaCompra->addFieldFecha()->setIsDescription(true);
     pFicFacturaCompra->addFieldOne2OneRelation( "PROVEEDORA_ID", "PROVEEDORA.ID", false );
     pFicFacturaCompra->addFieldOne2OneRelation( "AGENTE_ID", "AGENTE.ID", true );
     pFicFacturaCompra->addFieldOne2OneRelation( "FORMAPAGO_ID", "FORMAPAGO.ID", true );

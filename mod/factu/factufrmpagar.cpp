@@ -33,13 +33,13 @@ FrmPagar::FrmPagar(bool has_contab,
     editFechaPago = addInputField( 0, Xtring::null, "COBRO", "FECHAPAGO", fechapago );
 	searchCuentaPago = 0;
 #ifdef HAVE_CONTABMODULE
-    if( has_contab ) {
+    if( mHasContab ) {
         searchCuentaPago = addSearchField( 0, "CUENTA", "CUENTA", "DESCRIPCION" );
         searchCuentaPago->getEditCode()->setText( cuentapago );
         searchCuentaPago->getEditCode()->setJustEdited( true );
     }
 #elif defined( HAVE_TESORERIAMODULE )
-    if( has_contab ) {
+    if( mHasContab ) {
         searchCuentaPago = addSearchField( 0, "CUENTATESORERIA", "CODIGO", "NOMBRE" );
         searchCuentaPago->getEditCode()->setText( cuentapago );
         searchCuentaPago->getEditCode()->setJustEdited( true );
@@ -77,6 +77,6 @@ void FrmPagar::validate_input(QWidget* search, bool* is_valid)
 }
 
 
+} // namespace factu
 } // namespace gong
-} // namespace sociasfrmpagarrecibo
 

@@ -201,5 +201,4 @@ void SearchBox::setReadOnly(bool readonly)
 	}
 }
 
-
 } // namespace

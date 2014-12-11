@@ -10,14 +10,14 @@
 // FIELD FechaEmision date - fechas
 // FIELD Vencimiento date - fechas
 // FIELD FechaValor date - fechas
-// FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - importes
 // FIELD Importe money - importes
 // FIELD Resto Money - importes
 // FIELD EstadoRecibo comboint - importes
 // FIELD FechaPago date - pago
 // FIELD DocumentoPago string - pago
+// FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - leftmoneda
 // FIELD CuentaPago_ID Reference(contab::Cuenta,Cuenta,Descripcion) - contab MODULE_INCLUDED(Contab)
-// FIELD CuentaOrigen string - contab
+// FIELD CuentaOrigen string - contab MODULE_INCLUDED(Contab)
 // FIELD Notas text - notas
 // TYPE FrmEditRecMaster pagos::Pago
 /*>>>>>MODULE_INFO*/
@@ -51,12 +51,17 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
     searchTerceroCodigo = 0;
     pTercerosLayout = new QHBoxLayout();
     pControlsLayout->addLayout(pTercerosLayout);
-    /*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
+	alignLayout( pTercerosLayout, true );
+    pFacturasLayout = new QHBoxLayout();
+    pControlsLayout->addLayout(pFacturasLayout);
+	alignLayout( pFacturasLayout, true );
+/*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *descLayout = new QHBoxLayout(0, 0, 6, "descLayout");
 	QHBoxLayout *fechasLayout = new QHBoxLayout(0, 0, 6, "fechasLayout");
 	QHBoxLayout *importesLayout = new QHBoxLayout(0, 0, 6, "importesLayout");
 	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
+	QHBoxLayout *leftmonedaLayout = new QHBoxLayout(0, 0, 6, "leftmonedaLayout");
 	QHBoxLayout *contabLayout = new QHBoxLayout(0, 0, 6, "contabLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	checkAutomatico = addCheckField( pControlsFrame, "PAGO", "AUTOMATICO", numeroLayout );
@@ -67,17 +72,17 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	editFechaEmision = addEditField( pControlsFrame, "PAGO", "FECHAEMISION", fechasLayout );
 	editVencimiento = addEditField( pControlsFrame, "PAGO", "VENCIMIENTO", fechasLayout );
 	editFechaValor = addEditField( pControlsFrame, "PAGO", "FECHAVALOR", fechasLayout );
-
-	searchMonedaCodigo = addSearchField( pControlsFrame, "MONEDA_ID", "MONEDA", "CODIGO", "NOMBRE", importesLayout );
-	pushMonedaCodigo = searchMonedaCodigo->getButton();
-	connect( pushMonedaCodigo, SIGNAL( clicked() ), this, SLOT( pushMonedaCodigo_clicked() ) );
-	editMonedaCodigo = searchMonedaCodigo->getEditCode();
-	editMonedaNombre = searchMonedaCodigo->getEditDesc();
 	editImporte = addEditField( pControlsFrame, "PAGO", "IMPORTE", importesLayout );
 	editResto = addEditField( pControlsFrame, "PAGO", "RESTO", importesLayout );
 	comboEstadoRecibo = addComboIntField( pControlsFrame, "PAGO", "ESTADORECIBO", importesLayout );
 	editFechaPago = addEditField( pControlsFrame, "PAGO", "FECHAPAGO", pagoLayout );
 	editDocumentoPago = addEditField( pControlsFrame, "PAGO", "DOCUMENTOPAGO", pagoLayout );
+
+	searchMonedaCodigo = addSearchField( pControlsFrame, "MONEDA_ID", "MONEDA", "CODIGO", "NOMBRE", leftmonedaLayout );
+	pushMonedaCodigo = searchMonedaCodigo->getButton();
+	connect( pushMonedaCodigo, SIGNAL( clicked() ), this, SLOT( pushMonedaCodigo_clicked() ) );
+	editMonedaCodigo = searchMonedaCodigo->getEditCode();
+	editMonedaNombre = searchMonedaCodigo->getEditDesc();
 
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
@@ -88,13 +93,19 @@ if( ModuleInstance->getContabModule() ) {
 	editCuentaPagoDescripcion = searchCuentaPagoCuenta->getEditDesc();
 }
 #endif
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
 	editCuentaOrigen = addEditField( pControlsFrame, "PAGO", "CUENTAORIGEN", contabLayout );
+}
+#endif
 	editNotas = addTextField( pControlsFrame, "PAGO", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( numeroLayout );
 	pControlsLayout->addLayout( descLayout );
 	pControlsLayout->addLayout( fechasLayout );
 	pControlsLayout->addLayout( importesLayout );
 	pControlsLayout->addLayout( pagoLayout );
+	pControlsLayout->addLayout( leftmonedaLayout );
+	alignLayout( leftmonedaLayout, true );
 	pControlsLayout->addLayout( contabLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITPAGO_INIT_CONTROLS*/
@@ -129,7 +140,7 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
 			}
         }
         searchFacturaNumero = addSearchField( pControlsFrame, "FACTURA_ID", tablafacturas,
-                                              mFldFactCodigo, mFldFactDesc, pTercerosLayout );
+                                              mFldFactCodigo, mFldFactDesc, pFacturasLayout );
         pushFacturaNumero = searchFacturaNumero->getButton();
         connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ), Qt::UniqueConnection );
         editFacturaNumero = searchFacturaNumero->getEditCode();
@@ -394,27 +405,34 @@ if( ModuleInstance->getContabModule() ) {
 
 void FrmEditPago::scatterFields()
 {
-    if( getRecFactura() == 0 ) {
-        throw std::runtime_error( _("El documento origen de este pago no está definido. Intenta volver a generarlo."));
-    }
-    if( getRecTercero() == 0 ) {
-        throw std::runtime_error( _("La entidad origen de este pago no está definida. Intenta volver a generarlo."));
-    }
-    if( isDuplicating() ) {
-        getRecPago()->setValue( "NUMERO", 0 );
-        getRecPago()->setValue( "CONTADOR", 0 );
-        getRecPago()->setValue( "NUMEROAGRUPADO", 0 );
-        getRecPago()->setValue( "ESTADORECIBO", pagos::PagosModule::ReciboPendiente );
-        getRecPago()->setValue( "RESTO", Money(0.0) );
-        getRecPago()->setValue( "FECHAPAGO", Date() );
-        getRecPago()->setValue( "DOCUMENTOPAGO", Xtring::null );
+	if (isFirstScatter()) {
+		if( getRecFactura() == 0 ) {
+			throw std::runtime_error( _("El documento origen de este pago no está definido. Intenta volver a generarlo."));
+		}
+		if( getRecTercero() == 0 ) {
+			throw std::runtime_error( _("La entidad origen de este pago no está definida. Intenta volver a generarlo."));
+		}
+		if( isDuplicating() ) {
+			getRecPago()->setValue( "NUMERO", 0 );
+			getRecPago()->setValue( "CONTADOR", 0 );
+			getRecPago()->setValue( "NUMEROAGRUPADO", 0 );
+			getRecPago()->setValue( "ESTADORECIBO", pagos::PagosModule::ReciboPendiente );
+			getRecPago()->setValue( "RESTO", Money(0.0) );
+			getRecPago()->setValue( "FECHAPAGO", Date() );
+			getRecPago()->setValue( "DOCUMENTOPAGO", Xtring::null );
 #ifdef HAVE_CONTABMODULE
-        getRecPago()->setValue( "CUENTAPAGO_ID", 0 );
-        getRecPago()->setValue( "ASIENTO_CARGO_ID", 0 );
-        getRecPago()->setValue( "ASIENTO_PAGO_ID", 0 );
+			getRecPago()->setValue( "CUENTAPAGO_ID", 0 );
+			getRecPago()->setValue( "ASIENTO_CARGO_ID", 0 );
+			getRecPago()->setValue( "ASIENTO_PAGO_ID", 0 );
 #endif
-    }
-    /*<<<<<FRMEDITPAGO_SCATTER*/
+		}
+		completa( pRecord->getValue( "TABLAFACTURAS" ).toString(), Xtring::null, Xtring::null,
+					pRecord->getValue( "TABLATERCEROS" ).toString(), Xtring::null, Xtring::null,
+					Xtring::null, Xtring::null, false );
+		scatterFactura();
+		scatterTercero();
+	}    
+/*<<<<<FRMEDITPAGO_SCATTER*/
 	checkAutomatico->setChecked(getRecPago()->getValue("AUTOMATICO").toBool());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = checkAutomatico;
@@ -430,13 +448,19 @@ void FrmEditPago::scatterFields()
 	comboEstadoRecibo->setCurrentItemByValue(getRecPago()->getValue("ESTADORECIBO").toInt());
 	editFechaPago->setText(getRecPago()->getValue("FECHAPAGO").toDate());
 	editDocumentoPago->setText(getRecPago()->getValue("DOCUMENTOPAGO").toString());
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
 	editCuentaOrigen->setText(getRecPago()->getValue("CUENTAORIGEN").toString());
+}
+#endif
 	editNotas->setText(getRecPago()->getValue("NOTAS").toString());
 	scatterMoneda();
+#ifdef HAVE_CONTABMODULE
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	scatterCuentaPago();
 }
+#endif
 #endif
 /*>>>>>FRMEDITPAGO_SCATTER*/
     if( isInserting() )
@@ -451,7 +475,9 @@ if( ModuleInstance->getContabModule() ) {
         comboEstadoRecibo->setMustBeReadOnly(true);
         editImporte->setMustBeReadOnly(true);
         editResto->setMustBeReadOnly(true);
+#ifdef HAVE_CONTABMODULE		
         editCuentaOrigen->setMustBeReadOnly(true);
+#endif		
         searchMonedaCodigo->setMustBeReadOnly(true);
     } else {
         if( editNumero->toInt() == 0 )
@@ -459,7 +485,7 @@ if( ModuleInstance->getContabModule() ) {
         if( editNumeroAgrupado->toInt() == 0 )
             editNumeroAgrupado->setText( editNumero->toInt() );
     }
-    if( getRecPago()->getValue( "ESTADORECIBO").toInt() == PagosModule::ReciboPagado ) {
+    if( getRecPago()->getValue("ESTADORECIBO").toInt() == PagosModule::ReciboPagado ) {
         editVencimiento->setMustBeReadOnly( true );
         editFechaValor->setMustBeReadOnly(true);
     }
@@ -478,18 +504,22 @@ void FrmEditPago::gatherFields()
 	getRecPago()->setValue( "FECHAEMISION", editFechaEmision->toDate());
 	getRecPago()->setValue( "VENCIMIENTO", editVencimiento->toDate());
 	getRecPago()->setValue( "FECHAVALOR", editFechaValor->toDate());
-	getRecPago()->setValue( "MONEDA_ID", getRecMoneda()->getRecordID() );
 	getRecPago()->setValue( "IMPORTE", editImporte->toMoney());
 	getRecPago()->setValue( "RESTO", editResto->toMoney());
 	getRecPago()->setValue( "ESTADORECIBO", comboEstadoRecibo->getCurrentItemValue());
 	getRecPago()->setValue( "FECHAPAGO", editFechaPago->toDate());
 	getRecPago()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
+	getRecPago()->setValue( "MONEDA_ID", getRecMoneda()->getRecordID() );
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	getRecPago()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
 }
 #endif
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
 	getRecPago()->setValue( "CUENTAORIGEN", editCuentaOrigen->toString());
+}
+#endif
 	getRecPago()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITPAGO_GATHER*/
     getRecPago()->setValue( "RAZONSOCIAL", getRecTercero()->getValue( mFldTercDesc ) );
@@ -628,6 +658,8 @@ void FrmEditPago::pushPagar_clicked()
         if( getRecPago()->getValue( "ESTADORECIBO").toInt() == PagosModule::ReciboPendiente ) {
 #ifdef HAVE_CONTABMODULE
             bool supervisar = contab::ModuleInstance->getModuleSetting( "SUPERVISAR_ASIENTOS" ).toBool();
+#elif defined( HAVE_TESORERIAMODULE)
+            bool supervisar = tesoreria::ModuleInstance->getModuleSetting( "SUPERVISAR_APUNTES" ).toBool();
 #else
             bool supervisar = false;
 #endif
@@ -656,9 +688,6 @@ bool FrmEditPago::canBeginEdit(EditMode newmode)
             return false;
         }
     }
-    completa( pRecord->getValue( "TABLAFACTURAS" ).toString(), Xtring::null, Xtring::null,
-              pRecord->getValue( "TABLATERCEROS" ).toString(), Xtring::null, Xtring::null,
-              Xtring::null, Xtring::null, false );
     return true;
 }
 
