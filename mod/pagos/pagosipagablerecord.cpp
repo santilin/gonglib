@@ -8,6 +8,9 @@
 #include "pagosreccobro.h"
 #include "pagosipagablerecord.h"
 
+#ifdef HAVE_TESORERIAMODULE
+#include <tesoreriaiapuntablerecord.h>
+#endif
 #ifdef HAVE_CONTABMODULE
 #include <contabmodule.h>
 #endif
@@ -263,7 +266,6 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                                   dbRecord *recibo, bool supervisar )
 {
     bool pagado = false;
-    dbRecordID asientoid = 0;
     Money importe = 0.0;
     Money pago = 0.0;
     bool has_contab = false;
@@ -278,6 +280,7 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
     Xtring numeroagrupado = recibo->getValue( "NUMEROAGRUPADO" ).toString();
     if( numeroagrupado.isEmpty() )
         numeroagrupado = recibo->getValue( "NUMERO" ).toString();
+    dbRecordID asientoid = 0;
 #ifdef HAVE_CONTABMODULE
     has_contab = contab::ModuleInstance->isContabActive()
                  && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
@@ -374,8 +377,6 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
             } else if( has_contab && PagosModule::sLastCuentaPago.isEmpty() ) {
                 FrmBase::msgError( parent, _("Por favor, rellena la cuenta del pago") );
             } else {
-                if( has_contab ) {
-                }
                 if( pago == importe && asientoid == 0) {
                     // Pagar el recibo
                     if( moneda_id != recibo->getValue( "MONEDA_ID" ).toUInt() ) {
@@ -429,6 +430,15 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                         }
                         delete asiento;
                     }
+#endif
+#ifdef HAVE_TESORERIAMODULE
+					if( has_contab ) {
+						if( DBAPP->findModule("tesoreria") ) {
+							bool supervisar = tesoreria::ModuleInstance->getModuleSetting( "SUPERVISAR_APUNTES" ).toBool();
+							dynamic_cast<tesoreria::IApuntableRecord *>(recibo)->regenApunte( supervisar );
+						}
+					}
+				
 #endif
                     reciboid = 0;
                     pago_multiple = false;
@@ -526,6 +536,15 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                                 delete asiento;
                             }
                         }
+#endif
+#ifdef HAVE_TESORERIAMODULE
+						if( has_contab ) {
+							if( DBAPP->findModule("tesoreria") ) {
+								bool supervisar = tesoreria::ModuleInstance->getModuleSetting( "SUPERVISAR_APUNTES" ).toBool();
+								dynamic_cast<tesoreria::IApuntableRecord *>(recibo)->regenApunte( supervisar );
+							}
+						}
+				
 #endif
                         // Generar un nuevo recibo con importe = resto
                         // dont use gaps
@@ -649,6 +668,14 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                                 delete asiento;
                             }
                         }
+#endif
+#ifdef HAVE_TESORERIAMODULE
+						if( has_contab ) {
+							if( DBAPP->findModule("tesoreria") ) {
+								bool supervisar = tesoreria::ModuleInstance->getModuleSetting( "SUPERVISAR_APUNTES" ).toBool();
+								dynamic_cast<tesoreria::IApuntableRecord *>(recibo)->regenApunte( supervisar );
+							}
+						}
 #endif
                         pago = pago - importe;
                         if( pago <= 0.0 ) {

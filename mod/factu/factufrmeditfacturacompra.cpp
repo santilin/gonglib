@@ -233,9 +233,6 @@ void FrmEditFacturaCompra::scatterFields()
 	editFecha->setText(getRecFacturaCompra()->getValue("FECHA").toDate());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editFecha;
-	if( mIsFirstScatter ) {
-		getRecFacturaCompra()->setValue("TIPODOC_ID", 2);
-	}
 	editNumero->setText(getRecFacturaCompra()->getValue("NUMERO").toString());
 	comboIVADetallado->setCurrentItemByValue(getRecFacturaCompra()->getValue("IVADETALLADO").toInt());
 	editContador->setText(getRecFacturaCompra()->getValue("CONTADOR").toInt());

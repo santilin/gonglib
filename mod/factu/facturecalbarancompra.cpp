@@ -13,7 +13,7 @@
 // INTERFACE public factu::IPagableAlbaran
 // INTERFACE public factu::IIVADesglosable
 // INTERFACE public factu::IAsentableFactura #ifdef|HAVE_CONTABMODULE
-// INTERFACE public factu::IApuntableFactura #ifdef|HAVE_TESORERIAMODULE
+// INTERFACE public tesoreria::IApuntableRecord #ifdef|HAVE_TESORERIAMODULE
 // INTERFACE public factu::ITotalizableRecord
 // TYPE dbRecord factu::AlbaranCompra
 /*>>>>>MODULE_INFO*/

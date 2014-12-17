@@ -18,7 +18,6 @@ tesoreria::RecCuentaTesoreria *RecFormaPago::getRecCuentaTesoreria() const
 {
 	return static_cast<tesoreria::RecCuentaTesoreria*>(findRelatedRecord("CUENTATESORERIA_ID"));
 }
-
 #endif
 /*>>>>>FORMAPAGO_RELATIONS*/
 

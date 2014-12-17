@@ -260,9 +260,11 @@ if(empresa::ModuleInstance->usaProyectos()){
 	scatterProyecto();
 }
 #ifdef HAVE_CONTABMODULE
+#ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	scatterCuentaPago();
 }
+#endif
 #endif
 /*>>>>>FRMEDITALBARANVENTA_SCATTER*/
     if( isInserting() ) {

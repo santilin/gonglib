@@ -200,9 +200,11 @@ if( ModuleInstance->getContabModule() ) {
 		}
 	}
 #ifdef HAVE_TESORERIAMODULE
+#ifdef HAVE_TESORERIAMODULE
 if( ModuleInstance->getTesoreriaModule() ) {
 	scatterCuentaTesoreria();
 }
+#endif
 #endif
 /*>>>>>FRMEDITFORMAPAGO_SCATTER*/
     enableControlesPago();

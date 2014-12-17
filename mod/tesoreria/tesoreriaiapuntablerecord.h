@@ -15,7 +15,7 @@ namespace tesoreria {
 class IApuntableRecord
 {
 public:
-    IApuntableRecord( dbRecord *record, const Xtring &apunte_id_field, const Xtring &cuenta_tesoreria_id_field,
+    IApuntableRecord( dbRecord *record, const Xtring &apunte_tesoreria_id_field, const Xtring &cuenta_tesoreria_id_field,
 		const Xtring &fecha_field, const Xtring &importe_field, const Xtring &referencia_field, 
 		const Xtring &tablaterceros, const Xtring &tercero_id_field, const Xtring &tercero_field,
 		const Xtring &tablaconceptos, const Xtring &concepto_id_field, const Xtring &concepto_field,

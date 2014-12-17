@@ -881,7 +881,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 	if( sender == editEntrega && editEntrega->isJustEdited() ) {	
         actTotales();
     }
-/*<<<<<FRMEDITALBARANCOMPRA_CABECERA_VALIDATE*/	
+/*<<<<<FRMEDITALBARANCOMPRA_CABECERA_VALIDATE*/
 	if( sender == editDtoP100 && editDtoP100->isJustEdited() ) {
 		editDescuento->setText( 0.0 );
 		actTotales();

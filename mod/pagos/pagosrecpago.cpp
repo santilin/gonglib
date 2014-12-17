@@ -4,6 +4,7 @@
 // Member save
 // Member remove
 // Relation empresa::Moneda
+// INTERFACE public tesoreria::IApuntableRecord #ifdef|HAVE_TESORERIAMODULE
 // TYPE dbRecord pagos::Pago
 /*>>>>>MODULE_INFO*/
 
@@ -90,10 +91,12 @@ dbRecord *RecPago::getRecTercero()
 bool RecPago::save(bool saverelated) throw( dbError )
 {
 /*>>>>>PAGO_SAVE*/
-    if( getValue( "CONTADOR" ).toInt() == 0 )
-        setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
+	if( saverelated ) {
+		if( getValue( "CONTADOR" ).toInt() == 0 )
+			setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
+	}
     bool ret = dbRecord::save(saverelated);
-    if( ret ) {
+    if( ret && saverelated) {
 #ifdef HAVE_PAGOSMODULE
         actPagosFactura();
 #endif
@@ -113,7 +116,7 @@ bool RecPago::remove() throw( dbError )
 #ifdef HAVE_PAGOSMODULE
         actPagosFactura();
 #endif
-    }
+	}
     return ret;
 }
 
