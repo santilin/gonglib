@@ -600,14 +600,10 @@ void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResul
             *isvalid = false;
     } else {
         if( sender == editNombre && editNombre->isJustEdited() && editCodigo->toString().isEmpty() ) {
-            editCodigo->setText( getRecArticulo()->genCodigoArticulo(
+			gather();
+            editCodigo->setText( getRecArticulo()->genCodigoArticulo(),
                                      getRecProveedora()->getValue( "GENCODARTICULO" ).toInt(),
-                                     getRecProveedora()->getValue( "FORMATCODARTICULO" ).toString(),
-                                     editNombre->toString(),
-                                     getRecFamilia()->getValue( "CODIGO" ).toInt(),
-                                     getRecFamilia()->getValue( "NOMBRE" ).toString(),
-                                     getRecProveedora()->getValue( "CODIGO" ).toInt(),
-                                     getRecProveedora()->getValue( "RAZONSOCIAL" ).toString() ) );
+                                     getRecProveedora()->getValue( "FORMATCODARTICULO" ).toString() );
         }
     }
 

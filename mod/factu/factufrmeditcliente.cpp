@@ -82,6 +82,7 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 	editNotas = addTextField( tabExtra, "CLIENTE", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( codigoLayout );
+	pControlsLayout->addWidget( pFrameContactos );
 	pControlsLayout->addLayout( formapago_idLayout );
 	pControlsLayout->addLayout( nombrealtLayout );
 	pControlsLayout->addLayout( leftotrosLayout );
