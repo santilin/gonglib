@@ -14,6 +14,10 @@ Informes -> Socios -> Saldos -> Normales fecha mostrar
 == PAGOS ==
 
 == HACER ==
+* frmeditdetalles: no pasa la cantidad del grid al formulario.
+* Iniciar tpv, cuando no hay clientes, sale la ventana de elegir cliente, y si no se elige, vuelve a pedirlo.
+* Factu: formatCodigoArticulo: hacer antes un gather y poder utilizar cualquier campo del artículo.
+* Factu: Informe de existencias máximas y mínimas.
 * Duplicar código albarán compra en albaran venta, factura venta, pedido compra, pedido venta, factura compra, liquidaciones
 * Duplicar código pagos en cobros
 * Al copiar las ofertas a mysql, mostrar osd

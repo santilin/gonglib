@@ -199,7 +199,7 @@ void RecArticulo::fixPrecios( const Xtring &fldchanged )
 
 
 XtringList RecArticulo::sModalidades = XtringList()
-                                       << _("Formato fijo")
+                                       << _("Según formato")
                                        << _("Siguiente código de la proveedora")
                                        << _("Siguiente código de la familia")
                                        << _("Siguiente código de la familia y la proveedora")
@@ -208,15 +208,13 @@ XtringList RecArticulo::sModalidades = XtringList()
 									   << _("ISBN")
 									   << _("Código QR");
 
-Xtring RecArticulo::genCodigoArticulo(int modalidad, const Xtring &formato,
-                                      const Xtring &nameart, int codfam, const Xtring &namefam,
-                                      int codpro, const Xtring &namepro) const
+Xtring RecArticulo::genCodigoArticulo(int modalidad, const Xtring &formato ) const
 {
     Xtring codart, last;
     if( getRecProveedora()->getRecordID() != 0 ) {
         Xtring from, where;
         Xtring buscar_formato = formatCodigoArticulo( "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
-                                formato, nameart, codfam, namefam, codpro, namepro );
+                                formato, nameart, codfam, namefam, codpro, namepro, referencia );
         // Buscar el último código
         switch( modalidad ) {
         case GenCodArtFijo:
@@ -251,12 +249,12 @@ Xtring RecArticulo::genCodigoArticulo(int modalidad, const Xtring &formato,
                 last = "1";
         }
     }
-    return formatCodigoArticulo( last, formato, nameart, codfam, namefam, codpro, namepro );
+    return formatCodigoArticulo( last, formato );
 }
 
 Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &formato,
         const Xtring &nameart, int codfam, const Xtring &namefam,
-        int codpro, const Xtring &namepro) const
+        int codpro, const Xtring &namepro, const Xtring &referencia) const
 {
     int codempresa = empresa::ModuleInstance->getRecEmpresa()->getValue( "CODIGO" ).toInt();
     int ejercicio = empresa::ModuleInstance->getEjercicio();
@@ -271,7 +269,7 @@ Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &forma
             Xtring fieldandsize, field, size;
             while( formato[i] != '}' && i < formato.size() )
                 fieldandsize += formato[i++];
-            fieldandsize.splitIn2( field, size, ":" );
+            fieldandsize.lower().splitIn2( field, size, ":" );
             Xtring bit;
             char padding = '0';
             if( field == "eje" || field == "ejercicio" ) {
@@ -291,6 +289,9 @@ Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &forma
             } else if( field == "nompro" || field == "proveedora" ) {
                 bit = namepro;
                 padding = ' ';
+			} else if( field == "ref" || field == "referencia" ) {
+				bit = referencia;
+				padding = ' ';
             } else {
                 _GONG_DEBUG_WARNING( "Field " + field + " not found" );
                 result += fieldandsize;
