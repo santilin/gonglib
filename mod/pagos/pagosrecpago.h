@@ -54,8 +54,8 @@ public:
         , pRecFactura(0), pRecTercero(0)
 #ifdef HAVE_TESORERIAMODULE
         , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "IMPORTE", "NUMERO", 
-							"TABLATERCEROS", "TERCERO_ID", Xtring::null, 
-							Xtring::null, Xtring::null, Xtring::null,
+							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
+							Xtring::null, false, Xtring::null, Xtring::null,
 							"NOTAS", Xtring::null )
 #endif
     { };
@@ -64,8 +64,8 @@ public:
         , pRecFactura(0), pRecTercero(0)
 #ifdef HAVE_TESORERIAMODULE
         , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "IMPORTE", "NUMERO", 
-							"TABLATERCEROS", "TERCERO_ID", Xtring::null, 
-							Xtring::null, Xtring::null, Xtring::null,
+							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
+							Xtring::null, false, Xtring::null, Xtring::null,
 							"NOTAS", Xtring::null )
 #endif
     { };

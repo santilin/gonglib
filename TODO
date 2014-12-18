@@ -1,4 +1,6 @@
 == HECHO ==
+* Pagar pago o cobro: Pedir cuenta de tesorería
+* Debe, haber y saldo en vez de cargo e importe.
 
 == HACIENDO ==
 
@@ -6,8 +8,7 @@
 Informes -> Socios -> Saldos -> Normales fecha mostrar
 
 == TESORERIA ==
-* Pagar pago o cobro: Pedir cuenta de tesorería
-* Debe, haber y saldo en vez de cargo e importe.
+* Tablaterceros y tablatercerosfield (boolean)
 * Generar apunte desde albarán, factura, pago, cobro, etc.
 * Tesorería de ofertas
 
@@ -16,6 +17,8 @@ Informes -> Socios -> Saldos -> Normales fecha mostrar
 == HACER ==
 * Duplicar código albarán compra en albaran venta, factura venta, pedido compra, pedido venta, factura compra, liquidaciones
 * Duplicar código pagos en cobros
+* Ofertas, volcar solo las del ejercicio actual
+* Oferats: No vuelca de otros albaranes, etc.
 * Al copiar las ofertas a mysql, mostrar osd
 * Búsquedas por nombre alternativo
 

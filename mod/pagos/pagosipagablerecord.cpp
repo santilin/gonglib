@@ -747,6 +747,27 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
             pideanularpago = false;
         }
 #endif
+#ifdef HAVE_TESORERIAMODULE
+        bool has_contab = false;
+        has_contab = tesoreria::ModuleInstance->isContabActive()
+                     && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
+        if( has_contab ) {
+            dbRecord *cuentapago;
+            if( mTipo == pagos ) {
+                cuentapago = static_cast<RecPago *>(recibo)->getRecCuentaPago();
+            } else {
+                cuentapago = static_cast<RecCobro *>(recibo)->getRecCuentaPago();
+            }
+            anularpago = FrmBase::msgYesNoCancel( parent,
+                                                  Xtring::printf( _("¿Estás segura de borrar este pago realizado el día %s por un importe de %f,\n"
+                                                          " por la cuenta '%s' y mediante el documento '%s'?"),
+                                                          recibo->getValue( "FECHAPAGO" ).toDate().toString().c_str(),
+                                                          recibo->getValue( "IMPORTE" ).toMoney().toDouble(),
+                                                          cuentapago->getValue( "DESCRIPCION" ).toString().c_str(),
+                                                          recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes;
+            pideanularpago = false;
+        }
+#endif
         if( pideanularpago )
             anularpago = FrmBase::msgYesNoCancel( parent,
                                                   Xtring::printf( _("¿Estás segura de borrar este pago realizado el día %s por un importe de %f,\n"
@@ -793,6 +814,35 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                 }
             }
 #endif
+#ifdef HAVE_TESORERIAMODULE
+            if( has_contab ) {
+                dbRecordID apunteid = recibo->getValue( "APUNTE_ID" ).toInt();
+                if( apunteid ) {
+                    tesoreria::RecApunte *apunte = static_cast<tesoreria::RecApunte *>(DBAPP->createRecord( "APUNTE" ));
+                    if( apunte->read( apunteid ) ) {
+                        switch( FrmBase::msgYesNoCancel( parent,
+                                                         Xtring::printf( _( "Este pago está contabilizado en el apunte de tesorería %d de fecha %s.\n"
+                                                                 "¿Quieres borrar el apunte asociado a este pago?"),
+                                                                 apunte->getValue( "NUMERO" ).toInt(),
+                                                                 apunte->getValue( "FECHA" ).toString().c_str() ) ) ) {
+                        case FrmBase::Yes: {
+                            try {
+                                if( !apunte->remove() )
+                                    anulapago = false;
+                            } catch( dbError &e ) {
+                                FrmBase::msgError( parent,
+                                                   Xtring(e.what()) + _(". Borra el apunte a mano y vuelve a intentarlo."));
+                                anulapago = false;
+                            }
+                            break;
+                            case FrmBase::Cancel:
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+#endif
             if( anulapago ) {
                 // Anular el pago
                 PagosModule::sLastDocumentoPago = recibo->getValue( "DOCUMENTOPAGO" ).toString();
@@ -814,6 +864,17 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                         PagosModule::sLastCuentaPago = static_cast<RecCobro *>(recibo)->getRecCuentaPago()->getValue( "CUENTA" ).toString();
                 }
 #endif
+#ifdef HAVE_TESORERIAMODULE
+                // Puede que dé error de que no existen, pero mejor que lo de a que se quede un valor erróneo
+                recibo->setNullValue( "APUNTE_ID" );
+                recibo->setNullValue( "CUENTAPAGO_ID" );
+                if( has_contab ) {
+                    if( mTipo == pagos )
+                        PagosModule::sLastCuentaPago = static_cast<RecPago *>(recibo)->getRecCuentaPago()->getValue( "CODIGO" ).toString();
+                    else
+                        PagosModule::sLastCuentaPago = static_cast<RecCobro *>(recibo)->getRecCuentaPago()->getValue( "CODIGO" ).toString();
+                }
+#endif                
                 try {
                     if( recibo->save(false) )
                         actRestoFactura();

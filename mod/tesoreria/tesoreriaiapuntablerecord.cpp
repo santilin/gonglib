@@ -9,14 +9,14 @@ namespace tesoreria {
 
 IApuntableRecord::IApuntableRecord(dbRecord* record, const Xtring& apunte_id_field, const Xtring& cuenta_tesoreria_id_field, 
 	const Xtring& fecha_field, const Xtring& importe_field, const Xtring& referencia_field, 
-	const Xtring& tablaterceros, const Xtring& tercero_id_field, const Xtring& tercero_field, 
-	const Xtring& tablaconceptos, const Xtring& concepto_id_field, const Xtring& concepto_field, 
+	const Xtring& tablaterceros, bool terceros_is_field, const Xtring& tercero_id_field, const Xtring& tercero_field, 
+	const Xtring& tablaconceptos, bool conceptos_is_field, const Xtring& concepto_id_field, const Xtring& concepto_field, 
 	const Xtring& notas_field, const Xtring& proyecto_id_field)
 	: pRecord(record), mApunteIDField(apunte_id_field), mCuentaTesoreriaIDField(cuenta_tesoreria_id_field), mFechaField(fecha_field), 
 		mImporteField(importe_field), mReferenciaField(referencia_field), mTablaTerceros(tablaterceros), 
-		mTerceroIDField(tercero_id_field), mTerceroField(tercero_field), mTablaConceptos(tablaconceptos),
-		mConceptoIDField(concepto_id_field), mConceptoField(concepto_field), mNotasField(notas_field),
-		mProyectoIDField(proyecto_id_field)
+		mTercerosIsField( terceros_is_field), mTerceroIDField(tercero_id_field), mTerceroField(tercero_field), 
+		mTablaConceptos(tablaconceptos), mConceptosIsField(conceptos_is_field),	mConceptoIDField(concepto_id_field), 
+		mConceptoField(concepto_field), mNotasField(notas_field), mProyectoIDField(proyecto_id_field)
 {
 }
 
@@ -82,7 +82,11 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	apunte->setValue( "REFERENCIA", pRecord->getValue(mReferenciaField) );
 	if( mTablaTerceros == Xtring::null && mTerceroField == Xtring::null ) {
 	} else if( mTablaTerceros != Xtring::null ) {
-		apunte->setValue( "TABLATERCEROS", mTablaTerceros );
+		if( mTercerosIsField ) {
+			apunte->setValue( "TABLATERCEROS", pRecord->getValue(mTablaTerceros) );
+		} else {
+			apunte->setValue( "TABLATERCEROS", mTablaTerceros );
+		}
 		apunte->setValue( "TERCERO_ID", pRecord->getValue(mTerceroIDField) );
 		dbRecordRelation *rel_tercero = pRecord->findRelationByRelatedTable(mTablaTerceros);
 		if( rel_tercero ) {
@@ -94,7 +98,11 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	if( mTablaConceptos == Xtring::null && mConceptoField == Xtring::null ) {
 		apunte->setValue( "CONCEPTO", pRecord->toString(TOSTRING_CODE_AND_DESC) );
 	} else if( mTablaConceptos != Xtring::null ) {
-		apunte->setValue( "TABLACONCEPTOS", mTablaConceptos );
+		if (mConceptosIsField) {
+			apunte->setValue( "TABLACONCEPTOS", pRecord->getValue(mTablaConceptos) );
+		} else {
+			apunte->setValue( "TABLACONCEPTOS", mTablaConceptos );
+		}
 		apunte->setValue( "CONCEPTO_ID", pRecord->getValue(mConceptoIDField) );
 		dbRecordRelation *rel_concepto = pRecord->findRelationByRelatedTable(mTablaConceptos);
 		if( rel_concepto ) {
@@ -121,5 +129,5 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 }
 
 
-} // namespace contab
+} // namespace tesoreria
 } // namespace gong

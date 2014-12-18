@@ -17,8 +17,8 @@ class IApuntableRecord
 public:
     IApuntableRecord( dbRecord *record, const Xtring &apunte_tesoreria_id_field, const Xtring &cuenta_tesoreria_id_field,
 		const Xtring &fecha_field, const Xtring &importe_field, const Xtring &referencia_field, 
-		const Xtring &tablaterceros, const Xtring &tercero_id_field, const Xtring &tercero_field,
-		const Xtring &tablaconceptos, const Xtring &concepto_id_field, const Xtring &concepto_field,
+		const Xtring &tablaterceros, bool terceros_is_field, const Xtring &tercero_id_field, const Xtring &tercero_field,
+		const Xtring &tablaconceptos, bool conceptos_is_field, const Xtring &concepto_id_field, const Xtring &concepto_field,
 		const Xtring &notas_field, const Xtring &proyecto_id_field);
     virtual RecApunteTesoreria *creaApunte( RecApunteTesoreria *old_apunte, bool supervisar );
     virtual dbRecordID regenApunte( bool supervisar );
@@ -32,6 +32,8 @@ protected:
 		mTablaTerceros, mTerceroIDField, mTerceroField,
 		mTablaConceptos, mConceptoIDField, mConceptoField,
 		mNotasField, mProyectoIDField;
+	bool mTercerosIsField, mConceptosIsField;
+	
 };
 
 } // namesace tesoreria

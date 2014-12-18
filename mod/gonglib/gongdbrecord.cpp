@@ -1769,7 +1769,3 @@ dbRecordID dbApplication::seekCode ( dbRecord *rec, QWidget *owner,
 #endif
 
 };
-
-
-
-
