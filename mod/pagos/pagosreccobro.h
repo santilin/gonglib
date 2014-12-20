@@ -23,14 +23,13 @@
 #include "pagosrecremesacobro.h"
 /*>>>>>COBRO_INCLUDES*/
 
-#ifdef HAVE_CONTABMODULE
+#ifdef HAVE_TESORERIAMODULE
+#include <tesoreriareccuentatesoreria.h>
+typedef gong::tesoreria::RecCuentaTesoreria RecCuentaPago;
+#elif defined(HAVE_CONTABMODULE)
 #include <contabreccuenta.h>
 #include <contabrecasiento.h>
-namespace gong {
-namespace contab {
-typedef RecCuenta RecCuentaPago;
-}
-}
+typedef gong::contab::RecCuenta RecCuentaPago;
 #else
 typedef gong::dbRecord RecCuentaPago;
 #endif
@@ -51,13 +50,13 @@ public:
         : dbRecord(conn, tbldef, recid, user)
         , pRecFactura(0), pRecTercero(0)
     { };
-    /*<<<<<COBRO_RELATIONS*/
+/*<<<<<COBRO_RELATIONS*/
 	empresa::RecMoneda *getRecMoneda() const;
 	RecRemesaCobro *getRecRemesaCobro() const;
 /*>>>>>COBRO_RELATIONS*/
     bool actCobrosFactura();
-#ifdef HAVE_CONTABMODULE
-    contab::RecCuentaPago *getRecCuentaPago() const;
+#if defined(HAVE_CONTABMODULE) || defined(HAVE_TESORERIAMODULE)
+    RecCuentaPago *getRecCuentaPago() const;
 #endif
     dbRecord *getRecFactura();
     dbRecord *getRecTercero();

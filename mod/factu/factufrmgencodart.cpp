@@ -20,11 +20,7 @@ FrmGenCodArt::FrmGenCodArt ( RecArticulo *articulo,
 void FrmGenCodArt::accept()
 {
     mCodArt = pRecArticulo->genCodigoArticulo( pComboOperacion->getCurrentItemValue(),
-              pEditFormat->toString(), pRecArticulo->getValue( "NOMBRE" ).toString(),
-              pRecArticulo->getValue( "FAMILIA.CODIGO" ).toInt(),
-              pRecArticulo->getValue( "FAMILIA.NOMBRE" ).toString(),
-              pRecArticulo->getValue( "PROVEEDORA.CODIGO" ).toInt(),
-              pRecArticulo->getValue( "PROVEEDORA.RAZONSOCIAL" ).toString() );
+              pEditFormat->toString() );
     close();
 }
 

@@ -57,7 +57,7 @@ public:
     void setPVP( int tarifacliente, double pvp );
 
     static XtringList sModalidades;
-    Xtring genCodigoArticulo(int modalidad, const Xtring &formato);
+    Xtring genCodigoArticulo(int modalidad, const Xtring &formato) const;
     Xtring formatCodigoArticulo(const Xtring &last, const Xtring &formato ) const;
 
 }; // end class

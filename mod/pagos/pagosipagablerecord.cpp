@@ -749,7 +749,7 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
 #endif
 #ifdef HAVE_TESORERIAMODULE
         bool has_contab = false;
-        has_contab = tesoreria::ModuleInstance->isContabActive()
+        has_contab = DBAPP->findModule("TESORERIA")
                      && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
         if( has_contab ) {
             dbRecord *cuentapago;
@@ -818,7 +818,7 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
             if( has_contab ) {
                 dbRecordID apunteid = recibo->getValue( "APUNTE_ID" ).toInt();
                 if( apunteid ) {
-                    tesoreria::RecApunte *apunte = static_cast<tesoreria::RecApunte *>(DBAPP->createRecord( "APUNTE" ));
+                    tesoreria::RecApunteTesoreria *apunte = static_cast<tesoreria::RecApunteTesoreria *>(DBAPP->createRecord( "APUNTE" ));
                     if( apunte->read( apunteid ) ) {
                         switch( FrmBase::msgYesNoCancel( parent,
                                                          Xtring::printf( _( "Este pago está contabilizado en el apunte de tesorería %d de fecha %s.\n"
@@ -876,6 +876,7 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                 }
 #endif                
                 try {
+					
                     if( recibo->save(false) )
                         actRestoFactura();
                 } catch( dbError &e ) {

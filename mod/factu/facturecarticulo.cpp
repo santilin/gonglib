@@ -213,8 +213,7 @@ Xtring RecArticulo::genCodigoArticulo(int modalidad, const Xtring &formato ) con
     Xtring codart, last;
     if( getRecProveedora()->getRecordID() != 0 ) {
         Xtring from, where;
-        Xtring buscar_formato = formatCodigoArticulo( "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
-                                formato, nameart, codfam, namefam, codpro, namepro, referencia );
+        Xtring buscar_formato = formatCodigoArticulo( "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", formato );
         // Buscar el último código
         switch( modalidad ) {
         case GenCodArtFijo:
@@ -252,9 +251,7 @@ Xtring RecArticulo::genCodigoArticulo(int modalidad, const Xtring &formato ) con
     return formatCodigoArticulo( last, formato );
 }
 
-Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &formato,
-        const Xtring &nameart, int codfam, const Xtring &namefam,
-        int codpro, const Xtring &namepro, const Xtring &referencia) const
+Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &formato) const
 {
     int codempresa = empresa::ModuleInstance->getRecEmpresa()->getValue( "CODIGO" ).toInt();
     int ejercicio = empresa::ModuleInstance->getEjercicio();
@@ -276,26 +273,20 @@ Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &forma
                 bit = Xtring::number( ejercicio );
             } else if( field == "emp" || field == "empresa" || field == "codemp" ) {
                 bit = Xtring::number( codempresa );
-            } else if( field == "articulo" || field == "art" || field == "nomart" ) {
-                bit = nameart;
-                padding = ' ';
-            } else if( field == "codfam" ) {
-                bit = Xtring::number( codfam );
-            } else if( field == "nomfam" || field == "familia" ) {
-                bit = namefam;
-                padding = ' ';
-            } else if( field == "codpro" ) {
-                bit = Xtring::number( codpro );
-            } else if( field == "nompro" || field == "proveedora" ) {
-                bit = namepro;
-                padding = ' ';
-			} else if( field == "ref" || field == "referencia" ) {
-				bit = referencia;
-				padding = ' ';
-            } else {
-                _GONG_DEBUG_WARNING( "Field " + field + " not found" );
-                result += fieldandsize;
-                continue;
+			} else {
+				Variant value = getValue(field);
+				if( !value.isValid() ) {
+					_GONG_DEBUG_WARNING( "Field " + field + " not found" );
+					result += fieldandsize;
+					continue;
+				} else {
+					bit = value.toString();
+					if( Variant::isNumeric( value.type() ) ) {
+						padding = '0';
+					} else {
+						padding = ' ';
+					}
+				}
             }
             if( size.toInt() != 0 )
                 bit.padL( size.toInt(), padding );

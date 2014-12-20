@@ -3,10 +3,10 @@
 // FIELD Familia_ID Reference(Familia,Codigo,Nombre,dbApplication::InsertIfNotFound) - familia
 // FIELD Proveedora_ID Reference(Proveedora,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - proveedora
 // FIELD Nombre string - nombre
+// FIELD CodigoInterno string - codigointerno
 // FIELD Codigo string - codigo
 // FIELD TipoIVA_ID Reference(empresa::TipoIVA,Codigo,Nombre) - tipoiva
 // FIELD Fabricante string - fabricante
-// FIELD CodigoInterno string - codigointerno
 // FIELD CosteSinIVA money - costes
 // FIELD Coste money - costes
 // FIELD MargenComercial double - costes
@@ -599,14 +599,15 @@ void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResul
         if( !sender )
             *isvalid = false;
     } else {
-        if( sender == editNombre && editNombre->isJustEdited() && editCodigo->toString().isEmpty() ) {
+		if( (editCodigoInterno->isEnabled() && sender == editCodigoInterno && editCodigoInterno->isJustEdited())
+			|| (!editCodigoInterno->isEnabled() && sender == editNombre && editNombre->isJustEdited() ) 
+			&& editCodigo->toString().isEmpty() ) {
 			gather();
-            editCodigo->setText( getRecArticulo()->genCodigoArticulo(),
+            editCodigo->setText( getRecArticulo()->genCodigoArticulo(
                                      getRecProveedora()->getValue( "GENCODARTICULO" ).toInt(),
-                                     getRecProveedora()->getValue( "FORMATCODARTICULO" ).toString() );
+                                     getRecProveedora()->getValue( "FORMATCODARTICULO" ).toString() ) );
         }
     }
-
     if( sender == checkUsarStocks )
         setStockControls();
     if( sender == editTipoIVACodigo && editTipoIVACodigo->isJustEdited() ) {

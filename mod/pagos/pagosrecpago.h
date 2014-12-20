@@ -21,20 +21,16 @@
 #include "empresarecmoneda.h"
 /*>>>>>PAGO_INCLUDES*/
 
-#ifdef HAVE_CONTABMODULE
+#ifdef HAVE_TESORERIAMODULE
+#include <tesoreriaiapuntablerecord.h>
+#include <tesoreriareccuentatesoreria.h>
+typedef gong::tesoreria::RecCuentaTesoreria RecCuentaPago;
+#elif defined(HAVE_CONTABMODULE)
 #include <contabreccuenta.h>
 #include <contabrecasiento.h>
-namespace gong {
-namespace contab {
-typedef RecCuenta RecCuentaPago;
-}
-}
+typedef gong::contab::RecCuenta RecCuentaPago;
 #else
 typedef gong::dbRecord RecCuentaPago;
-#endif
-
-#ifdef HAVE_TESORERIAMODULE
-#include "tesoreriaiapuntablerecord.h"
 #endif
 
 namespace gong {
@@ -75,6 +71,9 @@ public:
     bool actPagosFactura();
 #ifdef HAVE_CONTABMODULE
     contab::RecCuentaPago *getRecCuentaPago() const;
+#endif
+#ifdef HAVE_TESORERIAMODULE
+    tesoreria::RecCuentaTesoreria *getRecCuentaPago() const;
 #endif
     dbRecord *getRecFactura();
     dbRecord *getRecTercero();

@@ -43,6 +43,14 @@ contab::RecCuentaPago *RecPago::getRecCuentaPago() const
 }
 #endif
 
+#ifdef HAVE_CONTABMODULE
+tesoreria::RecCuentaTesoreria *RecPago::getRecCuentaPago() const
+{
+    return static_cast<contab::RecCuentaPago*>(findRelatedRecord("CUENTAPAGO_ID"));
+}
+#endif
+
+
 dbRecord *RecPago::getRecFactura()
 {
     Xtring tablafacturas = getValue( "TABLAFACTURAS" ).toString();

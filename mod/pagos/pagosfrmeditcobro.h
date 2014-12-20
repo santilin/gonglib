@@ -21,17 +21,6 @@
 #include "pagosreccobro.h"
 /*>>>>>FRMEDITCOBRO_INCLUDES*/
 
-#ifdef HAVE_CONTABMODULE
-#include <contabreccuenta.h>
-namespace gong {
-namespace contab {
-typedef RecCuenta RecCuentaPago;
-}
-}
-#else
-typedef gong::dbRecord RecCuentaPago;
-#endif
-
 namespace gong {
 namespace pagos {
 
