@@ -15,6 +15,15 @@ FrmGenCodArt::FrmGenCodArt ( RecArticulo *articulo,
     pComboOperacion = addComboBoxInt(true, 0, _("Modalidad"),
                                      RecArticulo::sModalidades, IdentityIntList );
     pEditFormat = addInput(0, _("Formato"), "", "STRING");
+	pPushSegunProveedora = addButton(0, "Según proveedora");
+}
+void FrmGenCodArt::validate_input(QWidget* sender, bool* isvalid)
+{
+	if( sender == pPushSegunProveedora ) {
+		mCodArt = pRecArticulo->genCodigoArticulo( pRecArticulo->getValue("PROVEEDORA.GENCODARTICULO").toInt(),
+												   pRecArticulo->getValue("PROVEEDORA.FORMATCODARTICULO").toString() );
+		close();
+ 	}
 }
 
 void FrmGenCodArt::accept()

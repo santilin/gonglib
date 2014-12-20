@@ -49,7 +49,7 @@ public:
 /*>>>>>PAGO_CONSTRUCTOR*/
         , pRecFactura(0), pRecTercero(0)
 #ifdef HAVE_TESORERIAMODULE
-        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "IMPORTE", "NUMERO", 
+        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "NUMERO", 
 							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
 							Xtring::null, false, Xtring::null, Xtring::null,
 							"NOTAS", Xtring::null )
@@ -59,7 +59,7 @@ public:
         : dbRecord(conn, tbldef, recid, user)
         , pRecFactura(0), pRecTercero(0)
 #ifdef HAVE_TESORERIAMODULE
-        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "IMPORTE", "NUMERO", 
+        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "NUMERO", 
 							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
 							Xtring::null, false, Xtring::null, Xtring::null,
 							"NOTAS", Xtring::null )

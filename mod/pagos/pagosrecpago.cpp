@@ -43,10 +43,10 @@ contab::RecCuentaPago *RecPago::getRecCuentaPago() const
 }
 #endif
 
-#ifdef HAVE_CONTABMODULE
+#ifdef HAVE_TESORERIAMODULE
 tesoreria::RecCuentaTesoreria *RecPago::getRecCuentaPago() const
 {
-    return static_cast<contab::RecCuentaPago*>(findRelatedRecord("CUENTAPAGO_ID"));
+    return static_cast<tesoreria::RecCuentaTesoreria*>(findRelatedRecord("CUENTAPAGO_ID"));
 }
 #endif
 

@@ -15,10 +15,12 @@ public:
         return mCodArt;
     }
     virtual void accept(); // from FrmBase
+    virtual void validate_input( QWidget *sender, bool *isvalid ); // from FrmCustom	
 private:
     class RecArticulo *pRecArticulo;
     ComboBoxInt *pComboOperacion;
     LineEdit *pEditFormat;
+	PushButton *pPushSegunProveedora;
     Xtring mCodArt;
 };
 

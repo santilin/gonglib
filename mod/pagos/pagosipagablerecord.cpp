@@ -378,7 +378,7 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                 FrmBase::msgError( parent, _("Por favor, rellena la cuenta del pago") );
             } else {
                 if( pago == importe && asientoid == 0) {
-                    // Pagar el recibo
+                    // Pagar el recibo normalmente, el pago coincide con el importe del recibo
                     if( moneda_id != recibo->getValue( "MONEDA_ID" ).toUInt() ) {
                         recibo->setValue( "MONEDA_ID", moneda_id );
                         recmoneda->read( moneda_id );
@@ -815,33 +815,23 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
             }
 #endif
 #ifdef HAVE_TESORERIAMODULE
+			bool borradoapunte = false;
             if( has_contab ) {
                 dbRecordID apunteid = recibo->getValue( "APUNTE_ID" ).toInt();
                 if( apunteid ) {
-                    tesoreria::RecApunteTesoreria *apunte = static_cast<tesoreria::RecApunteTesoreria *>(DBAPP->createRecord( "APUNTE" ));
+                    tesoreria::RecApunteTesoreria *apunte = static_cast<tesoreria::RecApunteTesoreria *>(DBAPP->createRecord( "APUNTETESORERIA" ));
                     if( apunte->read( apunteid ) ) {
-                        switch( FrmBase::msgYesNoCancel( parent,
-                                                         Xtring::printf( _( "Este pago está contabilizado en el apunte de tesorería %d de fecha %s.\n"
-                                                                 "¿Quieres borrar el apunte asociado a este pago?"),
-                                                                 apunte->getValue( "NUMERO" ).toInt(),
-                                                                 apunte->getValue( "FECHA" ).toString().c_str() ) ) ) {
-                        case FrmBase::Yes: {
-                            try {
-                                if( !apunte->remove() )
-                                    anulapago = false;
-                            } catch( dbError &e ) {
-                                FrmBase::msgError( parent,
-                                                   Xtring(e.what()) + _(". Borra el apunte a mano y vuelve a intentarlo."));
-                                anulapago = false;
-                            }
-                            break;
-                            case FrmBase::Cancel:
-                                return;
-                            }
-                        }
-                    }
-                }
-            }
+						try {
+							if( !(borradoapunte = apunte->remove()) )
+								anulapago = false;
+						} catch( dbError &e ) {
+							FrmBase::msgError( parent,
+												Xtring(e.what()) + _(". Borra el apunte a mano y vuelve a intentarlo."));
+							anulapago = false;
+						}
+					}
+				}
+			}
 #endif
             if( anulapago ) {
                 // Anular el pago
@@ -876,9 +866,17 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                 }
 #endif                
                 try {
-					
-                    if( recibo->save(false) )
+                    if( recibo->save(false) ) {
                         actRestoFactura();
+						DBAPP->showStickyOSD( recibo->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
+                                  Xtring::printf( _("Se ha anulado el pago") ) );
+#ifdef HAVE_TESORERIAMODULE
+						if (borradoapunte) {
+							DBAPP->showStickyOSD( recibo->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
+                                  Xtring::printf( _("Se ha borrado el apunte en tesorería") ) );
+						}
+#endif										
+					}
                 } catch( dbError &e ) {
                     FrmBase::msgError( parent, e.what() );
                 }
