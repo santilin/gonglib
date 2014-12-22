@@ -5,6 +5,7 @@
 // Member remove
 // Relation empresa::Moneda
 // Relation RemesaCobro
+// INTERFACE public tesoreria::IApuntableRecord #ifdef|HAVE_TESORERIAMODULE
 // TYPE dbRecord pagos::Cobro
 /*>>>>>MODULE_INFO*/
 
@@ -27,6 +28,7 @@ void RecCobro::init()
     addStructuralFilter( "COBRO.EMPRESA_ID=" + getConnection()->toSQL( empresa::ModuleInstance->getEmpresaID() ) );
 }
 
+
 /*<<<<<COBRO_RELATIONS*/
 empresa::RecMoneda *RecCobro::getRecMoneda() const
 {
@@ -47,36 +49,13 @@ contab::RecCuentaPago *RecCobro::getRecCuentaPago() const
 }
 #endif
 
-/*<<<<<COBRO_SAVE*/
-bool RecCobro::save(bool saverelated) throw( dbError )
+#ifdef HAVE_TESORERIAMODULE
+tesoreria::RecCuentaTesoreria *RecCobro::getRecCuentaPago() const
 {
-/*>>>>>COBRO_SAVE*/
-    if( getValue( "CONTADOR" ).toInt() == 0 )
-        setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
-    bool ret = dbRecord::save(saverelated);
-    if( ret ) {
-#ifdef HAVE_PAGOSMODULE
-        actCobrosFactura();
-#endif
-    }
-    if( ret )
-        DBAPP->showStickyOSD( toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
-                              Xtring::printf( _("Contador: %d"), getValue( "CONTADOR" ).toInt() ) );
-    return ret;
+    return static_cast<tesoreria::RecCuentaTesoreria*>(findRelatedRecord("CUENTAPAGO_ID"));
 }
+#endif
 
-/*<<<<<COBRO_REMOVE*/
-bool RecCobro::remove() throw( dbError )
-{
-/*>>>>>COBRO_REMOVE*/
-    bool ret = dbRecord::remove();
-    if( ret ) {
-#ifdef HAVE_PAGOSMODULE
-        actCobrosFactura();
-#endif
-    }
-    return ret;
-}
 
 dbRecord *RecCobro::getRecFactura()
 {
@@ -122,6 +101,39 @@ dbRecord *RecCobro::getRecTercero()
     return pRecTercero;
 }
 
+/*<<<<<COBRO_SAVE*/
+bool RecCobro::save(bool saverelated) throw( dbError )
+{
+/*>>>>>COBRO_SAVE*/
+	if( saverelated ) {
+		if( getValue( "CONTADOR" ).toInt() == 0 )
+			setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
+	}
+    bool ret = dbRecord::save(saverelated);
+    if( ret && saverelated ) {
+#ifdef HAVE_PAGOSMODULE
+        actCobrosFactura();
+#endif
+    }
+    if( ret )
+        DBAPP->showStickyOSD( toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
+                              Xtring::printf( _("Contador: %d"), getValue( "CONTADOR" ).toInt() ) );
+    return ret;
+}
+
+/*<<<<<COBRO_REMOVE*/
+bool RecCobro::remove() throw( dbError )
+{
+/*>>>>>COBRO_REMOVE*/
+    bool ret = dbRecord::remove();
+    if( ret ) {
+#ifdef HAVE_PAGOSMODULE
+        actCobrosFactura();
+#endif
+    }
+    return ret;
+}
+
 bool RecCobro::actCobrosFactura()
 {
     if( IPagableRecord *pr = dynamic_cast<IPagableRecord *>(getRecFactura() ) ) {
@@ -130,12 +142,10 @@ bool RecCobro::actCobrosFactura()
     return false;
 }
 
-Xtring RecCobro::formatNumRecibo(int codempresa, int ejercicio, int remesa,
-                                 int numero, int proyecto, const Xtring& proyname,
-                                 const Xtring& formato)
+Xtring RecCobro::formatNumRecibo(int codempresa, int ejercicio, const Xtring& formato)
 {
     if( formato.isEmpty() )
-        return Xtring::number( numero );
+        return getValue("NUMERO").toString();
     else {
         Xtring result;
         for( uint i = 0; i < formato.size(); ++ i ) {
@@ -144,27 +154,30 @@ Xtring RecCobro::formatNumRecibo(int codempresa, int ejercicio, int remesa,
                 Xtring fieldandsize, field, size;
                 while( formato[i] != '}' && i < formato.size() )
                     fieldandsize += formato[i++];
-                fieldandsize.splitIn2( field, size, ":" );
+                fieldandsize.lower().splitIn2( field, size, ":" );
                 Xtring bit;
-                if( field == "eje" || field == "ejercicio" ) {
-                    bit = Xtring::number( ejercicio );
-                } else if( field == "emp" || field == "empresa" || field == "codemp" ) {
-                    bit = Xtring::number( codempresa );
-                } else if( field == "num"  ) {
-                    bit = Xtring::number( numero );
-                } else if( field == "rem" || field == "remesa"  ) {
-                    bit = Xtring::number( remesa );
-                } else if( field == "proy" || field == "proyecto" ) {
-                    bit = Xtring::number( proyecto );
-                } else if( field == "nombreproyecto" || field == "nomproy" ) {
-                    bit = proyname;
-                } else {
-                    _GONG_DEBUG_WARNING( "Field " + field + " not found" );
-                    result += fieldandsize;
-                    continue;
-                }
-                if( size.toInt() != 0 )
-                    bit.padL( size.toInt(), '0' );
+				char padding = '0';
+				if( field == "eje" || field == "ejercicio" ) {
+					bit = Xtring::number( ejercicio );
+				} else if( field == "emp" || field == "empresa" || field == "codemp" ) {
+					bit = Xtring::number( codempresa );
+				} else {
+					Variant value = getValue(field);
+					if( !value.isValid() ) {
+						_GONG_DEBUG_WARNING( "Field " + field + " not found" );
+						result += fieldandsize;
+						continue;
+					} else {
+						bit = value.toString();
+						if( Variant::isNumeric( value.type() ) ) {
+							padding = '0';
+						} else {
+							padding = ' ';
+						}
+					}
+				}
+				if( size.toInt() != 0 )
+					bit.padL( size.toInt(), padding );
                 result += bit;
             } else {
                 result += formato[i];

@@ -24,6 +24,7 @@
 /*>>>>>COBRO_INCLUDES*/
 
 #ifdef HAVE_TESORERIAMODULE
+#include <tesoreriaiapuntablerecord.h>
 #include <tesoreriareccuentatesoreria.h>
 typedef gong::tesoreria::RecCuentaTesoreria RecCuentaPago;
 #elif defined(HAVE_CONTABMODULE)
@@ -38,17 +39,33 @@ namespace gong {
 namespace pagos {
 
 /*<<<<<COBRO_CONSTRUCTOR*/
-class RecCobro: public dbRecord
+class RecCobro: public dbRecord,
+#ifdef HAVE_TESORERIAMODULE
+	public tesoreria::IApuntableRecord
+#endif
+
 {
 public:
 	RecCobro(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
 		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("COBRO"), recid, user)
 /*>>>>>COBRO_CONSTRUCTOR*/
         , pRecFactura(0), pRecTercero(0)
+#ifdef HAVE_TESORERIAMODULE
+        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "DOCUMENTOPAGO", 
+							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
+							Xtring::null, false, Xtring::null, Xtring::null,
+							"NOTAS", Xtring::null )
+#endif
     {};
     RecCobro(dbTableDefinition *tbldef, dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
         : dbRecord(conn, tbldef, recid, user)
         , pRecFactura(0), pRecTercero(0)
+#ifdef HAVE_TESORERIAMODULE
+        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "DOCUMENTOPAGO", 
+							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
+							Xtring::null, false, Xtring::null, Xtring::null,
+							"NOTAS", Xtring::null )
+#endif
     { };
 /*<<<<<COBRO_RELATIONS*/
 	empresa::RecMoneda *getRecMoneda() const;
@@ -60,9 +77,7 @@ public:
 #endif
     dbRecord *getRecFactura();
     dbRecord *getRecTercero();
-    Xtring formatNumRecibo(int codempresa, int ejercicio, int remesa,
-                           int numero, int proyecto, const Xtring &proyname,
-                           const Xtring& formato);
+    Xtring formatNumRecibo(int codempresa, int ejercicio, const Xtring& formato);
 
     /*<<<<<COBRO_MEMBERS*/
 	void init();

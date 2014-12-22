@@ -131,10 +131,10 @@ if(empresa::ModuleInstance->usaProyectos()){
 }
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTER*/
     bool isvalid = true;
-    validateFields(comboTablaTerceros, &isvalid);
-    scatterTercero();
-    validateFields(comboTablaConceptos, &isvalid);
-    scatterConcepto();
+	if (isFirstScatter() ) {
+		scatterTercero();
+		scatterConcepto();
+	}
     if( isInserting() ) {
         if( editNumero->toInt() == 0 ) {
             editNumero->setText( getRecord()->selectNextInt( "NUMERO" ) );
@@ -622,6 +622,8 @@ if(empresa::ModuleInstance->usaProyectos()){
             searchTerceroCodigo->getButton()->setText( toGUI(tbldef->getDescSingular()) );
             setTabOrder( comboTablaTerceros, editTerceroCodigo );
             setTabOrder( editTerceroCodigo, comboTablaConceptos );
+			resize(0,0);
+			DBAPP->processEvents();
         }
     }
     if( sender == comboTablaConceptos ) {
@@ -657,6 +659,8 @@ if(empresa::ModuleInstance->usaProyectos()){
             searchConceptoCodigo->getButton()->setText( toGUI(tbldef->getDescSingular()));
             setTabOrder( comboTablaConceptos, editConceptoCodigo );
             setTabOrder( editConceptoCodigo, editReferencia );
+			resize(0,0);
+			DBAPP->processEvents();
         }
     }
     if( sender == editTipoApunteTesoreriaCodigo && editTipoApunteTesoreriaCodigo->isJustEdited() ) {

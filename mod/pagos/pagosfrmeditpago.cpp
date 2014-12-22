@@ -10,12 +10,12 @@
 // FIELD FechaEmision date - fechas
 // FIELD Vencimiento date - fechas
 // FIELD FechaValor date - fechas
+// FIELD EstadoRecibo comboint - importes
 // FIELD Importe money - importes
 // FIELD Resto Money - importes
-// FIELD EstadoRecibo comboint - importes
 // FIELD FechaPago date - pago
 // FIELD DocumentoPago string - pago
-// FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - leftmoneda
+// FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - leftMoneda
 // FIELD CuentaPago_ID Reference(contab::Cuenta,Cuenta,Descripcion) - contab MODULE_INCLUDED(Contab)
 // FIELD CuentaOrigen string - contab MODULE_INCLUDED(Contab)
 // FIELD Notas text - notas
@@ -61,7 +61,7 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	QHBoxLayout *fechasLayout = new QHBoxLayout(0, 0, 6, "fechasLayout");
 	QHBoxLayout *importesLayout = new QHBoxLayout(0, 0, 6, "importesLayout");
 	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
-	QHBoxLayout *leftmonedaLayout = new QHBoxLayout(0, 0, 6, "leftmonedaLayout");
+	QHBoxLayout *leftMonedaLayout = new QHBoxLayout(0, 0, 6, "leftMonedaLayout");
 	QHBoxLayout *contabLayout = new QHBoxLayout(0, 0, 6, "contabLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	checkAutomatico = addCheckField( pControlsFrame, "PAGO", "AUTOMATICO", numeroLayout );
@@ -72,13 +72,13 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	editFechaEmision = addEditField( pControlsFrame, "PAGO", "FECHAEMISION", fechasLayout );
 	editVencimiento = addEditField( pControlsFrame, "PAGO", "VENCIMIENTO", fechasLayout );
 	editFechaValor = addEditField( pControlsFrame, "PAGO", "FECHAVALOR", fechasLayout );
+	comboEstadoRecibo = addComboIntField( pControlsFrame, "PAGO", "ESTADORECIBO", importesLayout );
 	editImporte = addEditField( pControlsFrame, "PAGO", "IMPORTE", importesLayout );
 	editResto = addEditField( pControlsFrame, "PAGO", "RESTO", importesLayout );
-	comboEstadoRecibo = addComboIntField( pControlsFrame, "PAGO", "ESTADORECIBO", importesLayout );
 	editFechaPago = addEditField( pControlsFrame, "PAGO", "FECHAPAGO", pagoLayout );
 	editDocumentoPago = addEditField( pControlsFrame, "PAGO", "DOCUMENTOPAGO", pagoLayout );
 
-	searchMonedaCodigo = addSearchField( pControlsFrame, "MONEDA_ID", "MONEDA", "CODIGO", "NOMBRE", leftmonedaLayout );
+	searchMonedaCodigo = addSearchField( pControlsFrame, "MONEDA_ID", "MONEDA", "CODIGO", "NOMBRE", leftMonedaLayout );
 	pushMonedaCodigo = searchMonedaCodigo->getButton();
 	connect( pushMonedaCodigo, SIGNAL( clicked() ), this, SLOT( pushMonedaCodigo_clicked() ) );
 	editMonedaCodigo = searchMonedaCodigo->getEditCode();
@@ -104,8 +104,8 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( fechasLayout );
 	pControlsLayout->addLayout( importesLayout );
 	pControlsLayout->addLayout( pagoLayout );
-	pControlsLayout->addLayout( leftmonedaLayout );
-	alignLayout( leftmonedaLayout, true );
+	pControlsLayout->addLayout( leftMonedaLayout );
+	alignLayout( leftMonedaLayout, true );
 	pControlsLayout->addLayout( contabLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITPAGO_INIT_CONTROLS*/
@@ -129,53 +129,66 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
     if( !searchFacturaNumero || tablafacturas != searchFacturaNumero->getTableName()
             || !searchTerceroCodigo || tablaterceros != searchTerceroCodigo->getTableName() ) {
 
-        removeControl( searchFacturaNumero );
-		mFldFactCodigo = fldfactcodigo;
-		mFldFactDesc = fldfactdesc;
-        if( fldfactcodigo == Xtring::null ) {
-            dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablafacturas );
-			if( tbldef ) {
-				mFldFactCodigo = tbldef->getCodeField();
-				mFldFactDesc = tbldef->getDescField();
+		if( tablafacturas != Xtring::null ) {
+			removeControl( searchFacturaNumero );
+			mFldFactCodigo = fldfactcodigo;
+			mFldFactDesc = fldfactdesc;
+			if( fldfactcodigo == Xtring::null ) {
+				dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablafacturas );
+				if( tbldef ) {
+					mFldFactCodigo = tbldef->getCodeField();
+					mFldFactDesc = tbldef->getDescField();
+				}
 			}
-        }
-        searchFacturaNumero = addSearchField( pControlsFrame, "FACTURA_ID", tablafacturas,
-                                              mFldFactCodigo, mFldFactDesc, pFacturasLayout );
-        pushFacturaNumero = searchFacturaNumero->getButton();
-        connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ), Qt::UniqueConnection );
-        editFacturaNumero = searchFacturaNumero->getEditCode();
-		connect( editFacturaNumero, SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
-				this, SLOT( specialControlKeyPressed( QWidget *, char ) ), Qt::UniqueConnection );
-        editFacturaDesc = searchFacturaNumero->getEditDesc();
-        editFacturaNumero->setWidthInChars(15);
-        searchFacturaNumero->setMustBeReadOnly(true);
+			searchFacturaNumero = addSearchField( pControlsFrame, "FACTURA_ID", tablafacturas,
+												mFldFactCodigo, mFldFactDesc, pFacturasLayout );
+			pushFacturaNumero = searchFacturaNumero->getButton();
+			connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ), Qt::UniqueConnection );
+			editFacturaNumero = searchFacturaNumero->getEditCode();
+			connect( editFacturaNumero, SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
+					this, SLOT( specialControlKeyPressed( QWidget *, char ) ), Qt::UniqueConnection );
+			editFacturaDesc = searchFacturaNumero->getEditDesc();
+			editFacturaNumero->setWidthInChars(15);
+			if( !isInserting() )
+				searchFacturaNumero->setMustBeReadOnly(true);
+			setTabOrder( editFacturaNumero, editNumero );
+		} else {
+			searchFacturaNumero = 0;
+			pushFacturaNumero = 0;
+		}
 
         removeControl( searchTerceroCodigo );
-		mFldTercCodigo = fldterccodigo;
-		mFldTercDesc = fldtercdesc;
-        if( fldterccodigo == Xtring::null ) {
-            dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablaterceros );
-			if( tbldef ) {
-				dbFieldDefinition *flddeffc = tbldef->findFieldByFlags( dbFieldDefinition::CODE );
-				if( flddeffc )
-					mFldTercCodigo = flddeffc->getName();
-				dbFieldDefinition *flddeffd = tbldef->findFieldByFlags( dbFieldDefinition::DESCRIPTION );
-				if( flddeffd )
-					mFldTercDesc = flddeffd->getName();
+		if( tablaterceros != Xtring::null) {
+			mFldTercCodigo = fldterccodigo;
+			mFldTercDesc = fldtercdesc;
+			if( fldterccodigo == Xtring::null ) {
+				dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( tablaterceros );
+				if( tbldef ) {
+					dbFieldDefinition *flddeffc = tbldef->findFieldByFlags( dbFieldDefinition::CODE );
+					if( flddeffc )
+						mFldTercCodigo = flddeffc->getName();
+					dbFieldDefinition *flddeffd = tbldef->findFieldByFlags( dbFieldDefinition::DESCRIPTION );
+					if( flddeffd )
+						mFldTercDesc = flddeffd->getName();
+				}
 			}
-        }
-        searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", tablaterceros,
-                                              mFldTercCodigo, mFldTercDesc, pTercerosLayout );
-        pushTerceroCodigo = searchTerceroCodigo->getButton();
-        connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ), Qt::UniqueConnection );
-        editTerceroCodigo = searchTerceroCodigo->getEditCode();
-		connect( editTerceroCodigo, SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
+			searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", tablaterceros,
+												mFldTercCodigo, mFldTercDesc, pTercerosLayout );
+			pushTerceroCodigo = searchTerceroCodigo->getButton();
+			connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ), Qt::UniqueConnection );
+			editTerceroCodigo = searchTerceroCodigo->getEditCode();
+			connect( editTerceroCodigo, SIGNAL( specialControlKeyPressed( QWidget *, char ) ),
 				this, SLOT( specialControlKeyPressed( QWidget *, char ) ), Qt::UniqueConnection );
-        editTerceroDesc = searchTerceroCodigo->getEditDesc();
-        searchTerceroCodigo->setMustBeReadOnly(true);
-
-        setTabOrder( editFacturaNumero, editTerceroCodigo );
-        setTabOrder( editTerceroCodigo, editNumero );
+			editTerceroDesc = searchTerceroCodigo->getEditDesc();
+			if( !isInserting() ) 
+				searchTerceroCodigo->setMustBeReadOnly(true);
+			setTabOrder( editFacturaNumero, editTerceroCodigo );
+			setTabOrder( editTerceroCodigo, editNumero );
+			editFacturaNumero->setWidthInChars(15);
+		} else {
+			searchTerceroCodigo = 0;
+			pushTerceroCodigo = 0;
+		}
     }
 }
 
@@ -443,9 +456,9 @@ void FrmEditPago::scatterFields()
 	editFechaEmision->setText(getRecPago()->getValue("FECHAEMISION").toDate());
 	editVencimiento->setText(getRecPago()->getValue("VENCIMIENTO").toDate());
 	editFechaValor->setText(getRecPago()->getValue("FECHAVALOR").toDate());
+	comboEstadoRecibo->setCurrentItemByValue(getRecPago()->getValue("ESTADORECIBO").toInt());
 	editImporte->setText(getRecPago()->getValue("IMPORTE").toMoney());
 	editResto->setText(getRecPago()->getValue("RESTO").toMoney());
-	comboEstadoRecibo->setCurrentItemByValue(getRecPago()->getValue("ESTADORECIBO").toInt());
 	editFechaPago->setText(getRecPago()->getValue("FECHAPAGO").toDate());
 	editDocumentoPago->setText(getRecPago()->getValue("DOCUMENTOPAGO").toString());
 #ifdef HAVE_CONTABMODULE
@@ -475,10 +488,10 @@ if( ModuleInstance->getContabModule() ) {
         comboEstadoRecibo->setMustBeReadOnly(true);
         editImporte->setMustBeReadOnly(true);
         editResto->setMustBeReadOnly(true);
+        searchMonedaCodigo->setMustBeReadOnly(true);
 #ifdef HAVE_CONTABMODULE		
         editCuentaOrigen->setMustBeReadOnly(true);
 #endif		
-        searchMonedaCodigo->setMustBeReadOnly(true);
     } else {
         if( editNumero->toInt() == 0 )
             editNumero->setText( getRecPago()->selectNextInt( "NUMERO" ) );
@@ -491,11 +504,17 @@ if( ModuleInstance->getContabModule() ) {
     }
     if( editContador->toInt() == 0 )
         editContador->setText( empresa::ModuleInstance->getMaxContador() );
+	if( isInserting() ) 
+		editResto->setMustBeReadOnly(true);
+	if( editFacturaNumero->isEnabled() )
+        pFocusWidget = editFacturaNumero;
+    else
+        pFocusWidget = editNumero;
 }
 
 void FrmEditPago::gatherFields()
 {
-    /*<<<<<FRMEDITPAGO_GATHER*/
+/*<<<<<FRMEDITPAGO_GATHER*/
 	getRecPago()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
 	getRecPago()->setValue( "NUMERO", editNumero->toInt());
 	getRecPago()->setValue( "NUMEROAGRUPADO", editNumeroAgrupado->toString());
@@ -504,9 +523,9 @@ void FrmEditPago::gatherFields()
 	getRecPago()->setValue( "FECHAEMISION", editFechaEmision->toDate());
 	getRecPago()->setValue( "VENCIMIENTO", editVencimiento->toDate());
 	getRecPago()->setValue( "FECHAVALOR", editFechaValor->toDate());
+	getRecPago()->setValue( "ESTADORECIBO", comboEstadoRecibo->getCurrentItemValue());
 	getRecPago()->setValue( "IMPORTE", editImporte->toMoney());
 	getRecPago()->setValue( "RESTO", editResto->toMoney());
-	getRecPago()->setValue( "ESTADORECIBO", comboEstadoRecibo->getCurrentItemValue());
 	getRecPago()->setValue( "FECHAPAGO", editFechaPago->toDate());
 	getRecPago()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
 	getRecPago()->setValue( "MONEDA_ID", getRecMoneda()->getRecordID() );
@@ -527,7 +546,7 @@ if( ModuleInstance->getContabModule() ) {
 
 void FrmEditPago::scatterMoneda()
 {
-    /*<<<<<FRMEDITPAGO_SCATTER_MONEDA*/
+/*<<<<<FRMEDITPAGO_SCATTER_MONEDA*/
 	editMonedaCodigo->setText( getRecMoneda()->getValue("CODIGO") );
 	editMonedaNombre->setText( getRecMoneda()->getValue("NOMBRE") );
 /*>>>>>FRMEDITPAGO_SCATTER_MONEDA*/
@@ -615,7 +634,7 @@ void FrmEditPago::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir
             getRecord()->setValue( "FACTURA_ID", 0 );
             scatterFactura();
         }
-    if( focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
+    if( pushTerceroCodigo && focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
         if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroDesc,
                            getRecTercero(), mFldTercCodigo, mFldTercDesc, Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) ) {
             getRecord()->setValue( "TERCERO_ID", 0 );
@@ -640,7 +659,7 @@ void FrmEditPago::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir
         if( contador > editContador->toInt() ) {
             editContador->setText( contador );
             validresult->addWarning( Xtring::printf(
-                                         _("El contador ha cambiado durante la edición de este %s. El nuevo contador es %d"),
+                                         _("El contador ha cambiado durante la edición de %s. El nuevo contador es %d"),
                                          DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str(), contador ), "CONTADOR" );
         }
     }

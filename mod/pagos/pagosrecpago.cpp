@@ -17,7 +17,6 @@
 #include <empresamodule.h>
 #include <pagosmodule.h>
 
-
 namespace gong {
 namespace pagos {
 
@@ -49,7 +48,6 @@ tesoreria::RecCuentaTesoreria *RecPago::getRecCuentaPago() const
     return static_cast<tesoreria::RecCuentaTesoreria*>(findRelatedRecord("CUENTAPAGO_ID"));
 }
 #endif
-
 
 dbRecord *RecPago::getRecFactura()
 {
@@ -108,10 +106,10 @@ bool RecPago::save(bool saverelated) throw( dbError )
 #ifdef HAVE_PAGOSMODULE
         actPagosFactura();
 #endif
-        if( ret )
-            DBAPP->showStickyOSD( toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
-                                  Xtring::printf( _("Contador: %d"), getValue( "CONTADOR" ).toInt() ) );
-    }
+	}
+	if( ret )
+		DBAPP->showStickyOSD( toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
+							  Xtring::printf( _("Contador: %d"), getValue( "CONTADOR" ).toInt() ) );
     return ret;
 }
 
@@ -127,7 +125,6 @@ bool RecPago::remove() throw( dbError )
 	}
     return ret;
 }
-
 
 bool RecPago::actPagosFactura()
 {

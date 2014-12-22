@@ -69,6 +69,7 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 		FrmBase::msgError( "Tesorería", _("No se ha generado el apunte en tesorería porque no se ha introducido una cuenta de pago"));
 		return 0;
 	}
+	_GONG_DEBUG_PRINT(0, pRecord->toString(TOSTRING_DEBUG_COMPLETE));
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord("APUNTETESORERIA"));
 	apunte->setValue( "CUENTATESORERIA_ID", cuenta_pago_id );
 	if( old_apunte->isRead() ) // Recycle the id
@@ -76,13 +77,11 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	apunte->setValue( "AUTOMATICO", true );
 	apunte->setValue( "NUMERO", apunte->selectNextInt( "NUMERO" ) );
 	apunte->setValue( "EMPRESA_ID", pRecord->getValue("EMPRESA_ID").toInt() );
-	apunte->setValue( "EJERCICIO", pRecord->getValue("EJERCICIO").toInt() );
+	apunte->setValue( "EJERCICIO", empresa::ModuleInstance->getEjercicio() );
 	apunte->setValue( "FECHA", pRecord->getValue(mFechaField).toDate() );
 	apunte->setValue( "DEBE", pRecord->getValue(mImporteField).toMoney() );
-	apunte->setValue( "SALDO", pRecord->getValue(mImporteField).toMoney() );
 	apunte->setValue( "REFERENCIA", pRecord->getValue(mReferenciaField) );
 	_GONG_DEBUG_PRINT(0, apunte->toString(TOSTRING_DEBUG_COMPLETE));
-	_GONG_DEBUG_PRINT(0, pRecord->toString(TOSTRING_DEBUG_COMPLETE));
 	if( mTablaTerceros == Xtring::null && mTerceroField == Xtring::null ) {
 	} else if( mTablaTerceros != Xtring::null ) {
 		if( mTercerosIsField ) {
@@ -91,20 +90,20 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 			apunte->setValue( "TABLATERCEROS", tablaterceros );
 			dbRecord *tercero = DBAPP->createRecord(tablaterceros);
 			if( tercero->read( pRecord->getValue(mTerceroIDField).toInt() ) ) 
-				apunte->setValue( "TERCERO", tercero->toString(TOSTRING_CODE_AND_DESC) );
+				apunte->setValue( "TERCERO", tercero->toString(TOSTRING_DESC) );
 		} else {
 			apunte->setValue( "TABLATERCEROS", mTablaTerceros );
 			dbRecordRelation *rel_tercero = pRecord->findRelationByRelatedTable(mTablaTerceros);
 			if( rel_tercero ) {
 				dbRecord *tercero = rel_tercero->getRelatedRecord(-1);
-				apunte->setValue( "TERCERO", tercero->toString(TOSTRING_CODE_AND_DESC) );
+				apunte->setValue( "TERCERO", tercero->toString(TOSTRING_DESC) );
 			}
 		}
 		apunte->setValue( "TERCERO_ID", pRecord->getValue(mTerceroIDField) );
 	} else 
 		apunte->setValue( "TERCERO", pRecord->getValue(mTerceroField) );
 	if( mTablaConceptos == Xtring::null && mConceptoField == Xtring::null ) {
-		apunte->setValue( "CONCEPTO", pRecord->toString(TOSTRING_CODE_AND_DESC) );
+		apunte->setValue( "CONCEPTO", pRecord->toString(TOSTRING_DESC) );
 	} else if( mTablaConceptos != Xtring::null ) {
 		if( mConceptosIsField ) {
 			// No hay relación directa entre pRecord(Pago) y la tabla de conceptos.
@@ -112,13 +111,13 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 			apunte->setValue( "TABLACONCEPTOS", tablaconceptos );
 			dbRecord *concepto = DBAPP->createRecord(tablaconceptos);
 			if( concepto->read( pRecord->getValue(mConceptoIDField).toInt() ) ) 
-				apunte->setValue( "CONCEPTO", concepto->toString(TOSTRING_CODE_AND_DESC) );
+				apunte->setValue( "CONCEPTO", concepto->toString(TOSTRING_DESC) );
 		} else {
 			apunte->setValue( "TABLACONCEPTOS", mTablaConceptos );
 			dbRecordRelation *rel_concepto = pRecord->findRelationByRelatedTable(mTablaConceptos);
 			if( rel_concepto ) {
 				dbRecord *concepto = rel_concepto->getRelatedRecord(-1);
-				apunte->setValue( "CONCEPTO", concepto->toString(TOSTRING_CODE_AND_DESC) );
+				apunte->setValue( "CONCEPTO", concepto->toString(TOSTRING_DESC) );
 			}
 		}
 	} else 

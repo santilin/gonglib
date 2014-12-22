@@ -132,10 +132,13 @@ protected:
 	gong::LineEdit *editCuentaPagoCuenta;
 	gong::LineEdit *editCuentaPagoDescripcion;
 #endif
+#ifdef HAVE_CONTABMODULE
+	gong::EditBox *editCuentaOrigen;
+#endif
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITCOBRO_CONTROLS*/
     QPushButton *pushPagar;
-    QHBoxLayout *pTercerosLayout;
+    QHBoxLayout *pTercerosLayout, *pFacturasLayout;
     gong::SearchBox *searchFacturaNumero;
     QPushButton *pushFacturaNumero;
     gong::LineEdit *editFacturaNumero, *editFacturaDesc;

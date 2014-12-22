@@ -81,8 +81,8 @@ Xtring RecAlbaranCompra::toString(int format, const Xtring &includedFields) cons
 {
 	Xtring result;
 /*>>>>>ALBARANCOMPRA_TOSTRING*/
-    if( format == TOSTRING_CODE_AND_DESC_WITH_TABLENAME ) {
-        result = dbRecord::toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME );
+    if( format == TOSTRING_CODE_AND_DESC_WITH_TABLENAME || format == TOSTRING_CODE_AND_DESC || format == TOSTRING_DESC ) {
+        result = dbRecord::toString( format, includedFields );
         if( !getRecProveedora()->getValue("RAZONSOCIAL").toString().isEmpty() )
             result += ", " + getRecProveedora()->getValue("RAZONSOCIAL").toString();
     } else

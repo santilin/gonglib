@@ -285,6 +285,17 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
     }
     else if ( format == TOSTRING_DEBUG )
         text = "ID=" + Xtring::number ( getRecordID() );
+    else if ( format == TOSTRING_DESC )
+    {
+        for ( i=0; i<getFieldCount(); i++ )
+        {
+            const dbFieldDefinition *flddef = getFieldDefinition ( i );
+            if ( flddef->isDescription() )
+            {
+                text += getValue ( i ).toString();
+            }
+        }
+    }
     else if ( format == TOSTRING_CODE_AND_DESC )
     {
         for ( i=0; i<getFieldCount(); i++ )

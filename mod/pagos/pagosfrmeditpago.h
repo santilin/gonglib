@@ -105,9 +105,9 @@ protected:
 	gong::EditBox *editFechaEmision;
 	gong::EditBox *editVencimiento;
 	gong::EditBox *editFechaValor;
+	gong::ComboBoxInt *comboEstadoRecibo;
 	gong::EditBox *editImporte;
 	gong::EditBox *editResto;
-	gong::ComboBoxInt *comboEstadoRecibo;
 	gong::EditBox *editFechaPago;
 	gong::EditBox *editDocumentoPago;
 	gong::SearchBox *searchMonedaCodigo;

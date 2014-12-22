@@ -1139,8 +1139,8 @@ Variant dbRecord::getValue( const Xtring &fullfldname ) const
             return calcValue( fldname );
         } else if ( mFieldValues.find ( fldname ) != mFieldValues.end() ) {
             return mFieldValues[fldname]->toVariant();
-        } else if (!flddef) {
-			return toString(TOSTRING_CODE_AND_DESC);
+        } else if (fldname == Xtring::null) {
+			return toString(TOSTRING_DESC);
 		}
     } else {
         /* get a value from a related table

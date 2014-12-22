@@ -83,8 +83,8 @@ Xtring RecFacturaVenta::toString(int format, const Xtring &includedFields) const
 {
 	Xtring result;
 /*>>>>>FACTURAVENTA_TOSTRING*/
-    if( format == TOSTRING_CODE_AND_DESC_WITH_TABLENAME ) {
-        result = dbRecord::toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME );
+    if( format == TOSTRING_CODE_AND_DESC_WITH_TABLENAME || format == TOSTRING_CODE_AND_DESC || format == TOSTRING_DESC ) {
+        result = dbRecord::toString( format, includedFields );
         if( !getRecCliente()->getValue("RAZONSOCIAL").toString().isEmpty() )
             result += ", " + getRecCliente()->getValue("RAZONSOCIAL").toString();
     } else

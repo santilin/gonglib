@@ -15,6 +15,7 @@
 #define _PAGOS_PAGOSRECPAGO_H
 /*>>>>>PAGO_PREAMBLE*/
 
+#include "config.h"
 /*<<<<<PAGO_INCLUDES*/
 #include <dbappdbapplication.h>
 
@@ -49,7 +50,7 @@ public:
 /*>>>>>PAGO_CONSTRUCTOR*/
         , pRecFactura(0), pRecTercero(0)
 #ifdef HAVE_TESORERIAMODULE
-        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "NUMERO", 
+        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "DOCUMENTOPAGO", 
 							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
 							Xtring::null, false, Xtring::null, Xtring::null,
 							"NOTAS", Xtring::null )
@@ -59,7 +60,7 @@ public:
         : dbRecord(conn, tbldef, recid, user)
         , pRecFactura(0), pRecTercero(0)
 #ifdef HAVE_TESORERIAMODULE
-        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "NUMERO", 
+        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "DOCUMENTOPAGO", 
 							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
 							Xtring::null, false, Xtring::null, Xtring::null,
 							"NOTAS", Xtring::null )
@@ -69,11 +70,8 @@ public:
 	empresa::RecMoneda *getRecMoneda() const;
 /*>>>>>PAGO_RELATIONS*/
     bool actPagosFactura();
-#ifdef HAVE_CONTABMODULE
-    contab::RecCuentaPago *getRecCuentaPago() const;
-#endif
-#ifdef HAVE_TESORERIAMODULE
-    tesoreria::RecCuentaTesoreria *getRecCuentaPago() const;
+#if defined(HAVE_CONTABMODULE) || defined(HAVE_TESORERIAMODULE)
+    RecCuentaPago *getRecCuentaPago() const;
 #endif
     dbRecord *getRecFactura();
     dbRecord *getRecTercero();

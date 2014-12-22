@@ -1183,6 +1183,8 @@ bool FrmEditRec::removeControl( QWidget *control )
             }
         } else if ( SearchBox *search = dynamic_cast<SearchBox *>( *it ) ) {
             if( dynamic_cast<SearchBox *>(control) && search == control) {
+				delete search->getEditCode();
+				delete search->getEditDesc();
                 delete search;
                 mEditControls.erase( it );
                 return true;

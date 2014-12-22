@@ -2,22 +2,16 @@
 
 == HACIENDO ==
 
-== BIOSEGURA ==
-Informes -> Socios -> Saldos -> Normales fecha mostrar
-
 == TESORERIA ==
 * Duplicar código albarán compra en albaran venta, factura venta, pedido compra, pedido venta, factura compra, liquidaciones
-* Duplicar código pagos en cobros
 * Tesorería de ofertas
-
-== PAGOS ==
 
 == HACER ==
 * frmeditdetalles: no pasa la cantidad del grid al formulario.
 * Iniciar tpv, cuando no hay clientes, sale la ventana de elegir cliente, y si no se elige, vuelve a pedirlo.
 * Factu: Informe de existencias máximas y mínimas.
 * Ofertas, volcar solo las del ejercicio actual
-* Oferats: No vuelca de otros albaranes, etc.
+* Ofertas: No vuelca de otros albaranes, etc.
 * Al copiar las ofertas a mysql, mostrar osd
 * Búsquedas por nombre alternativo
 
@@ -101,7 +95,9 @@ Informes -> Socios -> Saldos -> Normales fecha mostrar
 * Duplicar albarán de venta: no borra el check Liquidada
 * ¿Qué pasa si al meter una liquidación de un cliente los precios de los artículos han cambiado?
 
-== cobros ==
+== pagos ==
+* Crear pago: si hay socias, sale la fecha
+* Crear pago: Calcular el número siguiente
 * Pagos: Que pagar o anular sea el botón por defecto
 * Aplicar la tasa de cambio de la moneda en el pago/cobro
 * Agrupar, desagrupar, asociar a factura, disociar de factura, etc.
