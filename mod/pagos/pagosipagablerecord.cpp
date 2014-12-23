@@ -763,7 +763,7 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                                                           " por la cuenta '%s' y mediante el documento '%s'?"),
                                                           recibo->getValue( "FECHAPAGO" ).toDate().toString().c_str(),
                                                           recibo->getValue( "IMPORTE" ).toMoney().toDouble(),
-                                                          cuentapago->getValue( "DESCRIPCION" ).toString().c_str(),
+                                                          cuentapago->getValue( "NOMBRE" ).toString().c_str(),
                                                           recibo->getValue( "DOCUMENTOPAGO").toString().c_str() ) ) == FrmBase::Yes;
             pideanularpago = false;
         }

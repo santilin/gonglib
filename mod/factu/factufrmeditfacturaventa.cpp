@@ -990,7 +990,7 @@ bool FrmEditFacturaVenta::canBeginEdit(EditMode newmode)
                                                  DBAPP->getTableDescSingular( pRecord->getTableName(), "Esta").c_str() ) );
             } else { // deleting
                 FrmBase::msgError(this,
-                                  Xtring::printf( _("%s tiene cobros ya cobrados. Tines que anular todos sus cobros antes de borrar."),
+                                  Xtring::printf( _("%s tiene cobros ya cobrados. Tienes que anular todos sus cobros antes de borrar."),
                                                   DBAPP->getTableDescSingular( pRecord->getTableName(), "Esta").c_str() ) );
                 return false;
             }

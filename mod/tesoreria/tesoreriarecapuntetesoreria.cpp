@@ -91,17 +91,17 @@ bool RecApunteTesoreria::save(bool saverelated) throw( dbError )
     bool ret = dbRecord::save(saverelated);
     if( ret ) {
 		// Descontar el original
-		Money importe = getOrigValue("IMPORTE").toDouble();
-		if( importe != 0.0) {
+		Money debe = getOrigValue("DEBE").toDouble();
+		Money haber = getOrigValue("HABER").toDouble();
+		if( debe != 0.0 || haber != 0.0 ) {
 			dbRecordID ct_id = getOrigValue("CUENTATESORERIA_ID").toInt();
-			bool cargo = getOrigValue("CARGO").toBool();
-			actSaldoCuenta(ct_id, cargo, importe, false); 
+			actSaldoCuenta(ct_id, debe, haber, false); 
 		}
-		importe = getValue("IMPORTE").toDouble();
-		if( importe != 0.0 ) {
+		debe = getValue("DEBE").toDouble();
+		haber = getValue("HABER").toDouble();
+		if( debe != 0.0 || haber != 0.0 ) {
 			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
-			bool cargo = getValue("CARGO").toBool();
-			actSaldoCuenta(ct_id, cargo, importe, true); 
+			actSaldoCuenta(ct_id, debe, haber, true); 
 		}
 		if( !wasnew ) {
 			if( generaContrapartida() )	{
@@ -119,11 +119,11 @@ bool RecApunteTesoreria::remove() throw( dbError )
 /*>>>>>APUNTETESORERIA_REMOVE*/
     bool ret = dbRecord::remove();
     if( ret ) {
-		Money importe = getValue("IMPORTE").toDouble();
-		if( importe != 0.0 ) {
+		Money debe = getValue("DEBE").toDouble();
+		Money haber = getValue("HABER").toDouble();
+		if( debe != 0.0 || haber != 0.0 ) {
 			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
-			bool cargo = getValue("CARGO").toBool();
-			actSaldoCuenta(ct_id, cargo, importe, false); 
+			actSaldoCuenta(ct_id, debe, haber, false); 
 		}
     }
     return ret;
@@ -132,18 +132,15 @@ bool RecApunteTesoreria::remove() throw( dbError )
 /**
  * @brief Actualiza el saldo de la cuenta de tesorería afectada por este apunte
  */
-void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, bool cargo, const Money& _importe, bool saving)
+void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, const Money& _debe, const Money &_haber, bool saving)
 {
-    Money importe = saving ? _importe : -_importe;
+    Money debe = saving ? -debe : -_debe;
+    Money haber = saving ? -haber: -_haber;
     RecCuentaTesoreria *cuentatesoreria = static_cast<RecCuentaTesoreria*>( DBAPP->createRecord("CUENTATESORERIA") );
     if ( cuentatesoreria->read( cuentatesoreria_id ) ) {
-        if( cargo ) {
-            cuentatesoreria->setValue( "HABER", cuentatesoreria->getValue( "HABER" ).toMoney() + importe );
-            cuentatesoreria->setValue( "SALDO", cuentatesoreria->getValue( "SALDO" ).toMoney() - importe );
-        } else {
-            cuentatesoreria->setValue( "DEBE", cuentatesoreria->getValue( "DEBE" ).toMoney() + importe );
-            cuentatesoreria->setValue( "SALDO", cuentatesoreria->getValue( "SALDO" ).toMoney() + importe );
-        }
+		cuentatesoreria->setValue( "DEBE", cuentatesoreria->getValue( "DEBE" ).toMoney() + debe );
+		cuentatesoreria->setValue( "HABER", cuentatesoreria->getValue( "HABER" ).toMoney() + haber );
+		cuentatesoreria->setValue( "SALDO", cuentatesoreria->getValue( "SALDO" ).toMoney() + debe - haber );
         cuentatesoreria->save(false);
     }
     delete cuentatesoreria;
@@ -160,7 +157,6 @@ void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, bool carg
 
 bool RecApunteTesoreria::generaContrapartida()
 {
-	_GONG_DEBUG_PRINT(0, toString(TOSTRING_DEBUG_COMPLETE));
 	if( getValue("TABLATERCEROS").toString() != "CUENTATESORERIA" || getValue("AUTOMATICO").toBool() ) 
 		return false;
 	dbConnection *conn = getConnection();
@@ -169,8 +165,8 @@ bool RecApunteTesoreria::generaContrapartida()
 		Xtring("EJERCICIO=") + conn->toSQL( getValue("EJERCICIO") ) 
 		+ " AND NUMERO=" + conn->toSQL( getValue("NUMERO") )
 		+ " AND FECHA=" + conn->toSQL( getValue("FECHA") )
-		+ " AND CARGO<>" + conn->toSQL( getValue("CARGO") )
-		+ " AND IMPORTE=" + conn->toSQL( -getValue("IMPORTE").toMoney() )
+		+ " AND DEBE=" + conn->toSQL( getValue("DEBE").toMoney() )
+		+ " AND HABER=" + conn->toSQL( getValue("HABER").toMoney() )
 		+ " AND PROYECTO_ID=" + conn->toSQL( getValue("PROYECTO_ID") )
 		+ " AND CUENTATESORERIA_ID=" + conn->toSQL( getValue("TERCERO_ID") )
 		+ " AND TABLATERCEROS=" + conn->toSQL("CUENTATESORERIA") 
@@ -183,8 +179,8 @@ bool RecApunteTesoreria::generaContrapartida()
 	} else {
 		apunte->copyRecord( this );
 		apunte->setNew(true);
-		apunte->setValue( "CARGO", !getValue("CARGO").toBool() );
-		apunte->setValue( "IMPORTE", -getValue("IMPORTE").toMoney() );
+		apunte->setValue( "DEBE", getValue("HABER").toMoney() );
+		apunte->setValue( "HABER", getValue("DEBE").toMoney() );
 		apunte->setValue( "CUENTATESORERIA_ID", getValue("TERCERO_ID") );
 		apunte->setValue( "TERCERO_ID", getValue("CUENTATESORERIA_ID") );
 		return apunte->save(false);

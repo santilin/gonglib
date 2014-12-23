@@ -420,6 +420,11 @@ bool FactuModule::initDatabase( dbDefinition *db )
         pFicAlbaranVenta->addFieldReferenceID( "ASIENTO_ID", "ASIENTO.ID" );
     }
 #endif
+#ifdef HAVE_TESORERIAMODULE
+    if ( pTesoreriaModule ) {
+        pFicAlbaranVenta->addFieldReferenceID( "APUNTE_ID", "APUNTETESORERIA.ID" );
+    }
+#endif
     pFicAlbaranVenta->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
     pFicAlbaranVenta->addFieldNotas();
     pFicAlbaranVenta->addBehavior( DBAPP->getRecordTimestampBehavior() );
@@ -453,6 +458,11 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicFacturaVenta->addFieldEuro( "COBROS" );
 #ifdef HAVE_CONTABMODULE
     pFicFacturaVenta->addFieldReferenceID( "ASIENTO_ID", "ASIENTO.ID" );
+#endif
+#ifdef HAVE_TESORERIAMODULE
+    if ( pTesoreriaModule ) {
+        pFicFacturaVenta->addFieldReferenceID( "APUNTE_ID", "APUNTETESORERIA.ID" );
+    }
 #endif
     pFicFacturaVenta->addFieldsDesgloseIVA();
     pFicFacturaVenta->addFieldNotas();
@@ -567,6 +577,11 @@ bool FactuModule::initDatabase( dbDefinition *db )
 #ifdef HAVE_CONTABMODULE
     if ( pContabModule ) {
         pFicFacturaCompra->addFieldReferenceID( "ASIENTO_ID", "ASIENTO.ID" );
+    }
+#endif
+#ifdef HAVE_TESORERIAMODULE
+    if ( pTesoreriaModule ) {
+        pFicFacturaCompra->addFieldReferenceID( "APUNTE_ID", "APUNTETESORERIA.ID" );
     }
 #endif
     pFicFacturaCompra->addFieldsDesgloseIVA();

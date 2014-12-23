@@ -79,9 +79,10 @@ private slots:
 	void pushProveedoraCodigo_clicked();
 	void pushFormaPagoCodigo_clicked();
 	void pushProyectoCodigo_clicked();
+#if defined (HAVE_CONTABMODULE) || defined(HAVE_TESORERIAMODULE)
 	void pushCuentaPagoCodigo_clicked();
-	void pushCuentaPagoCuenta_clicked();
-
+#endif
+	
 public:
 	RecTipoDoc* getRecTipoDoc() const
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecTipoDoc(); }

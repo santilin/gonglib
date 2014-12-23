@@ -1028,7 +1028,7 @@ bool FrmEditAlbaranCompra::canBeginEdit(DataTable::EditMode newmode)
                                                  DBAPP->getTableDescSingular( pRecord->getTableName(), "Esta").c_str() ) );
             } else { // deleting
                 FrmBase::msgError(this,
-                                  Xtring::printf( _("%s tiene pagos ya pagados. Tines que anular todos sus pagos antes de borrar."),
+                                  Xtring::printf( _("%s tiene pagos ya pagados. Tienes que anular todos sus pagos antes de borrar."),
                                                   DBAPP->getTableDescSingular( pRecord->getTableName(), "Esta").c_str() ) );
                 return false;
             }

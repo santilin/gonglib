@@ -1,14 +1,15 @@
 == HECHO ==
 
+
 == HACIENDO ==
 
 == TESORERIA ==
+* al hacer un pago sale el contador 0 dos veces
 * Duplicar código albarán compra en albaran venta, factura venta, liquidaciones
-* Modificar factura no borra el apunte anterior
 
 == HACER ==
-* frmeditdetalles: no pasa la cantidad del grid al formulario.
-* Iniciar tpv, cuando no hay clientes, sale la ventana de elegir cliente, y si no se elige, vuelve a pedirlo.
+* Anular pago borra el apunte en tesorería pero no se actualizan los saldos de las cuentas
+* Al grabar una factura, se quedan las líneas vacías de la anterior
 * Factu: Informe de existencias máximas y mínimas.
 * Ofertas, volcar solo las del ejercicio actual
 * Ofertas: No vuelca de otros albaranes, etc.
@@ -46,6 +47,7 @@
 * Estadísticas
 
 == gong-tpv ==
+* Iniciar tpv, cuando no hay clientes, sale la ventana de elegir cliente, y si no se elige, vuelve a pedirlo.
 * tpv: Pagos por rondas: buscar un FrmList animado
 * Al limpiar la mesa, lee registros
 * saveEstado intenta grabar siempre, ver la diferencia
