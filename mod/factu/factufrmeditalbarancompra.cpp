@@ -207,6 +207,7 @@ if( ModuleInstance->getContabModule() ) {
     editDescuento->setMustBeReadOnly( true );
     editResto->setMustBeReadOnly( true );
     editProveedoraCodigo->setWidthInChars(8);
+    editTipoDocCodigo->setWidthInChars(8);
     editFormaPagoCodigo->setWidthInChars(8);
     editFormaPagoNombre->setWidthInChars(15);
     editNumero->setWidthInChars(20);
@@ -304,7 +305,7 @@ if( ModuleInstance->getContabModule() ) {
 		editTotal->setMustBeReadOnly( mHasPagos );
 		editEntrega->setMustBeReadOnly( mHasPagos );
 		pushPagar->setVisible( !mHasPagos );
-//    	scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
+    	scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
 		validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
 	}
 }
@@ -900,9 +901,9 @@ if( ModuleInstance->getTesoreriaModule() ) {
                 editFechaPago->setText( editFecha->toDate() );
 			}
 #if defined (HAVE_CONTABMODULE) 
-            if( editCuentaPagoCuenta->toString().isEmpty() ) {
+            if( editCuentaPagoCuenta->toString().isEmpty() && getRecFormaPago()->getValue("SUBCUENTAPAGO").toString() == Xtring::null) {
 #elif defined (HAVE_TESORERIAMODULE)
-            if( editCuentaPagoCodigo->toString().isEmpty() ) {
+            if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID	").toInt() == 0) {
 #endif
 				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida", "CUENTAPAGO_ID");
 			}

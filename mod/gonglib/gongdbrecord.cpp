@@ -1,4 +1,3 @@
-
 #include <memory> // auto_ptrread<>
 
 #include "gongformatter.h"
@@ -1025,7 +1024,7 @@ bool dbRecord::addRelatedDetailRecord ( const Xtring &reltable, const dbRecord *
 }
 
 
-Variant dbRecord::getValue ( unsigned int nfield ) const
+Variant dbRecord::getValue( unsigned int nfield ) const
 {
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
@@ -1139,8 +1138,14 @@ Variant dbRecord::getValue( const Xtring &fullfldname ) const
             return calcValue( fldname );
         } else if ( mFieldValues.find ( fldname ) != mFieldValues.end() ) {
             return mFieldValues[fldname]->toVariant();
-        } else if (fldname == Xtring::null) {
+        } else if (fldname == "~CODE_AND_DESC_WITH_TABLENAME") {
+			return toString(TOSTRING_CODE_AND_DESC_WITH_TABLENAME);
+        } else if (fldname == "~CODE_AND_DESC") {
+			return toString(TOSTRING_CODE_AND_DESC);
+        } else if (fldname == "~DESC") {
 			return toString(TOSTRING_DESC);
+        } else if (fldname == "~USER") {
+			return toString(TOSTRING_USER);
 		}
     } else {
         /* get a value from a related table

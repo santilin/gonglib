@@ -67,7 +67,7 @@ public:
 #ifdef HAVE_TESORERIAMODULE
         , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "ENTREGA", "NUMERO", 
 							"PROVEEDORA", false, "PROVEEDORA_ID", Xtring::null, 
-							Xtring::null, false, Xtring::null, Xtring::null,
+							Xtring::null, false, Xtring::null, "~CODE_AND_DESC_WITH_TABLENAME",
 							"NOTAS", "PROYECTO_ID" )
 #endif
         , ITotalizableRecord( this, this->getListAlbaranCompraDet(), compra )

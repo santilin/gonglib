@@ -65,8 +65,10 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	if( pRecord->getValue(mImporteField).toDouble() == 0.0 )
 		return 0;
 	dbRecordID cuenta_pago_id = pRecord->getValue(mCuentaTesoreriaIDField).toInt();
+	if( cuenta_pago_id == 0 ) 
+		cuenta_pago_id = pRecord->getValue("FORMAPAGO.CUENTATESORERIA_ID").toInt();
 	if( cuenta_pago_id == 0 ) {
-		FrmBase::msgError( "Tesorería", _("No se ha generado el apunte en tesorería porque no se ha introducido una cuenta de pago"));
+		FrmBase::msgError( "Tesorería", _("No se ha generado el apunte en tesorería porque no se ha encontrado una cuenta de pago"));
 		return 0;
 	}
 	_GONG_DEBUG_PRINT(0, pRecord->toString(TOSTRING_DEBUG_COMPLETE));

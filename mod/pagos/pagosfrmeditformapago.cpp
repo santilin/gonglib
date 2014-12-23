@@ -167,7 +167,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 
 void FrmEditFormaPago::scatterFields()
 {
-    /*<<<<<FRMEDITFORMAPAGO_SCATTER*/
+/*<<<<<FRMEDITFORMAPAGO_SCATTER*/
 	editCodigo->setText(getRecFormaPago()->getValue("CODIGO").toInt());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editCodigo;
@@ -303,9 +303,9 @@ void FrmEditFormaPago::enableControlesPago()
         enable = true;
         break;
     }
-    editNumPlazos->setReadOnly( !enable );
-    editDiasEntrePlazos->setReadOnly( !enable );
-    editDiasPrimerPlazo->setReadOnly( !enable );
+    editNumPlazos->setMustBeReadOnly( !enable );
+    editDiasEntrePlazos->setMustBeReadOnly( !enable );
+    editDiasPrimerPlazo->setMustBeReadOnly( !enable );
 }
 
 

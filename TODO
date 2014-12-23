@@ -3,7 +3,8 @@
 == HACIENDO ==
 
 == TESORERIA ==
-* Duplicar código albarán compra en albaran venta, factura venta, pedido compra, pedido venta, factura compra, liquidaciones
+* Duplicar código albarán compra en albaran venta, factura venta, liquidaciones
+* Modificar factura no borra el apunte anterior
 
 == HACER ==
 * frmeditdetalles: no pasa la cantidad del grid al formulario.
