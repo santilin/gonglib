@@ -25,6 +25,7 @@
 // FIELD DocumentoPago string tabPagos pago
 // FIELD FechaPago date tabPagos pago
 // FIELD CuentaPago_ID Reference(CuentaTesoreria,Codigo,Nombre) tabPagos pago MODULE_INCLUDED(Tesoreria)
+// FIELD CuentaPago_ID Reference(Cuenta,Cuenta,Descripcion) tabPagos pago MODULE_INCLUDED(Contab)
 // FIELD Notas text tabPagos notas
 // TYPE FrmEditRecMaster factu::AlbaranCompra Albaran Compra
 /*>>>>>MODULE_INFO*/
@@ -146,6 +147,16 @@ if( ModuleInstance->getTesoreriaModule() ) {
 	editCuentaPagoNombre = searchCuentaPagoCodigo->getEditDesc();
 }
 #endif
+
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
+	searchCuentaPagoCuenta = addSearchField( tabPagos, "CUENTAPAGO_ID", "CUENTA", "CUENTA", "DESCRIPCION", pagoLayout );
+	pushCuentaPagoCuenta = searchCuentaPagoCuenta->getButton();
+	connect( pushCuentaPagoCuenta, SIGNAL( clicked() ), this, SLOT( pushCuentaPagoCuenta_clicked() ) );
+	editCuentaPagoCuenta = searchCuentaPagoCuenta->getEditCode();
+	editCuentaPagoDescripcion = searchCuentaPagoCuenta->getEditDesc();
+}
+#endif
 	editNotas = addTextField( tabPagos, "ALBARANCOMPRA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( cabeceraLayout );
 	pControlsLayout->addLayout( cabecera2Layout );
@@ -186,8 +197,8 @@ if( ModuleInstance->getTesoreriaModule() ) {
     connect( pushPagar, SIGNAL( clicked() ), this, SLOT( slotPagar() ) );
     gridlayout->addWidget( pushPagar, 2, 0 );
 
-    editContador->setMustBeReadOnly( true );
     checkFacturado->setMustBeReadOnly( true );
+    editContador->setMustBeReadOnly( true );
     editSumaImportes->setMustBeReadOnly( true );
     editBaseImponible->setMustBeReadOnly( true );
     editRecargoEquivalencia->setMustBeReadOnly( true );
@@ -209,7 +220,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 
 void FrmEditAlbaranCompra::scatterFields()
 {
-    if( isDuplicating() ) {
+    if( isDuplicating() && mIsFirstScatter ) {
         getRecAlbaranCompra()->setValue( "NUMERO", "" );
         getRecAlbaranCompra()->setValue( "CONTADOR", 0 );
         getRecAlbaranCompra()->setValue( "FACTURADO", false );
@@ -218,10 +229,7 @@ void FrmEditAlbaranCompra::scatterFields()
         getRecAlbaranCompra()->setValue( "RESTO", getRecAlbaranCompra()->getValue( "TOTAL") );
         getRecAlbaranCompra()->setValue( "FECHAPAGO", Date() );
         getRecAlbaranCompra()->setValue( "DOCUMENTOPAGO", 0 );
-#ifdef HAVE_CONTABMODULE
-        getRecAlbaranCompra()->setValue( "ASIENTO_ID", 0 );
-        getRecCuentaPago()->clear( false );
-#elif defined (HAVE_TESORERIAMODULE)
+#if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
         getRecAlbaranCompra()->setValue( "APUNTE_ID", 0 );
         getRecCuentaPago()->clear( false );
 #endif
@@ -262,34 +270,43 @@ if( ModuleInstance->getTesoreriaModule() ) {
 }
 #endif
 #endif
+#ifdef HAVE_CONTABMODULE
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
+	scatterCuentaPago();
+}
+#endif
+#endif
 /*>>>>>FRMEDITALBARANCOMPRA_SCATTER*/
-    if( isInserting() ) {
-        if( !isDuplicating() && editFecha->toDate().isNull() )
-            editFecha->setText( ModuleInstance->getWorkingDate() );
-        empresa::EmpresaModule *em = static_cast<empresa::EmpresaModule *>(DBAPP->findModule("empresa"));
-        if( em && em->getRecEmpresa() ) {
-            if( em->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() )
-                comboIVADetallado->setCurrentItemByValue( FldIVADetallado::con_recargo );
-        }
-        if( isDuplicating() ) {
-            editTipoDocCodigo->setJustEdited( true );
-            validateFields( editTipoDocCodigo, 0 );
-        }
-    } else if( isUpdating() ) {
-        pFocusWidget = pFrmAlbaranCompraDet;
-    }
-    pFrmAlbaranCompraDet->addDetailIfNeeded();
-    if( editContador->toInt() == 0 )
-        editContador->setText( empresa::ModuleInstance->getMaxContador() );
-    searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
-    searchFormaPagoCodigo->setMustBeReadOnly( mHasPagos );
-    editFecha->setMustBeReadOnly( mHasPagos );
-    editDtoP100->setMustBeReadOnly( mHasPagos );
-    editTotal->setMustBeReadOnly( mHasPagos );
-    editEntrega->setMustBeReadOnly( mHasPagos );
-    pushPagar->setVisible( !mHasPagos );
-//    scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
-    validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
+	if( mIsFirstScatter ) {
+		if( isInserting() ) {
+			if( !isDuplicating() && editFecha->toDate().isNull() )
+				editFecha->setText( ModuleInstance->getWorkingDate() );
+			empresa::EmpresaModule *em = ModuleInstance->getEmpresaModule();
+			if( em && em->getRecEmpresa() ) {
+				if( em->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() )
+					comboIVADetallado->setCurrentItemByValue( FldIVADetallado::con_recargo );
+			}
+			if( isDuplicating() ) {
+				editTipoDocCodigo->setJustEdited( true );
+				validateFields( editTipoDocCodigo, 0 );
+			}
+		} else if( isUpdating() ) {
+			pFocusWidget = pFrmAlbaranCompraDet;
+		}
+		pFrmAlbaranCompraDet->addDetailIfNeeded();
+		if( editContador->toInt() == 0 )
+			editContador->setText( empresa::ModuleInstance->getMaxContador() );
+		searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
+		searchFormaPagoCodigo->setMustBeReadOnly( mHasPagos );
+		editFecha->setMustBeReadOnly( mHasPagos );
+		editDtoP100->setMustBeReadOnly( mHasPagos );
+		editTotal->setMustBeReadOnly( mHasPagos );
+		editEntrega->setMustBeReadOnly( mHasPagos );
+		pushPagar->setVisible( !mHasPagos );
+//    	scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
+		validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
+	}
 }
 
 void FrmEditAlbaranCompra::gatherFields()
@@ -322,6 +339,11 @@ if(empresa::ModuleInstance->usaProyectos()){
 	getRecAlbaranCompra()->setValue( "FECHAPAGO", editFechaPago->toDate());
 #ifdef HAVE_TESORERIAMODULE
 if( ModuleInstance->getTesoreriaModule() ) {
+	getRecAlbaranCompra()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
+}
+#endif
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
 	getRecAlbaranCompra()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
 }
 #endif
@@ -484,26 +506,117 @@ void FrmEditAlbaranCompra::pushProveedoraCodigo_clicked()
 /*>>>>>FRMEDITALBARANCOMPRA_PUSH_PROVEEDORA_CODIGO_CLICKED*/
 }
 
+void FrmEditAlbaranCompra::scatterFormaPago()
+{
+/*<<<<<FRMEDITALBARANCOMPRA_SCATTER_FORMAPAGO*/
+	editFormaPagoCodigo->setText( getRecFormaPago()->getValue("CODIGO") );
+	editFormaPagoNombre->setText( getRecFormaPago()->getValue("NOMBRE") );
+/*>>>>>FRMEDITALBARANCOMPRA_SCATTER_FORMAPAGO*/
+	if( editFormaPagoCodigo->isJustEdited() ) {
+#ifdef HAVE_CONTABMODULE
+		searchCuentaPagoCuenta->setValue(getRecFormaPago()->getRecCuentaPago()->getValue("CODIGO").toString());
+#elif defined( HAVE_TESORERIAMODULE )
+		searchCuentaPagoCodigo->setValue(getRecFormaPago()->getValue("CUENTATESORERIA.CODIGO").toString());
+#endif		
+	}
+    if( getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::Contado
+            || getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::SeIgnora ) {
+        pushPagar->setVisible( false );
+        editEntrega->setMustBeReadOnly( true );
+    } else {
+        pushPagar->setVisible( true );
+        editEntrega->setMustBeReadOnly( false );
+    }
+    actTotales();
+    if( editEntrega->toDouble() != 0.0 && editTotal->toDouble() != 0.0 )
+        pushPagar->setText( _("&Borrar entrega") );
+    else
+        pushPagar->setText( _("&Entrega") );
+}
+
+void FrmEditAlbaranCompra::pushFormaPagoCodigo_clicked()
+{
+    /*<<<<<FRMEDITALBARANCOMPRA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchFormaPagoCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editFormaPagoCodigo->setJustEdited( false );
+			editFormaPagoCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecFormaPago(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterFormaPago();
+				editFormaPagoCodigo->setJustEdited( true );
+				setWiseFocus(editFormaPagoCodigo);
+			}
+			break;
+		case 'M':
+			{
+				if( getRecFormaPago()->getRecordID() ) {
+					editFormaPagoCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecFormaPago(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editFormaPagoCodigo->setJustEdited( true );
+						scatterFormaPago();
+					}
+				setWiseFocus(editFormaPagoCodigo);
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecFormaPago()->getRecordID() != 0 ) {
+					editFormaPagoCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				pagos::RecFormaPago *tmprec = static_cast<pagos::RecFormaPago *>(DBAPP->createRecord( "FormaPago" ));
+				editFormaPagoCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editFormaPagoCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editFormaPagoCodigo->setJustEdited( true );
+					getRecFormaPago()->copyRecord( tmprec );
+					scatterFormaPago();
+				}
+				setWiseFocus(editFormaPagoCodigo);
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITALBARANCOMPRA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
+}
+
+
+
 #ifdef HAVE_CONTABMODULE
 void FrmEditAlbaranCompra::scatterCuentaPago()
 {
-	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CUENTA") );
+/*<<<<<FRMEDITALBARANCOMPRA_SCATTER_CUENTAPAGO*/
+	editCuentaPagoCuenta->setText( getRecCuentaPago()->getValue("CUENTA") );
 	editCuentaPagoDescripcion->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
+/*>>>>>FRMEDITALBARANCOMPRA_SCATTER_CUENTAPAGO*/
 }
 #elif defined (HAVE_TESORERIAMODULE)
 void FrmEditAlbaranCompra::scatterCuentaPago()
 {
-/*<<<<<FRMEDITALBARANCOMPRA_SCATTER_CUENTAPAGO*/
-	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CODIGO") );
-	editCuentaPagoNombre->setText( getRecCuentaPago()->getValue("NOMBRE") );
-/*>>>>>FRMEDITALBARANCOMPRA_SCATTER_CUENTAPAGO*/
+	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CUENTA") );
+	editCuentaPagoNombre->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
 }
 #endif
 
 #ifdef HAVE_CONTABMODULE
 void FrmEditAlbaranCompra::pushCuentaPagoCuenta_clicked()
 {
-    /*<<<<<FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
+/*<<<<<FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCuenta->mustBeReadOnly() )
 		action = 'E';
@@ -562,6 +675,70 @@ void FrmEditAlbaranCompra::pushCuentaPagoCuenta_clicked()
 /*>>>>>FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
 }
 #endif
+
+#ifdef HAVE_TESORERIAMODULE
+void FrmEditAlbaranCompra::pushCuentaPagoCodigo_clicked()
+{
+/*<<<<<FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchCuentaPagoCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editCuentaPagoCodigo->setJustEdited( false );
+			editCuentaPagoCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecCuentaPago(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterCuentaPago();
+				editCuentaPagoCodigo->setJustEdited( true );
+				setWiseFocus(editCuentaPagoCodigo);
+			}
+			break;
+		case 'M':
+			{
+				if( getRecCuentaPago()->getRecordID() ) {
+					editCuentaPagoCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecCuentaPago(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editCuentaPagoCodigo->setJustEdited( true );
+						scatterCuentaPago();
+					}
+				setWiseFocus(editCuentaPagoCodigo);
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecCuentaPago()->getRecordID() != 0 ) {
+					editCuentaPagoCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecCuentaPago *tmprec = static_cast<RecCuentaPago *>(DBAPP->createRecord( "CuentaPago" ));
+				editCuentaPagoCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editCuentaPagoCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editCuentaPagoCodigo->setJustEdited( true );
+					getRecCuentaPago()->copyRecord( tmprec );
+					scatterCuentaPago();
+				}
+				setWiseFocus(editCuentaPagoCodigo);
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
+}
+#endif
+
 
 void FrmEditAlbaranCompra::scatterProyecto()
 {
@@ -633,159 +810,6 @@ void FrmEditAlbaranCompra::pushProyectoCodigo_clicked()
 }
 
 
-void FrmEditAlbaranCompra::scatterFormaPago()
-{
-/*<<<<<FRMEDITALBARANCOMPRA_SCATTER_FORMAPAGO*/
-	editFormaPagoCodigo->setText( getRecFormaPago()->getValue("CODIGO") );
-	editFormaPagoNombre->setText( getRecFormaPago()->getValue("NOMBRE") );
-/*>>>>>FRMEDITALBARANCOMPRA_SCATTER_FORMAPAGO*/
-	if( editFormaPagoCodigo->isJustEdited() ) {
-#ifdef HAVE_CONTABMODULE
-		searchCuentaPagoCuenta->setValue(getRecFormaPago()->getRecCuentaPago()->getValue("CODIGO").toString());
-#elif defined( HAVE_TESORERIAMODULE )
-		searchCuentaPagoCodigo->setValue(getRecFormaPago()->getValue("CUENTATESORERIA.CODIGO").toString());
-#endif		
-	}
-    if( getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::Contado
-            || getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::SeIgnora ) {
-        pushPagar->setVisible( false );
-        editEntrega->setMustBeReadOnly( true );
-        editEntrega->setMustBeReadOnly( true );
-    } else {
-        pushPagar->setVisible( true );
-        editEntrega->setReadOnly( false );
-        editEntrega->setMustBeReadOnly( false );
-    }
-    actTotales();
-    if( editEntrega->toDouble() != 0.0 && editTotal->toDouble() != 0.0 )
-        pushPagar->setText( _("&Borrar entrega") );
-    else
-        pushPagar->setText( _("&Entrega") );
-}
-
-void FrmEditAlbaranCompra::pushFormaPagoCodigo_clicked()
-{
-    /*<<<<<FRMEDITALBARANCOMPRA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
-	char action = mControlKeyPressed;
-	if( !isEditing() || searchFormaPagoCodigo->mustBeReadOnly() )
-		action = 'E';
-	switch( action ) {
-		case 'F':
-		case '\0':
-			editFormaPagoCodigo->setJustEdited( false );
-			editFormaPagoCodigo->setCancelling();
-			if( DBAPP->choose(this, getRecFormaPago(), 0, dbApplication::editNone, this ) ) {
-				setEdited(true);
-				scatterFormaPago();
-				editFormaPagoCodigo->setJustEdited( true );
-				setWiseFocus(editFormaPagoCodigo);
-			}
-			break;
-		case 'M':
-			{
-				if( getRecFormaPago()->getRecordID() ) {
-					editFormaPagoCodigo->setJustEdited( false );
-					if( DBAPP->editRecord(this,
-							getRecFormaPago(), 0, DataTable::updating,
-							dbApplication::simpleEdition, this ) ) {
-						editFormaPagoCodigo->setJustEdited( true );
-						scatterFormaPago();
-					}
-				setWiseFocus(editFormaPagoCodigo);
-				}
-			}
-			break;
-		case 'E':
-			{
-				if( getRecFormaPago()->getRecordID() != 0 ) {
-					editFormaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
-						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-				}
-			}
-			break;
-		case 'A':
-			{
-				pagos::RecFormaPago *tmprec = static_cast<pagos::RecFormaPago *>(DBAPP->createRecord( "FormaPago" ));
-				editFormaPagoCodigo->setJustEdited( false );
-				tmprec->clear( true ); // set default values
-				DBAPP->setCodeNotFound( editFormaPagoCodigo->toString() );
-				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-					dbApplication::simpleEdition, this ) ) {
-					editFormaPagoCodigo->setJustEdited( true );
-					getRecFormaPago()->copyRecord( tmprec );
-					scatterFormaPago();
-				}
-				setWiseFocus(editFormaPagoCodigo);
-				DBAPP->setCodeNotFound( Xtring() );
-			}
-			break;
-	}
-/*>>>>>FRMEDITALBARANCOMPRA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
-}
-
-#ifdef HAVE_TESORERIAMODULE
-void FrmEditAlbaranCompra::pushCuentaPagoCodigo_clicked()
-{
-/*<<<<<FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
-	char action = mControlKeyPressed;
-	if( !isEditing() || searchCuentaPagoCodigo->mustBeReadOnly() )
-		action = 'E';
-	switch( action ) {
-		case 'F':
-		case '\0':
-			editCuentaPagoCodigo->setJustEdited( false );
-			editCuentaPagoCodigo->setCancelling();
-			if( DBAPP->choose(this, getRecCuentaPago(), 0, dbApplication::editNone, this ) ) {
-				setEdited(true);
-				scatterCuentaPago();
-				editCuentaPagoCodigo->setJustEdited( true );
-				setWiseFocus(editCuentaPagoCodigo);
-			}
-			break;
-		case 'M':
-			{
-				if( getRecCuentaPago()->getRecordID() ) {
-					editCuentaPagoCodigo->setJustEdited( false );
-					if( DBAPP->editRecord(this,
-							getRecCuentaPago(), 0, DataTable::updating,
-							dbApplication::simpleEdition, this ) ) {
-						editCuentaPagoCodigo->setJustEdited( true );
-						scatterCuentaPago();
-					}
-				setWiseFocus(editCuentaPagoCodigo);
-				}
-			}
-			break;
-		case 'E':
-			{
-				if( getRecCuentaPago()->getRecordID() != 0 ) {
-					editCuentaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
-						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
-				}
-			}
-			break;
-		case 'A':
-			{
-				RecCuentaPago *tmprec = static_cast<RecCuentaPago *>(DBAPP->createRecord( "CuentaPago" ));
-				editCuentaPagoCodigo->setJustEdited( false );
-				tmprec->clear( true ); // set default values
-				DBAPP->setCodeNotFound( editCuentaPagoCodigo->toString() );
-				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
-					dbApplication::simpleEdition, this ) ) {
-					editCuentaPagoCodigo->setJustEdited( true );
-					getRecCuentaPago()->copyRecord( tmprec );
-					scatterCuentaPago();
-				}
-				setWiseFocus(editCuentaPagoCodigo);
-				DBAPP->setCodeNotFound( Xtring() );
-			}
-			break;
-	}
-/*>>>>>FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
-}
-#endif
 
 void FrmEditAlbaranCompra::specialControlKeyPressed( QWidget *sender, char key )
 {
@@ -806,6 +830,12 @@ if(empresa::ModuleInstance->usaProyectos()){
 if( ModuleInstance->getTesoreriaModule() ) {
 	if( sender == editCuentaPagoCodigo )
 		pushCuentaPagoCodigo_clicked();
+}
+#endif
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
+	if( sender == editCuentaPagoCuenta )
+		pushCuentaPagoCuenta_clicked();
 }
 #endif
 	mControlKeyPressed = '\0';
@@ -1013,6 +1043,10 @@ void FrmEditAlbaranCompra::slotPagar()
         editEntrega->setText( 0.0 );
         editFechaPago->setText( "" );
         editDocumentoPago->setText( "" );
+#if defined (HAVE_CONTABMODULE) || defined(HAVE_TESORERIAMODULE)
+        getRecCuentaPago()->clear( false );
+        scatterCuentaPago();
+#endif
         pushPagar->setText( _("&Entrega") );
     } else {
         Date fechapago = editFechaPago->toDate();
@@ -1053,10 +1087,10 @@ void FrmEditAlbaranCompra::slotPagar()
                 searchCuentaPagoCodigo->setValue( pr->getCuentaPago() );
 			}
 #endif
-            if( editTotal->toDouble() == 0.0 )
+            if( editEntrega->toDouble() != 0.0 )
                 pushPagar->setText( _("&Borrar entrega") );
         }
-//		delete pr;
+		delete pr;
     }
 }
 

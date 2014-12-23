@@ -23,8 +23,8 @@
 /*>>>>>ALBARANCOMPRA_INCLUDES*/
 #include <empresamodule.h>
 #ifdef HAVE_CONTABMODULE
-#include <contabrecasiento.h>
 #include <contabmodule.h>
+#include <contabrecasiento.h>
 #endif
 #include "factumodule.h"
 

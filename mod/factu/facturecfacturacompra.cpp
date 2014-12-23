@@ -4,15 +4,16 @@
 // MEMBER save
 // MEMBER remove
 // MEMBER toString
-// RELATION pagos::FormaPago
-// RELATION empresa::Proyecto
 // RELATION TipoDoc
 // RELATION Proveedora
 // RELATION Agente
+// RELATION pagos::FormaPago
+// RELATION empresa::Proyecto
 // RELATION FacturaCompraDet Detalles
 // INTERFACE public factu::IPagableFactura
 // INTERFACE public factu::IIVADesglosable
 // INTERFACE public factu::IAsentableFactura #ifdef|HAVE_CONTABMODULE
+// INTERFACE public tesoreria::IApuntableRecord #ifdef|HAVE_TESORERIAMODULE
 // INTERFACE public factu::ITotalizableRecord
 // TYPE dbRecord factu::FacturaCompra
 /*>>>>>MODULE_INFO*/
@@ -20,12 +21,11 @@
 /*<<<<<FACTURACOMPRA_INCLUDES*/
 #include "facturecfacturacompra.h"
 /*>>>>>FACTURACOMPRA_INCLUDES*/
+#include <empresamodule.h>
 #ifdef HAVE_CONTABMODULE
 #include <contabmodule.h>
 #include <contabrecasiento.h>
-#include <contabreccuenta.h>
 #endif
-#include <empresamodule.h>
 #include "factumodule.h"
 
 namespace gong {
@@ -40,16 +40,6 @@ void RecFacturaCompra::init()
 }
 
 /*<<<<<FACTURACOMPRA_RELATIONS*/
-pagos::RecFormaPago *RecFacturaCompra::getRecFormaPago() const
-{
-	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FORMAPAGO_ID"));
-}
-
-empresa::RecProyecto *RecFacturaCompra::getRecProyecto() const
-{
-	return static_cast<empresa::RecProyecto*>(findRelatedRecord("PROYECTO_ID"));
-}
-
 RecTipoDoc *RecFacturaCompra::getRecTipoDoc() const
 {
 	return static_cast<RecTipoDoc*>(findRelatedRecord("TIPODOC_ID"));
@@ -63,6 +53,16 @@ RecProveedora *RecFacturaCompra::getRecProveedora() const
 RecAgente *RecFacturaCompra::getRecAgente() const
 {
 	return static_cast<RecAgente*>(findRelatedRecord("AGENTE_ID"));
+}
+
+pagos::RecFormaPago *RecFacturaCompra::getRecFormaPago() const
+{
+	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FORMAPAGO_ID"));
+}
+
+empresa::RecProyecto *RecFacturaCompra::getRecProyecto() const
+{
+	return static_cast<empresa::RecProyecto*>(findRelatedRecord("PROYECTO_ID"));
 }
 
 RecFacturaCompraDet *RecFacturaCompra::getRecFacturaCompraDet( int facturacompradet ) const
@@ -94,27 +94,39 @@ Xtring RecFacturaCompra::toString(int format, const Xtring &includedFields) cons
 bool RecFacturaCompra::save(bool saverelated) throw( dbError )
 {
 /*>>>>>FACTURACOMPRA_SAVE*/
-    if( getValue( "CONTADOR" ).toInt() == 0 )
-        setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
+	if( saverelated ) {
+		if( getValue( "CONTADOR" ).toInt() == 0 )
+			setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
 #ifdef HAVE_PAGOSMODULE
-    actRestoFactura();
+		if( DBAPP->findModule("pagos") ) 
+			actRestoFactura();
 #endif
+	}
     bool ret = dbRecord::save(saverelated);
     if( ret && saverelated ) {
 #ifdef HAVE_PAGOSMODULE
-        delPagos( false );
-        genPagos();
+		if( DBAPP->findModule("pagos") ) {
+			delPagos( false );
+			genPagos();
+		}
 #endif
 #ifdef HAVE_CONTABMODULE
-        if( contab::ModuleInstance->isContabActive() ) {
-            bool supervisar = contab::ModuleInstance->getModuleSetting( "SUPERVISAR_ASIENTOS" ).toBool();
-            regenAsiento( supervisar );
+		if( DBAPP->findModule("contab") )  {
+			if( contab::ModuleInstance->isContabActive() ) {
+				bool supervisar = contab::ModuleInstance->getModuleSetting( "SUPERVISAR_ASIENTOS" ).toBool();
+				regenAsiento( supervisar );
+			}
+		}
+#endif
+#ifdef HAVE_TESORERIAMODULE
+        if( DBAPP->findModule("tesoreria") ) {
+            bool supervisar = tesoreria::ModuleInstance->getModuleSetting( "SUPERVISAR_APUNTES" ).toBool();
+            regenApunte( supervisar );
         }
 #endif
-    }
-    if( ret )
         DBAPP->showStickyOSD( toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
-                              Xtring::printf( _("Contador: %d"), getValue( "CONTADOR" ).toInt() ) );
+			Xtring::printf( _("Contador: %d"), getValue( "CONTADOR" ).toInt() ) );
+    }
     return ret;
 }
 
@@ -125,11 +137,19 @@ bool RecFacturaCompra::remove() throw( dbError )
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE
-        delPagos( true );
+		if( DBAPP->findModule("pagos") ) 
+			delPagos( true );
 #endif
 #ifdef HAVE_CONTABMODULE
-        if( contab::ModuleInstance->isContabActive() )
-            delete borraAsiento();
+		if( DBAPP->findModule("contab") ) {
+			if( contab::ModuleInstance->isContabActive() )
+				delete borraAsiento();
+		}
+#endif
+#ifdef HAVE_TESORERIAMODULE
+        if( DBAPP->findModule("tesoreria") ) {
+            delete borraApunte( false /*no regenerando*/);
+        }
 #endif
     }
     return ret;

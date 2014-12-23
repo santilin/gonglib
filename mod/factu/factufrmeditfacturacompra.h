@@ -14,6 +14,8 @@
 #ifndef _FACTU_FACTUFRMEDITFACTURACOMPRA_H
 #define _FACTU_FACTUFRMEDITFACTURACOMPRA_H
 /*>>>>>FRMEDITFACTURACOMPRA_PREAMBLE*/
+
+#include "config.h"
 /*<<<<<FRMEDITFACTURACOMPRA_INCLUDES*/
 #include <gongfrmbase.h>
 #include <dbappfrmeditrecmaster.h>
@@ -24,7 +26,9 @@
 #ifdef HAVE_CONTABMODULE
 #include <contabreccuenta.h>
 typedef gong::contab::RecCuenta RecCuentaPago;
-#include "factuiasentables.h"
+#elif defined (HAVE_TESORERIAMODULE)
+#include <tesoreriareccuentatesoreria.h>
+typedef gong::tesoreria::RecCuentaTesoreria RecCuentaPago;
 #endif
 
 namespace gong {
@@ -65,7 +69,7 @@ protected:
 protected slots:
     void slotPagar();
 
-    /*<<<<<FRMEDITFACTURACOMPRA_SCATTERS_AND_SLOTS*/
+/*<<<<<FRMEDITFACTURACOMPRA_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterTipoDoc();
 	void scatterProveedora();
@@ -78,6 +82,7 @@ private slots:
 	void pushProveedoraCodigo_clicked();
 	void pushFormaPagoCodigo_clicked();
 	void pushProyectoCodigo_clicked();
+	void pushCuentaPagoCodigo_clicked();
 	void pushCuentaPagoCuenta_clicked();
 
 public:
@@ -89,6 +94,10 @@ public:
 		{ return static_cast<RecFacturaCompra*>(getRecord())->getRecFormaPago(); }
 	empresa::RecProyecto* getRecProyecto() const
 		{ return static_cast<RecFacturaCompra*>(getRecord())->getRecProyecto(); }
+#ifdef HAVE_TESORERIAMODULE
+	RecCuentaPago* getRecCuentaPago() const
+		{ return static_cast<RecFacturaCompra*>(getRecord())->getRecCuentaPago(); }
+#endif
 #ifdef HAVE_CONTABMODULE
 	RecCuentaPago* getRecCuentaPago() const
 		{ return static_cast<RecFacturaCompra*>(getRecord())->getRecCuentaPago(); }
@@ -132,6 +141,12 @@ protected:
 	gong::EditBox *editDesgloseIVA;
 	gong::EditBox *editDocumentoPago;
 	gong::EditBox *editFechaPago;
+#ifdef HAVE_TESORERIAMODULE
+	gong::SearchBox *searchCuentaPagoCodigo;
+	QPushButton *pushCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoNombre;
+#endif
 #ifdef HAVE_CONTABMODULE
 	gong::SearchBox *searchCuentaPagoCuenta;
 	QPushButton *pushCuentaPagoCuenta;

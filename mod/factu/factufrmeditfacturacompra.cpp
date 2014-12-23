@@ -23,6 +23,7 @@
 // FIELD DesgloseIVA string tabPagos desgloseiva
 // FIELD DocumentoPago string tabPagos pago
 // FIELD FechaPago date tabPagos pago
+// FIELD CuentaPago_ID Reference(CuentaTesoreria,Codigo,Nombre) tabPagos pago MODULE_INCLUDED(Tesoreria)
 // FIELD CuentaPago_ID Reference(Cuenta,Cuenta,Descripcion) tabPagos pago MODULE_INCLUDED(Contab)
 // FIELD Notas text tabPagos notas
 // TYPE FrmEditRecMaster factu::FacturaCompra Factura Compra
@@ -34,8 +35,8 @@
 #include "factufrmeditfacturacompra.h"
 /*>>>>>FRMEDITFACTURACOMPRA_INCLUDES*/
 #include "factumodule.h"
-#include "facturecalbarancompra.h"
 #include "factufrmpagar.h"
+#include "facturecalbarancompra.h"
 
 namespace gong {
 namespace factu {
@@ -135,6 +136,16 @@ if(empresa::ModuleInstance->usaProyectos()){
 	editDocumentoPago = addEditField( tabPagos, "FACTURACOMPRA", "DOCUMENTOPAGO", pagoLayout );
 	editFechaPago = addEditField( tabPagos, "FACTURACOMPRA", "FECHAPAGO", pagoLayout );
 
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	searchCuentaPagoCodigo = addSearchField( tabPagos, "CUENTAPAGO_ID", "CUENTATESORERIA", "CODIGO", "NOMBRE", pagoLayout );
+	pushCuentaPagoCodigo = searchCuentaPagoCodigo->getButton();
+	connect( pushCuentaPagoCodigo, SIGNAL( clicked() ), this, SLOT( pushCuentaPagoCodigo_clicked() ) );
+	editCuentaPagoCodigo = searchCuentaPagoCodigo->getEditCode();
+	editCuentaPagoNombre = searchCuentaPagoCodigo->getEditDesc();
+}
+#endif
+
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	searchCuentaPagoCuenta = addSearchField( tabPagos, "CUENTAPAGO_ID", "CUENTA", "CUENTA", "DESCRIPCION", pagoLayout );
@@ -184,13 +195,13 @@ if( ModuleInstance->getContabModule() ) {
     connect( pushPagar, SIGNAL( clicked() ), this, SLOT( slotPagar() ) );
     rightEntregaAlbaranesLayout->insertWidget(0, pushPagar );
 
+    editEntregaAlbaranes->setMustBeReadOnly( true );
     editContador->setMustBeReadOnly( true );
     editSumaImportes->setMustBeReadOnly( true );
     editBaseImponible->setMustBeReadOnly( true );
     editRecargoEquivalencia->setMustBeReadOnly( true );
-    editEntregaAlbaranes->setMustBeReadOnly( true );
-    editPagos->setMustBeReadOnly( true );
     editIVA->setMustBeReadOnly( true );
+    editPagos->setMustBeReadOnly( true );
     editDescuento->setMustBeReadOnly( true );
     editResto->setMustBeReadOnly( true );
     editProveedoraCodigo->setWidthInChars(8);
@@ -214,9 +225,8 @@ void FrmEditFacturaCompra::scatterFields()
         getRecFacturaCompra()->setValue( "RESTO", getRecFacturaCompra()->getValue( "TOTAL") );
         getRecFacturaCompra()->setValue( "FECHAPAGO", Date() );
         getRecFacturaCompra()->setValue( "DOCUMENTOPAGO", 0 );
-        getRecFacturaCompra()->setValue( "FECHAIVA", 0 );
-#ifdef HAVE_CONTABMODULE
-        getRecFacturaCompra()->setValue( "ASIENTO_ID", 0 );
+#if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
+        getRecFacturaCompra()->setValue( "APUNTE_ID", 0 );
         getRecCuentaPago()->clear( false );
 #endif
         // No duplicar los albaranes facturados
@@ -257,6 +267,13 @@ void FrmEditFacturaCompra::scatterFields()
 if(empresa::ModuleInstance->usaProyectos()){
 	scatterProyecto();
 }
+#ifdef HAVE_TESORERIAMODULE
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	scatterCuentaPago();
+}
+#endif
+#endif
 #ifdef HAVE_CONTABMODULE
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
@@ -291,7 +308,7 @@ if( ModuleInstance->getContabModule() ) {
 		editTotal->setMustBeReadOnly( mHasPagos );
 		editEntrega->setMustBeReadOnly( mHasPagos );
 		pushPagar->setVisible( !mHasPagos );
-		scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
+//		scatterFormaPago(); // Para cambiar el texto del botón pagar después de actualizar los totales
 		validateFields( comboIVADetallado, 0 ); // Para mostrar u ocultar el recargo de equivalencia
 	}
 }
@@ -323,6 +340,11 @@ if(empresa::ModuleInstance->usaProyectos()){
 	getRecFacturaCompra()->setValue( "DESGLOSEIVA", editDesgloseIVA->toString());
 	getRecFacturaCompra()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
 	getRecFacturaCompra()->setValue( "FECHAPAGO", editFechaPago->toDate());
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	getRecFacturaCompra()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
+}
+#endif
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	getRecFacturaCompra()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
@@ -332,20 +354,6 @@ if( ModuleInstance->getContabModule() ) {
 /*>>>>>FRMEDITFACTURACOMPRA_GATHER*/
     ModuleInstance->setWorkingDate( editFecha->toDate() );
 }
-
-#if 0
-/*<<<<<FRMEDITFACTURACOMPRA_CABECERA_GENNUMDOC*/
-void FrmEditFacturaCompra::genNumeroDocumento()
-{
-		editContador->setText( ModuleInstance->getMaxContador( "FACTURACOMPRA",
-			getRecord()->getValue("EMPRESA_ID").toInt(),
-			ModuleInstance->getEmpresaModule()->getEjercicio(),
-			getRecTipoDoc()->getValue("SERIE").toString() ) );
-		editContador->setJustEdited( true );
-		validateFields( editContador, 0 );
-/*>>>>>FRMEDITFACTURACOMPRA_CABECERA_GENNUMDOC*/
-}
-#endif
 
 void FrmEditFacturaCompra::scatterTipoDoc()
 {
@@ -358,7 +366,6 @@ void FrmEditFacturaCompra::scatterTipoDoc()
             comboIVADetallado->setCurrentItemByValue( getRecTipoDoc()->getValue("IVADetallado").toInt() );
         if( editFormaPagoCodigo->toString().isEmpty() )
             searchFormaPagoCodigo->setValue( getRecTipoDoc()->getValue("FORMAPAGO.CODIGO").toInt() );
-
     }
 }
 
@@ -506,13 +513,20 @@ void FrmEditFacturaCompra::scatterFormaPago()
 	editFormaPagoCodigo->setText( getRecFormaPago()->getValue("CODIGO") );
 	editFormaPagoNombre->setText( getRecFormaPago()->getValue("NOMBRE") );
 /*>>>>>FRMEDITFACTURACOMPRA_SCATTER_FORMAPAGO*/
+	if( editFormaPagoCodigo->isJustEdited() ) {
+#ifdef HAVE_CONTABMODULE
+		searchCuentaPagoCuenta->setValue(getRecFormaPago()->getRecCuentaPago()->getValue("CODIGO").toString());
+#elif defined( HAVE_TESORERIAMODULE )
+		searchCuentaPagoCodigo->setValue(getRecFormaPago()->getValue("CUENTATESORERIA.CODIGO").toString());
+#endif		
+	}
     if( getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::Contado
             || getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::SeIgnora ) {
         pushPagar->setVisible( false );
         editEntrega->setReadOnly( true );
     } else {
         pushPagar->setVisible( true );
-        editEntrega->setReadOnly( false );
+        editEntrega->setMustBeReadOnly( false );
     }
     actTotales();
     if( editEntrega->toDouble() != 0.0 && editTotal->toDouble() != 0.0 )
@@ -582,21 +596,25 @@ void FrmEditFacturaCompra::pushFormaPagoCodigo_clicked()
 /*>>>>>FRMEDITFACTURACOMPRA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
 }
 
+#ifdef HAVE_CONTABMODULE
 void FrmEditFacturaCompra::scatterCuentaPago()
 {
-#ifdef HAVE_CONTABMODULE
-#define getRecCuenta getRecCuentaPago
-    /*<<<<<FRMEDITFACTURACOMPRA_SCATTER_CUENTAPAGO*/
+/*<<<<<FRMEDITFACTURACOMPRA_SCATTER_CUENTAPAGO*/
 	editCuentaPagoCuenta->setText( getRecCuentaPago()->getValue("CUENTA") );
 	editCuentaPagoDescripcion->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
 /*>>>>>FRMEDITFACTURACOMPRA_SCATTER_CUENTAPAGO*/
-#undef getRecCuenta
-#endif
 }
+#elif defined (HAVE_TESORERIAMODULE)
+void FrmEditFacturaCompra::scatterCuentaPago()
+{
+	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CUENTA") );
+	editCuentaPagoNombre->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
+}
+#endif
 
+#ifdef HAVE_CONTABMODULE
 void FrmEditFacturaCompra::pushCuentaPagoCuenta_clicked()
 {
-#ifdef HAVE_CONTABMODULE
     /*<<<<<FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCuenta->mustBeReadOnly() )
@@ -654,12 +672,75 @@ void FrmEditFacturaCompra::pushCuentaPagoCuenta_clicked()
 			break;
 	}
 /*>>>>>FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
-#endif
 }
+#endif
+
+#ifdef HAVE_TESORERIAMODULE
+void FrmEditFacturaCompra::pushCuentaPagoCodigo_clicked()
+{
+/*<<<<<FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchCuentaPagoCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editCuentaPagoCodigo->setJustEdited( false );
+			editCuentaPagoCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecCuentaPago(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterCuentaPago();
+				editCuentaPagoCodigo->setJustEdited( true );
+				setWiseFocus(editCuentaPagoCodigo);
+			}
+			break;
+		case 'M':
+			{
+				if( getRecCuentaPago()->getRecordID() ) {
+					editCuentaPagoCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecCuentaPago(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editCuentaPagoCodigo->setJustEdited( true );
+						scatterCuentaPago();
+					}
+				setWiseFocus(editCuentaPagoCodigo);
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecCuentaPago()->getRecordID() != 0 ) {
+					editCuentaPagoCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecCuentaPago *tmprec = static_cast<RecCuentaPago *>(DBAPP->createRecord( "CuentaPago" ));
+				editCuentaPagoCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editCuentaPagoCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editCuentaPagoCodigo->setJustEdited( true );
+					getRecCuentaPago()->copyRecord( tmprec );
+					scatterCuentaPago();
+				}
+				setWiseFocus(editCuentaPagoCodigo);
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
+}
+#endif
 
 void FrmEditFacturaCompra::scatterProyecto()
 {
-    /*<<<<<FRMEDITFACTURACOMPRA_SCATTER_PROYECTO*/
+/*<<<<<FRMEDITFACTURACOMPRA_SCATTER_PROYECTO*/
 	editProyectoCodigo->setText( getRecProyecto()->getValue("CODIGO") );
 	editProyectoNombre->setText( getRecProyecto()->getValue("NOMBRE") );
 /*>>>>>FRMEDITFACTURACOMPRA_SCATTER_PROYECTO*/
@@ -740,6 +821,12 @@ if(empresa::ModuleInstance->usaProyectos()){
 	if( sender == editProyectoCodigo )
 		pushProyectoCodigo_clicked();
 }
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	if( sender == editCuentaPagoCodigo )
+		pushCuentaPagoCodigo_clicked();
+}
+#endif
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	if( sender == editCuentaPagoCuenta )
@@ -777,6 +864,14 @@ if(empresa::ModuleInstance->usaProyectos()){
 		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterProyecto();
 }
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	if( focusWidget() != pushCuentaPagoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editCuentaPagoCodigo, editCuentaPagoNombre,
+		getRecCuentaPago(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterCuentaPago();
+}
+#endif
 /*>>>>>FRMEDITFACTURACOMPRA_VALIDATE*/
 
 #ifdef HAVE_CONTABMODULE
@@ -786,29 +881,32 @@ if(empresa::ModuleInstance->usaProyectos()){
 #include <contabvalidatecuenta.inc>
 #endif
 
-    if( sender == editEntrega && editEntrega->isJustEdited() ) {
+    if( !sender ) {
         if( editEntrega->toDouble() == 0.0 ) {
             editFechaPago->setText( Xtring::null );
             editDocumentoPago->setText( "" );
-#ifdef HAVE_CONTABMODULE
+#if defined (HAVE_CONTABMODULE) 
             searchCuentaPagoCuenta->setValue( "" );
+#elif defined (HAVE_TESORERIAMODULE)
+            searchCuentaPagoCodigo->setValue( "" );
 #endif
         } else {
-            if( editFechaPago->toString().isEmpty()
-#ifdef HAVE_CONTABMODULE
-                    && editCuentaPagoCuenta->toString().isEmpty()
-#endif
-              ) {
+			if( editFechaPago->toString().isEmpty()) {
                 editFechaPago->setText( editFecha->toDate() );
-#ifdef HAVE_CONTABMODULE
-                editCuentaPagoCuenta->setText( empresa::ModuleInstance->getRecEmpresa()->getValue("CUENTACAJA").toString() );
+			}
+#if defined (HAVE_CONTABMODULE) 
+            if( editCuentaPagoCuenta->toString().isEmpty() ) {
+#elif defined (HAVE_TESORERIAMODULE)
+            if( editCuentaPagoCodigo->toString().isEmpty() ) {
 #endif
-                editDocumentoPago->setText( _("Pago fact. " + editNumero->toString() ) );
-            }
-        }
+				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida", "CUENTAPAGO_ID");
+			}
+		}
+	}
+	if( sender == editEntrega && editEntrega->isJustEdited() ) {	
         actTotales();
     }
-    /*<<<<<FRMEDITFACTURACOMPRA_CABECERA_VALIDATE*/
+/*<<<<<FRMEDITFACTURACOMPRA_CABECERA_VALIDATE*/
 	if( sender == editDtoP100 && editDtoP100->isJustEdited() ) {
 		editDescuento->setText( 0.0 );
 		actTotales();
@@ -934,7 +1032,7 @@ void FrmEditFacturaCompra::slotPagar()
         editEntrega->setText( 0.0 );
         editFechaPago->setText( "" );
         editDocumentoPago->setText( "" );
-#ifdef HAVE_CONTABMODULE
+#if defined (HAVE_CONTABMODULE) || defined(HAVE_TESORERIAMODULE)
         getRecCuentaPago()->clear( false );
         scatterCuentaPago();
 #endif
@@ -950,6 +1048,9 @@ void FrmEditFacturaCompra::slotPagar()
 #ifdef HAVE_CONTABMODULE
         Xtring cuentapago = editCuentaPagoCuenta->toString();
         bool has_contab = contab::ModuleInstance->isContabActive();
+#elif defined (HAVE_TESORERIAMODULE)
+        Xtring cuentapago = editCuentaPagoCodigo->toString();
+        bool has_contab = factu::ModuleInstance->getTesoreriaModule();
 #else
         bool has_contab = false;
         Xtring cuentapago;
@@ -957,7 +1058,7 @@ void FrmEditFacturaCompra::slotPagar()
         if( cuentapago.isEmpty() )
             cuentapago = empresa::ModuleInstance->getRecEmpresa()->getValue("CUENTACAJA").toString();
         FrmPagar *pr = new FrmPagar( has_contab, pago, fechapago,
-                                     cuentapago, docpago, 0, "pagarFacturaCompra" );
+                                     cuentapago, docpago, 0, "FrmPagar" );
         pr->showModalFor( this, true, true );
         if( !pr->wasCancelled() ) {
             editEntrega->setText( pr->getImporte() );
@@ -968,10 +1069,14 @@ void FrmEditFacturaCompra::slotPagar()
             if( has_contab ) {
                 contab::Cuenta cuenta_pago = contab::Cuenta( pr->getCuentaPago(), contab::ModuleInstance->getDigitosTrabajo() );
                 cuenta_pago.expandir();
-                editCuentaPagoCuenta->setText( cuenta_pago );
+                searchCuentaPagoCuenta->setValue( cuenta_pago );
             }
+#elif defined (HAVE_TESORERIAMODULE)
+            if( has_contab ) {
+                searchCuentaPagoCodigo->setValue( pr->getCuentaPago() );
+			}
 #endif
-            if( editTotal->toDouble() != 0.0 )
+            if( editEntrega->toDouble() != 0.0 )
                 pushPagar->setText( _("&Borrar entrega") );
         }
         delete pr;
@@ -987,8 +1092,22 @@ void FrmEditFacturaCompra::actTotales()
 /*>>>>>FRMEDITFACTURACOMPRA_CABECERA_ACTTOTALES*/
 }
 
-
 /*<<<<<FRMEDITFACTURACOMPRA_FIN*/
 } // namespace factu
 } // namespace gong
 /*>>>>>FRMEDITFACTURACOMPRA_FIN*/
+
+#if 0
+/*<<<<<FRMEDITFACTURACOMPRA_CABECERA_GENNUMDOC*/
+void FrmEditFacturaCompra::genNumeroDocumento()
+{
+		editContador->setText( ModuleInstance->getMaxContador( "FACTURACOMPRA",
+			getRecord()->getValue("EMPRESA_ID").toInt(),
+			ModuleInstance->getEmpresaModule()->getEjercicio(),
+			getRecTipoDoc()->getValue("SERIE").toString() ) );
+		editContador->setJustEdited( true );
+		validateFields( editContador, 0 );
+/*>>>>>FRMEDITFACTURACOMPRA_CABECERA_GENNUMDOC*/
+}
+#endif
+

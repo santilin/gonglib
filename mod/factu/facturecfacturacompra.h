@@ -19,11 +19,11 @@
 /*<<<<<FACTURACOMPRA_INCLUDES*/
 #include <dbappdbapplication.h>
 
-#include "pagosrecformapago.h"
-#include "empresarecproyecto.h"
 #include "facturectipodoc.h"
 #include "facturecproveedora.h"
 #include "facturecagente.h"
+#include "pagosrecformapago.h"
+#include "empresarecproyecto.h"
 #include "facturecfacturacompradet.h"
 /*>>>>>FACTURACOMPRA_INCLUDES*/
 #include "factuipagables.h"
@@ -35,6 +35,10 @@
 #include "factuiasentables.h"
 #endif
 
+#ifdef HAVE_TESORERIAMODULE
+#include "tesoreriaiapuntablerecord.h"
+#endif
+
 namespace gong {
 namespace factu {
 
@@ -44,6 +48,9 @@ class RecFacturaCompra: public dbRecord,
 	public factu::IIVADesglosable,
 #ifdef HAVE_CONTABMODULE
 	public factu::IAsentableFactura,
+#endif
+#ifdef HAVE_TESORERIAMODULE
+	public tesoreria::IApuntableRecord,
 #endif
 	public factu::ITotalizableRecord
 
@@ -57,6 +64,12 @@ public:
 #ifdef HAVE_CONTABMODULE
         , IAsentableFactura( this, IAsentableFactura::facturacompra )
 #endif
+#ifdef HAVE_TESORERIAMODULE
+        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "ENTREGA", "NUMERO", 
+							"PROVEEDORA", false, "PROVEEDORA_ID", Xtring::null, 
+							Xtring::null, false, Xtring::null, Xtring::null,
+							"NOTAS", "PROYECTO_ID" )
+#endif
         , ITotalizableRecord( this, getListFacturaCompraDet(), compra )
     {
         addSemanticProperty( "COMPRA" );
@@ -68,13 +81,12 @@ public:
 	virtual bool remove() throw( dbError ); // from dbRecord
 	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 /*>>>>>FACTURACOMPRA_MEMBERS*/
-public:
-    /*<<<<<FACTURACOMPRA_RELATIONS*/
-	pagos::RecFormaPago *getRecFormaPago() const;
-	empresa::RecProyecto *getRecProyecto() const;
+/*<<<<<FACTURACOMPRA_RELATIONS*/
 	RecTipoDoc *getRecTipoDoc() const;
 	RecProveedora *getRecProveedora() const;
 	RecAgente *getRecAgente() const;
+	pagos::RecFormaPago *getRecFormaPago() const;
+	empresa::RecProyecto *getRecProyecto() const;
 	RecFacturaCompraDet *getRecFacturaCompraDet( int nfacturacompradet = -1 ) const;
 	dbRecordList *getListFacturaCompraDet() const;
 /*>>>>>FACTURACOMPRA_RELATIONS*/

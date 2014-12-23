@@ -4,7 +4,6 @@
 
 == TESORERIA ==
 * Duplicar código albarán compra en albaran venta, factura venta, pedido compra, pedido venta, factura compra, liquidaciones
-* Tesorería de ofertas
 
 == HACER ==
 * frmeditdetalles: no pasa la cantidad del grid al formulario.
@@ -41,6 +40,7 @@
 
 
 == Ofertas ==
+* Tesorería de ofertas
 * Insertar oferta de compra no inserta nada
 * Estadísticas
 

@@ -39,7 +39,6 @@
 #include "tesoreriaiapuntablerecord.h"
 #endif
 
-
 namespace gong {
 namespace factu {
 
@@ -82,7 +81,7 @@ public:
 	virtual bool remove() throw( dbError ); // from dbRecord
 	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 /*>>>>>ALBARANCOMPRA_MEMBERS*/
-    /*<<<<<ALBARANCOMPRA_RELATIONS*/
+/*<<<<<ALBARANCOMPRA_RELATIONS*/
 	RecTipoDoc *getRecTipoDoc() const;
 	RecProveedora *getRecProveedora() const;
 	RecAgente *getRecAgente() const;

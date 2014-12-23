@@ -80,6 +80,7 @@ private slots:
 	void pushFormaPagoCodigo_clicked();
 	void pushProyectoCodigo_clicked();
 	void pushCuentaPagoCodigo_clicked();
+	void pushCuentaPagoCuenta_clicked();
 
 public:
 	RecTipoDoc* getRecTipoDoc() const
@@ -91,6 +92,10 @@ public:
 	empresa::RecProyecto* getRecProyecto() const
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecProyecto(); }
 #ifdef HAVE_TESORERIAMODULE
+	RecCuentaPago* getRecCuentaPago() const
+		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecCuentaPago(); }
+#endif
+#ifdef HAVE_CONTABMODULE
 	RecCuentaPago* getRecCuentaPago() const
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecCuentaPago(); }
 #endif
@@ -138,6 +143,12 @@ protected:
 	QPushButton *pushCuentaPagoCodigo;
 	gong::LineEdit *editCuentaPagoCodigo;
 	gong::LineEdit *editCuentaPagoNombre;
+#endif
+#ifdef HAVE_CONTABMODULE
+	gong::SearchBox *searchCuentaPagoCuenta;
+	QPushButton *pushCuentaPagoCuenta;
+	gong::LineEdit *editCuentaPagoCuenta;
+	gong::LineEdit *editCuentaPagoDescripcion;
 #endif
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITALBARANCOMPRA_CONTROLS*/
