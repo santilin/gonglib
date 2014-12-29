@@ -1,6 +1,5 @@
 == HECHO ==
 
-
 == HACIENDO ==
 
 == TESORERIA ==
@@ -11,9 +10,6 @@
 * Anular pago borra el apunte en tesorería pero no se actualizan los saldos de las cuentas
 * Al grabar una factura, se quedan las líneas vacías de la anterior
 * Factu: Informe de existencias máximas y mínimas.
-* Ofertas, volcar solo las del ejercicio actual
-* Ofertas: No vuelca de otros albaranes, etc.
-* Al copiar las ofertas a mysql, mostrar osd
 * Búsquedas por nombre alternativo
 
 == ANGEL ==
@@ -235,6 +231,7 @@
 * En campos deshabilitados no funciona ctrl+c
 
 == gonglib ==
+* dbconnection, sqlite3, year() month() => strftime
 * Añadir parámetro longitud a fldlistofvalues<Xtring>
 * No se pueden anidar transacciones en sqlite3
 * Borrar usuario de mysql: REVOKE ALL PRIVILEGES, GRANT OPTION FROM vduser@localhost;

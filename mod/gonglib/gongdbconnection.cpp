@@ -565,18 +565,35 @@ bool dbConnection::existsTable(const Xtring& tablename, const Xtring& dbname)
  */
 Xtring dbConnection::nameToSQL( const Xtring &p_val ) const
 {
-    Xtring ret = p_val;
+    Xtring ret;
     switch ( mSqlDriver ) {
     case DRIVER_MYSQL:
+		ret = p_val;
         return "`" + ret.replace(".", "`.`") + "`";
 #ifdef HAVE_SQLITE3
-    case DRIVER_SQLITE3:
-        ret = p_val;
-        if( !ret.isEmpty() && ret.left(1) != "\"" && ret.right(1) != "\"" ) {
-            ret.replace("\"", "\"\"");
-            ret = "\"" + ret + "\"";
-            ret.replace(".", "\".\"" );
-        }
+    case DRIVER_SQLITE3: 
+		{
+			XtringList palabrasentrecomillas;
+			ret = p_val.upper();
+			ret.tokenize(palabrasentrecomillas, "\"");
+			ret = "";
+			for( XtringList::const_iterator pecit = palabrasentrecomillas.begin(); pecit != palabrasentrecomillas.end(); ++pecit) {
+				XtringList palabras;
+				(*pecit).tokenize(palabras, " ");
+				for( XtringList::const_iterator pit = palabras.begin(); pit != palabras.end(); ++pit) {
+					ret += ' ';
+					if( *pit == "ON" || *pit == "INNER" || *pit == "JOIN" || *pit == "RIGHT" || *pit == "LEFT" ) 
+						ret += *pit;
+					else {
+						Xtring rpalabra = (*pit);
+						rpalabra.replace(".", "\".\"");
+						rpalabra.replace("=","\"=\"");
+						ret += '\"' + rpalabra + '\"';
+					}
+					ret += ' ';
+				}
+			}
+		}
         break;
 #endif
     default:
