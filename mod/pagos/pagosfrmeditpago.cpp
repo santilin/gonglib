@@ -674,6 +674,7 @@ void FrmEditPago::pushPagar_clicked()
     if( mMustRead )
         read();
     if( IPagableRecord *pr = dynamic_cast<IPagableRecord *>(getRecFactura() ) ) {
+		bool realizado;
         if( getRecPago()->getValue( "ESTADORECIBO").toInt() == PagosModule::ReciboPendiente ) {
 #ifdef HAVE_CONTABMODULE
             bool supervisar = contab::ModuleInstance->getModuleSetting( "SUPERVISAR_ASIENTOS" ).toBool();

@@ -591,6 +591,7 @@ void FrmEditRecMaster::accept()
             setEdited( false );
             if ( mEditStatus == saved ) {
                 DBAPP->setAnotherRecordID( 0 );
+				refreshRelatedForms();
                 mMustRead = false;
                 if ( !( mEditFlags & dbApplication::simpleEdition ) ) {
                     if ( mChoosing == true ) {
@@ -607,15 +608,16 @@ void FrmEditRecMaster::accept()
                         else
                             ensureEditView();
                     }
-                } else if (( mEditFlags & dbApplication::simpleEdition ) && mEditStatus == saved && ( mEditFlags & dbApplication::editContinuous ) ) {
+                } else if (( mEditFlags & dbApplication::simpleEdition ) && ( mEditFlags & dbApplication::editContinuous ) ) {
                     pRecord->setNew( true );
                     pRecord->clear( true ); // set custom default values
 					mIsFirstScatter = true;
                     scatter();
                     fixFocusWidgetText();
                     setInitialFocus();
-                } else if (( mEditFlags & dbApplication::simpleEdition ) && mEditStatus == saved ) {
+                } else if (( mEditFlags & dbApplication::simpleEdition ) ) {
                     FrmBase::accept();
+					refreshRelatedForms();
                     DBAPP->resetCursor();
                     return; // Skip updatestatus on closed form
                 }
@@ -1881,5 +1883,17 @@ void FrmEditRecMaster::focusInEvent(QFocusEvent* event)
     else
         QWidget::focusInEvent( event );
 }
+
+void FrmEditRecMaster::refreshRelatedForms()
+{
+	const dbTableDefinition *tbldef = getRecord()->getTableDefinition();
+	for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
+				relit != tbldef->getRelationDefinitions().end(); ++relit ) {
+		dbRelationDefinition *reldef = relit->second;
+		Xtring relatedtable = reldef->getRightTable();
+		DBAPP->getMainWindow()->refreshByName( name(), relatedtable );
+	}
+}
+
 
 }; // Namespace

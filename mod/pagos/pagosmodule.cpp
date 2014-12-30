@@ -157,13 +157,13 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pFicCobro->addFieldString("DOCUMENTOPAGO", 50 );
     pFicCobro->addFieldOne2OneRelation( "MONEDA_ID", "MONEDA.ID" );
     pFicCobro->addFieldFloat( "RATIO_MONEDA" )->setDefaultValue( "1.0" );
-#ifdef HAVE_CONTABMODULE
+#if defined(HAVE_CONTABMODULE) || defined(HAVE_TESORERIAMODULE)
     pFicCobro->addFieldString( "CUENTAORIGEN", 20 );
-    pFicCobro->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTA.ID" )->setCanBeNull( true );
+#endif	
+#ifdef HAVE_CONTABMODULE
     pFicCobro->addFieldReferenceID( "ASIENTO_CARGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
     pFicCobro->addFieldReferenceID( "ASIENTO_PAGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
-#endif
-#ifdef HAVE_TESORERIAMODULE
+#elif defined (HAVE_TESORERIAMODULE)
     pFicCobro->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTATESORERIA.ID" )->setCanBeNull( true );
 	pFicCobro->addFieldReferenceID( "APUNTE_ID", "APUNTETESORERIA.ID" );
 #endif
@@ -197,13 +197,14 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pFicPago->addFieldString("DOCUMENTOPAGO", 50 );
     pFicPago->addFieldOne2OneRelation( "MONEDA_ID", "MONEDA.ID" );
     pFicPago->addFieldFloat( "RATIO_MONEDA" )->setDefaultValue( "1.0" );
-#ifdef HAVE_CONTABMODULE
+#if defined(HAVE_CONTABMODULE) || defined(HAVE_TESORERIAMODULE)
     pFicPago->addFieldString( "CUENTAORIGEN", 20 );
+#endif	
+#ifdef HAVE_CONTABMODULE
     pFicPago->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTA.ID" )->setCanBeNull( true );
     pFicPago->addFieldReferenceID( "ASIENTO_CARGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
     pFicPago->addFieldReferenceID( "ASIENTO_PAGO_ID", "ASIENTO.ID" )->setCanBeNull( true );
-#endif
-#ifdef HAVE_TESORERIAMODULE
+#elif defined (HAVE_TESORERIAMODULE)
     pFicPago->addFieldOne2OneRelation( "CUENTAPAGO_ID", "CUENTATESORERIA.ID" )->setCanBeNull( true );
 	pFicPago->addFieldReferenceID( "APUNTE_ID", "APUNTETESORERIA.ID" );
 #endif

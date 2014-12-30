@@ -528,7 +528,7 @@ int GuiMainWindow::refreshByName( const Xtring &sendingName, const Xtring &name 
             if( frm->name() == sendingName ) // Do not refresh the sending one
                 continue;
             if ( name.isEmpty() || Xtring( frm->name() ).upper().find( name.upper() ) != Xtring::npos ) {
-                _GONG_DEBUG_PRINT( 6, Xtring::printf( "Refreshing %s", frm->name() ) );
+                _GONG_DEBUG_PRINT( 0, Xtring::printf( "Refreshing %s", frm->name() ) );
                 frm->refresh();
                 count++;
             }

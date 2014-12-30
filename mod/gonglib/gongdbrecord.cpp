@@ -416,7 +416,7 @@ bool dbRecord::SELECT ( const Xtring &where )
                 break;
             case SQLDECIMAL:
                 setValue( i, Money( rs->toDouble(i),
-                                    pTableDef->getFieldDefinition(i)->getDecimals()  ) );
+                                    pTableDef->getFieldDefinition(i)->getDecimals() ) );
                 break;
             }
             mOrigFieldValues.seq_at(i)->setValue( getValue(i) );

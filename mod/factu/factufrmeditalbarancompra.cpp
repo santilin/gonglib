@@ -903,7 +903,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 #if defined (HAVE_CONTABMODULE) 
             if( editCuentaPagoCuenta->toString().isEmpty() && getRecFormaPago()->getValue("SUBCUENTAPAGO").toString() == Xtring::null) {
 #elif defined (HAVE_TESORERIAMODULE)
-            if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID	").toInt() == 0) {
+            if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID").toInt() == 0) {
 #endif
 				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida", "CUENTAPAGO_ID");
 			}

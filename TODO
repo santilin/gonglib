@@ -3,11 +3,11 @@
 == HACIENDO ==
 
 == TESORERIA ==
-* al hacer un pago sale el contador 0 dos veces
+* OSD: Apunte xxx generado en tesorería.
 * Duplicar código albarán compra en albaran venta, factura venta, liquidaciones
 
 == HACER ==
-* Anular pago borra el apunte en tesorería pero no se actualizan los saldos de las cuentas
+* Campo cuentaorigen de pagos y cobros: copiarlo de la cuenta del pago de la forma de pago
 * Al grabar una factura, se quedan las líneas vacías de la anterior
 * Factu: Informe de existencias máximas y mínimas.
 * Búsquedas por nombre alternativo

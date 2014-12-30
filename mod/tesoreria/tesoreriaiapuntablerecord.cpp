@@ -32,7 +32,7 @@ RecApunteTesoreria* IApuntableRecord::borraApunte(bool regenerando)
         if (apunte->remove() ) {
 			if (!regenerando) {
 				DBAPP->showStickyOSD( pRecord->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
-							  "Apunte borrado en tesorería");
+							  Xtring::printf("Apunte %d borrado en tesorería", apunte->getValue("NUMERO").toInt()) );
 			}
 		}
     }
@@ -136,7 +136,8 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 			pRecord->save( false );
 		}
         DBAPP->showStickyOSD( pRecord->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
-							  old_apunte->isRead() ? "Apunte regenerado en tesorería" : "Apunte generado en tesorería");
+							  Xtring::printf(old_apunte->isRead() ? "Apunte %d regenerado en tesorería" : "Apunte %d generado en tesorería"),
+								apunte->getValue("NUMERO").toInt());
 	}
 	return apunte;
 }

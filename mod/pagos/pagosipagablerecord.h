@@ -45,12 +45,12 @@ public:
     bool delCobros( bool borratodos ) {
         return delPagos( borratodos );
     }
-    void pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid, dbRecord *recibo, bool supervisar );
-    void cobrarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid, dbRecord *recibo, bool supervisar ) {
+    bool pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid, dbRecord *recibo, bool supervisar );
+    bool cobrarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid, dbRecord *recibo, bool supervisar ) {
         return pagarRecibo( parent, reciboid, recibo, supervisar );
     }
-    void anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reciboid, dbRecord* recibo );
-    void anularCobroRecibo( FrmEditRecMaster* parent, dbRecordID reciboid, dbRecord* recibo ) {
+    bool anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reciboid, dbRecord* recibo );
+    bool anularCobroRecibo( FrmEditRecMaster* parent, dbRecordID reciboid, dbRecord* recibo ) {
         anularPagoRecibo( parent, reciboid, recibo );
     }
     dbRecord *createRecibo();

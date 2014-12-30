@@ -62,6 +62,7 @@ public:
         return mChoosing;
     };
     void applyFilter( const Xtring &filter = Xtring::null);
+	void refreshRelatedForms();
     DataTable *getDataTable() const {
         return pDataTable;
     }

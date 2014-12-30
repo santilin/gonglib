@@ -1,6 +1,5 @@
 #include <dbappdbapplication.h>
 #include <dbappmainwindow.h>
-#include <empresarecmoneda.h>
 #include "pagosmodule.h"
 #include "pagosrecformapago.h"
 #include "pagosfrmpagarrecibo.h"
@@ -262,7 +261,7 @@ int IPagableRecord::genPagos()
 }
 
 
-void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
+bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                                   dbRecord *recibo, bool supervisar )
 {
     bool pagado = false;
@@ -312,7 +311,7 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                               Xtring::printf( _("No se puede realizar el asiento de %s porque la cuenta de origen '%s' no existe"),
                                               que_es.lower().c_str(), str_cuenta_origen.c_str()) );
             delete cuenta_origen;
-            return;
+            return false;
         }
     }
 #endif
@@ -332,15 +331,13 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
 #endif
     while( reciboid ) {
         recibo->read( reciboid );
-        empresa::RecMoneda *recmoneda = static_cast<empresa::RecMoneda *>(recibo->findRelatedRecord( "MONEDA_ID" ));
-        _GONG_DEBUG_ASSERT( recmoneda );
         importe = recibo->getValue( "IMPORTE" ).toMoney();
         if( pago == 0.0 )
             pago = importe;
         dbRecordID moneda_id;
         Date fechapago;
         fechapago = recibo->getValue( "VENCIMIENTO" ).toDate();
-        PagosModule::sLastMonedaCodigo = recmoneda->getValue( "CODIGO" ).toString();
+        PagosModule::sLastMonedaCodigo = recibo->getValue( "MONEDA.CODIGO" ).toString();
         if( pago_multiple == false ) { // Si no estamos en un pago múltiple, pedir datos
             FrmPagarRecibo *pr = new FrmPagarRecibo( has_contab, pago, fechapago,
                     PagosModule::sLastCuentaPago, PagosModule::sLastDocumentoPago,
@@ -377,16 +374,11 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
             } else if( has_contab && PagosModule::sLastCuentaPago.isEmpty() ) {
                 FrmBase::msgError( parent, _("Por favor, rellena la cuenta del pago") );
             } else {
+				
+				// Pagar el recibo normalmente, el pago coincide con el importe del recibo
                 if( pago == importe && asientoid == 0) {
-                    // Pagar el recibo normalmente, el pago coincide con el importe del recibo
-                    if( moneda_id != recibo->getValue( "MONEDA_ID" ).toUInt() ) {
-                        recibo->setValue( "MONEDA_ID", moneda_id );
-                        recmoneda->read( moneda_id );
-                        recibo->setValue( "RATIO_MONEDA", recmoneda->getValue( "RATIO" ).toDouble() );
-                    } else {
-                        recibo->setValue( "MONEDA_ID", moneda_id );
-                        recibo->setValue( "RATIO_MONEDA", 1.0 );
-                    }
+					recibo->setValue( "MONEDA_ID", moneda_id );
+					recibo->setValue( "RATIO_MONEDA", recibo->getValue("MONEDA.RATIO") );
                     recibo->setValue( "NUMEROAGRUPADO", numeroagrupado ); // Solo este
                     recibo->setValue( "ESTADORECIBO", PagosModule::ReciboPagado );
                     recibo->setValue( "RESTO", Money(0.0) );
@@ -438,7 +430,6 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
 							dynamic_cast<tesoreria::IApuntableRecord *>(recibo)->regenApunte( supervisar );
 						}
 					}
-				
 #endif
                     reciboid = 0;
                     pago_multiple = false;
@@ -451,27 +442,18 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                         answer = FrmBase::Yes;
                         FrmBase::msgOk( parent, question );
                     } else
-                        answer = FrmBase::msgYesNoCancel( parent,
-                                                          question + _("\n¿Quieres continuar?"));
+                        answer = FrmBase::msgYesNoCancel( parent, question + _("\n¿Quieres continuar?"));
                     switch( answer ) {
                     case FrmBase::Yes: {
                         // Pagar este recibo con el importe introducido
-                        if( moneda_id != recibo->getValue( "MONEDA_ID" ).toUInt() ) {
-                            recibo->setValue( "MONEDA_ID", moneda_id );
-                            recmoneda->read( moneda_id );
-                            recibo->setValue( "RATIO_MONEDA", recmoneda->getValue( "RATIO" ).toDouble() );
-                        } else {
-                            recibo->setValue( "MONEDA_ID", moneda_id );
-                            recibo->setValue( "RATIO_MONEDA", 1.0 );
-                        }
+						recibo->setValue( "MONEDA_ID", moneda_id );
+						recibo->setValue( "RATIO_MONEDA", recibo->getValue( "MONEDA.RATIO" ).toDouble() );
                         recibo->setValue( "ESTADORECIBO", PagosModule::ReciboPagado );
                         recibo->setValue( "IMPORTE", pago );
                         recibo->setValue( "RESTO", 0.0 );
                         recibo->setValue( "DOCUMENTOPAGO", PagosModule::sLastDocumentoPago );
-#ifdef HAVE_CONTABMODULE
-                        Xtring cuentaorigen = recibo->getValue( "CUENTAORIGEN" ).toString();
-#endif						
 #if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
+                        Xtring cuentaorigen = recibo->getValue( "CUENTAORIGEN" ).toString();
                         recibo->setValue( "CUENTAPAGO_ID", cuentapago_id );
                         cuentapago->clear(false);
 #endif
@@ -559,10 +541,10 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                         recibo->setValue( "NUMEROAGRUPADO", numeroagrupado );
                         recibo->setNullValue( "FECHAPAGO" );
 #ifdef HAVE_CONTABMODULE
-                        recibo->setValue( "CUENTAORIGEN", cuentaorigen );
                         recibo->setNullValue( "ASIENTO_PAGO_ID" );
 #endif						
 #if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
+                        recibo->setValue( "CUENTAORIGEN", cuentaorigen );
                         recibo->setNullValue( "CUENTAPAGO_ID" );
 #endif
                         recibo->setNullValue( "DOCUMENTOPAGO" );
@@ -592,14 +574,8 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                     switch( answer ) {
                     case FrmBase::Yes: {
                         // Pagar el recibo
-                        if( moneda_id != recibo->getValue( "MONEDA_ID" ).toUInt() ) {
-                            recibo->setValue( "MONEDA_ID", moneda_id );
-                            recmoneda->read( moneda_id );
-                            recibo->setValue( "RATIO_MONEDA", recmoneda->getValue( "RATIO" ).toDouble() );
-                        } else {
-                            recibo->setValue( "", moneda_id );
-                            recibo->setValue( "RATIO_MONEDA", 1.0 );
-                        }
+						recibo->setValue( "MONEDA_ID", moneda_id );
+						recibo->setValue( "RATIO_MONEDA", recibo->getValue( "MONEDA.RATIO" ).toDouble() );
                         recibo->setValue( "NUMEROAGRUPADO", numeroagrupado );
                         recibo->setValue( "ESTADORECIBO", PagosModule::ReciboPagado );
                         recibo->setValue( "RESTO", 0 );
@@ -617,7 +593,7 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                                 dbRecord *asiento;
                                 if( mTipo == pagos ) {
                                     asiento = contab::ModuleInstance->creaAsientoSimple(
-                                                  parent, 0, fechapago, recibo->getIDSqlCond(),
+                                                  we, 0, fechapago, recibo->getIDSqlCond(),
                                                   proyecto_id, que_es + recibo->getValue( "DESCRIPCION" ).toString(),
                                                   PagosModule::sLastDocumentoPago,
                                                   cuenta_origen->getValue( "CUENTA" ).toString(), importe,
@@ -717,10 +693,14 @@ void IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
     if( has_contab )
         delete cuenta_origen;
 #endif
-    parent->refresh();
+	parent->refreshRelatedForms();
+#ifdef HAVE_TESORERIAMODULE
+	DBAPP->getMainWindow()->refreshByName( parent->name(), "APUNTETESORERIA" );
+#endif	
+	return true;
 }
 
-void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reciboid,
+bool IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reciboid,
                                        dbRecord* recibo )
 {
     if( recibo->getValue( "ESTADORECIBO" ).toInt() == PagosModule::ReciboPagado ) {
@@ -807,7 +787,7 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                             }
                             break;
                             case FrmBase::Cancel:
-                                return;
+                                return false;
                             }
                         }
                     }
@@ -880,11 +860,14 @@ void IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                 } catch( dbError &e ) {
                     FrmBase::msgError( parent, e.what() );
                 }
-                // Refrescar
-                parent->refresh();
             }
         }
     }
+	parent->refreshRelatedForms();
+#ifdef HAVE_TESORERIAMODULE
+	DBAPP->getMainWindow()->refreshByName( parent->name(), "APUNTETESORERIA" );
+#endif	
+    return true;
 }
 
 } // namespace pagos

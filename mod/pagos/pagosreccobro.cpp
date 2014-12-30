@@ -105,19 +105,16 @@ dbRecord *RecCobro::getRecTercero()
 bool RecCobro::save(bool saverelated) throw( dbError )
 {
 /*>>>>>COBRO_SAVE*/
-	if( saverelated ) {
-		if( getValue( "CONTADOR" ).toInt() == 0 )
-			setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
-	}
+	if( getValue( "CONTADOR" ).toInt() == 0 )
+		setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
     bool ret = dbRecord::save(saverelated);
     if( ret && saverelated ) {
 #ifdef HAVE_PAGOSMODULE
         actCobrosFactura();
 #endif
-    }
-    if( ret )
         DBAPP->showStickyOSD( toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
                               Xtring::printf( _("Contador: %d"), getValue( "CONTADOR" ).toInt() ) );
+    }
     return ret;
 }
 

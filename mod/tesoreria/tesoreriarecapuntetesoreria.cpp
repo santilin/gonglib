@@ -134,8 +134,8 @@ bool RecApunteTesoreria::remove() throw( dbError )
  */
 void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, const Money& _debe, const Money &_haber, bool saving)
 {
-    Money debe = saving ? -debe : -_debe;
-    Money haber = saving ? -haber: -_haber;
+    Money debe = saving ? _debe : -_debe;
+    Money haber = saving ? _haber: -_haber;
     RecCuentaTesoreria *cuentatesoreria = static_cast<RecCuentaTesoreria*>( DBAPP->createRecord("CUENTATESORERIA") );
     if ( cuentatesoreria->read( cuentatesoreria_id ) ) {
 		cuentatesoreria->setValue( "DEBE", cuentatesoreria->getValue( "DEBE" ).toMoney() + debe );
@@ -144,7 +144,6 @@ void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, const Mon
         cuentatesoreria->save(false);
     }
     delete cuentatesoreria;
-    // Actualizar saldo cuenta
 }
 
 
