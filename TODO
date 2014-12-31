@@ -3,11 +3,12 @@
 == HACIENDO ==
 
 == TESORERIA ==
-* OSD: Apunte xxx generado en tesorería.
 * Duplicar código albarán compra en albaran venta, factura venta, liquidaciones
 
 == HACER ==
-* Campo cuentaorigen de pagos y cobros: copiarlo de la cuenta del pago de la forma de pago
+* Pagos: Mostrar la cuenta del pago
+* FrmEditFacturaCompra: demasiado ancho
+* Pagos: regnerarlos: guardar el número como en apuntes de tesorería.
 * Al grabar una factura, se quedan las líneas vacías de la anterior
 * Factu: Informe de existencias máximas y mínimas.
 * Búsquedas por nombre alternativo

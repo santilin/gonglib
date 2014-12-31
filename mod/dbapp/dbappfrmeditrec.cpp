@@ -371,17 +371,6 @@ bool FrmEditRec::save()
         DBAPP->showStickyOSD( getRecord()->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
                               Xtring::printf( _("%s se ha grabado correctamente"),
                                               DBAPP->getTableDescSingular(getRecord()->getTableName(), "La" ).c_str() ) );
-        if( DBAPP->getMainWindow() ) {
-            /// TODO: Refresh the browses of this record and its related ones
-            // The other way round
-// 			for( dbRecordRelationDict::const_iterator it = getRecord()->getRelationsList().begin();
-// 				it != getRecord()->getRelationsList().end(); ++it ) {
-// 				if( it->second->isEnabled() ) {
-// 					dbRelationDefinition *reldef = it->second->getRelationDefinition();
-// 					DBAPP->getMainWindow()->refreshByName(name(), reldef->getRightTable());
-// 				}
-// 			}
-        }
     }
     return ret;
 }
@@ -412,8 +401,8 @@ bool FrmEditRec::remove()
         if( pParentForm )
             pParentForm->refresh();
         DBAPP->showStickyOSD( getRecord()->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
-                              _("Se ha borrado correctamente")  );
-    }
+                              Xtring::printf( _("%s se ha borrado correctamente"),
+                                              DBAPP->getTableDescSingular(getRecord()->getTableName(), "La" ).c_str() ) );    }
     return ret;
 }
 

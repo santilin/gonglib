@@ -164,6 +164,7 @@ void OSDWidget::showOSD( const Xtring &caption, const Xtring &text, bool sticky 
                 m_captions << caption;
                 m_texts << fromGUI( plaintext );
             }
+            show();
         }
     }
 }

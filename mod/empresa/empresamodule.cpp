@@ -157,7 +157,7 @@ bool EmpresaModule::login( FrmLogin *frmlogin, const Xtring &version,
                                             nombre.toString().c_str() ) );
         }
     } else {
-        DBAPP->showOSD( DBAPP->getPackageString(),
+        DBAPP->showStickyOSD( DBAPP->getPackageString(),
                         Xtring::printf("Trabajando con %s %d, '%s', ejercicio %d",
                                        DBAPP->getTableDescSingular("EMPRESA", "la").c_str(),
                                        getCodEmpresa(),

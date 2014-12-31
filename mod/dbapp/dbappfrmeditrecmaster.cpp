@@ -590,8 +590,8 @@ void FrmEditRecMaster::accept()
             }
             setEdited( false );
             if ( mEditStatus == saved ) {
-                DBAPP->setAnotherRecordID( 0 );
 				refreshRelatedForms();
+                DBAPP->setAnotherRecordID( 0 );
                 mMustRead = false;
                 if ( !( mEditFlags & dbApplication::simpleEdition ) ) {
                     if ( mChoosing == true ) {
@@ -617,7 +617,6 @@ void FrmEditRecMaster::accept()
                     setInitialFocus();
                 } else if (( mEditFlags & dbApplication::simpleEdition ) ) {
                     FrmBase::accept();
-					refreshRelatedForms();
                     DBAPP->resetCursor();
                     return; // Skip updatestatus on closed form
                 }
@@ -706,7 +705,7 @@ bool FrmEditRecMaster::canClose()
             padre = padre->parent();
         }
     }
-    if( willclose )
+    if( willclose ) 
         saveBrowseStatus();
     return willclose;
 }
@@ -1886,12 +1885,14 @@ void FrmEditRecMaster::focusInEvent(QFocusEvent* event)
 
 void FrmEditRecMaster::refreshRelatedForms()
 {
-	const dbTableDefinition *tbldef = getRecord()->getTableDefinition();
-	for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
-				relit != tbldef->getRelationDefinitions().end(); ++relit ) {
-		dbRelationDefinition *reldef = relit->second;
-		Xtring relatedtable = reldef->getRightTable();
-		DBAPP->getMainWindow()->refreshByName( name(), relatedtable );
+	if( DBAPP->getMainWindow() ) {
+		const dbTableDefinition *tbldef = getRecord()->getTableDefinition();
+		for( dbRelationDefinitionDict::const_iterator relit = tbldef->getRelationDefinitions().begin();
+					relit != tbldef->getRelationDefinitions().end(); ++relit ) {
+			dbRelationDefinition *reldef = relit->second;
+			Xtring relatedtable = reldef->getRightTable();
+			DBAPP->getMainWindow()->refreshByName( name(), relatedtable );
+		}
 	}
 }
 

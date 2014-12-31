@@ -756,8 +756,9 @@ void DataTable::contentsMouseDoubleClickEvent( QMouseEvent *e )
 {
     if ( e->button() != Qt::LeftButton )
         return;
+	if( d->searchString.size() )
+		theGuiApp->hideOSD();
     d->searchString.clear();
-    theGuiApp->hideOSD();
     if( rowAt( e->y() ) != -1 )
         emit beginEditSignal(this, defaulteditmode, Xtring::null );
     else

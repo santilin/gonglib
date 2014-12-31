@@ -1448,7 +1448,6 @@ Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* program
             programdb->dropIndexes(conn, false, true);
             programdb->createIndexes(conn, true);
         }
-        DBAPP->hideOSD();
     } catch( dbError e ) {
         FrmBase::msgError( getPackageString(), e.what() );
     }

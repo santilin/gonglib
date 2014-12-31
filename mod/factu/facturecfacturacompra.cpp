@@ -94,9 +94,9 @@ Xtring RecFacturaCompra::toString(int format, const Xtring &includedFields) cons
 bool RecFacturaCompra::save(bool saverelated) throw( dbError )
 {
 /*>>>>>FACTURACOMPRA_SAVE*/
+	if( getValue( "CONTADOR" ).toInt() == 0 )
+		setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
 	if( saverelated ) {
-		if( getValue( "CONTADOR" ).toInt() == 0 )
-			setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
 #ifdef HAVE_PAGOSMODULE
 		if( DBAPP->findModule("pagos") ) 
 			actRestoFactura();

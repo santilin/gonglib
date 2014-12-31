@@ -33,6 +33,7 @@ RecApunteTesoreria* IApuntableRecord::borraApunte(bool regenerando)
 			if (!regenerando) {
 				DBAPP->showStickyOSD( pRecord->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
 							  Xtring::printf("Apunte %d borrado en tesorería", apunte->getValue("NUMERO").toInt()) );
+				DBAPP->getMainWindow()->refreshByName(Xtring::null, "APUNTETESORERIA");
 			}
 		}
     }
@@ -74,10 +75,13 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	_GONG_DEBUG_PRINT(0, pRecord->toString(TOSTRING_DEBUG_COMPLETE));
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord("APUNTETESORERIA"));
 	apunte->setValue( "CUENTATESORERIA_ID", cuenta_pago_id );
-	if( old_apunte->isRead() ) // Recycle the id
+	if( old_apunte->isRead() ) { // Recycle the id
 		apunte->setRecordID( old_apunte->getRecordID() );
+		apunte->setValue( "NUMERO", old_apunte->getValue( "NUMERO" ) );
+	} else {
+		apunte->setValue( "NUMERO", apunte->selectNextInt( "NUMERO" ) );
+	}
 	apunte->setValue( "AUTOMATICO", true );
-	apunte->setValue( "NUMERO", apunte->selectNextInt( "NUMERO" ) );
 	apunte->setValue( "EMPRESA_ID", pRecord->getValue("EMPRESA_ID").toInt() );
 	apunte->setValue( "EJERCICIO", empresa::ModuleInstance->getEjercicio() );
 	apunte->setValue( "FECHA", pRecord->getValue(mFechaField).toDate() );
@@ -136,8 +140,9 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 			pRecord->save( false );
 		}
         DBAPP->showStickyOSD( pRecord->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
-							  Xtring::printf(old_apunte->isRead() ? "Apunte %d regenerado en tesorería" : "Apunte %d generado en tesorería"),
-								apunte->getValue("NUMERO").toInt());
+							  Xtring::printf(old_apunte->isRead() ? _("Apunte %d regenerado en tesorería") : _("Apunte %d generado en tesorería"),
+								apunte->getValue("NUMERO").toInt()));
+		DBAPP->getMainWindow()->refreshByName(Xtring::null, "APUNTETESORERIA");
 	}
 	return apunte;
 }

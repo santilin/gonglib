@@ -168,8 +168,8 @@ int IPagableRecord::genPagos()
         return 0;
     dbRecord *recibo = createRecibo();
     Xtring informe;
-#ifdef HAVE_CONTABMODULE
     Xtring str_cuenta_origen;
+#ifdef HAVE_CONTABMODULE
     if( mTipo == pagos ) {
         str_cuenta_origen = formapago->getValue( "SUBCUENTAPAGO" ).toString();
     } else {
@@ -177,6 +177,8 @@ int IPagableRecord::genPagos()
     }
     if( str_cuenta_origen.isEmpty() )
         str_cuenta_origen = getRecTercero()->getValue( "SUBCUENTA" ).toString();
+#elif defined(HAVE_TESORERIAMODULE)
+	str_cuenta_origen = formapago->getValue("CUENTATESORERIA.NOMBRE").toString();
 #endif
     uint nrecibos = formapago->getValue("NUMPLAZOS").toInt();
     if( nrecibos == 0 ) {
@@ -233,10 +235,7 @@ int IPagableRecord::genPagos()
         recibo->setValue( "IMPORTE", importe );
         recibo->setValue( "RESTO", importe );
         recibo->setValue( "ESTADORECIBO", PagosModule::ReciboPendiente );
-#ifdef HAVE_CONTABMODULE
-		// en tesorería no hace falta la cuenta de origen?
         recibo->setValue( "CUENTAORIGEN", str_cuenta_origen );
-#endif
         informe += Xtring::printf("\tImporte: %f,\tFecha de valor: %s\n",
                                   importe, fechavalor.toString().c_str() );
         if( !recibo->existsAnother( getFacturaWhere()
@@ -279,12 +278,11 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
     Xtring numeroagrupado = recibo->getValue( "NUMEROAGRUPADO" ).toString();
     if( numeroagrupado.isEmpty() )
         numeroagrupado = recibo->getValue( "NUMERO" ).toString();
-    dbRecordID asientoid = 0;
+    dbRecordID asientoid = 0, cuentapago_id;
 #ifdef HAVE_CONTABMODULE
     has_contab = contab::ModuleInstance->isContabActive()
                  && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
     dbRecord *cuentapago = 0;
-    dbRecordID cuentapago_id;
     contab::Cuenta cuenta_pago( contab::ModuleInstance->getDigitosTrabajo() );
     contab::Cuenta cuenta_pago_contraida( cuenta_pago );
     contab::RecCuenta *cuenta_origen = 0;
@@ -316,18 +314,15 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
     }
 #endif
 #ifdef HAVE_TESORERIAMODULE
-    has_contab = DBAPP->findModule("tesoreria")
-                 && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
     dbRecordID proyecto_id = 0;
-    dbRecord *cuentapago = recibo->findRelatedRecord( "CUENTAPAGO_ID" );
-    dbRecordID cuentapago_id = 0;
-	if (!cuentapago) {
-		dbRecord *formapago = recibo->findRelatedRecord( "FORMAPAGO_ID" );
-		if( formapago ) {
-			cuentapago = recibo->findRelatedRecord( "CUENTAPAGO_ID" );
+    has_contab = DBAPP->findModule("tesoreria") && recibo->getTableDefinition()->findFieldDefinition("CUENTAPAGO_ID");
+	if( has_contab ) {
+		if( (cuentapago_id = recibo->getValue("CUENTAPAGO_ID").toInt()) != 0 ) {
+			PagosModule::sLastCuentaPago = recibo->getValue( "CUENTATESORERIA.NOMBRE" ).toString();
+		} else {
+			PagosModule::sLastCuentaPago = recibo->getValue( "CUENTAORIGEN" ).toString();
 		}
 	}
-	PagosModule::sLastCuentaPago = cuentapago->getValue( "CODIGO" ).toString();
 #endif
     while( reciboid ) {
         recibo->read( reciboid );
@@ -455,7 +450,6 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
 #if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
                         Xtring cuentaorigen = recibo->getValue( "CUENTAORIGEN" ).toString();
                         recibo->setValue( "CUENTAPAGO_ID", cuentapago_id );
-                        cuentapago->clear(false);
 #endif
                         recibo->setValue( "FECHAPAGO", fechapago );
                         recibo->setValue( "NUMEROAGRUPADO", numeroagrupado );
@@ -542,6 +536,8 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                         recibo->setNullValue( "FECHAPAGO" );
 #ifdef HAVE_CONTABMODULE
                         recibo->setNullValue( "ASIENTO_PAGO_ID" );
+#elif defined(HAVE_TESORERIAMODULE)
+						recibo->setNullValue( "APUNTE_ID" );
 #endif						
 #if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
                         recibo->setValue( "CUENTAORIGEN", cuentaorigen );
@@ -697,6 +693,11 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
 #ifdef HAVE_TESORERIAMODULE
 	DBAPP->getMainWindow()->refreshByName( parent->name(), "APUNTETESORERIA" );
 #endif	
+	if( mTipo == pagos ) {
+		DBAPP->getMainWindow()->refreshByName( parent->name(), "PAGOS" );
+	} else {
+		DBAPP->getMainWindow()->refreshByName( parent->name(), "COBROS" );
+	}
 	return true;
 }
 
