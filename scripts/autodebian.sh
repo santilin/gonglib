@@ -48,11 +48,26 @@ pulsa_tecla()
 	read
 }
 
+
+pregunta_si() {
+	echo $1
+	read siono
+	case $siono in
+		s|S|si|Si|sí|Sí)
+			return 0
+			;;
+		*)
+			return 1
+			;;
+	esac
+}
+
+
 instala_programa() {
 	echo "Instalando $1"
 	shift
 	apt-get install -y -q $@
-	pulsa_tecla
+    echo
 }
 
 aptgetupdate() {
@@ -85,7 +100,7 @@ EOF
 }
 
 instala_multimedia_libre() {
-	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc clementine
+	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc
 	if [ ! -b /dev/cdrom ]; then
 		echo "/dev/cdrom existe";
 	else 
@@ -109,19 +124,6 @@ instala_multimedia_libre() {
 	*)
 	  	/usr/share/doc/libdvdread4/install-css.sh
 		;;
-	esac
-}
-
-pregunta_si() {
-	echo $1
-	read siono
-	case $siono in
-		s|S|si|Si|sí|Sí)
-			return 0
-			;;
-		*)
-			return 1
-			;;
 	esac
 }
 
@@ -149,7 +151,7 @@ completar_lxde() {
 		fi
 	fi
 	completar_escritorio
-	instala_programa "Grabador de cd" xfburn
+	instala_programa "CD, pdf, etc." xfburn epdfview clementine gthumb
 	if pregunta_si "¿Quieres instalar el control de batería?"; then
 		apt-get install fdpowermon
 	fi
@@ -378,7 +380,7 @@ instala_gestiong() {
 	case $DISTRO in 
 	debian*)
 		case $DISTRO_VER in
-			7) instala_programa "GestiONG" build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev
+			7) instala_programa "GestiONG" build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev gawk libsqlite3-dev
 			;;
 		esac
 		;;
@@ -480,7 +482,7 @@ menu_sistema() {
 			6 "Limpieza" \
 			9 "Ver si hay una nueva versión de este programa"
 		case `cat /tmp/menuoption.txt` in
-		1 )     clear; apt-get -f install; dpkg --reconfigure -a; pulsa_tecla ;;
+		1 )     clear; apt-get -f install; dpkg --configure -a; pulsa_tecla ;;
 		2 )     clear; aptgetupdate ;;
 		3 ) 	clear; language_espanol ;;
 		4 )		clear; reloj_hora ;;
@@ -497,16 +499,14 @@ menu_sistema() {
 menu_escritorio() {
 	while [ 1 ]; do
 		my_dialog --title "=== MENU ESCRITORIO ===" \
-			--menu "Elige la operación sobre el escritorio" 20 75 4 \
-			1 "Completar el escritorio: multimedia, tipos de letra, etc" \
-			2 "Completar KDE" \
-			3 "Completar GNOME y MATE" \
-			4 "Completar LXDE"
+			--menu "Elige la operación sobre el escritorio" 20 75 3 \
+			1 "Completar KDE" \
+			2 "Completar GNOME y MATE" \
+			3 "Completar LXDE"
 		case `cat /tmp/menuoption.txt` in
-		1 )     clear; completar_escritorio;;
-		2 )     clear; completar_kde;;
-		3 )     clear; completar_gnome;;
-		4 )     clear; completar_lxde;;
+		1 )     clear; completar_kde;;
+		2 )     clear; completar_gnome;;
+		3 )     clear; completar_lxde;;
 		* )	break ;;
 		esac
 	done
