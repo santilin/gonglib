@@ -44,7 +44,7 @@ public:
 	RecAlbaranCompra *getRecAlbaranCompra() const { return (RecAlbaranCompra *)getRecord(); }
 /*>>>>>FRMEDITALBARANCOMPRA_CLASS*/
 
-    /*<<<<<FRMEDITALBARANCOMPRA_CABECERA_DECL*/
+/*<<<<<FRMEDITALBARANCOMPRA_CABECERA_DECL*/
 protected:
 	void updateFromDetails( class FrmEditRecDetail *detailfrm ); // from FrmEditRecMaster
 	void actTotales();

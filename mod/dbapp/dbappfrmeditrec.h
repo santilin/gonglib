@@ -13,6 +13,7 @@
  */
 
 
+#include <config.h>
 #include <vector>
 #include <gongguicontrols.h>
 #include <gongfrmbase.h>

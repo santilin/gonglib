@@ -3,9 +3,12 @@
 == HACIENDO ==
 
 == TESORERIA ==
-* Duplicar código albarán compra en albaran venta, factura venta, liquidaciones
+* Duplicar albaran compra y albaran venta en oferta compra y oferta venta
+* Albarán venta: a la cuenta en negativo o viceversa
 
 == HACER ==
+* Factu: Albaran compra no muestra agente. Setting (Quieres agentes en las compras?)
+* Factu: No salen los precios de los artículos en albaran de venta
 * Pagos: Mostrar la cuenta del pago
 * FrmEditFacturaCompra: demasiado ancho
 * Pagos: regnerarlos: guardar el número como en apuntes de tesorería.
@@ -56,7 +59,7 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
-* Cortar en dos líneas los campos de stocks de los artículos.
+* addDetailIfNeeded no se necesita en albaran compra pero sí en albaran venta.
 * Formulario datos ventas y compras de artículos
 * Clientes especiales, con un porcentaje extra.
 * Enviar/recibir facturas a/de otro gestiong

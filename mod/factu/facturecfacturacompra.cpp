@@ -22,6 +22,7 @@
 #include "facturecfacturacompra.h"
 /*>>>>>FACTURACOMPRA_INCLUDES*/
 #include <empresamodule.h>
+
 #ifdef HAVE_CONTABMODULE
 #include <contabmodule.h>
 #include <contabrecasiento.h>

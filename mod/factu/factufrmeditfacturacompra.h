@@ -14,8 +14,6 @@
 #ifndef _FACTU_FACTUFRMEDITFACTURACOMPRA_H
 #define _FACTU_FACTUFRMEDITFACTURACOMPRA_H
 /*>>>>>FRMEDITFACTURACOMPRA_PREAMBLE*/
-
-#include "config.h"
 /*<<<<<FRMEDITFACTURACOMPRA_INCLUDES*/
 #include <gongfrmbase.h>
 #include <dbappfrmeditrecmaster.h>
@@ -82,7 +80,10 @@ private slots:
 	void pushProveedoraCodigo_clicked();
 	void pushFormaPagoCodigo_clicked();
 	void pushProyectoCodigo_clicked();
-#if defined (HAVE_CONTABMODULE) || defined(HAVE_TESORERIAMODULE)
+#if defined (HAVE_CONTABMODULE) 
+	void pushCuentaPagoCuenta_clicked();
+#endif
+#if defined (HAVE_TESORERIAMODULE)
 	void pushCuentaPagoCodigo_clicked();
 #endif
 

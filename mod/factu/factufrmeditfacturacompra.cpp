@@ -195,13 +195,13 @@ if( ModuleInstance->getContabModule() ) {
     connect( pushPagar, SIGNAL( clicked() ), this, SLOT( slotPagar() ) );
     rightEntregaAlbaranesLayout->insertWidget(0, pushPagar );
 
-    editEntregaAlbaranes->setMustBeReadOnly( true );
     editContador->setMustBeReadOnly( true );
     editSumaImportes->setMustBeReadOnly( true );
     editBaseImponible->setMustBeReadOnly( true );
     editRecargoEquivalencia->setMustBeReadOnly( true );
-    editIVA->setMustBeReadOnly( true );
+    editEntregaAlbaranes->setMustBeReadOnly( true );
     editPagos->setMustBeReadOnly( true );
+    editIVA->setMustBeReadOnly( true );
     editDescuento->setMustBeReadOnly( true );
     editResto->setMustBeReadOnly( true );
     editProveedoraCodigo->setWidthInChars(8);
@@ -226,7 +226,11 @@ void FrmEditFacturaCompra::scatterFields()
         getRecFacturaCompra()->setValue( "RESTO", getRecFacturaCompra()->getValue( "TOTAL") );
         getRecFacturaCompra()->setValue( "FECHAPAGO", Date() );
         getRecFacturaCompra()->setValue( "DOCUMENTOPAGO", 0 );
-#if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
+#ifdef HAVE_CONTABMODULE
+        getRecFacturaCompra()->setValue( "ASIENTO_ID", 0 );
+        getRecCuentaPago()->clear( false );
+#endif
+#ifdef HAVE_TESORERIAMODULE
         getRecFacturaCompra()->setValue( "APUNTE_ID", 0 );
         getRecCuentaPago()->clear( false );
 #endif
@@ -296,6 +300,10 @@ if( ModuleInstance->getContabModule() ) {
 				editTipoDocCodigo->setJustEdited( true );
 				validateFields( editTipoDocCodigo, 0 );
 			}
+			// Si estamos duplicando o copiando desde cualquier otro documento y no tenemos contador, generarlo, pero si es una 
+			// inserción normal, no generarlo hasta que se meta el tipo de documento
+			if( editContador->toInt() == 0 && editTipoDocCodigo->toInt() != 0 && isFirstScatter() ) 
+				genNumeroDocumento();
 		} else if( isUpdating() ) {
 			pFocusWidget = pFrmFacturaCompraDet;
 		}
@@ -1059,7 +1067,7 @@ void FrmEditFacturaCompra::slotPagar()
         if( cuentapago.isEmpty() )
             cuentapago = empresa::ModuleInstance->getRecEmpresa()->getValue("CUENTACAJA").toString();
         FrmPagar *pr = new FrmPagar( has_contab, pago, fechapago,
-                                     cuentapago, docpago, 0, "FrmPagar" );
+                                     cuentapago, docpago, 0, "FrmPagarFacturaCompra" );
         pr->showModalFor( this, true, true );
         if( !pr->wasCancelled() ) {
             editEntrega->setText( pr->getImporte() );

@@ -18,6 +18,7 @@
 // TYPE dbRecord factu::AlbaranCompra
 /*>>>>>MODULE_INFO*/
 
+#include "config.h"
 /*<<<<<ALBARANCOMPRA_INCLUDES*/
 #include "facturecalbarancompra.h"
 /*>>>>>ALBARANCOMPRA_INCLUDES*/

@@ -35,6 +35,7 @@
 #include <dbappdbapplication.h>
 #include "factufrmeditalbarancompra.h"
 /*>>>>>FRMEDITALBARANCOMPRA_INCLUDES*/
+#include <empresamodule.h>
 #include "factumodule.h"
 #include "factufrmpagar.h"
 #include "factufldivadetallado.h"
@@ -230,7 +231,10 @@ void FrmEditAlbaranCompra::scatterFields()
         getRecAlbaranCompra()->setValue( "RESTO", getRecAlbaranCompra()->getValue( "TOTAL") );
         getRecAlbaranCompra()->setValue( "FECHAPAGO", Date() );
         getRecAlbaranCompra()->setValue( "DOCUMENTOPAGO", 0 );
-#if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
+#ifdef HAVE_CONTABMODULE
+        getRecAlbaranCompra()->setValue( "ASIENTO_ID", 0 );
+        getRecCuentaPago()->clear( false );
+#elif defined(HAVE_TESORERIAMODULE)
         getRecAlbaranCompra()->setValue( "APUNTE_ID", 0 );
         getRecCuentaPago()->clear( false );
 #endif
@@ -296,7 +300,9 @@ if( ModuleInstance->getContabModule() ) {
 			pFocusWidget = pFrmAlbaranCompraDet;
 		}
 		pFrmAlbaranCompraDet->addDetailIfNeeded();
-		if( editContador->toInt() == 0 )
+		// Si estamos duplicando o copiando desde cualquier otro documento y no tenemos contador, generarlo, pero si es una 
+		// inserción normal, no generarlo hasta que se meta el tipo de documento
+		if( isInserting() && editContador->toInt() == 0 && editTipoDocCodigo->toInt() != 0 && isFirstScatter() ) 
 			editContador->setText( empresa::ModuleInstance->getMaxContador() );
 		searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
 		searchFormaPagoCodigo->setMustBeReadOnly( mHasPagos );
@@ -1070,7 +1076,7 @@ void FrmEditAlbaranCompra::slotPagar()
         if( cuentapago.isEmpty() )
             cuentapago = empresa::ModuleInstance->getRecEmpresa()->getValue("CUENTACAJA").toString();
         FrmPagar *pr = new FrmPagar( has_contab, pago, fechapago,
-                                     cuentapago, docpago, 0, "FrmPagar" );
+                                     cuentapago, docpago, 0, "FrmPagarAlbaranCompra" );
         pr->showModalFor( this, true, true );
         if( !pr->wasCancelled() ) {
             editEntrega->setText( pr->getImporte() );
