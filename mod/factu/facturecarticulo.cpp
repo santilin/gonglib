@@ -211,43 +211,41 @@ XtringList RecArticulo::sModalidades = XtringList()
 Xtring RecArticulo::genCodigoArticulo(int modalidad, const Xtring &formato ) const
 {
     Xtring codart, last;
-    if( getRecProveedora()->getRecordID() != 0 ) {
-        Xtring from, where;
-        Xtring buscar_formato = formatCodigoArticulo( "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", formato );
-        // Buscar el último código
-        switch( modalidad ) {
-        case GenCodArtFijo:
-            break;
-        case GenCodArtNextProv:
-            from = "INNER JOIN PROVEEDORA ON PROVEEDORA.ID=ARTICULO.PROVEEDORA_ID";
-            where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato )
-                    + " AND PROVEEDORA.CODIGO=" + getConnection()->toSQL( getValue( "PROVEEDORA.CODIGO" ).toInt() );
-            break;
-        case GenCodArtNextFam:
-            from = "INNER JOIN FAMILIA ON FAMILIA.ID=ARTICULO.FAMILIA_ID";
-            where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato )
-                    + " AND FAMILIA.CODIGO=" + getConnection()->toSQL( getValue( "FAMILIA.CODIGO" ).toInt() );
-            break;
-        case GenCodArtNextProvFam:
-            from = "INNER JOIN FAMILIA ON FAMILIA.ID=ARTICULO.FAMILIA_ID"
-                   " INNER JOIN PROVEEDORA ON PROVEEDORA.ID=ARTICULO.PROVEEDORA_ID";
-            where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato )
-                    + " AND FAMILIA.CODIGO=" + getConnection()->toSQL( getValue( "FAMILIA.CODIGO" ).toString() )
-                    + " AND PROVEEDORA.CODIGO=" + getConnection()->toSQL( getValue( "PROVEEDORA.CODIGO" ).toInt() );
-            break;
-        case GenCodArtNextArt:
-            break;
-        }
-        if( modalidad != GenCodArtFijo ) {
-            where = getFilter( "WHERE", where );
-            Xtring sql = "SELECT MAX(ARTICULO.CODIGO) FROM ARTICULO " + from + where;
-            last = getConnection()->selectString( sql );
-            if( !last.isEmpty() )
-                return Xtring::stringInc( last );
-            else
-                last = "1";
-        }
-    }
+	Xtring from, where;
+	Xtring buscar_formato = formatCodigoArticulo( "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%", formato );
+	// Buscar el último código
+	switch( modalidad ) {
+	case GenCodArtFijo:
+		break;
+	case GenCodArtNextProv:
+		from = "INNER JOIN PROVEEDORA ON PROVEEDORA.ID=ARTICULO.PROVEEDORA_ID";
+		where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato )
+				+ " AND PROVEEDORA.CODIGO=" + getConnection()->toSQL( getValue( "PROVEEDORA.CODIGO" ).toInt() );
+		break;
+	case GenCodArtNextFam:
+		from = "INNER JOIN FAMILIA ON FAMILIA.ID=ARTICULO.FAMILIA_ID";
+		where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato )
+				+ " AND FAMILIA.CODIGO=" + getConnection()->toSQL( getValue( "FAMILIA.CODIGO" ).toInt() );
+		break;
+	case GenCodArtNextProvFam:
+		from = "INNER JOIN FAMILIA ON FAMILIA.ID=ARTICULO.FAMILIA_ID"
+				" INNER JOIN PROVEEDORA ON PROVEEDORA.ID=ARTICULO.PROVEEDORA_ID";
+		where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato )
+				+ " AND FAMILIA.CODIGO=" + getConnection()->toSQL( getValue( "FAMILIA.CODIGO" ).toString() )
+				+ " AND PROVEEDORA.CODIGO=" + getConnection()->toSQL( getValue( "PROVEEDORA.CODIGO" ).toInt() );
+		break;
+	case GenCodArtNextArt:
+		break;
+	}
+	if( modalidad != GenCodArtFijo ) {
+		where = getFilter( "WHERE", where );
+		Xtring sql = "SELECT MAX(ARTICULO.CODIGO) FROM ARTICULO " + from + where;
+		last = getConnection()->selectString( sql );
+		if( !last.isEmpty() )
+			return Xtring::stringInc( last );
+		else
+			last = "1";
+	}
     return formatCodigoArticulo( last, formato );
 }
 
@@ -266,26 +264,20 @@ Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &forma
             Xtring fieldandsize, field, size;
             while( formato[i] != '}' && i < formato.size() )
                 fieldandsize += formato[i++];
-            fieldandsize.lower().splitIn2( field, size, ":" );
+            fieldandsize.upper().splitIn2( field, size, ":" );
             Xtring bit;
-            char padding = '0';
-            if( field == "eje" || field == "ejercicio" ) {
+            char padding = size.startsWith('0') ? '0' : ' ';
+            if( field == "EJE" || field == "EJERCICIO" ) {
                 bit = Xtring::number( ejercicio );
-            } else if( field == "emp" || field == "empresa" || field == "codemp" ) {
+            } else if( field == "EMP" || field == "EMPRESA" || field == "CODEMP" ) {
                 bit = Xtring::number( codempresa );
 			} else {
 				Variant value = getValue(field);
 				if( !value.isValid() ) {
-					_GONG_DEBUG_WARNING( "Field " + field + " not found" );
 					result += fieldandsize;
 					continue;
 				} else {
 					bit = value.toString();
-					if( Variant::isNumeric( value.type() ) ) {
-						padding = '0';
-					} else {
-						padding = ' ';
-					}
 				}
             }
             if( size.toInt() != 0 )
@@ -295,7 +287,7 @@ Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &forma
             result += formato[i];
         }
     }
-    return result;
+    return result.upper() + "%";
 }
 
 /*<<<<<ARTICULO_ISVALID*/

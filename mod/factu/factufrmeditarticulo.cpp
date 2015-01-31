@@ -726,8 +726,11 @@ void FrmEditArticulo::pushGenCodArt_clicked()
     gatherFields();
     FrmGenCodArt *fgca = new FrmGenCodArt( getRecArticulo() );
     fgca->showModalFor(this, true, true );
-    if( !fgca->getCodArt().isEmpty() )
-        editCodigo->setText( fgca->getCodArt() );
+	if( !fgca->wasCancelled() ) {
+		Xtring codart = fgca->getCodArt();
+		if( !codart.isEmpty() )
+			editCodigo->setText( codart );
+	}
     delete fgca;
 }
 

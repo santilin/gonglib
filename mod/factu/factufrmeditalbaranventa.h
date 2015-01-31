@@ -81,12 +81,8 @@ private slots:
 	void pushFormaPagoCodigo_clicked();
 	void pushAgenteCodigo_clicked();
 	void pushProyectoCodigo_clicked();
-#ifdef HAVE_CONTABMODULE	
 	void pushCuentaPagoCuenta_clicked();
-#endif
-#ifdef HAVE_TESORERIAMODULE	
 	void pushCuentaPagoCodigo_clicked();
-#endif	
 
 public:
 	RecTipoDoc* getRecTipoDoc() const

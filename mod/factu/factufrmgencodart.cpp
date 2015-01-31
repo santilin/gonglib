@@ -22,15 +22,17 @@ void FrmGenCodArt::validate_input(QWidget* sender, bool* isvalid)
 	if( sender == pPushSegunProveedora ) {
 		mCodArt = pRecArticulo->genCodigoArticulo( pRecArticulo->getValue("PROVEEDORA.GENCODARTICULO").toInt(),
 												   pRecArticulo->getValue("PROVEEDORA.FORMATCODARTICULO").toString() );
-		close();
+		accept();
  	}
 }
 
 void FrmGenCodArt::accept()
 {
-    mCodArt = pRecArticulo->genCodigoArticulo( pComboOperacion->getCurrentItemValue(),
+	if( mCodArt.isEmpty() ) {
+		mCodArt = pRecArticulo->genCodigoArticulo( pComboOperacion->getCurrentItemValue(),
               pEditFormat->toString() );
-    close();
+	}
+    FrmBase::accept();
 }
 
 } // namespace factu

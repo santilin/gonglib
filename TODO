@@ -1,11 +1,11 @@
 == HECHO ==
-* Al grabar una factura, se quedan las líneas vacías de la anterior
 * Albarán venta: a la cuenta en negativo o viceversa
 
 == HACIENDO ==
+* No funciona configuración tipodoc_id
 
-== TESORERIA ==
-* Duplicar albaran compra y albaran venta en oferta compra y oferta venta
+== TESORERIA y OFERTAS ==
+* Duplicar código albaran compra y albaran venta en oferta compra y oferta venta
 
 == HACER ==
 * Factu: Albaran compra no muestra agente. Setting (Quieres agentes en las compras?)
@@ -59,6 +59,7 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
+* Calcular pvp de un albarán de compra.
 * addDetailIfNeeded no se necesita en albaran compra pero sí en albaran venta.
 * Formulario datos ventas y compras de artículos
 * Clientes especiales, con un porcentaje extra.
