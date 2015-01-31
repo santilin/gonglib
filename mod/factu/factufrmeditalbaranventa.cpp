@@ -297,11 +297,11 @@ if( ModuleInstance->getContabModule() ) {
 		} else if( isUpdating() ) {
 			pFocusWidget = pFrmAlbaranVentaDet;
 		}
+		pFrmAlbaranVentaDet->addDetailIfNeeded();
 		// Si estamos duplicando o copiando desde cualquier otro documento y no tenemos contador, generarlo, pero si es una 
 		// inserción normal, no generarlo hasta que se meta el tipo de documento
 		if( isInserting() && editContador->toInt() == 0 && editTipoDocCodigo->toInt() != 0 && isFirstScatter() ) 
 			genNumeroDocumento();
-		pFrmAlbaranVentaDet->addDetailIfNeeded();
 		searchClienteCodigo->setMustBeReadOnly( mHasCobros );
 		searchFormaPagoCodigo->setMustBeReadOnly( mHasCobros );
 		editFecha->setMustBeReadOnly( mHasCobros );
@@ -641,8 +641,8 @@ void FrmEditAlbaranVenta::scatterCuentaPago()
 #elif defined (HAVE_TESORERIAMODULE)
 void FrmEditAlbaranVenta::scatterCuentaPago()
 {
-	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CUENTA") );
-	editCuentaPagoNombre->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
+	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CODIGO") );
+	editCuentaPagoNombre->setText( getRecCuentaPago()->getValue("NOMBRE") );
 }
 #endif
 
@@ -996,7 +996,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 #elif defined (HAVE_TESORERIAMODULE)
             if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID").toInt() == 0) {
 #endif
-				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida", "CUENTAPAGO_ID");
+				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida.\nNo se generará el apunte del cobro en tesorería.", "CUENTAPAGO_ID");
 			}
 		}
 	}

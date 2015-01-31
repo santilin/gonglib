@@ -220,11 +220,11 @@ void FrmEditRecDetail::beginEdit(DataTable *dt, EditMode newmode,
         pMenuRecordModify->setEnabled(false);
         pMenuRecordDelete->setEnabled(false);
         if( newmode == DataTable::deleting )
-            FrmBase::msgError( this, _("No se puede borrar detalles al visualizar") );
+			DBAPP->showOSD( _("No se puede borrar detalles al visualizar"), getTitle() );
         else if( newmode == DataTable::inserting )
-            FrmBase::msgOk( this, _("No se puede añadir detalles al visualizar") );
+			DBAPP->showOSD( _("No se puede añadir detalles al visualizar"), getTitle() );
         else if( newmode == DataTable::updating )
-            FrmBase::msgOk( this, _("No se puede modificar detalles al visualizar") );
+			DBAPP->showOSD( _("No se puede modificar detalles al visualizar"), getTitle() );
         r.canDelete = false;
         r.canAdd = false;
         r.canEdit = false;

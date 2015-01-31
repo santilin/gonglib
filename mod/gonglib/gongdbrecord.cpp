@@ -1031,7 +1031,7 @@ Variant dbRecord::getValue( unsigned int nfield ) const
     if ( nfield < mFieldValues.size() ) {
         return mFieldValues.seq_at(nfield)->toVariant();
     } else {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return Variant();
     }
@@ -1044,7 +1044,7 @@ Variant dbRecord::getOrigValue(unsigned int nfield) const
     if ( nfield < mOrigFieldValues.size() ) {
         return mOrigFieldValues.seq_at(nfield)->toVariant();
     } else {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return Variant();
     }
@@ -1057,7 +1057,7 @@ bool dbRecord::isNullValue ( unsigned int nfield ) const
     if ( nfield < mFieldValues.size() ) {
         return mFieldValues.seq_at(nfield)->isNull();
     } else {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return false;
     }
@@ -1070,7 +1070,7 @@ bool dbRecord::isNullOrigValue(unsigned int nfield) const
     if ( nfield < mOrigFieldValues.size() ) {
         return mOrigFieldValues.seq_at(nfield)->isNull();
     } else {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return false;
     }
@@ -1102,7 +1102,7 @@ bool dbRecord::isNullValue ( const Xtring &fullfldname ) const
             return relatedr->isNullValue( fldname );
         }
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' not found in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return true;
 }
@@ -1120,7 +1120,7 @@ bool dbRecord::isNullOrigValue(const Xtring& fullfldname) const
     } else {
         _GONG_DEBUG_WARNING("Testing null orig value of related record is not allowed");
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' not found in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return true;
 
@@ -1166,7 +1166,7 @@ Variant dbRecord::getValue( const Xtring &fullfldname ) const
             return relatedr->getValue( fldname );
         }
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' not found in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return Variant();
 }
@@ -1184,7 +1184,7 @@ Variant dbRecord::getOrigValue(const Xtring& fullfldname) const
     } else {
         _GONG_DEBUG_WARNING("Getting orig value of related record is not allowed");
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' not found in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return Variant();
 }
@@ -1208,7 +1208,7 @@ bool dbRecord::setNullValue ( unsigned int nfield )
     }
     else
     {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return false;
     }
@@ -1255,7 +1255,7 @@ bool dbRecord::setNullValue ( const Xtring &fullfldname )
             return relatedr->setNullValue ( fldname );
         }
     }
-    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' does not exist in table %s",
+    _GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' not found in table %s",
                                            fullfldname.c_str(), getTableName().c_str() ) );
     return false;
 }
@@ -1290,7 +1290,7 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
     }
     else
     {
-        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' does not exist in table '%s'",
+        _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
         return false;
     }

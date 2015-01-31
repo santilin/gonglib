@@ -650,7 +650,7 @@ void FactuModule::setWorkingDate( Date dt )
 
 Date FactuModule::getWorkingDate()
 {
-    if( ModuleInstance->getModuleSetting("USEWORKINGDATE") == true )
+    if( ModuleInstance->getModuleSetting("USEWORKINGDATE") == true && !mWorkingDate.isNull() )
         return mWorkingDate;
     else
         return Date::currentDate();

@@ -94,12 +94,20 @@ bool RecApunteTesoreria::save(bool saverelated) throw( dbError )
 		Money debe = getOrigValue("DEBE").toDouble();
 		Money haber = getOrigValue("HABER").toDouble();
 		if( debe != 0.0 || haber != 0.0 ) {
+			if( hasSemanticProperty("CARGO") ) {
+				debe = -debe;
+				haber = -haber;
+			}
 			dbRecordID ct_id = getOrigValue("CUENTATESORERIA_ID").toInt();
 			actSaldoCuenta(ct_id, debe, haber, false); 
 		}
 		debe = getValue("DEBE").toDouble();
 		haber = getValue("HABER").toDouble();
 		if( debe != 0.0 || haber != 0.0 ) {
+			if( hasSemanticProperty("CARGO") ) {
+				debe = -debe;
+				haber = -haber;
+			}
 			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
 			actSaldoCuenta(ct_id, debe, haber, true); 
 		}
@@ -122,6 +130,10 @@ bool RecApunteTesoreria::remove() throw( dbError )
 		Money debe = getValue("DEBE").toDouble();
 		Money haber = getValue("HABER").toDouble();
 		if( debe != 0.0 || haber != 0.0 ) {
+			if( hasSemanticProperty("CARGO") ) {
+				debe = -debe;
+				haber = -haber;
+			}
 			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
 			actSaldoCuenta(ct_id, debe, haber, false); 
 		}

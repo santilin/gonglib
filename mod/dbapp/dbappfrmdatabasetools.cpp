@@ -101,7 +101,7 @@ bool FrmDatabaseTools::dump( const Xtring &dumpfname, const Xtring &database,
     DBAPP->waitCursor( true );
     Xtring dumpcommand = DBAPP->getAppSetting( "SYSTEM.DBBACKUP.COMMAND").toString();
     if( dumpcommand.isEmpty() )
-        dumpcommand = "mysqldump -u $user -p\"$password\" -h \"$host\" $database $tables > $destfile";
+        dumpcommand = "mysqldump -u $user -p\"$password\" -h \"$host\" $database $tables > \"$destfile\"";
     dumpcommand.replace( "$user", user );
     if( !host.isEmpty() )
         dumpcommand.replace( "$host", host );
@@ -127,7 +127,7 @@ bool FrmDatabaseTools::load( const Xtring &dumpfname, const Xtring &database,
     DBAPP->waitCursor( true );
     Xtring loadcommand = DBAPP->getAppSetting( "SYSTEM.DBBACKUP.RESTORE_COMMAND").toString();
     if( loadcommand.isEmpty() )
-        loadcommand = "mysql -u $user -p\"$password\" -h \"$host\" $database < $origfile";
+        loadcommand = "mysql -u $user -p\"$password\" -h \"$host\" $database < \"$origfile\"";
     Xtring origcommand = loadcommand;
     loadcommand.replace( "$user", user );
     if( !host.isEmpty() )
@@ -137,7 +137,7 @@ bool FrmDatabaseTools::load( const Xtring &dumpfname, const Xtring &database,
     loadcommand.replace( "$password", password );
     loadcommand.replace( "$database", database );
     loadcommand.replace( "$origfile", dumpfname );
-    if( FileUtils::execProcess ( loadcommand.c_str(), Xtring::null, errors ) == -1 )
+    if( FileUtils::execProcess ( loadcommand.c_str(), Xtring::null, errors ) != 0 )
         errors = _("No se ha podido ejecutar el comando:\n") + loadcommand + "\n" + errors ;
     DBAPP->resetCursor();
     return errors.trim().isEmpty();
@@ -272,6 +272,8 @@ void FrmDatabaseTools::restoreDatabase()
     Xtring password = frmrestore->getPassword();
     bool cancelled = frmrestore->wasCancelled();
     Xtring backuppath = DBAPP->getAppSetting( "SYSTEM.DBBACKUP.PATH" ).toString();
+	if( backuppath.isEmpty() )
+		backuppath = DBAPP->getLocalDataDir();
     delete frmrestore;
     if( !cancelled ) {
         Xtring fname = DBAPP->getOpenFileName( _("Elige el fichero a restaurar"),

@@ -27,7 +27,7 @@ int ITotalizableRecord::getIvaDetallado() const
 void ITotalizableRecord::gather( FrmEditRec *frm )
 {
     for( XtringList::const_iterator it = sTotalFields.begin();
-            it != sTotalFields.end(); ++it )
+		it != sTotalFields.end(); ++it ) 
         pRecord->setValue( *it, frm->getControlValue( *it ) );
 }
 

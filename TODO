@@ -1,10 +1,11 @@
 == HECHO ==
+* Al grabar una factura, se quedan las líneas vacías de la anterior
+* Albarán venta: a la cuenta en negativo o viceversa
 
 == HACIENDO ==
 
 == TESORERIA ==
 * Duplicar albaran compra y albaran venta en oferta compra y oferta venta
-* Albarán venta: a la cuenta en negativo o viceversa
 
 == HACER ==
 * Factu: Albaran compra no muestra agente. Setting (Quieres agentes en las compras?)
@@ -12,9 +13,8 @@
 * Pagos: Mostrar la cuenta del pago
 * FrmEditFacturaCompra: demasiado ancho
 * Pagos: regnerarlos: guardar el número como en apuntes de tesorería.
-* Al grabar una factura, se quedan las líneas vacías de la anterior
 * Factu: Informe de existencias máximas y mínimas.
-* Búsquedas por nombre alternativo
+* BúsquedasO por nombre alternativo
 
 == ANGEL ==
 * Imprimir etiquetas con códigos de barras

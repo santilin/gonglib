@@ -615,8 +615,8 @@ void FrmEditAlbaranCompra::scatterCuentaPago()
 #elif defined (HAVE_TESORERIAMODULE)
 void FrmEditAlbaranCompra::scatterCuentaPago()
 {
-	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CUENTA") );
-	editCuentaPagoNombre->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
+	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CODIGO") );
+	editCuentaPagoNombre->setText( getRecCuentaPago()->getValue("NOMBRE") );
 }
 #endif
 
@@ -911,7 +911,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 #elif defined (HAVE_TESORERIAMODULE)
             if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID").toInt() == 0) {
 #endif
-				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida", "CUENTAPAGO_ID");
+				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida.\nNo se generará el apunte del pago en tesorería.", "CUENTAPAGO_ID");
 			}
 		}
 	}
