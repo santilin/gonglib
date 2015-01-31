@@ -4,10 +4,8 @@
 // FIELD Nombre string - codigo
 // FIELD PedirFecha comboint - leftFecha
 // FIELD Fecha date - leftFecha
-// FIELD PedirDebe comboint - leftDebeHaber
-// FIELD Debe money - leftDebeHaber
-// FIELD PedirHaber comboint - leftDebeHaber
-// FIELD Haber money - leftDebeHaber
+// FIELD PedirImporte comboint - leftImporte
+// FIELD Importe money - leftImporte
 // FIELD PedirReferencia comboint - leftReferencia
 // FIELD Referencia string - leftReferencia
 // FIELD PedirCuenta comboint - leftcuenta
@@ -50,7 +48,7 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
     /*<<<<<FRMEDITTIPOAPUNTETESORERIA_INIT_CONTROLS*/
 	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
 	QHBoxLayout *leftFechaLayout = new QHBoxLayout(0, 0, 6, "leftFechaLayout");
-	QHBoxLayout *leftDebeHaberLayout = new QHBoxLayout(0, 0, 6, "leftDebeHaberLayout");
+	QHBoxLayout *leftImporteLayout = new QHBoxLayout(0, 0, 6, "leftImporteLayout");
 	QHBoxLayout *leftReferenciaLayout = new QHBoxLayout(0, 0, 6, "leftReferenciaLayout");
 	QHBoxLayout *leftcuentaLayout = new QHBoxLayout(0, 0, 6, "leftcuentaLayout");
 	QHBoxLayout *lefttablatercerosLayout = new QHBoxLayout(0, 0, 6, "lefttablatercerosLayout");
@@ -64,10 +62,8 @@ FrmEditTipoApunteTesoreria::FrmEditTipoApunteTesoreria(FrmEditRec *parentfrm, db
 	editNombre = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "NOMBRE", codigoLayout );
 	comboPedirFecha = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRFECHA", leftFechaLayout );
 	editFecha = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "FECHA", leftFechaLayout );
-	comboPedirDebe = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRDEBE", leftDebeHaberLayout );
-	editDebe = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "DEBE", leftDebeHaberLayout );
-	comboPedirHaber = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRHABER", leftDebeHaberLayout );
-	editHaber = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "HABER", leftDebeHaberLayout );
+	comboPedirImporte = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRIMPORTE", leftImporteLayout );
+	editImporte = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "IMPORTE", leftImporteLayout );
 	comboPedirReferencia = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRREFERENCIA", leftReferenciaLayout );
 	editReferencia = addEditField( pControlsFrame, "TIPOAPUNTETESORERIA", "REFERENCIA", leftReferenciaLayout );
 	comboPedirCuenta = addComboIntField( pControlsFrame, "TIPOAPUNTETESORERIA", "PEDIRCUENTA", leftcuentaLayout );
@@ -92,8 +88,8 @@ if(empresa::ModuleInstance->usaProyectos()){
 	pControlsLayout->addLayout( codigoLayout );
 	pControlsLayout->addLayout( leftFechaLayout );
 	alignLayout( leftFechaLayout, true );
-	pControlsLayout->addLayout( leftDebeHaberLayout );
-	alignLayout( leftDebeHaberLayout, true );
+	pControlsLayout->addLayout( leftImporteLayout );
+	alignLayout( leftImporteLayout, true );
 	pControlsLayout->addLayout( leftReferenciaLayout );
 	alignLayout( leftReferenciaLayout, true );
 	pControlsLayout->addLayout( leftcuentaLayout );
@@ -123,10 +119,8 @@ void FrmEditTipoApunteTesoreria::scatterFields()
 	editNombre->setText(getRecTipoApunteTesoreria()->getValue("NOMBRE").toString());
 	comboPedirFecha->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRFECHA").toInt());
 	editFecha->setText(getRecTipoApunteTesoreria()->getValue("FECHA").toDate());
-	comboPedirDebe->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRDEBE").toInt());
-	editDebe->setText(getRecTipoApunteTesoreria()->getValue("DEBE").toMoney());
-	comboPedirHaber->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRHABER").toInt());
-	editHaber->setText(getRecTipoApunteTesoreria()->getValue("HABER").toMoney());
+	comboPedirImporte->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRIMPORTE").toInt());
+	editImporte->setText(getRecTipoApunteTesoreria()->getValue("IMPORTE").toMoney());
 	comboPedirReferencia->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRREFERENCIA").toInt());
 	editReferencia->setText(getRecTipoApunteTesoreria()->getValue("REFERENCIA").toString());
 	comboPedirCuenta->setCurrentItemByValue(getRecTipoApunteTesoreria()->getValue("PEDIRCUENTA").toInt());
@@ -161,10 +155,8 @@ void FrmEditTipoApunteTesoreria::gatherFields()
 	getRecTipoApunteTesoreria()->setValue( "NOMBRE", editNombre->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRFECHA", comboPedirFecha->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "FECHA", editFecha->toDate());
-	getRecTipoApunteTesoreria()->setValue( "PEDIRDEBE", comboPedirDebe->getCurrentItemValue());
-	getRecTipoApunteTesoreria()->setValue( "DEBE", editDebe->toMoney());
-	getRecTipoApunteTesoreria()->setValue( "PEDIRHABER", comboPedirHaber->getCurrentItemValue());
-	getRecTipoApunteTesoreria()->setValue( "HABER", editHaber->toMoney());
+	getRecTipoApunteTesoreria()->setValue( "PEDIRIMPORTE", comboPedirImporte->getCurrentItemValue());
+	getRecTipoApunteTesoreria()->setValue( "IMPORTE", editImporte->toMoney());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRREFERENCIA", comboPedirReferencia->getCurrentItemValue());
 	getRecTipoApunteTesoreria()->setValue( "REFERENCIA", editReferencia->toString());
 	getRecTipoApunteTesoreria()->setValue( "PEDIRCUENTA", comboPedirCuenta->getCurrentItemValue());

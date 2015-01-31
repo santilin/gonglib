@@ -1,7 +1,5 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de cuentas de tesorería
-// FIELD Debe Money tabExtracto saldo
-// FIELD Haber Money tabExtracto saldo
 // FIELD Saldo Money tabExtracto saldo
 // FIELD Codigo String - cuenta
 // FIELD Nombre String - cuenta
@@ -40,8 +38,6 @@ FrmEditCuentaTesoreria::FrmEditCuentaTesoreria(FrmEditRec *parentfrm, dbRecord *
 	QHBoxLayout *cuentaLayout = new QHBoxLayout(0, 0, 6, "cuentaLayout");
 	QHBoxLayout *inicialLayout = new QHBoxLayout(0, 0, 6, "inicialLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-	editDebe = addEditField( tabExtracto, "CUENTATESORERIA", "DEBE", saldoLayout );
-	editHaber = addEditField( tabExtracto, "CUENTATESORERIA", "HABER", saldoLayout );
 	editSaldo = addEditField( tabExtracto, "CUENTATESORERIA", "SALDO", saldoLayout );
 	editCodigo = addEditField( pControlsFrame, "CUENTATESORERIA", "CODIGO", cuentaLayout );
 	editNombre = addEditField( pControlsFrame, "CUENTATESORERIA", "NOMBRE", cuentaLayout );
@@ -70,11 +66,9 @@ FrmEditCuentaTesoreria::FrmEditCuentaTesoreria(FrmEditRec *parentfrm, dbRecord *
 void FrmEditCuentaTesoreria::scatterFields()
 {
     /*<<<<<FRMEDITCUENTATESORERIA_SCATTER*/
-	editDebe->setText(getRecCuentaTesoreria()->getValue("DEBE").toMoney());
-	if( isEditing() && (pFocusWidget == 0) )
-		pFocusWidget = editDebe;
-	editHaber->setText(getRecCuentaTesoreria()->getValue("HABER").toMoney());
 	editSaldo->setText(getRecCuentaTesoreria()->getValue("SALDO").toMoney());
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editSaldo;
 	editCodigo->setText(getRecCuentaTesoreria()->getValue("CODIGO").toString());
 	editNombre->setText(getRecCuentaTesoreria()->getValue("NOMBRE").toString());
 	editSaldoInicial->setText(getRecCuentaTesoreria()->getValue("SALDOINICIAL").toMoney());
@@ -104,8 +98,6 @@ void FrmEditCuentaTesoreria::scatterFields()
 void FrmEditCuentaTesoreria::gatherFields()
 {
     /*<<<<<FRMEDITCUENTATESORERIA_GATHER*/
-	getRecCuentaTesoreria()->setValue( "DEBE", editDebe->toMoney());
-	getRecCuentaTesoreria()->setValue( "HABER", editHaber->toMoney());
 	getRecCuentaTesoreria()->setValue( "SALDO", editSaldo->toMoney());
 	getRecCuentaTesoreria()->setValue( "CODIGO", editCodigo->toString());
 	getRecCuentaTesoreria()->setValue( "NOMBRE", editNombre->toString());

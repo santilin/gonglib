@@ -91,25 +91,21 @@ bool RecApunteTesoreria::save(bool saverelated) throw( dbError )
     bool ret = dbRecord::save(saverelated);
     if( ret ) {
 		// Descontar el original
-		Money debe = getOrigValue("DEBE").toDouble();
-		Money haber = getOrigValue("HABER").toDouble();
-		if( debe != 0.0 || haber != 0.0 ) {
+		Money importe = getOrigValue("IMPORTE").toDouble();
+		if( importe != 0.0 ) {
 			if( hasSemanticProperty("CARGO") ) {
-				debe = -debe;
-				haber = -haber;
+				importe = -importe;
 			}
 			dbRecordID ct_id = getOrigValue("CUENTATESORERIA_ID").toInt();
-			actSaldoCuenta(ct_id, debe, haber, false); 
+			actSaldoCuenta(ct_id, importe, false); 
 		}
-		debe = getValue("DEBE").toDouble();
-		haber = getValue("HABER").toDouble();
-		if( debe != 0.0 || haber != 0.0 ) {
+		importe = getValue("IMPORTE").toDouble();
+		if( importe != 0.0 ) {
 			if( hasSemanticProperty("CARGO") ) {
-				debe = -debe;
-				haber = -haber;
+				importe = -importe;
 			}
 			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
-			actSaldoCuenta(ct_id, debe, haber, true); 
+			actSaldoCuenta(ct_id, importe, true); 
 		}
 		if( !wasnew ) {
 			if( generaContrapartida() )	{
@@ -127,15 +123,13 @@ bool RecApunteTesoreria::remove() throw( dbError )
 /*>>>>>APUNTETESORERIA_REMOVE*/
     bool ret = dbRecord::remove();
     if( ret ) {
-		Money debe = getValue("DEBE").toDouble();
-		Money haber = getValue("HABER").toDouble();
-		if( debe != 0.0 || haber != 0.0 ) {
+		Money importe = getValue("IMPORTE").toDouble();
+		if( importe != 0.0 ) {
 			if( hasSemanticProperty("CARGO") ) {
-				debe = -debe;
-				haber = -haber;
+				importe = -importe;
 			}
 			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
-			actSaldoCuenta(ct_id, debe, haber, false); 
+			actSaldoCuenta(ct_id, importe, false); 
 		}
     }
     return ret;
@@ -144,15 +138,12 @@ bool RecApunteTesoreria::remove() throw( dbError )
 /**
  * @brief Actualiza el saldo de la cuenta de tesorería afectada por este apunte
  */
-void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, const Money& _debe, const Money &_haber, bool saving)
+void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, const Money& _importe, bool saving)
 {
-    Money debe = saving ? _debe : -_debe;
-    Money haber = saving ? _haber: -_haber;
+    Money importe = saving ? _importe : -_importe;
     RecCuentaTesoreria *cuentatesoreria = static_cast<RecCuentaTesoreria*>( DBAPP->createRecord("CUENTATESORERIA") );
     if ( cuentatesoreria->read( cuentatesoreria_id ) ) {
-		cuentatesoreria->setValue( "DEBE", cuentatesoreria->getValue( "DEBE" ).toMoney() + debe );
-		cuentatesoreria->setValue( "HABER", cuentatesoreria->getValue( "HABER" ).toMoney() + haber );
-		cuentatesoreria->setValue( "SALDO", cuentatesoreria->getValue( "SALDO" ).toMoney() + debe - haber );
+		cuentatesoreria->setValue( "IMPORTE", cuentatesoreria->getValue( "IMPORTE" ).toMoney() + importe );
         cuentatesoreria->save(false);
     }
     delete cuentatesoreria;
@@ -176,8 +167,7 @@ bool RecApunteTesoreria::generaContrapartida()
 		Xtring("EJERCICIO=") + conn->toSQL( getValue("EJERCICIO") ) 
 		+ " AND NUMERO=" + conn->toSQL( getValue("NUMERO") )
 		+ " AND FECHA=" + conn->toSQL( getValue("FECHA") )
-		+ " AND DEBE=" + conn->toSQL( getValue("DEBE").toMoney() )
-		+ " AND HABER=" + conn->toSQL( getValue("HABER").toMoney() )
+		+ " AND IMPORTE=" + conn->toSQL( getValue("IMPORTE").toMoney() )
 		+ " AND PROYECTO_ID=" + conn->toSQL( getValue("PROYECTO_ID") )
 		+ " AND CUENTATESORERIA_ID=" + conn->toSQL( getValue("TERCERO_ID") )
 		+ " AND TABLATERCEROS=" + conn->toSQL("CUENTATESORERIA") 
@@ -190,8 +180,7 @@ bool RecApunteTesoreria::generaContrapartida()
 	} else {
 		apunte->copyRecord( this );
 		apunte->setNew(true);
-		apunte->setValue( "DEBE", getValue("HABER").toMoney() );
-		apunte->setValue( "HABER", getValue("DEBE").toMoney() );
+		apunte->setValue( "IMPORTE", -getValue("IMPORTE").toMoney() );
 		apunte->setValue( "CUENTATESORERIA_ID", getValue("TERCERO_ID") );
 		apunte->setValue( "TERCERO_ID", getValue("CUENTATESORERIA_ID") );
 		return apunte->save(false);

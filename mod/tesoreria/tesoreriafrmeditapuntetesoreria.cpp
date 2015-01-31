@@ -6,8 +6,7 @@
 // FIELD Automatico bool - numero
 // FIELD TipoApunteTesoreria_ID Reference(TipoApunteTesoreria,Codigo,Nombre) - tipoapunte
 // FIELD Fecha date - fecha
-// FIELD Debe Money - fecha
-// FIELD Haber Money - fecha
+// FIELD Importe Money - fecha
 // FIELD CuentaTesoreria_ID Reference(CuentaTesoreria,Codigo,Nombre)
 // FIELD TablaTerceros combostring - terceros
 // FIELD Tercero string - terceros
@@ -66,8 +65,7 @@ FrmEditApunteTesoreria::FrmEditApunteTesoreria(FrmEditRec *parentfrm, dbRecord *
 	editTipoApunteTesoreriaCodigo = searchTipoApunteTesoreriaCodigo->getEditCode();
 	editTipoApunteTesoreriaNombre = searchTipoApunteTesoreriaCodigo->getEditDesc();
 	editFecha = addEditField( pControlsFrame, "APUNTETESORERIA", "FECHA", fechaLayout );
-	editDebe = addEditField( pControlsFrame, "APUNTETESORERIA", "DEBE", fechaLayout );
-	editHaber = addEditField( pControlsFrame, "APUNTETESORERIA", "HABER", fechaLayout );
+	editImporte = addEditField( pControlsFrame, "APUNTETESORERIA", "IMPORTE", fechaLayout );
 
 	searchCuentaTesoreriaCodigo = addSearchField( pControlsFrame, "CUENTATESORERIA_ID", "CUENTATESORERIA", "CODIGO", "NOMBRE", cuentatesoreria_idLayout );
 	pushCuentaTesoreriaCodigo = searchCuentaTesoreriaCodigo->getButton();
@@ -116,8 +114,7 @@ void FrmEditApunteTesoreria::scatterFields()
 		pFocusWidget = editNumero;
 	checkAutomatico->setChecked(getRecApunteTesoreria()->getValue("AUTOMATICO").toBool());
 	editFecha->setText(getRecApunteTesoreria()->getValue("FECHA").toDate());
-	editDebe->setText(getRecApunteTesoreria()->getValue("DEBE").toMoney());
-	editHaber->setText(getRecApunteTesoreria()->getValue("HABER").toMoney());
+	editImporte->setText(getRecApunteTesoreria()->getValue("IMPORTE").toMoney());
 	comboTablaTerceros->setText(getRecApunteTesoreria()->getValue("TABLATERCEROS").toString());
 	editTercero->setText(getRecApunteTesoreria()->getValue("TERCERO").toString());
 	comboTablaConceptos->setText(getRecApunteTesoreria()->getValue("TABLACONCEPTOS").toString());
@@ -146,8 +143,7 @@ if(empresa::ModuleInstance->usaProyectos()){
     bool esAutomatico = checkAutomatico->isOn();
 	if( isFirstScatter() ) {
 		editFecha->setMustBeReadOnly(esAutomatico);
-		editDebe->setMustBeReadOnly(esAutomatico);
-		editHaber->setMustBeReadOnly(esAutomatico);
+		editImporte->setMustBeReadOnly(esAutomatico);
 		editTercero->setMustBeReadOnly(esAutomatico);
 		editConcepto->setMustBeReadOnly(esAutomatico);
 		searchCuentaTesoreriaCodigo->setMustBeReadOnly(esAutomatico);
@@ -169,8 +165,7 @@ void FrmEditApunteTesoreria::gatherFields()
 	getRecApunteTesoreria()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
 	getRecApunteTesoreria()->setValue( "TIPOAPUNTETESORERIA_ID", getRecTipoApunteTesoreria()->getRecordID() );
 	getRecApunteTesoreria()->setValue( "FECHA", editFecha->toDate());
-	getRecApunteTesoreria()->setValue( "DEBE", editDebe->toMoney());
-	getRecApunteTesoreria()->setValue( "HABER", editHaber->toMoney());
+	getRecApunteTesoreria()->setValue( "IMPORTE", editImporte->toMoney());
 	getRecApunteTesoreria()->setValue( "CUENTATESORERIA_ID", getRecCuentaTesoreria()->getRecordID() );
 	getRecApunteTesoreria()->setValue( "TABLATERCEROS", comboTablaTerceros->toString());
 	getRecApunteTesoreria()->setValue( "TERCERO", editTercero->toString());

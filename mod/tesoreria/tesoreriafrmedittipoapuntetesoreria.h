@@ -47,10 +47,8 @@ protected:
 	gong::EditBox *editNombre;
 	gong::ComboBoxInt *comboPedirFecha;
 	gong::EditBox *editFecha;
-	gong::ComboBoxInt *comboPedirDebe;
-	gong::EditBox *editDebe;
-	gong::ComboBoxInt *comboPedirHaber;
-	gong::EditBox *editHaber;
+	gong::ComboBoxInt *comboPedirImporte;
+	gong::EditBox *editImporte;
 	gong::ComboBoxInt *comboPedirReferencia;
 	gong::EditBox *editReferencia;
 	gong::ComboBoxInt *comboPedirCuenta;

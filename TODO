@@ -1,13 +1,21 @@
 == HECHO ==
+* Modificar un setting del diccionario de datos en el editor de configuración no vuelve a leer los valores de configuración.
 * Albarán venta: a la cuenta en negativo o viceversa
 
 == HACIENDO ==
-* No funciona configuración tipodoc_id
+* No se guarda el orden de los ficheros embebidos: Extracto de cuenta de tesoreria.
+
 
 == TESORERIA y OFERTAS ==
 * Duplicar código albaran compra y albaran venta en oferta compra y oferta venta
 
+
+== NO HACER ==
+
 == HACER ==
+* Insertar albarán de compra en albarán de venta: Borra el número del albarán de venta.
+* Generar liquidación, no genera el contador.
+* Modificar una línea de albarán se va el cursor al final 
 * Factu: Albaran compra no muestra agente. Setting (Quieres agentes en las compras?)
 * Factu: No salen los precios de los artículos en albaran de venta
 * Pagos: Mostrar la cuenta del pago
@@ -358,8 +366,8 @@ http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-th
 * Definición de las vistas: +SELECT BLA,BLA FROM INNER JOIN
 * Añadir a herramientas de la base de datos información sobre la conexión como etiquetas en el propio formulario
 * Formulario de edición de la configuración:
-** Diccionario de datos, no repetir "DBDEF.FIELD...."
-** Añadir botón "Buscar clave" y "Añadir clave"
+** Mejorar el buscador: Reiniciar búsqueda, guardar el texto de búsqueda, quitar botón aceptar/cancelar.
+** Añadir botón "Añadir clave"
 * Shortcuts para los menus en la configuración
 * AppReport::fromViewDefinition: Estrechar más los campos más largos (difícil)
 * Opción en FrmEditRecMaster para mostrar/ocultar los ids

@@ -91,8 +91,7 @@ protected:
 	gong::LineEdit *editTipoApunteTesoreriaCodigo;
 	gong::LineEdit *editTipoApunteTesoreriaNombre;
 	gong::EditBox *editFecha;
-	gong::EditBox *editDebe;
-	gong::EditBox *editHaber;
+	gong::EditBox *editImporte;
 	gong::SearchBox *searchCuentaTesoreriaCodigo;
 	QPushButton *pushCuentaTesoreriaCodigo;
 	gong::LineEdit *editCuentaTesoreriaCodigo;

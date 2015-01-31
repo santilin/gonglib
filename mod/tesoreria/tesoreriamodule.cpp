@@ -97,10 +97,8 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicTipoApunteTesoreria->addFieldDesc( "NOMBRE", 50 );
     pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRFECHA" );
     pFicTipoApunteTesoreria->addFieldString("FECHA",20);
-    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRDEBE" );
-    pFicTipoApunteTesoreria->addFieldMoney("DEBE");
-    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRHABER" );
-    pFicTipoApunteTesoreria->addFieldMoney("HABER");
+    pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRIMPORTE" );
+    pFicTipoApunteTesoreria->addFieldMoney("IMPORTE");
     pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRREFERENCIA" );
     pFicTipoApunteTesoreria->addFieldString("REFERENCIA",100);
     pFicTipoApunteTesoreria->addField<FldPedirCampo>( "PEDIRCUENTA" );
@@ -151,8 +149,6 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicCuentaTesoreria->addFieldEuro( "SALDOINICIAL" );
     pFicCuentaTesoreria->addFieldDate( "FECHASALDOINICIAL" );
     pFicCuentaTesoreria->addFieldEuro( "SALDO" )->setReadOnly( true );
-    pFicCuentaTesoreria->addFieldEuro( "DEBE" )->setReadOnly( true );
-    pFicCuentaTesoreria->addFieldEuro( "HABER" )->setReadOnly( true );
     pFicCuentaTesoreria->addFieldNotas();
     pFicCuentaTesoreria->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pFicCuentaTesoreria->addMultipleIndex( "cuenta_codigo_unico", "EMPRESA_ID,CUENTA", true );
@@ -165,8 +161,7 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicApunteTesoreria->addFieldOne2OneRelation( "TIPOAPUNTETESORERIA_ID", "TIPOAPUNTETESORERIA.ID" );
     pFicApunteTesoreria->addFieldInt( "NUMERO" );
     pFicApunteTesoreria->addFieldDate( "FECHA" );
-    pFicApunteTesoreria->addFieldEuro( "DEBE" );
-    pFicApunteTesoreria->addFieldEuro( "HABER" );
+    pFicApunteTesoreria->addFieldEuro( "IMPORTE" );
     pFicApunteTesoreria->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
     pFicApunteTesoreria->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
     pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),
@@ -344,125 +339,6 @@ bool TesoreriaModule::initMainWindow(MainWindow *mainwin)
     return true;
 }
 
-#if 0
-RecApunteTesoreria* TesoreriaModule::creaAsientoSimple(FrmEditRec* parent,
-        RecApunteTesoreria* old_apunte,
-        Date fecha, const Xtring& rec_origen,
-        dbRecordID proyecto_id, const Xtring& descripcion,
-        const Xtring& concepto, dbRecordID cuentadebe_id, Money debe,
-        dbRecordID cuentahaber_id, Money haber, bool supervisar)
-{
-    RecCuentaTesoreria *reccuenta = static_cast<RecCuentaTesoreria *>(DBAPP->createRecord("CUENTATESORERIA"));
-    reccuenta->read( cuentadebe_id );
-    Xtring cuentadebe = reccuenta->getValue("CODIGO").toString();
-    reccuenta->read( cuentahaber_id );
-    Xtring cuentahaber = reccuenta->getValue("CODIGO").toString();
-    return creaAsientoSimple( parent, old_apunte, fecha, rec_origen, proyecto_id, descripcion,
-                              concepto, cuentadebe, debe, cuentahaber, haber, supervisar );
-}
-
-
-RecApunteTesoreria *TesoreriaModule::creaAsientoSimple(FrmEditRec *parent,
-        RecApunteTesoreria *old_apunte,
-        Date fecha, const Xtring &rec_origen, dbRecordID proyecto_id,
-        const Xtring &descripcion, const Xtring &concepto,
-        const Xtring &cuentadebe, Money debe,
-        const Xtring &cuentahaber, Money haber,	bool supervisar)
-{
-    Date fechacontable = empresa::ModuleInstance->getRecEmpresa()->getValue("FECHACONTABLE").toDate();
-    if( fechacontable.isValid() && fecha < fechacontable ) {
-        DBAPP->showStickyOSD(_("Crear apunte"), _("No se ha creado el apunte porque la fecha es anterior a la fecha contable de esta empresa") );
-        return 0;
-    }
-    DBAPP->waitCursor( true );
-    RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>( DBAPP->createRecord("APUNTETESORERIA") );
-    apunte->clear( true );
-    apunte->setValue( "AUTOMATICO", true );
-    apunte->setValue( "FECHA", fecha );
-    apunte->setValue( "PROYECTO_ID", proyecto_id );
-    apunte->setValue( "DESCRIPCION", descripcion );
-    apunte->setValue( "TIPOAPUNTE", 5 ); // Automático
-    if( old_apunte ) {
-        apunte->rescateValues( old_apunte );
-        apunte->setValue( "ID", old_apunte->getRecordID() );
-        old_apunte->remove();
-    }
-    contab::RecApunte *apuntedebe = static_cast<contab::RecApunte *>(DBAPP->createRecord( "APUNTETESORERIA" ));
-    Cuenta cuentadebe_contraida(cuentadebe, getDigitosTrabajo());
-    cuentadebe_contraida.contraer( getMaxNivelGrupo() );
-    Cuenta cuentahaber_contraida(cuentahaber, getDigitosTrabajo());
-    cuentahaber_contraida.contraer( getMaxNivelGrupo() );
-    apuntedebe->quickValues( Cuenta(cuentadebe, getDigitosTrabajo()), Xtring::null, debe, 0,
-                             concepto, cuentahaber_contraida );
-    apunte->addApunte( apuntedebe );
-    contab::RecApunte *apuntehaber = static_cast<contab::RecApunte *>(DBAPP->createRecord( "APUNTE" ));
-    apuntehaber->quickValues( Cuenta(cuentahaber, getDigitosTrabajo()), Xtring::null, 0, haber,
-                              concepto, cuentadebe_contraida );
-    apunte->addApunte( apuntehaber );
-
-    FrmEditRec *frmeditapunte = DBAPP->createEditForm(parent,
-                                apunte, 0, DataTable::inserting, dbApplication::simpleEdition, parent );
-    if( !supervisar )
-        supervisar = !frmeditapunte->showAndSave();
-    if( supervisar )
-        frmeditapunte->showModalFor( parent, true, true );
-    if( frmeditapunte->isSaved() ) {
-        DBAPP->getMainWindow()->refreshByName( Xtring::null,Xtring::null ); // TODO refresh only related
-    }
-    delete frmeditapunte;
-    DBAPP->resetCursor();
-    return apunte;
-}
-
-RecApunteTesoreria *TesoreriaModule::creaAsientoMultiple(FrmEditRec* parent, RecApunteTesoreria *old_apunte,
-        Date fecha, const Xtring& rec_origen, dbRecordID proyecto_id,
-        const Xtring &descripcion,
-        List< ApunteQuickValues > apuntevalues, bool supervisar )
-{
-    Date fechacontable = empresa::ModuleInstance->getRecEmpresa()->getValue("FECHACONTABLE").toDate();
-    if( fechacontable.isValid() && fecha < fechacontable ) {
-        DBAPP->showStickyOSD(_("Crear apunte"), _("No se ha creado el apunte porque la fecha es anterior a la fecha contable de esta empresa") );
-        return 0;
-    }
-    RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>( DBAPP->createRecord("ASIENTO") );
-    apunte->clear( true );
-    apunte->setValue( "AUTOMATICO", true );
-    apunte->setValue( "FECHA", fecha );
-    apunte->setValue( "PROYECTO_ID", proyecto_id );
-    apunte->setValue( "TIPOASIENTO", 5 ); // Automático
-// 	int contador = apunte->getLastNumDocumento( proyecto_id ) + 1;
-// 	apunte->setValue( "CONTADORNUMDOCUMENTO", contador );
-// 	if( apunte->getRecProyecto()->read( proyecto_id ) ) {
-// 		int codproyecto = apunte->getRecProyecto()->getValue( "CODIGO" ).toInt();
-// 		Xtring formato = apunte->getRecProyecto()->getValue( "FORMATONUMDOC" ).toString();
-// 		apunte->setValue( "NUMDOCUMENTO", apunte->formatNumDocumento( contador, codproyecto, formato ) );
-// 	}
-// 	apunte->setValue( "FECHADOCUMENTO", fecha );
-    apunte->setValue( "DESCRIPCION", descripcion);
-    apunte->setValue( "REC_ORIGEN", rec_origen);
-    if( old_apunte )
-        apunte->rescateValues( old_apunte );
-    for( List<ApunteQuickValues>::const_iterator it = apuntevalues.begin();
-            it != apuntevalues.end();
-            ++it ) {
-        contab::RecApunte *apunte = static_cast<contab::RecApunte *>(DBAPP->createRecord( "APUNTE" ));
-        apunte->quickValues( Cuenta(it->cuentadebe, getDigitosTrabajo()), it->desc_cuenta_debe,
-                             it->debe, it->haber, it->concepto, it->contrapartida );
-        apunte->addApunte( apunte );
-    }
-    FrmEditRec *frmeditapunte = DBAPP->createEditForm(parent,
-                                apunte, 0, DataTable::inserting, dbApplication::simpleEdition, parent );
-    if( !supervisar )
-        supervisar = !frmeditapunte->showAndSave();
-    if( supervisar )
-        frmeditapunte->showModalFor( parent, true, true );
-    if( frmeditapunte->isSaved() ) {
-        DBAPP->getMainWindow()->refreshByName( Xtring::null,Xtring::null );
-    }
-    delete frmeditapunte;
-    return apunte;
-}
-#endif
 
 /*<<<<<TESORERIAMODULE_FIN*/
 } // namespace tesoreria
