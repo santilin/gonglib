@@ -1,9 +1,7 @@
 == HECHO ==
-* Modificar un setting del diccionario de datos en el editor de configuración no vuelve a leer los valores de configuración.
 * Albarán venta: a la cuenta en negativo o viceversa
 
 == HACIENDO ==
-* No se guarda el orden de los ficheros embebidos: Extracto de cuenta de tesoreria.
 
 
 == TESORERIA y OFERTAS ==
@@ -13,6 +11,7 @@
 == NO HACER ==
 
 == HACER ==
+* No se guarda el orden de los ficheros embebidos: Extracto de cuenta de tesoreria.
 * Insertar albarán de compra en albarán de venta: Borra el número del albarán de venta.
 * Generar liquidación, no genera el contador.
 * Modificar una línea de albarán se va el cursor al final 

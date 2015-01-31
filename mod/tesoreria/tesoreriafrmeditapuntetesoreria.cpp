@@ -2,9 +2,9 @@
 // FIELD Concepto_ID Reference(ConceptoTesoreria,Codigo,Nombre) - conceptos
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de
-// FIELD Numero int - numero
-// FIELD Automatico bool - numero
 // FIELD TipoApunteTesoreria_ID Reference(TipoApunteTesoreria,Codigo,Nombre) - tipoapunte
+// FIELD Numero int - fecha
+// FIELD Automatico bool - fecha
 // FIELD Fecha date - fecha
 // FIELD Importe Money - fecha
 // FIELD CuentaTesoreria_ID Reference(CuentaTesoreria,Codigo,Nombre)
@@ -46,7 +46,6 @@ FrmEditApunteTesoreria::FrmEditApunteTesoreria(FrmEditRec *parentfrm, dbRecord *
 	editConceptoCodigo = 0;
 	editConceptoNombre = 0;
     /*<<<<<FRMEDITAPUNTETESORERIA_INIT_CONTROLS*/
-	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *tipoapunteLayout = new QHBoxLayout(0, 0, 6, "tipoapunteLayout");
 	QHBoxLayout *fechaLayout = new QHBoxLayout(0, 0, 6, "fechaLayout");
 	QHBoxLayout *cuentatesoreria_idLayout = new QHBoxLayout(0, 0, 6, "cuentatesoreria_idLayout");
@@ -56,14 +55,14 @@ FrmEditApunteTesoreria::FrmEditApunteTesoreria(FrmEditRec *parentfrm, dbRecord *
 	QHBoxLayout *proyectosLayout = new QHBoxLayout(0, 0, 6, "proyectosLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	QHBoxLayout *espacioLayout = new QHBoxLayout(0, 0, 6, "espacioLayout");
-	editNumero = addEditField( pControlsFrame, "APUNTETESORERIA", "NUMERO", numeroLayout );
-	checkAutomatico = addCheckField( pControlsFrame, "APUNTETESORERIA", "AUTOMATICO", numeroLayout );
 
 	searchTipoApunteTesoreriaCodigo = addSearchField( pControlsFrame, "TIPOAPUNTETESORERIA_ID", "TIPOAPUNTETESORERIA", "CODIGO", "NOMBRE", tipoapunteLayout );
 	pushTipoApunteTesoreriaCodigo = searchTipoApunteTesoreriaCodigo->getButton();
 	connect( pushTipoApunteTesoreriaCodigo, SIGNAL( clicked() ), this, SLOT( pushTipoApunteTesoreriaCodigo_clicked() ) );
 	editTipoApunteTesoreriaCodigo = searchTipoApunteTesoreriaCodigo->getEditCode();
 	editTipoApunteTesoreriaNombre = searchTipoApunteTesoreriaCodigo->getEditDesc();
+	editNumero = addEditField( pControlsFrame, "APUNTETESORERIA", "NUMERO", fechaLayout );
+	checkAutomatico = addCheckField( pControlsFrame, "APUNTETESORERIA", "AUTOMATICO", fechaLayout );
 	editFecha = addEditField( pControlsFrame, "APUNTETESORERIA", "FECHA", fechaLayout );
 	editImporte = addEditField( pControlsFrame, "APUNTETESORERIA", "IMPORTE", fechaLayout );
 
@@ -88,7 +87,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 	editNotas = addTextField( pControlsFrame, "APUNTETESORERIA", "NOTAS", notasLayout );
 	QSpacerItem* espacio = new QSpacerItem ( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 	espacioLayout->addItem ( espacio);
-	pControlsLayout->addLayout( numeroLayout );
 	pControlsLayout->addLayout( tipoapunteLayout );
 	pControlsLayout->addLayout( fechaLayout );
 	pControlsLayout->addLayout( cuentatesoreria_idLayout );
@@ -109,9 +107,9 @@ void FrmEditApunteTesoreria::scatterFields()
     if( pFocusWidget == 0 && isEditing() )
         pFocusWidget = editTipoApunteTesoreriaCodigo;
     /*<<<<<FRMEDITAPUNTETESORERIA_SCATTER*/
-	editNumero->setText(getRecApunteTesoreria()->getValue("NUMERO").toInt());
 	if( isEditing() && (pFocusWidget == 0) )
-		pFocusWidget = editNumero;
+		pFocusWidget = editTipoApunteTesoreriaCodigo;
+	editNumero->setText(getRecApunteTesoreria()->getValue("NUMERO").toInt());
 	checkAutomatico->setChecked(getRecApunteTesoreria()->getValue("AUTOMATICO").toBool());
 	editFecha->setText(getRecApunteTesoreria()->getValue("FECHA").toDate());
 	editImporte->setText(getRecApunteTesoreria()->getValue("IMPORTE").toMoney());
@@ -161,9 +159,9 @@ if(empresa::ModuleInstance->usaProyectos()){
 void FrmEditApunteTesoreria::gatherFields()
 {
     /*<<<<<FRMEDITAPUNTETESORERIA_GATHER*/
+	getRecApunteTesoreria()->setValue( "TIPOAPUNTETESORERIA_ID", getRecTipoApunteTesoreria()->getRecordID() );
 	getRecApunteTesoreria()->setValue( "NUMERO", editNumero->toInt());
 	getRecApunteTesoreria()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
-	getRecApunteTesoreria()->setValue( "TIPOAPUNTETESORERIA_ID", getRecTipoApunteTesoreria()->getRecordID() );
 	getRecApunteTesoreria()->setValue( "FECHA", editFecha->toDate());
 	getRecApunteTesoreria()->setValue( "IMPORTE", editImporte->toMoney());
 	getRecApunteTesoreria()->setValue( "CUENTATESORERIA_ID", getRecCuentaTesoreria()->getRecordID() );

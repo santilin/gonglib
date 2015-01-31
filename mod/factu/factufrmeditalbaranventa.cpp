@@ -646,9 +646,9 @@ void FrmEditAlbaranVenta::scatterCuentaPago()
 }
 #endif
 
-#ifdef HAVE_CONTABMODULE
 void FrmEditAlbaranVenta::pushCuentaPagoCuenta_clicked()
 {
+#ifdef HAVE_CONTABMODULE
     /*<<<<<FRMEDITALBARANVENTA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCuenta->mustBeReadOnly() )
@@ -706,8 +706,8 @@ void FrmEditAlbaranVenta::pushCuentaPagoCuenta_clicked()
 			break;
 	}
 /*>>>>>FRMEDITALBARANVENTA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
-}
 #endif
+}
 
 void FrmEditAlbaranVenta::scatterProyecto()
 {
@@ -868,6 +868,7 @@ void FrmEditAlbaranVenta::pushFormaPagoCodigo_clicked()
 /*>>>>>FRMEDITALBARANVENTA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
 }
 
+#ifdef HAVE_TESORERIAMODULE
 void FrmEditAlbaranVenta::pushCuentaPagoCodigo_clicked()
 {
 /*<<<<<FRMEDITALBARANVENTA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
@@ -928,6 +929,7 @@ void FrmEditAlbaranVenta::pushCuentaPagoCodigo_clicked()
 	}
 /*>>>>>FRMEDITALBARANVENTA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
 }
+#endif
 
 
 void FrmEditAlbaranVenta::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)

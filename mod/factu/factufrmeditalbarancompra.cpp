@@ -620,9 +620,9 @@ void FrmEditAlbaranCompra::scatterCuentaPago()
 }
 #endif
 
-#ifdef HAVE_CONTABMODULE
 void FrmEditAlbaranCompra::pushCuentaPagoCuenta_clicked()
 {
+#ifdef HAVE_CONTABMODULE
 /*<<<<<FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCuenta->mustBeReadOnly() )
@@ -680,12 +680,12 @@ void FrmEditAlbaranCompra::pushCuentaPagoCuenta_clicked()
 			break;
 	}
 /*>>>>>FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
-}
 #endif
+}
 
-#ifdef HAVE_TESORERIAMODULE
 void FrmEditAlbaranCompra::pushCuentaPagoCodigo_clicked()
 {
+#ifdef HAVE_TESORERIAMODULE
 /*<<<<<FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCodigo->mustBeReadOnly() )
@@ -743,8 +743,8 @@ void FrmEditAlbaranCompra::pushCuentaPagoCodigo_clicked()
 			break;
 	}
 /*>>>>>FRMEDITALBARANCOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
-}
 #endif
+}
 
 
 void FrmEditAlbaranCompra::scatterProyecto()

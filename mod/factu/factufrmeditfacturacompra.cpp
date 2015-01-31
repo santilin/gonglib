@@ -618,9 +618,9 @@ void FrmEditFacturaCompra::scatterCuentaPago()
 }
 #endif
 
-#ifdef HAVE_CONTABMODULE
 void FrmEditFacturaCompra::pushCuentaPagoCuenta_clicked()
 {
+#ifdef HAVE_CONTABMODULE
     /*<<<<<FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCuenta->mustBeReadOnly() )
@@ -678,12 +678,12 @@ void FrmEditFacturaCompra::pushCuentaPagoCuenta_clicked()
 			break;
 	}
 /*>>>>>FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
-}
 #endif
+}
 
-#ifdef HAVE_TESORERIAMODULE
 void FrmEditFacturaCompra::pushCuentaPagoCodigo_clicked()
 {
+#ifdef HAVE_TESORERIAMODULE
 /*<<<<<FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCodigo->mustBeReadOnly() )
@@ -741,8 +741,8 @@ void FrmEditFacturaCompra::pushCuentaPagoCodigo_clicked()
 			break;
 	}
 /*>>>>>FRMEDITFACTURACOMPRA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
-}
 #endif
+}
 
 void FrmEditFacturaCompra::scatterProyecto()
 {
