@@ -18,14 +18,6 @@ public:
         : FrmCustom( parent )
     {
         setTitle( title );
-        if( mode == backup || mode == lock ) {
-            pEditBackupPath = addDirNameBox( parent, _("Carpeta de las copias") );
-            pEditBackupPath->setFileName( DBAPP->getAppSetting( "SYSTEM.DBBACKUP.PATH" ).toString() );
-        }
-        if( mode == restore ) {
-            pEditBackupPath = addFileNameBox( parent, _("Carpeta de las copias") );
-            pEditBackupPath->setFileName( DBAPP->getAppSetting( "SYSTEM.DBBACKUP.PATH" ).toString() );
-        }
         if( mode == backup || mode == restore || mode == lock ) {
             pEditPassword = addInput( parent, _("Contraseña de la base de datos"), Xtring(), "PASSWORD" );
             setPassword( DBAPP->getDbUserPassword() );
@@ -56,9 +48,6 @@ public:
     void setPassword( const Xtring &password ) {
         pEditPassword->setText( password );
     }
-    Xtring getBackupPath() const {
-        return pEditBackupPath->getFileName();
-    }
     int getInterval() const {
         return pEditInterval->toInt();
     }
@@ -82,7 +71,6 @@ public:
     }
 
 private:
-    FileNameBox *pEditBackupPath;
     LineEdit *pEditPassword, *pEditInterval;
     LineEdit *pEditLockUser, *pEditLockDesc, *pEditLockPassword;
     CheckBox *pOnlyGongTables, *pAutomatic;
@@ -158,18 +146,20 @@ bool FrmDatabaseTools::load( const Xtring &dumpfname, const Xtring &database,
 Xtring FrmDatabaseTools::createDirAndSelectFile( const Xtring &_dir, bool automatic )
 {
     Xtring dir = _dir;
-    if( !dir.endsWith( "/" ) )
-        dir += "/";
-    if( !dir.isEmpty() ) {
-        if( !FileUtils::exists( dir.c_str() ) ) {
-            if( FileUtils::makePath( dir ) != 0 ) {
-                FrmBase::msgError(this,
-                                  Xtring::printf( _("No se ha podido crear el directorio %s"),
-                                                  dir.c_str() ) );
-                return Xtring::null;
-            }
-        }
-    }
+	if( dir.isEmpty() ) 
+		dir = DBAPP->getLocalDataDir() + "/backups";
+	if( !dir.endsWith( "/" ) )
+		dir += "/";
+	if( !dir.isEmpty() ) {
+		if( !FileUtils::exists( dir.c_str() ) ) {
+			if( FileUtils::makePath( dir ) != 0 ) {
+				FrmBase::msgError(this,
+								Xtring::printf( _("No se ha podido crear el directorio %s"),
+												dir.c_str() ) );
+				dir = Xtring(getenv("HOME")) + "/";
+			}
+		}
+	} 
     Xtring proposedname = dir + DBAPP->getDatabase()->getName() + DateTime::currentDateTime().toString("%Y%m%d_%H%M") + ".sql";
     if( automatic )
         return proposedname;
@@ -197,7 +187,7 @@ void FrmDatabaseTools::backupDatabase(bool automatic)
     int interval = frmbackup->getInterval();
     bool cancelled = frmbackup->wasCancelled();
     bool onlygongtables = frmbackup->isOnlyGongTables();
-    Xtring backuppath = frmbackup->getBackupPath();
+    Xtring backuppath = DBAPP->getAppSetting( "SYSTEM.DBBACKUP.PATH" ).toString();
     automatic = frmbackup->isAutomatic();
     delete frmbackup;
     if( !cancelled ) {
@@ -241,7 +231,7 @@ void FrmDatabaseTools::lockDatabase()
     Xtring lockuser = frmlock->getLockUser();
     Xtring lockpassword = frmlock->getLockPassword();
     Xtring lockdesc = frmlock->getLockDesc();
-    Xtring backuppath = frmlock->getBackupPath();
+    Xtring backuppath = DBAPP->getAppSetting( "SYSTEM.DBBACKUP.PATH" ).toString();
     delete frmlock;
     if( !cancelled ) {
         if( lockuser.isEmpty() || lockdesc.isEmpty() ) {
@@ -281,7 +271,7 @@ void FrmDatabaseTools::restoreDatabase()
     frmrestore->showModalFor( this, true, true );
     Xtring password = frmrestore->getPassword();
     bool cancelled = frmrestore->wasCancelled();
-    Xtring backuppath = frmrestore->getBackupPath();
+    Xtring backuppath = DBAPP->getAppSetting( "SYSTEM.DBBACKUP.PATH" ).toString();
     delete frmrestore;
     if( !cancelled ) {
         Xtring fname = DBAPP->getOpenFileName( _("Elige el fichero a restaurar"),
