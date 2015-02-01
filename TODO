@@ -1,16 +1,15 @@
 == HECHO ==
 
 == HACIENDO ==
-* Insertar oferta de compra no inserta nada
 
 == HACER ==
-* Modificar una línea de albarán se va el cursor al final 
-* Factu: No salen los precios de los artículos en albaran de venta
+* Insertar albaran de compra en oferta de compra no copia el proveedor.
+
 * Pagos: Mostrar la cuenta del pago
 * FrmEditFacturaCompra: demasiado ancho
 * Pagos: regnerarlos: guardar el número como en apuntes de tesorería.
 * Factu: Informe de existencias máximas y mínimas.
-* BúsquedasO por nombre alternativo
+* Búsquedas por nombre alternativo
 
 == NO HACER ==
 

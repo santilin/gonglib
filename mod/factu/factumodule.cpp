@@ -1137,7 +1137,6 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
     sexcludedtables.tokenize( excludedtables, "," );
 	masterform->gatherFields();
     dbRecord *dest = masterform->getRecord();
-	_GONG_DEBUG_PRINT(0, dest->toString(TOSTRING_DEBUG_COMPLETE));
     dbRecordList *dest_detalles = detailform->getDetalles();
 
 	DBAPP->waitCursor(true);
@@ -1174,14 +1173,14 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
     det_properties << "DETALLE";
     dbRecordRelationDict sourcerelations = source->findRelationsBySemanticProperties( det_properties );
     if( sourcerelations.size() == 0 ) {
-        _GONG_DEBUG_WARNING( "Tabla " + source->getTableName() + " no tiene propiedades " + det_properties.join(",") );
+        _GONG_DEBUG_WARNING( "La tabla de origen: " + source->getTableName() + " no tiene propiedades " + det_properties.join(",") );
         DBAPP->resetCursor();
         return false;
     }
     dbRecordRelationDict destrelations = dest->findRelationsBySemanticProperties( det_properties );
     if( destrelations.size() == 0 ) {
         DBAPP->resetCursor();
-        _GONG_DEBUG_WARNING( "Tabla " + tablename + " no tiene propiedades " + det_properties.join(",") );
+        _GONG_DEBUG_WARNING( "La tabla de destino: " + dest->getTableName() + " no tiene propiedades " + det_properties.join(",") );
         return false;
     }
     dbRecordList *detalles = sourcerelations.seq_at(0)->getRelatedRecordList();
