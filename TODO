@@ -4,8 +4,8 @@
 * Insertar oferta de compra no inserta nada
 
 == HACER ==
+* searchboxes en factura compra de agente y de forma de pago, la descripción es muy grande y no se deja hacer más pequeña.
 * Modificar una línea de albarán se va el cursor al final 
-* Factu: Albaran compra no muestra agente. Setting (Quieres agentes en las compras?)
 * Factu: No salen los precios de los artículos en albaran de venta
 * Pagos: Mostrar la cuenta del pago
 * FrmEditFacturaCompra: demasiado ancho

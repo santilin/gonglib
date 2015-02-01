@@ -4,9 +4,10 @@
 // FIELD TipoDoc_ID Reference(TipoDoc,Codigo,Nombre) - cabecera
 // FIELD Contador int - cabecera
 // FIELD Numero string - cabecera
-// FIELD IVADetallado comboint - cabecera2
 // FIELD Proveedora_ID Reference(Proveedora,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
+// FIELD IVADetallado comboint - cabecera2
 // FIELD EstadoPedido comboint - cabecera2
+// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera3
 // FIELD PedidoCompraDet FrmEditRecDetail
 // FIELD Referencia string - noaddreferencia
 // FIELD SumaImportes money - noaddrightSumaImportes
@@ -44,6 +45,7 @@ FrmEditPedidoCompra::FrmEditPedidoCompra(FrmEditRec *parentfrm, dbRecord *master
     /*<<<<<FRMEDITPEDIDOCOMPRA_INIT_CONTROLS*/
 	QHBoxLayout *cabeceraLayout = new QHBoxLayout(0, 0, 6, "cabeceraLayout");
 	QHBoxLayout *cabecera2Layout = new QHBoxLayout(0, 0, 6, "cabecera2Layout");
+	QHBoxLayout *cabecera3Layout = new QHBoxLayout(0, 0, 6, "cabecera3Layout");
 	QHBoxLayout *pedidocompradetLayout = new QHBoxLayout(0, 0, 6, "pedidocompradetLayout");
 	QHBoxLayout *referenciaLayout = new QHBoxLayout(0, 0, 6, "referenciaLayout");
 	QHBoxLayout *rightSumaImportesLayout = new QHBoxLayout(0, 0, 6, "rightSumaImportesLayout");
@@ -64,14 +66,20 @@ FrmEditPedidoCompra::FrmEditPedidoCompra(FrmEditRec *parentfrm, dbRecord *master
 	editTipoDocNombre = searchTipoDocCodigo->getEditDesc();
 	editContador = addEditField( pControlsFrame, "PEDIDOCOMPRA", "CONTADOR", cabeceraLayout );
 	editNumero = addEditField( pControlsFrame, "PEDIDOCOMPRA", "NUMERO", cabeceraLayout );
-	comboIVADetallado = addComboIntField( pControlsFrame, "PEDIDOCOMPRA", "IVADETALLADO", cabecera2Layout );
 
 	searchProveedoraCodigo = addSearchField( pControlsFrame, "PROVEEDORA_ID", "PROVEEDORA", "CODIGO", "RAZONSOCIAL", cabecera2Layout );
 	pushProveedoraCodigo = searchProveedoraCodigo->getButton();
 	connect( pushProveedoraCodigo, SIGNAL( clicked() ), this, SLOT( pushProveedoraCodigo_clicked() ) );
 	editProveedoraCodigo = searchProveedoraCodigo->getEditCode();
 	editProveedoraRazonSocial = searchProveedoraCodigo->getEditDesc();
+	comboIVADetallado = addComboIntField( pControlsFrame, "PEDIDOCOMPRA", "IVADETALLADO", cabecera2Layout );
 	comboEstadoPedido = addComboIntField( pControlsFrame, "PEDIDOCOMPRA", "ESTADOPEDIDO", cabecera2Layout );
+
+	searchAgenteCodigo = addSearchField( pControlsFrame, "AGENTE_ID", "AGENTE", "CODIGO", "RAZONSOCIAL", cabecera3Layout );
+	pushAgenteCodigo = searchAgenteCodigo->getButton();
+	connect( pushAgenteCodigo, SIGNAL( clicked() ), this, SLOT( pushAgenteCodigo_clicked() ) );
+	editAgenteCodigo = searchAgenteCodigo->getEditCode();
+	editAgenteRazonSocial = searchAgenteCodigo->getEditDesc();
 
 // frmDetails: PedidoCompraDet
 	QFrame *pedidocompradetFrame = new QFrame(this);
@@ -103,6 +111,7 @@ FrmEditPedidoCompra::FrmEditPedidoCompra(FrmEditRec *parentfrm, dbRecord *master
 	editNotas = addTextField( pControlsFrame, "PEDIDOCOMPRA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( cabeceraLayout );
 	pControlsLayout->addLayout( cabecera2Layout );
+	pControlsLayout->addLayout( cabecera3Layout );
 	pControlsLayout->addLayout( pedidocompradetLayout );
 	alignLayout( rightSumaImportesLayout, false);
 	alignLayout( rightDtoP100Layout, false);
@@ -162,6 +171,7 @@ void FrmEditPedidoCompra::scatterFields()
 	editNotas->setText(getRecPedidoCompra()->getValue("NOTAS").toString());
 	scatterTipoDoc();
 	scatterProveedora();
+	scatterAgente();
 /*>>>>>FRMEDITPEDIDOCOMPRA_SCATTER*/
     if( isInserting() ) {
         if( !isDuplicating() && editFecha->toDate().isNull() )
@@ -191,9 +201,10 @@ void FrmEditPedidoCompra::gatherFields()
 	getRecPedidoCompra()->setValue( "TIPODOC_ID", getRecTipoDoc()->getRecordID() );
 	getRecPedidoCompra()->setValue( "CONTADOR", editContador->toInt());
 	getRecPedidoCompra()->setValue( "NUMERO", editNumero->toString());
-	getRecPedidoCompra()->setValue( "IVADETALLADO", comboIVADetallado->getCurrentItemValue());
 	getRecPedidoCompra()->setValue( "PROVEEDORA_ID", getRecProveedora()->getRecordID() );
+	getRecPedidoCompra()->setValue( "IVADETALLADO", comboIVADetallado->getCurrentItemValue());
 	getRecPedidoCompra()->setValue( "ESTADOPEDIDO", comboEstadoPedido->getCurrentItemValue());
+	getRecPedidoCompra()->setValue( "AGENTE_ID", getRecAgente()->getRecordID() );
 	getRecPedidoCompra()->setValue( "REFERENCIA", editReferencia->toString());
 	getRecPedidoCompra()->setValue( "SUMAIMPORTES", editSumaImportes->toMoney());
 	getRecPedidoCompra()->setValue( "DTOP100", editDtoP100->toDouble());
@@ -371,6 +382,75 @@ void FrmEditPedidoCompra::pushProveedoraCodigo_clicked()
 /*>>>>>FRMEDITPEDIDOCOMPRA_PUSH_PROVEEDORA_CODIGO_CLICKED*/
 }
 
+void FrmEditPedidoCompra::scatterAgente()
+{
+/*<<<<<FRMEDITPEDIDOCOMPRA_SCATTER_AGENTE*/
+	editAgenteCodigo->setText( getRecAgente()->getValue("CODIGO") );
+	editAgenteRazonSocial->setText( getRecAgente()->getValue("RAZONSOCIAL") );
+/*>>>>>FRMEDITPEDIDOCOMPRA_SCATTER_AGENTE*/
+}
+void FrmEditPedidoCompra::pushAgenteCodigo_clicked()
+{
+/*<<<<<FRMEDITPEDIDOCOMPRA_PUSH_AGENTE_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchAgenteCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editAgenteCodigo->setJustEdited( false );
+			editAgenteCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecAgente(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterAgente();
+				editAgenteCodigo->setJustEdited( true );
+				setWiseFocus(editAgenteCodigo);
+			}
+			break;
+		case 'M':
+			{
+				if( getRecAgente()->getRecordID() ) {
+					editAgenteCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecAgente(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editAgenteCodigo->setJustEdited( true );
+						scatterAgente();
+					}
+				setWiseFocus(editAgenteCodigo);
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecAgente()->getRecordID() != 0 ) {
+					editAgenteCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecAgente(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecAgente *tmprec = static_cast<RecAgente *>(DBAPP->createRecord( "Agente" ));
+				editAgenteCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editAgenteCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editAgenteCodigo->setJustEdited( true );
+					getRecAgente()->copyRecord( tmprec );
+					scatterAgente();
+				}
+				setWiseFocus(editAgenteCodigo);
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITPEDIDOCOMPRA_PUSH_AGENTE_CODIGO_CLICKED*/
+}
+
+
 void FrmEditPedidoCompra::specialControlKeyPressed( QWidget *sender, char key )
 {
     /*<<<<<FRMEDITPEDIDOCOMPRA_SPECIALACTION*/
@@ -380,6 +460,8 @@ void FrmEditPedidoCompra::specialControlKeyPressed( QWidget *sender, char key )
 		pushTipoDocCodigo_clicked();
 	if( sender == editProveedoraCodigo )
 		pushProveedoraCodigo_clicked();
+	if( sender == editAgenteCodigo )
+		pushAgenteCodigo_clicked();
 	mControlKeyPressed = '\0';
 /*>>>>>FRMEDITPEDIDOCOMPRA_SPECIALACTION*/
 }
@@ -401,6 +483,10 @@ void FrmEditPedidoCompra::validateFields( QWidget *sender, bool *isvalid, ValidR
 	if( validSeekCode( sender, isvalid, *validresult, editProveedoraCodigo, editProveedoraRazonSocial,
 		getRecProveedora(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
 		scatterProveedora();
+	if( focusWidget() != pushAgenteCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editAgenteCodigo, editAgenteRazonSocial,
+		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		scatterAgente();
 /*>>>>>FRMEDITPEDIDOCOMPRA_VALIDATE*/
     if( !sender || (
                 (sender == editNumero && !editNumero->toString().isEmpty())
@@ -503,3 +589,4 @@ void FrmEditPedidoCompra::actTotales()
 } // namespace factu
 } // namespace gong
 /*>>>>>FRMEDITPEDIDOCOMPRA_FIN*/
+

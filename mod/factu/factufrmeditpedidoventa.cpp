@@ -6,8 +6,8 @@
 // FIELD Numero string - cabecera
 // FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
 // FIELD IVADetallado comboint - cabecera2
+// FIELD EstadoPedido comboint - cabecera2
 // FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera3
-// FIELD EstadoPedido comboint - cabecera3
 // FIELD PedidoVentaDet FrmEditRecDetail
 // FIELD Referencia string - noaddrightReferencia
 // FIELD SumaImportes money - noaddrightSumaImportes

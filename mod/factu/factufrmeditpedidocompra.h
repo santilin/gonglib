@@ -59,16 +59,20 @@ protected:
 protected:
 	void scatterTipoDoc();
 	void scatterProveedora();
+	void scatterAgente();
 
 private slots:
 	void pushTipoDocCodigo_clicked();
 	void pushProveedoraCodigo_clicked();
+	void pushAgenteCodigo_clicked();
 
 public:
 	RecTipoDoc* getRecTipoDoc() const
 		{ return static_cast<RecPedidoCompra*>(getRecord())->getRecTipoDoc(); }
 	RecProveedora* getRecProveedora() const
 		{ return static_cast<RecPedidoCompra*>(getRecord())->getRecProveedora(); }
+	RecAgente* getRecAgente() const
+		{ return static_cast<RecPedidoCompra*>(getRecord())->getRecAgente(); }
 /*>>>>>FRMEDITPEDIDOCOMPRA_SCATTERS_AND_SLOTS*/
 
     /*<<<<<FRMEDITPEDIDOCOMPRA_CONTROLS*/
@@ -80,12 +84,16 @@ protected:
 	gong::LineEdit *editTipoDocNombre;
 	gong::EditBox *editContador;
 	gong::EditBox *editNumero;
-	gong::ComboBoxInt *comboIVADetallado;
 	gong::SearchBox *searchProveedoraCodigo;
 	QPushButton *pushProveedoraCodigo;
 	gong::LineEdit *editProveedoraCodigo;
 	gong::LineEdit *editProveedoraRazonSocial;
+	gong::ComboBoxInt *comboIVADetallado;
 	gong::ComboBoxInt *comboEstadoPedido;
+	gong::SearchBox *searchAgenteCodigo;
+	QPushButton *pushAgenteCodigo;
+	gong::LineEdit *editAgenteCodigo;
+	gong::LineEdit *editAgenteRazonSocial;
 	FrmEditPedidoCompraDet *pFrmPedidoCompraDet;
 	gong::EditBox *editReferencia;
 	gong::EditBox *editSumaImportes;

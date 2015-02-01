@@ -104,7 +104,6 @@ public:
 		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecCuentaPago(); }
 #endif
 /*>>>>>FRMEDITALBARANVENTA_SCATTERS_AND_SLOTS*/
-
 /*<<<<<FRMEDITALBARANVENTA_CONTROLS*/
 protected:
 	gong::EditBox *editFecha;

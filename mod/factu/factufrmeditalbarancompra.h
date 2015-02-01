@@ -71,6 +71,7 @@ protected:
 	void scatterTipoDoc();
 	void scatterProveedora();
 	void scatterFormaPago();
+	void scatterAgente();
 	void scatterProyecto();
 	void scatterCuentaPago();
 
@@ -78,10 +79,11 @@ private slots:
 	void pushTipoDocCodigo_clicked();
 	void pushProveedoraCodigo_clicked();
 	void pushFormaPagoCodigo_clicked();
+	void pushAgenteCodigo_clicked();
 	void pushProyectoCodigo_clicked();
 	void pushCuentaPagoCodigo_clicked();
 	void pushCuentaPagoCuenta_clicked();
-	
+
 public:
 	RecTipoDoc* getRecTipoDoc() const
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecTipoDoc(); }
@@ -89,6 +91,8 @@ public:
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecProveedora(); }
 	pagos::RecFormaPago* getRecFormaPago() const
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecFormaPago(); }
+	RecAgente* getRecAgente() const
+		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecAgente(); }
 	empresa::RecProyecto* getRecProyecto() const
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecProyecto(); }
 #ifdef HAVE_TESORERIAMODULE
@@ -100,7 +104,7 @@ public:
 		{ return static_cast<RecAlbaranCompra*>(getRecord())->getRecCuentaPago(); }
 #endif
 /*>>>>>FRMEDITALBARANCOMPRA_SCATTERS_AND_SLOTS*/
-    /*<<<<<FRMEDITALBARANCOMPRA_CONTROLS*/
+/*<<<<<FRMEDITALBARANCOMPRA_CONTROLS*/
 protected:
 	gong::EditBox *editFecha;
 	gong::SearchBox *searchTipoDocCodigo;
@@ -119,6 +123,10 @@ protected:
 	gong::LineEdit *editFormaPagoCodigo;
 	gong::LineEdit *editFormaPagoNombre;
 	gong::EditBox *editContador;
+	gong::SearchBox *searchAgenteCodigo;
+	QPushButton *pushAgenteCodigo;
+	gong::LineEdit *editAgenteCodigo;
+	gong::LineEdit *editAgenteRazonSocial;
 	FrmEditAlbaranCompraDet *pFrmAlbaranCompraDet;
 	gong::CheckBox *checkNoFacturable;
 	gong::EditBox *editSumaImportes;

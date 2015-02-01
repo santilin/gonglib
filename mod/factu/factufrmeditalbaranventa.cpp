@@ -4,10 +4,10 @@
 // FIELD TipoDoc_ID Reference(TipoDoc,Codigo,Nombre) - cabecera
 // FIELD Contador int - cabecera
 // FIELD Numero string - cabecera
+// FIELD Facturado bool - cabecera
 // FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
 // FIELD IVADetallado comboint - cabecera2
-// FIELD Facturado bool - cabecera2
-// FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbApplication::InsertIfNotFound) - cabecera3
+// FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbApplication::InsertIfNotFound) - cabecera2
 // FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera3
 // FIELD AlbaranVentaDet FrmEditRecDetail
 // FIELD NoFacturable bool - noaddrightNoFacturable

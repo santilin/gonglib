@@ -8,6 +8,7 @@
 // FIELD Proveedora_ID Reference(Proveedora,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
 // FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbApplication::InsertIfNotFound) - cabecera2
 // FIELD Contador int - cabecera2
+// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera3
 // FIELD AlbaranCompraDet FrmEditRecDetail
 // FIELD NoFacturable bool - noaddrightNoFacturable
 // FIELD SumaImportes money - noaddrightSumaImportes
@@ -24,8 +25,8 @@
 // FIELD DesgloseIVA string tabPagos desgloseiva
 // FIELD DocumentoPago string tabPagos pago
 // FIELD FechaPago date tabPagos pago
-// FIELD CuentaPago_ID Reference(CuentaTesoreria,Codigo,Nombre) tabPagos pago MODULE_INCLUDED(Tesoreria)
-// FIELD CuentaPago_ID Reference(Cuenta,Cuenta,Descripcion) tabPagos pago MODULE_INCLUDED(Contab)
+// FIELD CuentaPago_ID Reference(CuentaTesoreria,Codigo,Nombre) tabPagos cuentapago MODULE_INCLUDED(Tesoreria)
+// FIELD CuentaPago_ID Reference(Cuenta,Cuenta,Descripcion) tabPagos cuentapago MODULE_INCLUDED(Contab)
 // FIELD Notas text tabPagos notas
 // TYPE FrmEditRecMaster factu::AlbaranCompra Albaran Compra
 /*>>>>>MODULE_INFO*/
@@ -55,6 +56,7 @@ FrmEditAlbaranCompra::FrmEditAlbaranCompra(FrmEditRec *parentfrm, dbRecord *mast
     /*<<<<<FRMEDITALBARANCOMPRA_INIT_CONTROLS*/
 	QHBoxLayout *cabeceraLayout = new QHBoxLayout(0, 0, 6, "cabeceraLayout");
 	QHBoxLayout *cabecera2Layout = new QHBoxLayout(0, 0, 6, "cabecera2Layout");
+	QHBoxLayout *cabecera3Layout = new QHBoxLayout(0, 0, 6, "cabecera3Layout");
 	QHBoxLayout *albarancompradetLayout = new QHBoxLayout(0, 0, 6, "albarancompradetLayout");
 	QHBoxLayout *rightNoFacturableLayout = new QHBoxLayout(0, 0, 6, "rightNoFacturableLayout");
 	QHBoxLayout *rightSumaImportesLayout = new QHBoxLayout(0, 0, 6, "rightSumaImportesLayout");
@@ -73,6 +75,7 @@ FrmEditAlbaranCompra::FrmEditAlbaranCompra(FrmEditRec *parentfrm, dbRecord *mast
 	QHBoxLayout *proyectoLayout = new QHBoxLayout(0, 0, 6, "proyectoLayout");
 	QHBoxLayout *desgloseivaLayout = new QHBoxLayout(0, 0, 6, "desgloseivaLayout");
 	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
+	QHBoxLayout *cuentapagoLayout = new QHBoxLayout(0, 0, 6, "cuentapagoLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editFecha = addEditField( pControlsFrame, "ALBARANCOMPRA", "FECHA", cabeceraLayout );
 
@@ -97,6 +100,12 @@ FrmEditAlbaranCompra::FrmEditAlbaranCompra(FrmEditRec *parentfrm, dbRecord *mast
 	editFormaPagoCodigo = searchFormaPagoCodigo->getEditCode();
 	editFormaPagoNombre = searchFormaPagoCodigo->getEditDesc();
 	editContador = addEditField( pControlsFrame, "ALBARANCOMPRA", "CONTADOR", cabecera2Layout );
+
+	searchAgenteCodigo = addSearchField( pControlsFrame, "AGENTE_ID", "AGENTE", "CODIGO", "RAZONSOCIAL", cabecera3Layout );
+	pushAgenteCodigo = searchAgenteCodigo->getButton();
+	connect( pushAgenteCodigo, SIGNAL( clicked() ), this, SLOT( pushAgenteCodigo_clicked() ) );
+	editAgenteCodigo = searchAgenteCodigo->getEditCode();
+	editAgenteRazonSocial = searchAgenteCodigo->getEditDesc();
 
 // frmDetails: AlbaranCompraDet
 	QFrame *albarancompradetFrame = new QFrame(this);
@@ -141,7 +150,7 @@ if(empresa::ModuleInstance->usaProyectos()){
 
 #ifdef HAVE_TESORERIAMODULE
 if( ModuleInstance->getTesoreriaModule() ) {
-	searchCuentaPagoCodigo = addSearchField( tabPagos, "CUENTAPAGO_ID", "CUENTATESORERIA", "CODIGO", "NOMBRE", pagoLayout );
+	searchCuentaPagoCodigo = addSearchField( tabPagos, "CUENTAPAGO_ID", "CUENTATESORERIA", "CODIGO", "NOMBRE", cuentapagoLayout );
 	pushCuentaPagoCodigo = searchCuentaPagoCodigo->getButton();
 	connect( pushCuentaPagoCodigo, SIGNAL( clicked() ), this, SLOT( pushCuentaPagoCodigo_clicked() ) );
 	editCuentaPagoCodigo = searchCuentaPagoCodigo->getEditCode();
@@ -151,7 +160,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
-	searchCuentaPagoCuenta = addSearchField( tabPagos, "CUENTAPAGO_ID", "CUENTA", "CUENTA", "DESCRIPCION", pagoLayout );
+	searchCuentaPagoCuenta = addSearchField( tabPagos, "CUENTAPAGO_ID", "CUENTA", "CUENTA", "DESCRIPCION", cuentapagoLayout );
 	pushCuentaPagoCuenta = searchCuentaPagoCuenta->getButton();
 	connect( pushCuentaPagoCuenta, SIGNAL( clicked() ), this, SLOT( pushCuentaPagoCuenta_clicked() ) );
 	editCuentaPagoCuenta = searchCuentaPagoCuenta->getEditCode();
@@ -161,6 +170,7 @@ if( ModuleInstance->getContabModule() ) {
 	editNotas = addTextField( tabPagos, "ALBARANCOMPRA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( cabeceraLayout );
 	pControlsLayout->addLayout( cabecera2Layout );
+	pControlsLayout->addLayout( cabecera3Layout );
 	pControlsLayout->addLayout( albarancompradetLayout );
 	alignLayout( rightNoFacturableLayout, false);
 	alignLayout( rightSumaImportesLayout, false);
@@ -176,6 +186,7 @@ if( ModuleInstance->getContabModule() ) {
 	tabPagosLayout->addLayout( proyectoLayout );
 	tabPagosLayout->addLayout( desgloseivaLayout );
 	tabPagosLayout->addLayout( pagoLayout );
+	tabPagosLayout->addLayout( cuentapagoLayout );
 	tabPagosLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITALBARANCOMPRA_INIT_CONTROLS*/
     pTabWidget->insertTab( tabPagos, toGUI( _( "&Extra" ) ) );
@@ -265,6 +276,7 @@ void FrmEditAlbaranCompra::scatterFields()
 	scatterTipoDoc();
 	scatterProveedora();
 	scatterFormaPago();
+	scatterAgente();
 if(empresa::ModuleInstance->usaProyectos()){
 	scatterProyecto();
 }
@@ -327,6 +339,7 @@ void FrmEditAlbaranCompra::gatherFields()
 	getRecAlbaranCompra()->setValue( "PROVEEDORA_ID", getRecProveedora()->getRecordID() );
 	getRecAlbaranCompra()->setValue( "FORMAPAGO_ID", getRecFormaPago()->getRecordID() );
 	getRecAlbaranCompra()->setValue( "CONTADOR", editContador->toInt());
+	getRecAlbaranCompra()->setValue( "AGENTE_ID", getRecAgente()->getRecordID() );
 	getRecAlbaranCompra()->setValue( "NOFACTURABLE", checkNoFacturable->isChecked());
 	getRecAlbaranCompra()->setValue( "SUMAIMPORTES", editSumaImportes->toMoney());
 	getRecAlbaranCompra()->setValue( "DTOP100", editDtoP100->toDouble());
@@ -816,7 +829,73 @@ void FrmEditAlbaranCompra::pushProyectoCodigo_clicked()
 /*>>>>>FRMEDITALBARANCOMPRA_PUSH_PROYECTO_CODIGO_CLICKED*/
 }
 
-
+void FrmEditAlbaranCompra::scatterAgente()
+{
+/*<<<<<FRMEDITALBARANCOMPRA_SCATTER_AGENTE*/
+	editAgenteCodigo->setText( getRecAgente()->getValue("CODIGO") );
+	editAgenteRazonSocial->setText( getRecAgente()->getValue("RAZONSOCIAL") );
+/*>>>>>FRMEDITALBARANCOMPRA_SCATTER_AGENTE*/
+}
+void FrmEditAlbaranCompra::pushAgenteCodigo_clicked()
+{
+/*<<<<<FRMEDITALBARANCOMPRA_PUSH_AGENTE_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchAgenteCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editAgenteCodigo->setJustEdited( false );
+			editAgenteCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecAgente(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterAgente();
+				editAgenteCodigo->setJustEdited( true );
+				setWiseFocus(editAgenteCodigo);
+			}
+			break;
+		case 'M':
+			{
+				if( getRecAgente()->getRecordID() ) {
+					editAgenteCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecAgente(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editAgenteCodigo->setJustEdited( true );
+						scatterAgente();
+					}
+				setWiseFocus(editAgenteCodigo);
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecAgente()->getRecordID() != 0 ) {
+					editAgenteCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecAgente(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecAgente *tmprec = static_cast<RecAgente *>(DBAPP->createRecord( "Agente" ));
+				editAgenteCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editAgenteCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editAgenteCodigo->setJustEdited( true );
+					getRecAgente()->copyRecord( tmprec );
+					scatterAgente();
+				}
+				setWiseFocus(editAgenteCodigo);
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITALBARANCOMPRA_PUSH_AGENTE_CODIGO_CLICKED*/
+}
 
 void FrmEditAlbaranCompra::specialControlKeyPressed( QWidget *sender, char key )
 {
@@ -829,6 +908,8 @@ void FrmEditAlbaranCompra::specialControlKeyPressed( QWidget *sender, char key )
 		pushProveedoraCodigo_clicked();
 	if( sender == editFormaPagoCodigo )
 		pushFormaPagoCodigo_clicked();
+	if( sender == editAgenteCodigo )
+		pushAgenteCodigo_clicked();
 if(empresa::ModuleInstance->usaProyectos()){
 	if( sender == editProyectoCodigo )
 		pushProyectoCodigo_clicked();
@@ -870,6 +951,10 @@ void FrmEditAlbaranCompra::validateFields( QWidget *sender, bool *isvalid, Valid
 	if( validSeekCode( sender, isvalid, *validresult, editFormaPagoCodigo, editFormaPagoNombre,
 		getRecFormaPago(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
 		scatterFormaPago();
+	if( focusWidget() != pushAgenteCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editAgenteCodigo, editAgenteRazonSocial,
+		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		scatterAgente();
 if(empresa::ModuleInstance->usaProyectos()){
 	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
@@ -1128,3 +1213,4 @@ void FrmEditAlbaranCompra::genNumeroDocumento()
 /*>>>>>FRMEDITALBARANCOMPRA_CABECERA_GENNUMDOC*/
 }
 #endif
+
