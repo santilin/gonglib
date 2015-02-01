@@ -4,7 +4,6 @@
 * Insertar oferta de compra no inserta nada
 
 == HACER ==
-* searchboxes en factura compra de agente y de forma de pago, la descripción es muy grande y no se deja hacer más pequeña.
 * Modificar una línea de albarán se va el cursor al final 
 * Factu: No salen los precios de los artículos en albaran de venta
 * Pagos: Mostrar la cuenta del pago
@@ -59,6 +58,7 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
+* searchboxes en factura compra de agente y de forma de pago, la descripción es muy grande y no se deja hacer más pequeña.
 * Calcular pvp de un albarán de compra.
 * addDetailIfNeeded no se necesita en albaran compra pero sí en albaran venta.
 * Formulario datos ventas y compras de artículos

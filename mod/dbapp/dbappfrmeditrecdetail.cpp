@@ -263,15 +263,20 @@ void FrmEditRecDetail::beginEdit(DataTable *dt, EditMode newmode,
                 DBAPP->waitCursor();
             }
             setWiseFocus(dt);
-            int r = dt->currentRow(), c = dt->currentColumn();
+            int c = dt->currentColumn();
             if( detailfrm->isSaved() ) {
                 getFrmMaster()->setEdited( true );
                 addDetailIfNeeded( detailfrm->mMustRefresh );
                 getFrmMaster()->updateFromDetails( this );
-                r = dt->numRows() - 1;
+				if( newmode == DataTable::inserting )
+					row = dt->numRows() - 1;
+				if( newmode == DataTable::updating )
+					row ++; // Ir a la siguiente para facilitar modificación hacia abajo
             }
-            dt->setCurrentCell( r, c );
-            dt->ensureCellVisible( r + 1, c );
+            if (row >= dt->numRows() ) row = dt->numRows() - 1;
+			if( row < 0 ) row = 0;
+            dt->setCurrentCell( row, c );
+            dt->ensureCellVisible( row + 1, c );
             delete detailfrm;
         }
     }

@@ -1140,6 +1140,7 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
 	_GONG_DEBUG_PRINT(0, dest->toString(TOSTRING_DEBUG_COMPLETE));
     dbRecordList *dest_detalles = detailform->getDetalles();
 
+	DBAPP->waitCursor(true);
     XtringList tables, captions;
     for( XtringList::const_iterator it = mInsertables.begin();
             it != mInsertables.end(); ++it ) {
@@ -1157,8 +1158,10 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
     source->removeFilter( source->getTableName()
                           + ".EJERCICIO=" + source->getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
     dbRecordID source_id = DBAPP->choose( detailform, source );
-    if( !source_id ) return false;
-    DBAPP->waitCursor( true );
+    if( !source_id ) {
+		DBAPP->resetCursor();
+		return false;
+	}
     LineEdit *le_tipodoc = 0;
     if( dest->isEmpty( "EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR,TIPODOC_ID" ) ) {
         // No quiero copiar en profundidad para que no copie los detalles
