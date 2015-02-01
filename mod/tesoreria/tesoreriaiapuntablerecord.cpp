@@ -29,7 +29,6 @@ RecCuentaTesoreria *IApuntableRecord::getRecCuentaTesoreria() const
 RecApunteTesoreria* IApuntableRecord::borraApunte(bool regenerando)
 {
     RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord( "APUNTETESORERIA" ));
-	apunte->addSemanticProperty( mCargoAbono == CARGO ? "CARGO" : "ABONO" );
     if( pRecord->getValue( mApunteIDField ).toInt() && apunte->read( pRecord->getValue( mApunteIDField ).toInt() ) ) {
         if (apunte->remove() ) {
 			if (!regenerando) {
@@ -90,7 +89,11 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	apunte->setValue( "EMPRESA_ID", pRecord->getValue("EMPRESA_ID").toInt() );
 	apunte->setValue( "EJERCICIO", empresa::ModuleInstance->getEjercicio() );
 	apunte->setValue( "FECHA", pRecord->getValue(mFechaField).toDate() );
-	apunte->setValue( "DEBE", pRecord->getValue(mImporteField).toMoney() );
+	if (pRecord->hasSemanticProperty("COMPRA") ) {
+		apunte->setValue( "IMPORTE", -pRecord->getValue(mImporteField).toMoney() );
+	} else {
+		apunte->setValue( "IMPORTE", pRecord->getValue(mImporteField).toMoney() );
+	}
 	apunte->setValue( "REFERENCIA", pRecord->getValue(mReferenciaField) );
 	_GONG_DEBUG_PRINT(0, apunte->toString(TOSTRING_DEBUG_COMPLETE));
 	if( mTablaTerceros == Xtring::null && mTerceroField == Xtring::null ) {

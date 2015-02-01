@@ -1,8 +1,7 @@
 == HECHO ==
-* Albarán venta: a la cuenta en negativo o viceversa
 
 == HACIENDO ==
-
+* Albarán venta: a la cuenta en negativo o viceversa
 
 == TESORERIA y OFERTAS ==
 * Duplicar código albaran compra y albaran venta en oferta compra y oferta venta
@@ -11,7 +10,6 @@
 == NO HACER ==
 
 == HACER ==
-* No se guarda el orden de los ficheros embebidos: Extracto de cuenta de tesoreria.
 * Insertar albarán de compra en albarán de venta: Borra el número del albarán de venta.
 * Generar liquidación, no genera el contador.
 * Modificar una línea de albarán se va el cursor al final 
@@ -145,6 +143,7 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* No se guarda el orden de los ficheros embebidos: Extracto de cuenta de tesoreria.
 * dbApp: Carga la configuración de los módulos antes del login, con lo cual se queda aunque luego el login sea false, esto provoca errores en las vistas, por ejemplo.
 * Exportar: Pedir bien el fichero
 * Copia de seguridad: No pedir la carpeta.

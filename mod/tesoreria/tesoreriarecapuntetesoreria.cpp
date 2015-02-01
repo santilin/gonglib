@@ -93,17 +93,11 @@ bool RecApunteTesoreria::save(bool saverelated) throw( dbError )
 		// Descontar el original
 		Money importe = getOrigValue("IMPORTE").toDouble();
 		if( importe != 0.0 ) {
-			if( hasSemanticProperty("CARGO") ) {
-				importe = -importe;
-			}
 			dbRecordID ct_id = getOrigValue("CUENTATESORERIA_ID").toInt();
 			actSaldoCuenta(ct_id, importe, false); 
 		}
 		importe = getValue("IMPORTE").toDouble();
 		if( importe != 0.0 ) {
-			if( hasSemanticProperty("CARGO") ) {
-				importe = -importe;
-			}
 			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
 			actSaldoCuenta(ct_id, importe, true); 
 		}
