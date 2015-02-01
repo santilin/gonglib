@@ -1,17 +1,9 @@
 == HECHO ==
 
 == HACIENDO ==
-* Albarán venta: a la cuenta en negativo o viceversa
-
-== TESORERIA y OFERTAS ==
-* Duplicar código albaran compra y albaran venta en oferta compra y oferta venta
-
-
-== NO HACER ==
+* Insertar oferta de compra no inserta nada
 
 == HACER ==
-* Insertar albarán de compra en albarán de venta: Borra el número del albarán de venta.
-* Generar liquidación, no genera el contador.
 * Modificar una línea de albarán se va el cursor al final 
 * Factu: Albaran compra no muestra agente. Setting (Quieres agentes en las compras?)
 * Factu: No salen los precios de los artículos en albaran de venta
@@ -20,6 +12,9 @@
 * Pagos: regnerarlos: guardar el número como en apuntes de tesorería.
 * Factu: Informe de existencias máximas y mínimas.
 * BúsquedasO por nombre alternativo
+
+== NO HACER ==
+
 
 == ANGEL ==
 * Imprimir etiquetas con códigos de barras
@@ -47,8 +42,8 @@
 
 
 == Ofertas ==
+* Duplicar código albaran compra y albaran venta en oferta compra y oferta venta
 * Tesorería de ofertas
-* Insertar oferta de compra no inserta nada
 * Estadísticas
 
 == gong-tpv ==
@@ -93,6 +88,7 @@
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-deposit ==
+* Generar liquidación, no genera el contador.
 * Al crear un albarán desde una liquidación, no rellena el importe de la liquidación en cada detalle
 * Generar liquidación a proveedoras, el validate del tipodoc no funciona
 * Liquidación de depósitos de venta, marcar la liquidación, igual que los de compra.

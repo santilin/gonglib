@@ -1135,7 +1135,9 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
 {
     XtringList excludedtables;
     sexcludedtables.tokenize( excludedtables, "," );
+	masterform->gatherFields();
     dbRecord *dest = masterform->getRecord();
+	_GONG_DEBUG_PRINT(0, dest->toString(TOSTRING_DEBUG_COMPLETE));
     dbRecordList *dest_detalles = detailform->getDetalles();
 
     XtringList tables, captions;
@@ -1155,11 +1157,10 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
     source->removeFilter( source->getTableName()
                           + ".EJERCICIO=" + source->getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
     dbRecordID source_id = DBAPP->choose( detailform, source );
-    if( !source_id )
-        return false;
+    if( !source_id ) return false;
     DBAPP->waitCursor( true );
     LineEdit *le_tipodoc = 0;
-    if( dest->isEmpty( "EMPRESA_ID,EJERCICIO,FECHA" ) ) {
+    if( dest->isEmpty( "EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR,TIPODOC_ID" ) ) {
         // No quiero copiar en profundidad para que no copie los detalles
         dest->copyRecord( source, false, Xtring::null, "ID,EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR" );
         le_tipodoc = static_cast<LineEdit *>(masterform->findControl( "TIPODOC.CODIGO" ) );
