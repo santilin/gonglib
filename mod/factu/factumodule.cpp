@@ -1162,7 +1162,8 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
 		return false;
 	}
     LineEdit *le_tipodoc = 0;
-    if( dest->isEmpty( "EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR,TIPODOC_ID" ) ) {
+	_GONG_DEBUG_WARNING( dest->toString(TOSTRING_DEBUG_COMPLETE));
+    if( dest->isEmpty( "EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR,TIPODOC_ID,IVADETALLADO" ) ) {
         // No quiero copiar en profundidad para que no copie los detalles
         dest->copyRecord( source, false, Xtring::null, "ID,EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR" );
         le_tipodoc = static_cast<LineEdit *>(masterform->findControl( "TIPODOC.CODIGO" ) );

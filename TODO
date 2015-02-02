@@ -3,16 +3,12 @@
 == HACIENDO ==
 
 == HACER ==
-* Insertar albaran de compra en oferta de compra no copia el proveedor.
-
 * Pagos: Mostrar la cuenta del pago
-* FrmEditFacturaCompra: demasiado ancho
 * Pagos: regnerarlos: guardar el número como en apuntes de tesorería.
 * Factu: Informe de existencias máximas y mínimas.
 * Búsquedas por nombre alternativo
 
 == NO HACER ==
-
 
 == ANGEL ==
 * Imprimir etiquetas con códigos de barras
@@ -24,8 +20,6 @@
 * Muestro princesa, sale hijo/a 30, cierro y al abrir otra, queda el 30.
 
 == ERRORES ==
-* Cuando se añade una liquidación a un albarán, se borra el O del albarán
-
 
 == MODELOSFISCALES ==
 * Implementar algún día
