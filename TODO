@@ -3,13 +3,16 @@
 == HACIENDO ==
 
 == HACER ==
-* Factu: Informe de existencias máximas y mínimas.
-* Búsquedas por nombre alternativo
+
+
+== EN COLA ==
+* Factu: Formulario datos ventas y compras de artículos
+* Factu: Al buscar códigos en tpv o donde sea, buscar también por referencia si la proveedora usa referencias.
+** Añadir al seekcode un tercer campo?, tiene el dbRecord un seekCode?
 
 == NO HACER ==
 
 == ANGEL ==
-* Imprimir etiquetas con códigos de barras
 
 == CATS ==
 * Ver edad de Linda Ucrania Huertas, Valeria colombia El Molino, Nizar Marruecos Hijo Mbarka
@@ -19,11 +22,11 @@
 
 == ERRORES ==
 
-== MODELOSFISCALES ==
-* Implementar algún día
-
 
 = PRESCINDIBLE =
+
+== MODELOSFISCALES ==
+* Implementar algún día
 
 == Socias ==
 * Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón, 
@@ -49,10 +52,9 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
-* searchboxes en factura compra de agente y de forma de pago, la descripción es muy grande y no se deja hacer más pequeña.
+* Imprimir etiquetas con códigos de barras
+* Factu: Informe de existencias máximas y mínimas.
 * Calcular pvp de un albarán de compra.
-* addDetailIfNeeded no se necesita en albaran compra pero sí en albaran venta.
-* Formulario datos ventas y compras de artículos
 * Clientes especiales, con un porcentaje extra.
 * Enviar/recibir facturas a/de otro gestiong
 * Que la suma en mc de las ventas coincida con la suma de las facturas:
@@ -61,16 +63,9 @@
 * Albaranes, facturas, etc. Añadir Cantidad asignada al proyecto
 * Artículos: Iva de compra e iva de venta
 * Crear clientes múltiples ya no es posible (si lo vuelvo a hacer, también para proveedoras)
-* Generar códigos de los artículos:
-** Funciona solo el caso de un prefijo e incremento, falta probar los otros
 * Añadir a clientes y proveedoras: dia(s) de pago, mes no pago. Al generar los pagos, tenerlo en cuenta.
 * Buscador de documentos por número
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
-=== Referencias ===
-* Añadir a proveedora: usa referencias.
-* Si una proveedora usa referencias, aparece el edit de la referencia antes del código, si no, no
-* Al introducir la referencia, si la forma de generar el código es según la referencia, generarlo.
-* Al buscar códigos en tpv o donde sea, buscar también por referencia si la proveedora usa referencias.
 
 == gong-socias ==
 * Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
@@ -121,6 +116,7 @@
 ** Niveles del plan contable
 
 == gong-contactos ==
+* Búsquedas por nombre alternativo
 * Visualizar contacto embebido: readonly botones
 * Enviar adjuntos por email
 * Comprobar que apellidos, nombre no duplica nombre, apellidos

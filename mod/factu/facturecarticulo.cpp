@@ -219,18 +219,18 @@ Xtring RecArticulo::genCodigoArticulo(int modalidad, const Xtring &formato ) con
 		break;
 	case GenCodArtNextProv:
 		from = "INNER JOIN PROVEEDORA ON PROVEEDORA.ID=ARTICULO.PROVEEDORA_ID";
-		where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato )
+		where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato + "%" )
 				+ " AND PROVEEDORA.CODIGO=" + getConnection()->toSQL( getValue( "PROVEEDORA.CODIGO" ).toInt() );
 		break;
 	case GenCodArtNextFam:
 		from = "INNER JOIN FAMILIA ON FAMILIA.ID=ARTICULO.FAMILIA_ID";
-		where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato )
+		where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato + "%")
 				+ " AND FAMILIA.CODIGO=" + getConnection()->toSQL( getValue( "FAMILIA.CODIGO" ).toInt() );
 		break;
 	case GenCodArtNextProvFam:
 		from = "INNER JOIN FAMILIA ON FAMILIA.ID=ARTICULO.FAMILIA_ID"
 				" INNER JOIN PROVEEDORA ON PROVEEDORA.ID=ARTICULO.PROVEEDORA_ID";
-		where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato )
+		where = getConnection()->toSQLLikeLiteral( "ARTICULO.CODIGO", buscar_formato + "%" )
 				+ " AND FAMILIA.CODIGO=" + getConnection()->toSQL( getValue( "FAMILIA.CODIGO" ).toString() )
 				+ " AND PROVEEDORA.CODIGO=" + getConnection()->toSQL( getValue( "PROVEEDORA.CODIGO" ).toInt() );
 		break;
@@ -287,7 +287,7 @@ Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &forma
             result += formato[i];
         }
     }
-    return result.upper() + "%";
+    return result.upper();
 }
 
 /*<<<<<ARTICULO_ISVALID*/
