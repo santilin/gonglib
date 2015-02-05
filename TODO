@@ -3,8 +3,6 @@
 == HACIENDO ==
 
 == HACER ==
-* Pagos: Mostrar la cuenta del pago
-* Pagos: regnerarlos: guardar el número como en apuntes de tesorería.
 * Factu: Informe de existencias máximas y mínimas.
 * Búsquedas por nombre alternativo
 
@@ -93,7 +91,8 @@
 * Duplicar albarán de venta: no borra el check Liquidada
 * ¿Qué pasa si al meter una liquidación de un cliente los precios de los artículos han cambiado?
 
-== pagos ==
+== gong-pagos ==
+* Pagos: regnerarlos: guardar el número como en apuntes de tesorería.
 * Crear pago: si hay socias, sale la fecha
 * Crear pago: Calcular el número siguiente
 * Pagos: Que pagar o anular sea el botón por defecto

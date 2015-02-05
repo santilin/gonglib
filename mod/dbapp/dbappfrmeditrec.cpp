@@ -572,9 +572,9 @@ SearchBox *FrmEditRec::addSearchField( QWidget *parent, const Xtring &fldname,
     if ( layout ) {
         layout->addWidget( search->getButton() );
         if( showlabels ) layout->addWidget( search->getLabelCode() );
-        layout->addWidget( search->getEditCode() );
+			layout->addWidget( search->getEditCode() );
         if( showlabels ) layout->addWidget( search->getLabelDesc() );
-        layout->addWidget( search->getEditDesc() );
+			layout->addWidget( search->getEditDesc() );
     } else
         pControlsLayout->addLayout( search->getLayout() );
     dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition( reftablename );
@@ -597,7 +597,7 @@ SearchBox *FrmEditRec::addSearchField( QWidget *parent, const Xtring &fldname,
             if( nombrewidth > 15 )
                 nombrewidth = 15;
             flddefdesc->setDisplayWidth( nombrewidth );
-            applyFieldStyle( search->getEditCode(), flddefdesc );
+//            applyFieldStyle( search->getEditCode(), flddefdesc );
             search->getEditCode()->setMaxLength( savewidth );
             flddefdesc->setDisplayWidth( savewidth );
             applyFieldStyle( search->getEditDesc(), flddefdesc );

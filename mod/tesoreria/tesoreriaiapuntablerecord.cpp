@@ -77,7 +77,6 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 		return 0;
 	}
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord("APUNTETESORERIA"));
-	apunte->addSemanticProperty( mCargoAbono == CARGO ? "CARGO" : "ABONO" );
 	apunte->setValue( "CUENTATESORERIA_ID", cuenta_pago_id );
 	if( old_apunte->isRead() ) { // Recycle the id
 		apunte->setRecordID( old_apunte->getRecordID() );
@@ -89,7 +88,7 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	apunte->setValue( "EMPRESA_ID", pRecord->getValue("EMPRESA_ID").toInt() );
 	apunte->setValue( "EJERCICIO", empresa::ModuleInstance->getEjercicio() );
 	apunte->setValue( "FECHA", pRecord->getValue(mFechaField).toDate() );
-	if (pRecord->hasSemanticProperty("COMPRA") ) {
+	if (pRecord->hasSemanticProperty("COMPRA") || mCargoAbono == CARGO) {
 		apunte->setValue( "IMPORTE", -pRecord->getValue(mImporteField).toMoney() );
 	} else {
 		apunte->setValue( "IMPORTE", pRecord->getValue(mImporteField).toMoney() );

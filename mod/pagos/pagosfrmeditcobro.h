@@ -71,6 +71,7 @@ protected:
 private slots:
 	void pushRemesaCobroNumero_clicked();
 	void pushMonedaCodigo_clicked();
+	void pushCuentaPagoCodigo_clicked();
 	void pushCuentaPagoCuenta_clicked();
 
 public:
@@ -78,6 +79,10 @@ public:
 		{ return static_cast<RecCobro*>(getRecord())->getRecRemesaCobro(); }
 	empresa::RecMoneda* getRecMoneda() const
 		{ return static_cast<RecCobro*>(getRecord())->getRecMoneda(); }
+#ifdef HAVE_TESORERIAMODULE
+	RecCuentaPago* getRecCuentaPago() const
+		{ return static_cast<RecCobro*>(getRecord())->getRecCuentaPago(); }
+#endif
 #ifdef HAVE_CONTABMODULE
 	contab::RecCuentaPago* getRecCuentaPago() const
 		{ return static_cast<RecCobro*>(getRecord())->getRecCuentaPago(); }
@@ -126,6 +131,12 @@ protected:
 	QPushButton *pushMonedaCodigo;
 	gong::LineEdit *editMonedaCodigo;
 	gong::LineEdit *editMonedaNombre;
+#ifdef HAVE_TESORERIAMODULE
+	gong::SearchBox *searchCuentaPagoCodigo;
+	QPushButton *pushCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoNombre;
+#endif
 #ifdef HAVE_CONTABMODULE
 	gong::SearchBox *searchCuentaPagoCuenta;
 	QPushButton *pushCuentaPagoCuenta;

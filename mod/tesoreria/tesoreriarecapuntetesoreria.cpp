@@ -119,9 +119,6 @@ bool RecApunteTesoreria::remove() throw( dbError )
     if( ret ) {
 		Money importe = getValue("IMPORTE").toDouble();
 		if( importe != 0.0 ) {
-			if( hasSemanticProperty("CARGO") ) {
-				importe = -importe;
-			}
 			dbRecordID ct_id = getValue("CUENTATESORERIA_ID").toInt();
 			actSaldoCuenta(ct_id, importe, false); 
 		}
@@ -137,7 +134,7 @@ void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, const Mon
     Money importe = saving ? _importe : -_importe;
     RecCuentaTesoreria *cuentatesoreria = static_cast<RecCuentaTesoreria*>( DBAPP->createRecord("CUENTATESORERIA") );
     if ( cuentatesoreria->read( cuentatesoreria_id ) ) {
-		cuentatesoreria->setValue( "IMPORTE", cuentatesoreria->getValue( "IMPORTE" ).toMoney() + importe );
+		cuentatesoreria->setValue( "SALDO", cuentatesoreria->getValue( "SALDO" ).toMoney() + importe );
         cuentatesoreria->save(false);
     }
     delete cuentatesoreria;

@@ -16,6 +16,7 @@
 // FIELD FechaPago date - pago
 // FIELD DocumentoPago string - pago
 // FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - leftMoneda
+// FIELD CuentaPago_ID Reference(CuentaTesoreria,Codigo,Nombre) - cuentapago MODULE_INCLUDED(Tesoreria)
 // FIELD CuentaPago_ID Reference(contab::Cuenta,Cuenta,Descripcion) - contab MODULE_INCLUDED(Contab)
 // FIELD CuentaOrigen string - contab MODULE_INCLUDED(Contab)
 // FIELD Notas text - notas
@@ -51,10 +52,8 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
     searchTerceroCodigo = 0;
     pTercerosLayout = new QHBoxLayout();
     pControlsLayout->addLayout(pTercerosLayout);
-	alignLayout( pTercerosLayout, true );
     pFacturasLayout = new QHBoxLayout();
     pControlsLayout->addLayout(pFacturasLayout);
-	alignLayout( pFacturasLayout, true );
 /*<<<<<FRMEDITPAGO_INIT_CONTROLS*/
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
 	QHBoxLayout *descLayout = new QHBoxLayout(0, 0, 6, "descLayout");
@@ -62,6 +61,7 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	QHBoxLayout *importesLayout = new QHBoxLayout(0, 0, 6, "importesLayout");
 	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
 	QHBoxLayout *leftMonedaLayout = new QHBoxLayout(0, 0, 6, "leftMonedaLayout");
+	QHBoxLayout *cuentapagoLayout = new QHBoxLayout(0, 0, 6, "cuentapagoLayout");
 	QHBoxLayout *contabLayout = new QHBoxLayout(0, 0, 6, "contabLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	checkAutomatico = addCheckField( pControlsFrame, "PAGO", "AUTOMATICO", numeroLayout );
@@ -83,6 +83,16 @@ FrmEditPago::FrmEditPago(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMo
 	connect( pushMonedaCodigo, SIGNAL( clicked() ), this, SLOT( pushMonedaCodigo_clicked() ) );
 	editMonedaCodigo = searchMonedaCodigo->getEditCode();
 	editMonedaNombre = searchMonedaCodigo->getEditDesc();
+
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	searchCuentaPagoCodigo = addSearchField( pControlsFrame, "CUENTAPAGO_ID", "CUENTATESORERIA", "CODIGO", "NOMBRE", cuentapagoLayout );
+	pushCuentaPagoCodigo = searchCuentaPagoCodigo->getButton();
+	connect( pushCuentaPagoCodigo, SIGNAL( clicked() ), this, SLOT( pushCuentaPagoCodigo_clicked() ) );
+	editCuentaPagoCodigo = searchCuentaPagoCodigo->getEditCode();
+	editCuentaPagoNombre = searchCuentaPagoCodigo->getEditDesc();
+}
+#endif
 
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
@@ -106,20 +116,24 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( pagoLayout );
 	pControlsLayout->addLayout( leftMonedaLayout );
 	alignLayout( leftMonedaLayout, true );
+	pControlsLayout->addLayout( cuentapagoLayout );
 	pControlsLayout->addLayout( contabLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITPAGO_INIT_CONTROLS*/
-    editContador->setMustBeReadOnly( true );
-    editFechaPago->setMustBeReadOnly(true);
-#ifdef HAVE_CONTABMODULE
-    searchCuentaPagoCuenta->setMustBeReadOnly(true);
-#endif
-    editDocumentoPago->setMustBeReadOnly(true);
     pushPagar = new QPushButton( toGUI( _("&Pagar o anular") ), this, "pushPagar" );
     pushPagar->setDefault( true );
     connect ( pushPagar, SIGNAL ( clicked() ), this, SLOT ( pushPagar_clicked() ) );
     pButtonsLayout->addWidget( pushPagar );
     checkAutomatico->setMustBeReadOnly( true );
+	editFechaPago->setMustBeReadOnly(true);
+	editDocumentoPago->setMustBeReadOnly(true);
+#ifdef HAVE_TESORERIAMODULE
+	searchCuentaPagoCodigo->setMustBeReadOnly(true);
+#endif
+#ifdef HAVE_CONTABMODULE		
+	searchCuentaPagoCuenta->setMustBeReadOnly(true);
+	editCuentaOrigen->setMustBeReadOnly(true);
+#endif	
 }
 
 void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcodigo, const Xtring& fldfactdesc,
@@ -142,6 +156,7 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
 			}
 			searchFacturaNumero = addSearchField( pControlsFrame, "FACTURA_ID", tablafacturas,
 												mFldFactCodigo, mFldFactDesc, pFacturasLayout );
+			alignLayout( pFacturasLayout, true );
 			pushFacturaNumero = searchFacturaNumero->getButton();
 			connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ), Qt::UniqueConnection );
 			editFacturaNumero = searchFacturaNumero->getEditCode();
@@ -174,6 +189,7 @@ void FrmEditPago::completa(const Xtring& tablafacturas, const Xtring& fldfactcod
 			}
 			searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", tablaterceros,
 												mFldTercCodigo, mFldTercDesc, pTercerosLayout );
+			alignLayout( pTercerosLayout, true );
 			pushTerceroCodigo = searchTerceroCodigo->getButton();
 			connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ), Qt::UniqueConnection );
 			editTerceroCodigo = searchTerceroCodigo->getEditCode();
@@ -260,21 +276,25 @@ void FrmEditPago::pushFacturaNumero_clicked()
 #ifdef HAVE_CONTABMODULE
 void FrmEditPago::scatterCuentaPago()
 {
-#define getRecCuenta getRecCuentaPago
     if( getRecord()->getTableDefinition()->findFieldDefinition("CUENTAPAGO_ID") ) {
-        /*<<<<<FRMEDITPAGO_SCATTER_CUENTAPAGO*/
+/*<<<<<FRMEDITPAGO_SCATTER_CUENTAPAGO*/
 	editCuentaPagoCuenta->setText( getRecCuentaPago()->getValue("CUENTA") );
 	editCuentaPagoDescripcion->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
 /*>>>>>FRMEDITPAGO_SCATTER_CUENTAPAGO*/
     }
-#undef getRecCuenta
+}
+#elif defined (HAVE_TESORERIAMODULE)
+void FrmEditPago::scatterCuentaPago()
+{
+	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CODIGO") );
+	editCuentaPagoNombre->setText( getRecCuentaPago()->getValue("NOMBRE") );
 }
 #endif
 
 void FrmEditPago::pushCuentaPagoCuenta_clicked()
 {
 #ifdef HAVE_CONTABMODULE
-    /*<<<<<FRMEDITPAGO_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
+/*<<<<<FRMEDITPAGO_PUSH_CUENTAPAGO_CUENTA_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCuenta->mustBeReadOnly() )
 		action = 'E';
@@ -406,6 +426,12 @@ void FrmEditPago::specialControlKeyPressed(QWidget *sender, char key)
 	FrmEditRecMaster::specialControlKeyPressed(sender,key); // calls the behaviors
 	if( sender == editMonedaCodigo )
 		pushMonedaCodigo_clicked();
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	if( sender == editCuentaPagoCodigo )
+		pushCuentaPagoCodigo_clicked();
+}
+#endif
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	if( sender == editCuentaPagoCuenta )
@@ -468,6 +494,13 @@ if( ModuleInstance->getContabModule() ) {
 #endif
 	editNotas->setText(getRecPago()->getValue("NOTAS").toString());
 	scatterMoneda();
+#ifdef HAVE_TESORERIAMODULE
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	scatterCuentaPago();
+}
+#endif
+#endif
 #ifdef HAVE_CONTABMODULE
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
@@ -489,9 +522,6 @@ if( ModuleInstance->getContabModule() ) {
         editImporte->setMustBeReadOnly(true);
         editResto->setMustBeReadOnly(true);
         searchMonedaCodigo->setMustBeReadOnly(true);
-#ifdef HAVE_CONTABMODULE		
-        editCuentaOrigen->setMustBeReadOnly(true);
-#endif		
     } else {
         if( editNumero->toInt() == 0 )
             editNumero->setText( getRecPago()->selectNextInt( "NUMERO" ) );
@@ -529,6 +559,11 @@ void FrmEditPago::gatherFields()
 	getRecPago()->setValue( "FECHAPAGO", editFechaPago->toDate());
 	getRecPago()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
 	getRecPago()->setValue( "MONEDA_ID", getRecMoneda()->getRecordID() );
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	getRecPago()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
+}
+#endif
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	getRecPago()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
@@ -613,6 +648,69 @@ void FrmEditPago::pushMonedaCodigo_clicked()
 /*>>>>>FRMEDITPAGO_PUSH_MONEDA_CODIGO_CLICKED*/
 }
 
+void FrmEditPago::pushCuentaPagoCodigo_clicked()
+{
+#ifdef HAVE_TESORERIAMODULE
+/*<<<<<FRMEDITPAGO_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchCuentaPagoCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editCuentaPagoCodigo->setJustEdited( false );
+			editCuentaPagoCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecCuentaPago(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterCuentaPago();
+				editCuentaPagoCodigo->setJustEdited( true );
+				setWiseFocus(editCuentaPagoCodigo);
+			}
+			break;
+		case 'M':
+			{
+				if( getRecCuentaPago()->getRecordID() ) {
+					editCuentaPagoCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecCuentaPago(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editCuentaPagoCodigo->setJustEdited( true );
+						scatterCuentaPago();
+					}
+				setWiseFocus(editCuentaPagoCodigo);
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecCuentaPago()->getRecordID() != 0 ) {
+					editCuentaPagoCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecCuentaPago *tmprec = static_cast<RecCuentaPago *>(DBAPP->createRecord( "CuentaPago" ));
+				editCuentaPagoCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editCuentaPagoCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editCuentaPagoCodigo->setJustEdited( true );
+					getRecCuentaPago()->copyRecord( tmprec );
+					scatterCuentaPago();
+				}
+				setWiseFocus(editCuentaPagoCodigo);
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITPAGO_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
+#endif
+}
+
 
 void FrmEditPago::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
@@ -627,6 +725,14 @@ void FrmEditPago::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir
 	if( validSeekCode( sender, isvalid, *validresult, editMonedaCodigo, editMonedaNombre,
 		getRecMoneda(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterMoneda();
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	if( focusWidget() != pushCuentaPagoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editCuentaPagoCodigo, editCuentaPagoNombre,
+		getRecCuentaPago(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterCuentaPago();
+}
+#endif
 /*>>>>>FRMEDITPAGO_VALIDATE*/
     if( focusWidget() != pushFacturaNumero) // To avoid triggering the validating if the button is pressed
         if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaDesc,
@@ -721,5 +827,4 @@ void FrmEditPago::updateStatus( bool callbehaviors )
 } // namespace pagos
 } // namespace gong
 /*>>>>>FRMEDITPAGO_FIN*/
-
 

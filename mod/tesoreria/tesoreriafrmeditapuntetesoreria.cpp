@@ -677,7 +677,7 @@ void FrmEditApunteTesoreria::changeTipoApunte()
 {
     QWidget *control = 0;
     XtringList camposapedir;
-    camposapedir << "CARGO" << "FECHA" << "REFERENCIA" << "IMPORTE"
+    camposapedir << "FECHA" << "REFERENCIA" << "IMPORTE"
                  << "CUENTA" << "TABLATERCEROS" << "TERCERO" << "TABLACONCEPTOS" << "CONCEPTO"
                  << "NOTAS";
     for( XtringList::const_iterator it = camposapedir.begin(); it != camposapedir.end(); ++it ) {
