@@ -868,9 +868,9 @@ void FrmEditAlbaranVenta::pushFormaPagoCodigo_clicked()
 /*>>>>>FRMEDITALBARANVENTA_PUSH_FORMAPAGO_CODIGO_CLICKED*/
 }
 
-#ifdef HAVE_TESORERIAMODULE
 void FrmEditAlbaranVenta::pushCuentaPagoCodigo_clicked()
 {
+#ifdef HAVE_TESORERIAMODULE
 /*<<<<<FRMEDITALBARANVENTA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCodigo->mustBeReadOnly() )
@@ -928,8 +928,8 @@ void FrmEditAlbaranVenta::pushCuentaPagoCodigo_clicked()
 			break;
 	}
 /*>>>>>FRMEDITALBARANVENTA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
-}
 #endif
+}
 
 
 void FrmEditAlbaranVenta::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
@@ -994,10 +994,11 @@ if( ModuleInstance->getTesoreriaModule() ) {
                 editFechaPago->setText( editFecha->toDate() );
 			}
 #if defined (HAVE_CONTABMODULE) 
-            if( editCuentaPagoCuenta->toString().isEmpty() && getRecFormaPago()->getValue("SUBCUENTAPAGO").toString() == Xtring::null) {
+            if( editCuentaPagoCuenta->toString().isEmpty() && getRecFormaPago()->getValue("SUBCUENTAPAGO").toString() == Xtring::null) 
 #elif defined (HAVE_TESORERIAMODULE)
-            if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID").toInt() == 0) {
+            if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID").toInt() == 0) 
 #endif
+			{
 				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida.\nNo se generará el apunte del cobro en tesorería.", "CUENTAPAGO_ID");
 			}
 		}

@@ -6,6 +6,7 @@
     Nuevo módulo de tesorería: http://www.programacionsocial.net/wiki/index.php?title=Manual_de_GestiONG#Tesorer.C3.ADa
     Mejoras en las copias de seguridad y recuperacines.
     Se puede configurar el valor por defecto de los tipos de documento en las facturas, albaranes, etc. En Sistema => Configuración => Todo => Ficheros
+    Ofertas: se copian por ejercicios
 
 2011-07-23	santilin
     Creada la biblioteca compartida gonglib

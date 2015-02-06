@@ -86,10 +86,6 @@ void Object::formatText()
 {
     mPrevFormattedText = mFormattedText;
     Variant v = realValue();
-	if( strcasecmp(format(), "%$") == 0 )
-		_GONG_DEBUG_PRINT(0, format() );
-	if( strcasecmp( name(), "footer_values_ALBARANVENTA_ENTREGA") == 0 )
-		_GONG_DEBUG_PRINT(0, name() );
     mFormattedText = report()->formatter().format(v, format(), mask(), v.type() );
 }
 

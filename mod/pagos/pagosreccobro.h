@@ -39,9 +39,9 @@ namespace gong {
 namespace pagos {
 
 /*<<<<<COBRO_CONSTRUCTOR*/
-class RecCobro: public dbRecord,
+class RecCobro: public dbRecord
 #ifdef HAVE_TESORERIAMODULE
-	public tesoreria::IApuntableRecord
+	,public tesoreria::IApuntableRecord
 #endif
 
 {
