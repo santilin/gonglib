@@ -3,6 +3,9 @@
 # probar apt-get -q -y -o APT::Install-Recommends=true -o APT::Get::AutomaticRemove=true install task-spanish-kde-desktop
 # probar /etc/issue
 
+# Añadir update-grub
+
+
 #instalación de un plugin para plasma
 # git clone https://github.com/faho/kwin-tiling.git
 # cd kwin-tiling/
@@ -474,7 +477,7 @@ menu_sistema() {
 		my_dialog --cancel-label "Volver" \
 			--title "=== SISTEMA ===" \
 			--menu "Elige la sección" 20 75 6 \
-			1 "Reparar el sistema" \
+			1 "Reparar el sistema de paquetes" \
 			2 "Actualizar el sistema" \
 			3 "Descargar versiones en español de los programas instalados" \
 			4 "Poner el reloj en hora" \
@@ -487,7 +490,12 @@ menu_sistema() {
 		3 ) 	clear; language_espanol ;;
 		4 )		clear; reloj_hora ;;
 # http://www.spencerstirling.com/computergeek/NFS_samba.html
-		5 ) 	clear; instala_programa "NFS" nfs-kernel-server nfs-common portmap kdenetwork-filesharing ;;
+		5 ) 	clear; 
+				instala_programa "NFS" nfs-kernel-server nfs-common portmap
+				if test "x$KDE" = "x1"; then
+					instala_programa "GUI de kde para compartir archivos" kdenetwork-filesharing
+				fi 
+				;;
 		6 ) 	menu_limpieza ;;
 		9 ) 	check_new_version ;;
 		* )		break ;;

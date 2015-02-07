@@ -72,9 +72,9 @@ FrmEditFacturaCompra::FrmEditFacturaCompra(FrmEditRec *parentfrm, dbRecord *mast
 	QHBoxLayout *desgloseivaLayout = new QHBoxLayout(0, 0, 6, "desgloseivaLayout");
 	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-	editFecha = addEditField( pControlsFrame, "FACTURACOMPRA", "FECHA", cabeceraLayout );
+	editFecha = addEditField( pControlsFrame, "FACTURACOMPRA", "FECHA", cabeceraLayout, false );
 
-	searchTipoDocCodigo = addSearchField( pControlsFrame, "TIPODOC_ID", "TIPODOC", "CODIGO", "NOMBRE", cabeceraLayout );
+	searchTipoDocCodigo = addSearchField( pControlsFrame, "TIPODOC_ID", "TIPODOC", "CODIGO", "NOMBRE", cabeceraLayout, SearchBox::FlagNone );
 	pushTipoDocCodigo = searchTipoDocCodigo->getButton();
 	connect( pushTipoDocCodigo, SIGNAL( clicked() ), this, SLOT( pushTipoDocCodigo_clicked() ) );
 	editTipoDocCodigo = searchTipoDocCodigo->getEditCode();
@@ -82,13 +82,13 @@ FrmEditFacturaCompra::FrmEditFacturaCompra(FrmEditRec *parentfrm, dbRecord *mast
 	editNumero = addEditField( pControlsFrame, "FACTURACOMPRA", "NUMERO", cabeceraLayout );
 	comboIVADetallado = addComboIntField( pControlsFrame, "FACTURACOMPRA", "IVADETALLADO", cabeceraLayout );
 
-	searchProveedoraCodigo = addSearchField( pControlsFrame, "PROVEEDORA_ID", "PROVEEDORA", "CODIGO", "RAZONSOCIAL", cabecera2Layout );
+	searchProveedoraCodigo = addSearchField( pControlsFrame, "PROVEEDORA_ID", "PROVEEDORA", "CODIGO", "RAZONSOCIAL", cabecera2Layout, SearchBox::FlagNone );
 	pushProveedoraCodigo = searchProveedoraCodigo->getButton();
 	connect( pushProveedoraCodigo, SIGNAL( clicked() ), this, SLOT( pushProveedoraCodigo_clicked() ) );
 	editProveedoraCodigo = searchProveedoraCodigo->getEditCode();
 	editProveedoraRazonSocial = searchProveedoraCodigo->getEditDesc();
 
-	searchFormaPagoCodigo = addSearchField( pControlsFrame, "FORMAPAGO_ID", "FORMAPAGO", "CODIGO", "NOMBRE", cabecera2Layout );
+	searchFormaPagoCodigo = addSearchField( pControlsFrame, "FORMAPAGO_ID", "FORMAPAGO", "CODIGO", "NOMBRE", cabecera2Layout, SearchBox::FlagNone );
 	pushFormaPagoCodigo = searchFormaPagoCodigo->getButton();
 	connect( pushFormaPagoCodigo, SIGNAL( clicked() ), this, SLOT( pushFormaPagoCodigo_clicked() ) );
 	editFormaPagoCodigo = searchFormaPagoCodigo->getEditCode();
