@@ -388,9 +388,9 @@ void FrmBase::alignLayout( QBoxLayout *layout, bool totheleft )
     _GONG_DEBUG_ASSERT( layout );
     QSpacerItem * spacer = new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
     if( totheleft )
-        layout->addItem( spacer );
+        layout->insertSpacerItem( -1, spacer );
     else
-        layout->insertSpacerItem( layout->count()-2, spacer );
+        layout->insertSpacerItem(0, spacer );
 }
 
 

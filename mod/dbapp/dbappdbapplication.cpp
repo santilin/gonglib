@@ -1188,6 +1188,8 @@ bool dbApplication::readUserLocalSettings( const Xtring &filename)
 
 void dbApplication::setDDDFromConfig(dbDefinition *dbdef)
 {
+    if( !dbdef )
+        dbdef = getDatabase();
     for( unsigned int nt = 0; nt < dbdef->getTables().size(); nt++ ) {
         dbTableDefinition *tbldef = dbdef->getTableDefinition(nt);
         Variant v = getAppSetting( "DBDEF.TABLE." + tbldef->getName() + ".DESC_SINGULAR" );
@@ -1237,7 +1239,9 @@ void dbApplication::setDDDFromConfig(dbDefinition *dbdef)
 
 void dbApplication::setStylesFromConfig(dbDefinition* pdb)
 {
-    SettingsDict styles;
+    if( !pdb )
+        pdb = getDatabase();
+	SettingsDict styles;
     getSettingsValues("DBDEF.STYLE", styles);
     for( SettingsDict::const_iterator stit = styles.begin();
             stit != styles.end(); ++stit ) {

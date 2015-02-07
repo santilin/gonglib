@@ -17,6 +17,7 @@
 // FIELD FechaPago date - pago
 // FIELD DocumentoPago string - pago
 // FIELD Moneda_ID Reference(empresa::Moneda,Codigo,Nombre) - leftMoneda
+// FIELD CuentaPago_ID Reference(CuentaTesoreria,Codigo,Nombre) - cuentapago MODULE_INCLUDED(Tesoreria)
 // FIELD CuentaPago_ID Reference(contab::Cuenta,Cuenta,Descripcion) - contab MODULE_INCLUDED(Contab)
 // FIELD CuentaOrigen string - contab MODULE_INCLUDED(Contab)
 // FIELD Notas text - notas
@@ -52,10 +53,8 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
     searchTerceroCodigo = 0;
     pTercerosLayout = new QHBoxLayout();
     pControlsLayout->addLayout(pTercerosLayout);
-	alignLayout( pTercerosLayout, false );
     pFacturasLayout = new QHBoxLayout();
     pControlsLayout->addLayout(pFacturasLayout);
-	alignLayout( pFacturasLayout, false );
 /*<<<<<FRMEDITCOBRO_INIT_CONTROLS*/
 	QHBoxLayout *remesaLayout = new QHBoxLayout(0, 0, 6, "remesaLayout");
 	QHBoxLayout *numeroLayout = new QHBoxLayout(0, 0, 6, "numeroLayout");
@@ -64,6 +63,7 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	QHBoxLayout *importesLayout = new QHBoxLayout(0, 0, 6, "importesLayout");
 	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
 	QHBoxLayout *leftMonedaLayout = new QHBoxLayout(0, 0, 6, "leftMonedaLayout");
+	QHBoxLayout *cuentapagoLayout = new QHBoxLayout(0, 0, 6, "cuentapagoLayout");
 	QHBoxLayout *contabLayout = new QHBoxLayout(0, 0, 6, "contabLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 
@@ -92,6 +92,16 @@ FrmEditCobro::FrmEditCobro(FrmEditRec *parentfrm, dbRecord *master, dbRecordData
 	editMonedaCodigo = searchMonedaCodigo->getEditCode();
 	editMonedaNombre = searchMonedaCodigo->getEditDesc();
 
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	searchCuentaPagoCodigo = addSearchField( pControlsFrame, "CUENTAPAGO_ID", "CUENTATESORERIA", "CODIGO", "NOMBRE", cuentapagoLayout );
+	pushCuentaPagoCodigo = searchCuentaPagoCodigo->getButton();
+	connect( pushCuentaPagoCodigo, SIGNAL( clicked() ), this, SLOT( pushCuentaPagoCodigo_clicked() ) );
+	editCuentaPagoCodigo = searchCuentaPagoCodigo->getEditCode();
+	editCuentaPagoNombre = searchCuentaPagoCodigo->getEditDesc();
+}
+#endif
+
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	searchCuentaPagoCuenta = addSearchField( pControlsFrame, "CUENTAPAGO_ID", "CUENTA", "CUENTA", "DESCRIPCION", contabLayout );
@@ -115,21 +125,25 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( pagoLayout );
 	pControlsLayout->addLayout( leftMonedaLayout );
 	alignLayout( leftMonedaLayout, true );
+	pControlsLayout->addLayout( cuentapagoLayout );
 	pControlsLayout->addLayout( contabLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITCOBRO_INIT_CONTROLS*/
-    editContador->setMustBeReadOnly( true );
-    editFechaPago->setMustBeReadOnly(true);
-#ifdef HAVE_CONTABMODULE
-    searchCuentaPagoCuenta->setMustBeReadOnly(true);
-#endif
-    editDocumentoPago->setMustBeReadOnly(true);
     pushPagar = new QPushButton( toGUI( _("Co&brar o anular") ), this, "pushPagar" );
     pushPagar->setDefault( true );
     connect ( pushPagar, SIGNAL ( clicked() ), this, SLOT ( pushPagar_clicked() ) );
     pButtonsLayout->addWidget( pushPagar );
     mUsarRemesas = ModuleInstance->getModuleSetting("USAR_REMESAS").toBool();
     checkAutomatico->setMustBeReadOnly( true );
+	editFechaPago->setMustBeReadOnly(true);
+	editDocumentoPago->setMustBeReadOnly(true);
+#ifdef HAVE_TESORERIAMODULE
+	searchCuentaPagoCodigo->setMustBeReadOnly(true);
+#endif
+#ifdef HAVE_CONTABMODULE		
+	searchCuentaPagoCuenta->setMustBeReadOnly(true);
+	editCuentaOrigen->setMustBeReadOnly(true);
+#endif	
 }
 
 void FrmEditCobro::setUsarRemesas(bool usar, bool fijar)
@@ -159,6 +173,7 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
 			}
 			searchFacturaNumero = addSearchField( pControlsFrame, "FACTURA_ID", tablafacturas,
 												mFldFactCodigo, mFldFactDesc, pFacturasLayout );
+			alignLayout( pFacturasLayout, true );
 			pushFacturaNumero = searchFacturaNumero->getButton();
 			connect( pushFacturaNumero, SIGNAL( clicked() ), this, SLOT( pushFacturaNumero_clicked() ), Qt::UniqueConnection );
 			editFacturaNumero = searchFacturaNumero->getEditCode();
@@ -191,6 +206,7 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
 			}
 			searchTerceroCodigo = addSearchField( pControlsFrame, "TERCERO_ID", tablaterceros,
 												mFldTercCodigo, mFldTercDesc, pTercerosLayout );
+			alignLayout( pTercerosLayout, true );
 			pushTerceroCodigo = searchTerceroCodigo->getButton();
 			connect( pushTerceroCodigo, SIGNAL( clicked() ), this, SLOT( pushTerceroCodigo_clicked() ), Qt::UniqueConnection );
 			editTerceroCodigo = searchTerceroCodigo->getEditCode();
@@ -209,6 +225,154 @@ void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactco
 
     }
 }
+
+void FrmEditCobro::scatterFields()
+{
+	if (isFirstScatter()) {
+		if( getRecFactura() == 0 ) {
+			throw std::runtime_error( _("El documento origen de este pago no está definido. Intenta volver a generarlo."));
+		}
+		if( getRecTercero() == 0 ) {
+			throw std::runtime_error( _("La entidad origen de este pago no está definida. Intenta volver a generarlo."));
+		}
+		if( isDuplicating() ) {
+			getRecCobro()->setValue( "NUMERO", 0 );
+			getRecCobro()->setValue( "CONTADOR", 0 );
+			getRecCobro()->setValue( "NUMEROAGRUPADO", 0 );
+			getRecCobro()->setValue( "ESTADORECIBO", pagos::PagosModule::ReciboPendiente );
+			getRecCobro()->setValue( "RESTO", Money(0.0) );
+			getRecCobro()->setValue( "FECHAPAGO", Date() );
+			getRecCobro()->setValue( "DOCUMENTOPAGO", Xtring::null );
+#ifdef HAVE_CONTABMODULE
+			getRecCobro()->setValue( "CUENTAPAGO_ID", 0 );
+			getRecCobro()->setValue( "ASIENTO_CARGO_ID", 0 );
+			getRecCobro()->setValue( "ASIENTO_PAGO_ID", 0 );
+#endif
+		}
+		completa( pRecord->getValue( "TABLAFACTURAS" ).toString(), Xtring::null, Xtring::null,
+					pRecord->getValue( "TABLATERCEROS" ).toString(), Xtring::null, Xtring::null,
+					Xtring::null, Xtring::null, false );
+		scatterFactura();
+		scatterTercero();
+	}
+/*<<<<<FRMEDITCOBRO_SCATTER*/
+	if( isEditing() && (pFocusWidget == 0) )
+		pFocusWidget = editRemesaCobroNumero;
+	checkAutomatico->setChecked(getRecCobro()->getValue("AUTOMATICO").toBool());
+	editNumero->setText(getRecCobro()->getValue("NUMERO").toInt());
+	editNumeroAgrupado->setText(getRecCobro()->getValue("NUMEROAGRUPADO").toString());
+	editContador->setText(getRecCobro()->getValue("CONTADOR").toInt());
+	editDescripcion->setText(getRecCobro()->getValue("DESCRIPCION").toString());
+	editFechaEmision->setText(getRecCobro()->getValue("FECHAEMISION").toDate());
+	editVencimiento->setText(getRecCobro()->getValue("VENCIMIENTO").toDate());
+	editFechaValor->setText(getRecCobro()->getValue("FECHAVALOR").toDate());
+	comboEstadoRecibo->setCurrentItemByValue(getRecCobro()->getValue("ESTADORECIBO").toInt());
+	editImporte->setText(getRecCobro()->getValue("IMPORTE").toMoney());
+	editResto->setText(getRecCobro()->getValue("RESTO").toMoney());
+	editFechaPago->setText(getRecCobro()->getValue("FECHAPAGO").toDate());
+	editDocumentoPago->setText(getRecCobro()->getValue("DOCUMENTOPAGO").toString());
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
+	editCuentaOrigen->setText(getRecCobro()->getValue("CUENTAORIGEN").toString());
+}
+#endif
+	editNotas->setText(getRecCobro()->getValue("NOTAS").toString());
+	scatterRemesaCobro();
+	scatterMoneda();
+#ifdef HAVE_TESORERIAMODULE
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	scatterCuentaPago();
+}
+#endif
+#endif
+#ifdef HAVE_CONTABMODULE
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
+	scatterCuentaPago();
+}
+#endif
+#endif
+/*>>>>>FRMEDITCOBRO_SCATTER*/
+    if( isInserting() ) {
+        if( ModuleInstance->getRecRemesaCobroPadre( this ) ) {
+            getRecRemesaCobro()->copyRecord( ModuleInstance->getRecRemesaCobroPadre( this ) );
+            scatterRemesaCobro();
+        }
+        comboEstadoRecibo->setCurrentItemByValue( pagos::PagosModule::ReciboPendiente );
+    }
+    if( getRecCobro()->getValue("AUTOMATICO").toBool() ) {
+        searchFacturaNumero->setMustBeReadOnly(true);
+        editFechaEmision->setMustBeReadOnly(true);
+        checkAutomatico->setMustBeReadOnly(true);
+        searchTerceroCodigo->setMustBeReadOnly(true);
+        editNumero->setMustBeReadOnly(true);
+        editNumeroAgrupado->setMustBeReadOnly(true);
+        comboEstadoRecibo->setMustBeReadOnly(true);
+        editImporte->setMustBeReadOnly(true);
+        editResto->setMustBeReadOnly(true);
+        searchMonedaCodigo->setMustBeReadOnly(true);
+    } else {
+        if( editNumero->toInt() == 0 )
+            editNumero->setText( getRecCobro()->selectNextInt( "NUMERO",
+                                 "REMESACOBRO_ID=" + getRecCobro()->getConnection()->toSQL( getRecRemesaCobro()->getRecordID() ) ) );
+        if( editNumeroAgrupado->toInt() == 0 )
+            editNumeroAgrupado->setText( editNumero->toInt() );
+    }
+    if( getRecCobro()->getValue( "ESTADORECIBO").toInt() == PagosModule::ReciboPagado ) {
+        editVencimiento->setMustBeReadOnly( true );
+        editFechaValor->setMustBeReadOnly(true);
+    }
+    if( editContador->toInt() == 0 )
+        editContador->setText( empresa::ModuleInstance->getMaxContador() );
+	if( isInserting() ) 
+		editResto->setMustBeReadOnly(true);
+    if( ModuleInstance->getRecRemesaCobroPadre( this ) && !editRemesaCobroNumero->isReadOnly() )
+        pFocusWidget = editRemesaCobroNumero;
+    else if( editFacturaNumero->isEnabled() )
+        pFocusWidget = editFacturaNumero;
+    else
+        pFocusWidget = editNumero;
+}
+
+void FrmEditCobro::gatherFields()
+{
+/*<<<<<FRMEDITCOBRO_GATHER*/
+	getRecCobro()->setValue( "REMESACOBRO_ID", getRecRemesaCobro()->getRecordID() );
+	getRecCobro()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
+	getRecCobro()->setValue( "NUMERO", editNumero->toInt());
+	getRecCobro()->setValue( "NUMEROAGRUPADO", editNumeroAgrupado->toString());
+	getRecCobro()->setValue( "CONTADOR", editContador->toInt());
+	getRecCobro()->setValue( "DESCRIPCION", editDescripcion->toString());
+	getRecCobro()->setValue( "FECHAEMISION", editFechaEmision->toDate());
+	getRecCobro()->setValue( "VENCIMIENTO", editVencimiento->toDate());
+	getRecCobro()->setValue( "FECHAVALOR", editFechaValor->toDate());
+	getRecCobro()->setValue( "ESTADORECIBO", comboEstadoRecibo->getCurrentItemValue());
+	getRecCobro()->setValue( "IMPORTE", editImporte->toMoney());
+	getRecCobro()->setValue( "RESTO", editResto->toMoney());
+	getRecCobro()->setValue( "FECHAPAGO", editFechaPago->toDate());
+	getRecCobro()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
+	getRecCobro()->setValue( "MONEDA_ID", getRecMoneda()->getRecordID() );
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	getRecCobro()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
+}
+#endif
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
+	getRecCobro()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
+}
+#endif
+#ifdef HAVE_CONTABMODULE
+if( ModuleInstance->getContabModule() ) {
+	getRecCobro()->setValue( "CUENTAORIGEN", editCuentaOrigen->toString());
+}
+#endif
+	getRecCobro()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITCOBRO_GATHER*/
+    getRecCobro()->setValue( "RAZONSOCIAL", getRecTercero()->getValue( mFldTercDesc ) );
+}
+
 
 void FrmEditCobro::scatterFactura()
 {
@@ -278,14 +442,18 @@ void FrmEditCobro::pushFacturaNumero_clicked()
 #ifdef HAVE_CONTABMODULE
 void FrmEditCobro::scatterCuentaPago()
 {
-#define getRecCuenta getRecCuentaPago
     if( getRecord()->getTableDefinition()->findFieldDefinition("CUENTAPAGO_ID") ) {
-        /*<<<<<FRMEDITCOBRO_SCATTER_CUENTAPAGO*/
+/*<<<<<FRMEDITCOBRO_SCATTER_CUENTAPAGO*/
 	editCuentaPagoCuenta->setText( getRecCuentaPago()->getValue("CUENTA") );
 	editCuentaPagoDescripcion->setText( getRecCuentaPago()->getValue("DESCRIPCION") );
 /*>>>>>FRMEDITCOBRO_SCATTER_CUENTAPAGO*/
     }
-#undef getRecCuenta
+}
+#elif defined (HAVE_TESORERIAMODULE)
+void FrmEditCobro::scatterCuentaPago()
+{
+	editCuentaPagoCodigo->setText( getRecCuentaPago()->getValue("CODIGO") );
+	editCuentaPagoNombre->setText( getRecCuentaPago()->getValue("NOMBRE") );
 }
 #endif
 
@@ -426,6 +594,12 @@ void FrmEditCobro::specialControlKeyPressed(QWidget *sender, char key)
 		pushRemesaCobroNumero_clicked();
 	if( sender == editMonedaCodigo )
 		pushMonedaCodigo_clicked();
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	if( sender == editCuentaPagoCodigo )
+		pushCuentaPagoCodigo_clicked();
+}
+#endif
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	if( sender == editCuentaPagoCuenta )
@@ -436,143 +610,6 @@ if( ModuleInstance->getContabModule() ) {
 /*>>>>>FRMEDITCOBRO_SPECIALACTION*/
 }
 
-void FrmEditCobro::scatterFields()
-{
-	if (isFirstScatter()) {
-		if( getRecFactura() == 0 ) {
-			throw std::runtime_error( _("El documento origen de este pago no está definido. Intenta volver a generarlo."));
-		}
-		if( getRecTercero() == 0 ) {
-			throw std::runtime_error( _("La entidad origen de este pago no está definida. Intenta volver a generarlo."));
-		}
-		if( isDuplicating() ) {
-			getRecCobro()->setValue( "NUMERO", 0 );
-			getRecCobro()->setValue( "CONTADOR", 0 );
-			getRecCobro()->setValue( "NUMEROAGRUPADO", 0 );
-			getRecCobro()->setValue( "ESTADORECIBO", pagos::PagosModule::ReciboPendiente );
-			getRecCobro()->setValue( "RESTO", Money(0.0) );
-			getRecCobro()->setValue( "FECHAPAGO", Date() );
-			getRecCobro()->setValue( "DOCUMENTOPAGO", Xtring::null );
-#ifdef HAVE_CONTABMODULE
-			getRecCobro()->setValue( "CUENTAPAGO_ID", 0 );
-			getRecCobro()->setValue( "ASIENTO_CARGO_ID", 0 );
-			getRecCobro()->setValue( "ASIENTO_PAGO_ID", 0 );
-#endif
-		}
-		completa( pRecord->getValue( "TABLAFACTURAS" ).toString(), Xtring::null, Xtring::null,
-					pRecord->getValue( "TABLATERCEROS" ).toString(), Xtring::null, Xtring::null,
-					Xtring::null, Xtring::null, false );
-		scatterFactura();
-		scatterTercero();
-	}
-/*<<<<<FRMEDITCOBRO_SCATTER*/
-	if( isEditing() && (pFocusWidget == 0) )
-		pFocusWidget = editRemesaCobroNumero;
-	checkAutomatico->setChecked(getRecCobro()->getValue("AUTOMATICO").toBool());
-	editNumero->setText(getRecCobro()->getValue("NUMERO").toInt());
-	editNumeroAgrupado->setText(getRecCobro()->getValue("NUMEROAGRUPADO").toString());
-	editContador->setText(getRecCobro()->getValue("CONTADOR").toInt());
-	editDescripcion->setText(getRecCobro()->getValue("DESCRIPCION").toString());
-	editFechaEmision->setText(getRecCobro()->getValue("FECHAEMISION").toDate());
-	editVencimiento->setText(getRecCobro()->getValue("VENCIMIENTO").toDate());
-	editFechaValor->setText(getRecCobro()->getValue("FECHAVALOR").toDate());
-	comboEstadoRecibo->setCurrentItemByValue(getRecCobro()->getValue("ESTADORECIBO").toInt());
-	editImporte->setText(getRecCobro()->getValue("IMPORTE").toMoney());
-	editResto->setText(getRecCobro()->getValue("RESTO").toMoney());
-	editFechaPago->setText(getRecCobro()->getValue("FECHAPAGO").toDate());
-	editDocumentoPago->setText(getRecCobro()->getValue("DOCUMENTOPAGO").toString());
-#ifdef HAVE_CONTABMODULE
-if( ModuleInstance->getContabModule() ) {
-	editCuentaOrigen->setText(getRecCobro()->getValue("CUENTAORIGEN").toString());
-}
-#endif
-	editNotas->setText(getRecCobro()->getValue("NOTAS").toString());
-	scatterRemesaCobro();
-	scatterMoneda();
-#ifdef HAVE_CONTABMODULE
-#ifdef HAVE_CONTABMODULE
-if( ModuleInstance->getContabModule() ) {
-	scatterCuentaPago();
-}
-#endif
-#endif
-/*>>>>>FRMEDITCOBRO_SCATTER*/
-    if( isInserting() ) {
-        if( ModuleInstance->getRecRemesaCobroPadre( this ) ) {
-            getRecRemesaCobro()->copyRecord( ModuleInstance->getRecRemesaCobroPadre( this ) );
-            scatterRemesaCobro();
-        }
-        comboEstadoRecibo->setCurrentItemByValue( pagos::PagosModule::ReciboPendiente );
-    }
-    if( getRecCobro()->getValue("AUTOMATICO").toBool() ) {
-        searchFacturaNumero->setMustBeReadOnly(true);
-        editFechaEmision->setMustBeReadOnly(true);
-        checkAutomatico->setMustBeReadOnly(true);
-        searchTerceroCodigo->setMustBeReadOnly(true);
-        editNumero->setMustBeReadOnly(true);
-        editNumeroAgrupado->setMustBeReadOnly(true);
-        comboEstadoRecibo->setMustBeReadOnly(true);
-        editImporte->setMustBeReadOnly(true);
-        editResto->setMustBeReadOnly(true);
-        searchMonedaCodigo->setMustBeReadOnly(true);
-#ifdef HAVE_CONTABMODULE		
-        editCuentaOrigen->setMustBeReadOnly(true);
-#endif		
-    } else {
-        if( editNumero->toInt() == 0 )
-            editNumero->setText( getRecCobro()->selectNextInt( "NUMERO",
-                                 "REMESACOBRO_ID=" + getRecCobro()->getConnection()->toSQL( getRecRemesaCobro()->getRecordID() ) ) );
-        if( editNumeroAgrupado->toInt() == 0 )
-            editNumeroAgrupado->setText( editNumero->toInt() );
-    }
-    if( getRecCobro()->getValue( "ESTADORECIBO").toInt() == PagosModule::ReciboPagado ) {
-        editVencimiento->setMustBeReadOnly( true );
-        editFechaValor->setMustBeReadOnly(true);
-    }
-    if( editContador->toInt() == 0 )
-        editContador->setText( empresa::ModuleInstance->getMaxContador() );
-	if( isInserting() ) 
-		editResto->setMustBeReadOnly(true);
-    if( ModuleInstance->getRecRemesaCobroPadre( this ) && !editRemesaCobroNumero->isReadOnly() )
-        pFocusWidget = editRemesaCobroNumero;
-    else if( editFacturaNumero->isEnabled() )
-        pFocusWidget = editFacturaNumero;
-    else
-        pFocusWidget = editNumero;
-}
-
-void FrmEditCobro::gatherFields()
-{
-/*<<<<<FRMEDITCOBRO_GATHER*/
-	getRecCobro()->setValue( "REMESACOBRO_ID", getRecRemesaCobro()->getRecordID() );
-	getRecCobro()->setValue( "AUTOMATICO", checkAutomatico->isChecked());
-	getRecCobro()->setValue( "NUMERO", editNumero->toInt());
-	getRecCobro()->setValue( "NUMEROAGRUPADO", editNumeroAgrupado->toString());
-	getRecCobro()->setValue( "CONTADOR", editContador->toInt());
-	getRecCobro()->setValue( "DESCRIPCION", editDescripcion->toString());
-	getRecCobro()->setValue( "FECHAEMISION", editFechaEmision->toDate());
-	getRecCobro()->setValue( "VENCIMIENTO", editVencimiento->toDate());
-	getRecCobro()->setValue( "FECHAVALOR", editFechaValor->toDate());
-	getRecCobro()->setValue( "ESTADORECIBO", comboEstadoRecibo->getCurrentItemValue());
-	getRecCobro()->setValue( "IMPORTE", editImporte->toMoney());
-	getRecCobro()->setValue( "RESTO", editResto->toMoney());
-	getRecCobro()->setValue( "FECHAPAGO", editFechaPago->toDate());
-	getRecCobro()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
-	getRecCobro()->setValue( "MONEDA_ID", getRecMoneda()->getRecordID() );
-#ifdef HAVE_CONTABMODULE
-if( ModuleInstance->getContabModule() ) {
-	getRecCobro()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
-}
-#endif
-#ifdef HAVE_CONTABMODULE
-if( ModuleInstance->getContabModule() ) {
-	getRecCobro()->setValue( "CUENTAORIGEN", editCuentaOrigen->toString());
-}
-#endif
-	getRecCobro()->setValue( "NOTAS", editNotas->toString());
-/*>>>>>FRMEDITCOBRO_GATHER*/
-    getRecCobro()->setValue( "RAZONSOCIAL", getRecTercero()->getValue( mFldTercDesc ) );
-}
 
 void FrmEditCobro::scatterMoneda()
 {
@@ -713,6 +750,70 @@ void FrmEditCobro::pushRemesaCobroNumero_clicked()
 /*>>>>>FRMEDITCOBRO_PUSH_REMESACOBRO_NUMERO_CLICKED*/
 }
 
+void FrmEditCobro::pushCuentaPagoCodigo_clicked()
+{
+#ifdef HAVE_TESORERIAMODULE
+/*<<<<<FRMEDITCOBRO_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
+	char action = mControlKeyPressed;
+	if( !isEditing() || searchCuentaPagoCodigo->mustBeReadOnly() )
+		action = 'E';
+	switch( action ) {
+		case 'F':
+		case '\0':
+			editCuentaPagoCodigo->setJustEdited( false );
+			editCuentaPagoCodigo->setCancelling();
+			if( DBAPP->choose(this, getRecCuentaPago(), 0, dbApplication::editNone, this ) ) {
+				setEdited(true);
+				scatterCuentaPago();
+				editCuentaPagoCodigo->setJustEdited( true );
+				setWiseFocus(editCuentaPagoCodigo);
+			}
+			break;
+		case 'M':
+			{
+				if( getRecCuentaPago()->getRecordID() ) {
+					editCuentaPagoCodigo->setJustEdited( false );
+					if( DBAPP->editRecord(this,
+							getRecCuentaPago(), 0, DataTable::updating,
+							dbApplication::simpleEdition, this ) ) {
+						editCuentaPagoCodigo->setJustEdited( true );
+						scatterCuentaPago();
+					}
+				setWiseFocus(editCuentaPagoCodigo);
+				}
+			}
+			break;
+		case 'E':
+			{
+				if( getRecCuentaPago()->getRecordID() != 0 ) {
+					editCuentaPagoCodigo->setJustEdited( false );
+					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
+				}
+			}
+			break;
+		case 'A':
+			{
+				RecCuentaPago *tmprec = static_cast<RecCuentaPago *>(DBAPP->createRecord( "CuentaPago" ));
+				editCuentaPagoCodigo->setJustEdited( false );
+				tmprec->clear( true ); // set default values
+				DBAPP->setCodeNotFound( editCuentaPagoCodigo->toString() );
+				if( DBAPP->editRecord(this, tmprec, 0, DataTable::inserting,
+					dbApplication::simpleEdition, this ) ) {
+					editCuentaPagoCodigo->setJustEdited( true );
+					getRecCuentaPago()->copyRecord( tmprec );
+					scatterCuentaPago();
+				}
+				setWiseFocus(editCuentaPagoCodigo);
+				DBAPP->setCodeNotFound( Xtring() );
+			}
+			break;
+	}
+/*>>>>>FRMEDITCOBRO_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
+#endif
+}
+
+
 void FrmEditCobro::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
     /*<<<<<FRMEDITCOBRO_VALIDATE*/
@@ -730,6 +831,14 @@ void FrmEditCobro::validateFields(QWidget *sender, bool *isvalid, ValidResult *i
 	if( validSeekCode( sender, isvalid, *validresult, editMonedaCodigo, editMonedaNombre,
 		getRecMoneda(), "CODIGO", "NOMBRE", Xtring::null) )
 		scatterMoneda();
+#ifdef HAVE_TESORERIAMODULE
+if( ModuleInstance->getTesoreriaModule() ) {
+	if( focusWidget() != pushCuentaPagoCodigo) // To avoid triggering the validating if the button is pressed
+	if( validSeekCode( sender, isvalid, *validresult, editCuentaPagoCodigo, editCuentaPagoNombre,
+		getRecCuentaPago(), "CODIGO", "NOMBRE", Xtring::null) )
+		scatterCuentaPago();
+}
+#endif
 /*>>>>>FRMEDITCOBRO_VALIDATE*/
     if( focusWidget() != pushFacturaNumero) // To avoid triggering the validating if the button is pressed
         if( validSeekCode( sender, isvalid, *validresult, editFacturaNumero, editFacturaDesc,

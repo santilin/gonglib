@@ -259,6 +259,7 @@ void EmpresaModule::slotMenuEmpresaCambiarEjercicio()
 
 void EmpresaModule::slotMenuEmpresaEjercicioAnterior()
 {
+	DBAPP->hideOSD();
     DBAPP->waitCursor( true );
     DBAPP->setUserLocalSetting( "Ejercicio", getEjercicio() - 1);
     DBAPP->login( PACKAGE_VERSION, false, true );
@@ -269,6 +270,7 @@ void EmpresaModule::slotMenuEmpresaEjercicioAnterior()
 
 void EmpresaModule::slotMenuEmpresaEjercicioSiguiente()
 {
+	DBAPP->hideOSD();
     DBAPP->waitCursor( true );
     DBAPP->setUserLocalSetting( "Ejercicio", getEjercicio() + 1);
     DBAPP->login( PACKAGE_VERSION, false, true );

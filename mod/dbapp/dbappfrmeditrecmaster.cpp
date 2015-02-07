@@ -97,6 +97,7 @@ bool FrmEditRecMaster::read(dbRecordID id)
         id = getTableRecordID();
     if( FrmEditRec::read(id) ) {
         mMustRead = false;
+		mIsFirstScatter = true;
     } else
         mMustRead = true;
     return !mMustRead;
@@ -723,10 +724,8 @@ void FrmEditRecMaster::ensureEditView()
 // 		adjustSize();
     }
     if ( mMustRead ) {
-        if ( pDataTable->currentRow() != -1 && pDataTable->currentRow() < ( int ) pDataModel->getRowCount() ) {
+        if ( pDataTable->currentRow() != -1 && pDataTable->currentRow() < ( int ) pDataModel->getRowCount() ) 
             read( getTableRecordID() );
-			mIsFirstScatter = true;
-        }
         mMustRead = false;
     }
     scatter();
@@ -1147,6 +1146,7 @@ void FrmEditRecMaster::beginEdit( DataTable *dt, DataTable::EditMode newmode,
         } else if( !(mEditFlags & dbApplication::onlyBrowse) ) {
             if ( newmode == DataTable::inserting && r.canAdd ) {
                 mMustRead = false;
+				mIsFirstScatter = true;
                 clearRecord();
                 if( canBeginEdit( DataTable::inserting ) ) {
                     setEdited( true );  // to get all fields validated (default values)
@@ -1168,7 +1168,7 @@ void FrmEditRecMaster::beginEdit( DataTable *dt, DataTable::EditMode newmode,
                     clearRecord( true /*duplicating*/ );
                 }
             } else if ( newmode == DataTable::updating && r.canEdit ) {
-                if( mMustRead )
+                if( mMustRead ) 
                     read( getTableRecordID() );
                 if( canBeginEdit( DataTable::updating ) ) {
                     mWasBrowsing = mBrowsing;

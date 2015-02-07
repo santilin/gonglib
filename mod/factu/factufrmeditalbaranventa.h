@@ -20,11 +20,13 @@
 #include "facturecalbaranventa.h"
 #include "factufrmeditalbaranventadet.h"
 /*>>>>>FRMEDITALBARANVENTA_INCLUDES*/
-#include <empresarecempresa.h>
 
 #ifdef HAVE_CONTABMODULE
 #include <contabreccuenta.h>
 typedef gong::contab::RecCuenta RecCuentaPago;
+#elif defined (HAVE_TESORERIAMODULE)
+#include <tesoreriareccuentatesoreria.h>
+typedef gong::tesoreria::RecCuentaTesoreria RecCuentaPago;
 #endif
 
 namespace gong {
@@ -63,8 +65,46 @@ protected:
 
 protected slots:
     void slotCobrar();
+	
+/*<<<<<FRMEDITALBARANVENTA_SCATTERS_AND_SLOTS*/
+protected:
+	void scatterTipoDoc();
+	void scatterCliente();
+	void scatterFormaPago();
+	void scatterAgente();
+	void scatterProyecto();
+	void scatterCuentaPago();
 
-    /*<<<<<FRMEDITALBARANVENTA_CONTROLS*/
+private slots:
+	void pushTipoDocCodigo_clicked();
+	void pushClienteCodigo_clicked();
+	void pushFormaPagoCodigo_clicked();
+	void pushAgenteCodigo_clicked();
+	void pushProyectoCodigo_clicked();
+	void pushCuentaPagoCuenta_clicked();
+	void pushCuentaPagoCodigo_clicked();
+
+public:
+	RecTipoDoc* getRecTipoDoc() const
+		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecTipoDoc(); }
+	RecCliente* getRecCliente() const
+		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecCliente(); }
+	pagos::RecFormaPago* getRecFormaPago() const
+		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecFormaPago(); }
+	RecAgente* getRecAgente() const
+		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecAgente(); }
+	empresa::RecProyecto* getRecProyecto() const
+		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecProyecto(); }
+#ifdef HAVE_TESORERIAMODULE
+	RecCuentaPago* getRecCuentaPago() const
+		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecCuentaPago(); }
+#endif
+#ifdef HAVE_CONTABMODULE
+	RecCuentaPago* getRecCuentaPago() const
+		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecCuentaPago(); }
+#endif
+/*>>>>>FRMEDITALBARANVENTA_SCATTERS_AND_SLOTS*/
+/*<<<<<FRMEDITALBARANVENTA_CONTROLS*/
 protected:
 	gong::EditBox *editFecha;
 	gong::SearchBox *searchTipoDocCodigo;
@@ -106,6 +146,12 @@ protected:
 	gong::EditBox *editDesgloseIVA;
 	gong::EditBox *editDocumentoPago;
 	gong::EditBox *editFechaPago;
+#ifdef HAVE_TESORERIAMODULE
+	gong::SearchBox *searchCuentaPagoCodigo;
+	QPushButton *pushCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoNombre;
+#endif
 #ifdef HAVE_CONTABMODULE
 	gong::SearchBox *searchCuentaPagoCuenta;
 	QPushButton *pushCuentaPagoCuenta;
@@ -119,39 +165,6 @@ protected:
     bool mHasCobros;
     Money mOldTotal;
 
-    /*<<<<<FRMEDITALBARANVENTA_SCATTERS_AND_SLOTS*/
-protected:
-	void scatterTipoDoc();
-	void scatterCliente();
-	void scatterFormaPago();
-	void scatterAgente();
-	void scatterProyecto();
-	void scatterCuentaPago();
-
-private slots:
-	void pushTipoDocCodigo_clicked();
-	void pushClienteCodigo_clicked();
-	void pushFormaPagoCodigo_clicked();
-	void pushAgenteCodigo_clicked();
-	void pushProyectoCodigo_clicked();
-	void pushCuentaPagoCuenta_clicked();
-
-public:
-	RecTipoDoc* getRecTipoDoc() const
-		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecTipoDoc(); }
-	RecCliente* getRecCliente() const
-		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecCliente(); }
-	pagos::RecFormaPago* getRecFormaPago() const
-		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecFormaPago(); }
-	RecAgente* getRecAgente() const
-		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecAgente(); }
-	empresa::RecProyecto* getRecProyecto() const
-		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecProyecto(); }
-#ifdef HAVE_CONTABMODULE
-	RecCuentaPago* getRecCuentaPago() const
-		{ return static_cast<RecAlbaranVenta*>(getRecord())->getRecCuentaPago(); }
-#endif
-/*>>>>>FRMEDITALBARANVENTA_SCATTERS_AND_SLOTS*/
 };
 
 /*<<<<<FRMEDITALBARANVENTA_POSTAMBLE*/

@@ -14,8 +14,6 @@
 #ifndef _FACTU_FACTUFRMEDITFACTURACOMPRA_H
 #define _FACTU_FACTUFRMEDITFACTURACOMPRA_H
 /*>>>>>FRMEDITFACTURACOMPRA_PREAMBLE*/
-
-#include "config.h"
 /*<<<<<FRMEDITFACTURACOMPRA_INCLUDES*/
 #include <gongfrmbase.h>
 #include <dbappfrmeditrecmaster.h>
@@ -74,6 +72,7 @@ protected:
 	void scatterTipoDoc();
 	void scatterProveedora();
 	void scatterFormaPago();
+	void scatterAgente();
 	void scatterProyecto();
 	void scatterCuentaPago();
 
@@ -81,10 +80,10 @@ private slots:
 	void pushTipoDocCodigo_clicked();
 	void pushProveedoraCodigo_clicked();
 	void pushFormaPagoCodigo_clicked();
+	void pushAgenteCodigo_clicked();
 	void pushProyectoCodigo_clicked();
-#if defined (HAVE_CONTABMODULE) || defined(HAVE_TESORERIAMODULE)
 	void pushCuentaPagoCodigo_clicked();
-#endif
+	void pushCuentaPagoCuenta_clicked();
 
 public:
 	RecTipoDoc* getRecTipoDoc() const
@@ -93,6 +92,8 @@ public:
 		{ return static_cast<RecFacturaCompra*>(getRecord())->getRecProveedora(); }
 	pagos::RecFormaPago* getRecFormaPago() const
 		{ return static_cast<RecFacturaCompra*>(getRecord())->getRecFormaPago(); }
+	RecAgente* getRecAgente() const
+		{ return static_cast<RecFacturaCompra*>(getRecord())->getRecAgente(); }
 	empresa::RecProyecto* getRecProyecto() const
 		{ return static_cast<RecFacturaCompra*>(getRecord())->getRecProyecto(); }
 #ifdef HAVE_TESORERIAMODULE
@@ -113,16 +114,20 @@ protected:
 	gong::LineEdit *editTipoDocCodigo;
 	gong::LineEdit *editTipoDocNombre;
 	gong::EditBox *editNumero;
-	gong::ComboBoxInt *comboIVADetallado;
+	gong::EditBox *editContador;
 	gong::SearchBox *searchProveedoraCodigo;
 	QPushButton *pushProveedoraCodigo;
 	gong::LineEdit *editProveedoraCodigo;
 	gong::LineEdit *editProveedoraRazonSocial;
+	gong::ComboBoxInt *comboIVADetallado;
 	gong::SearchBox *searchFormaPagoCodigo;
 	QPushButton *pushFormaPagoCodigo;
 	gong::LineEdit *editFormaPagoCodigo;
 	gong::LineEdit *editFormaPagoNombre;
-	gong::EditBox *editContador;
+	gong::SearchBox *searchAgenteCodigo;
+	QPushButton *pushAgenteCodigo;
+	gong::LineEdit *editAgenteCodigo;
+	gong::LineEdit *editAgenteRazonSocial;
 	FrmEditFacturaCompraDet *pFrmFacturaCompraDet;
 	gong::EditBox *editSumaImportes;
 	gong::EditBox *editDtoP100;

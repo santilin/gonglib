@@ -84,15 +84,14 @@ private slots:
 
 /*<<<<<FRMEDITAPUNTETESORERIA_CONTROLS*/
 protected:
-	gong::EditBox *editNumero;
-	gong::CheckBox *checkAutomatico;
 	gong::SearchBox *searchTipoApunteTesoreriaCodigo;
 	QPushButton *pushTipoApunteTesoreriaCodigo;
 	gong::LineEdit *editTipoApunteTesoreriaCodigo;
 	gong::LineEdit *editTipoApunteTesoreriaNombre;
+	gong::EditBox *editNumero;
+	gong::CheckBox *checkAutomatico;
 	gong::EditBox *editFecha;
-	gong::EditBox *editDebe;
-	gong::EditBox *editHaber;
+	gong::EditBox *editImporte;
 	gong::SearchBox *searchCuentaTesoreriaCodigo;
 	QPushButton *pushCuentaTesoreriaCodigo;
 	gong::LineEdit *editCuentaTesoreriaCodigo;

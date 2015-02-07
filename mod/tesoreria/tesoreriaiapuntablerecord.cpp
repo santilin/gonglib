@@ -7,12 +7,13 @@
 namespace gong {
 namespace tesoreria {
 
-IApuntableRecord::IApuntableRecord(dbRecord* record, const Xtring& apunte_id_field, const Xtring& cuenta_tesoreria_id_field, 
+IApuntableRecord::IApuntableRecord(dbRecord* record, CargoAbono cargoabono, 
+	const Xtring& apunte_id_field, const Xtring& cuenta_tesoreria_id_field, 
 	const Xtring& fecha_field, const Xtring& importe_field, const Xtring& referencia_field, 
 	const Xtring& tablaterceros, bool terceros_is_field, const Xtring& tercero_id_field, const Xtring& tercero_field, 
 	const Xtring& tablaconceptos, bool conceptos_is_field, const Xtring& concepto_id_field, const Xtring& concepto_field, 
 	const Xtring& notas_field, const Xtring& proyecto_id_field)
-	: pRecord(record), mApunteIDField(apunte_id_field), mCuentaTesoreriaIDField(cuenta_tesoreria_id_field), mFechaField(fecha_field), 
+	: pRecord(record), mCargoAbono(cargoabono), mApunteIDField(apunte_id_field), mCuentaTesoreriaIDField(cuenta_tesoreria_id_field), mFechaField(fecha_field), 
 		mImporteField(importe_field), mReferenciaField(referencia_field), mTablaTerceros(tablaterceros), 
 		mTercerosIsField( terceros_is_field), mTerceroIDField(tercero_id_field), mTerceroField(tercero_field), 
 		mTablaConceptos(tablaconceptos), mConceptosIsField(conceptos_is_field),	mConceptoIDField(concepto_id_field), 
@@ -41,6 +42,9 @@ RecApunteTesoreria* IApuntableRecord::borraApunte(bool regenerando)
     return apunte;
 }
 
+/*
+ * La cuenta se actualiza en RecApunteTesoreria
+ */
 dbRecordID IApuntableRecord::regenApunte(bool supervisar)
 {
     dbRecordID ret = 0;
@@ -72,7 +76,6 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 		FrmBase::msgError( "Tesorería", _("No se ha generado el apunte en tesorería porque no se ha encontrado una cuenta de pago"));
 		return 0;
 	}
-	_GONG_DEBUG_PRINT(0, pRecord->toString(TOSTRING_DEBUG_COMPLETE));
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord("APUNTETESORERIA"));
 	apunte->setValue( "CUENTATESORERIA_ID", cuenta_pago_id );
 	if( old_apunte->isRead() ) { // Recycle the id
@@ -85,7 +88,11 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	apunte->setValue( "EMPRESA_ID", pRecord->getValue("EMPRESA_ID").toInt() );
 	apunte->setValue( "EJERCICIO", empresa::ModuleInstance->getEjercicio() );
 	apunte->setValue( "FECHA", pRecord->getValue(mFechaField).toDate() );
-	apunte->setValue( "DEBE", pRecord->getValue(mImporteField).toMoney() );
+	if (pRecord->hasSemanticProperty("COMPRA") || mCargoAbono == CARGO) {
+		apunte->setValue( "IMPORTE", -pRecord->getValue(mImporteField).toMoney() );
+	} else {
+		apunte->setValue( "IMPORTE", pRecord->getValue(mImporteField).toMoney() );
+	}
 	apunte->setValue( "REFERENCIA", pRecord->getValue(mReferenciaField) );
 	_GONG_DEBUG_PRINT(0, apunte->toString(TOSTRING_DEBUG_COMPLETE));
 	if( mTablaTerceros == Xtring::null && mTerceroField == Xtring::null ) {

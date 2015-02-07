@@ -15,7 +15,8 @@ namespace tesoreria {
 class IApuntableRecord
 {
 public:
-    IApuntableRecord( dbRecord *record, const Xtring &apunte_tesoreria_id_field, const Xtring &cuenta_tesoreria_id_field,
+	enum CargoAbono {CARGO, ABONO}; // Cargo = Pagamos, Abono = Cobramos
+    IApuntableRecord( dbRecord *record, CargoAbono cargoabono, const Xtring &apunte_tesoreria_id_field, const Xtring &cuenta_tesoreria_id_field,
 		const Xtring &fecha_field, const Xtring &importe_field, const Xtring &referencia_field, 
 		const Xtring &tablaterceros, bool terceros_is_field, const Xtring &tercero_id_field, const Xtring &tercero_field,
 		const Xtring &tablaconceptos, bool conceptos_is_field, const Xtring &concepto_id_field, const Xtring &concepto_field,
@@ -33,6 +34,7 @@ protected:
 		mTablaConceptos, mConceptoIDField, mConceptoField,
 		mNotasField, mProyectoIDField;
 	bool mTercerosIsField, mConceptosIsField;
+	CargoAbono mCargoAbono;
 	
 };
 

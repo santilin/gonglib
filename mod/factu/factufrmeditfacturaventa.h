@@ -21,13 +21,16 @@
 #include "factufrmeditfacturaventadet.h"
 /*>>>>>FRMEDITFACTURAVENTA_INCLUDES*/
 
-namespace gong {
-namespace factu {
-
 #ifdef HAVE_CONTABMODULE
 #include <contabreccuenta.h>
 typedef gong::contab::RecCuenta RecCuentaPago;
+#elif defined (HAVE_TESORERIAMODULE)
+#include <tesoreriareccuentatesoreria.h>
+typedef gong::tesoreria::RecCuentaTesoreria RecCuentaPago;
 #endif
+
+namespace gong {
+namespace factu {
 
 /*<<<<<FRMEDITFACTURAVENTA_CLASS*/
 class FrmEditFacturaVenta: public FrmEditRecMaster
@@ -64,7 +67,7 @@ protected:
 protected slots:
     void slotCobrar();
 
-    /*<<<<<FRMEDITFACTURAVENTA_SCATTERS_AND_SLOTS*/
+/*<<<<<FRMEDITFACTURAVENTA_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterTipoDoc();
 	void scatterCliente();
@@ -79,6 +82,7 @@ private slots:
 	void pushFormaPagoCodigo_clicked();
 	void pushAgenteCodigo_clicked();
 	void pushProyectoCodigo_clicked();
+	void pushCuentaPagoCodigo_clicked();
 	void pushCuentaPagoCuenta_clicked();
 
 public:
@@ -92,6 +96,10 @@ public:
 		{ return static_cast<RecFacturaVenta*>(getRecord())->getRecAgente(); }
 	empresa::RecProyecto* getRecProyecto() const
 		{ return static_cast<RecFacturaVenta*>(getRecord())->getRecProyecto(); }
+#ifdef HAVE_TESORERIAMODULE
+	RecCuentaPago* getRecCuentaPago() const
+		{ return static_cast<RecFacturaVenta*>(getRecord())->getRecCuentaPago(); }
+#endif
 #ifdef HAVE_CONTABMODULE
 	RecCuentaPago* getRecCuentaPago() const
 		{ return static_cast<RecFacturaVenta*>(getRecord())->getRecCuentaPago(); }
@@ -139,6 +147,12 @@ protected:
 	gong::EditBox *editDesgloseIVA;
 	gong::EditBox *editDocumentoPago;
 	gong::EditBox *editFechaPago;
+#ifdef HAVE_TESORERIAMODULE
+	gong::SearchBox *searchCuentaPagoCodigo;
+	QPushButton *pushCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoCodigo;
+	gong::LineEdit *editCuentaPagoNombre;
+#endif
 #ifdef HAVE_CONTABMODULE
 	gong::SearchBox *searchCuentaPagoCuenta;
 	QPushButton *pushCuentaPagoCuenta;

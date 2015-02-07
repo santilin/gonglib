@@ -650,7 +650,7 @@ void FactuModule::setWorkingDate( Date dt )
 
 Date FactuModule::getWorkingDate()
 {
-    if( ModuleInstance->getModuleSetting("USEWORKINGDATE") == true )
+    if( ModuleInstance->getModuleSetting("USEWORKINGDATE") == true && !mWorkingDate.isNull() )
         return mWorkingDate;
     else
         return Date::currentDate();
@@ -1135,9 +1135,11 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
 {
     XtringList excludedtables;
     sexcludedtables.tokenize( excludedtables, "," );
+	masterform->gatherFields();
     dbRecord *dest = masterform->getRecord();
     dbRecordList *dest_detalles = detailform->getDetalles();
 
+	DBAPP->waitCursor(true);
     XtringList tables, captions;
     for( XtringList::const_iterator it = mInsertables.begin();
             it != mInsertables.end(); ++it ) {
@@ -1155,11 +1157,13 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
     source->removeFilter( source->getTableName()
                           + ".EJERCICIO=" + source->getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
     dbRecordID source_id = DBAPP->choose( detailform, source );
-    if( !source_id )
-        return false;
-    DBAPP->waitCursor( true );
+    if( !source_id ) {
+		DBAPP->resetCursor();
+		return false;
+	}
     LineEdit *le_tipodoc = 0;
-    if( dest->isEmpty( "EMPRESA_ID,EJERCICIO,FECHA" ) ) {
+	_GONG_DEBUG_WARNING( dest->toString(TOSTRING_DEBUG_COMPLETE));
+    if( dest->isEmpty( "EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR,TIPODOC_ID,IVADETALLADO" ) ) {
         // No quiero copiar en profundidad para que no copie los detalles
         dest->copyRecord( source, false, Xtring::null, "ID,EMPRESA_ID,EJERCICIO,FECHA,NUMERO,CONTADOR" );
         le_tipodoc = static_cast<LineEdit *>(masterform->findControl( "TIPODOC.CODIGO" ) );
@@ -1170,14 +1174,14 @@ bool FactuModule::insertDetails(FrmEditRecMaster *masterform, FrmEditRecDetail *
     det_properties << "DETALLE";
     dbRecordRelationDict sourcerelations = source->findRelationsBySemanticProperties( det_properties );
     if( sourcerelations.size() == 0 ) {
-        _GONG_DEBUG_WARNING( "Tabla " + source->getTableName() + " no tiene propiedades " + det_properties.join(",") );
+        _GONG_DEBUG_WARNING( "La tabla de origen: " + source->getTableName() + " no tiene propiedades " + det_properties.join(",") );
         DBAPP->resetCursor();
         return false;
     }
     dbRecordRelationDict destrelations = dest->findRelationsBySemanticProperties( det_properties );
     if( destrelations.size() == 0 ) {
         DBAPP->resetCursor();
-        _GONG_DEBUG_WARNING( "Tabla " + tablename + " no tiene propiedades " + det_properties.join(",") );
+        _GONG_DEBUG_WARNING( "La tabla de destino: " + dest->getTableName() + " no tiene propiedades " + det_properties.join(",") );
         return false;
     }
     dbRecordList *detalles = sourcerelations.seq_at(0)->getRelatedRecordList();

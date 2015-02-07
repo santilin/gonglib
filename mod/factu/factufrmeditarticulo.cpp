@@ -52,7 +52,6 @@ FrmEditArticulo::FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *master, dbReco
 {
 	if ( !name )
 	    setName( "FrmEditArticulo" );
-	bool bigscreen = false;
 /*>>>>>FRMEDITARTICULO_CONSTRUCTOR*/
 
     /*<<<<<FRMEDITARTICULO_INIT_CONTROLS*/
@@ -80,29 +79,29 @@ FrmEditArticulo::FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	QVBoxLayout *tabImagenLayout = new QVBoxLayout(tabImagen, 11, 6, "tabImagenLayout");
 	QHBoxLayout *imagenLayout = new QHBoxLayout(0, 0, 6, "imagenLayout");
 
-	searchFamiliaCodigo = addSearchField( pControlsFrame, "FAMILIA_ID", "FAMILIA", "CODIGO", "NOMBRE", familiaLayout, bigscreen ? SearchBox::FlagHorizontal : SearchBox::Flags(0) );
+	searchFamiliaCodigo = addSearchField( pControlsFrame, "FAMILIA_ID", "FAMILIA", "CODIGO", "NOMBRE", familiaLayout );
 	pushFamiliaCodigo = searchFamiliaCodigo->getButton();
 	connect( pushFamiliaCodigo, SIGNAL( clicked() ), this, SLOT( pushFamiliaCodigo_clicked() ) );
 	editFamiliaCodigo = searchFamiliaCodigo->getEditCode();
 	editFamiliaNombre = searchFamiliaCodigo->getEditDesc();
 
-	searchProveedoraCodigo = addSearchField( pControlsFrame, "PROVEEDORA_ID", "PROVEEDORA", "CODIGO", "RAZONSOCIAL", proveedoraLayout, bigscreen ? SearchBox::FlagHorizontal : SearchBox::Flags(0) );
+	searchProveedoraCodigo = addSearchField( pControlsFrame, "PROVEEDORA_ID", "PROVEEDORA", "CODIGO", "RAZONSOCIAL", proveedoraLayout );
 	pushProveedoraCodigo = searchProveedoraCodigo->getButton();
 	connect( pushProveedoraCodigo, SIGNAL( clicked() ), this, SLOT( pushProveedoraCodigo_clicked() ) );
 	editProveedoraCodigo = searchProveedoraCodigo->getEditCode();
 	editProveedoraRazonSocial = searchProveedoraCodigo->getEditDesc();
-	editNombre = addEditField( pControlsFrame, "ARTICULO", "NOMBRE", nombreLayout, bigscreen );
-	editCodigo = addEditField( pControlsFrame, "ARTICULO", "CODIGO", codigoLayout, bigscreen );
+	editNombre = addEditField( pControlsFrame, "ARTICULO", "NOMBRE", nombreLayout );
+	editCodigo = addEditField( pControlsFrame, "ARTICULO", "CODIGO", codigoLayout );
 
-	searchTipoIVACodigo = addSearchField( pControlsFrame, "TIPOIVA_ID", "TIPOIVA", "CODIGO", "NOMBRE", tipoivaLayout, bigscreen ? SearchBox::FlagHorizontal : SearchBox::Flags(0) );
+	searchTipoIVACodigo = addSearchField( pControlsFrame, "TIPOIVA_ID", "TIPOIVA", "CODIGO", "NOMBRE", tipoivaLayout );
 	pushTipoIVACodigo = searchTipoIVACodigo->getButton();
 	connect( pushTipoIVACodigo, SIGNAL( clicked() ), this, SLOT( pushTipoIVACodigo_clicked() ) );
 	editTipoIVACodigo = searchTipoIVACodigo->getEditCode();
 	editTipoIVANombre = searchTipoIVACodigo->getEditDesc();
-	editFabricante = addEditField( pControlsFrame, "ARTICULO", "FABRICANTE", fabricanteLayout, bigscreen );
-	editCodigoInterno = addEditField( pControlsFrame, "ARTICULO", "CODIGOINTERNO", codigointernoLayout, bigscreen );
-	editCosteSinIVA = addEditField( pControlsFrame, "ARTICULO", "COSTESINIVA", costesLayout, bigscreen );
-	editCoste = addEditField( pControlsFrame, "ARTICULO", "COSTE", costesLayout, bigscreen );
+	editFabricante = addEditField( pControlsFrame, "ARTICULO", "FABRICANTE", fabricanteLayout );
+	editCodigoInterno = addEditField( pControlsFrame, "ARTICULO", "CODIGOINTERNO", codigointernoLayout );
+	editCosteSinIVA = addEditField( pControlsFrame, "ARTICULO", "COSTESINIVA", costesLayout );
+	editCoste = addEditField( pControlsFrame, "ARTICULO", "COSTE", costesLayout );
 	editMargenComercial = addEditField( pControlsFrame, "ARTICULO", "MARGENCOMERCIAL", costesLayout );
 	editPVPSinIVA = addEditField( pControlsFrame, "ARTICULO", "PVPSINIVA", pvpsLayout );
 	editPVP = addEditField( pControlsFrame, "ARTICULO", "PVP", pvpsLayout );

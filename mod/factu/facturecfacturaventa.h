@@ -19,20 +19,25 @@
 /*<<<<<FACTURAVENTA_INCLUDES*/
 #include <dbappdbapplication.h>
 
-#include "pagosrecformapago.h"
-#include "empresarecproyecto.h"
 #include "facturectipodoc.h"
 #include "factureccliente.h"
 #include "facturecagente.h"
+#include "pagosrecformapago.h"
+#include "empresarecproyecto.h"
 #include "facturecfacturaventadet.h"
 /*>>>>>FACTURAVENTA_INCLUDES*/
+#include "factuipagables.h"
+#include "factuiivadesglosable.h"
+#include "factuitotalizablerecord.h"
+
 #ifdef HAVE_CONTABMODULE
 #include <contabrecasiento.h>
 #include "factuiasentables.h"
 #endif
-#include "factuipagables.h"
-#include "factuiivadesglosable.h"
-#include "factuitotalizablerecord.h"
+
+#ifdef HAVE_TESORERIAMODULE
+#include "tesoreriaiapuntablerecord.h"
+#endif
 
 namespace gong {
 namespace factu {
@@ -43,6 +48,9 @@ class RecFacturaVenta: public dbRecord,
 	public factu::IIVADesglosable,
 #ifdef HAVE_CONTABMODULE
 	public factu::IAsentableFactura,
+#endif
+#ifdef HAVE_TESORERIAMODULE
+	public tesoreria::IApuntableRecord,
 #endif
 	public factu::ITotalizableRecord
 
@@ -55,6 +63,12 @@ public:
         , IIVADesglosable( this, getListFacturaVentaDet() )
 #ifdef HAVE_CONTABMODULE
         , IAsentableFactura( this, IAsentableFactura::facturaventa )
+#endif
+#ifdef HAVE_TESORERIAMODULE
+        , IApuntableRecord( this, IApuntableRecord::ABONO, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "ENTREGA", "NUMERO", 
+							"CLIENTE", false, "CLIENTE_ID", Xtring::null, 
+							Xtring::null, false, Xtring::null, "~CODE_AND_DESC_WITH_TABLENAME",
+							"NOTAS", "PROYECTO_ID" )
 #endif
         , ITotalizableRecord( this, getListFacturaVentaDet(), venta )
     {
@@ -69,11 +83,11 @@ public:
 /*>>>>>FACTURAVENTA_MEMBERS*/
 public:
     /*<<<<<FACTURAVENTA_RELATIONS*/
-	pagos::RecFormaPago *getRecFormaPago() const;
-	empresa::RecProyecto *getRecProyecto() const;
 	RecTipoDoc *getRecTipoDoc() const;
 	RecCliente *getRecCliente() const;
 	RecAgente *getRecAgente() const;
+	pagos::RecFormaPago *getRecFormaPago() const;
+	empresa::RecProyecto *getRecProyecto() const;
 	RecFacturaVentaDet *getRecFacturaVentaDet( int nfacturaventadet = -1 ) const;
 	dbRecordList *getListFacturaVentaDet() const;
 /*>>>>>FACTURAVENTA_RELATIONS*/

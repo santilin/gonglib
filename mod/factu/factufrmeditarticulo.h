@@ -92,13 +92,13 @@ protected:
 	gong::LineEdit *editProveedoraCodigo;
 	gong::LineEdit *editProveedoraRazonSocial;
 	gong::EditBox *editNombre;
+	gong::EditBox *editCodigoInterno;
 	gong::EditBox *editCodigo;
 	gong::SearchBox *searchTipoIVACodigo;
 	QPushButton *pushTipoIVACodigo;
 	gong::LineEdit *editTipoIVACodigo;
 	gong::LineEdit *editTipoIVANombre;
 	gong::EditBox *editFabricante;
-	gong::EditBox *editCodigoInterno;
 	gong::EditBox *editCosteSinIVA;
 	gong::EditBox *editCoste;
 	gong::EditBox *editMargenComercial;

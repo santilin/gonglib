@@ -28,11 +28,15 @@
 /*>>>>>ALBARANVENTA_INCLUDES*/
 #include "factuipagables.h"
 #include "factuiivadesglosable.h"
-#include "factuiasentables.h"
 #include "factuitotalizablerecord.h"
 
 #ifdef HAVE_CONTABMODULE
 #include <contabrecasiento.h>
+#include "factuiasentables.h"
+#endif
+
+#ifdef HAVE_TESORERIAMODULE
+#include "tesoreriaiapuntablerecord.h"
 #endif
 
 namespace gong {
@@ -44,6 +48,9 @@ class RecAlbaranVenta: public dbRecord,
 	public factu::IIVADesglosable,
 #ifdef HAVE_CONTABMODULE
 	public factu::IAsentableFactura,
+#endif
+#ifdef HAVE_TESORERIAMODULE
+	public tesoreria::IApuntableRecord,
 #endif
 	public factu::ITotalizableRecord
 
@@ -57,7 +64,13 @@ public:
 #ifdef HAVE_CONTABMODULE
         , IAsentableFactura( this, IAsentableFactura::albaranventa )
 #endif
-        , ITotalizableRecord( this, getListAlbaranVentaDet(), venta )
+#ifdef HAVE_TESORERIAMODULE
+        , IApuntableRecord( this, IApuntableRecord::ABONO, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "ENTREGA", "NUMERO", 
+							"CLIENTE", false, "CLIENTE_ID", Xtring::null, 
+							Xtring::null, false, Xtring::null, "~CODE_AND_DESC_WITH_TABLENAME",
+							"NOTAS", "PROYECTO_ID" )
+#endif        
+		, ITotalizableRecord( this, getListAlbaranVentaDet(), venta )
     {
         addSemanticProperty( "VENTA" );
         addSemanticProperty( "ALBARAN" );

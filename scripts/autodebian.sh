@@ -143,9 +143,15 @@ completar_kde() {
 			return
 		fi
 	fi
-	completar_escritorio
 	instala_multimedia_libre_kde
+    instala_programa "para KDE" kdenetwork-filesharing k4dirstat
+
 }	
+
+compartir_ficheros() {
+# http://www.spencerstirling.com/computergeek/NFS_samba.html
+    instala_programa "NFS" nfs-kernel-server nfs-common portmap
+}
 
 completar_lxde() {
 	if test "x$LXDE" = "x0"; then
@@ -210,7 +216,7 @@ instala_multimedia_prop() {
 
 instala_multimedia_libre_kde() {
 	instala_programa "Multimedia para KDE" amarok
-	instala_programa "k3b" k3b dvd+rw-tools libk3b3-extracodecs
+	instala_programa "k3b" k3b dvd+rw-tools
 }
 
 instala_multimedia_libre_gnome() {
@@ -222,9 +228,7 @@ borra_programas_huerfanos() {
 	echo "Estos paquetes parece que están huérfanos"
 	deborphan --guess-all > /tmp/deborphan.list
 	cat /tmp/deborphan.list
-	echo "Quieres eliminarlos?"
-	read ANSwER
-	if test "x$ANSWER" = "xy"; then
+    if pregunta_si "Quieres eliminarlos?"; then
 	    packages=$(cat /tmp/deborphan.list)
 	    apt-get apt-get remove --purge $packages
 	fi
@@ -648,20 +652,22 @@ menu_limpieza() {
 	while [ 1 ]; do
 		my_dialog --cancel-label "Volver" \
 			--title "=== LIMPIEZA ===" \
-			--menu "Elige la sección" 20 75 6 \
-			1 "Liberar espacio en disco" \
-			2 "Borrar programas de desarrollo y de documentación" \
-			3 "Eliminar bluetooh" \
-			4 "Eliminar modem" \
-			5 "Eliminar programas de KDE" 
-			6 "Borrar programas huérfanos" 
+			--menu "Elige la sección" 20 75 7 \
+			1 "Liberar espacio en mi carpeta personal" \
+            2 "Liberar espacio del sistema" \
+			3 "Borrar programas de desarrollo y de documentación" \
+			4 "Eliminar bluetooh" \
+			5 "Eliminar modem" \
+			6 "Eliminar programas de KDE" \
+			7 "Borrar programas huérfanos" 
 		case `cat /tmp/menuoption.txt` in
-		1 ) 	clear; liberar_espacio_disco; pulsa_tecla ;;
-		2 )	    clear; borra_dev_doc; pulsa_tecla ;;
-		3 )		clear; borra_bluetooh ;;
-		4 ) 	clear; borra_modem ;;
-		5 )		clear; borra_programas_kde ;;
-		2 ) 	clear; borra_programas_huerfanos ;;
+        1 )     clear; liberar_espacio_home; pulsa_tecla ;;
+		2 ) 	clear; liberar_espacio_sistema; pulsa_tecla ;;
+		3 )	    clear; borra_dev_doc; pulsa_tecla ;;
+		4 )		clear; borra_bluetooh ;;
+		5 ) 	clear; borra_modem ;;
+		6 )		clear; borra_programas_kde; pulsa_tecla ;;
+		7 ) 	clear; borra_programas_huerfanos ;;
 		* )		break ;;
 		esac
 	done
@@ -712,7 +718,7 @@ arreglar_permisos_usuaria() {
 	fi
 }
 
-liberar_espacio_disco() {
+liberar_espacio_sistema() {
 	clear
 	df -h >> /tmp/espacioendisco.txt
 
@@ -727,7 +733,23 @@ liberar_espacio_disco() {
 	echo
 	echo "Espacio despues de liberar"
 	df -h
-	read
+}
+
+liberar_espacio_home() {
+	clear
+	df -h >> /tmp/espacioendisco.txt
+
+    cd $HOME
+    rm -rf .cache/* .mozilla/firefox/Crash Reports .thumbnails/*
+
+
+	clear
+	echo "Espacio antes de liberar"
+	cat /tmp/espacioendisco.txt
+	rm /tmp/espacioendisco.txt
+	echo
+	echo "Espacio despues de liberar"
+	df -h
 }
 
 

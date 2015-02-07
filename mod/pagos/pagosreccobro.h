@@ -39,9 +39,9 @@ namespace gong {
 namespace pagos {
 
 /*<<<<<COBRO_CONSTRUCTOR*/
-class RecCobro: public dbRecord,
+class RecCobro: public dbRecord
 #ifdef HAVE_TESORERIAMODULE
-	public tesoreria::IApuntableRecord
+	,public tesoreria::IApuntableRecord
 #endif
 
 {
@@ -51,22 +51,24 @@ public:
 /*>>>>>COBRO_CONSTRUCTOR*/
         , pRecFactura(0), pRecTercero(0)
 #ifdef HAVE_TESORERIAMODULE
-        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "DOCUMENTOPAGO", 
+        , IApuntableRecord( this, IApuntableRecord::ABONO, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "DOCUMENTOPAGO", 
 							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
 							Xtring::null, false, Xtring::null, "~CODE_AND_DESC_WITH_TABLENAME",
 							"NOTAS", Xtring::null )
 #endif
-    {};
+    {
+	};
     RecCobro(dbTableDefinition *tbldef, dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
         : dbRecord(conn, tbldef, recid, user)
         , pRecFactura(0), pRecTercero(0)
 #ifdef HAVE_TESORERIAMODULE
-        , IApuntableRecord( this, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "DOCUMENTOPAGO", 
+        , IApuntableRecord( this, IApuntableRecord::ABONO, "APUNTE_ID", "CUENTAPAGO_ID", "FECHAPAGO", "IMPORTE", "DOCUMENTOPAGO", 
 							"TABLATERCEROS", true, "TERCERO_ID", Xtring::null, 
 							Xtring::null, false, Xtring::null, "~CODE_AND_DESC_WITH_TABLENAME",
 							"NOTAS", Xtring::null )
 #endif
-    { };
+    {
+	};
 /*<<<<<COBRO_RELATIONS*/
 	empresa::RecMoneda *getRecMoneda() const;
 	RecRemesaCobro *getRecRemesaCobro() const;

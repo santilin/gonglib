@@ -13,6 +13,7 @@
 // INTERFACE public factu::IPagableAlbaran
 // INTERFACE public factu::IIVADesglosable
 // INTERFACE public factu::IAsentableFactura #ifdef|HAVE_CONTABMODULE
+// INTERFACE public tesoreria::IApuntableRecord #ifdef|HAVE_TESORERIAMODULE
 // INTERFACE public factu::ITotalizableRecord
 // TYPE dbRecord factu::AlbaranVenta
 /*>>>>>MODULE_INFO*/
@@ -22,11 +23,11 @@
 #include "facturecalbaranventa.h"
 /*>>>>>ALBARANVENTA_INCLUDES*/
 #include <empresamodule.h>
-#include <factumodule.h>
 #ifdef HAVE_CONTABMODULE
 #include <contabmodule.h>
 #include <contabrecasiento.h>
 #endif
+#include "factumodule.h"
 
 namespace gong {
 namespace factu {
@@ -94,19 +95,32 @@ Xtring RecAlbaranVenta::toString(int format, const Xtring &includedFields) const
 bool RecAlbaranVenta::save(bool saverelated) throw( dbError )
 {
 /*>>>>>ALBARANVENTA_SAVE*/
+	if( saverelated ) {
 #ifdef HAVE_PAGOSMODULE
-    actRestoFactura();
+		if( DBAPP->findModule("pagos") )
+			actRestoFactura();
 #endif
+	}
     bool ret = dbRecord::save(saverelated);
     if( ret && saverelated ) {
 #ifdef HAVE_PAGOSMODULE
-        delCobros( false );
-        genCobros();
+		if( DBAPP->findModule("pagos") ) {
+			delCobros( false );
+			genCobros();
+		}
 #endif
 #ifdef HAVE_CONTABMODULE
-        if( contab::ModuleInstance->isContabActive() ) {
-            bool supervisar = contab::ModuleInstance->getModuleSetting( "SUPERVISAR_ASIENTOS" ).toBool();
-            regenAsiento( supervisar );
+		if( DBAPP->findModule("contab") )  {
+			if( contab::ModuleInstance->isContabActive() ) {
+				bool supervisar = contab::ModuleInstance->getModuleSetting( "SUPERVISAR_ASIENTOS" ).toBool();
+				regenAsiento( supervisar );
+			}
+        }
+#endif
+#ifdef HAVE_TESORERIAMODULE
+        if( DBAPP->findModule("tesoreria") ) {
+            bool supervisar = tesoreria::ModuleInstance->getModuleSetting( "SUPERVISAR_APUNTES" ).toBool();
+            regenApunte( supervisar );
         }
 #endif
     }
@@ -118,15 +132,21 @@ bool RecAlbaranVenta::remove() throw( dbError )
 {
 /*>>>>>ALBARANVENTA_REMOVE*/
     bool ret = dbRecord::remove();
-    if( ret ) {
 #ifdef HAVE_PAGOSMODULE
-        delCobros( true );
+		if( DBAPP->findModule("pagos") ) 
+			delCobros( true );
 #endif
 #ifdef HAVE_CONTABMODULE
-        if( contab::ModuleInstance->isContabActive() )
-            delete borraAsiento();
+		if( DBAPP->findModule("contab") ) {
+			if( contab::ModuleInstance->isContabActive() )
+				delete borraAsiento();
+		}
 #endif
-    }
+#ifdef HAVE_TESORERIAMODULE
+        if( DBAPP->findModule("tesoreria") ) {
+            delete borraApunte( false /*no regenerando*/);
+        }
+#endif
     return ret;
 }
 

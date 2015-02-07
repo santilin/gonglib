@@ -43,8 +43,6 @@ protected:
 /*>>>>>FRMEDITCUENTATESORERIA_VIRTUALS_FROM_FRMEDITREC*/
     /*<<<<<FRMEDITCUENTATESORERIA_CONTROLS*/
 protected:
-	gong::EditBox *editDebe;
-	gong::EditBox *editHaber;
 	gong::EditBox *editSaldo;
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNombre;

@@ -39,20 +39,17 @@ void addRecordDefinition(CppModule *cpcpp, CppModule *cph, const Xtring &fullrec
 			_GONG_DEBUG_ASSERT( interface_props.size() > 1 );
 			bool is_last = (it + 1 ) == _interfaces.end();
 			if( interface_props.size() == 2 ) {
+				interfaces += ",";
 				interfaces += "\t" + *it + "";
-				if( !is_last )
-					interfaces += ",";
 				interfaces += "\n";
 			} else {
 				interfaces += interface_props[2].replace("|"," ") + "\n\t"
-					+ interface_props[0] + " " + interface_props[1];
-				if( !is_last )
-					interfaces += ",";
+					+ "," + interface_props[0] + " " + interface_props[1];
 				interfaces += "\n"
 					"#endif\n";
 			}
 		}
-		interfaces = ",\n" + interfaces;
+		interfaces = "\n" + interfaces;
 	}
 	constructor =
 "class Rec" + recname + ": public " + baserecordtype + interfaces + "\n"

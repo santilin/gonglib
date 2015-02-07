@@ -1,3 +1,13 @@
+2015-02-05 santilin
+    Arreglados fallos al insertar albaranes, facturas, etc. en otros albaranes y facturas.
+    Se puede indicar a las proveedoras si se usan referencias. 
+    Se puede indicar a las proveedoras si queremos generar códigos automáticos, y en la definición de los códigos se puede usar cualquier campo de la familia, del artículo y de la proveedora.
+      Ver: http://www.programacionsocial.net/wiki/index.php?title=Manual_de_GestiONG#Proveedoras
+    Nuevo módulo de tesorería: http://www.programacionsocial.net/wiki/index.php?title=Manual_de_GestiONG#Tesorer.C3.ADa
+    Mejoras en las copias de seguridad y recuperacines.
+    Se puede configurar el valor por defecto de los tipos de documento en las facturas, albaranes, etc. En Sistema => Configuración => Todo => Ficheros
+    Ofertas: se copian por ejercicios
+
 2011-07-23	santilin
     Creada la biblioteca compartida gonglib
     

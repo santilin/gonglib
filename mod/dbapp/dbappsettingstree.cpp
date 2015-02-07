@@ -18,17 +18,19 @@ SettingsTree::SettingsTree(QWidget *parent)
     : QTreeWidget(parent)
 {
     QStringList labels;
-    labels << toGUI(_("Clave")) << toGUI(_("Por omisión")) << toGUI(_("Local")) << toGUI( _("Gobal") );
+    labels << toGUI(_("Clave")) << toGUI(_("Valor por omisión")) << toGUI(_("Local")) << toGUI( _("Gobal")) << toGUI(_("Clave interna"));
     setHeaderLabels(labels);
-    header()->resizeSection(0, fontMetrics().width("W") * 20);
+    header()->resizeSection(0, fontMetrics().width("W") * 25);
     header()->resizeSection(1, fontMetrics().width("W") * 15);
     header()->resizeSection(2, fontMetrics().width("W") * 15);
+    header()->resizeSection(3, fontMetrics().width("W") * 25);
 //	header()->setResizeMode(0, QHeaderView::Stretch);
 //	header()->setResizeMode(2, QHeaderView::Stretch);
     setItemDelegateForColumn(0, new NoEditDelegate(this) );
     setItemDelegateForColumn(1, new NoEditDelegate(this) );
-    if( DBAPP->isReadOnly() )
+    if( DBAPP->isReadOnly() )  // No modificar la base de datos
         setItemDelegateForColumn(2, new NoEditDelegate(this) );
+    setItemDelegateForColumn(3, new NoEditDelegate(this) );
     mRefreshTimer.setInterval(2000);
     autoRefresh = false;
 
@@ -105,12 +107,12 @@ void SettingsTree::updateChildItems(QTreeWidgetItem *parent)
     QTreeWidgetItem *cur_group;
     for( SettingsDict::const_reverse_iterator it = alluserlocalsettings.rbegin();
             it != alluserlocalsettings.rend(); ++ it ) {
-        Xtring key = it->first;
+        Xtring key = it->first, desc(key);
         if( key.startsWith( "DBDEF.VIEW." ) )
             cur_group = item_views;
         else if( key.startsWith( "DBDEF.STYLE." ) )
             cur_group = item_styles;
-        else if( key.startsWith( "DBDEF.TABLE." ) || key.startsWith( "DBDEF.FIELD." ) ) {
+        else if( key.startsWith( "DBDEF.TABLE." ) ) {
             Xtring tablename = key.mid( 12 );
             tablename = tablename.left( tablename.find(".") );
             cur_group = tables_items[tablename];
@@ -119,6 +121,23 @@ void SettingsTree::updateChildItems(QTreeWidgetItem *parent)
                 cur_group = createItem( tbldef ? tbldef->getDescPlural() : tablename, item_tables, -1);
                 tables_items.insert( tablename, cur_group );
             }
+        } else if( key.startsWith( "DBDEF.FIELD." ) ) {
+			XtringList parts;
+			key.tokenize(parts, ".");
+			Xtring fullfldname = parts[2] + "." + parts[3];
+            cur_group = tables_items[parts[2]];
+			dbFieldDefinition *fld = DBAPP->getDatabase()->findFieldDefinition(fullfldname);
+			if (fld) {
+				desc = key.mid(12).replace(fullfldname, fld->getCaption());
+				desc = desc.replace(".CANBENULL", _(".Puede estar vacío"));
+				desc = desc.replace(".CAPTION",_(".Nombre"));
+				desc = desc.replace(".DEFAULTVALUE",_(".Valor por defecto"));
+				desc = desc.replace(".DESCRIPTION",_(".Descripción"));
+				desc = desc.replace(".READONLY",_(".No modificar"));
+				desc = desc.replace(".STYLE",_(".Estilo"));
+				desc = desc.replace(".VISIBLE",_(".Visible"));
+				desc = desc.replace(".WIDTH",_(".Longitud"));
+			}
         }
         else if( key.startsWith( "GUI." ) )
             cur_group = item_gui;
@@ -130,14 +149,15 @@ void SettingsTree::updateChildItems(QTreeWidgetItem *parent)
             cur_group = item_system;
         else
             cur_group = 0;
-        QTreeWidgetItem * newitem = createItem(key, cur_group, dividerIndex );
-        newitem->setText( 1, toGUI(it->second.toString()) );
+        QTreeWidgetItem *newitem = createItem(desc, cur_group, dividerIndex );
+		newitem->setText( 1, toGUI(it->second.toString()) );
         Variant vlocalsetting = DBAPP->getUserLocalSetting( key );
         if( vlocalsetting.isValid() )
             newitem->setText( 2, toGUI(vlocalsetting.toString()) );
         Variant vglobalsetting = DBAPP->getGlobalSetting( key );
         if( vglobalsetting.isValid() )
             newitem->setText( 3, toGUI(vglobalsetting.toString()) );
+        newitem->setText( 4, key.c_str() ); // Oculto?
     }
 }
 
@@ -161,16 +181,23 @@ QTreeWidgetItem *SettingsTree::createItem(const Xtring &text,
 
 void SettingsTree::updateSetting(QTreeWidgetItem *item)
 {
-    Xtring key = fromGUI(item->text(0));
-    if( item->text(3).length() == 0 )
-        DBAPP->getGlobalSettings()->removeSetting( key );
-    else
-        DBAPP->getGlobalSettings()->setValue( key, fromGUI(item->text(3)) );
-    if( item->text(2).length() == 0 )
-        DBAPP->getUserLocalSettings()->removeSetting( key );
-    else
-        DBAPP->getUserLocalSettings()->setValue(key, fromGUI(item->text(2)));
-    if (autoRefresh)
+	bool changed = false;
+    Xtring key = fromGUI(item->text(4));
+	Xtring gvalue = fromGUI(item->text(3)).trim();
+	if (DBAPP->getGlobalSettings()->getValue(key).toString().trim() != gvalue ) {
+        DBAPP->getGlobalSettings()->setValue( key, gvalue );
+		changed = true;
+	}
+	Xtring lvalue = fromGUI(item->text(2)).trim();
+	if (DBAPP->getUserLocalSettings()->getValue(key).toString().trim() != lvalue ) {
+        DBAPP->getUserLocalSettings()->setValue(key, lvalue );
+		changed = true;
+	}
+	if( key.startsWith("DBDEF.") && changed ) {
+		DBAPP->setDDDFromConfig(0); // TODO
+		DBAPP->setStylesFromConfig(0);
+	}
+    if (autoRefresh && changed)
         refresh();
 }
 
@@ -194,8 +221,10 @@ int SettingsTree::childCount(QTreeWidgetItem *parent)
 int SettingsTree::findChild(QTreeWidgetItem *parent, const Xtring &text,
                             int startIndex)
 {
+	QString search = toGUI(text).upper();
     for (int i = startIndex; i < childCount(parent); ++i) {
-        if (childAt(parent, i)->text(0) == toGUI(text))
+		_GONG_DEBUG_PRINT(0, fromGUI(childAt(parent, i)->text(0)));
+        if (childAt(parent, i)->text(0).upper() == search)
             return i;
     }
     return -1;
@@ -212,15 +241,13 @@ QTreeWidgetItem *SettingsTree::findText( const Xtring &text, uint column, QTreeW
 {
     QList<QTreeWidgetItem*> founditems = findItems( toGUI(text),
                                          static_cast<Qt::MatchFlags>(Qt::MatchContains + Qt::MatchRecursive), 0 );
+	bool has_started = (start == 0);
     for( QList<QTreeWidgetItem*>::const_iterator it = founditems.begin();
             it != founditems.end(); ++it ) {
-        if( *it == start ) {
-            ++it;
-            if( it == founditems.end() )
-                return 0;
-            else
-                return *it;
-        }
+        if( !has_started ) 
+			has_started = *it > start;
+		if (has_started )
+            return *it;
     }
     return 0;
 }

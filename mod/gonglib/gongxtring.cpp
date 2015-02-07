@@ -500,7 +500,7 @@ Xtring Xtring::right ( size_type n ) const
 Xtring &Xtring::padL ( size_type width, char space )
 {
     if ( length() >= width )
-        *this = right ( width );
+        *this = left ( width );
     else
     {
         while ( length() < width )
@@ -547,27 +547,22 @@ Xtring Xtring::stringInc ( const Xtring &strorig, int inc )
     Xtring str = strorig;
     if ( str.trim().length() == 0 )
         return str;
-    nPosUltimoNumero = 0;
-    for ( i=0; i < str.length(); i++ )
-    {
-        if ( isdigit ( str.at ( i ) ) )
-        {
+    nPosUltimoNumero = str.length();
+    for ( i=str.length()-1; i>=0; i-- ) {
+        if ( isdigit ( str.at ( i ) ) ) {
             nPosUltimoNumero = i;
+			break;
         }
     }
     if( i== 0)
         nPosUltimoNumero = str.length() - 1;
-    for ( i=nPosUltimoNumero; ( int ) i>=0; i-- )
-    {
+    for ( i=nPosUltimoNumero; ( int ) i>=0; i-- ) {
         char ch = str.at ( i );
         if ( ( ch >= 'A' && ch < 'Z' ) || ( ch >= 'a' && ch < 'z' )
-                || ( ch >= '0' && ch < '9' ) )
-        {
+                || ( ch >= '0' && ch < '9' ) ) {
             str[i] = char ( ( ( int ) ch ) +inc );
             break;
-        }
-        else
-        {
+        } else {
             str[i] = '0';
         }
     }
