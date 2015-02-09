@@ -206,14 +206,10 @@ public:	// Edit forms
                      dbApplication::EditFlags editflags = dbApplication::editNone,
                      QWidget *parentWidget = 0, const char* name = 0, WidgetFlags fl = 0 );
 
-    enum SeekCodeFlags { SeekCodeNone = 0x00,  InsertIfNotFound = 0x01,
-                         FindCodeInDesc = 0x02, SeekCodeMultiple = 0x04, DontShowBrowse = 0x08,
-                         AllowNotFound = 0x10, SeekCodeReadonly = 0x20, AskIfFoundOne = 0x40
-                       };
     dbRecordID seekCode(dbRecord *rec, QWidget *owner,
                         const Xtring &fldcod, const Variant &foundcod,
                         const Xtring &flddesc = Xtring::null, const Variant &founddesc = Xtring::null,
-                        const Xtring &cond = Xtring::null, SeekCodeFlags flags = SeekCodeNone );
+                        const Xtring &cond = Xtring::null, dbRecord::SeekCodeFlags flags = dbRecord::SeekCodeNone );
     Xtring getReportsPath( bool reversed );
     void addReportsPath( bool local, const Xtring &path );
     static Xtring codeNotFound() {

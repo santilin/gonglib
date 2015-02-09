@@ -28,8 +28,8 @@ class SearchBox: public QPushButton
 public:
     enum Flags { FlagHorizontal = 1, FlagMultiple = 2, FlagEditableDesc = 4, FlagShowLabels = 8 };
     SearchBox( const Xtring &caption, const Xtring &tablename,
-               const Xtring &fldcode, const Xtring &flddesc,
-               QWidget *parent, enum Flags flags = FlagHorizontal );
+               const Xtring &fldcode, const Xtring &flddesc, QWidget *parent, 
+			   enum Flags flags = FlagHorizontal, dbRecord::SeekCodeFlags seekcodeflags = dbRecord::SeekCodeNone );
     ~SearchBox();
     QBoxLayout *getLayout() const {
         return pLayout;
@@ -95,6 +95,7 @@ private:
     QLabel *pLabelCode, *pLabelDesc;
     QBoxLayout *pLayout;
     Flags mFlags;
+	dbRecord::SeekCodeFlags mSeekCodeFlags;
     bool mMustBeReadOnly;
     Xtring mTableName, mFldCode, mFldDesc;
     dbRecord *pRecord;

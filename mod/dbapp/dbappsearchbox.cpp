@@ -9,9 +9,9 @@ namespace gong {
 
 SearchBox::SearchBox( const Xtring &caption, const Xtring &tablename,
                       const Xtring &fldcode, const Xtring &flddesc,
-                      QWidget *parent, enum Flags flags )
+                      QWidget *parent, enum Flags flags, dbRecord::SeekCodeFlags seekcodeflags )
 : QPushButton( parent, ("push_" + tablename + "_id_" + fldcode ).c_str() ),
-	mFlags(flags), mMustBeReadOnly(false),
+	mFlags(flags), mSeekCodeFlags(seekcodeflags), mMustBeReadOnly(false),
 	mTableName( tablename ), mFldCode( fldcode ), mFldDesc( flddesc ),
 	pRecordCompleter(0)
 {
@@ -120,15 +120,15 @@ void SearchBox::slotValidate(QWidget *sender , bool *isvalid )
         descripcion = pEditDesc->toString();
         QWidget *fw = focusWidget(); // El siguiente control, para volver a él si todo va bien
         dbRecordID recid = 0;
+		dbRecord::SeekCodeFlags scf = mSeekCodeFlags;
+		if( isMultiple() ) scf = static_cast<dbRecord::SeekCodeFlags>(scf | dbRecord::SeekCodeMultiple);
         if ( pEditCode->getValueType() == Variant::tInt ) {  // Son dos funciones distintas
             int codigo_int = pEditCode->toInt();
             recid = DBAPP->seekCode( pRecord, this, mFldCode, codigo_int, mFldDesc,
-                                     codigo_int == 0 ? descripcion : Xtring::null, Xtring::null,
-                                     isMultiple() ? dbApplication::SeekCodeMultiple : dbApplication::SeekCodeNone );
+                                     codigo_int == 0 ? descripcion : Xtring::null, Xtring::null, scf);
         } else {
             recid = DBAPP->seekCode( pRecord, this, mFldCode, codigo_string, mFldDesc,
-                                     codigo_string.isEmpty() ? descripcion : Xtring::null, Xtring::null,
-                                     isMultiple() ? dbApplication::SeekCodeMultiple : dbApplication::SeekCodeNone );
+                                     codigo_string.isEmpty() ? descripcion : Xtring::null, Xtring::null, scf);
         }
         if( recid ) {
             ret = true;
@@ -201,4 +201,4 @@ void SearchBox::setReadOnly(bool readonly)
 	}
 }
 
-} // namespace
+} // namespace gong

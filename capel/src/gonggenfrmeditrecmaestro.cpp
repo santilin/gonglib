@@ -366,10 +366,10 @@ void addFrmEditRecMasterFields(CppModule *cpcpp, CppModule *cph, const Xtring &f
 				if( multiplereference ) {
 					if( applicationflags.isEmpty() == false )
 						applicationflags += " + ";
-					applicationflags += "dbApplication::SeekCodeMultiple";
+					applicationflags += "dbRecord::SeekCodeMultiple";
 				}
 				if( !applicationflags.isEmpty() )
-					validate += ", dbApplication::SeekCodeFlags( " + applicationflags + " )";
+					validate += ", dbRecord::SeekCodeFlags( " + applicationflags + " )";
 				validate +=") )\n"
 "\t\tscatter" + referredfieldcontrolname + "();\n" + cecpp;
 			}

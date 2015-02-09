@@ -847,10 +847,25 @@ bool dbApplication::chooseMulti( List<dbRecordID> &v,
 }
 
 
+/**
+ * @brief Busca un registro a partir de un código, una descripción o 
+ * un código secundario ( si el flag dbApplication::SeekCodeSecundary está activo)
+ * 
+ * @param rec el registro en el que se busca
+ * @param owner el formulario padre, si existe, para enviarlo al formulario choose o edit_Rec
+ * @param fldcod el nombre del campo de código del formulario
+ * @param code el valor del código
+ * @param flddesc el nombre del campo de descripción que se usa en el formulario
+ * @param desc el valor de la descripción
+ * @param cond condiciones adicionales para la búsqueda
+ * @param flags \sa dbApplication::SeekCodeFlags
+ * @return dbRecordID
+ */
+
 dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
                                     const Xtring &fldcod, const Variant &code,
                                     const Xtring &flddesc, const Variant &desc,
-                                    const Xtring &cond, SeekCodeFlags flags )
+                                    const Xtring &cond, dbRecord::SeekCodeFlags flags )
 {
     int nvalues;
     sCodeNotFound = code.toString();
@@ -858,7 +873,7 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
     sSeekCodeRecordIDs.clear();
     Xtring lastCond = Xtring::null;
     dbRecordID recid = rec->seekCode(nvalues, fldcod, code, flddesc, desc, cond, flags, lastCond);
-    if ( recid == 0 || ( nvalues == 1 && (flags & AskIfFoundOne ) ) ) {
+    if ( recid == 0 || ( nvalues == 1 && (flags & dbRecord::AskIfFoundOne ) ) ) {
         Xtring addcond = rec->getFilter( "", cond );
         Xtring message, message_cond;
         if( nvalues == 0 ) {
@@ -874,9 +889,9 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
                                       rec->getTableDefinition()->getDescPlural().c_str(),
                                       sDescNotFound.isEmpty() ? sCodeNotFound.c_str() : sDescNotFound.c_str() );
         }
-        if( (flags & DontShowBrowse) && !( nvalues == 1 && (flags & AskIfFoundOne ) ) ) {
+        if( (flags & dbRecord::DontShowBrowse) && !( nvalues == 1 && (flags & dbRecord::AskIfFoundOne ) ) ) {
             showOSD( message, Xtring::null );
-        } else if( flags & InsertIfNotFound && nvalues == 0) {
+        } else if( flags & dbRecord::InsertIfNotFound && nvalues == 0) {
             message_cond = Xtring::printf( _("Añadiendo %s"),
                                            DBAPP->getTableDescSingular( rec->getTableName(), "una nueva").c_str() );
             showOSD( message, message_cond );
@@ -892,10 +907,10 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
             dbViewDefinitionDict views;
             getDatabase()->getViewsForTable ( rec->getTableName(), views );
             dbRecordDataModel dm ( rec, views, lastCond );
-            if( flags & SeekCodeMultiple ) {
+            if( flags & dbRecord::SeekCodeMultiple ) {
                 if( chooseMulti(sSeekCodeRecordIDs,
                                 static_cast<FrmEditRecMaster *>(0), rec, &dm,
-                                (flags & dbApplication::SeekCodeReadonly) ? dbApplication::readOnly : dbApplication::editNone,
+                                (flags & dbRecord::SeekCodeReadonly) ? dbApplication::readOnly : dbApplication::editNone,
                                 owner ) )
                     if( sSeekCodeRecordIDs.size() ) {
                         recid = sSeekCodeRecordIDs[0];
@@ -903,7 +918,7 @@ dbRecordID dbApplication::seekCode( dbRecord *rec, QWidget *owner,
                     }
             } else
                 recid = choose ( 0, rec, &dm,
-                                 (flags & dbApplication::SeekCodeReadonly) ? dbApplication::readOnly : dbApplication::editNone,
+                                 (flags & dbRecord::SeekCodeReadonly) ? dbApplication::readOnly : dbApplication::editNone,
                                  owner );
         }
     }

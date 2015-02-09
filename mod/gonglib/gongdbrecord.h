@@ -132,10 +132,14 @@ public:
     void setUser(dbUser *puser) {
         pUser = puser;
     }
-
+    enum SeekCodeFlags { SeekCodeNone = 0x00,  InsertIfNotFound = 0x01,
+                         SeekCodeInDesc = 0x02, SeekCodeMultiple = 0x04, DontShowBrowse = 0x08,
+                         AllowNotFound = 0x10, SeekCodeReadonly = 0x20, AskIfFoundOne = 0x40,
+						 SeekSecondaryCodes = 0x80
+                       };
     dbRecordID seekCode( int &nvalues, const Xtring &fldcod, const Variant &foundcod,
                          const Xtring &flddesc = Xtring::null, const Variant &founddesc = Variant(),
-                         const Xtring &cond = Xtring::null, bool findCodeInDesc = false,
+                         const Xtring &cond = Xtring::null, SeekCodeFlags flags = SeekCodeNone,
                          Xtring &matchingcond = Xtring::null );
 
     /** Helper function to see if a given record exists with field=strvalue */

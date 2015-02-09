@@ -358,7 +358,7 @@ void addFrmEditBehaviorFields(CppModule *cpcpp, CppModule *cph, const Xtring &fr
 				seekcodeflags += "dbApplication::SeekCodeMultiple";
 			}
 			if( !seekcodeflags.isEmpty() )
-				validate += ", dbApplication::SeekCodeFlags( dbApplication::" + seekcodeflags + " )";
+				validate += ", dbRecord::SeekCodeFlags( dbApplication::" + seekcodeflags + " )";
 			validate +=") )\n"
 		"\t\tscatter" + referredfield + "();\n" + cecpp;
 

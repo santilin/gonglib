@@ -311,7 +311,7 @@ bool FrmEditContactoBehavior::setCIFAndLookForIt(const Xtring& cif)
     if( pTheForm->validSeekCode( editContactoCIF, 0, v,
                                  editContactoCIF, editContactoNombre,
                                  getRecContacto(), "CIF", "NOMBRE", Xtring::null,
-                                 dbApplication::SeekCodeFlags( dbApplication::AllowNotFound + dbApplication::DontShowBrowse )) ) {
+                                 dbRecord::SeekCodeFlags( dbRecord::AllowNotFound + dbRecord::DontShowBrowse )) ) {
         scatterContacto();
         mSearching = 0;
         return true;
@@ -431,7 +431,7 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
                 if( false /*mSearching == 1*/ ) {
                     if( pTheForm->validSeekCode( sender, isvalid, *validresult, editContactoCIF, editContactoNombre,
                                                  getRecContacto(), "CIF", "NOMBRE", Xtring::null,
-                                                 dbApplication::SeekCodeFlags( dbApplication::AllowNotFound + dbApplication::AskIfFoundOne )) ) {
+                                                 dbRecord::SeekCodeFlags( dbRecord::AllowNotFound + dbRecord::AskIfFoundOne )) ) {
                         scatterContacto();
                         mSearching = 0;
                         cif_error = Xtring::null;

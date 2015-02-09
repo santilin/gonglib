@@ -1494,13 +1494,13 @@ int dbRecord::selectNextInt(const Xtring &fldname,
  * 		Can be the full qualified field of a related table: GROUP.NAME
  * @param desc the description value
  * @param cond any extra condition for the table
- * @param bool findDescInCode
+ * @param flags \sa dbApplication::SeekCodeFlags
  * @param matchingcond set with the first condition that returned rows
  * @return dbRecordID
  **/
 dbRecordID dbRecord::seekCode( int &nvalues, const Xtring &fldcod, const Variant &code,
                                const Xtring &flddesc, const Variant &desc,
-                               const Xtring &cond, bool findCodeInDesc, Xtring &matchingcond )
+                               const Xtring &cond, SeekCodeFlags flags, Xtring &matchingcond )
 {
     Xtring swheres[6];
     int nwheres=0, icond;
@@ -1535,7 +1535,7 @@ dbRecordID dbRecord::seekCode( int &nvalues, const Xtring &fldcod, const Variant
         else if ( !code.isEmpty() )
         {
             swheres[nwheres++] = binaryfullfldcod + "=" + getConnection()->toSQL ( code );
-            if( findCodeInDesc ) {
+            if( flags & SeekCodeInDesc ) {
                 swheres[nwheres++] = getConnection()->toSQLLike ( getTableName() + "." + fldcod, code.toString() )
                                      + " OR " + getConnection()->toSQLLike ( fullflddesc, code.toString() );
             } else {
@@ -1609,168 +1609,4 @@ dbRecordID dbRecord::seekCode( int &nvalues, const Xtring &fldcod, const Variant
     return recid;
 }
 
-
-#if 0
-/*
-	Esta funcion esta repetida casi identica, la diferencia es que en esta segunda
-	el parametro codigo es numerico. Se podria unificar convirtiendo el numero a
-	cadena y llamando a la otra, pero esto no funciona porque el campo de la base de
-	datos es numerico y el conn->selectValues falla al intentar devolver el valor
-	entero cuando le habiamos pasado una cadena.
-  /// TODO: Can this function be deleted?
-*/
-dbRecordID dbApplication::seekCode ( dbRecord *rec, QWidget *owner,
-                                     const Xtring &fldcod, int code,
-                                     const Xtring &_flddesc, const Xtring &desc,
-                                     const Xtring &cond, SeekCodeFlags flags,
-                                     LineEdit *editAlt, const Xtring &fldaltname )
-{
-    Xtring addcond, swheres[6];
-    int nwheres=0, nvalues, icond;
-    dbRecordID recid=0;
-    addcond = rec->getFilter( "", cond );
-
-    sCodeNotFound = Xtring::number(code);
-    sDescNotFound = desc;
-    sSeekCodeRecordIDs.clear();
-    Xtring flddesc;
-    bool usejoinedtables = false;
-    if( flddesc.find( ".") != Xtring::npos ) {
-        usejoinedtables = true;
-        flddesc = _flddesc;
-    } else
-        flddesc = rec->getTableName() + "." + _flddesc;
-    if ( !flddesc.isEmpty() && !fldcod.isEmpty() )
-    {
-        if ( code!=0 && !desc.isEmpty() )
-        {
-            swheres[nwheres++] = fldcod + "=" + getConnection()->toSQL ( code )
-                                 + " AND " + flddesc + "=" + getConnection()->toSQL ( desc );
-            swheres[nwheres++] = fldcod + "=" + getConnection()->toSQL ( code )
-                                 + " AND " + getConnection()->toSQLLike ( flddesc, desc );
-            swheres[nwheres++] = getConnection()->toSQLStartLike ( fldcod, Xtring::number ( code ) )
-                                 + " AND " + flddesc + "=" + getConnection()->toSQL ( desc );
-            swheres[nwheres++] = getConnection()->toSQLStartLike ( fldcod, Xtring::number ( code ) )
-                                 + " AND " + getConnection()->toSQLLike ( flddesc, desc );
-            swheres[nwheres++] = getConnection()->toSQLLike ( fldcod, Xtring::number ( code ) )
-                                 + " AND " + getConnection()->toSQLLike ( flddesc, desc );
-        }
-        else if ( code!=0 )
-        {
-            if( flags & FindCodeInDesc ) {
-                swheres[nwheres++] = getConnection()->toSQLLike ( fldcod, Xtring::number( code ) )
-                                     + " OR " + getConnection()->toSQLLike ( flddesc, Xtring::number( code ) );
-            } else {
-                swheres[nwheres++] = fldcod + "=" + getConnection()->toSQL ( code );
-                swheres[nwheres++] = getConnection()->toSQLStartLike ( fldcod, Xtring::number ( code ) );
-                swheres[nwheres++] = getConnection()->toSQLLike ( fldcod, Xtring::number ( code ) );
-                swheres[nwheres++] = flddesc + "=" + getConnection()->toSQL ( code );
-                swheres[nwheres++] = getConnection()->toSQLLike ( flddesc, Xtring::number ( code ) );
-            }
-        }
-        else
-        {
-            swheres[nwheres++] = flddesc + "=" + getConnection()->toSQL ( desc );
-            swheres[nwheres++] = getConnection()->toSQLLike ( flddesc, desc );
-            swheres[nwheres++] = fldcod + "=" + getConnection()->toSQL ( desc );
-            swheres[nwheres++] = getConnection()->toSQLStartLike ( fldcod, desc );
-            swheres[nwheres++] = getConnection()->toSQLLike ( fldcod, desc );
-        }
-    }
-    else if ( !flddesc.isEmpty() )
-    {
-        swheres[nwheres++] = flddesc + "=" + getConnection()->toSQL ( desc );
-        swheres[nwheres++] = getConnection()->toSQLLike ( flddesc, desc );
-    }
-    else
-    {
-        swheres[nwheres++] = fldcod + "=" + getConnection()->toSQL ( code );
-        swheres[nwheres++] = getConnection()->toSQLStartLike ( fldcod, Xtring::number ( code ) );
-        swheres[nwheres++] = getConnection()->toSQLLike ( fldcod, Xtring::number ( code ) );
-    }
-    nvalues = icond = 0;
-    do
-    {
-        // The fields 'fldcod' & 'flddesc' are necessary for the choose form
-        Variant vrecid = 0;
-        Xtring select = "SELECT " + rec->getTableName() + ".ID,"
-                        + rec->getTableName() + "." + fldcod;
-        if ( !flddesc.isEmpty() )
-            select += "," + flddesc;
-        // If cond is not empty, chances are that this condition referres other tables
-        select += " FROM " + ( (!cond.isEmpty() || usejoinedtables) ? rec->getJoinedFrom( false /*left*/ ) : rec->getTableName()  );
-        select += " WHERE ";
-        if ( !addcond.isEmpty() )
-            select += addcond + "AND";
-        select += "(" + swheres[icond] + ")";
-        try
-        {
-            Variant dummycode ( Variant::tString ), dummydesc ( Variant::tString );
-            nvalues = getConnection()->selectValues ( select, &vrecid, &dummycode, &dummydesc );
-            if ( nvalues == 1 ) {
-                recid = vrecid.toInt();
-                break;
-            } else if( nvalues > 1 )
-                break;
-        }
-        catch ( dbError &e )
-        {
-            nvalues = 0;
-        }
-        icond++;
-    }
-    while ( icond<nwheres );
-    if ( recid == 0 || ( nvalues == 1 && (flags & AskIfFoundOne ) ) ) {
-        Xtring message, message_cond;
-        if( nvalues == 0 ) {
-            message = Xtring::printf( _("No se han encontrado %s que contengan \"%s\""),
-                                      rec->getTableDefinition()->getDescPlural().c_str(),
-                                      sDescNotFound.isEmpty() ? sCodeNotFound.c_str() : sDescNotFound.c_str() );
-            if( addcond.isEmpty() )
-                message_cond = "Mostrando todos los registros";
-            else
-                message_cond = "La tabla está filtrada. Pulsa CTRL+L para eliminar el filtro.\n" + addcond;
-        } else
-            message = Xtring::printf( _("%s que contienen \"%s\""),
-                                      rec->getTableDefinition()->getDescPlural().c_str(),
-                                      sDescNotFound.isEmpty() ? sCodeNotFound.c_str() : sDescNotFound.c_str() );
-        if( (flags & DontShowBrowse) ) {
-            showOSD( message, Xtring::null );
-        } else if( flags & InsertIfNotFound && nvalues == 0) {
-            message_cond = Xtring::printf( _("Añadiendo %s"),
-                                           DBAPP->getTableDescSingular( rec->getTableName(), "una nueva").c_str() );
-            showOSD( message, message_cond );
-            rec->setNew( true );
-            rec->clear( true ); // set custom default values
-            FrmEditRec *frmedit = createEditForm(0, rec, 0, DataTable::inserting,
-                                                 dbApplication::EditFlags(dbApplication::simpleEdition), owner );
-            frmedit->showModalFor( owner, false, true );
-            recid = rec->getRecordID();
-            delete frmedit;
-        } else {
-            showOSD( message, message_cond );
-            dbViewDefinitionDict views;
-            getDatabase()->getViewsForTable ( rec->getTableName(), views );
-            if ( icond < nwheres ) {
-                if( ! addcond.isEmpty() )
-                    addcond += "AND ";
-                addcond += "(" + swheres[icond] + ")";
-            }
-            dbRecordDataModel dm ( rec, views, addcond );
-            if( flags & SeekCodeMultiple ) {
-                if( chooseMulti(sSeekCodeRecordIDs,
-                                static_cast<FrmEditRecMaster *>(0),
-                                rec, &dm, dbApplication::editNone, owner ) )
-                    if( sSeekCodeRecordIDs.size() )
-                        recid = sSeekCodeRecordIDs[0];
-            } else
-                recid = choose ( 0, rec, &dm, dbApplication::editNone, owner );
-        }
-    } else
-        rec->read ( recid );
-    sCodeNotFound = sDescNotFound = Xtring();
-    return recid;
-}
-#endif
-
-};
+}; // namespace gong

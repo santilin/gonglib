@@ -90,14 +90,12 @@ public:
     bool validSeekCode( QWidget *sender, bool *isvalid, ValidResult &validerror,
                         LineEdit *editCode, LineEdit *editDesc, dbRecord *record,
                         const Xtring &fldcodename, const Xtring &flddescname, const Xtring &cond,
-                        dbApplication::SeekCodeFlags flags = dbApplication::SeekCodeNone,
-                        LineEdit *editAlt = 0, const Xtring &fldaltname = Xtring::null );
+                        dbRecord::SeekCodeFlags flags = dbRecord::SeekCodeNone );
     bool validSeekCode( List<dbRecordID>&rids,
                         QWidget *sender, bool *isvalid, ValidResult &validerror,
                         LineEdit *editCode, LineEdit *editDesc, dbRecord *record,
                         const Xtring &fldcodename, const Xtring &flddescname, const Xtring &cond,
-                        dbApplication::SeekCodeFlags flags = dbApplication::SeekCodeNone,
-                        LineEdit *editAlt = 0, const Xtring &fldaltname = Xtring::null );
+                        dbRecord::SeekCodeFlags flags = dbRecord::SeekCodeNone );
     bool showAndSave();
     bool validateControls(bool justedited = false);
     bool validateControl(QWidget *control, bool justedited = false);

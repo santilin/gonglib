@@ -27,7 +27,7 @@ class dbFieldDefinition
 {
 public:
     enum Flags {
-        NONE = 0X0000,
+        NONE = 0x0000,
         NOTNULL = 0x0001,
         PRIMARYKEY = 0x0002,
         SEQUENCE = 0x0004,
@@ -40,7 +40,8 @@ public:
         INVISIBLE = 0x0200,
         READONLY = 0x0400,
         CALCULATED = 0x0800,
-        PASSWORD = 0x1000
+        PASSWORD = 0x1000,
+		SECONDARY_CODE = 0x2000
     };
 
     inline friend Flags operator|=( Flags &lhs, Flags rhs ) {

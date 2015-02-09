@@ -1349,13 +1349,11 @@ bool FrmEditRec::validSeekCode(List< dbRecordID >& rids, QWidget* sender, bool* 
                                ValidResult& validresult, LineEdit* editCode,
                                LineEdit* editDesc, dbRecord* record,
                                const Xtring& fldcodename, const Xtring& flddescname,
-                               const Xtring& cond, dbApplication::SeekCodeFlags flags,
-                               LineEdit *editAlt, const Xtring &fldaltname )
+                               const Xtring& cond, dbRecord::SeekCodeFlags flags)
 {
     bool ret = validSeekCode( sender, isvalid, validresult, editCode, editDesc,
                               record, fldcodename, flddescname, cond,
-                              static_cast<dbApplication::SeekCodeFlags> (flags | dbApplication::SeekCodeMultiple),
-                              editAlt, fldaltname );
+                              static_cast<dbRecord::SeekCodeFlags> (flags | dbRecord::SeekCodeMultiple) );
     if( ret )
         rids = DBAPP->getSeekCodeRecordIDs();
     return ret;
@@ -1379,8 +1377,7 @@ bool FrmEditRec::validSeekCode(List< dbRecordID >& rids, QWidget* sender, bool* 
 bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & validresult,
                                 LineEdit * editCode, LineEdit * editDesc, dbRecord * record,
                                 const Xtring & fldcodename, const Xtring & flddescname,
-                                const Xtring &cond, dbApplication::SeekCodeFlags flags,
-                                LineEdit *editAlt, const Xtring &fldaltname )
+                                const Xtring &cond, dbRecord::SeekCodeFlags flags)
 {
     bool ret = false;
     if( sender == editDesc && editDesc->isReadOnly() )
@@ -1421,7 +1418,7 @@ bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & v
                                                           DBAPP->getTableDescSingular(record->getTableName(), "la" ).c_str(),
                                                           fldcode ? fldcode->getCaption().c_str() : fldcodename.c_str(),
                                                           codigo_string.c_str() ), fldcodename );
-                    if( !(flags & dbApplication::AllowNotFound) ) {
+                    if( !(flags & dbRecord::AllowNotFound) ) {
                         if( editDesc )
                             editDesc->setText("");
                         ret = false;
@@ -1444,7 +1441,7 @@ bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & v
                                                           DBAPP->getTableDescSingular(record->getTableName(), "la" ).c_str(),
                                                           flddesc ? flddesc->getCaption().c_str() : flddescname.c_str(),
                                                           descripcion.c_str() ), flddescname );
-                    if( !(flags & dbApplication::AllowNotFound) ) {
+                    if( !(flags & dbRecord::AllowNotFound) ) {
                         ret = false;
                         if( isvalid )
                             *isvalid = false;
