@@ -1371,7 +1371,7 @@ bool FrmEditRec::validSeekCode(List< dbRecordID >& rids, QWidget* sender, bool* 
 	* @param fldcodename The name of the field that stores the code
 	* @param flddescname The name of the field that stores the description
 	* @param cond Any extra condition for the record
-	* @param flags \sa dbApplication::SeekCodeFlags
+	* @param flags \sa dbRecord::SeekCodeFlags
 	* @return bool
 	**/
 bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & validresult,

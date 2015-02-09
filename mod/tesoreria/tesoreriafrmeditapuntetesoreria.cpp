@@ -572,7 +572,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 		scatterProyecto();
 }
 /*>>>>>FRMEDITAPUNTETESORERIA_VALIDATE*/
-// {capel} comentar los validSeekCode de tercero y concepto
     if( getRecTercero() && focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
         if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroNombre, getRecTercero(),
                            getRecTercero()->getTableDefinition()->getCodeField(),

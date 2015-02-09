@@ -131,16 +131,20 @@ void FrmEditMiembro::scatterFields()
 	editNotas->setText(getRecMiembro()->getValue("NOTAS").toString());
 	scatterProyecto();
 #ifdef HAVE_FACTUMODULE
+#ifdef HAVE_FACTUMODULE
 if( ModuleInstance->getFactuModule() ) {
 	scatterCliente();
 }
 #endif
+#endif
 	scatterContacto();
 	scatterTipoSocia();
+#ifdef HAVE_PAGOSMODULE
 #ifdef HAVE_PAGOSMODULE
 if( ModuleInstance->getPagosModule() ) {
 	scatterFormaPago();
 }
+#endif
 #endif
 /*>>>>>FRMEDITMIEMBRO_SCATTER*/
     if( editProyectoCodigo->toInt() == 0 )

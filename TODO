@@ -1,14 +1,14 @@
 == HECHO ==
 
 == HACIENDO ==
+* Factu: Al buscar códigos en tpv o donde sea, buscar también por referencia si la proveedora usa referencias.
+** Añadir al seekcode un tercer campo?, tiene el dbRecord un seekCode?
 
 == HACER ==
 * Los pájaros. Enviar email. Ver por qué no aparecen todos los productos en la X.
 
 == EN COLA ==
 * Factu: Formulario datos ventas y compras de artículos
-* Factu: Al buscar códigos en tpv o donde sea, buscar también por referencia si la proveedora usa referencias.
-** Añadir al seekcode un tercer campo?, tiene el dbRecord un seekCode?
 
 == NO HACER ==
 
@@ -244,6 +244,7 @@
 * dbRecord: save fields right trimmed
 
 == autotools, capel y gong.sh ==
+* En el gong.sh, capel no funciona con ficheros con espacios en el nombre
 * init_project Debug: Genera el makefile completo, no solo los modulos definidos en el configure.ac
 * Informe CUENTA.rtk: alignment de header debe y haber no funciona
 ** capel no genera el objeto ASIENTO.DESCRIPCION en el header del grupo

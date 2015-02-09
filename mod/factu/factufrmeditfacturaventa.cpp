@@ -4,10 +4,10 @@
 // FIELD TipoDoc_ID Reference(TipoDoc,Codigo,Nombre) - cabecera
 // FIELD Contador int - cabecera
 // FIELD Numero string - cabecera
-// FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
+// FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - cabecera2
 // FIELD IVADetallado comboint - cabecera2
-// FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbApplication::InsertIfNotFound) - cabecera3
-// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera3
+// FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbRecord::InsertIfNotFound) - cabecera3
+// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - cabecera3
 // FIELD FacturaVentaDet FrmEditRecDetail
 // FIELD SumaImportes money - noaddrightSumaImportes
 // FIELD DtoP100 double - noaddrightDtoP100
@@ -951,15 +951,15 @@ void FrmEditFacturaVenta::validateFields( QWidget *sender, bool *isvalid, ValidR
 		scatterTipoDoc();
 	if( focusWidget() != pushClienteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editClienteCodigo, editClienteRazonSocial,
-		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterCliente();
 	if( focusWidget() != pushFormaPagoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editFormaPagoCodigo, editFormaPagoNombre,
-		getRecFormaPago(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecFormaPago(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterFormaPago();
 	if( focusWidget() != pushAgenteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editAgenteCodigo, editAgenteRazonSocial,
-		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterAgente();
 if(empresa::ModuleInstance->usaProyectos()){
 	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed

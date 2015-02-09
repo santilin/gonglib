@@ -29,8 +29,8 @@ namespace gong {
 namespace factu {
 
 /*<<<<<PEDIDOCOMPRA_CONSTRUCTOR*/
-class RecPedidoCompra: public dbRecord,
-	public ITotalizableRecord
+class RecPedidoCompra: public dbRecord
+,	public ITotalizableRecord
 
 {
 public:

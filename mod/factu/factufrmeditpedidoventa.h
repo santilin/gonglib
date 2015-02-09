@@ -87,11 +87,11 @@ protected:
 	gong::LineEdit *editClienteCodigo;
 	gong::LineEdit *editClienteRazonSocial;
 	gong::ComboBoxInt *comboIVADetallado;
+	gong::ComboBoxInt *comboEstadoPedido;
 	gong::SearchBox *searchAgenteCodigo;
 	QPushButton *pushAgenteCodigo;
 	gong::LineEdit *editAgenteCodigo;
 	gong::LineEdit *editAgenteRazonSocial;
-	gong::ComboBoxInt *comboEstadoPedido;
 	FrmEditPedidoVentaDet *pFrmPedidoVentaDet;
 	gong::EditBox *editReferencia;
 	gong::EditBox *editSumaImportes;

@@ -3,7 +3,7 @@
 // FIELD NLinea int - pre
 // FIELD TipoIVA_ID Reference(empresa::TipoIVA,Codigo,Nombre) - pre
 // FIELD Cantidad double - cantidad
-// FIELD Articulo_ID Reference(Articulo,Codigo,Nombre,dbApplication::FindCodeInDesc) - cantidad
+// FIELD Articulo_ID Reference(Articulo,Codigo,Nombre,dbRecord::SeekCodeInDesc) - cantidad
 // FIELD PVPSinIVA money - precios
 // FIELD PVP money - precios
 // FIELD DtoP100 double - precios
@@ -292,7 +292,7 @@ void FrmEditPresupuestoVentaDet::validateFields( QWidget *sender, bool *isvalid,
 		scatterTipoIVA();
 	if( focusWidget() != pushArticuloCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editArticuloCodigo, editArticuloNombre,
-		getRecArticulo(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::FindCodeInDesc )) )
+		getRecArticulo(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::SeekCodeInDesc )) )
 		scatterArticulo();
 /*>>>>>FRMEDITPRESUPUESTOVENTADET_VALIDATE*/
     /*<<<<<FRMEDITPRESUPUESTOVENTADET_DETALLE_VALIDATE*/

@@ -623,13 +623,13 @@ void FrmEditGastoTipo::validateFields(QWidget *sender, bool *isvalid, ValidResul
 if(hasFactu()){
 	if( focusWidget() != pushClienteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editClienteCodigo, editClienteRazonSocial,
-		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
 		scatterCliente();
 }
 if(hasFactu()){
 	if( focusWidget() != pushProveedoraCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editProveedoraCodigo, editProveedoraRazonSocial,
-		getRecProveedora(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecProveedora(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
 		scatterProveedora();
 }
 if(hasContab()){
@@ -641,7 +641,7 @@ if(hasContab()){
 if(hasFactu()){
 	if( focusWidget() != pushArticuloCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editArticuloCodigo, editArticuloNombre,
-		getRecArticulo(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::FindCodeInDesc )) )
+		getRecArticulo(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbApplication::FindCodeInDesc )) )
 		scatterArticulo();
 }
 if(hasContab()){

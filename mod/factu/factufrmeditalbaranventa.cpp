@@ -5,10 +5,10 @@
 // FIELD Contador int - cabecera
 // FIELD Numero string - cabecera
 // FIELD Facturado bool - cabecera
-// FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
+// FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - cabecera2
 // FIELD IVADetallado comboint - cabecera2
-// FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbApplication::InsertIfNotFound) - cabecera2
-// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera3
+// FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbRecord::InsertIfNotFound) - cabecera2
+// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - cabecera3
 // FIELD AlbaranVentaDet FrmEditRecDetail
 // FIELD NoFacturable bool - noaddrightNoFacturable
 // FIELD SumaImportes money - noaddrightSumaImportes
@@ -84,6 +84,7 @@ FrmEditAlbaranVenta::FrmEditAlbaranVenta(FrmEditRec *parentfrm, dbRecord *master
 	editTipoDocNombre = searchTipoDocCodigo->getEditDesc();
 	editContador = addEditField( pControlsFrame, "ALBARANVENTA", "CONTADOR", cabeceraLayout );
 	editNumero = addEditField( pControlsFrame, "ALBARANVENTA", "NUMERO", cabeceraLayout );
+	checkFacturado = addCheckField( pControlsFrame, "ALBARANVENTA", "FACTURADO", cabeceraLayout );
 
 	searchClienteCodigo = addSearchField( pControlsFrame, "CLIENTE_ID", "CLIENTE", "CODIGO", "RAZONSOCIAL", cabecera2Layout );
 	pushClienteCodigo = searchClienteCodigo->getButton();
@@ -91,9 +92,8 @@ FrmEditAlbaranVenta::FrmEditAlbaranVenta(FrmEditRec *parentfrm, dbRecord *master
 	editClienteCodigo = searchClienteCodigo->getEditCode();
 	editClienteRazonSocial = searchClienteCodigo->getEditDesc();
 	comboIVADetallado = addComboIntField( pControlsFrame, "ALBARANVENTA", "IVADETALLADO", cabecera2Layout );
-	checkFacturado = addCheckField( pControlsFrame, "ALBARANVENTA", "FACTURADO", cabecera2Layout );
 
-	searchFormaPagoCodigo = addSearchField( pControlsFrame, "FORMAPAGO_ID", "FORMAPAGO", "CODIGO", "NOMBRE", cabecera3Layout );
+	searchFormaPagoCodigo = addSearchField( pControlsFrame, "FORMAPAGO_ID", "FORMAPAGO", "CODIGO", "NOMBRE", cabecera2Layout );
 	pushFormaPagoCodigo = searchFormaPagoCodigo->getButton();
 	connect( pushFormaPagoCodigo, SIGNAL( clicked() ), this, SLOT( pushFormaPagoCodigo_clicked() ) );
 	editFormaPagoCodigo = searchFormaPagoCodigo->getEditCode();
@@ -247,8 +247,8 @@ void FrmEditAlbaranVenta::scatterFields()
 		pFocusWidget = editFecha;
 	editContador->setText(getRecAlbaranVenta()->getValue("CONTADOR").toInt());
 	editNumero->setText(getRecAlbaranVenta()->getValue("NUMERO").toString());
-	comboIVADetallado->setCurrentItemByValue(getRecAlbaranVenta()->getValue("IVADETALLADO").toInt());
 	checkFacturado->setChecked(getRecAlbaranVenta()->getValue("FACTURADO").toBool());
+	comboIVADetallado->setCurrentItemByValue(getRecAlbaranVenta()->getValue("IVADETALLADO").toInt());
 	checkNoFacturable->setChecked(getRecAlbaranVenta()->getValue("NOFACTURABLE").toBool());
 	editSumaImportes->setText(getRecAlbaranVenta()->getValue("SUMAIMPORTES").toMoney());
 	editDtoP100->setText(getRecAlbaranVenta()->getValue("DTOP100").toDouble());
@@ -321,9 +321,9 @@ void FrmEditAlbaranVenta::gatherFields()
 	getRecAlbaranVenta()->setValue( "TIPODOC_ID", getRecTipoDoc()->getRecordID() );
 	getRecAlbaranVenta()->setValue( "CONTADOR", editContador->toInt());
 	getRecAlbaranVenta()->setValue( "NUMERO", editNumero->toString());
+	getRecAlbaranVenta()->setValue( "FACTURADO", checkFacturado->isChecked());
 	getRecAlbaranVenta()->setValue( "CLIENTE_ID", getRecCliente()->getRecordID() );
 	getRecAlbaranVenta()->setValue( "IVADETALLADO", comboIVADetallado->getCurrentItemValue());
-	getRecAlbaranVenta()->setValue( "FACTURADO", checkFacturado->isChecked());
 	getRecAlbaranVenta()->setValue( "FORMAPAGO_ID", getRecFormaPago()->getRecordID() );
 	getRecAlbaranVenta()->setValue( "AGENTE_ID", getRecAgente()->getRecordID() );
 	getRecAlbaranVenta()->setValue( "NOFACTURABLE", checkNoFacturable->isChecked());
@@ -947,15 +947,15 @@ void FrmEditAlbaranVenta::validateFields(QWidget *sender, bool *isvalid, ValidRe
 		scatterTipoDoc();
 	if( focusWidget() != pushClienteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editClienteCodigo, editClienteRazonSocial,
-		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterCliente();
 	if( focusWidget() != pushFormaPagoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editFormaPagoCodigo, editFormaPagoNombre,
-		getRecFormaPago(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecFormaPago(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterFormaPago();
 	if( focusWidget() != pushAgenteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editAgenteCodigo, editAgenteRazonSocial,
-		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterAgente();
 if(empresa::ModuleInstance->usaProyectos()){
 	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed

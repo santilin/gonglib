@@ -1,4 +1,4 @@
-// Tercero_ID Reference(Tercero,Codigo,Desc,dbApplication::InsertIfNotFound) - terceros
+// Tercero_ID Reference(Tercero,Codigo,Desc,dbRecord::InsertIfNotFound) - terceros
 // Factura_ID Reference(Factura,Numero,Fecha) - terceros
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de cobros
@@ -848,7 +848,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
         }
     if( pushTerceroCodigo && focusWidget() != pushTerceroCodigo) // To avoid triggering the validating if the button is pressed
         if( validSeekCode( sender, isvalid, *validresult, editTerceroCodigo, editTerceroDesc,
-                           getRecTercero(), mFldTercCodigo, mFldTercDesc, Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) ) {
+                           getRecTercero(), mFldTercCodigo, mFldTercDesc, Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) ) {
             getRecord()->setValue( "TERCERO_ID", 0 );
             scatterTercero();
         }

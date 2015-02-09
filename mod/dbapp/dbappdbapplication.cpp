@@ -858,7 +858,7 @@ bool dbApplication::chooseMulti( List<dbRecordID> &v,
  * @param flddesc el nombre del campo de descripción que se usa en el formulario
  * @param desc el valor de la descripción
  * @param cond condiciones adicionales para la búsqueda
- * @param flags \sa dbApplication::SeekCodeFlags
+ * @param flags \sa dbRecord::SeekCodeFlags
  * @return dbRecordID
  */
 

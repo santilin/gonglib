@@ -11,6 +11,45 @@
 // TYPE FrmEditRecBehavior contab::Empresa
 /*>>>>>MODULE_INFO*/
 
+/*<<<<<FRMEDITEMPRESABEHAVIOR_INCLUDES*/
+#include <dbappmainwindow.h>
+#include "contabfrmeditempresabehavior.h"
+/*>>>>>FRMEDITEMPRESABEHAVIOR_INCLUDES*/
+void FrmEditEmpresaBehavior::initGUI()
+{
+/*<<<<<FRMEDITEMPRESABEHAVIOR_INITGUI*/
+	QWidget *pControlsFrame = getControlsFrame();
+	QVBoxLayout* pControlsLayout = getControlsLayout();
+	QWidget *tabContab = getOrCreateTab( "tabContab" );
+	QVBoxLayout *tabContabLayout = static_cast<QVBoxLayout *>( tabContab->layout() );
+	QHBoxLayout *contabilidadLayout = new QHBoxLayout(0, 0, 6, "contabilidadLayout");
+	QHBoxLayout *inicioejercicioLayout = new QHBoxLayout(0, 0, 6, "inicioejercicioLayout");
+	QHBoxLayout *finejercicioLayout = new QHBoxLayout(0, 0, 6, "finejercicioLayout");
+	QHBoxLayout *fechacontableLayout = new QHBoxLayout(0, 0, 6, "fechacontableLayout");
+	QHBoxLayout *digitossubcuentasLayout = new QHBoxLayout(0, 0, 6, "digitossubcuentasLayout");
+	QHBoxLayout *cuentacajaLayout = new QHBoxLayout(0, 0, 6, "cuentacajaLayout");
+	QHBoxLayout *maxnivelgrupoLayout = new QHBoxLayout(0, 0, 6, "maxnivelgrupoLayout");
+	checkContabilidad = pTheForm->addCheckField( tabContab, "EMPRESA", "CONTABILIDAD", contabilidadLayout );
+	editInicioEjercicio = pTheForm->addEditField( tabContab, "EMPRESA", "INICIOEJERCICIO", inicioejercicioLayout );
+	editFinEjercicio = pTheForm->addEditField( tabContab, "EMPRESA", "FINEJERCICIO", finejercicioLayout );
+	editFechaContable = pTheForm->addEditField( tabContab, "EMPRESA", "FECHACONTABLE", fechacontableLayout );
+	editDigitosSubcuentas = pTheForm->addEditField( tabContab, "EMPRESA", "DIGITOSSUBCUENTAS", digitossubcuentasLayout );
+	editCuentaCaja = pTheForm->addEditField( tabContab, "EMPRESA", "CUENTACAJA", cuentacajaLayout );
+	editMaxNivelGrupo = pTheForm->addEditField( tabContab, "EMPRESA", "MAXNIVELGRUPO", maxnivelgrupoLayout );
+	tabContabLayout->addLayout( contabilidadLayout );
+	tabContabLayout->addLayout( inicioejercicioLayout );
+	tabContabLayout->addLayout( finejercicioLayout );
+	tabContabLayout->addLayout( fechacontableLayout );
+	tabContabLayout->addLayout( digitossubcuentasLayout );
+	tabContabLayout->addLayout( cuentacajaLayout );
+	tabContabLayout->addLayout( maxnivelgrupoLayout );
+/*>>>>>FRMEDITEMPRESABEHAVIOR_INITGUI*/
+}
+
+namespace gong {
+namespace contab {
+
+
 /*<<<<<FRMEDITEMPRESA_INCLUDES*/
 #include <dbappmainwindow.h>
 #include <dbappdbapplication.h>
@@ -113,4 +152,57 @@ void FrmEditEmpresa::validateFields(QWidget *sender, bool *isvalid, ValidResult 
 } // namespace contab
 } // namespace gong
 /*>>>>>FRMEDITEMPRESA_FIN*/
+
+
+void FrmEditEmpresaBehavior::scatterFields( bool is_pre )
+{
+	if( !is_pre) return;
+/*<<<<<FRMEDITEMPRESABEHAVIOR_SCATTER*/
+	empresa::FrmEditEmpresa::scatterFields( bool is_pre );
+	checkContabilidad->setChecked( pTheForm->getRecord()->getValue("CONTABILIDAD").toBool());
+	editInicioEjercicio->setText( pTheForm->getRecord()->getValue("INICIOEJERCICIO").toDate());
+	editFinEjercicio->setText( pTheForm->getRecord()->getValue("FINEJERCICIO").toDate());
+	editFechaContable->setText( pTheForm->getRecord()->getValue("FECHACONTABLE").toDate());
+	editDigitosSubcuentas->setText( pTheForm->getRecord()->getValue("DIGITOSSUBCUENTAS").toInt());
+	editCuentaCaja->setText( pTheForm->getRecord()->getValue("CUENTACAJA").toString());
+	editMaxNivelGrupo->setText( pTheForm->getRecord()->getValue("MAXNIVELGRUPO").toInt());
+/*>>>>>FRMEDITEMPRESABEHAVIOR_SCATTER*/
+}
+
+void FrmEditEmpresaBehavior::gatherFields()
+{
+/*<<<<<FRMEDITEMPRESABEHAVIOR_GATHER*/
+	empresa::FrmEditEmpresa::gatherFields();
+	pTheForm->getRecord()->setValue( "CONTABILIDAD", checkContabilidad->isChecked());
+	pTheForm->getRecord()->setValue( "INICIOEJERCICIO", editInicioEjercicio->toDate());
+	pTheForm->getRecord()->setValue( "FINEJERCICIO", editFinEjercicio->toDate());
+	pTheForm->getRecord()->setValue( "FECHACONTABLE", editFechaContable->toDate());
+	pTheForm->getRecord()->setValue( "DIGITOSSUBCUENTAS", editDigitosSubcuentas->toInt());
+	pTheForm->getRecord()->setValue( "CUENTACAJA", editCuentaCaja->toString());
+	pTheForm->getRecord()->setValue( "MAXNIVELGRUPO", editMaxNivelGrupo->toInt());
+/*>>>>>FRMEDITEMPRESABEHAVIOR_GATHER*/
+}
+
+void FrmEditEmpresaBehavior::validateFields(bool is_pre,
+		QWidget *sender, bool *isvalid, ValidResult *ir)
+{
+	if( !is_pre) return;
+/*<<<<<FRMEDITEMPRESABEHAVIOR_VALIDATE*/
+	bool v=true;
+	if( !isvalid )
+		isvalid = &v;
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	empresa::FrmEditEmpresa::validateFields(bool is_pre,
+		sender, isvalid, validresult);
+/*>>>>>FRMEDITEMPRESABEHAVIOR_VALIDATE*/
+	if( !ir ) {
+		showValidMessages(isvalid, *validresult, sender);
+		delete validresult;
+	}
+}
+
+/*<<<<<FRMEDITEMPRESABEHAVIOR_FIN*/
+} // namespace contab
+} // namespace gong
+/*>>>>>FRMEDITEMPRESABEHAVIOR_FIN*/
 

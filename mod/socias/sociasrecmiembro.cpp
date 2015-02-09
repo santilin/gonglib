@@ -35,19 +35,15 @@ RecProyecto *RecMiembro::getRecProyecto() const
 	return static_cast<RecProyecto*>(findRelatedRecord("PROYECTO_ID"));
 }
 
-#ifdef HAVE_PAGOSMODULE
 pagos::RecFormaPago *RecMiembro::getRecFormaPago() const
 {
 	return static_cast<pagos::RecFormaPago*>(findRelatedRecord("FORMAPAGO_ID"));
 }
-#endif
 
-#ifdef HAVE_FACTUMODULE
 factu::RecCliente *RecMiembro::getRecCliente() const
 {
 	return static_cast<factu::RecCliente*>(findRelatedRecord("CLIENTE_ID"));
 }
-#endif
 
 RecTipoSocia *RecMiembro::getRecTipoSocia() const
 {

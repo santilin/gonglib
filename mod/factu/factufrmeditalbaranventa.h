@@ -81,8 +81,8 @@ private slots:
 	void pushFormaPagoCodigo_clicked();
 	void pushAgenteCodigo_clicked();
 	void pushProyectoCodigo_clicked();
-	void pushCuentaPagoCuenta_clicked();
 	void pushCuentaPagoCodigo_clicked();
+	void pushCuentaPagoCuenta_clicked();
 
 public:
 	RecTipoDoc* getRecTipoDoc() const
@@ -113,12 +113,12 @@ protected:
 	gong::LineEdit *editTipoDocNombre;
 	gong::EditBox *editContador;
 	gong::EditBox *editNumero;
+	gong::CheckBox *checkFacturado;
 	gong::SearchBox *searchClienteCodigo;
 	QPushButton *pushClienteCodigo;
 	gong::LineEdit *editClienteCodigo;
 	gong::LineEdit *editClienteRazonSocial;
 	gong::ComboBoxInt *comboIVADetallado;
-	gong::CheckBox *checkFacturado;
 	gong::SearchBox *searchFormaPagoCodigo;
 	QPushButton *pushFormaPagoCodigo;
 	gong::LineEdit *editFormaPagoCodigo;

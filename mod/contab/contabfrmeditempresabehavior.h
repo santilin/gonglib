@@ -1,5 +1,18 @@
+/*<<<<<FRMEDITEMPRESABEHAVIOR_PREAMBLE*/
+#ifndef _CONTAB_CONTABFRMEDITEMPRESABEHAVIOR_H
+#define _CONTAB_CONTABFRMEDITEMPRESABEHAVIOR_H
+/*>>>>>FRMEDITEMPRESABEHAVIOR_PREAMBLE*/
+/*<<<<<FRMEDITEMPRESABEHAVIOR_INCLUDES*/
+#include <dbappfrmeditrec.h>
+#include <dbappfrmeditrecbehavior.h>
+/*>>>>>FRMEDITEMPRESABEHAVIOR_INCLUDES*/
+
+namespace gong {
+namespace contab {
+
+
 /*<<<<<COPYLEFT*/
-/** @file contabfrmeditempresa.h Fichero de edición de empresas adaptado por el plugin factu
+/** @file contabfrmeditempresabehavior.h Fichero de edición de empresas adaptado por el plugin factu
  * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
@@ -56,4 +69,39 @@ protected:
 } // namespace gong
 #endif // CONTAB_CONTABFRMEDITEMPRESA_H
 /*>>>>>FRMEDITEMPRESA_POSTAMBLE*/
+
+/*<<<<<FRMEDITEMPRESABEHAVIOR_CLASS*/
+class FrmEditEmpresaBehavior: public empresa::FrmEditEmpresa
+{
+public:
+	virtual void initGUI();
+	FrmEditEmpresaBehavior( FrmEditRec *theform )
+		: FrmEditRecBehavior( theform )
+/*>>>>>FRMEDITEMPRESABEHAVIOR_CLASS*/
+	{}
+	// virtual void updateStatus();
+	// virtual bool canClose();
+/*<<<<<FRMEDITEMPRESABEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
+protected:
+	virtual void scatterFields( bool is_pre );
+	virtual void gatherFields();
+	virtual void validateFields( bool is_pre,
+		QWidget *sender, bool *isvalid, ValidResult *ir = 0);
+/*>>>>>FRMEDITEMPRESABEHAVIOR_VIRTUALS_FROM_FRMEDITRECBEHAVIOR*/
+/*<<<<<FRMEDITEMPRESABEHAVIOR_CONTROLS*/
+protected:
+	gong::CheckBox *checkContabilidad;
+	gong::EditBox *editInicioEjercicio;
+	gong::EditBox *editFinEjercicio;
+	gong::EditBox *editFechaContable;
+	gong::EditBox *editDigitosSubcuentas;
+	gong::EditBox *editCuentaCaja;
+	gong::EditBox *editMaxNivelGrupo;
+/*>>>>>FRMEDITEMPRESABEHAVIOR_CONTROLS*/
+};
+/*<<<<<FRMEDITEMPRESABEHAVIOR_POSTAMBLE*/
+} // namespace contab
+} // namespace gong
+#endif // CONTAB_CONTABFRMEDITEMPRESABEHAVIOR_H
+/*>>>>>FRMEDITEMPRESABEHAVIOR_POSTAMBLE*/
 

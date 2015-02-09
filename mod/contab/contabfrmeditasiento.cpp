@@ -326,7 +326,7 @@ void FrmEditAsiento::validateFields(QWidget *sender, bool *isvalid, ValidResult 
 			*isvalid = false;
 	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
-		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
 		scatterProyecto();
 /*>>>>>FRMEDITASIENTO_VALIDATE*/
     if ( sender == editFecha ) {

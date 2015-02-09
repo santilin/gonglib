@@ -2,9 +2,9 @@
 // COPYLEFT Fichero de edición de proveedoras
 // FIELD Codigo int - codigo
 // FIELD RazonSocial string - codigo
-// FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbApplication::InsertIfNotFound) - formapago
+// FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbRecord::InsertIfNotFound) - formapago
 // FIELD NombreAlt string
-// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - agente
+// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - agente
 // FIELD IVADetallado comboint - agente
 // FIELD EntidadBanco string tabExtra cuentabanco
 // FIELD CuentaBanco string tabExtra cuentabanco
@@ -179,11 +179,11 @@ void FrmEditProveedora::validateFields( QWidget *sender, bool *isvalid, ValidRes
 			*isvalid = false;
 	if( focusWidget() != pushFormaPagoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editFormaPagoCodigo, editFormaPagoNombre,
-		getRecFormaPago(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecFormaPago(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterFormaPago();
 	if( focusWidget() != pushAgenteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editAgenteCodigo, editAgenteRazonSocial,
-		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterAgente();
 /*>>>>>FRMEDITPROVEEDORA_VALIDATE*/
     if( !validCodeAndDesc( sender, *validresult, editCodigo, editRazonSocial, "codigo", "razonsocial" ) )

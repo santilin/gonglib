@@ -29,8 +29,8 @@ namespace gong
 namespace factu {
 
 /*<<<<<CLIENTE_CONSTRUCTOR*/
-class RecCliente: public dbRecord,
-	public contactos::IContactableRecord
+class RecCliente: public dbRecord
+,	public contactos::IContactableRecord
 
 {
 public:

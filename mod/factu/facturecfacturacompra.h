@@ -43,16 +43,16 @@ namespace gong {
 namespace factu {
 
 /*<<<<<FACTURACOMPRA_CONSTRUCTOR*/
-class RecFacturaCompra: public dbRecord,
-	public factu::IPagableFactura,
-	public factu::IIVADesglosable,
+class RecFacturaCompra: public dbRecord
+,	public factu::IPagableFactura
+,	public factu::IIVADesglosable
 #ifdef HAVE_CONTABMODULE
-	public factu::IAsentableFactura,
+	,public factu::IAsentableFactura
 #endif
 #ifdef HAVE_TESORERIAMODULE
-	public tesoreria::IApuntableRecord,
+	,public tesoreria::IApuntableRecord
 #endif
-	public factu::ITotalizableRecord
+,	public factu::ITotalizableRecord
 
 {
 public:

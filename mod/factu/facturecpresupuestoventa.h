@@ -30,9 +30,9 @@ namespace gong {
 namespace factu {
 
 /*<<<<<PRESUPUESTOVENTA_CONSTRUCTOR*/
-class RecPresupuestoVenta: public dbRecord,
-	public IIVADesglosable,
-	public ITotalizableRecord
+class RecPresupuestoVenta: public dbRecord
+,	public IIVADesglosable
+,	public ITotalizableRecord
 
 {
 public:

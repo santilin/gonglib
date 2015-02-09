@@ -2,7 +2,7 @@
 // COPYLEFT Fichero de edición de empresas
 // FIELD Codigo int - codigo
 // FIELD Nombre string - codigo
-// FIELD Moneda_ID Reference(Moneda,Codigo,Nombre,dbApplication::InsertIfNotFound) - moneda
+// FIELD Moneda_ID Reference(Moneda,Codigo,Nombre,dbRecord::InsertIfNotFound) - moneda
 // FIELD EntidadBanco string - cuentabanco
 // FIELD CuentaBanco string - cuentabanco
 // FIELD SoloLectura bool - opciones
@@ -62,7 +62,7 @@ FrmEditEmpresa::FrmEditEmpresa(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 	editNotas = addTextField( pControlsFrame, "EMPRESA", "NOTAS", notasLayout );
 	editLogo = addImageField( tabLogo, "EMPRESA", "LOGO", logoLayout );
 	pControlsLayout->addLayout( codigoLayout );
-	pControlsLayout->addWidget( pFrameContactos );	
+	pControlsLayout->addWidget( pFrameContactos );
 	pControlsLayout->addLayout( monedaLayout );
 	pControlsLayout->addLayout( cuentabancoLayout );
 	pControlsLayout->addLayout( opcionesLayout );
@@ -105,11 +105,6 @@ void FrmEditEmpresa::scatterFields()
 		editNombre->setJustEdited( true );
 		}
 	}
-	if( isInserting() ) {
-		getRecMoneda()->setValue( "ID", getRecEmpresa()->getValue("MONEDA_ID") );
-		getRecMoneda()->read( getRecMoneda()->getRecordID());
-	}	
-	
 	scatterMoneda();
 /*>>>>>FRMEDITEMPRESA_SCATTER*/
     pFocusWidget = editNombre;
@@ -231,7 +226,7 @@ void FrmEditEmpresa::validateFields( QWidget *sender, bool *isvalid, ValidResult
 			*isvalid = false;
 	if( focusWidget() != pushMonedaCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editMonedaCodigo, editMonedaNombre,
-		getRecMoneda(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecMoneda(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterMoneda();
 	if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
 		if( !sender )

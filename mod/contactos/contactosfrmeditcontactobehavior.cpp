@@ -1,6 +1,6 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Behavior para añadir edición de contactos a otros formularios
-// FIELD Contacto_ID Reference(contactos::Contacto,CIF,Nombre,dbApplication::AllowNotFound) tabContacto contactoLayout
+// FIELD Contacto_ID Reference(contactos::Contacto,CIF,Nombre,dbRecord::AllowNotFound) tabContacto contactoLayout
 // FIELD Contacto.TratamientoContacto comboint tabContacto dirLayout
 // FIELD Contacto.Direccion string tabContacto dirLayout
 // FIELD Contacto.CP string tabContacto dirLayout
@@ -75,7 +75,7 @@ void FrmEditContactoBehavior::_initGUI()
 	QHBoxLayout *nonameLayout = new QHBoxLayout(0, 0, 6, "nonameLayout");
 
 	searchContactoCIF = pTheForm->addSearchField( tabContacto, "CONTACTO_ID", "CONTACTO", "CIF", "NOMBRE", contactoLayout,
-		static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
+												  static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
 	pushContactoCIF = searchContactoCIF->getButton();
 	connect( pushContactoCIF, SIGNAL( clicked() ), this, SLOT( pushContactoCIF_clicked() ) );
 	editContactoCIF = searchContactoCIF->getEditCode();
@@ -648,7 +648,7 @@ void FrmEditContactoBehavior::slotEditFull_clicked()
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
 	if( pTheForm->focusWidget() != pushContactoCIF) // To avoid triggering the validating if the button is pressed
 	if( pTheForm->validSeekCode( sender, isvalid, *validresult, editContactoCIF, editContactoNombre,
-		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::dbApplication::AllowNotFound )) )
+		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbApplication::dbRecord::AllowNotFound )) )
 		scatterContacto();
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_VALIDATE*/
 #endif

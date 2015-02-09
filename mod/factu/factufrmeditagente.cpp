@@ -30,12 +30,12 @@ FrmEditAgente::FrmEditAgente(FrmEditRec *parentfrm, dbRecord *master, dbRecordDa
     pFrameContactos->setObjectName( "FrameContactos" );
     /*<<<<<FRMEDITAGENTE_INIT_CONTROLS*/
 	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
-	pControlsLayout->addWidget( pFrameContactos );
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editCodigo = addEditField( pControlsFrame, "AGENTE", "CODIGO", codigoLayout );
 	editRazonSocial = addEditField( pControlsFrame, "AGENTE", "RAZONSOCIAL", codigoLayout );
 	editNotas = addTextField( pControlsFrame, "AGENTE", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( codigoLayout );
+	pControlsLayout->addWidget( pFrameContactos );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITAGENTE_INIT_CONTROLS*/
 // {capel} Añadir detrás de addLayout( codigoLayout )

@@ -183,7 +183,7 @@ void FrmEditCuenta::validateFields(QWidget *sender, bool *isvalid, ValidResult *
 			*isvalid = false;
 	if( focusWidget() != pushContactoCIF) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editContactoCIF, editContactoNombre,
-		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
 		scatterContacto();
 /*>>>>>FRMEDITCUENTA_VALIDATE*/
     if ( sender == editContactoCIF && editContactoCIF->isJustEdited()

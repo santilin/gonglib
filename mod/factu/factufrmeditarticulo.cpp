@@ -1,7 +1,7 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de artículos
-// FIELD Familia_ID Reference(Familia,Codigo,Nombre,dbApplication::InsertIfNotFound) - familia
-// FIELD Proveedora_ID Reference(Proveedora,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - proveedora
+// FIELD Familia_ID Reference(Familia,Codigo,Nombre,dbRecord::InsertIfNotFound) - familia
+// FIELD Proveedora_ID Reference(Proveedora,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - proveedora
 // FIELD Nombre string - nombre
 // FIELD CodigoInterno string - codigointerno
 // FIELD Codigo string - codigo
@@ -576,11 +576,11 @@ void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResul
 			*isvalid = false;
 	if( focusWidget() != pushFamiliaCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editFamiliaCodigo, editFamiliaNombre,
-		getRecFamilia(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecFamilia(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterFamilia();
 	if( focusWidget() != pushProveedoraCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editProveedoraCodigo, editProveedoraRazonSocial,
-		getRecProveedora(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecProveedora(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterProveedora();
 	if( focusWidget() != pushTipoIVACodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editTipoIVACodigo, editTipoIVANombre,

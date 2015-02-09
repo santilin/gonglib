@@ -35,9 +35,9 @@ namespace gong {
 namespace socias {
 
 /*<<<<<MIEMBRO_CONSTRUCTOR*/
-class RecMiembro: public dbRecord,
+class RecMiembro: public dbRecord
 #ifdef HAVE_PAGOSMODULE
-	public IPagableMiembro
+	,public IPagableMiembro
 #endif
 
 {

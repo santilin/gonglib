@@ -1,7 +1,7 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de remesas de recibos de proyectos
 // FIELD Numero int tabRemesa remesaNumero
-// FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre,dbApplication::InsertIfNotFound) tabRemesa proyecto if(pedirProyecto())
+// FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre,dbRecord::InsertIfNotFound) tabRemesa proyecto if(pedirProyecto())
 // FIELD Descripcion string tabRemesa remesaNumero
 // FIELD Cerrada bool tabRemesa remesaFechas
 // FIELD FechaEmision date tabRemesa remesaFechas
@@ -184,7 +184,7 @@ void FrmEditRemesaCobro::validateFields( QWidget *sender, bool *isvalid, ValidRe
 if(pedirProyecto()){
 	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
-		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterProyecto();
 }
 /*>>>>>FRMEDITREMESACOBRO_VALIDATE*/

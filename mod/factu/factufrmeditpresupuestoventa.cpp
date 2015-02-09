@@ -4,9 +4,9 @@
 // FIELD TipoDoc_ID Reference(TipoDoc,Codigo,Nombre) - cabecera
 // FIELD Contador int - cabecera
 // FIELD Numero string - cabecera
-// FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
+// FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - cabecera2
 // FIELD IVADetallado comboint - cabecera
-// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
+// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - cabecera2
 // FIELD PresupuestoVentaDet FrmEditRecDetail
 // FIELD SumaImportes money - noaddrightSumaImportes
 // FIELD DtoP100 double - noaddrightDtoP100
@@ -456,11 +456,11 @@ void FrmEditPresupuestoVenta::validateFields( QWidget *sender, bool *isvalid, Va
 		scatterTipoDoc();
 	if( focusWidget() != pushClienteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editClienteCodigo, editClienteRazonSocial,
-		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterCliente();
 	if( focusWidget() != pushAgenteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editAgenteCodigo, editAgenteRazonSocial,
-		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterAgente();
 /*>>>>>FRMEDITPRESUPUESTOVENTA_VALIDATE*/
     /*<<<<<FRMEDITPRESUPUESTOVENTA_CABECERA_VALIDATE*/

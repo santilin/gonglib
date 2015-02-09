@@ -4,10 +4,10 @@
 // FIELD TipoDoc_ID Reference(TipoDoc,Codigo,Nombre) - cabecera
 // FIELD Contador int - cabecera
 // FIELD Numero string - cabecera
-// FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera2
+// FIELD Cliente_ID Reference(Cliente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - cabecera2
 // FIELD IVADetallado comboint - cabecera2
 // FIELD EstadoPedido comboint - cabecera2
-// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbApplication::InsertIfNotFound) - cabecera3
+// FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) - cabecera3
 // FIELD PedidoVentaDet FrmEditRecDetail
 // FIELD Referencia string - noaddrightReferencia
 // FIELD SumaImportes money - noaddrightSumaImportes
@@ -75,13 +75,13 @@ FrmEditPedidoVenta::FrmEditPedidoVenta(FrmEditRec *parentfrm, dbRecord *master, 
 	editClienteCodigo = searchClienteCodigo->getEditCode();
 	editClienteRazonSocial = searchClienteCodigo->getEditDesc();
 	comboIVADetallado = addComboIntField( pControlsFrame, "PEDIDOVENTA", "IVADETALLADO", cabecera2Layout );
+	comboEstadoPedido = addComboIntField( pControlsFrame, "PEDIDOVENTA", "ESTADOPEDIDO", cabecera2Layout );
 
 	searchAgenteCodigo = addSearchField( pControlsFrame, "AGENTE_ID", "AGENTE", "CODIGO", "RAZONSOCIAL", cabecera3Layout );
 	pushAgenteCodigo = searchAgenteCodigo->getButton();
 	connect( pushAgenteCodigo, SIGNAL( clicked() ), this, SLOT( pushAgenteCodigo_clicked() ) );
 	editAgenteCodigo = searchAgenteCodigo->getEditCode();
 	editAgenteRazonSocial = searchAgenteCodigo->getEditDesc();
-	comboEstadoPedido = addComboIntField( pControlsFrame, "PEDIDOVENTA", "ESTADOPEDIDO", cabecera3Layout );
 
 // frmDetails: PedidoVentaDet
 	QFrame *pedidoventadetFrame = new QFrame(this);
@@ -210,8 +210,8 @@ void FrmEditPedidoVenta::gatherFields()
 	getRecPedidoVenta()->setValue( "NUMERO", editNumero->toString());
 	getRecPedidoVenta()->setValue( "CLIENTE_ID", getRecCliente()->getRecordID() );
 	getRecPedidoVenta()->setValue( "IVADETALLADO", comboIVADetallado->getCurrentItemValue());
-	getRecPedidoVenta()->setValue( "AGENTE_ID", getRecAgente()->getRecordID() );
 	getRecPedidoVenta()->setValue( "ESTADOPEDIDO", comboEstadoPedido->getCurrentItemValue());
+	getRecPedidoVenta()->setValue( "AGENTE_ID", getRecAgente()->getRecordID() );
 	getRecPedidoVenta()->setValue( "REFERENCIA", editReferencia->toString());
 	getRecPedidoVenta()->setValue( "SUMAIMPORTES", editSumaImportes->toMoney());
 	getRecPedidoVenta()->setValue( "DTOP100", editDtoP100->toDouble());
@@ -479,11 +479,11 @@ void FrmEditPedidoVenta::validateFields( QWidget *sender, bool *isvalid, ValidRe
 		scatterTipoDoc();
 	if( focusWidget() != pushClienteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editClienteCodigo, editClienteRazonSocial,
-		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecCliente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterCliente();
 	if( focusWidget() != pushAgenteCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editAgenteCodigo, editAgenteRazonSocial,
-		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbApplication::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecAgente(), "CODIGO", "RAZONSOCIAL", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterAgente();
 /*>>>>>FRMEDITPEDIDOVENTA_VALIDATE*/
     /*<<<<<FRMEDITPEDIDOVENTA_CABECERA_VALIDATE*/

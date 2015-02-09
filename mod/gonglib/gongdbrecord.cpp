@@ -1494,7 +1494,7 @@ int dbRecord::selectNextInt(const Xtring &fldname,
  * 		Can be the full qualified field of a related table: GROUP.NAME
  * @param desc the description value
  * @param cond any extra condition for the table
- * @param flags \sa dbApplication::SeekCodeFlags
+ * @param flags \sa dbRecord::SeekCodeFlags
  * @param matchingcond set with the first condition that returned rows
  * @return dbRecordID
  **/
