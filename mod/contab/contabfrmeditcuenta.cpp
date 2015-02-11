@@ -3,7 +3,7 @@
 // FIELD Debe Money tabExtracto saldoLayout
 // FIELD Haber Money tabExtracto saldoLayout
 // FIELD Saldo Money tabExtracto saldoLayout
-// FIELD Contacto_ID Reference(contactos::Contacto,CIF,Nombre,dbApplication::InsertIfNotFound) - contactoLayout
+// FIELD Contacto_ID Reference(contactos::Contacto,CIF,Nombre,dbRecord::InsertIfNotFound) - contactoLayout
 // FIELD Cuenta String - cuentaLayout
 // FIELD Descripcion String - cuentaLayout
 // FIELD Manual bool - tipoLayout
@@ -183,7 +183,7 @@ void FrmEditCuenta::validateFields(QWidget *sender, bool *isvalid, ValidResult *
 			*isvalid = false;
 	if( focusWidget() != pushContactoCIF) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editContactoCIF, editContactoNombre,
-		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterContacto();
 /*>>>>>FRMEDITCUENTA_VALIDATE*/
     if ( sender == editContactoCIF && editContactoCIF->isJustEdited()

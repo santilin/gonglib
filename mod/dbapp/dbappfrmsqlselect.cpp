@@ -184,8 +184,7 @@ int FrmSQLSelect::addFieldToListBoxes ( const Xtring &text, item_info &iteminfo 
 Xtring FrmSQLSelect::getFldExpression ( const item_info &ii ) const
 {
     Xtring exp = ii.tabledef->getName() + "." + ii.fielddef->getName();
-    switch ( ii.operation )
-    {
+    switch ( ii.operation ) {
     case sumof:
         exp = "SUM(" + exp + ")";
         break;
@@ -197,7 +196,26 @@ Xtring FrmSQLSelect::getFldExpression ( const item_info &ii ) const
         break;
     case minof:
         exp = "MIN(" + exp + ")";
-        break;
+		break;
+	case yearof:
+		if( pConnection->isSQLite() )
+			exp = "strftime('%Y'," + exp + ")";
+		else
+			exp = "YEAR(" + exp + ")";
+		break;
+	case monthof:
+		if( pConnection->isSQLite() )
+			exp = "strftime('%m'," + exp + ")";
+		else
+			exp = "MONTH(" + exp + ")";
+		break;
+		break;
+	case dayof:
+		if( pConnection->isSQLite() )
+			exp = "strftime('%d'," + exp + ")";
+		else
+			exp = "DAY(" + exp + ")";
+		break;
     default:
         break;
     }
@@ -207,37 +225,30 @@ Xtring FrmSQLSelect::getFldExpression ( const item_info &ii ) const
 Xtring FrmSQLSelect::getCondition()
 {
     int leftindex = lbCamposIzda->currentItem();
-    if ( leftindex == -1 )
-    {
+    if ( leftindex == -1 ) {
         msgError( this, _( "Elige un campo para la condición" ) );
         return Xtring::null;
     }
     item_info &iileft = mItemsInfo[leftindex];
     int operindex = lbOperador->currentItem();
-    if ( operindex == -1 )
-    {
+    if ( operindex == -1 ) {
         msgError( this, _( "Elige un operador de comparación" ) );
         return Xtring::null;
     }
     Xtring cond;
-    if ( iileft.fielddef == 0 )
-    {
+    if ( iileft.fielddef == 0 ) {
         for ( std::vector<item_info>::const_iterator it = mItemsInfo.begin() + 1;
-                it != mItemsInfo.end();
-                ++ it )
-        {
+                it != mItemsInfo.end(); ++ it ) {
             bool aplicable = true;
             if ( ( *it ).operation != none || ! ( *it ).fielddef->isVisible() )
                 aplicable = false;
-            if ( aplicable )
-            {
+            if ( aplicable ) {
                 if ( ( *it ).fielddef->getSqlColumnType() == SQLDECIMAL ||
                         ( *it ).fielddef->getSqlColumnType() == SQLINTEGER ||
                         ( *it ).fielddef->getSqlColumnType() == SQLFLOAT )
                     Variant v = textValorComparado->toVariant().toDouble ( &aplicable );
             }
-            if ( aplicable )
-            {
+            if ( aplicable ) {
                 if ( ( *it ).fielddef->getSqlColumnType() == SQLDATE ||
                         ( *it ).fielddef->getSqlColumnType() == SQLTIME ||
                         ( *it ).fielddef->getSqlColumnType() == SQLDATETIME )
@@ -264,9 +275,7 @@ Xtring FrmSQLSelect::getCondition()
                 }
             }
         }
-    }
-    else
-    {
+    } else {
         cond += getSubCondition ( iileft, operindex );
     }
     _GONG_DEBUG_PRINT ( 2, Xtring::printf ( "SubCondición: %s", cond.c_str() ) );
@@ -328,17 +337,12 @@ Xtring FrmSQLSelect::getSubCondition ( item_info iileft, int operindex )
         }
     }
     int rightindex = lbCamposDecha->currentItem();
-    if ( needsright )
-    {
-        if ( textValorComparado->text().isEmpty() && rightindex != -1 )
-        {
+    if ( needsright ) {
+        if ( textValorComparado->text().isEmpty() && rightindex != -1 ) {
             item_info &iiright = mItemsInfo[rightindex + 1];
             cond += getFldExpression ( iiright );
-        }
-        else
-        {
-            switch ( iileft.fielddef->getSqlColumnType() )
-            {
+        } else {
+            switch ( iileft.fielddef->getSqlColumnType() ) {
             case SQLINTEGER:
                 cond += pConnection->toSQL (
                             textValorComparado->toInt() ).trim();
@@ -355,7 +359,10 @@ Xtring FrmSQLSelect::getSubCondition ( item_info iileft, int operindex )
             case SQLTIME:
             case SQLDATETIME:
             case SQLTIMESTAMP:
-                cond += pConnection->toSQL ( textValorComparado->toDateTime() );
+				if( iileft.operation == yearof || iileft.operation == monthof || iileft.operation == dayof) 
+					cond += pConnection->toSQL ( textValorComparado->toInt() );
+				else
+					cond += pConnection->toSQL ( textValorComparado->toDateTime() );
                 break;
             default:
                 cond += pConnection->toSQL ( textValorComparado->toString() );
@@ -430,7 +437,10 @@ void FrmSQLSelect::lbCamposIzda_highlighted ( int index )
     textValorComparado->setValueType ( Variant::tString );
     textValorComparado->setMask ( Xtring::null );
     textValorComparado->setFormat ( Xtring::null );
-    if ( ii.fielddef != 0 )
+	if (ii.operation == yearof || ii.operation == dayof || ii.operation == monthof ) {
+		textValorComparado->setValueType ( Variant::tInt );
+		lbOperador->setCurrentItem(0);
+	} else if ( ii.fielddef != 0 )
         FrmEditRec::applyFieldStyle ( this->textValorComparado, ii.fielddef );
     textValorComparado->setVisible( true ); // Override visibility of the field definition
     textValorComparado->setReadOnly( false ); // Override readonlyness of the field definition
@@ -532,11 +542,11 @@ int FrmSQLSelect::exec ( QWidget *parent, const List< dbTableDefinition * > & ta
                 ii.operation = none;
                 addFieldToListBoxes ( tbldef->getDescSingular() + ". " + desc, ii );
                 ii.operation = yearof;
-                addFieldToListBoxes ( tbldef->getDescSingular() + ".Año de: " + fielddef->getDescription(), ii );
+                addFieldToListBoxes ( tbldef->getDescSingular() + ". Año de: " + fielddef->getDescription(), ii );
                 ii.operation = monthof;
-                addFieldToListBoxes ( tbldef->getDescSingular() + ".Mes de: " + fielddef->getDescription(), ii );
+                addFieldToListBoxes ( tbldef->getDescSingular() + ". Mes de: " + fielddef->getDescription(), ii );
                 ii.operation = dayof;
-                addFieldToListBoxes ( tbldef->getDescSingular() + ".Día de: " + fielddef->getDescription(), ii );
+                addFieldToListBoxes ( tbldef->getDescSingular() + ". Día de: " + fielddef->getDescription(), ii );
                 /*
                 			ii.operation = maxof;
                 			addFieldToListBoxes(tbldef->getDescSingular() + ".Máximo de: " + fielddef->getDescription(), ii);
@@ -572,17 +582,14 @@ Xtring FrmSQLSelect::getSqlExpression()
  */
 void FrmSQLSelect::validateValorComparado ( QWidget *, bool * )
 {
-    if ( focusWidget() && strcmp ( focusWidget()->name(), "lbCamposDecha" ) == 0 )
-    {
-        // Presumiblemente se ha pulsado INTRO.
+	if( textValorComparado->isJustEdited() ) {
+		pushAnadirY_clicked();
         if ( !textValorComparado->toString().isEmpty() &&
                 lbCamposIzda->currentItem() == 0 &&
-//		        textSQL->toString().isEmpty() &&
-                lbOperador->currentItem() == OP_CONTIENE )
-        {
-            pushAnadirY_clicked();
-            accept();
-        }
+                lbOperador->currentItem() == OP_CONTIENE ) { 
+			// Equivalente a ctrl+f, enter y buscar
+			accept();
+		}
     }
 }
 

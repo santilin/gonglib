@@ -5,7 +5,7 @@
 // FIELD Descripcion string - nasientolayout
 // FIELD Automatico bool - ndoclayout
 // FIELD TipoAsiento comboint - ndoclayout
-// FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre,dbApplication::InsertIfNotFound) - ndoclayout
+// FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre,dbRecord::InsertIfNotFound) - ndoclayout
 // FIELD Contador int - ndoclayout
 // FIELD Apunte FrmEditRecDetail - apunteslayout
 // FIELD Debe Money - saldolayout
@@ -326,7 +326,7 @@ void FrmEditAsiento::validateFields(QWidget *sender, bool *isvalid, ValidResult 
 			*isvalid = false;
 	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
-		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbApplication::InsertIfNotFound )) )
+		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
 		scatterProyecto();
 /*>>>>>FRMEDITASIENTO_VALIDATE*/
     if ( sender == editFecha ) {

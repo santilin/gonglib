@@ -1,13 +1,12 @@
 == HECHO ==
 
-
 == HACIENDO ==
 * Cats: Importar ficheros de salidas a clubs.
 
 == HACER ==
-x
+* Presupuesto grande mc, se lían las líneas
+
 == EN COLA ==
-* Factu: Formulario datos ventas y compras de artículos
 
 == NO HACER ==
 
@@ -30,7 +29,7 @@ x
 * Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón, 
   por lo que me deja sin opción de continuar no hacer nada más, 
 * en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
-
+* Formato de los números de recibo.
 
 == Ofertas ==
 * Duplicar código albaran compra y albaran venta en oferta compra y oferta venta
@@ -50,6 +49,7 @@ x
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
+* Factu: Formulario datos ventas y compras de artículos
 * Imprimir etiquetas con códigos de barras
 * Factu: Informe de existencias máximas y mínimas.
 * Calcular pvp de un albarán de compra.
