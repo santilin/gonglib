@@ -278,7 +278,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicArticulo->addFieldOne2OneRelation( "FAMILIA_ID", "FAMILIA.ID", false );
     pFicArticulo->addFieldOne2OneRelation( "TIPOIVA_ID", "TIPOIVA.ID", false );
     pFicArticulo->addFieldOne2OneRelation( "PROVEEDORA_ID", "PROVEEDORA.ID", true );
-    pFicArticulo->addFieldString( "CODIGOINTERNO", 255 );
+    pFicArticulo->addFieldString( "CODIGOINTERNO", 255 )->setIsSecondaryCode(true);
     pFicArticulo->addFieldString( "FABRICANTE", 255 );
     pFicArticulo->addFieldEuro4Dec( "COSTESINIVA" );
     pFicArticulo->addFieldEuro( "COSTE" );

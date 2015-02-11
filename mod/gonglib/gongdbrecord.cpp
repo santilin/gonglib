@@ -1565,13 +1565,29 @@ dbRecordID dbRecord::seekCode( int &nvalues, const Xtring &fldcod, const Variant
         swheres[nwheres++] = getConnection()->toSQLStartLike ( fullfldcod, code.toString() );
         swheres[nwheres++] = getConnection()->toSQLLike ( fullfldcod, code.toString() );
     }
+    if( flags & SeekSecondaryCodes ) {
+		Xtring searchstr = code.isEmpty() ? desc.toString() : code.toString();
+		if( !searchstr.isEmpty() ) {
+			Xtring secondary_cond;
+			for( dbFieldDefinitionDict::const_iterator fldit = getTableDefinition()->getFieldDefinitions().begin();
+				fldit != getTableDefinition()->getFieldDefinitions().end(); ++fldit ) {
+				if( fldit->second->isSecondaryCode() ) {
+					if( !secondary_cond.isEmpty() )
+						secondary_cond += "AND";
+					secondary_cond += "(" + getConnection()->toSQLLike(fldit->second->getName(), searchstr) + ")";
+				}
+			}
+			if( !secondary_cond.isEmpty() ) {
+				swheres[nwheres++] = secondary_cond;
+			}
+		}
+	}
     nvalues = icond = 0;
     do
     {
         // The fields 'fldcod' & 'flddesc' are necessary for the choose form
         Variant vrecid = 0;
-        Xtring select = "SELECT " + getTableName() + ".ID,"
-                        + getTableName() + "." + fldcod;
+        Xtring select = "SELECT " + getTableName() + ".ID," + getTableName() + "." + fldcod;
         if( !fullflddesc.isEmpty() )
             select.append("," + fullflddesc);
         // If cond is not empty, chances are that this condition referres other tables

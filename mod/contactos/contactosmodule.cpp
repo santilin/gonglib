@@ -104,7 +104,7 @@ bool ContactosModule::initDatabase(dbDefinition *db)
     pFicContacto->addField<FldCif>("CIF")->setIsCode(false)->setCanBeNull(true);
     pFicContacto->addFieldInt("CODIGO")->setIsCode(true)->setCanBeNull(false)->setUnique(true);
     pFicContacto->addFieldDesc("NOMBRE", 120)->setCanBeNull( false )->setUnique(true);
-    pFicContacto->addFieldDesc("NOMBREALT", 120)->setCanBeNull(true);
+    pFicContacto->addFieldDesc("NOMBREALT", 120)->setCanBeNull(true)->setIsSecondaryCode(true);
     pFicContacto->addField<FldNamesListTable>( "TRATAMIENTOCONTACTO" )->setInsertAllowed(false);
     pFicContacto->addFieldString( "NOMBRECOMPLETO", 120);
     pFicContacto->addFieldDireccion();

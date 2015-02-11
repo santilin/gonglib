@@ -41,7 +41,7 @@ public:
         READONLY = 0x0400,
         CALCULATED = 0x0800,
         PASSWORD = 0x1000,
-		SECONDARY_CODE = 0x2000
+		SECONDARYCODE = 0x2000
     };
 
     inline friend Flags operator|=( Flags &lhs, Flags rhs ) {
@@ -192,6 +192,9 @@ public:
     bool isDescendent() const {
         return mFlags & DESCENDENT;
     }
+    bool isSecondaryCode() const {
+        return mFlags & SECONDARYCODE;
+    }
     dbFieldDefinition* setCanBeNull( bool canbenull ) {
         if ( !canbenull ) mFlags |= NOTNULL;
         else mFlags &= ~NOTNULL;
@@ -250,6 +253,11 @@ public:
     dbFieldDefinition* setIsDescendent( bool isdescendent ) {
         if ( isdescendent ) mFlags |= DESCENDENT;
         else mFlags &= ~DESCENDENT;
+        return this;
+    }
+    dbFieldDefinition* setIsSecondaryCode( bool secondarycode ) {
+        if ( secondarycode ) mFlags |= SECONDARYCODE;
+        else mFlags &= ~SECONDARYCODE;
         return this;
     }
     int getStyleWidth(const class dbDefinition *pdb) const;

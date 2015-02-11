@@ -568,7 +568,7 @@ SearchBox *FrmEditRec::addSearchField( QWidget *parent, const Xtring &fldname,
 {
     const bool showlabels = (flags & SearchBox::FlagShowLabels);
     SearchBox * search = new SearchBox( "", reftablename, fldnamecodigo, flddnamedesc,
-                                        parent ? parent : pControlsFrame, flags );
+                                        parent ? parent : pControlsFrame, flags, dbRecord::SeekSecondaryCodes );
     if ( layout ) {
         layout->addWidget( search->getButton() );
         if( showlabels ) layout->addWidget( search->getLabelCode() );
@@ -1379,6 +1379,8 @@ bool FrmEditRec::validSeekCode( QWidget * sender, bool *isvalid, ValidResult & v
                                 const Xtring & fldcodename, const Xtring & flddescname,
                                 const Xtring &cond, dbRecord::SeekCodeFlags flags)
 {
+	if( flags == dbRecord::SeekCodeNone ) 
+		flags = dbRecord::SeekSecondaryCodes;
     bool ret = false;
     if( sender == editDesc && editDesc->isReadOnly() )
         return false;
