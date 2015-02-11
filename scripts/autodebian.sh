@@ -3,6 +3,9 @@
 # probar apt-get -q -y -o APT::Install-Recommends=true -o APT::Get::AutomaticRemove=true install task-spanish-kde-desktop
 # probar /etc/issue
 
+# Añadir update-grub
+
+
 #instalación de un plugin para plasma
 # git clone https://github.com/faho/kwin-tiling.git
 # cd kwin-tiling/
@@ -48,11 +51,26 @@ pulsa_tecla()
 	read
 }
 
+
+pregunta_si() {
+	echo $1
+	read siono
+	case $siono in
+		s|S|si|Si|sí|Sí)
+			return 0
+			;;
+		*)
+			return 1
+			;;
+	esac
+}
+
+
 instala_programa() {
 	echo "Instalando $1"
 	shift
 	apt-get install -y -q $@
-	pulsa_tecla
+    echo
 }
 
 aptgetupdate() {
@@ -85,7 +103,7 @@ EOF
 }
 
 instala_multimedia_libre() {
-	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc clementine
+	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc
 	if [ ! -b /dev/cdrom ]; then
 		echo "/dev/cdrom existe";
 	else 
@@ -109,19 +127,6 @@ instala_multimedia_libre() {
 	*)
 	  	/usr/share/doc/libdvdread4/install-css.sh
 		;;
-	esac
-}
-
-pregunta_si() {
-	echo $1
-	read siono
-	case $siono in
-		s|S|si|Si|sí|Sí)
-			return 0
-			;;
-		*)
-			return 1
-			;;
 	esac
 }
 
@@ -155,7 +160,7 @@ completar_lxde() {
 		fi
 	fi
 	completar_escritorio
-	instala_programa "Grabador de cd" xfburn
+	instala_programa "CD, pdf, etc." xfburn epdfview clementine gthumb
 	if pregunta_si "¿Quieres instalar el control de batería?"; then
 		apt-get install fdpowermon
 	fi
@@ -382,7 +387,7 @@ instala_gestiong() {
 	case $DISTRO in 
 	debian*)
 		case $DISTRO_VER in
-			7) instala_programa "GestiONG" build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev
+			7) instala_programa "GestiONG" build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev gawk libsqlite3-dev
 			;;
 		esac
 		;;
@@ -475,8 +480,8 @@ menu_sistema() {
 		BACKTITLE=`uname -a`
 		my_dialog --cancel-label "Volver" \
 			--title "=== SISTEMA ===" \
-			--menu "Elige la sección" 20 75 7 \
-			1 "Reparar el sistema" \
+			--menu "Elige la sección" 20 75 6 \
+			1 "Reparar el sistema de paquetes" \
 			2 "Actualizar el sistema" \
 			3 "Descargar versiones en español de los programas instalados" \
 			4 "Poner el reloj en hora" \
@@ -488,7 +493,13 @@ menu_sistema() {
 		2 )     clear; aptgetupdate ;;
 		3 ) 	clear; language_espanol ;;
 		4 )		clear; reloj_hora ;;
-		5 ) 	clear; compartir_ficheros ; pulsa_tecla ;;
+# http://www.spencerstirling.com/computergeek/NFS_samba.html
+		5 ) 	clear; 
+				instala_programa "NFS" nfs-kernel-server nfs-common portmap
+				if test "x$KDE" = "x1"; then
+					instala_programa "GUI de kde para compartir archivos" kdenetwork-filesharing
+				fi 
+				;;
 		6 ) 	menu_limpieza ;;
 		9 ) 	check_new_version ;;
 		* )		break ;;
@@ -500,16 +511,14 @@ menu_sistema() {
 menu_escritorio() {
 	while [ 1 ]; do
 		my_dialog --title "=== MENU ESCRITORIO ===" \
-			--menu "Elige la operación sobre el escritorio" 20 75 4 \
-			1 "Completar el escritorio: multimedia, tipos de letra, etc" \
-			2 "Completar KDE" \
-			3 "Completar GNOME y MATE" \
-			4 "Completar LXDE"
+			--menu "Elige la operación sobre el escritorio" 20 75 3 \
+			1 "Completar KDE" \
+			2 "Completar GNOME y MATE" \
+			3 "Completar LXDE"
 		case `cat /tmp/menuoption.txt` in
-		1 )     clear; completar_escritorio;;
-		2 )     clear; completar_kde;;
-		3 )     clear; completar_gnome;;
-		4 )     clear; completar_lxde;;
+		1 )     clear; completar_kde;;
+		2 )     clear; completar_gnome;;
+		3 )     clear; completar_lxde;;
 		* )	break ;;
 		esac
 	done

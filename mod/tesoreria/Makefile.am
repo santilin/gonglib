@@ -32,3 +32,5 @@ nodist_libgongtesoreria_la_SOURCES = moc_tesoreriamodule.cpp \
 moc_%.cpp: %.h
 	moc $< -o \$@
 
+tesoreria_sharedir = $(datadir)/gestiong/tesoreria
+dist_tesoreria_share_DATA = $(srcdir)/share/tesoreria.ddd

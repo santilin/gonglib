@@ -26,7 +26,7 @@ class SearchBox: public QPushButton
 {
     Q_OBJECT
 public:
-    enum Flags { FlagHorizontal = 1, FlagMultiple = 2, FlagEditableDesc = 4, FlagShowLabels = 8 };
+    enum Flags { FlagNone= 0, FlagHorizontal = 1, FlagMultiple = 2, FlagEditableDesc = 4, FlagShowLabels = 8 };
     SearchBox( const Xtring &caption, const Xtring &tablename,
                const Xtring &fldcode, const Xtring &flddesc, QWidget *parent, 
 			   enum Flags flags = FlagHorizontal, dbRecord::SeekCodeFlags seekcodeflags = dbRecord::SeekCodeNone );
