@@ -793,6 +793,7 @@ void FrmEditPago::pushPagar_clicked()
         } else if( getRecPago()->getValue( "ESTADORECIBO").toInt() == PagosModule::ReciboPagado ) {
             pr->anularPagoRecibo( this, getRecPago()->getRecordID(), getRecPago());
         }
+        refresh();
     }
 }
 

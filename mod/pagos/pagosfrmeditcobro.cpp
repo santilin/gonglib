@@ -898,6 +898,7 @@ void FrmEditCobro::pushPagar_clicked()
         } else if( getRecCobro()->getValue( "ESTADORECIBO" ).toInt() == PagosModule::ReciboPagado ) {
             pr->anularCobroRecibo( this, getRecCobro()->getRecordID(), getRecCobro() );
         }
+        refresh();
     }
 }
 
