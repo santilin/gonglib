@@ -746,16 +746,14 @@ bool dbRecord::saveRelated( bool updating )
                 _GONG_DEBUG_PRINT(4, Xtring::printf("Saving 1:M or M:M relation %s",
                                                     recrel->getRelationDefinition()->getFullName().c_str() ) );
                 Variant leftvalue = getValue ( recrel->getLeftField() );
+				bool optimizing_out = updating;
                 for( uint nr = 0; nr < recrel->getRelatedRecordList()->size(); nr ++ ) {
                     dbRecord *detail = recrel->getRelatedRecord(nr);
                     // Detect as much identical records as we can
-                    bool optimizing_out = true;
-                    if( optimizing_out && updating && nr < recrel->getRelatedRecordListOrig()->size() ) {
+                    if( optimizing_out && nr < recrel->getRelatedRecordListOrig()->size() ) {
                         if( recrel->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
                                 != detail->toString( TOSTRING_DEBUG_COMPLETE ) )
                             optimizing_out = false;
-                    } else {
-                        optimizing_out = false;
                     }
                     if( !optimizing_out ) {
                         if ( ! ( detail->isEmpty() ) ) {
@@ -766,7 +764,7 @@ bool dbRecord::saveRelated( bool updating )
                             detail->save( true );
                         }
                     } else {
-                        _GONG_DEBUG_PRINT(2, "Record " + Xtring::number(nr) + " has been optimized");
+                        _GONG_DEBUG_PRINT(1, "Record " + Xtring::number(nr) + " has been optimized");
                     }
                 }
             }
@@ -853,17 +851,13 @@ bool dbRecord::removeRelated( bool updating )
                 if ( leftvalue.isValid() )
                 {
                     // Detect as much identical records as we can
-                    bool optimizing_out = true;
+                    bool optimizing_out = updating;
                     for( uint nr = 0; nr < recrel->getRelatedRecordListOrig()->size(); nr ++ ) {
                         dbRecord *related_record_orig = recrel->getRelatedRecordListOrig()->at(nr);
-                        if( optimizing_out && updating && nr < recrel->getRelatedRecordList()->size() ) {
-// 							_GONG_DEBUG_PRINT(0, recrel->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE ) );
-// 							_GONG_DEBUG_PRINT(0, related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ) );
+                        if( optimizing_out && nr < recrel->getRelatedRecordList()->size() ) {
                             if( recrel->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE )
                                     != related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ) )
                                 optimizing_out = false;
-                        } else {
-                            optimizing_out = false;
                         }
                         if( !optimizing_out ) {
                             if( related_record_orig->getRecordID() ) {
@@ -874,7 +868,7 @@ bool dbRecord::removeRelated( bool updating )
                                                     + recrel->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE ) );
                             }
                         } else {
-                            _GONG_DEBUG_PRINT(3, "Record " + Xtring::number(nr) + " has been optimized");
+                            _GONG_DEBUG_PRINT(1, "Record " + Xtring::number(nr) + " has been optimized");
                         }
                     }
 #ifdef _GONG_DEBUG
