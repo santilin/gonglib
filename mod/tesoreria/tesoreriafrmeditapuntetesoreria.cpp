@@ -246,7 +246,7 @@ void FrmEditApunteTesoreria::pushTipoApunteTesoreriaCodigo_clicked()
 			{
 				if( getRecTipoApunteTesoreria()->getRecordID() != 0 ) {
 					editTipoApunteTesoreriaCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoApunteTesoreria(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecTipoApunteTesoreria(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -315,7 +315,7 @@ void FrmEditApunteTesoreria::pushProyectoCodigo_clicked()
 			{
 				if( getRecProyecto()->getRecordID() != 0 ) {
 					editProyectoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProyecto(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecProyecto(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -386,7 +386,7 @@ void FrmEditApunteTesoreria::pushTerceroCodigo_clicked()
     {
         if( getRecTercero()->getRecordID() != 0 ) {
             editTerceroCodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTercero(),
+            DBAPP->createClient( DBAPP->createEditForm(this, getRecTercero(),
                                                   0, DataTable::selecting, dbApplication::simpleEdition, this ) );
         }
     }
@@ -455,7 +455,7 @@ void FrmEditApunteTesoreria::pushConceptoCodigo_clicked()
     {
         if( getRecConcepto()->getRecordID() != 0 ) {
             editConceptoCodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecConcepto(),
+            DBAPP->createClient( DBAPP->createEditForm(this, getRecConcepto(),
                                                   0, DataTable::selecting, dbApplication::simpleEdition, this ) );
         }
     }
@@ -522,7 +522,7 @@ void FrmEditApunteTesoreria::pushCuentaTesoreriaCodigo_clicked()
 			{
 				if( getRecCuentaTesoreria()->getRecordID() != 0 ) {
 					editCuentaTesoreriaCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaTesoreria(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaTesoreria(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

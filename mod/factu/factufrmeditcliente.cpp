@@ -224,7 +224,7 @@ void FrmEditCliente::pushFormaPagoCodigo_clicked()
 			{
 				if( getRecFormaPago()->getRecordID() != 0 ) {
 					editFormaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -293,7 +293,7 @@ void FrmEditCliente::pushAgenteCodigo_clicked()
 			{
 				if( getRecAgente()->getRecordID() != 0 ) {
 					editAgenteCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecAgente(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecAgente(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

@@ -94,10 +94,9 @@ void FrmGenPedidoCompra::preparaDesdePedidosClientes()
                 npedidos = genDesdePedidosClientes( chkAgruparPorProveedora->isOn() );
             }
             if( npedidos == 0 ) {
-                msgOk( DBAPP->getMainWindow(), "No se ha generado ningún pedido" );
+                msgOk( this, "No se ha generado ningún pedido" );
             } else {
-                msgOk( DBAPP->getMainWindow(),
-                       Xtring::printf( "Se han generado %d pedidos a proveedoras", npedidos ) );
+                msgOk( this, Xtring::printf( "Se han generado %d pedidos a proveedoras", npedidos ) );
             }
         }
     } catch ( std::exception &e ) {

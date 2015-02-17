@@ -1723,7 +1723,7 @@ void FrmEditRecMaster::menuRecordReopen_clicked()
     DBAPP->waitCursor( true );
     try {
         dbRecord *r = DBAPP->createRecord( getRecord()->getTableName() );
-        DBAPP->getMainWindow()->createClient( DBAPP->browse( 0, r, 0,
+        DBAPP->createClient( DBAPP->browse( 0, r, 0,
                                               DataTable::defaulteditmode,	dbApplication::deleteRecord  ), true /* force reopen */ );
     } catch ( std::runtime_error e ) {
         _GONG_DEBUG_WARNING( e.what() );

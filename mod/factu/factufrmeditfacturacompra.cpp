@@ -427,7 +427,7 @@ void FrmEditFacturaCompra::pushTipoDocCodigo_clicked()
 			{
 				if( getRecTipoDoc()->getRecordID() != 0 ) {
 					editTipoDocCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoDoc(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecTipoDoc(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -504,7 +504,7 @@ void FrmEditFacturaCompra::pushProveedoraCodigo_clicked()
 			{
 				if( getRecProveedora()->getRecordID() != 0 ) {
 					editProveedoraCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProveedora(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecProveedora(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -593,7 +593,7 @@ void FrmEditFacturaCompra::pushFormaPagoCodigo_clicked()
 			{
 				if( getRecFormaPago()->getRecordID() != 0 ) {
 					editFormaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -671,7 +671,7 @@ void FrmEditFacturaCompra::pushCuentaPagoCuenta_clicked()
 			{
 				if( getRecCuentaPago()->getRecordID() != 0 ) {
 					editCuentaPagoCuenta->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -734,7 +734,7 @@ void FrmEditFacturaCompra::pushCuentaPagoCodigo_clicked()
 			{
 				if( getRecCuentaPago()->getRecordID() != 0 ) {
 					editCuentaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -803,7 +803,7 @@ void FrmEditFacturaCompra::pushProyectoCodigo_clicked()
 			{
 				if( getRecProyecto()->getRecordID() != 0 ) {
 					editProyectoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProyecto(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecProyecto(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -871,7 +871,7 @@ void FrmEditFacturaCompra::pushAgenteCodigo_clicked()
 			{
 				if( getRecAgente()->getRecordID() != 0 ) {
 					editAgenteCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecAgente(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecAgente(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

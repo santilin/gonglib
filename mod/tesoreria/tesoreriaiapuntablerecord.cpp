@@ -2,6 +2,7 @@
 #include <dbappmainwindow.h>
 #include <dbappfrmeditrec.h>
 #include <empresamodule.h>
+#include <pagosrecformapago.h>
 #include "tesoreriaiapuntablerecord.h"
 
 namespace gong {
@@ -34,7 +35,8 @@ RecApunteTesoreria* IApuntableRecord::borraApunte(bool regenerando)
 			if (!regenerando) {
 				DBAPP->showStickyOSD( pRecord->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
 							  Xtring::printf("Apunte %d borrado en tesorería", apunte->getValue("NUMERO").toInt()) );
-				DBAPP->getMainWindow()->refreshByName(Xtring::null, "APUNTETESORERIA");
+				if( DBAPP->getMainWindow() ) 
+					DBAPP->getMainWindow()->refreshByName(Xtring::null, "APUNTETESORERIA");
 			}
 		}
     }
@@ -60,7 +62,10 @@ dbRecordID IApuntableRecord::regenApunte(bool supervisar)
 FrmEditRec *IApuntableRecord::showApunte( DataTable::EditMode editmode)
 {
     FrmEditRec *frm = DBAPP->createEditForm(0, pRecord, 0, editmode);
-    DBAPP->getMainWindow()->createClient( frm );
+	if( DBAPP->getMainWindow() ) 
+		DBAPP->createClient( frm );
+	else
+		frm->show();
     return frm;
 }
 
@@ -70,9 +75,13 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	if( pRecord->getValue(mImporteField).toDouble() == 0.0 )
 		return 0;
 	dbRecordID cuenta_pago_id = pRecord->getValue(mCuentaTesoreriaIDField).toInt();
-	if( cuenta_pago_id == 0 ) 
-		cuenta_pago_id = pRecord->getValue("FORMAPAGO.CUENTATESORERIA_ID").toInt();
+	pagos::RecFormaPago::Tipo t = static_cast<pagos::RecFormaPago::Tipo>(pRecord->getValue("FORMAPAGO.TIPOFORMAPAGO").toInt());
 	if( cuenta_pago_id == 0 ) {
+		if(t != pagos::RecFormaPago::SeIgnora && t == pagos::RecFormaPago::Pendiente) {
+			cuenta_pago_id = pRecord->getValue("FORMAPAGO.CUENTATESORERIA_ID").toInt();
+		}
+	}
+	if( cuenta_pago_id == 0 && t != pagos::RecFormaPago::SeIgnora && t == pagos::RecFormaPago::Pendiente) {
 		FrmBase::msgError( "Tesorería", _("No se ha generado el apunte en tesorería porque no se ha encontrado una cuenta de pago"));
 		return 0;
 	}
@@ -149,7 +158,8 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
         DBAPP->showStickyOSD( pRecord->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
 							  Xtring::printf(old_apunte->isRead() ? _("Apunte %d regenerado en tesorería") : _("Apunte %d generado en tesorería"),
 								apunte->getValue("NUMERO").toInt()));
-		DBAPP->getMainWindow()->refreshByName(Xtring::null, "APUNTETESORERIA");
+		if( DBAPP->getMainWindow() ) 
+			DBAPP->getMainWindow()->refreshByName(Xtring::null, "APUNTETESORERIA");
 	}
 	return apunte;
 }

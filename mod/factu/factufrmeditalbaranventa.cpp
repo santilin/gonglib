@@ -424,7 +424,7 @@ void FrmEditAlbaranVenta::pushTipoDocCodigo_clicked()
 			{
 				if( getRecTipoDoc()->getRecordID() != 0 ) {
 					editTipoDocCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoDoc(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecTipoDoc(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -503,7 +503,7 @@ void FrmEditAlbaranVenta::pushClienteCodigo_clicked()
 			{
 				if( getRecCliente()->getRecordID() != 0 ) {
 					editClienteCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCliente(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCliente(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -605,7 +605,7 @@ void FrmEditAlbaranVenta::pushAgenteCodigo_clicked()
 			{
 				if( getRecAgente()->getRecordID() != 0 ) {
 					editAgenteCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecAgente(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecAgente(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -683,7 +683,7 @@ void FrmEditAlbaranVenta::pushCuentaPagoCuenta_clicked()
 			{
 				if( getRecCuentaPago()->getRecordID() != 0 ) {
 					editCuentaPagoCuenta->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -753,7 +753,7 @@ void FrmEditAlbaranVenta::pushProyectoCodigo_clicked()
 			{
 				if( getRecProyecto()->getRecordID() != 0 ) {
 					editProyectoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProyecto(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecProyecto(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -843,7 +843,7 @@ void FrmEditAlbaranVenta::pushFormaPagoCodigo_clicked()
 			{
 				if( getRecFormaPago()->getRecordID() != 0 ) {
 					editFormaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -905,7 +905,7 @@ void FrmEditAlbaranVenta::pushCuentaPagoCodigo_clicked()
 			{
 				if( getRecCuentaPago()->getRecordID() != 0 ) {
 					editCuentaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

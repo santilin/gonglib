@@ -124,7 +124,7 @@ void FrmEditFormaPago::pushCuentaTesoreriaCodigo_clicked()
 			{
 				if( getRecCuentaTesoreria()->getRecordID() != 0 ) {
 					editCuentaTesoreriaCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaTesoreria(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaTesoreria(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

@@ -17,7 +17,7 @@
 namespace gong {
 
 FrmBase::FrmBase ( QWidget *parent, const Xtring &name, WidgetFlags f )
-    : QWidget ( parent, name.c_str(), f ),
+    : QWidget ( theGuiApp->getMainWindow() ? parent : 0, name.c_str(), f ),
       mWasCancelled ( true ), mShownYet( false ), mClosingExternally( true ),
       pShowModalFor ( 0 ), pRealParent ( parent ), pFocusWidget ( 0 ),
       pSavedFocusWidget( 0 ), pEventLoop( 0 )
@@ -219,12 +219,15 @@ void FrmBase::closeEvent ( QCloseEvent *e )
         if ( pShowModalFor ) {
 //            _GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
             pShowModalFor->setEnabled( true );
-            pShowModalFor->hide();
             theGuiApp->processEvents();
-//            if ( pShowModalFor->isMinimized() )
+/*			
+            pShowModalFor->hide();
             pShowModalFor->showNormal();
+/*			
             pShowModalFor->activateWindow();
+            pShowModalFor->showNormal();
             pShowModalFor->raise();
+            */
             pShowModalFor = 0;
             if( pSavedFocusWidget ) {
 //                _GONG_DEBUG_PRINT(0, "Setting focus to " + Xtring( pSavedFocusWidget->name() ) );
@@ -306,10 +309,11 @@ void FrmBase::setWiseFocus(QWidget *w)
 void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
 {
     pShowModalFor = parent;
-    bool wasmaximized = false;
+    QWidget *wasmaximized = 0;
     if( parent ) {
-        _GONG_DEBUG_PRINT(0, parent->name() );
-        wasmaximized = parent->parentWidget() && parent->parentWidget()->isMaximized();
+        wasmaximized = parent->isMaximized() ? 
+			parent : (parent->parentWidget() && parent->parentWidget()->isMaximized()) ? 
+				parent->parentWidget() : 0;
         parent->setEnabled ( false );
     }
     if( !isVisible() ) {
@@ -323,10 +327,12 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
     if ( !parentwin || parentwin == parent )
         parentwin = this;
     int x=parentwin->x(), y=parentwin->y();
-// 	_GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Centrando ventana: Padre (x=%d,y=%d,w=%d,h=%d), this (x=%d,y=%d,w=%d,h=%d), parentwin (x=%d,y=%d,w=%d,h=%d)",
-// 											parent?parent->x() :-1, parent?parent->y() :-1, parent?parent->width() :-1, parent?parent->height() :-1,
-// 											this->x(), this->y(), width(), height(),
-// 											parentwin->x(), parentwin->y(), parentwin->width(), parentwin->height() ) );
+#if 0    
+ 	_GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Centrando ventana: Padre (x=%d,y=%d,w=%d,h=%d), this (x=%d,y=%d,w=%d,h=%d), parentwin (x=%d,y=%d,w=%d,h=%d)",
+ 											parent?parent->x() :-1, parent?parent->y() :-1, parent?parent->width() :-1, parent?parent->height() :-1,
+ 											this->x(), this->y(), width(), height(),
+ 											parentwin->x(), parentwin->y(), parentwin->width(), parentwin->height() ) );
+#endif	
     if ( centered || !theGuiApp->getMainWindow() )
     {
         if ( parent /*&& !wasmaximized*/ )  // Center to the parent
@@ -358,8 +364,8 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
     }
     if ( x != parentwin->x() || y != parentwin->y() )
         parentwin->move ( x, y );
-    raise();
-    activateWindow();
+//    raise();
+//    activateWindow();
     theGuiApp->changeOverrideCursor( QCursor( Qt::ArrowCursor ) );
 //     while ( !isHidden() ) {
 //         theGuiApp->processEvents();
@@ -374,7 +380,7 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
     pEventLoop = 0;
 //     theGuiApp->resetCursor();
     if( wasmaximized )
-        parent->parentWidget()->showMaximized();
+        wasmaximized->showMaximized();
     // parent is reenabled in the close event of this form
 }
 

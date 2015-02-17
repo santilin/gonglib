@@ -309,7 +309,7 @@ void FrmEditArticulo::pushTipoIVACodigo_clicked()
 			{
 				if( getRecTipoIVA()->getRecordID() != 0 ) {
 					editTipoIVACodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoIVA(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecTipoIVA(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -383,7 +383,7 @@ void FrmEditArticulo::pushProveedoraCodigo_clicked()
 			{
 				if( getRecProveedora()->getRecordID() != 0 ) {
 					editProveedoraCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProveedora(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecProveedora(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -471,7 +471,7 @@ void FrmEditArticulo::pushFamiliaCodigo_clicked()
 			{
 				if( getRecFamilia()->getRecordID() != 0 ) {
 					editFamiliaCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFamilia(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecFamilia(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -540,7 +540,7 @@ void FrmEditArticulo::pushArticuloBaseCodigo_clicked()
     case 'E':
     {
         editArticuloBaseCodigo->setJustEdited( false );
-        DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this,
+        DBAPP->createClient( DBAPP->createEditForm(this,
                                               getRecArticuloBase(), 0, DataTable::selecting,
                                               dbApplication::simpleEdition, this ) );
     }

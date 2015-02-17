@@ -190,7 +190,7 @@ void FrmEditEmpresa::pushMonedaCodigo_clicked()
 			{
 				if( getRecMoneda()->getRecordID() != 0 ) {
 					editMonedaCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecMoneda(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecMoneda(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

@@ -252,7 +252,7 @@ void FrmEditMiembro::pushProyectoCodigo_clicked()
 			{
 				if( getRecProyecto()->getRecordID() != 0 ) {
 					editProyectoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProyecto(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecProyecto(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -327,7 +327,7 @@ void FrmEditMiembro::pushContactoCIF_clicked()
 			{
 				if( getRecContacto()->getRecordID() != 0 ) {
 					editContactoCIF->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecContacto(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecContacto(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -396,7 +396,7 @@ void FrmEditMiembro::pushTipoSociaCodigo_clicked()
 			{
 				if( getRecTipoSocia()->getRecordID() != 0 ) {
 					editTipoSociaCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoSocia(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecTipoSocia(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -468,7 +468,7 @@ void FrmEditMiembro::pushFormaPagoCodigo_clicked()
 			{
 				if( getRecFormaPago()->getRecordID() != 0 ) {
 					editFormaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -555,7 +555,7 @@ void FrmEditMiembro::pushClienteCodigo_clicked()
 			{
 				if( getRecCliente()->getRecordID() != 0 ) {
 					editClienteCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCliente(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCliente(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

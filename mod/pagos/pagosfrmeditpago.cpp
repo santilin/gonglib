@@ -249,7 +249,7 @@ void FrmEditPago::pushFacturaNumero_clicked()
     {
         if( getRecFactura()->getRecordID() != 0 ) {
             editFacturaNumero->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFactura(),
+            DBAPP->createClient( DBAPP->createEditForm(this, getRecFactura(),
                                                   0, DataTable::selecting, dbApplication::simpleEdition, this ) );
         }
     }
@@ -328,7 +328,7 @@ void FrmEditPago::pushCuentaPagoCuenta_clicked()
 			{
 				if( getRecCuentaPago()->getRecordID() != 0 ) {
 					editCuentaPagoCuenta->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -395,7 +395,7 @@ void FrmEditPago::pushTerceroCodigo_clicked()
     {
         if( getRecTercero()->getRecordID() != 0 ) {
             editTerceroCodigo->setJustEdited( false );
-            DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTercero(),
+            DBAPP->createClient( DBAPP->createEditForm(this, getRecTercero(),
                                                   0, DataTable::selecting, dbApplication::simpleEdition, this ) );
         }
     }
@@ -623,7 +623,7 @@ void FrmEditPago::pushMonedaCodigo_clicked()
 			{
 				if( getRecMoneda()->getRecordID() != 0 ) {
 					editMonedaCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecMoneda(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecMoneda(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -685,7 +685,7 @@ void FrmEditPago::pushCuentaPagoCodigo_clicked()
 			{
 				if( getRecCuentaPago()->getRecordID() != 0 ) {
 					editCuentaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -777,6 +777,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 
 void FrmEditPago::pushPagar_clicked()
 {
+	bool refrescar = false;
     if( mMustRead )
         read();
     if( IPagableRecord *pr = dynamic_cast<IPagableRecord *>(getRecFactura() ) ) {
@@ -789,11 +790,12 @@ void FrmEditPago::pushPagar_clicked()
 #else
             bool supervisar = false;
 #endif
-            pr->pagarRecibo( this, getRecPago()->getRecordID(), getRecPago(), supervisar );
+            refrescar = pr->pagarRecibo( this, getRecPago()->getRecordID(), getRecPago(), supervisar );
         } else if( getRecPago()->getValue( "ESTADORECIBO").toInt() == PagosModule::ReciboPagado ) {
-            pr->anularPagoRecibo( this, getRecPago()->getRecordID(), getRecPago());
+            refrescar = pr->anularPagoRecibo( this, getRecPago()->getRecordID(), getRecPago());
         }
-        refresh();
+        if( refrescar )
+			refresh();
     }
 }
 

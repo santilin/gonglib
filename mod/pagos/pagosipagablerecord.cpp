@@ -690,13 +690,15 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
         delete cuenta_origen;
 #endif
 	parent->refreshRelatedForms();
+	if( DBAPP->getMainWindow() )  {
 #ifdef HAVE_TESORERIAMODULE
-	DBAPP->getMainWindow()->refreshByName( parent->name(), "APUNTETESORERIA" );
+		DBAPP->getMainWindow()->refreshByName( parent->name(), "APUNTETESORERIA" );
 #endif	
-	if( mTipo == pagos ) {
-		DBAPP->getMainWindow()->refreshByName( parent->name(), "PAGOS" );
-	} else {
-		DBAPP->getMainWindow()->refreshByName( parent->name(), "COBROS" );
+		if( mTipo == pagos ) {
+			DBAPP->getMainWindow()->refreshByName( parent->name(), "PAGOS" );
+		} else {
+			DBAPP->getMainWindow()->refreshByName( parent->name(), "COBROS" );
+		}
 	}
 	return true;
 }

@@ -44,7 +44,7 @@ dbRecordID IAsentableRecord::regenAsiento(bool supervisar)
 FrmEditRec *IAsentableRecord::showAsiento( DataTable::EditMode editmode)
 {
     FrmEditRec *frm = DBAPP->createEditForm(0, pRecord, 0, editmode);
-    DBAPP->getMainWindow()->createClient( frm );
+    DBAPP->createClient( frm );
     return frm;
 }
 

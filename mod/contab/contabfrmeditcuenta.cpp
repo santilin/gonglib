@@ -275,7 +275,7 @@ void FrmEditCuenta::pushContactoCIF_clicked()
 			{
 				if( getRecContacto()->getRecordID() != 0 ) {
 					editContactoCIF->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecContacto(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecContacto(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

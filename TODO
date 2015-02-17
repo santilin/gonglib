@@ -1,11 +1,17 @@
 == HECHO ==
 
 == HACIENDO ==
-* Cats: Importar ficheros de salidas a clubs.
+* Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
+* Refactor: dbapp->getMainWindow()->createClient() y deleteClient() pasarlo a dbapp.
 
 == HACER ==
+* Cats: Importar ficheros de salidas a clubs.
+* Factu: Formulario datos ventas y compras de artículos
+* Factu: Informe de existencias máximas y mínimas.
+
 
 == EN COLA ==
+* ENABLE_NLS no está definido: http://www.heiner-eichmann.de/autotools/adding_gettext.html
 
 == NO HACER ==
 
@@ -23,12 +29,6 @@
 == MODELOSFISCALES ==
 * Implementar algún día
 
-== Socias ==
-* Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón, 
-  por lo que me deja sin opción de continuar no hacer nada más, 
-* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
-* Formato de los números de recibo.
-
 == Ofertas ==
 * Tesorería de ofertas
 * Estadísticas
@@ -38,7 +38,6 @@
 * tpv: Pagos por rondas: buscar un FrmList animado
 * Al limpiar la mesa, lee registros
 * saveEstado intenta grabar siempre, ver la diferencia
-* Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
 * ???? Añadir forma de pago "Por cajón" y en la x, descontar los pagos de esa forma de pago.
 ** Cuando se pague algo con esa forma de pago, en pagos, guardar la sesión tpv actual.
 * Que se resalte la familia seleccionada
@@ -46,9 +45,7 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
-* Factu: Formulario datos ventas y compras de artículos
 * Imprimir etiquetas con códigos de barras
-* Factu: Informe de existencias máximas y mínimas.
 * Calcular pvp de un albarán de compra.
 * Clientes especiales, con un porcentaje extra.
 * Enviar/recibir facturas a/de otro gestiong
@@ -63,6 +60,9 @@
 * Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 
 == gong-socias ==
+* Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón, 
+  por lo que me deja sin opción de continuar no hacer nada más, 
+* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 * Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
 * Elegir remesa en generar recibos, elegir solo las no cerradas
 * Tipo de partida: nameslisttable
@@ -111,11 +111,9 @@
 ** Niveles del plan contable
 
 == gong-contactos ==
-* Búsquedas por nombre alternativo
 * Visualizar contacto embebido: readonly botones
 * Enviar adjuntos por email
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
-* Utilizar campo alternativo para buscar clientes, proveedoras y contactos
 * Mostrar nombres parecidos al dar de alta un nombre
 
 == gong-empresa ==

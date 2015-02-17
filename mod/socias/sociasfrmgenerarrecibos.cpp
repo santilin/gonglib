@@ -380,7 +380,8 @@ void FrmGenerarRecibos::accept()
                             delete frmeditrecibo;
                         }
 #endif
-                        DBAPP->getMainWindow()->refreshByName( Xtring::null, Xtring::null );
+						if( DBAPP->getMainWindow() ) 
+							DBAPP->getMainWindow()->refreshByName( Xtring::null, Xtring::null );
                     } catch( dbError &e ) {
                         informe += Xtring::printf( _("\tError: %s\n"), e.what() );
                     }

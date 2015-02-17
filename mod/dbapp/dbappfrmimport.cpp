@@ -104,7 +104,8 @@ void FrmImport::accept()
         cancelButton()->setText( "&Cerrar" );
         finishButton()->setEnabled(false);
         backButton()->setEnabled(false);
-        DBAPP->getMainWindow()->refreshByName( Xtring::null, Xtring::null );
+		if( DBAPP->getMainWindow() ) 
+			DBAPP->getMainWindow()->refreshByName( Xtring::null, Xtring::null );
     }
     else
     {

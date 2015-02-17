@@ -261,7 +261,7 @@ void FrmEditGastoTipo::pushClienteCodigo_clicked()
 			{
 				if( getRecCliente()->getRecordID() != 0 ) {
 					editClienteCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCliente(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCliente(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -329,7 +329,7 @@ void FrmEditGastoTipo::pushProveedoraCodigo_clicked()
 			{
 				if( getRecProveedora()->getRecordID() != 0 ) {
 					editProveedoraCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecProveedora(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecProveedora(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -397,7 +397,7 @@ void FrmEditGastoTipo::pushCuentaTerceroCuenta_clicked()
 			{
 				if( getRecCuentaTercero()->getRecordID() != 0 ) {
 					editCuentaTerceroCuenta->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaTercero(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaTercero(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -465,7 +465,7 @@ void FrmEditGastoTipo::pushArticuloCodigo_clicked()
 			{
 				if( getRecArticulo()->getRecordID() != 0 ) {
 					editArticuloCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecArticulo(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecArticulo(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -533,7 +533,7 @@ void FrmEditGastoTipo::pushCuentaConceptoCuenta_clicked()
 			{
 				if( getRecCuentaConcepto()->getRecordID() != 0 ) {
 					editCuentaConceptoCuenta->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuentaConcepto(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuentaConcepto(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -737,7 +737,7 @@ void FrmEditGastoTipo::slotUtilizar()
 		frm->show();
 		frm->updateFromDetails(0);
 		frm->hide();
-		DBAPP->getMainWindow()->createClient ( frm );
+		DBAPP->createClient ( frm );
 	}
 }
 

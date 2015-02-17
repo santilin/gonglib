@@ -251,7 +251,7 @@ void FrmEditProveedora::pushContactoCIF_clicked()
     case 'E':
     {
         editContactoCIF->setJustEdited( false );
-        DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this,
+        DBAPP->createClient( DBAPP->createEditForm(this,
                                               getRecContacto(), 0, DataTable::selecting,
                                               dbApplication::simpleEdition, this ) );
     }
@@ -320,7 +320,7 @@ void FrmEditProveedora::pushAgenteCodigo_clicked()
 			{
 				if( getRecAgente()->getRecordID() != 0 ) {
 					editAgenteCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecAgente(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecAgente(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -400,7 +400,7 @@ void FrmEditProveedora::pushFormaPagoCodigo_clicked()
 			{
 				if( getRecFormaPago()->getRecordID() != 0 ) {
 					editFormaPagoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecFormaPago(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

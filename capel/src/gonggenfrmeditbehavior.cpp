@@ -406,7 +406,7 @@ void addFrmEditBehaviorFields(CppModule *cpcpp, CppModule *cph, const Xtring &fr
 "\t\tcase 'E':\n"
 "\t\t\t{\n"
 "\t\t\t\t" + ctrlcode + "->setJustEdited( false );\n"
-"\t\t\t\tDBAPP->getMainWindow()->createClient( DBAPP->createEditForm(static_cast<FrmEditRecMaster *>(pTheForm),\n"
+"\t\t\t\tDBAPP->createClient( DBAPP->createEditForm(static_cast<FrmEditRecMaster *>(pTheForm),\n"
 "\t\t\t\t\tgetRec" + referredfield + "(), 0, DataTable::selecting,\n"
 "\t\t\t\tdbApplication::simpleEdition, pTheForm ) );\n"
 "\t\t\t}\n"

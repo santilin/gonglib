@@ -1,4 +1,4 @@
-#include <config.h>
+#include "config.h"
 #include <cstdio>
 #include <cstdlib> // getenv
 #include <unistd.h>
@@ -183,7 +183,7 @@ int GongLibrary::parseArguments( int argc, char **argv )
             {0, 0, 0, 0}
         };
         // Do not forget to add here the parameter letters and colons
-        c = getopt_long( argc, argv, "vl:g:d:", long_options, &option_index );
+        c = getopt_long( argc, argv, "vl:g:d:p:", long_options, &option_index );
         if ( c == -1 )
             break;
 

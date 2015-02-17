@@ -182,7 +182,7 @@ void FrmEditFamilia::pushTipoIVACodigo_clicked()
 			{
 				if( getRecTipoIVA()->getRecordID() != 0 ) {
 					editTipoIVACodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoIVA(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecTipoIVA(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

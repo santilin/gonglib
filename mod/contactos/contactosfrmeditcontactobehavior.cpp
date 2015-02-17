@@ -211,7 +211,7 @@ void FrmEditContactoBehavior::pushContactoCIF_clicked()
 		case 'E':
 			{
 				editContactoCIF->setJustEdited( false );
-				DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(static_cast<FrmEditRecMaster *>(pTheForm),
+				DBAPP->createClient( DBAPP->createEditForm(static_cast<FrmEditRecMaster *>(pTheForm),
 					getRecContacto(), 0, DataTable::selecting,
 				dbApplication::simpleEdition, pTheForm ) );
 			}

@@ -248,13 +248,16 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
 					title = propTitle.getOrig();
 				if( title.isEmpty() )
 					title = _("Informe");
-                mViewer = new ReportViewer ( salida, true, DBAPP->getMainWindow()->getViewport() );
+                mViewer = new ReportViewer ( salida, true, DBAPP->getMainWindow() ? DBAPP->getMainWindow()->getViewport() : 0);
                 mViewer->setObjectName( tmpnam(0) );
                 mViewer->setCaption ( toGUI( Xtring::printf( _( "Informe: %s" ), title.c_str() ) ) );
                 mViewer->setPageDimensions ( ( int ) ( salida->sizeX() ), ( int ) ( salida->getFolioSizeY() ) );
                 mViewer->setPageCollection ( static_cast<ReportQtOutput *> ( salida )->getPageCollection() );
                 if( tiposalida == RTK_Screen ) {
-                    DBAPP->getMainWindow()->createClient ( mViewer );
+					if( DBAPP->getMainWindow() )
+						DBAPP->createClient ( mViewer );
+					else 
+						mViewer->show();
                     mViewer->slotFirstPage();
                 } else if( tiposalida == RTK_Printer_With_Dialog ) {
                     mViewer->show();

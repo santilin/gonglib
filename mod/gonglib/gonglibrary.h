@@ -29,12 +29,8 @@ public:
     virtual ~GongLibrary();
     virtual void init();
 
-    RegConfig *getRegConfig() const {
-        return const_cast<RegConfig *>(&mRegConfig);
-    }
-    const Xtring &getLocalDataDir() const {
-        return mLocalDataDir;
-    }
+    RegConfig *getRegConfig() const { return const_cast<RegConfig *>(&mRegConfig); }
+    const Xtring &getLocalDataDir() const { return mLocalDataDir; }
     const Xtring &getGlobalDataDir() const {
         return mGlobalDataDir;
     }
@@ -56,9 +52,11 @@ public:
     Xtring getHostIP(const Xtring &host) const;
     Xtring getInterfaceIP(const Xtring &ifname) const;
     Xtring getUsage() const;
-
-private:
+	
+protected:
     int parseArguments( int argc, char **argv );
+	
+private:
     Xtring mLocalDataDir, mGlobalDataDir, mGonglibDataDir;
     const char *mPackageName, *mPackageVersion;
     RegConfig mRegConfig;

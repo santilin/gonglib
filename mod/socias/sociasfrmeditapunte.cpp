@@ -100,7 +100,7 @@ void FrmEditApunte::pushPartidaProyectoCodigo_clicked()
 			{
 				if( getRecPartidaProyecto()->getRecordID() != 0 ) {
 					editPartidaProyectoCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecPartidaProyecto(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecPartidaProyecto(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

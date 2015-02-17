@@ -219,7 +219,7 @@ void FrmEditApunte::pushCuentaCuenta_clicked()
 			{
 				if( getRecCuenta()->getRecordID() != 0 ) {
 					editCuentaCuenta->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCuenta(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCuenta(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

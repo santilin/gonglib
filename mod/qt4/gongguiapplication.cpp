@@ -76,6 +76,17 @@ bool GuiApplication::initMainWindow()
     return true;
 }
 
+
+QMdiSubWindow* GuiApplication::createClient(QWidget* w, bool force)
+{
+	if( getMainWindow() ) {
+		getMainWindow()->createClient(w, force);
+	} else {
+		w->show();
+	}		
+}
+
+
 void GuiApplication::sendKeyEvent ( QWidget *to, int key, int ascii, int state )
 {
     QKeyEvent *keyevent = new QKeyEvent ( QEvent::KeyPress, key, ascii, state );

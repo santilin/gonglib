@@ -92,7 +92,7 @@ void FrmCopiarDocumento::copiaAlbaranCompra()
             empresa::ModuleInstance->getRecEmpresa()->getRecordID() )
         + " AND ALBARANCOMPRA.EJERCICIO=" + orig_record->getConnection()->toSQL(
             empresa::ModuleInstance->getEjercicio() ) );
-    DBAPP->getMainWindow()->createClient( DBAPP->createEditForm( 0, orig_record, 0, DataTable::updating,
+    DBAPP->createClient( DBAPP->createEditForm( 0, orig_record, 0, DataTable::updating,
                                           dbApplication::EditFlags( dbApplication::deleteRecord | dbApplication::simpleEdition ) ) );
 }
 
@@ -125,7 +125,7 @@ void FrmCopiarDocumento::copiaFacturaCompra()
             empresa::ModuleInstance->getRecEmpresa()->getRecordID() )
         + " AND FACTURACOMPRA.EJERCICIO=" + orig_record->getConnection()->toSQL(
             empresa::ModuleInstance->getEjercicio() ) );
-    DBAPP->getMainWindow()->createClient( DBAPP->createEditForm( 0, orig_record, 0, DataTable::updating,
+    DBAPP->createClient( DBAPP->createEditForm( 0, orig_record, 0, DataTable::updating,
                                           dbApplication::EditFlags( dbApplication::deleteRecord | dbApplication::simpleEdition ) ) );
 }
 
@@ -158,7 +158,7 @@ void FrmCopiarDocumento::copiaAlbaranVenta()
             empresa::ModuleInstance->getRecEmpresa()->getRecordID() )
         + " AND ALBARANVENTA.EJERCICIO=" + orig_record->getConnection()->toSQL(
             empresa::ModuleInstance->getEjercicio() ) );
-    DBAPP->getMainWindow()->createClient( DBAPP->createEditForm( 0, orig_record, 0, DataTable::updating,
+    DBAPP->createClient( DBAPP->createEditForm( 0, orig_record, 0, DataTable::updating,
                                           dbApplication::EditFlags( dbApplication::deleteRecord | dbApplication::simpleEdition ) ) );
 }
 
@@ -192,7 +192,7 @@ void FrmCopiarDocumento::copiaFacturaVenta()
             empresa::ModuleInstance->getRecEmpresa()->getRecordID() )
         + " AND FACTURAVENTA.EJERCICIO=" + orig_record->getConnection()->toSQL(
             empresa::ModuleInstance->getEjercicio() ) );
-    DBAPP->getMainWindow()->createClient( DBAPP->createEditForm( 0, orig_record, 0, DataTable::updating,
+    DBAPP->createClient( DBAPP->createEditForm( 0, orig_record, 0, DataTable::updating,
                                           dbApplication::EditFlags( dbApplication::deleteRecord | dbApplication::simpleEdition ) ) );
 }
 

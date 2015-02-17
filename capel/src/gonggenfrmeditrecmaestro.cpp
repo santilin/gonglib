@@ -418,7 +418,7 @@ void addFrmEditRecMasterFields(CppModule *cpcpp, CppModule *cph, const Xtring &f
 "\t\t\t{\n"
 "\t\t\t\tif( getRec" + referredfield + "()->getRecordID() != 0 ) {\n"
 "\t\t\t\t\t" + ctrlcode + "->setJustEdited( false );\n"
-"\t\t\t\t\tDBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRec" + referredfield + "(),\n"
+"\t\t\t\t\tDBAPP->createClient( DBAPP->createEditForm(this, getRec" + referredfield + "(),\n"
 "\t\t\t\t\t\t0, DataTable::selecting, dbApplication::simpleEdition, this ) );\n"
 "\t\t\t\t}\n"
 "\t\t\t}\n"

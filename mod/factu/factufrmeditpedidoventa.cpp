@@ -277,7 +277,7 @@ void FrmEditPedidoVenta::pushTipoDocCodigo_clicked()
 			{
 				if( getRecTipoDoc()->getRecordID() != 0 ) {
 					editTipoDocCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoDoc(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecTipoDoc(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -356,7 +356,7 @@ void FrmEditPedidoVenta::pushClienteCodigo_clicked()
 			{
 				if( getRecCliente()->getRecordID() != 0 ) {
 					editClienteCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecCliente(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecCliente(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -424,7 +424,7 @@ void FrmEditPedidoVenta::pushAgenteCodigo_clicked()
 			{
 				if( getRecAgente()->getRecordID() != 0 ) {
 					editAgenteCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecAgente(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecAgente(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}

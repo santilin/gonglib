@@ -31,11 +31,10 @@ public:
     virtual void init(); // from GongLibrary
 
     /* GUI related stuff */
-    GuiMainWindow *getMainWindow() const {
-        return pMainWindow;
-    }
+    GuiMainWindow *getMainWindow() const { return pMainWindow; }
     virtual bool initMainWindow();
-    static void sendKeyEvent( QWidget *to, int key, int ascii, int state );
+	class QMdiSubWindow *createClient(QWidget *w, bool force = false );
+	static void sendKeyEvent( QWidget *to, int key, int ascii, int state );
     void waitCursor(bool on=true);
     void resetCursor();
     void setTitle( const Xtring &newtitle = Xtring::null);

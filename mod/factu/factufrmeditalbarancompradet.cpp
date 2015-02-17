@@ -181,7 +181,7 @@ void FrmEditAlbaranCompraDet::pushTipoIVACodigo_clicked()
 			{
 				if( getRecTipoIVA()->getRecordID() != 0 ) {
 					editTipoIVACodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecTipoIVA(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecTipoIVA(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
@@ -250,7 +250,7 @@ void FrmEditAlbaranCompraDet::pushArticuloCodigo_clicked()
 			{
 				if( getRecArticulo()->getRecordID() != 0 ) {
 					editArticuloCodigo->setJustEdited( false );
-					DBAPP->getMainWindow()->createClient( DBAPP->createEditForm(this, getRecArticulo(),
+					DBAPP->createClient( DBAPP->createEditForm(this, getRecArticulo(),
 						0, DataTable::selecting, dbApplication::simpleEdition, this ) );
 				}
 			}
