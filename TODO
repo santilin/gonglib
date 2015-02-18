@@ -2,7 +2,7 @@
 
 == HACIENDO ==
 * Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
-* Refactor: dbapp->getMainWindow()->createClient() y deleteClient() pasarlo a dbapp.
+* Refactor: dbapp->getMainWindow()->deleteClient() pasarlo a dbapp.
 
 == HACER ==
 * Cats: Importar ficheros de salidas a clubs.

@@ -18,6 +18,8 @@
 #include <gongosdwidget.h>
 #include "gongguinamespace.h"
 
+class QMdiSubWindow;
+
 namespace gong {
 
 class GuiMainWindow;

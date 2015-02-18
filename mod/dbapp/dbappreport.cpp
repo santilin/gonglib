@@ -254,10 +254,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                 mViewer->setPageDimensions ( ( int ) ( salida->sizeX() ), ( int ) ( salida->getFolioSizeY() ) );
                 mViewer->setPageCollection ( static_cast<ReportQtOutput *> ( salida )->getPageCollection() );
                 if( tiposalida == RTK_Screen ) {
-					if( DBAPP->getMainWindow() )
-						DBAPP->createClient ( mViewer );
-					else 
-						mViewer->show();
+					DBAPP->createClient ( mViewer );
                     mViewer->slotFirstPage();
                 } else if( tiposalida == RTK_Printer_With_Dialog ) {
                     mViewer->show();
