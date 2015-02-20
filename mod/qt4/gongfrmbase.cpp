@@ -316,13 +316,22 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
 				parent->parentWidget() : 0;
         parent->setEnabled ( false );
     }
-    if( !isVisible() ) {
-        if( createclient && theGuiApp->getMainWindow() ) {
+    // Si no hay mainwindow, todas las ventanas son modales.
+    if( !theGuiApp->getMainWindow() ) {
+		if( windowModality() == Qt::NonModal ) {
+			// Antes de cambiar la modalidad de una ventana, hay que ocultarla si es visible
+			if( isVisible() )
+				hide();
+			setWindowModality(Qt::ApplicationModal);
+		}
+		show();
+	} else if( !isVisible() ) {
+        if( createclient ) {
             theGuiApp->getMainWindow()->createClient(this)->deleteLater();
         } else {
-            show();
+			show();
         }
-    }
+    } 
     QWidget *parentwin = parentWidget();
     if ( !parentwin || parentwin == parent )
         parentwin = this;
