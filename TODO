@@ -1,11 +1,8 @@
 == HECHO ==
 
 == HACIENDO ==
-* Hacer tpvscreen una mainwindow o a pantalla completa. Seguir probando, no va muy bien.
-* Refactor: dbapp->getMainWindow()->deleteClient() pasarlo a dbapp.
 
 == HACER ==
-* Cats: Importar ficheros de salidas a clubs.
 * Factu: Formulario datos ventas y compras de artículos
 * Factu: Informe de existencias máximas y mínimas.
 
@@ -34,6 +31,7 @@
 * Estadísticas
 
 == gong-tpv ==
+* Añadir botón Más botones y añadir ahí el resto de botones.
 * Iniciar tpv, cuando no hay clientes, sale la ventana de elegir cliente, y si no se elige, vuelve a pedirlo.
 * tpv: Pagos por rondas: buscar un FrmList animado
 * Al limpiar la mesa, lee registros
@@ -246,6 +244,7 @@
 * MsgYesNoDontAskAgain: aplicar a main.cpp, language
 
 == Refactoring ==
+* CSV o Csv en csvutils.
 * Refactor: FrmCsvImport y FrmCsvExport
 * Eliminar enablesearchboxes
 * dbRecordList no permitir push_back

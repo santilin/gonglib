@@ -15,6 +15,7 @@ else
 	GONGDIR="$(dirname $0)/$SCRIPTDIR"
 fi
 GONGDIR=$(cd $GONGDIR; pwd)
+echo "GONGDIR=$GONGDIR"
 GONGMODULESDIR=$GONGDIR
 CAPEL="$GONGDIR/capel/Debug/src/capel"
 
@@ -124,11 +125,6 @@ create_links()
 	echo $PWD_SAVE
 	rm acinclude.m4
 	ln -s $GONGDIR/acinclude.m4 .
-	rmret=$(rm m4)
-	if [[ ! -z "$rmret" ]]; then
-		exit
-	fi
-	ln -s $GONGDIR/m4
 	rm gonglib
 	ln -s $GONGDIR/mod/gonglib gonglib
 	mkdir share 2>/dev/null
@@ -187,7 +183,7 @@ create_app)
 	MODULE=$2
 	if test "x$MODULE" == "x"; then
 		echo "Faltan los módulos a incluir. Estos son los módulos disponibles:"
-		find $GONGDIR/mod -maxdepth 1 -a -type d -printf "%f\n"| sort
+		find $GONGMODULESDIR -maxdepth 1 -a -type d -printf "%f\n"| sort
 		exit 1;
 	fi
 	if check_in_project $PROYECTO ; then :
@@ -213,10 +209,12 @@ create_app)
 		if $CAPEL configure.ac; then
 			echo "        src/Makefile )" >> configure.ac
 			echo "        src" >> Makefile.am
+			cp $GONGDIR/m4/ax* m4
 			if $CAPEL src/${LOWER_PROYECTO}module.cpp; then
 				echo "El proyecto $PROYECTO ha sido creado."
 				echo "Ejecute $GONGDIR/gong.sh init_project en el directorio base del proyecto $PROYECTO."
 			fi
+			
 		fi
 	fi
 ;;

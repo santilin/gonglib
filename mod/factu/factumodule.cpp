@@ -1048,14 +1048,14 @@ void FactuModule::slotMenuFactuEstadCompraVenta()
 {
     FrmEstadCompraVenta *frmstats = new FrmEstadCompraVenta();
     frmstats->show();
-    pMainWindow->createClient ( frmstats );
+    DBAPP->createClient ( frmstats );
 }
 
 void FactuModule::slotMenuFactuBalanceCliPro()
 {
     FrmBalanceCliPro *frmbal = new FrmBalanceCliPro();
     frmbal->show();
-    pMainWindow->createClient ( frmbal );
+    DBAPP->createClient ( frmbal );
 }
 
 void FactuModule::slotMenuFactuCambiosMasivosArticulos()
@@ -1065,7 +1065,7 @@ void FactuModule::slotMenuFactuCambiosMasivosArticulos()
         return;
     FrmCambiosMasivosArticulos *frmcamb = new FrmCambiosMasivosArticulos ( 0, "CambiosMasivosArticulos" );
     frmcamb->show();
-    pMainWindow->createClient ( frmcamb );
+    DBAPP->createClient ( frmcamb );
 }
 
 void FactuModule::slotMenuFactuGenPedidosCompras()
@@ -1075,7 +1075,7 @@ void FactuModule::slotMenuFactuGenPedidosCompras()
         return;
     FrmGenPedidoCompra *frmgenpedidocompra = new FrmGenPedidoCompra(0, "GenPedidoCompra");
     frmgenpedidocompra->show();
-    pMainWindow->createClient( frmgenpedidocompra );
+    DBAPP->createClient( frmgenpedidocompra );
 }
 
 #ifdef HAVE_CONTABMODULE
@@ -1086,7 +1086,7 @@ void FactuModule::slotMenuFactuRegenAsientos()
         return;
     FrmRegenAsientos *frmregenasientos = new FrmRegenAsientos(0, "RegenAsientos");
     frmregenasientos->show();
-    pMainWindow->createClient( frmregenasientos );
+    DBAPP->createClient( frmregenasientos );
 }
 #else
 void FactuModule::slotMenuFactuRegenAsientos()
@@ -1101,7 +1101,7 @@ void FactuModule::slotMenuFactuCopiarDocumento()
         return;
     FrmCopiarDocumento *frmcopiardocumento = new FrmCopiarDocumento(0, "CopiarDocumento");
     frmcopiardocumento->show();
-    pMainWindow->createClient( frmcopiardocumento );
+    DBAPP->createClient( frmcopiardocumento );
 }
 
 

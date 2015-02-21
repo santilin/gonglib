@@ -36,6 +36,8 @@ public:
     GuiMainWindow *getMainWindow() const { return pMainWindow; }
     virtual bool initMainWindow();
 	class QMdiSubWindow *createClient(QWidget *w, bool force = false );
+	bool deleteClient(QWidget *frm);
+
 	static void sendKeyEvent( QWidget *to, int key, int ascii, int state );
     void waitCursor(bool on=true);
     void resetCursor();
