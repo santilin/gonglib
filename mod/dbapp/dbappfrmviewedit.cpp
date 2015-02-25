@@ -379,6 +379,7 @@ int FrmViewEdit::exec()
     }
     lstFields->setCurrentRow(1); // skip ID
     updateStatus();
+	_GONG_DEBUG_PRINT(0, getRealParent()->name() );
     showModalFor( getRealParent(), false, true );
     if( !wasCancelled() ) {
         if( pViewDefinition->isModified()

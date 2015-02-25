@@ -1,27 +1,31 @@
 == HECHO ==
 
 == HACIENDO ==
+* Muestro princesa, sale hijo/a 30, cierro y al abrir otra, queda el 30.
+** No se borrar el registro FAMILIAR_ID al borrar el de princesa.
+
+
+== Errores ==
+* tpv -t: recempresa no se lee?
+* ticket: cambiar mensaje del footer
+* ticket: no sale la fecha
 
 == HACER ==
 * Factu: Formulario datos ventas y compras de artículos
 * Factu: Informe de existencias máximas y mínimas.
-
 
 == EN COLA ==
 * ENABLE_NLS no está definido: http://www.heiner-eichmann.de/autotools/adding_gettext.html
 
 == NO HACER ==
 
-== ANGEL ==
-
-== CATS ==
-* Si la usuaria es recepción, no se pueden ver los datos extra de la princesa.
-* Muestro princesa, sale hijo/a 30, cierro y al abrir otra, queda el 30.
-
 == ERRORES ==
 
 
 = PRESCINDIBLE =
+
+== CATS ==
+* Si la usuaria es recepción, no se pueden ver los datos extra de la princesa.
 
 == MODELOSFISCALES ==
 * Implementar algún día

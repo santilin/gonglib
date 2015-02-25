@@ -180,8 +180,6 @@ void FrmBase::accept()
     mClosingExternally = false;
     close();
     mClosingExternally = true;
-    if( pEventLoop )
-        pEventLoop->exit( 0 ); // mWasCancelled = false
 }
 
 void FrmBase::cancel()
@@ -220,17 +218,12 @@ void FrmBase::closeEvent ( QCloseEvent *e )
 //            _GONG_DEBUG_PRINT ( 0, Xtring::printf ( "Activating %s", pShowModalFor->name() ) );
             pShowModalFor->setEnabled( true );
             theGuiApp->processEvents();
-/*			
-            pShowModalFor->hide();
-            pShowModalFor->showNormal();
-/*			
-            pShowModalFor->activateWindow();
-            pShowModalFor->showNormal();
+			if( pShowModalFor->isMinimized() ) 
+				pShowModalFor->showNormal();
+			pShowModalFor->activateWindow();
             pShowModalFor->raise();
-            */
             pShowModalFor = 0;
             if( pSavedFocusWidget ) {
-//                _GONG_DEBUG_PRINT(0, "Setting focus to " + Xtring( pSavedFocusWidget->name() ) );
                 pSavedFocusWidget->setFocus();
                 pSavedFocusWidget = 0;
             }

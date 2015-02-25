@@ -282,7 +282,6 @@ dbResultSet *dbConnection::select( const Xtring &query, bool ignoreerrors )
     case DRIVER_MYSQL:
         if ( !::mysql_real_query( pMySql, query.c_str(), query.length() ) ) {
             ::MYSQL_RES * res = ::mysql_store_result( pMySql );
-			std::cout << query.c_str() << std::endl;
             _GONG_DEBUG_PRINT(2, Xtring::printf( "My:(%lu rows):%s",
                                                  ( unsigned long ) ::mysql_num_rows( res ), query.c_str() ) );
             return new dbResultSet( this, res );

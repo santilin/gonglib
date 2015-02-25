@@ -83,9 +83,9 @@ public:
     bool isReadOnly() const;
     uint getDecimalesMoneda() const;
     bool usaProyectos() const;
+    void rereadEmpresa();
 
 private:
-    void rereadEmpresa();
     RecEmpresa *pRecEmpresa;
     int mCodEmpresa, mEjercicio;
     XtringList mContadorTables;

@@ -395,6 +395,32 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
     }
 
 
+    if( getRecMetaDBData()->getValue( "LOCKED" ).toBool() ) {
+        FrmBase::msgOk( getPackageString(),
+                        Xtring::printf("La base de datos fue bloqueada el día %s por la usuaria %s:"
+                                       "\n%s\nPara desbloquearla, ve a Sistema->Herramientas de la base de datos",
+                                       getRecMetaDBData()->getValue( "LOCKED_DATE" ).toString().c_str(),
+                                       getRecMetaDBData()->getValue( "LOCKED_USER" ).toString().c_str(),
+                                       getRecMetaDBData()->getValue( "LOCKED_DESC" ).toString().c_str() ),
+                        FrmBase::information );
+    } else {
+        // Do a backup if scheduled to
+        int backup_interval = getAppSetting( "SYSTEM.DBBACKUP.INTERVAL" ).toInt();
+        if(  backup_interval > 0 ) {
+            Date last_backup = getAppSetting( "SYSTEM.DBBACKUP.LAST_BACKUP",
+                                              (Date::currentDate() -3).toString("%Y-%m-%d") ).toDate();
+            if( Date::currentDate() - last_backup > backup_interval ) {
+                showStickyOSD( getPackageString(),
+                               Xtring::printf("Hace %d días que no se ha realizado una copia de seguridad",
+                                              Date::currentDate() - last_backup) );
+                FrmDatabaseTools *frmdbtools = new FrmDatabaseTools();
+                frmdbtools->backupDatabase( getAppSetting( "SYSTEM.DBBACKUP.AUTOMATIC" ).toBool() );
+                delete frmdbtools;
+            }
+        }
+    }
+    
+    
     // Check if the database has changed
     if( startingapp ) {
         pFrmLogin->addMessage( _("Comprobando las versiones de los módulos...") );
@@ -581,31 +607,6 @@ bool dbApplication::initMainWindow()
     if( pFrmLogin ) {
         delete pFrmLogin;
         pFrmLogin = 0;
-    }
-
-    if( getRecMetaDBData()->getValue( "LOCKED" ).toBool() ) {
-        FrmBase::msgOk( getPackageString(),
-                        Xtring::printf("La base de datos fue bloqueada el día %s por la usuaria %s:"
-                                       "\n%s\nPara desbloquearla, ve a Sistema->Herramientas de la base de datos",
-                                       getRecMetaDBData()->getValue( "LOCKED_DATE" ).toString().c_str(),
-                                       getRecMetaDBData()->getValue( "LOCKED_USER" ).toString().c_str(),
-                                       getRecMetaDBData()->getValue( "LOCKED_DESC" ).toString().c_str() ),
-                        FrmBase::information );
-    } else {
-        // Do a backup if scheduled to
-        int backup_interval = getAppSetting( "SYSTEM.DBBACKUP.INTERVAL" ).toInt();
-        if(  backup_interval > 0 ) {
-            Date last_backup = getAppSetting( "SYSTEM.DBBACKUP.LAST_BACKUP",
-                                              (Date::currentDate() -3).toString("%Y-%m-%d") ).toDate();
-            if( Date::currentDate() - last_backup > backup_interval ) {
-                showStickyOSD( getPackageString(),
-                               Xtring::printf("Hace %d días que no se ha realizado una copia de seguridad",
-                                              Date::currentDate() - last_backup) );
-                FrmDatabaseTools *frmdbtools = new FrmDatabaseTools();
-                frmdbtools->backupDatabase( getAppSetting( "SYSTEM.DBBACKUP.AUTOMATIC" ).toBool() );
-                delete frmdbtools;
-            }
-        }
     }
     _GONG_DEBUG_PRINT(1, QIcon::themeName().latin1() );
     const char *tn = getAppSetting( "ICON_THEME" ).toString().c_str();
