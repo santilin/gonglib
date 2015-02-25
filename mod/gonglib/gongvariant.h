@@ -160,12 +160,12 @@ public:
     friend const Variant operator-( const Variant &v1, const Variant &v2 );
     friend const Variant operator*( const Variant &v1, const Variant &v2 );
     friend const Variant operator/( const Variant &v1, const Variant &v2 );
+    void clear();
 
     // This allows you to use variants in template functions
     template <class T> T to() const;
 
 private:
-    void clear();
     Type mType;
     union {
         bool b;

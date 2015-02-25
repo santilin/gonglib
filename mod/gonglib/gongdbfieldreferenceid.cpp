@@ -19,7 +19,7 @@ namespace gong {
 bool dbFieldReferenceID::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
 /*>>>>>DBFIELD_REFERENCEID_ISVALID*/
-    if (!canBeNull() && ( value->isNull() || value->toVariant().toInt() == 0 ) ) {
+    if (!canBeNull() && ( value->isNull() || value->value().toInt() == 0 ) ) {
         if( integres ) {
             Xtring ref_table = getReference().mid(0, getReference().find("."));
             const dbTableDefinition *tbldef = r->getTableDefinition()->getdbDefinition().findTableDefinition( ref_table );

@@ -169,15 +169,15 @@ bool dbFieldDefinition::isValid( dbRecord *r, dbFieldValue *value,
     // comboints can get the value 0
     if (!canBeNull() && (
                 value->isNull()
-                || (value->toVariant().type() == Variant::tString && value->isEmpty())
-                || (value->toVariant().type() == Variant::tDateTime && value->isEmpty())
-                || (value->toVariant().type() == Variant::tDate && value->isEmpty())
-                || (value->toVariant().type() == Variant::tTime && value->isEmpty())
+                || (value->value().type() == Variant::tString && value->isEmpty())
+                || (value->value().type() == Variant::tDateTime && value->isEmpty())
+                || (value->value().type() == Variant::tDate && value->isEmpty())
+                || (value->value().type() == Variant::tTime && value->isEmpty())
                 || (isCode() && value->isEmpty() )
             )
        ) {
         if( integres ) {
-            if( Variant::isNumeric( value->toVariant().type() ) ) {
+            if( Variant::isNumeric( value->value().type() ) ) {
                 integres->addError( Xtring::printf( _("'%s' no puede ser cero."),
                                                     getCaption().c_str() ), getName() );
             } else {
@@ -187,7 +187,7 @@ bool dbFieldDefinition::isValid( dbRecord *r, dbFieldValue *value,
         }
         ret = false;
     }
-    switch( value->toVariant().type() )
+    switch( value->value().type() )
     {
     case Variant::tString:
         if( getSqlWidth() != 0 && value->toString().size() > getSqlWidth() ) {
@@ -225,23 +225,23 @@ Xtring dbFieldDefinition::toSQL( dbConnection *conn, const dbFieldValue &value, 
     case SQLTEXT:
     case SQLSTRING:
     case SQLBLOB:
-        return conn->toSQL( value.toVariant().toString() );
+        return conn->toSQL( value.value().toString() );
     case SQLINTEGER:
-        return conn->toSQL( value.toVariant().toInt() );
+        return conn->toSQL( value.value().toInt() );
     case SQLDECIMAL:
-        return conn->toSQL( value.toVariant().toMoney() );
+        return conn->toSQL( value.value().toMoney() );
     case SQLDATE:
-        return conn->toSQL( value.toVariant().toDate() );
+        return conn->toSQL( value.value().toDate() );
     case SQLTIMESTAMP:
     case SQLDATETIME:
-        return conn->toSQL( value.toVariant().toDateTime() );
+        return conn->toSQL( value.value().toDateTime() );
     case SQLTIME:
-        return conn->toSQL( value.toVariant().toTime() );
+        return conn->toSQL( value.value().toTime() );
     case SQLBOOL:
-        return conn->toSQL( value.toVariant().toBool()?"1":"0" );
+        return conn->toSQL( value.value().toBool()?"1":"0" );
     case SQLFLOAT:
     default:
-        return conn->toSQL( value.toVariant().toDouble() );
+        return conn->toSQL( value.value().toDouble() );
     }
 }
 

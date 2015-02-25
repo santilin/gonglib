@@ -1134,6 +1134,7 @@ Variant::Type dbConnection::MySQLTypetoVariantType( unsigned mysqltype )
         return Variant::tString;
     case MYSQL_TYPE_BLOB:
     case MYSQL_TYPE_TINY_BLOB:
+        return Variant::tString;
     case MYSQL_TYPE_MEDIUM_BLOB:
     case MYSQL_TYPE_LONG_BLOB:
         return Variant::tBinary;

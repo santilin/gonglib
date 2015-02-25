@@ -34,9 +34,7 @@ public:
     }
     void clear( const Variant &defvalue = Variant());
 
-    Variant toVariant() const {
-        return mValue;
-    }
+    Variant value() const { return mValue; }
     void setValue(const Variant &value);
     void setNull() {
         if( !isNull() ) {

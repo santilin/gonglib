@@ -157,8 +157,8 @@ protected:
     void enableEditControls(bool enabled);
     void enableEditControl(QWidget *control, bool enabled);
     virtual void initMenus();
-    void enableSearchBoxes(bool enabled);
-    void msgInputError(const Xtring &errorText);
+	void enableSearchBoxes( bool enabled );
+	void msgInputError(const Xtring &errorText);
     void showValidMessages(bool *isvalid, const ValidResult &validerror, QWidget *sender);
     Xtring getFrom() {
         return getRecord()->getTableName();

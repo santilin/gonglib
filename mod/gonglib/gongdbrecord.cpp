@@ -41,11 +41,16 @@ dbRecord::~dbRecord()
 void dbRecord::init_record()
 {
     // Create values
+	_GONG_DEBUG_PRINT(0, getTableName() );
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
     {
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
         mFieldValues.insert( flddef->getName(), flddef->createFieldValue() );
+		Variant value = flddef->createFieldValue();
         mOrigFieldValues.insert( flddef->getName(), flddef->createFieldValue() );
+            _GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
+												i, Variant::typeToName( mOrigFieldValues.seq_at(i)->value().type() ), 
+												value.toString().c_str(), Variant::typeToName( value.type() ) ) );
     }
     // Create relations
     for ( unsigned int nr = 0; nr < getTableDefinition()->getRelationDefinitions().size(); ++nr )
@@ -82,7 +87,7 @@ dbRecordID dbRecord::getRecordID() const
     if( idfldname.isEmpty() )
         idfldname = "ID";
     if( mFieldValues.find(idfldname) != mFieldValues.end() )
-        return mFieldValues[idfldname]->toVariant().toUInt();
+        return mFieldValues[idfldname]->value().toUInt();
     return 0;
 }
 
@@ -113,7 +118,7 @@ void dbRecord::setRecordID(dbRecordID recid)
     if( idfldname.isEmpty() )
         idfldname = "ID";
     if( mFieldValues.find(idfldname) != mFieldValues.end() ) {
-        if( mFieldValues[idfldname]->toVariant().toUInt() != recid ) {
+        if( mFieldValues[idfldname]->value().toUInt() != recid ) {
             mFieldValues[idfldname]->setValue( recid );
             mIsRead = false;
         }
@@ -138,7 +143,7 @@ bool dbRecord::isEmpty( const Xtring &nocheckfields ) const
             continue;
         if( mFieldValues.seq_at(i)->isNull() )
             continue;
-        if( mFieldValues.seq_at(i)->toVariant() == flddef->customDefaultValue() )
+        if( mFieldValues.seq_at(i)->value() == flddef->customDefaultValue() )
             continue;
         return false;
     }
@@ -271,13 +276,18 @@ void dbRecord::clear( bool setcustomvalues )
 {
 	// Clear relations first and then set default values of reference ids
     clearRelations(); // Do not set customvalues on related records
+	_GONG_DEBUG_PRINT(0, Xtring::printf("clear registro %s", this->getTableName().c_str() ) );
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
     {
+		const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
         if( !setcustomvalues ) {
-            mFieldValues.seq_at(i)->clear();
-            mOrigFieldValues.seq_at(i)->clear();
+			if( flddef->isReference() ) {
+				setValue(i, 0);
+			} else {
+				mFieldValues.seq_at(i)->clear();
+			}
+			mOrigFieldValues.seq_at(i)->clear();
         } else {
-            const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
 			Variant customvalue = flddef->customDefaultValue();
 /*			
 			_GONG_DEBUG_PRINT(0, Xtring::printf("Set custom default value for '%s'(%s) to '%s'(%s)",
@@ -372,7 +382,7 @@ void dbRecord::clearRelations()
             if ( recrel->getType() == dbRelationDefinition::one2one
                     || recrel->getType() == dbRelationDefinition::aggregate ) {
                 // Test if the related record has not been created
-                if( recrel->getRelatedRecord(-1) )
+                if( recrel->pRelatedRecord /* No uso getRelatedRecord porque entonces lo crea */ )
                     recrel->getRelatedRecord(-1)->clear( false );
                 setValue( recrel->getLeftField(), 0 );
             } else if ( recrel->getType() == dbRelationDefinition::one2many
@@ -400,8 +410,8 @@ bool dbRecord::SELECT ( const Xtring &where )
     if ( rs->next() ) {
         for ( unsigned int i=0; i<getFieldCount(); i++ ) {
             dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
-            switch ( flddef->getSqlColumnType() )
-            {
+			Variant value( rs->getValue(i) );
+            switch ( flddef->getSqlColumnType() ) {
             case SQLINTEGER:
             case SQLSTRING:
             case SQLTEXT:
@@ -412,14 +422,17 @@ bool dbRecord::SELECT ( const Xtring &where )
             case SQLBOOL:
             case SQLFLOAT:
             case SQLBLOB:
-                setValue( i, rs->getValue(i) );
+                setValue( i, value );
                 break;
             case SQLDECIMAL:
                 setValue( i, Money( rs->toDouble(i),
                                     pTableDef->getFieldDefinition(i)->getDecimals() ) );
                 break;
             }
-            mOrigFieldValues.seq_at(i)->setValue( getValue(i) );
+            _GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
+												i, Variant::typeToName( mOrigFieldValues.seq_at(i)->value().type() ), 
+												value.toString().c_str(), Variant::typeToName( value.type() ) ) );
+            mOrigFieldValues.seq_at(i)->setValue( value );
             if ( rs->isNull ( i ) ) {
                 setNullValue ( i );
                 mOrigFieldValues.seq_at(i)->setNull();
@@ -1023,7 +1036,7 @@ Variant dbRecord::getValue( unsigned int nfield ) const
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mFieldValues.size() ) {
-        return mFieldValues.seq_at(nfield)->toVariant();
+        return mFieldValues.seq_at(nfield)->value();
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1036,7 +1049,7 @@ Variant dbRecord::getOrigValue(unsigned int nfield) const
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mOrigFieldValues.size() ) {
-        return mOrigFieldValues.seq_at(nfield)->toVariant();
+        return mOrigFieldValues.seq_at(nfield)->value();
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1131,7 +1144,7 @@ Variant dbRecord::getValue( const Xtring &fullfldname ) const
         if( flddef && flddef->isCalculated() ) {
             return calcValue( fldname );
         } else if ( mFieldValues.find ( fldname ) != mFieldValues.end() ) {
-            return mFieldValues[fldname]->toVariant();
+            return mFieldValues[fldname]->value();
         } else if (fldname == "~CODE_AND_DESC_WITH_TABLENAME") {
 			return toString(TOSTRING_CODE_AND_DESC_WITH_TABLENAME);
         } else if (fldname == "~CODE_AND_DESC") {
@@ -1173,7 +1186,7 @@ Variant dbRecord::getOrigValue(const Xtring& fullfldname) const
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
     if ( tablename.isEmpty() || tablename == getTableName() ) {
         if ( mOrigFieldValues.find ( fldname ) != mOrigFieldValues.end() ) {
-            return mOrigFieldValues[fldname]->toVariant();
+            return mOrigFieldValues[fldname]->value();
         }
     } else {
         _GONG_DEBUG_WARNING("Getting orig value of related record is not allowed");
@@ -1212,6 +1225,8 @@ void dbRecord::setRelatedID( int nfield, const Variant &id )
 {
     dbRecordRelation *relation = findRelation( getTableName() + "." + getTableDefinition()->getFieldDefinition(nfield)->getName() );
     if( relation && relation->isEnabled() ) {
+		if( !relation->pRelatedRecord && id.toUInt() == 0) 
+			return; // No lo crees solo para ponerlo a cero
         dbRelationDefinition *reldef = relation->getRelationDefinition();
         if( reldef->getType() == dbRelationDefinition::one2one
                 || reldef->getType() == dbRelationDefinition::aggregate ) {
@@ -1258,7 +1273,7 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
 {
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         read( getRecordID() );
-//  	_GONG_DEBUG_PRINT(0, Xtring::printf( "field(%d):%s, value=%s", nfield, getTableDefinition()->getFieldDefinition(nfield)->getName().c_str(), value.toString().c_str() ) );
+  	_GONG_DEBUG_PRINT(0, Xtring::printf( "field(%d):%s, value=%s", nfield, getTableDefinition()->getFieldDefinition(nfield)->getName().c_str(), value.toString().c_str() ) );
     if ( nfield < getFieldCount() )
     {
         bool wasnull = mFieldValues.seq_at(nfield)->isNull();

@@ -4,16 +4,16 @@
 
 namespace gong {
 
-CsvUtils::CsvUtils()
+CSVUtils::CSVUtils()
 {
 }
 
 
-CsvUtils::~CsvUtils()
+CSVUtils::~CSVUtils()
 {
 }
 
-bool CsvUtils::readCSVFile(const Xtring &fname, XtringList &lines, Xtring &headers,
+bool CSVUtils::readCSVFile(const Xtring &fname, XtringList &lines, Xtring &headers,
                            bool hasheaders, char quotes )
 {
     _GONG_DEBUG_PRINT(5, fname);
@@ -64,7 +64,7 @@ bool CsvUtils::readCSVFile(const Xtring &fname, XtringList &lines, Xtring &heade
     return true;
 }
 
-int CsvUtils::tokenize(XtringList &values, const Xtring &line,
+int CSVUtils::tokenize(XtringList &values, const Xtring &line,
                        char quotes, char delim, const Xtring &encoding)
 {
     _GONG_DEBUG_PRINT(4, line);
@@ -133,7 +133,7 @@ int CsvUtils::tokenize(XtringList &values, const Xtring &line,
     return ncol;
 }
 
-Xtring CsvUtils::dupQuotes( const Xtring &source, char quote )
+Xtring CSVUtils::dupQuotes( const Xtring &source, char quote )
 {
     Xtring ret;
     for( uint i = 0; i < source.length(); ++i ) {

@@ -4,11 +4,10 @@
 * Muestro princesa, sale hijo/a 30, cierro y al abrir otra, queda el 30.
 ** No se borrar el registro FAMILIAR_ID al borrar el de princesa.
 
-
 == Errores ==
-* tpv -t: recempresa no se lee?
 * ticket: cambiar mensaje del footer
 * ticket: no sale la fecha
+* factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
 
 == HACER ==
 * Factu: Formulario datos ventas y compras de artículos
@@ -248,9 +247,7 @@
 * MsgYesNoDontAskAgain: aplicar a main.cpp, language
 
 == Refactoring ==
-* CSV o Csv en csvutils.
 * Refactor: FrmCsvImport y FrmCsvExport
-* Eliminar enablesearchboxes
 * dbRecordList no permitir push_back
 * FrmCustom: Utilizar un QTabWidget, showTabs
 * Refactor: ImagesGallery::addPixmap e ImageBox::setImageData

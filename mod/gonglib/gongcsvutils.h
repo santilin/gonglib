@@ -16,11 +16,11 @@
 
 namespace gong {
 
-class CsvUtils
+class CSVUtils
 {
 public:
-    CsvUtils();
-    ~CsvUtils();
+    CSVUtils();
+    ~CSVUtils();
     static bool readCSVFile( const Xtring &fname, XtringList &lines,
                              Xtring &headers, bool hasheaders = true, char quotes = '\0');
     static int tokenize(XtringList &values, const Xtring &line,

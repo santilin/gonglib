@@ -1480,7 +1480,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
         int nimported = 0;
         Xtring headersline;
         XtringList records, headers;
-        if ( !CsvUtils::readCSVFile( fname, records, headersline, true, '\"' ) ) {
+        if ( !CSVUtils::readCSVFile( fname, records, headersline, true, '\"' ) ) {
             FrmBase::msgError( this,
                                Xtring::printf( _( "Error en el fichero %s\n%s" ), fname.c_str(), strerror( errno ) ) );
             return;
@@ -1496,7 +1496,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
             return;
         }
         DBAPP->waitCursor( true );
-        CsvUtils::tokenize( headers, headersline, '\"', ',' );
+        CSVUtils::tokenize( headers, headersline, '\"', ',' );
         Xtring unknownfields;
         for ( XtringList::const_iterator headersit = headers.begin();
                 headersit != headers.end(); ++ headersit ) {
@@ -1668,7 +1668,7 @@ void FrmEditRecMaster::menuTableExport_clicked()
                             || pDataTable->getFldInfo( col )->getSqlColumnType() == SQLFLOAT ) {
                         csvline += Xtring::number(pDataTable->getDataModel()->getValue(row, col).toDouble()).replace(",",".");
                     } else {
-                        csvline += CsvUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), delimiter[0] ); // .replace( "\n", " " );
+                        csvline += CSVUtils::dupQuotes( fromGUI(pDataTable->text( row, col ) ), delimiter[0] ); // .replace( "\n", " " );
                     }
                     csvline += delimiter;
                 }

@@ -446,7 +446,6 @@ void EmpresaModule::afterLoad()
 {
     if ( !pRecEmpresa )
         pRecEmpresa = static_cast<RecEmpresa *>( DBAPP->createRecord( "EMPRESA" ) );
-	rereadEmpresa();
 }
 
 

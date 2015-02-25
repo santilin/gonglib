@@ -275,7 +275,7 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
             case Variant::tDateTime:
             case Variant::tTime:
             case Variant::tString:
-                text += "\"" + CsvUtils::dupQuotes(value.toString(), '"') + "\"";
+                text += "\"" + CSVUtils::dupQuotes(value.toString(), '"') + "\"";
                 break;
             default:
                 text += value.toString();
@@ -337,8 +337,8 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
     {
         _GONG_DEBUG_PRINT ( 4, "Import to " + getTableName() + " from " + source );
         XtringList names, values, related_tables;
-        CsvUtils::tokenize( values, source, '\"', ',' );
-        CsvUtils::tokenize( names, includedFields, '\"', ',' );
+        CSVUtils::tokenize( values, source, '\"', ',' );
+        CSVUtils::tokenize( names, includedFields, '\"', ',' );
         uint i = 0;
         for ( XtringList::const_iterator namesit = names.begin();
                 namesit != names.end(); ++namesit) {
