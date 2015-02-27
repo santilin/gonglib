@@ -151,7 +151,7 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicCuentaTesoreria->addFieldEuro( "SALDO" )->setReadOnly( true );
     pFicCuentaTesoreria->addFieldNotas();
     pFicCuentaTesoreria->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pFicCuentaTesoreria->addMultipleIndex( "cuenta_codigo_unico", "EMPRESA_ID,CUENTA", true );
+    pFicCuentaTesoreria->addMultipleIndex( "cuenta_codigo_unico", "EMPRESA_ID,CODIGO", true );
     pMainDatabase->addTable( pFicCuentaTesoreria->getTableDefinition() );
 
     pFicApunteTesoreria = new MasterTable( *pMainDatabase, "APUNTETESORERIA" );

@@ -379,7 +379,6 @@ int FrmViewEdit::exec()
     }
     lstFields->setCurrentRow(1); // skip ID
     updateStatus();
-	_GONG_DEBUG_PRINT(0, getRealParent()->name() );
     showModalFor( getRealParent(), false, true );
     if( !wasCancelled() ) {
         if( pViewDefinition->isModified()
@@ -441,7 +440,7 @@ bool FrmViewEdit::saveView()
     if( chkIncludeFilter->isChecked() && pFrmEditRecMaster )
         pViewDefinition->setWhere( pFrmEditRecMaster->getWholeFilter() );
     pViewDefinition->setOrderBy( txtOrderBy->toString() );
-    _GONG_DEBUG_PRINT(0, "Must save view " + pViewDefinition->getCaption() +
+    _GONG_DEBUG_PRINT(2, "Must save view " + pViewDefinition->getCaption() +
                       " to origin " + origin + "=" + pViewDefinition->toConfigString() );
     switch( comboSetting->currentIndex() ) {
     case 0:

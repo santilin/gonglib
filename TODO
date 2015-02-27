@@ -1,8 +1,8 @@
 == HECHO ==
 
 == HACIENDO ==
-* Muestro princesa, sale hijo/a 30, cierro y al abrir otra, queda el 30.
-** No se borrar el registro FAMILIAR_ID al borrar el de princesa.
+* Tesorería de ofertas:
+** Modificar ofertacompra, ofertaventa, pagooferta y cobrooferta para que incluya la tesorería.
 
 == Errores ==
 * ticket: cambiar mensaje del footer
@@ -30,7 +30,6 @@
 * Implementar algún día
 
 == Ofertas ==
-* Tesorería de ofertas
 * Estadísticas
 
 == gong-tpv ==
@@ -220,6 +219,7 @@
 * En campos deshabilitados no funciona ctrl+c
 
 == gonglib ==
+* Crear tipo de relación ItSelf o algo así
 * dbconnection, sqlite3, year() month() => strftime
 * Añadir parámetro longitud a fldlistofvalues<Xtring>
 * No se pueden anidar transacciones en sqlite3
