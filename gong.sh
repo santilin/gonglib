@@ -16,7 +16,7 @@ else
 fi
 GONGDIR=$(cd $GONGDIR; pwd)
 echo "GONGDIR=$GONGDIR"
-GONGMODULESDIR=$GONGDIR
+GONGMODULESDIR=$GONGDIR/mod
 CAPEL="$GONGDIR/capel/Debug/src/capel"
 
 COMANDO=$1
@@ -182,8 +182,10 @@ create_app)
 	fi
 	MODULE=$2
 	if test "x$MODULE" == "x"; then
-		echo "Faltan los módulos a incluir. Estos son los módulos disponibles:"
-		find $GONGMODULESDIR -maxdepth 1 -a -type d -printf "%f\n"| sort
+		echo "Faltan los módulos a incluir. Estos son los módulos disponibles en $GONGMODULESDIR:"
+		find $GONGMODULESDIR -maxdepth 1 \( -type d -o -type l \) -printf "%f\n"| sort | grep -v "^\dbapp\$" | grep -v "^\rtk\$" |grep -v "^\mod\$" |grep -v "^\gonglib\$" | grep -v "^\qt[45]\$"
+		echo
+		echo "Recuerda poner los módulos en camel case"
 		exit 1;
 	fi
 	if check_in_project $PROYECTO ; then :

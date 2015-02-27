@@ -71,7 +71,7 @@ void addModuleDefinition(CppModule *cpcpp, CppModule *cph,
 	cph->insert_extrusion( ext_prefix + "CLASS_DEFINITION",
 		"class " + classname + ": public QObject, public dbModule\n"
 		"{\n"
-		"\tQ_OBJECT\n"
+		"\tQ_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto\n"
 		"public:\n"
     	"\t" + classname + "();\n"
     	"\tvirtual ~" + classname + "();\n"
