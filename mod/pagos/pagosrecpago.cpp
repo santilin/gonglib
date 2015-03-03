@@ -102,7 +102,8 @@ bool RecPago::save(bool saverelated) throw( dbError )
     bool ret = dbRecord::save(saverelated);
     if( ret && saverelated) {
 #ifdef HAVE_PAGOSMODULE
-        actPagosFactura();
+		if( DBAPP->findModule("pagos") ) 
+			actPagosFactura();
 #endif
 		DBAPP->showStickyOSD( toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
 							  Xtring::printf( _("Contador: %d"), getValue( "CONTADOR" ).toInt() ) );
@@ -117,7 +118,8 @@ bool RecPago::remove() throw( dbError )
     bool ret = dbRecord::remove();
     if( ret ) {
 #ifdef HAVE_PAGOSMODULE
-        actPagosFactura();
+		if( DBAPP->findModule("pagos") ) 
+			actPagosFactura();
 #endif
 	}
     return ret;

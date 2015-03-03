@@ -203,6 +203,8 @@ dbError FrmLogin::createDatabase()
                 forcecreatetables = true;
             }
             DBAPP->getConnection()->selectDatabase( mDBName );
+            if( !forcecreatetables && !DBAPP->getConnection()->existsTable( "METADBDATA" ) )
+				forcecreatetables = true;
             if( forcecreatetables == true ) {
                 addMessage( _("Creando las tablas...") );
                 DBAPP->getDatabase()->createTables( DBAPP->getConnection(), Xtring::null, false );

@@ -123,6 +123,7 @@ bool RecAlbaranVenta::save(bool saverelated) throw( dbError )
             regenApunte( supervisar );
         }
 #endif
+	// No hace falta showOSD porque no hay contador
     }
     return ret;
 }
@@ -132,6 +133,7 @@ bool RecAlbaranVenta::remove() throw( dbError )
 {
 /*>>>>>ALBARANVENTA_REMOVE*/
     bool ret = dbRecord::remove();
+	if( ret ) {
 #ifdef HAVE_PAGOSMODULE
 		if( DBAPP->findModule("pagos") ) 
 			delCobros( true );
@@ -147,6 +149,7 @@ bool RecAlbaranVenta::remove() throw( dbError )
             delete borraApunte( false /*no regenerando*/);
         }
 #endif
+	}
     return ret;
 }
 

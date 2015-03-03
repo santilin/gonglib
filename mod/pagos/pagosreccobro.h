@@ -25,11 +25,8 @@
 
 #ifdef HAVE_TESORERIAMODULE
 #include <tesoreriaiapuntablerecord.h>
-#include <tesoreriareccuentatesoreria.h>
 typedef gong::tesoreria::RecCuentaTesoreria RecCuentaPago;
 #elif defined(HAVE_CONTABMODULE)
-#include <contabreccuenta.h>
-#include <contabrecasiento.h>
 typedef gong::contab::RecCuenta RecCuentaPago;
 #else
 typedef gong::dbRecord RecCuentaPago;

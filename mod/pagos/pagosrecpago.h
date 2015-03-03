@@ -15,7 +15,6 @@
 #define _PAGOS_PAGOSRECPAGO_H
 /*>>>>>PAGO_PREAMBLE*/
 
-#include "config.h"
 /*<<<<<PAGO_INCLUDES*/
 #include <dbappdbapplication.h>
 

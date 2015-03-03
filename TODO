@@ -1,8 +1,6 @@
 == HECHO ==
 
 == HACIENDO ==
-* Tesorería de ofertas:
-** Modificar ofertacompra, ofertaventa, pagooferta y cobrooferta para que incluya la tesorería.
 
 == Errores ==
 * ticket: cambiar mensaje del footer
@@ -10,6 +8,7 @@
 * factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
 
 == HACER ==
+* Ofertas: Replicar código de pagos y cobros
 * Factu: Formulario datos ventas y compras de artículos
 * Factu: Informe de existencias máximas y mínimas.
 
