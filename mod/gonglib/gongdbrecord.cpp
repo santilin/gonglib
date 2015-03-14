@@ -47,9 +47,9 @@ void dbRecord::init_record()
         mFieldValues.insert( flddef->getName(), flddef->createFieldValue() );
 		Variant value = flddef->createFieldValue();
         mOrigFieldValues.insert( flddef->getName(), flddef->createFieldValue() );
-            _GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
-												i, Variant::typeToName( mOrigFieldValues.seq_at(i)->value().type() ), 
-												value.toString().c_str(), Variant::typeToName( value.type() ) ) );
+// 		_GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
+// 											i, Variant::typeToName( mOrigFieldValues.seq_at(i)->value().type() ), 
+// 											value.toString().c_str(), Variant::typeToName( value.type() ) ) );
     }
     // Create relations
     for ( unsigned int nr = 0; nr < getTableDefinition()->getRelationDefinitions().size(); ++nr )
@@ -275,7 +275,7 @@ void dbRecord::clear( bool setcustomvalues )
 {
 	// Clear relations first and then set default values of reference ids
     clearRelations(); // Do not set customvalues on related records
- 	_GONG_DEBUG_PRINT(0, Xtring::printf("clear registro %s", this->getTableName().c_str() ) );
+//  	_GONG_DEBUG_PRINT(0, Xtring::printf("clear registro %s", this->getTableName().c_str() ) );
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
     {
 		const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
@@ -428,9 +428,9 @@ bool dbRecord::SELECT ( const Xtring &where )
                                     pTableDef->getFieldDefinition(i)->getDecimals() ) );
                 break;
             }
-            _GONG_DEBUG_PRINT(3, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
-												i, Variant::typeToName( mOrigFieldValues.seq_at(i)->value().type() ), 
-												value.toString().c_str(), Variant::typeToName( value.type() ) ) );
+//             _GONG_DEBUG_PRINT(3, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
+// 												i, Variant::typeToName( mOrigFieldValues.seq_at(i)->value().type() ), 
+// 												value.toString().c_str(), Variant::typeToName( value.type() ) ) );
             mOrigFieldValues.seq_at(i)->setValue( value );
             if ( rs->isNull ( i ) ) {
                 setNullValue ( i );
@@ -1272,9 +1272,9 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
 {
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         read( getRecordID() );
-  	_GONG_DEBUG_PRINT(3, Xtring::printf( "%s.%s(%d), value=%s", getTableName().c_str(),
-										 getTableDefinition()->getFieldDefinition(nfield)->getName().c_str(), 
-										 nfield, value.toString().c_str() ) );
+//   	_GONG_DEBUG_PRINT(3, Xtring::printf( "%s.%s(%d), value=%s", getTableName().c_str(),
+// 										 getTableDefinition()->getFieldDefinition(nfield)->getName().c_str(), 
+// 										 nfield, value.toString().c_str() ) );
     if ( nfield < getFieldCount() )
     {
         bool wasnull = mFieldValues.seq_at(nfield)->isNull();

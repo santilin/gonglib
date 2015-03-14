@@ -1,14 +1,15 @@
 == HECHO ==
 
 == HACIENDO ==
+* Ofertas: La cuenta de pago de la forma de pago es la de tesorería normal.
+* Ofertas: No se pueden ver los registros de los pagos
 
 == Errores ==
 * ticket: cambiar mensaje del footer
 * ticket: no sale la fecha
-* factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
 
 == HACER ==
-* Ofertas: Replicar código de pagos y cobros
+* factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
 * Factu: Formulario datos ventas y compras de artículos
 * Factu: Informe de existencias máximas y mínimas.
 
@@ -119,6 +120,7 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
+* Recién creada la base de dato, no se almacena el nombre de la misma: al recuperar una copia el nombre está vacío
 * No se guarda el orden de los ficheros embebidos: Extracto de cuenta de tesoreria.
 * dbApp: Carga la configuración de los módulos antes del login, con lo cual se queda aunque luego el login sea false, esto provoca errores en las vistas, por ejemplo.
 * Exportar: Pedir bien el fichero

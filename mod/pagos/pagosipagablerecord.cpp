@@ -42,14 +42,6 @@ dbRecord *IPagableRecord::createRecibo()
     }
 }
 
-
-Xtring IPagableRecord::getFacturaWhere() const
-{
-    return "TABLAFACTURAS=" + pFactura->getConnection()->toSQL( pFactura->getTableName() )
-           + " AND FACTURA_ID= " + pFactura->getConnection()->toSQL( pFactura->getRecordID() );
-}
-
-
 int IPagableRecord::hasPagos(int estado_si, int estado_no, bool soloautomaticos)
 {
     dbRecord *recibo = createRecibo();
@@ -209,8 +201,7 @@ int IPagableRecord::genPagos()
         recibo->setNew( true );
         recibo->clear( true );
         // generar el recibo individual
-        recibo->setValue( "TABLAFACTURAS", pFactura->getTableName() );
-        recibo->setValue( "FACTURA_ID", pFactura->getRecordID() );
+		setValuesFactura(recibo, pFactura);
         recibo->setValue( "TABLATERCEROS", getRecTercero()->getTableName() );
         recibo->setValue( "TERCERO_ID", getRecTercero()->getRecordID() );
         recibo->setValue( "AUTOMATICO", true );
@@ -872,6 +863,20 @@ bool IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
 #endif	
     return true;
 }
+
+// Por si en alguna tabla no queremos el lío de tablafacturas
+Xtring IPagableRecord::getFacturaWhere() const
+{
+    return "TABLAFACTURAS=" + pFactura->getConnection()->toSQL( pFactura->getTableName() )
+           + " AND FACTURA_ID= " + pFactura->getConnection()->toSQL( pFactura->getRecordID() );
+}
+
+void IPagableRecord::setValuesFactura(dbRecord* recibo, const dbRecord* factura)
+{
+	recibo->setValue( "TABLAFACTURAS", factura->getTableName() );
+	recibo->setValue( "FACTURA_ID", factura->getRecordID() );
+}
+
 
 } // namespace pagos
 } // namespace gong

@@ -21,6 +21,8 @@ public:
                     const Xtring &tablapagos = Xtring::null );
     virtual dbRecordID getProyectoID() const = 0;
     virtual dbRecord *getRecTercero() const = 0;
+    virtual Xtring getFacturaWhere() const;
+	virtual void setValuesFactura(dbRecord *recibo, const dbRecord *factura);
     dbRecordList *getPagos( PagosModule::EstadoRecibo estado = PagosModule::ReciboSinEstado );
     dbRecordList *getCobros( PagosModule::EstadoRecibo estado = PagosModule::ReciboSinEstado ) {
         return getPagos(estado);
@@ -54,7 +56,6 @@ public:
         anularPagoRecibo( parent, reciboid, recibo );
     }
     dbRecord *createRecibo();
-    Xtring getFacturaWhere() const;
     const Xtring &getPagosField() const {
         return mPagosField;
     }

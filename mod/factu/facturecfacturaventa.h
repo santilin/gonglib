@@ -65,7 +65,8 @@ public:
         , IAsentableFactura( this, IAsentableFactura::facturaventa )
 #endif
 #ifdef HAVE_TESORERIAMODULE
-        , IApuntableRecord( this, IApuntableRecord::ABONO, "APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "ENTREGA", "NUMERO", 
+        , IApuntableRecord( this, IApuntableRecord::ABONO, "APUNTETESORERIA",
+							"APUNTE_ID", "CUENTAPAGO_ID", "FECHA", "ENTREGA", "NUMERO", 
 							"CLIENTE", false, "CLIENTE_ID", Xtring::null, 
 							Xtring::null, false, Xtring::null, "~CODE_AND_DESC_WITH_TABLENAME",
 							"NOTAS", "PROYECTO_ID" )

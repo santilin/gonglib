@@ -537,17 +537,17 @@ Xtring Xtring::printf ( const Xtring &format, ... )
  * Increments or decrements a numeric or alphanumeric string
  * @param strorig
  * @param inc The increment step, can be negative
- * @return If strorig if numeric or ends with numbres, adds \a inc to it
+ * @return If strorig is numeric or ends with numbres, adds \a inc to it
  *         If strorig is not numeric adds \a inc letters as if numbers
  */
 Xtring Xtring::stringInc ( const Xtring &strorig, int inc )
 {
-    uint i, nPosUltimoNumero;
+    int i, nPosUltimoNumero;
 
     Xtring str = strorig;
     if ( str.trim().length() == 0 )
         return str;
-    nPosUltimoNumero = str.length();
+    nPosUltimoNumero = str.length()-1;
     for ( i=str.length()-1; i>=0; i-- ) {
         if ( isdigit ( str.at ( i ) ) ) {
             nPosUltimoNumero = i;
@@ -556,7 +556,7 @@ Xtring Xtring::stringInc ( const Xtring &strorig, int inc )
     }
     if( i== 0)
         nPosUltimoNumero = str.length() - 1;
-    for ( i=nPosUltimoNumero; ( int ) i>=0; i-- ) {
+    for ( i=nPosUltimoNumero; i>=0; i-- ) {
         char ch = str.at ( i );
         if ( ( ch >= 'A' && ch < 'Z' ) || ( ch >= 'a' && ch < 'z' )
                 || ( ch >= '0' && ch < '9' ) ) {
