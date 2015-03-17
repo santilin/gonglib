@@ -2,6 +2,7 @@
 
 == HACIENDO ==
 * Ofertas: La cuenta de pago de la forma de pago es la de tesorería normal.
+* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 * Ofertas: No se pueden ver los registros de los pagos
 
 == Errores ==
@@ -10,8 +11,6 @@
 
 == HACER ==
 * factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
-* Factu: Formulario datos ventas y compras de artículos
-* Factu: Informe de existencias máximas y mínimas.
 
 == EN COLA ==
 * ENABLE_NLS no está definido: http://www.heiner-eichmann.de/autotools/adding_gettext.html
@@ -45,6 +44,8 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
+* Factu: Formulario datos ventas y compras de artículos
+* Factu: Informe de existencias máximas y mínimas.
 * Imprimir etiquetas con códigos de barras
 * Calcular pvp de un albarán de compra.
 * Clientes especiales, con un porcentaje extra.

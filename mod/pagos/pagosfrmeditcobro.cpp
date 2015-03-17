@@ -153,10 +153,14 @@ void FrmEditCobro::setUsarRemesas(bool usar, bool fijar)
 }
 
 
-void FrmEditCobro::completa(const Xtring& tablafacturas, const Xtring& fldfactcodigo, const Xtring& fldfactdesc,
-                            const Xtring& tablaterceros, const Xtring& fldterccodigo, const Xtring& fldtercdesc,
-                            const Xtring& descsingular, const Xtring& descplural, bool femenina)
+void FrmEditCobro::cambiaFields()
 {
+	Xtring tablafacturas = pRecord->getValue( "TABLAFACTURAS" ).toString();
+	Xtring fldfactcodigo, fldfactdesc;
+	Xtring tablaterceros = pRecord->getValue( "TABLATERCEROS" ).toString();
+	Xtring fldterccodigo, fldtercdesc, descsingular, descplural;
+	bool femenina = false;
+	
     if( !searchFacturaNumero || tablafacturas != searchFacturaNumero->getTableName()
             || !searchTerceroCodigo || tablaterceros != searchTerceroCodigo->getTableName() ) {
 		
@@ -249,9 +253,7 @@ void FrmEditCobro::scatterFields()
 			getRecCobro()->setValue( "ASIENTO_PAGO_ID", 0 );
 #endif
 		}
-		completa( pRecord->getValue( "TABLAFACTURAS" ).toString(), Xtring::null, Xtring::null,
-					pRecord->getValue( "TABLATERCEROS" ).toString(), Xtring::null, Xtring::null,
-					Xtring::null, Xtring::null, false );
+		cambiaFields();
 		scatterFactura();
 		scatterTercero();
 	}

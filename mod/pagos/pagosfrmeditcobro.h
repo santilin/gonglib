@@ -39,14 +39,12 @@ public:
 	RecCobro *getRecCobro() const { return (RecCobro *)getRecord(); }
 /*>>>>>FRMEDITCOBRO_CLASS*/
     void setUsarRemesas( bool usar, bool fijar );
-    void completa(const Xtring &tablafacturas, const Xtring &fldfactcodigo, const Xtring &fldfactdesc,
-                  const Xtring &tablaterceros, const Xtring &fldterccodigo, const Xtring &fldtercdesc,
-                  const Xtring &descsingular, const Xtring &descplural, bool femenina );
 protected:
+    virtual void cambiaFields();
     virtual void updateStatus( bool callbehaviors );
     virtual bool canBeginEdit(EditMode newmode); // From FrmEditRec
 
-    /*<<<<<FRMEDITCOBRO_VIRTUALS_FROM_FRMEDITREC*/
+/*<<<<<FRMEDITCOBRO_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();

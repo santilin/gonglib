@@ -199,20 +199,20 @@ Xtring FrmSQLSelect::getFldExpression ( const item_info &ii ) const
 		break;
 	case yearof:
 		if( pConnection->isSQLite() )
-			exp = "strftime('%Y'," + exp + ")";
+			exp = "CAST(strftime('%Y'," + exp + ") AS INT)";
 		else
 			exp = "YEAR(" + exp + ")";
 		break;
 	case monthof:
 		if( pConnection->isSQLite() )
-			exp = "strftime('%m'," + exp + ")";
+			exp = "CAST(strftime('%m'," + exp + ") AS INT)";
 		else
 			exp = "MONTH(" + exp + ")";
 		break;
 		break;
 	case dayof:
 		if( pConnection->isSQLite() )
-			exp = "strftime('%d'," + exp + ")";
+			exp = "CAST(strftime('%d'," + exp + ") AS INT)";
 		else
 			exp = "DAY(" + exp + ")";
 		break;

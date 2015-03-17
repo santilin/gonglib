@@ -39,13 +39,11 @@ public:
 	RecPago *getRecPago() const { return (RecPago *)getRecord(); }
 /*>>>>>FRMEDITPAGO_CLASS*/
 protected:
-    void completa(const Xtring &tablafacturas, const Xtring &fldfactcodigo, const Xtring &fldfactdesc,
-                  const Xtring &tablaterceros, const Xtring &fldterccodigo, const Xtring &fldtercdesc,
-                  const Xtring &descsingular, const Xtring &descplural, bool femenina );
+    virtual void cambiaFields();
     virtual void updateStatus( bool callbehaviors ); // From FrmEditRec
     virtual bool canBeginEdit(EditMode newmode); // From FrmEditRec
 
-    /*<<<<<FRMEDITPAGO_VIRTUALS_FROM_FRMEDITREC*/
+/*<<<<<FRMEDITPAGO_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
