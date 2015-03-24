@@ -23,10 +23,10 @@
 // FIELD Entrega money - noaddrightEntrega
 // FIELD Proyecto_ID Reference(empresa::Proyecto,Codigo,Nombre) tabPagos proyecto if(empresa::ModuleInstance->usaProyectos())
 // FIELD DesgloseIVA string tabPagos desgloseiva
-// FIELD DocumentoPago string tabPagos pago
-// FIELD FechaPago date tabPagos pago
 // FIELD CuentaPago_ID Reference(CuentaTesoreria,Codigo,Nombre) tabPagos cuentapago MODULE_INCLUDED(Tesoreria)
 // FIELD CuentaPago_ID Reference(Cuenta,Cuenta,Descripcion) tabPagos cuentapago MODULE_INCLUDED(Contab)
+// FIELD DocumentoPago string tabPagos pago
+// FIELD FechaPago date tabPagos pago
 // FIELD Notas text tabPagos notas
 // TYPE FrmEditRecMaster factu::AlbaranCompra Albaran Compra
 /*>>>>>MODULE_INFO*/

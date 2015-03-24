@@ -1,7 +1,10 @@
 == HECHO ==
 
+== Biosegura ==
+* https://github.com/hanneskod/libmergepdf
+
 == HACIENDO ==
-* Ofertas: La cuenta de pago de la forma de pago es la de tesorería normal.
+* Error al pagar un pago de oferta
 * Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 * Ofertas: No se pueden ver los registros de los pagos
 
@@ -10,6 +13,7 @@
 * ticket: no sale la fecha
 
 == HACER ==
+* Refactor: DBAPP->hasModule("pagos") => ModuleInstance->getPagosModule()
 * factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
 
 == EN COLA ==

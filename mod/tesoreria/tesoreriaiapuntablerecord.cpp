@@ -9,13 +9,15 @@ namespace gong {
 namespace tesoreria {
 
 IApuntableRecord::IApuntableRecord(dbRecord* record, CargoAbono cargoabono, 
-	const Xtring& tabla_apunte_tesoreria, const Xtring& apunte_id_field, const Xtring& cuenta_tesoreria_id_field, 
+	const Xtring& tabla_apunte_tesoreria, const Xtring& apunte_id_field, 
+	const Xtring& cuenta_tesoreria_id_field, const Xtring& cuenta_pago_id_field, 
 	const Xtring& fecha_field, const Xtring& importe_field, const Xtring& referencia_field, 
 	const Xtring& tablaterceros, bool terceros_is_field, const Xtring& tercero_id_field, const Xtring& tercero_field, 
 	const Xtring& tablaconceptos, bool conceptos_is_field, const Xtring& concepto_id_field, const Xtring& concepto_field, 
 	const Xtring& notas_field, const Xtring& proyecto_id_field)
 	: pRecord(record), mCargoAbono(cargoabono), mTablaApunteTesoreria(tabla_apunte_tesoreria),
-		mApunteIDField(apunte_id_field), mCuentaTesoreriaIDField(cuenta_tesoreria_id_field), mFechaField(fecha_field), 
+		mApunteIDField(apunte_id_field), mCuentaTesoreriaIDField(cuenta_tesoreria_id_field), 
+		mCuentaPagoIDField(cuenta_pago_id_field), mFechaField(fecha_field), 
 		mImporteField(importe_field), mReferenciaField(referencia_field), mTablaTerceros(tablaterceros), 
 		mTercerosIsField( terceros_is_field), mTerceroIDField(tercero_id_field), mTerceroField(tercero_field), 
 		mTablaConceptos(tablaconceptos), mConceptosIsField(conceptos_is_field),	mConceptoIDField(concepto_id_field), 
@@ -76,18 +78,19 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 	if( pRecord->getValue(mImporteField).toDouble() == 0.0 )
 		return 0;
 	pagos::RecFormaPago::Tipo t = static_cast<pagos::RecFormaPago::Tipo>(pRecord->getValue("FORMAPAGO.TIPOFORMAPAGO").toInt());
-	dbRecordID cuenta_pago_id = pRecord->getValue(mCuentaTesoreriaIDField).toInt();
-	if( cuenta_pago_id == 0 ) {
-		if(t != pagos::RecFormaPago::SeIgnora && t == pagos::RecFormaPago::Pendiente) {
+	dbRecordID cuenta_pago_id = pRecord->getValue(mCuentaPagoIDField).toInt();
+	if(t != pagos::RecFormaPago::SeIgnora && t != pagos::RecFormaPago::Pendiente) {
+		if( cuenta_pago_id == 0 ) 
 			cuenta_pago_id = pRecord->getValue("FORMAPAGO.CUENTATESORERIA_ID").toInt();
+		if( cuenta_pago_id == 0 ) {
+			FrmBase::msgError( "Tesorería", _("No se ha generado el apunte en tesorería porque no se ha encontrado una cuenta de pago"));
 		}
-	}
-	if( cuenta_pago_id == 0 && t != pagos::RecFormaPago::SeIgnora && t == pagos::RecFormaPago::Pendiente) {
-		FrmBase::msgError( "Tesorería", _("No se ha generado el apunte en tesorería porque no se ha encontrado una cuenta de pago"));
+	} 
+	if( cuenta_pago_id == 0 ) { // Si no hay cuenta de pago, no hacer nada
 		return 0;
 	}
 	RecApunteTesoreria *apunte = static_cast<RecApunteTesoreria *>(DBAPP->createRecord(mTablaApunteTesoreria));
-	apunte->setValue( "CUENTATESORERIA_ID", cuenta_pago_id );
+	apunte->setValue( mCuentaTesoreriaIDField, cuenta_pago_id );
 	if( old_apunte->isRead() ) { // Recycle the id
 		apunte->setRecordID( old_apunte->getRecordID() );
 		apunte->setValue( "NUMERO", old_apunte->getValue( "NUMERO" ) );

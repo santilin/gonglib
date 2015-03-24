@@ -17,7 +17,8 @@ class IApuntableRecord
 public:
 	enum CargoAbono {CARGO, ABONO}; // Cargo = Pagamos, Abono = Cobramos
     IApuntableRecord( dbRecord *record, CargoAbono cargoabono, 
-		const Xtring& tabla_apunte_tesoreria, const Xtring &apunte_tesoreria_id_field, const Xtring &cuenta_tesoreria_id_field,
+		const Xtring& tabla_apunte_tesoreria, const Xtring &apunte_tesoreria_id_field, 
+		const Xtring &cuenta_tesoreria_id_field, const Xtring &cuenta_pago_id_field,
 		const Xtring &fecha_field, const Xtring &importe_field, const Xtring &referencia_field, 
 		const Xtring &tablaterceros, bool terceros_is_field, const Xtring &tercero_id_field, const Xtring &tercero_field,
 		const Xtring &tablaconceptos, bool conceptos_is_field, const Xtring &concepto_id_field, const Xtring &concepto_field,
@@ -30,8 +31,8 @@ public:
 	RecCuentaTesoreria *getRecCuentaPago() const { return getRecCuentaTesoreria(); }
 protected:
     dbRecord *pRecord;
-    Xtring mTablaApunteTesoreria, mApunteIDField, mCuentaTesoreriaIDField, 
-		mFechaField, mImporteField, mReferenciaField,
+    Xtring mTablaApunteTesoreria, mApunteIDField, mCuentaPagoIDField, 
+		mCuentaTesoreriaIDField, mFechaField, mImporteField, mReferenciaField,
 		mTablaTerceros, mTerceroIDField, mTerceroField,
 		mTablaConceptos, mConceptoIDField, mConceptoField,
 		mNotasField, mProyectoIDField;
