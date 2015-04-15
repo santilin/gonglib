@@ -10,6 +10,7 @@
 // RELATION pagos::FormaPago
 // RELATION empresa::Proyecto
 // RELATION FacturaCompraDet Detalles
+// RELATION tesoreria::CuentaTesoreria #ifdef|HAVE_TESORERIAMODULE
 // INTERFACE public factu::IPagableFactura
 // INTERFACE public factu::IIVADesglosable
 // INTERFACE public factu::IAsentableFactura #ifdef|HAVE_CONTABMODULE
@@ -40,7 +41,7 @@ void RecFacturaCompra::init()
     addStructuralFilter( "FACTURACOMPRA.EJERCICIO=" + getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
 }
 
-/*<<<<<FACTURACOMPRA_RELATIONS*/
+/*<<<<<FACTURACOMPRA_RELATIONS$s/CUENTATESORERIA/CUENTAPAGO/$*/
 RecTipoDoc *RecFacturaCompra::getRecTipoDoc() const
 {
 	return static_cast<RecTipoDoc*>(findRelatedRecord("TIPODOC_ID"));
@@ -75,6 +76,13 @@ dbRecordList *RecFacturaCompra::getListFacturaCompraDet() const
 {
 	return findRelationByRelatedTable( "FACTURACOMPRADET" )->getRelatedRecordList();
 }
+#ifdef HAVE_TESORERIAMODULE
+tesoreria::RecCuentaTesoreria *RecFacturaCompra::getRecCuentaTesoreria() const
+{
+	return static_cast<tesoreria::RecCuentaTesoreria*>(findRelatedRecord("CUENTAPAGO_ID"));
+}
+
+#endif
 /*>>>>>FACTURACOMPRA_RELATIONS*/
 
 /*<<<<<FACTURACOMPRA_TOSTRING*/

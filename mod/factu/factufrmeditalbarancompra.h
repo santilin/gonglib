@@ -144,8 +144,6 @@ protected:
 	gong::LineEdit *editProyectoCodigo;
 	gong::LineEdit *editProyectoNombre;
 	gong::EditBox *editDesgloseIVA;
-	gong::EditBox *editDocumentoPago;
-	gong::EditBox *editFechaPago;
 #ifdef HAVE_TESORERIAMODULE
 	gong::SearchBox *searchCuentaPagoCodigo;
 	QPushButton *pushCuentaPagoCodigo;
@@ -158,6 +156,8 @@ protected:
 	gong::LineEdit *editCuentaPagoCuenta;
 	gong::LineEdit *editCuentaPagoDescripcion;
 #endif
+	gong::EditBox *editDocumentoPago;
+	gong::EditBox *editFechaPago;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITALBARANCOMPRA_CONTROLS*/
     QPushButton *pushPagar;

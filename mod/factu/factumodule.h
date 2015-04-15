@@ -60,7 +60,7 @@ class RecCliente;
 /*<<<<<FACTUMODULE_CLASS_DEFINITION*/
 class FactuModule: public QObject, public dbModule
 {
-	Q_OBJECT
+	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
 	FactuModule();
 	virtual ~FactuModule();

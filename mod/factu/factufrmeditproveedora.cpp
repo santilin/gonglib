@@ -83,7 +83,6 @@ if( ModuleInstance->getContabModule() ) {
 	checkUsaReferencias = addCheckField( frameGenCodArt, "PROVEEDORA", "USAREFERENCIAS", usareferenciasLayout );
 	editNotas = addTextField( pControlsFrame, "PROVEEDORA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( codigoLayout );
-	pControlsLayout->addWidget( pFrameContactos );
 	pControlsLayout->addLayout( formapagoLayout );
 	pControlsLayout->addLayout( nombrealtLayout );
 	pControlsLayout->addLayout( agenteLayout );

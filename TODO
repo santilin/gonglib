@@ -4,9 +4,8 @@
 * https://github.com/hanneskod/libmergepdf
 
 == HACIENDO ==
-* Error al pagar un pago de oferta
+* Comprobar ciclo de oferta de venta y cobro.
 * Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
-* Ofertas: No se pueden ver los registros de los pagos
 
 == Errores ==
 * ticket: cambiar mensaje del footer

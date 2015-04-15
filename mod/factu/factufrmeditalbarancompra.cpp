@@ -74,8 +74,8 @@ FrmEditAlbaranCompra::FrmEditAlbaranCompra(FrmEditRec *parentfrm, dbRecord *mast
 	QVBoxLayout *tabPagosLayout = new QVBoxLayout(tabPagos, 11, 6, "tabPagosLayout");
 	QHBoxLayout *proyectoLayout = new QHBoxLayout(0, 0, 6, "proyectoLayout");
 	QHBoxLayout *desgloseivaLayout = new QHBoxLayout(0, 0, 6, "desgloseivaLayout");
-	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
 	QHBoxLayout *cuentapagoLayout = new QHBoxLayout(0, 0, 6, "cuentapagoLayout");
+	QHBoxLayout *pagoLayout = new QHBoxLayout(0, 0, 6, "pagoLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editFecha = addEditField( pControlsFrame, "ALBARANCOMPRA", "FECHA", cabeceraLayout );
 
@@ -145,8 +145,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 	editProyectoNombre = searchProyectoCodigo->getEditDesc();
 }
 	editDesgloseIVA = addEditField( tabPagos, "ALBARANCOMPRA", "DESGLOSEIVA", desgloseivaLayout );
-	editDocumentoPago = addEditField( tabPagos, "ALBARANCOMPRA", "DOCUMENTOPAGO", pagoLayout );
-	editFechaPago = addEditField( tabPagos, "ALBARANCOMPRA", "FECHAPAGO", pagoLayout );
 
 #ifdef HAVE_TESORERIAMODULE
 if( ModuleInstance->getTesoreriaModule() ) {
@@ -167,6 +165,8 @@ if( ModuleInstance->getContabModule() ) {
 	editCuentaPagoDescripcion = searchCuentaPagoCuenta->getEditDesc();
 }
 #endif
+	editDocumentoPago = addEditField( tabPagos, "ALBARANCOMPRA", "DOCUMENTOPAGO", pagoLayout );
+	editFechaPago = addEditField( tabPagos, "ALBARANCOMPRA", "FECHAPAGO", pagoLayout );
 	editNotas = addTextField( tabPagos, "ALBARANCOMPRA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( cabeceraLayout );
 	pControlsLayout->addLayout( cabecera2Layout );
@@ -185,8 +185,8 @@ if( ModuleInstance->getContabModule() ) {
 	alignLayout( rightEntregaLayout, false);
 	tabPagosLayout->addLayout( proyectoLayout );
 	tabPagosLayout->addLayout( desgloseivaLayout );
-	tabPagosLayout->addLayout( pagoLayout );
 	tabPagosLayout->addLayout( cuentapagoLayout );
+	tabPagosLayout->addLayout( pagoLayout );
 	tabPagosLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITALBARANCOMPRA_INIT_CONTROLS*/
     pTabWidget->insertTab( tabPagos, toGUI( _( "&Extra" ) ) );
@@ -355,8 +355,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 	getRecAlbaranCompra()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
 }
 	getRecAlbaranCompra()->setValue( "DESGLOSEIVA", editDesgloseIVA->toString());
-	getRecAlbaranCompra()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
-	getRecAlbaranCompra()->setValue( "FECHAPAGO", editFechaPago->toDate());
 #ifdef HAVE_TESORERIAMODULE
 if( ModuleInstance->getTesoreriaModule() ) {
 	getRecAlbaranCompra()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
@@ -367,6 +365,8 @@ if( ModuleInstance->getContabModule() ) {
 	getRecAlbaranCompra()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
 }
 #endif
+	getRecAlbaranCompra()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
+	getRecAlbaranCompra()->setValue( "FECHAPAGO", editFechaPago->toDate());
 	getRecAlbaranCompra()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITALBARANCOMPRA_GATHER*/
     ModuleInstance->setWorkingDate( editFecha->toDate() );

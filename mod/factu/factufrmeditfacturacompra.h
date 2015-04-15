@@ -106,7 +106,7 @@ public:
 #endif
 /*>>>>>FRMEDITFACTURACOMPRA_SCATTERS_AND_SLOTS*/
 
-    /*<<<<<FRMEDITFACTURACOMPRA_CONTROLS*/
+/*<<<<<FRMEDITFACTURACOMPRA_CONTROLS*/
 protected:
 	gong::EditBox *editFecha;
 	gong::SearchBox *searchTipoDocCodigo;

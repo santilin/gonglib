@@ -10,6 +10,7 @@
 // RELATION pagos::FormaPago
 // RELATION empresa::Proyecto
 // RELATION FacturaVentaDet Detalles
+// RELATION tesoreria::CuentaTesoreria #ifdef|HAVE_TESORERIAMODULE
 // INTERFACE public factu::IPagableFactura
 // INTERFACE public factu::IIVADesglosable
 // INTERFACE public factu::IAsentableFactura #ifdef|HAVE_CONTABMODULE
@@ -41,7 +42,7 @@ void RecFacturaVenta::init()
 }
 
 
-/*<<<<<FACTURAVENTA_RELATIONS*/
+/*<<<<<FACTURAVENTA_RELATIONS$s/CUENTATESORERIA/CUENTAPAGO/$*/
 RecTipoDoc *RecFacturaVenta::getRecTipoDoc() const
 {
 	return static_cast<RecTipoDoc*>(findRelatedRecord("TIPODOC_ID"));
@@ -76,6 +77,13 @@ dbRecordList *RecFacturaVenta::getListFacturaVentaDet() const
 {
 	return findRelationByRelatedTable( "FACTURAVENTADET" )->getRelatedRecordList();
 }
+#ifdef HAVE_TESORERIAMODULE
+tesoreria::RecCuentaTesoreria *RecFacturaVenta::getRecCuentaTesoreria() const
+{
+	return static_cast<tesoreria::RecCuentaTesoreria*>(findRelatedRecord("CUENTAPAGO_ID"));
+}
+
+#endif
 /*>>>>>FACTURAVENTA_RELATIONS*/
 
 /*<<<<<FACTURAVENTA_TOSTRING*/

@@ -143,8 +143,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 	editProyectoNombre = searchProyectoCodigo->getEditDesc();
 }
 	editDesgloseIVA = addEditField( tabPagos, "ALBARANVENTA", "DESGLOSEIVA", desgloseivaLayout );
-	editDocumentoPago = addEditField( tabPagos, "ALBARANVENTA", "DOCUMENTOPAGO", pagoLayout );
-	editFechaPago = addEditField( tabPagos, "ALBARANVENTA", "FECHAPAGO", pagoLayout );
 
 #ifdef HAVE_TESORERIAMODULE
 if( ModuleInstance->getTesoreriaModule() ) {
@@ -165,6 +163,8 @@ if( ModuleInstance->getContabModule() ) {
 	editCuentaPagoDescripcion = searchCuentaPagoCuenta->getEditDesc();
 }
 #endif
+	editDocumentoPago = addEditField( tabPagos, "ALBARANVENTA", "DOCUMENTOPAGO", pagoLayout );
+	editFechaPago = addEditField( tabPagos, "ALBARANVENTA", "FECHAPAGO", pagoLayout );
 	editNotas = addTextField( tabPagos, "ALBARANVENTA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( cabeceraLayout );
 	pControlsLayout->addLayout( cabecera2Layout );
@@ -341,8 +341,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 	getRecAlbaranVenta()->setValue( "PROYECTO_ID", getRecProyecto()->getRecordID() );
 }
 	getRecAlbaranVenta()->setValue( "DESGLOSEIVA", editDesgloseIVA->toString());
-	getRecAlbaranVenta()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
-	getRecAlbaranVenta()->setValue( "FECHAPAGO", editFechaPago->toDate());
 #ifdef HAVE_TESORERIAMODULE
 if( ModuleInstance->getTesoreriaModule() ) {
 	getRecAlbaranVenta()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
@@ -353,6 +351,8 @@ if( ModuleInstance->getContabModule() ) {
 	getRecAlbaranVenta()->setValue( "CUENTAPAGO_ID", getRecCuentaPago()->getRecordID() );
 }
 #endif
+	getRecAlbaranVenta()->setValue( "DOCUMENTOPAGO", editDocumentoPago->toString());
+	getRecAlbaranVenta()->setValue( "FECHAPAGO", editFechaPago->toDate());
 	getRecAlbaranVenta()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITALBARANVENTA_GATHER*/
     ModuleInstance->setWorkingDate( editFecha->toDate() );

@@ -25,6 +25,9 @@
 #include "pagosrecformapago.h"
 #include "empresarecproyecto.h"
 #include "facturecalbarancompradet.h"
+#ifdef HAVE_TESORERIAMODULE
+#include "tesoreriareccuentatesoreria.h"
+#endif
 /*>>>>>ALBARANCOMPRA_INCLUDES*/
 #include "factuipagables.h"
 #include "factuiivadesglosable.h"
@@ -90,7 +93,11 @@ public:
 	empresa::RecProyecto *getRecProyecto() const;
 	RecAlbaranCompraDet *getRecAlbaranCompraDet( int nalbarancompradet = -1 ) const;
 	dbRecordList *getListAlbaranCompraDet() const;
+#ifdef HAVE_TESORERIAMODULE
+	tesoreria::RecCuentaTesoreria *getRecCuentaTesoreria() const;
+#endif
 /*>>>>>ALBARANCOMPRA_RELATIONS*/
+	tesoreria::RecCuentaTesoreria *getRecCuentaPago() const { return getRecCuentaTesoreria(); }
 }; // end class
 
 /*<<<<<ALBARANCOMPRA_POSTAMBLE*/

@@ -86,6 +86,7 @@ bool IPagableRecord::delPagos( bool borratodos )
     if( nrecibos ) {
         DBAPP->showStickyOSD( pFactura->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
                               Xtring::printf(_("Se han borrado <b>%d</b> recibos"), nrecibos) );
+		DBAPP->getMainWindow()->refreshByName( Xtring::null, mTablaPagos );
     }
     return nrecibos;
 }
@@ -244,9 +245,11 @@ int IPagableRecord::genPagos()
         fechavalor = fechavalor + diasentreplazos;
         vencimiento = vencimiento + diasentreplazos;
     }
-    if( nrecibos )
+    if( nrecibos ) {
         DBAPP->showStickyOSD( pFactura->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
                               Xtring::printf(_("Se han generado <b>%d</b> recibos"), nrecibos) );
+		DBAPP->getMainWindow()->refreshByName( Xtring::null, mTablaPagos );
+	}
     return nrecibos;
 }
 
@@ -683,13 +686,11 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
 	parent->refreshRelatedForms();
 	if( DBAPP->getMainWindow() )  {
 #ifdef HAVE_TESORERIAMODULE
-		DBAPP->getMainWindow()->refreshByName( parent->name(), "APUNTETESORERIA" );
+		DBAPP->getMainWindow()->refreshByName( parent->name(), 
+			dynamic_cast<tesoreria::IApuntableRecord *>(recibo)->getTablaApunteTesoreria() );
 #endif	
-		if( mTipo == pagos ) {
-			DBAPP->getMainWindow()->refreshByName( parent->name(), "PAGOS" );
-		} else {
-			DBAPP->getMainWindow()->refreshByName( parent->name(), "COBROS" );
-		}
+		DBAPP->getMainWindow()->refreshByName( parent->name(), pFactura->getTableName() );
+		DBAPP->getMainWindow()->refreshByName( parent->name(), mTablaPagos );
 	}
 	return true;
 }
@@ -723,8 +724,8 @@ bool IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
 #endif
 #ifdef HAVE_TESORERIAMODULE
         bool has_contab = false;
-        has_contab = DBAPP->findModule("TESORERIA")
-                     && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );
+		tesoreria::IApuntableRecord *apuntable = dynamic_cast<tesoreria::IApuntableRecord *>(recibo);
+        has_contab = DBAPP->findModule("TESORERIA") && apuntable;
         if( has_contab ) {
             dbRecord *cuentapago;
             if( mTipo == pagos ) {
@@ -791,9 +792,10 @@ bool IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
 #ifdef HAVE_TESORERIAMODULE
 			bool borradoapunte = false;
             if( has_contab ) {
-                dbRecordID apunteid = recibo->getValue( "APUNTE_ID" ).toInt();
+                dbRecordID apunteid = recibo->getValue( apuntable->getRecordApunteIDField() ).toInt();
                 if( apunteid ) {
-                    tesoreria::RecApunteTesoreria *apunte = static_cast<tesoreria::RecApunteTesoreria *>(DBAPP->createRecord( "APUNTETESORERIA" ));
+					_GONG_DEBUG_PRINT(0, dynamic_cast<tesoreria::IApuntableRecord *>(recibo)->getTablaApunteTesoreria());
+					dbRecord *apunte = DBAPP->createRecord( apuntable->getTablaApunteTesoreria() );
                     if( apunte->read( apunteid ) ) {
 						try {
 							if( !(borradoapunte = apunte->remove()) )
@@ -830,8 +832,8 @@ bool IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
 #endif
 #ifdef HAVE_TESORERIAMODULE
                 // Puede que dé error de que no existen, pero mejor que lo de a que se quede un valor erróneo
-                recibo->setNullValue( "APUNTE_ID" );
-                recibo->setNullValue( "CUENTAPAGO_ID" );
+                recibo->setNullValue( apuntable->getRecordApunteIDField() );
+                recibo->setNullValue( apuntable->getRecordCuentaTesoreriaIDField() );
                 if( has_contab ) {
                     if( mTipo == pagos )
                         PagosModule::sLastCuentaPago = static_cast<RecPago *>(recibo)->getRecCuentaPago()->getValue( "CODIGO" ).toString();
@@ -856,11 +858,13 @@ bool IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                 }
             }
         }
-    }
-	parent->refreshRelatedForms();
+		parent->refreshRelatedForms();
+		DBAPP->getMainWindow()->refreshByName( parent->name(), mTablaPagos );
+		DBAPP->getMainWindow()->refreshByName( parent->name(), pFactura->getTableName() );
 #ifdef HAVE_TESORERIAMODULE
-	DBAPP->getMainWindow()->refreshByName( parent->name(), "APUNTETESORERIA" );
+		DBAPP->getMainWindow()->refreshByName( parent->name(), dynamic_cast<tesoreria::IApuntableRecord *>(recibo)->getTablaApunteTesoreria() );
 #endif	
+    }
     return true;
 }
 

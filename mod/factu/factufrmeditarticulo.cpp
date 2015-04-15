@@ -58,10 +58,10 @@ FrmEditArticulo::FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	QHBoxLayout *familiaLayout = new QHBoxLayout(0, 0, 6, "familiaLayout");
 	QHBoxLayout *proveedoraLayout = new QHBoxLayout(0, 0, 6, "proveedoraLayout");
 	QHBoxLayout *nombreLayout = new QHBoxLayout(0, 0, 6, "nombreLayout");
+	QHBoxLayout *codigointernoLayout = new QHBoxLayout(0, 0, 6, "codigointernoLayout");
 	QHBoxLayout *codigoLayout = new QHBoxLayout(0, 0, 6, "codigoLayout");
 	QHBoxLayout *tipoivaLayout = new QHBoxLayout(0, 0, 6, "tipoivaLayout");
 	QHBoxLayout *fabricanteLayout = new QHBoxLayout(0, 0, 6, "fabricanteLayout");
-	QHBoxLayout *codigointernoLayout = new QHBoxLayout(0, 0, 6, "codigointernoLayout");
 	QHBoxLayout *costesLayout = new QHBoxLayout(0, 0, 6, "costesLayout");
 	QHBoxLayout *pvpsLayout = new QHBoxLayout(0, 0, 6, "pvpsLayout");
 	QHBoxLayout *pvpnLayout = new QHBoxLayout(0, 0, 6, "pvpnLayout");
@@ -91,6 +91,7 @@ FrmEditArticulo::FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	editProveedoraCodigo = searchProveedoraCodigo->getEditCode();
 	editProveedoraRazonSocial = searchProveedoraCodigo->getEditDesc();
 	editNombre = addEditField( pControlsFrame, "ARTICULO", "NOMBRE", nombreLayout );
+	editCodigoInterno = addEditField( pControlsFrame, "ARTICULO", "CODIGOINTERNO", codigointernoLayout );
 	editCodigo = addEditField( pControlsFrame, "ARTICULO", "CODIGO", codigoLayout );
 
 	searchTipoIVACodigo = addSearchField( pControlsFrame, "TIPOIVA_ID", "TIPOIVA", "CODIGO", "NOMBRE", tipoivaLayout );
@@ -99,7 +100,6 @@ FrmEditArticulo::FrmEditArticulo(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	editTipoIVACodigo = searchTipoIVACodigo->getEditCode();
 	editTipoIVANombre = searchTipoIVACodigo->getEditDesc();
 	editFabricante = addEditField( pControlsFrame, "ARTICULO", "FABRICANTE", fabricanteLayout );
-	editCodigoInterno = addEditField( pControlsFrame, "ARTICULO", "CODIGOINTERNO", codigointernoLayout );
 	editCosteSinIVA = addEditField( pControlsFrame, "ARTICULO", "COSTESINIVA", costesLayout );
 	editCoste = addEditField( pControlsFrame, "ARTICULO", "COSTE", costesLayout );
 	editMargenComercial = addEditField( pControlsFrame, "ARTICULO", "MARGENCOMERCIAL", costesLayout );
@@ -129,10 +129,10 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( familiaLayout );
 	pControlsLayout->addLayout( proveedoraLayout );
 	pControlsLayout->addLayout( nombreLayout );
+	pControlsLayout->addLayout( codigointernoLayout );
 	pControlsLayout->addLayout( codigoLayout );
 	pControlsLayout->addLayout( tipoivaLayout );
 	pControlsLayout->addLayout( fabricanteLayout );
-	pControlsLayout->addLayout( codigointernoLayout );
 	pControlsLayout->addLayout( costesLayout );
 	pControlsLayout->addLayout( pvpsLayout );
 	pControlsLayout->addLayout( pvpnLayout );
@@ -180,9 +180,9 @@ void FrmEditArticulo::scatterFields()
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editFamiliaCodigo;
 	editNombre->setText(getRecArticulo()->getValue("NOMBRE").toString());
+	editCodigoInterno->setText(getRecArticulo()->getValue("CODIGOINTERNO").toString());
 	editCodigo->setText(getRecArticulo()->getValue("CODIGO").toString());
 	editFabricante->setText(getRecArticulo()->getValue("FABRICANTE").toString());
-	editCodigoInterno->setText(getRecArticulo()->getValue("CODIGOINTERNO").toString());
 	editCosteSinIVA->setText(getRecArticulo()->getValue("COSTESINIVA").toMoney());
 	editCoste->setText(getRecArticulo()->getValue("COSTE").toMoney());
 	editMargenComercial->setText(getRecArticulo()->getValue("MARGENCOMERCIAL").toDouble());
@@ -232,10 +232,10 @@ void FrmEditArticulo::gatherFields()
 	getRecArticulo()->setValue( "FAMILIA_ID", getRecFamilia()->getRecordID() );
 	getRecArticulo()->setValue( "PROVEEDORA_ID", getRecProveedora()->getRecordID() );
 	getRecArticulo()->setValue( "NOMBRE", editNombre->toString());
+	getRecArticulo()->setValue( "CODIGOINTERNO", editCodigoInterno->toString());
 	getRecArticulo()->setValue( "CODIGO", editCodigo->toString());
 	getRecArticulo()->setValue( "TIPOIVA_ID", getRecTipoIVA()->getRecordID() );
 	getRecArticulo()->setValue( "FABRICANTE", editFabricante->toString());
-	getRecArticulo()->setValue( "CODIGOINTERNO", editCodigoInterno->toString());
 	getRecArticulo()->setValue( "COSTESINIVA", editCosteSinIVA->toMoney());
 	getRecArticulo()->setValue( "COSTE", editCoste->toMoney());
 	getRecArticulo()->setValue( "MARGENCOMERCIAL", editMargenComercial->toDouble());

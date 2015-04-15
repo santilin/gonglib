@@ -63,7 +63,7 @@ dbViewDefinition::dbViewDefinition(const dbViewDefinition &other)
         } else { //  Give a chance to the recorddatamodel to add its tablename
             _GONG_DEBUG_PRINT(1, "View " + name + " lacks FROM" );
         }
-        dbTableDefinition *firsttbldef = dbdef.findTableDefinition(firstfrom);
+        dbTableDefinition *firsttbldef = dbdef.findTableDefinition(firstfrom, false);
         if( !firsttbldef ) {
             _GONG_DEBUG_PRINT(1, "Table '" + firstfrom + "' not found in view '" + name + "'" );
         } else {

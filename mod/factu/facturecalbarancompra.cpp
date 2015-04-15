@@ -10,6 +10,7 @@
 // RELATION pagos::FormaPago
 // RELATION empresa::Proyecto
 // RELATION AlbaranCompraDet Detalles
+// RELATION tesoreria::CuentaTesoreria #ifdef|HAVE_TESORERIAMODULE
 // INTERFACE public factu::IPagableAlbaran
 // INTERFACE public factu::IIVADesglosable
 // INTERFACE public factu::IAsentableFactura #ifdef|HAVE_CONTABMODULE
@@ -40,7 +41,7 @@ void RecAlbaranCompra::init()
     addStructuralFilter( "ALBARANCOMPRA.EJERCICIO=" + getConnection()->toSQL( empresa::ModuleInstance->getEjercicio() ) );
 }
 
-/*<<<<<ALBARANCOMPRA_RELATIONS*/
+/*<<<<<ALBARANCOMPRA_RELATIONS$s/CUENTATESORERIA/CUENTAPAGO/$*/
 RecTipoDoc *RecAlbaranCompra::getRecTipoDoc() const
 {
 	return static_cast<RecTipoDoc*>(findRelatedRecord("TIPODOC_ID"));
@@ -75,6 +76,13 @@ dbRecordList *RecAlbaranCompra::getListAlbaranCompraDet() const
 {
 	return findRelationByRelatedTable( "ALBARANCOMPRADET" )->getRelatedRecordList();
 }
+#ifdef HAVE_TESORERIAMODULE
+tesoreria::RecCuentaTesoreria *RecAlbaranCompra::getRecCuentaTesoreria() const
+{
+	return static_cast<tesoreria::RecCuentaTesoreria*>(findRelatedRecord("CUENTAPAGO_ID"));
+}
+
+#endif
 /*>>>>>ALBARANCOMPRA_RELATIONS*/
 
 /*<<<<<ALBARANCOMPRA_TOSTRING*/

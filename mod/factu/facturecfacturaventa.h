@@ -25,6 +25,9 @@
 #include "pagosrecformapago.h"
 #include "empresarecproyecto.h"
 #include "facturecfacturaventadet.h"
+#ifdef HAVE_TESORERIAMODULE
+#include "tesoreriareccuentatesoreria.h"
+#endif
 /*>>>>>FACTURAVENTA_INCLUDES*/
 #include "factuipagables.h"
 #include "factuiivadesglosable.h"
@@ -91,7 +94,11 @@ public:
 	empresa::RecProyecto *getRecProyecto() const;
 	RecFacturaVentaDet *getRecFacturaVentaDet( int nfacturaventadet = -1 ) const;
 	dbRecordList *getListFacturaVentaDet() const;
+#ifdef HAVE_TESORERIAMODULE
+	tesoreria::RecCuentaTesoreria *getRecCuentaTesoreria() const;
+#endif
 /*>>>>>FACTURAVENTA_RELATIONS*/
+	tesoreria::RecCuentaTesoreria *getRecCuentaPago() const { return getRecCuentaTesoreria(); }
 }; // end class
 
 /*<<<<<FACTURAVENTA_POSTAMBLE*/

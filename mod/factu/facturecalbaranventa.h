@@ -25,6 +25,9 @@
 #include "pagosrecformapago.h"
 #include "empresarecproyecto.h"
 #include "facturecalbaranventadet.h"
+#ifdef HAVE_TESORERIAMODULE
+#include "tesoreriareccuentatesoreria.h"
+#endif
 /*>>>>>ALBARANVENTA_INCLUDES*/
 #include "factuipagables.h"
 #include "factuiivadesglosable.h"
@@ -84,7 +87,7 @@ public:
 	virtual bool remove() throw( dbError ); // from dbRecord
 	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 /*>>>>>ALBARANVENTA_MEMBERS*/
-    /*<<<<<ALBARANVENTA_RELATIONS*/
+/*<<<<<ALBARANVENTA_RELATIONS*/
 	RecTipoDoc *getRecTipoDoc() const;
 	RecCliente *getRecCliente() const;
 	RecAgente *getRecAgente() const;
@@ -92,7 +95,11 @@ public:
 	empresa::RecProyecto *getRecProyecto() const;
 	RecAlbaranVentaDet *getRecAlbaranVentaDet( int nalbaranventadet = -1 ) const;
 	dbRecordList *getListAlbaranVentaDet() const;
+#ifdef HAVE_TESORERIAMODULE
+	tesoreria::RecCuentaTesoreria *getRecCuentaTesoreria() const;
+#endif
 /*>>>>>ALBARANVENTA_RELATIONS*/
+	tesoreria::RecCuentaTesoreria *getRecCuentaPago() const { return getRecCuentaTesoreria(); }
 }; // end class
 
 /*<<<<<ALBARANVENTA_POSTAMBLE*/
