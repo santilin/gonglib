@@ -762,10 +762,14 @@ bool dbRecord::saveRelated( bool updating )
                 for( uint nr = 0; nr < recrel->getRelatedRecordList()->size(); nr ++ ) {
                     dbRecord *detail = recrel->getRelatedRecord(nr);
                     // Detect as much identical records as we can
-                    if( optimizing_out && nr < recrel->getRelatedRecordListOrig()->size() ) {
-                        if( recrel->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
+                    if( optimizing_out ) {
+						if( nr < recrel->getRelatedRecordListOrig()->size() ) {
+							if( recrel->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
                                 != detail->toString( TOSTRING_DEBUG_COMPLETE ) )
-                            optimizing_out = false;
+								optimizing_out = false;
+						} else {
+							optimizing_out = false;
+						}
                     }
                     if( !optimizing_out ) {
                         if ( ! ( detail->isEmpty() ) ) {
@@ -866,11 +870,15 @@ bool dbRecord::removeRelated( bool updating )
                     bool optimizing_out = updating;
                     for( uint nr = 0; nr < recrel->getRelatedRecordListOrig()->size(); nr ++ ) {
                         dbRecord *related_record_orig = recrel->getRelatedRecordListOrig()->at(nr);
-                        if( optimizing_out && nr < recrel->getRelatedRecordList()->size() ) {
-                            if( recrel->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE )
-                                    != related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ) )
-                                optimizing_out = false;
-                        }
+						if( optimizing_out ) {
+							if( nr < recrel->getRelatedRecordListOrig()->size() ) {
+								if( recrel->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
+									!= related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ) )
+									optimizing_out = false;
+							} else {
+								optimizing_out = false;
+							}
+						}
                         if( !optimizing_out ) {
                             if( related_record_orig->getRecordID() ) {
                                 related_record_orig->beforeDeleteRelated( const_cast<dbRecord *>(this) );
