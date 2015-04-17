@@ -1,7 +1,19 @@
 == HECHO ==
 
-== Biosegura ==
-* https://github.com/hanneskod/libmergepdf
+== Errores en muebles capel ==
+* Añadir cliente si no existe, configurable
+* Copiar presupuesto a pedido:
+** No ha copiado ningún campo de la cabecera
+* Generar pedidos automáticos desde pedidos de clientes: 
+** hay un mensaje, al cancelar el primer pedido que sale vacío.
+** si elejimos serie B, no sale SIN IVA.
+* Informes: botón enviar por correo.
+* Guardar como: que se guarde la carpeta elegida anteriormente.
+* Informe de pedidos a proveedoras sin precios
+* Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
+* No se puede modificar la columna global en configuración -> todo.
+* Taborder de artículos.
+* Funciona fatal la búsqueda incremental en datatable.
 
 == HACIENDO ==
 * Comprobar ciclo de oferta de venta y cobro.
