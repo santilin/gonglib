@@ -1,7 +1,7 @@
 == HECHO ==
+* No se puede modificar la columna global en configuración -> todo.
 
 == Errores en muebles capel ==
-* Añadir cliente si no existe, configurable
 * Copiar presupuesto a pedido:
 ** No ha copiado ningún campo de la cabecera
 * Generar pedidos automáticos desde pedidos de clientes: 
@@ -11,7 +11,6 @@
 * Guardar como: que se guarde la carpeta elegida anteriormente.
 * Informe de pedidos a proveedoras sin precios
 * Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
-* No se puede modificar la columna global en configuración -> todo.
 * Taborder de artículos.
 * Funciona fatal la búsqueda incremental en datatable.
 
@@ -66,6 +65,7 @@
 * Clientes especiales, con un porcentaje extra.
 * Enviar/recibir facturas a/de otro gestiong
 * Que la suma en mc de las ventas coincida con la suma de las facturas:
+* Añadir cliente si no existe, configurable
 ** No añade el recargo ni los descuentos
 * Calcular el máximo de una unión en SQL: SELECT SUM() FROM ( SELECT .... UNION ALL .... );
 * Albaranes, facturas, etc. Añadir Cantidad asignada al proyecto

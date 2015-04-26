@@ -20,17 +20,15 @@ SettingsTree::SettingsTree(QWidget *parent)
     QStringList labels;
     labels << toGUI(_("Clave")) << toGUI(_("Valor por omisión")) << toGUI(_("Local")) << toGUI( _("Gobal")) << toGUI(_("Clave interna"));
     setHeaderLabels(labels);
-    header()->resizeSection(0, fontMetrics().width("W") * 25);
-    header()->resizeSection(1, fontMetrics().width("W") * 15);
-    header()->resizeSection(2, fontMetrics().width("W") * 15);
-    header()->resizeSection(3, fontMetrics().width("W") * 25);
-//	header()->setResizeMode(0, QHeaderView::Stretch);
-//	header()->setResizeMode(2, QHeaderView::Stretch);
+    header()->resizeSection(0, fontMetrics().width("W") * 25); // Clave
+    header()->resizeSection(1, fontMetrics().width("W") * 15); // Valor por omisión
+    header()->resizeSection(2, fontMetrics().width("W") * 15); // Valor local
+    header()->resizeSection(3, fontMetrics().width("W") * 25); // Valor Global
     setItemDelegateForColumn(0, new NoEditDelegate(this) );
     setItemDelegateForColumn(1, new NoEditDelegate(this) );
     if( DBAPP->isReadOnly() )  // No modificar la base de datos
-        setItemDelegateForColumn(2, new NoEditDelegate(this) );
-    setItemDelegateForColumn(3, new NoEditDelegate(this) );
+        setItemDelegateForColumn(3, new NoEditDelegate(this) );
+    setItemDelegateForColumn(4, new NoEditDelegate(this) );
     mRefreshTimer.setInterval(2000);
     autoRefresh = false;
 

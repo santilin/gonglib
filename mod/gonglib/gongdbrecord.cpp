@@ -760,12 +760,13 @@ bool dbRecord::saveRelated( bool updating )
                 Variant leftvalue = getValue ( recrel->getLeftField() );
 				bool optimizing_out = updating;
                 for( uint nr = 0; nr < recrel->getRelatedRecordList()->size(); nr ++ ) {
-                    dbRecord *detail = recrel->getRelatedRecord(nr);
+					dbRecord *detail = recrel->getRelatedRecordList()->at(nr);
                     // Detect as much identical records as we can
                     if( optimizing_out ) {
 						if( nr < recrel->getRelatedRecordListOrig()->size() ) {
-							if( recrel->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
-                                != detail->toString( TOSTRING_DEBUG_COMPLETE ) )
+							dbRecord *related_record_orig = recrel->getRelatedRecordListOrig()->at(nr);
+							if( detail->toString( TOSTRING_DEBUG_COMPLETE )
+                                != related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ) )
 								optimizing_out = false;
 						} else {
 							optimizing_out = false;
@@ -871,8 +872,10 @@ bool dbRecord::removeRelated( bool updating )
                     for( uint nr = 0; nr < recrel->getRelatedRecordListOrig()->size(); nr ++ ) {
                         dbRecord *related_record_orig = recrel->getRelatedRecordListOrig()->at(nr);
 						if( optimizing_out ) {
-							if( nr < recrel->getRelatedRecordListOrig()->size() ) {
-								if( recrel->getRelatedRecordListOrig()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
+							if( nr < recrel->getRelatedRecordList()->size() ) {
+								_GONG_DEBUG_PRINT(0, recrel->getRelatedRecordList()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE ));
+								_GONG_DEBUG_PRINT(0, related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ));
+								if( recrel->getRelatedRecordList()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
 									!= related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ) )
 									optimizing_out = false;
 							} else {
