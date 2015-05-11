@@ -3,18 +3,19 @@
 #include <gongdbdefinition.h>
 #include <gongdbfieldemail.h>
 #include <gongcsvutils.h>
-#include <dbappdbapplication.h>
-#include <dbappsmtpmailsender.h>
-#include "contactosmodule.h"
-#include "contactosfrmmailing.h"
+#include "dbappdbmodule.h"
+#include "dbappdbapplication.h"
+#include "dbappsmtpmailsender.h"
+#include "dbappfrmmailing.h"
 
+using Poco::Net::MailMessage;
 using Poco::Net::MailRecipient;
+using Poco::Net::FilePartSource;
 
 namespace gong {
-namespace contactos {
 
-FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
-    : FrmCustom( parent, "Contactos::FrmMailing", fl )
+FrmMailing::FrmMailing( const Xtring &tabla_contactos, const Xtring &campo_id_contactos, QWidget* parent, WidgetFlags fl )
+    : FrmCustom( parent, "Gong::FrmMailing", fl ), mTablaContactos(tabla_contactos), mCampoIdContactos(campo_id_contactos)
 {
     Xtring titulo = _("Envío de correos electrónicos masivos");
     setTitle( titulo );
@@ -24,12 +25,17 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     pControlsLayout->addWidget( tabFrameEdit );
     tabSeleccion = new QWidget( tabFrameEdit, "tabSeleccion" );
     QVBoxLayout *selLayout = new QVBoxLayout( tabSeleccion );
-    mSearchBoxes << addMultipleSearchField( tabSeleccion, "CONTACTO", "CIF", "NOMBRE", selLayout );
+	dbTableDefinition *tbldef = DBAPP->getDatabase()->findTableDefinition(mTablaContactos);
+	if( tbldef ) {
+		const Xtring &code = tbldef->getCodeField();
+		const Xtring &desc = tbldef->getDescField();
+		mSearchBoxes << addMultipleSearchField( tabSeleccion, mTablaContactos, code, desc, selLayout );
+	}
     // Buscar todos los ficheros que tengan relación con contactos
     for( dbTableDefinitionDict::const_iterator it = DBAPP->getDatabase()->getTables().begin();
             it != DBAPP->getDatabase()->getTables().end();
             ++ it ) {
-        dbTableDefinition *tbldef = it->second;
+        tbldef = it->second;
         if( tbldef->findFieldDefinition("CONTACTO_ID") ) {
             const Xtring &code = tbldef->getCodeField();
             const Xtring &desc = tbldef->getDescField();
@@ -51,7 +57,7 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     tabContenido = new QWidget( tabFrameEdit, "tabContenido" );
     QVBoxLayout *contLayout = new QVBoxLayout( tabContenido );
     pFrom = addInput(tabContenido, _("Remitente"),
-                     ModuleInstance->getModuleSetting( "SMTP_FROM" ), "STRING", 0, contLayout );
+                     DBAPP->getAppSetting( "SMTP_FROM" ), "STRING", 0, contLayout );
     pSubject = addInput(tabContenido, _("Asunto"), Variant(), "STRING", 0, contLayout );
     pBody = addTextEditBox( tabContenido, _("Cuerpo"), Xtring::null, 0, contLayout );
     pHTMLBody = addRichTextBox(tabContenido, _("Cuerpo HTML"), 0, contLayout );
@@ -61,12 +67,12 @@ FrmMailing::FrmMailing( QWidget* parent, WidgetFlags fl )
     tabConfiguracion = new QWidget( tabFrameEdit, "tabConfiguracion" );
     QVBoxLayout *confLayout = new QVBoxLayout( tabConfiguracion );
     pHost = addInput(tabConfiguracion, _("Servidor SMTP"),
-                     ModuleInstance->getModuleSetting( "SMTP_HOST"), "STRING", 0, confLayout );
+                     DBAPP->getAppSetting( "SMTP_HOST"), "STRING", 0, confLayout );
     pUser = addInput(tabConfiguracion, _("Usuaria"),
-                     ModuleInstance->getModuleSetting( "SMTP_USER"), "STRING", 0, confLayout );
+                     DBAPP->getAppSetting( "SMTP_USER"), "STRING", 0, confLayout );
     pPassword = addInput(tabConfiguracion, _("Contraseña"), Variant(), "PASSWORD", 0, confLayout );
     pPort = addInput(tabConfiguracion, _("Puerto"),
-                     ModuleInstance->getModuleSetting( "SMTP_PORT").toInt(), "INTEGER", 0, confLayout );
+                     DBAPP->getAppSetting( "SMTP_PORT").toInt(), "INTEGER", 0, confLayout );
     pGrouping = addInput(tabConfiguracion, _("Número de destinatarios a agregar en cada email"),
                          0, "INTEGER", 0, confLayout );
     pCheckSaveSettings = addCheckBox( this, _("Guardar datos de conexión"), true, 0, confLayout );
@@ -110,19 +116,19 @@ void FrmMailing::validate_input(QWidget* sender, bool* isvalid)
 int FrmMailing::getEmailsList( XtringList &list, bool include_names ) const
 {
     DBAPP->waitCursor( true );
-    dbConnection *conn = ModuleInstance->getConnection();
+    dbConnection *conn = DBAPP->getConnection();
     for( List<SearchBox *>::const_iterator sbit = mSearchBoxes.begin();
             sbit != mSearchBoxes.end(); ++sbit ) {
         Xtring tablename = (*sbit)->getTableName();
         List<dbRecordID> &ids = (*sbit)->getRecordIDs();
         if( ids.size() ) {
-            Xtring sql = "SELECT DISTINCT CONTACTO.EMAIL, CONTACTO.NOMBRE FROM "
+            Xtring sql = "SELECT DISTINCT " + mTablaContactos + ".EMAIL, " + mTablaContactos + ".NOMBRE FROM "
                          +  conn->nameToSQL( tablename );
-            if( tablename != "CONTACTO" ) {
-                sql += " INNER JOIN CONTACTO ON " + conn->nameToSQL( tablename ) + ".CONTACTO_ID=CONTACTO.ID";
+            if( tablename != mTablaContactos ) {
+                sql += " INNER JOIN " + mTablaContactos + " " + conn->nameToSQL( tablename ) + "." + mCampoIdContactos + "=" + mTablaContactos + ".ID";
             }
-            sql += " WHERE CONTACTO.EMAIL IS NOT NULL"
-                   " AND CONTACTO.EMAIL <> '' AND " + conn->nameToSQL( tablename ) + ".ID IN(" + ids.join(",") + ")";
+            sql += " WHERE " + mTablaContactos + ".EMAIL IS NOT NULL"
+                   " AND " + mTablaContactos + ".EMAIL <> '' AND " + conn->nameToSQL( tablename ) + ".ID IN(" + ids.join(",") + ")";
             dbResultSet *rs = conn->select (sql );
             while( rs->next() ) {
                 Xtring email = rs->toString(0);
@@ -243,6 +249,12 @@ void FrmMailing::accept()
                 }
             }
             if( do_send ) {
+				Xtring filename = pAttachment->getFileName();
+				if( !filename.isEmpty() ) {
+					FilePartSource *attachement = new FilePartSource(filename.c_str(), "application/pdf");
+//					attachement->headers().add("Content-ID", "<image>");
+					message->addPart("adjunto1", attachement, Poco::Net::MailMessage::CONTENT_ATTACHMENT, Poco::Net::MailMessage::ENCODING_BASE64);					
+				}
                 sent = s.sendMessage( message );
                 delete message;
                 message = 0;
@@ -263,15 +275,10 @@ void FrmMailing::accept()
         }
         s.close();
         if( pCheckSaveSettings->isChecked() ) {
-            DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_FROM", pFrom->toString() );
-            DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_HOST", pHost->toString() );
-            DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_USER", pUser->toString() );
-            DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_PORT", pPort->toInt() );
-        } else {
-            DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_FROM", Xtring::null );
-            DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_HOST", Xtring::null );
-            DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_USER", Xtring::null );
-            DBAPP->setUserLocalSetting( "MODULE.CONTACTOS.SMTP_PORT", 0 );
+            DBAPP->setUserLocalSetting( "SMTP_FROM", pFrom->toString() );
+            DBAPP->setUserLocalSetting( "SMTP_HOST", pHost->toString() );
+            DBAPP->setUserLocalSetting( "SMTP_USER", pUser->toString() );
+            DBAPP->setUserLocalSetting( "SMTP_PORT", pPort->toInt() );
         }
         if( errorcount == 0) {
             msgOk( this, _("La operación se ha completado con éxito") );
@@ -292,6 +299,5 @@ void FrmMailing::addMessage(TextEdit* dest, const Xtring& message)
 }
 
 
-} // namespace contactos
 } // namespace gong
 

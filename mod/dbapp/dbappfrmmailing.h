@@ -1,7 +1,7 @@
-#ifndef GONG_CONTACTOS_FRMMAILING_H
-#define GONG_CONTACTOS_FRMMAILING_H
+#ifndef GONG_DBAPP_FRMMAILING_H
+#define GONG_DBPPP_FRMMAILING_H
 
-/** @file contactosfrmmailing.h Formulario para envío masivo de emails
+/** @file dbappfrmmailing.h Formulario para envío masivo de emails
  * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
@@ -19,12 +19,10 @@ namespace gong {
 
 class PushButton;
 
-namespace contactos {
-
 class FrmMailing: public FrmCustom
 {
 public:
-    FrmMailing( QWidget* parent = 0, WidgetFlags fl = 0 );
+    FrmMailing( const Xtring &tabla_contactos, const Xtring &campo_id_contactos, QWidget* parent = 0, WidgetFlags fl = 0 );
     virtual int getEmailsList( XtringList &list,bool include_names ) const;
 protected:
     void addEmailToList( XtringList &list, const Xtring &email,
@@ -44,9 +42,9 @@ private:
     TextEdit *pMailsExtra, *pBody, *pResultado, *pOks, *pErrors;
     QCheckBox *pCheckSaveSettings;
     QLabel *lblProgreso;
+	Xtring mCampoIdContactos, mTablaContactos;
 };
 
-} // namespace contactos
 } // namespace gong
 
-#endif // GONG_CONTACTOS_FRMMAILING_H
+#endif // GONG_DBAPP_FRMMAILING_H

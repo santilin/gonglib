@@ -18,8 +18,8 @@
 #include "contactosfrmeditcontacto.h"
 /*>>>>>CONTACTOSMODULE_INCLUDES*/
 
+#include <dbappfrmmailing.h>
 #include "contactosfldcif.h"
-#include "contactosfrmmailing.h"
 
 namespace gong {
 namespace contactos {
@@ -146,7 +146,7 @@ void ContactosModule::slotMenuContactosContacto()
 
 void ContactosModule::slotMenuContactosMailing()
 {
-    FrmMailing *frmmailing = new FrmMailing(0);
+    gong::FrmMailing *frmmailing = new gong::FrmMailing("CONTACTO", "CONTACTO_ID");
     pMainWindow->createClient( frmmailing );
 }
 

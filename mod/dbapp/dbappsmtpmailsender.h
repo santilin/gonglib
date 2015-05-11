@@ -6,6 +6,7 @@
 #include <Poco/Net/SMTPClientSession.h>
 #include <Poco/Net/MailMessage.h>
 #include <Poco/Net/MailRecipient.h>
+#include <Poco/Net/FilePartSource.h>
 
 namespace gong {
 

@@ -1,5 +1,4 @@
 == HECHO ==
-* No se puede modificar la columna global en configuración -> todo.
 
 == Errores en muebles capel ==
 * Copiar presupuesto a pedido:
@@ -7,7 +6,6 @@
 * Generar pedidos automáticos desde pedidos de clientes: 
 ** hay un mensaje, al cancelar el primer pedido que sale vacío.
 ** si elejimos serie B, no sale SIN IVA.
-* Informes: botón enviar por correo.
 * Guardar como: que se guarde la carpeta elegida anteriormente.
 * Informe de pedidos a proveedoras sin precios
 * Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
@@ -15,6 +13,7 @@
 * Funciona fatal la búsqueda incremental en datatable.
 
 == HACIENDO ==
+* Informes: botón enviar por correo.
 * Comprobar ciclo de oferta de venta y cobro.
 * Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 

@@ -6,14 +6,13 @@ libgongcontactos_ladir = $(includedir)/gonglib
 libgongcontactos_la_SOURCES = contactosmodule.cpp \
 	contactosfldcif.cpp contactosfldnombrepropio.cpp \
 	contactosfrmeditcontacto.cpp contactosreccontacto.cpp \
-	contactosfrmmailing.cpp contactosicontactablerecord.cpp \
-	contactosfrmeditcontactobehavior.cpp
+	contactosicontactablerecord.cpp contactosfrmeditcontactobehavior.cpp
 
 libgongcontactos_la_HEADERS = contactosmodule.h contactosmastertable.h \
 	contactosfldcif.h contactosfldnombrepropio.h \
 	contactosfrmeditcontacto.h contactosreccontacto.h \
-	contactosfrmmailing.h contactosicontactablerecord.h \
-	contactosfrmeditcontactobehavior.h contactosreccontactoimagen.h
+	contactosicontactablerecord.h contactosfrmeditcontactobehavior.h \
+	contactosreccontactoimagen.h
 
 nodist_libgongcontactos_la_SOURCES = \
 	moc_contactosfrmeditcontacto.cpp moc_contactosmodule.cpp \
