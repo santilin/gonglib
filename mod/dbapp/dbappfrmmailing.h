@@ -24,6 +24,7 @@ class FrmMailing: public FrmCustom
 public:
     FrmMailing( const Xtring &tabla_contactos, const Xtring &campo_id_contactos, QWidget* parent = 0, WidgetFlags fl = 0 );
     virtual int getEmailsList( XtringList &list,bool include_names ) const;
+	void setAttachement(const Xtring &filename, const Xtring &mimetype);
 protected:
     void addEmailToList( XtringList &list, const Xtring &email,
                          const Xtring &nombre, bool include_names) const;
@@ -42,7 +43,7 @@ private:
     TextEdit *pMailsExtra, *pBody, *pResultado, *pOks, *pErrors;
     QCheckBox *pCheckSaveSettings;
     QLabel *lblProgreso;
-	Xtring mCampoIdContactos, mTablaContactos;
+	Xtring mCampoIdContactos, mTablaContactos, mMimeType;
 };
 
 } // namespace gong

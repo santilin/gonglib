@@ -18,12 +18,13 @@
 * Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 
 == Errores ==
+* gongdbdefinition, no está aislado el boost
 * ticket: cambiar mensaje del footer
 * ticket: no sale la fecha
+* factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
 
 == HACER ==
 * Refactor: DBAPP->hasModule("pagos") => ModuleInstance->getPagosModule()
-* factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
 
 == EN COLA ==
 * ENABLE_NLS no está definido: http://www.heiner-eichmann.de/autotools/adding_gettext.html

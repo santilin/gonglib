@@ -18,9 +18,10 @@
  */
 /*>>>>>COPYRIGHT*/
 
-// Some changes made by Tomeu Borr� Riera, Marzo 2005
+// Some changes made by Tomeu Borrás Riera, Marzo 2005
 #include "dbappdbapplication.h"
 #include "dbappreportqtviewer.h"
+#include "dbappfrmmailing.h"
 
 #include <QPrinter>
 #include <Q3ToolBar>
@@ -66,7 +67,7 @@ void ReportQtViewer::init()
     display = new ReportQtPageDisplay( scroller->viewport() );
     scroller->addChild( display );
 
-    QIcon forwardIcon, backIcon, finishIcon, startIcon, printIcon, pdfIcon;
+    QIcon forwardIcon, backIcon, finishIcon, startIcon, printIcon, pdfIcon, emailIcon;
 
     printIcon =  QIcon::fromTheme("printer", QIcon(":/printer.png"));
     forwardIcon = QIcon::fromTheme("go-next-view-page", QIcon(":/go-next-view-page.png"));
@@ -74,6 +75,7 @@ void ReportQtViewer::init()
     startIcon = QIcon::fromTheme("go-first-view-page", QIcon(":/go-first-view-page.png"));
     finishIcon = QIcon::fromTheme("go-last-view-page", QIcon(":/go-last-view-page.png"));
     pdfIcon = QIcon::fromTheme("application-pdf", QIcon(":/application-pdf.png"));
+	emailIcon = QIcon::fromTheme("mail-send", QIcon(":/mail-send.png"));
 
     QString s_next = _("Next");
     forwardaction = new QAction(forwardIcon, s_next, this);
@@ -105,13 +107,19 @@ void ReportQtViewer::init()
     printaction->setWhatsThis(s_print);
     connect(printaction, SIGNAL(activated()), this, SLOT(slotPrint()));
 
-
     QString s_pdf= _("PDF");
     pdfaction = new QAction(pdfIcon, s_pdf, this);
     pdfaction->setStatusTip(s_pdf);
     pdfaction->setWhatsThis(s_pdf);
     connect(pdfaction, SIGNAL(activated()), this, SLOT(slotPdf()));
 
+    QString s_email= _("correo-e");
+    emailaction = new QAction(emailIcon, s_email, this);
+    emailaction->setStatusTip(s_email);
+    emailaction->setWhatsThis(s_email);
+    connect(emailaction, SIGNAL(activated()), this, SLOT(slotEmail()));
+	
+	
     /// Creamos un toolbox
     m_fileToolbar = new Q3ToolBar(this, "Navigation");
     m_fileToolbar->addSeparator();
@@ -121,6 +129,7 @@ void ReportQtViewer::init()
     forwardaction->addTo(m_fileToolbar);
     printaction->addTo(m_fileToolbar);
     pdfaction->addTo(m_fileToolbar);
+    emailaction->addTo(m_fileToolbar);
 
     m_fileToolbar->setLabel("Navigation");
     m_fileToolbar->show();
@@ -368,10 +377,10 @@ void ReportQtViewer::slotPdf()
         return;
     }
 
-    Xtring destfname = GuiApplication::getSaveFileName( _("Guardar informe como PDF"),
+    mDestPdf = GuiApplication::getSaveFileName( _("Guardar informe como PDF"),
                        DBAPP->getLocalDataDir(),
                        "Ficheros PDF (*.pdf);;Todos los ficheros (*)", this );
-    if( !destfname.isEmpty() ) {
+    if( !mDestPdf.isEmpty() ) {
         DBAPP->waitCursor( true );
         QPrinter *printer = new QPrinter();
         printer->setPageSize( QPrinter::A4 );
@@ -379,7 +388,7 @@ void ReportQtViewer::slotPdf()
         printer->setMinMax( 1, cnt );
         printer->setFromTo( 1, cnt );
         printer->setOutputFormat( QPrinter::PdfFormat );
-        printer->setOutputFileName( destfname.c_str() );
+        printer->setOutputFileName( mDestPdf.c_str() );
         printer->setFullPage( true );
         printer->setNumCopies( 1 );
         int printCopies = 1;
@@ -418,12 +427,24 @@ void ReportQtViewer::slotPdf()
             if ( j < printCopies - 1 )
                 printer->newPage();
         }
-
-        painter.end();
+		painter.end();
         delete printer;
         DBAPP->resetCursor();
     }
 }
+
+
+void ReportQtViewer::slotEmail()
+{
+	slotPdf(); // crea el pdf en el fichero mDestPdf
+	if( !mDestPdf.isEmpty() ) {
+		gong::FrmMailing *frmmailing = new gong::FrmMailing("CONTACTO", "CONTACTO_ID");
+		frmmailing->setAttachement(mDestPdf, "application/pdf");
+		DBAPP->getMainWindow()->createClient( frmmailing );
+	}
+
+}
+
 
 } // namespace gong
 

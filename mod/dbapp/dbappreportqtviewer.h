@@ -77,11 +77,13 @@ public slots:
     void slotPrevPage();
     void slotLastPage();
     void slotPdf();
+	void slotEmail();
 
 protected:
     Q3VBoxLayout* controlsLayout;
     Q3HBoxLayout* mainLayout;
     QPushButton *pushPrint, *pushFirst, *pushNext, *pushPrev, *pushLast, *pushPdf;
+	Xtring mDestPdf;
 
 protected:
     virtual void paintEvent( QPaintEvent *event );
@@ -92,12 +94,8 @@ protected:
 
 private:
     Q3ToolBar *m_fileToolbar;
-    QAction *forwardaction;
-    QAction *backaction;
-    QAction *finishaction;
-    QAction *startaction;
-    QAction *printaction;
-    QAction *pdfaction;
+    QAction *forwardaction, *backaction, *finishaction, *startaction, *printaction,
+		*pdfaction, *emailaction;
     Q3VBox *view_back;
     QWorkspace *pWorkspace;
 

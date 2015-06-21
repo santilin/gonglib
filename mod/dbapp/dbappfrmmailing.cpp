@@ -74,7 +74,7 @@ FrmMailing::FrmMailing( const Xtring &tabla_contactos, const Xtring &campo_id_co
     pPort = addInput(tabConfiguracion, _("Puerto"),
                      DBAPP->getAppSetting( "SMTP_PORT").toInt(), "INTEGER", 0, confLayout );
     pGrouping = addInput(tabConfiguracion, _("Número de destinatarios a agregar en cada email"),
-                         0, "INTEGER", 0, confLayout );
+                         1, "INTEGER", 0, confLayout );
     pCheckSaveSettings = addCheckBox( this, _("Guardar datos de conexión"), true, 0, confLayout );
     tabFrameEdit->addTab( tabConfiguracion, toGUI( _("&Servidor SMTP") ) );
 
@@ -195,7 +195,8 @@ void FrmMailing::accept()
         msgError( this, _("El asunto está vacío.") );
         return;
     }
-    if( pBody->toString().isEmpty() && pHTMLBody->toString().isEmpty() ) {
+	bool isHTML = !pHTMLBody->toString().trim().isEmpty();
+    if( pBody->toString().trim().isEmpty() && !isHTML ) {
         msgError( this, _("El cuerpo está vacío") );
         return;
     }
@@ -222,7 +223,6 @@ void FrmMailing::accept()
     } else {
         getEmailsList( emails, false );
         uint groupcount = 0, totalcount = 0, okcount = 0, errorcount = 0;
-        bool isHTML = !pHTMLBody->toString().isEmpty();
         Poco::Net::MailMessage *message = 0;
         bool do_send = false;
         Xtring recipients;
@@ -251,7 +251,7 @@ void FrmMailing::accept()
             if( do_send ) {
 				Xtring filename = pAttachment->getFileName();
 				if( !filename.isEmpty() ) {
-					FilePartSource *attachement = new FilePartSource(filename.c_str(), "application/pdf");
+					FilePartSource *attachement = new FilePartSource(filename.c_str(), mMimeType.isEmpty() ? "application/pdf" : mMimeType);
 //					attachement->headers().add("Content-ID", "<image>");
 					message->addPart("adjunto1", attachement, Poco::Net::MailMessage::CONTENT_ATTACHMENT, Poco::Net::MailMessage::ENCODING_BASE64);					
 				}
@@ -296,6 +296,13 @@ void FrmMailing::addMessage(TextEdit* dest, const Xtring& message)
     dest->moveCursor(QTextCursor::End);
     dest->insertPlainText( toGUI( message ) );
     DBAPP->processEvents();
+}
+
+
+void FrmMailing::setAttachement(const Xtring& filename, const Xtring& mimetype)
+{
+	pAttachment->setFileName(filename);
+	mMimeType = mimetype;
 }
 
 
