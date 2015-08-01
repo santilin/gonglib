@@ -141,9 +141,9 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=161
+line=0
 mode=LaTeX
-open=true
+open=false
 order=5
 
 [item:instalacion.tex]
@@ -191,9 +191,9 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=52
+line=0
 mode=LaTeX
-open=true
+open=false
 order=2
 
 [item:modulo_factu.tex]
@@ -201,9 +201,9 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=39
+line=0
 mode=LaTeX
-open=true
+open=false
 order=3
 
 [item:modulo_socias.tex]
@@ -211,9 +211,9 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=679
+line=0
 mode=LaTeX
-open=true
+open=false
 order=4
 
 [item:primerospasos_lospajaros.tex]
@@ -233,7 +233,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=0
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [view-settings,view=0,item:ecotiendag_commands.tex]

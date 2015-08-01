@@ -57,21 +57,12 @@ public:
     virtual const char *encoding() const;
 
     void initPaperSizes();
-    Measure getFolioSizeY() const {
-        return mFolioSizeY;
-    }
-    int getCurrentPage() {
-        return mCurrentPage;
-    }
-    int getTotalPages() {
-        return mTotalPages;
-    }
-    void setUnitsPerInchX(const Measure &ppix) {
-        propUnitsPerInchX.set(ppix);
-    }
-    void setUnitsPerInchY(const Measure &ppiy) {
-        propUnitsPerInchY.set(ppiy);
-    }
+    Measure getFolioSizeY() const { return mFolioSizeY; }
+    int getCurrentPageInFolio() const { return mCurrentPageInFolio; }
+    int getCurrentPage() { return mCurrentPage; }
+    int getTotalPages() { return mTotalPages; }
+    void setUnitsPerInchX(const Measure &ppix) { propUnitsPerInchX.set(ppix); }
+    void setUnitsPerInchY(const Measure &ppiy) { propUnitsPerInchY.set(ppiy); }
 
     void setPageOrientation( const PageOrientation po ) {
         propPageOrientation.set( po );

@@ -1,4 +1,8 @@
 == HECHO ==
+== HACER ==
+* Albarancompramultiple, pedidocompramultiple, pedidoventamultiple.
+* VEr por qué no sale múltiple en advancedprint
+* Recuperar facturacompra.rtk, facturaventa.rtk, albaranventa.rtk
 
 == Errores en muebles capel ==
 * Copiar presupuesto a pedido:
@@ -13,7 +17,6 @@
 * Funciona fatal la búsqueda incremental en datatable.
 
 == HACIENDO ==
-* Informes: botón enviar por correo.
 * Comprobar ciclo de oferta de venta y cobro.
 * Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 
@@ -197,7 +200,6 @@
 * No suprimir un valor en cambio de sección
 * Visor:
 ** Mostrar número de página/total páginas
-** Añadir opción enviar por correo
 * Implementar padding de los objetos
 * El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 * Al hacer un informe apaisado, el alto de línea es demasiado pequeño
