@@ -1,8 +1,6 @@
 == HECHO ==
 == HACER ==
-* Albarancompramultiple, pedidocompramultiple, pedidoventamultiple.
-* VEr por qué no sale múltiple en advancedprint
-* Recuperar facturacompra.rtk, facturaventa.rtk, albaranventa.rtk
+* pedidocompramultiple, pedidoventamultiple.
 
 == Errores en muebles capel ==
 * Copiar presupuesto a pedido:
