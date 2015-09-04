@@ -259,6 +259,11 @@ bool Variant::isZero() const
     return true;
 }
 
+/**
+ * @brief Comprueba si un variant está vacío. Ojo, los numéricos nunca están vacíos
+ * 
+ * @return bool
+ */
 bool Variant::isEmpty() const
 {
     switch ( mType ) {

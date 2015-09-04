@@ -652,7 +652,7 @@ int Report::printPageFooters( Output *out )
     for ( uint i = 0; i < mSections.size(); i++ ) {
         if ( mSections[i]->isPageFooter() ) {
             if( mSections[i]->visible() )
-                totalsizey += mSections[ i ] ->sizeY();
+                totalsizey += mSections[i]->sizeY();
         }
     }
     _GONG_DEBUG_PRINT(5, Xtring::printf( "Positioning for page footers at Y: %f", out->getFolioSizeY() - out->marginBottom() - totalsizey) );

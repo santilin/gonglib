@@ -71,12 +71,10 @@ void FrmEditRemesaCobroBehavior::slotGenerarRecibo_clicked()
                                    DBAPP->createEditForm( pTheForm, cobro, 0, DataTable::inserting, dbApplication::simpleEdition ) );
 #ifdef HAVE_FACTUMODULE
     if( ModuleInstance->getFactuModule() )
-        frm->completa( "MIEMBRO", "NUMEROSOCIA", "CLIENTE.RAZONSOCIAL",
-                       Xtring::null, Xtring::null, Xtring::null, Xtring::null, Xtring::null, true );
+        frm->cambiaFields( "NUMEROSOCIA", "CLIENTE.RAZONSOCIAL");
     else
 #endif
-        frm->completa( "MIEMBRO", "NUMEROSOCIA", "CONTACTO.RAZONSOCIAL", 
-                       Xtring::null, Xtring::null, Xtring::null, Xtring::null, Xtring::null, true );
+        frm->cambiaFields( "NUMEROSOCIA", "CONTACTO.RAZONSOCIAL");
     if( frm ) {
         frm->setUsarRemesas( true/*ver*/,true/*fijar*/ );
         frm->showModalFor( pTheForm, false, true );
