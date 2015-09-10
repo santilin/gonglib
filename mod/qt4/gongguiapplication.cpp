@@ -170,10 +170,12 @@ Xtring GuiApplication::getOpenFileName(const Xtring &caption,
                                        QWidget *parent)
 {
     Xtring initial;
+	if( sLastSavePath.isEmpty() ) 
+		sLastSavePath = theGuiApp->getLocalDataDir();
     if( initialname.isEmpty() )
-        initial = sLastOpenPath ;
-    else
-        initial = initialname;
+        initial = sLastSavePath ;
+    else if( initialname.find("/") == Xtring::npos ) 
+        initial = sLastSavePath + "/" + initialname;
     QString fn = QFileDialog::getOpenFileName(parent, toGUI( caption ),
                  toGUI ( initial ),
                  toGUI( filter ) );
@@ -187,10 +189,9 @@ Xtring GuiApplication::getOpenFileName(const Xtring &caption,
  * @brief ...
  *
  * @param caption ...
- * @param initialname ...
+ * @param initialname ... If empty or only a filename, the last saved path is prepended
  * @param filter  "Ficheros CSV (*.csv);;Todos los ficheros (*)"
  * @param parent ...
- * @return Xtring
  **/
 Xtring GuiApplication::getSaveFileName(const Xtring &caption,
                                        const Xtring &initialname,
@@ -198,10 +199,12 @@ Xtring GuiApplication::getSaveFileName(const Xtring &caption,
                                        QWidget *parent)
 {
     Xtring initial;
+	if( sLastSavePath.isEmpty() ) 
+		sLastSavePath = theGuiApp->getLocalDataDir();
     if( initialname.isEmpty() )
-        initial = sLastOpenPath ;
-    else
-        initial = initialname;
+        initial = sLastSavePath ;
+    else if( initialname.find("/") == Xtring::npos ) 
+        initial = sLastSavePath + "/" + initialname;
     QString fn = QFileDialog::getSaveFileName(parent, toGUI( caption ),
                  toGUI ( initial ), toGUI( filter ) );
     if ( fn.isEmpty() )

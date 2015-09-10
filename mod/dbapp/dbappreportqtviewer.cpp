@@ -378,7 +378,7 @@ void ReportQtViewer::slotPdf()
     }
 
     mDestPdf = GuiApplication::getSaveFileName( _("Guardar informe como PDF"),
-                       DBAPP->getLocalDataDir(),
+                       fromGUI(caption()),
                        "Ficheros PDF (*.pdf);;Todos los ficheros (*)", this );
     if( !mDestPdf.isEmpty() ) {
         DBAPP->waitCursor( true );
