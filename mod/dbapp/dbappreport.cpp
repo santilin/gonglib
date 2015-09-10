@@ -86,10 +86,14 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                       const Xtring &filter, const Xtring &order,
                       PageOrientation po, bool askforparameters )
 {
-    DBAPP->waitCursor ( true );
+    DBAPP->waitCursor( true );
     int ret = 0;
     bool goon = true;
 	Xtring title = this->title();
+	if( title.isEmpty() )
+		title = properties["TITLE"].toString();
+	if( title.isEmpty() )
+		title = propTitle.getOrig();;
 	if( title.isEmpty() )
 		title = _("Informe");
     if( !filter.isEmpty() ) /// TODO: mezclar con report.filter
@@ -164,8 +168,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
             fn = theGuiApp->getSaveFileName ( title, title,
                                               _( "Fichero Portable Document Format (*.pdf)" ),
                                               DBAPP->getMainWindow() );
-            if ( !fn.isEmpty() )
-            {
+            if ( !fn.isEmpty() ) {
                 fname = fn;
                 if ( FileUtils::extension ( fname ).isEmpty() )
                     fname += ".pdf";
@@ -262,17 +265,17 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
             }
         } else {
             if ( ret == true && tiposalida == RTK_PDF ) {
-                Xtring cmd2pdf = "ps2pdf " + fname + ".~~~\" \"" + fname + "\"";
+                Xtring cmd2pdf = "ps2pdf \"" + fname + ".~~~\" \"" + fname + "\"";
                 ret = FileUtils::execProcess ( cmd2pdf.c_str() );
                 unlink ( ( fname + ".~~~" ).c_str() );
             }
-            if ( ret == true )
+            if ( ret == 0 )
                 FrmBase::msgOk ( DBAPP->getPackageString(),
                                  Xtring::printf ( "El informe se ha guardado correctamente en %s",
                                                   fname.c_str() ), FrmBase::information );
             delete salida;
         }
-        if ( !ret || errorsCount() ) {
+        if ( ret || errorsCount() ) {
             Xtring errores;
             int e, maxerrs = 10; // Do not show more that this number of errors
             for ( e = 0; e < errorsCount() && maxerrs > 0; e++ ) {

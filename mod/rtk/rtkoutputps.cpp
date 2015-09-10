@@ -11,8 +11,6 @@ namespace RTK = gong;
 
 namespace gong {
 
-/// \todo {bug5} landscape does not work
-/// \todo {bug9} El margen derecho sale el doble que el izquierdo
 /// \todo Implementar el padding
 
 static const char *const DSC_Comments =
@@ -120,10 +118,10 @@ int OutputPS::startReport()
         pFile = 0;
         return 1;
     }
-    uint mtop = (uint)mReport.marginTop();
-    uint mleft = (uint)mReport.marginLeft();
-    uint mbottom = (uint)mReport.marginBottom();
-    uint mright = (uint)mReport.marginRight();
+    uint mtop = (uint)marginTop();
+    uint mleft = (uint)marginLeft();
+    uint mbottom = (uint)marginBottom();
+    uint mright = (uint)marginRight();
 
     int width = (int)sizeX();
     int height = (int)sizeY();
@@ -131,9 +129,12 @@ int OutputPS::startReport()
     char *b = new char[strlen(DSC_Comments) + 1000];
     sprintf( b, DSC_Comments,
              mReport.title(), Date().toString().c_str(),
-             mleft, mtop, width - mleft - mright, height - mtop - mbottom,
-             pageOrientation() == Portrait ? "Portrait" : "Landscape",
-             "Custom", width, height);
+             mleft, mtop, 
+			 pageOrientation() == Portrait ? width - mleft - mright : height - mtop - mbottom, 
+			 pageOrientation() == Portrait ? height - mtop - mbottom : width - mleft - mright,
+             pageOrientation() == Portrait ? "Portrait" : "Landscape", "Custom", 
+			 pageOrientation() == Portrait ? width : height, 
+			 pageOrientation() == Portrait ? height : width);
     (*pFile) << b;
     delete b;
     (*pFile) << Prolog;
@@ -160,10 +161,12 @@ Measure OutputPS::startPage()
 {
     Output::startPage();
     (*pFile) << "%%Page: " << getCurrentPage() << ' ' << getCurrentPage() << endl;
+	if( pageOrientation() == Landscape )
+		(*pFile) << "90 rotate " << marginLeft() << " -" << sizeY() + marginTop() << " translate" << endl;
+	else
+		(*pFile) << marginLeft() << " -" << sizeY() + marginTop() << " translate" << endl;
     (*pFile) << "%%BeginPageSetup" << endl;
     (*pFile) << "%%EndPageSetup" << endl;
-//	if( pageOrientation() == Landscape )
-//   	(*pFile) << "90 rotate" << endl;
     return 0;
 }
 
