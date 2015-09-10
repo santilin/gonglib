@@ -205,7 +205,7 @@ ComboBoxXtring::ComboBoxXtring( XtringList &captions, XtringList &values,
       mHorizontal(horizontal), mMustBeReadOnly(false),
       mEdited(false), mJustEdited( false ), mSettingProgrammatically( false ), mIsRef( false )
 {
-    DUMP_COMBO
+//     DUMP_COMBO
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     insertItems();
     if( mHorizontal )

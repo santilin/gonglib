@@ -1,14 +1,12 @@
 == HECHO ==
+
 == HACER ==
 * rtk: Cómo alinear una sección o secciones al final de la página?
 * pedidocompramultiple, pedidoventamultiple.
 
+== HACIENDO ==
+
 == Errores en muebles capel ==
-* Copiar presupuesto a pedido:
-** No ha copiado ningún campo de la cabecera
-* Generar pedidos automáticos desde pedidos de clientes: 
-** hay un mensaje, al cancelar el primer pedido que sale vacío.
-** si elejimos serie B, no sale SIN IVA.
 * Guardar como: que se guarde la carpeta elegida anteriormente.
 * Informe de pedidos a proveedoras sin precios
 * Abro factura de venta, abro oferta de venta. Se superponen las ventanas.

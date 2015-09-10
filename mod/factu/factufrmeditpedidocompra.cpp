@@ -143,10 +143,14 @@ FrmEditPedidoCompra::FrmEditPedidoCompra(FrmEditRec *parentfrm, dbRecord *master
     editProveedoraCodigo->setWidthInChars(5);
     editNotas->setHeightInLines(3);
     editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
-    if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == false ) {
+	empresa::EmpresaModule *em = ModuleInstance->getEmpresaModule();
+	if( em && em->getRecEmpresa() && !em->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() ) {
         editRecargoEquivalencia->getLabel()->setVisible( false );
         editRecargoEquivalencia->setVisible( false );
-    }
+		mRecargoEquivalencia = false;
+    } else {
+		mRecargoEquivalencia = true;
+	}
 }
 
 void FrmEditPedidoCompra::scatterFields()
@@ -176,15 +180,12 @@ void FrmEditPedidoCompra::scatterFields()
     if( isInserting() ) {
         if( !isDuplicating() && editFecha->toDate().isNull() )
             editFecha->setText( ModuleInstance->getWorkingDate() );
-        empresa::EmpresaModule *em = ModuleInstance->getEmpresaModule();
-        if( em && em->getRecEmpresa() ) {
-            if( em->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() )
-                comboIVADetallado->setCurrentItemByValue( FldIVADetallado::con_recargo );
-        }
         if( isDuplicating() ) {
             editTipoDocCodigo->setJustEdited( true );
             validateFields( editTipoDocCodigo, 0 );
         }
+		if( mustRecargoEquivalencia() && comboIVADetallado->getCurrentItemValue() == 0 )
+			comboIVADetallado->setCurrentItemByValue( FldIVADetallado::con_recargo );
         comboEstadoPedido->setCurrentItemByValue( FactuModule::PedidoPendiente );
         pFocusWidget = editFecha;
     } else if( isUpdating() ) {
@@ -234,7 +235,7 @@ void FrmEditPedidoCompra::genNumeroDocumento()
 
 void FrmEditPedidoCompra::scatterTipoDoc()
 {
-    /*<<<<<FRMEDITPEDIDOCOMPRA_SCATTER_TIPODOC*/
+/*<<<<<FRMEDITPEDIDOCOMPRA_SCATTER_TIPODOC*/
 	editTipoDocCodigo->setText( getRecTipoDoc()->getValue("CODIGO") );
 	editTipoDocNombre->setText( getRecTipoDoc()->getValue("NOMBRE") );
 /*>>>>>FRMEDITPEDIDOCOMPRA_SCATTER_TIPODOC*/
@@ -550,6 +551,16 @@ void FrmEditPedidoCompra::validateFields( QWidget *sender, bool *isvalid, ValidR
                                  editContador->toInt(), 0,
                                  getRecTipoDoc()->getValue("FORMATO").toString()) );
     }
+    if( !sender ) {
+		if( mustRecargoEquivalencia() ) {
+			if( comboIVADetallado->getCurrentItemValue() != FldIVADetallado::con_recargo 
+				&& comboIVADetallado->getCurrentItemValue() != FldIVADetallado::sin_iva ) {
+			validresult->addWarning( Xtring::printf(_("%s requiere recargo de equivalencia."),
+				DBAPP->getTableDescSingular("EMPRESA", "la").c_str() ),
+				"IVADETALLADO" );
+			}
+		}
+	}
     if ( !ir ) {
         showValidMessages( isvalid, *validresult, sender );
         delete validresult;

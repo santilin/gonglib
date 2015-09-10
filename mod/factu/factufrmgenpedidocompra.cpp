@@ -18,16 +18,16 @@ FrmGenPedidoCompra::FrmGenPedidoCompra(QWidget* parent, const char* name, Widget
 {
     setTitle( _("Generación de pedidos de compra") );
     mOpcionesDesde << "Pedidos de clientes" << "Stocks de los artículos";
-    comboDesde = addComboBoxXtring( false, 0, "Origen de los pedidos a proveedores:", mOpcionesDesde );
+    comboDesde = addComboBoxXtring( false, 0, "Origen de los pedidos:", mOpcionesDesde );
     Date ini = Date(empresa::ModuleInstance->getEjercicio(), 1, 1 );
     Date fin = Date(empresa::ModuleInstance->getEjercicio(), 12, 31 );
     pDateRange = addDateRangeBox( 0, "Fecha de los pedidos de las clientes:", ini, fin);
-    comboEstadoPedidosProveedores = addComboIntField( 0, _("Poner el estado de los pedidos de las proveedoras a:"),
+    comboEstadoPedidosProveedores = addComboIntField( 0, _("El estado de los pedidos generados será:"),
                                     "PEDIDOCOMPRA", "ESTADOPEDIDO", "NOMBRE" );
     pSearchTipoDoc = addMultipleSearchField( 0, "TIPODOC", "CODIGO", "NOMBRE" );
-    pSearchTipoDoc->setText( _("Tipo de documento de los pedidos generados") );
+    pSearchTipoDoc->setText( _("El tipo de documento de los pedidos generados será:") );
     // Solo para pedidos a partir de pedidos de clientes
-    comboEstadoPedidosClientes = addComboIntField( 0, _("Poner el estado de los pedidos de las clientes a:"),
+    comboEstadoPedidosClientes = addComboIntField( 0, _("Cambiar el estado de los pedidos de las clientes a:"),
                                  "PEDIDOVENTA", "ESTADOPEDIDO", "NOMBRE", _("No cambiar") );
     chkAgruparPorProveedora = addCheckBox( 0, _("Agrupar por proveedora"), false);
     chkRevisar = addCheckBox( 0, _("Revisar los pedidos generados uno por uno"), true );
@@ -138,12 +138,13 @@ int FrmGenPedidoCompra::genDesdePedidosClientes( bool agrupar_por_proveedor )
                 pedidocompra->setValue( "REFERENCIA", Xtring(cliente_razonsocial + "/" + cliente_numeropedido) );
             pedidocompra->setValue( "TIPODOC_ID", tipodoc_id );
             pedidocompra->getRecTipoDoc()->copyRecord( pSearchTipoDoc->getRecord() );
+			pedidocompra->setValue( "IVADETALLADO", pedidocompra->getRecTipoDoc()->getValue( "IVADETALLADO") );
             pedidocompra->setValue( "ESTADOPEDIDO", comboEstadoPedidosProveedores->getCurrentItemValue() );
             FrmEditRecMaster *frmpedido = static_cast<FrmEditRecMaster *>(DBAPP->createEditForm( 0, pedidocompra,
                                           0, DataTable::inserting, dbApplication::simpleEdition ));
-            LineEdit *le = static_cast<LineEdit *>(frmpedido->findControl( "TIPODOC.CODIGO" ) );
-            if( le )
-                le->setJustEdited(true);
+             LineEdit *le = static_cast<LineEdit *>(frmpedido->findControl( "TIPODOC.CODIGO" ) );
+             if( le )
+                 le->setJustEdited(true);
             bool supervisar = chkRevisar->isOn();
             if( !supervisar )
                 supervisar = !frmpedido->showAndSave();
@@ -152,7 +153,7 @@ int FrmGenPedidoCompra::genDesdePedidosClientes( bool agrupar_por_proveedor )
             bool aceptado = !frmpedido->wasCancelled();
             delete frmpedido;
             if( !aceptado ) {
-                if( msgYesNo(this, getTitle(), _("El pedido no se ha guardado. ¿Quieres continuar?") ) == false ) {
+                if( msgYesNo(this, _("El pedido no se ha guardado. ¿Quieres continuar?") ) == false ) {
                     goto _fin;
                 }
             } else {
