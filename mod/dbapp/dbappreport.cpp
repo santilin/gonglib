@@ -87,7 +87,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                       PageOrientation po, bool askforparameters )
 {
     DBAPP->waitCursor( true );
-    int ret = 0;
+    bool ret = true;
     bool goon = true;
 	Xtring title = this->title();
 	if( title.isEmpty() )
@@ -266,22 +266,22 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
         } else {
             if ( ret == true && tiposalida == RTK_PDF ) {
                 Xtring cmd2pdf = "ps2pdf \"" + fname + ".~~~\" \"" + fname + "\"";
-                ret = FileUtils::execProcess ( cmd2pdf.c_str() );
+                ret = (FileUtils::execProcess( cmd2pdf.c_str() ) == 0);
                 unlink ( ( fname + ".~~~" ).c_str() );
             }
-            if ( ret == 0 )
+            if ( ret == true )
                 FrmBase::msgOk ( DBAPP->getPackageString(),
                                  Xtring::printf ( "El informe se ha guardado correctamente en %s",
                                                   fname.c_str() ), FrmBase::information );
             delete salida;
         }
-        if ( ret || errorsCount() ) {
+        if ( !ret || errorsCount() ) {
             Xtring errores;
-            int e, maxerrs = 10; // Do not show more that this number of errors
+            int e, maxerrs = 10; // Do not show more than this number of errors
             for ( e = 0; e < errorsCount() && maxerrs > 0; e++ ) {
                 if ( !getError(e) ->isWarning() ) {
                     maxerrs --;
-                    errores += Xtring::printf ( "Error: %s: %s\n%100s",
+                    errores += Xtring::printf ( "Error: %s: %s\n%s",
                                                 getError(e)->location(), getError(e)->message(), getError(e)->text() );
                 }
             }
@@ -289,7 +289,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                 for ( e = 0; e < errorsCount() && --maxerrs > 0; e++ ) {
                     if ( getError(e) ->isWarning() ) {
                         maxerrs --;
-                        errores += Xtring::printf ( "Warning: %s: %s\n%100s",
+                        errores += Xtring::printf ( "Warning: %s: %s\n%s",
                                                     getError(e)->location(), getError(e)->message(), getError(e)->text() );
                     }
                 }
@@ -297,7 +297,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                 for ( e = 0; e < errorsCount() && --maxerrs > 0; e++ ) {
                     if ( getError(e) ->isWarning() ) {
                         maxerrs --;
-                        _GONG_DEBUG_WARNING( Xtring::printf ( "Warning: %s: %s\n%100s",
+                        _GONG_DEBUG_WARNING( Xtring::printf ( "Warning: %s: %s\n%s",
                                                               getError(e)->location(), getError(e)->message(), getError(e)->text() ) );
                     }
                 }

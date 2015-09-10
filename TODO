@@ -1,37 +1,10 @@
 == HECHO ==
 
-
-== HACIENDO ==
-* Informe de pedidos a proveedoras sin precios
-* factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
-
-== Errores ==
-* Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
-* Funciona fatal el osd de la búsqueda incremental en datatable.
-* ticket: cambiar mensaje del footer
-* ticket: no sale la fecha
-
-== HACER ==
-* Refactor: DBAPP->hasModule("pagos") => ModuleInstance->getPagosModule()
-* El -1 de los informes debería significar a continuación del anterior
-
-== EN COLA ==
-* ENABLE_NLS no está definido: http://www.heiner-eichmann.de/autotools/adding_gettext.html
-
-== NO HACER ==
-
-== ERRORES ==
-
-
-= PRESCINDIBLE =
-
-== CATS ==
-* Si la usuaria es recepción, no se pueden ver los datos extra de la princesa.
-
 == MODELOSFISCALES ==
 * Implementar algún día
 
 == Ofertas ==
+* Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
 * Estadísticas
 * Comprobar ciclo de oferta de venta y cobro.
 * Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
@@ -120,7 +93,6 @@
 
 == gong-contactos ==
 * Visualizar contacto embebido: readonly botones
-* Enviar adjuntos por email
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Mostrar nombres parecidos al dar de alta un nombre
 
@@ -186,6 +158,7 @@
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
+* El -1 de los informes debería significar a continuación del anterior
 * rtk: Cómo alinear una sección o secciones al final de la página?
 * No suprimir un valor en cambio de sección
 * Visor:
@@ -209,6 +182,7 @@
 * rtk: startpage.drawImages no cubre todo el painter
 
 == gong-qt4 ==
+* Funciona fatal el osd de la búsqueda incremental en datatable.
 * ImageBox: Recibir un parámetro: convert_path
 * Tamaño de los listboxes ajustado al máximo del listbox
 * PushButton: una propiedad que diga qué hacer con el INTRO
@@ -247,6 +221,7 @@
 * dbRecord: save fields right trimmed
 
 == autotools, capel y gong.sh ==
+* ENABLE_NLS no está definido: http://www.heiner-eichmann.de/autotools/adding_gettext.html
 * gongdbdefinition, no está aislado el boost
 * En el gong.sh, capel no funciona con ficheros con espacios en el nombre
 * init_project Debug: Genera el makefile completo, no solo los modulos definidos en el configure.ac

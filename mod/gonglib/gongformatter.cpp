@@ -197,11 +197,11 @@ Xtring Formatter::format( const Variant &avalue, const char *aformat,
         valuetype = Variant::tMoney;
     switch ( valuetype ) {
     case Variant::tDate:
-        return format( avalue.toDate(), aformat, amask );
+        return format( avalue.toDate(), aformat);
     case Variant::tTime:
-        return format( avalue.toTime(), aformat, amask );
+        return format( avalue.toTime(), aformat );
     case Variant::tDateTime:
-        return format( avalue.toDateTime(), aformat, amask );
+        return format( avalue.toDateTime(), aformat );
     case Variant::tBool:
         return format( avalue.toBool(), aformat, amask );
     case Variant::tInt:
@@ -218,21 +218,20 @@ Xtring Formatter::format( const Variant &avalue, const char *aformat,
 
 /*
   Formatea un Date a una cadena segn una máscara o un formato.
-  Si es una máscara, es del tipo dd/mm/yy
   Si es un formato, es del tipo estandard de c, %d%M%Y etc.
 */
-Xtring Formatter::format( const Date &adate, const char *aformat, const char * ) const
+Xtring Formatter::format( const Date &adate, const char *aformat ) const
 {
     return adate.toString((aformat&&*aformat)?aformat:mRegConfig.getDateFormat().c_str());
 }
 
-Xtring Formatter::format( const Time &atime, const char *aformat, const char * ) const
+Xtring Formatter::format( const Time &atime, const char *aformat) const
 {
     return atime.toString((aformat&&*aformat)?aformat:mRegConfig.getTimeFormat().c_str());
 }
 
 
-Xtring Formatter::format( const DateTime &adatetime, const char *aformat, const char * ) const
+Xtring Formatter::format( const DateTime &adatetime, const char *aformat ) const
 {
     return adatetime.toString((aformat&&*aformat)?aformat:mRegConfig.getDateTimeFormat().c_str());
 }
