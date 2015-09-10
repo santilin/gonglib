@@ -67,6 +67,8 @@ public:
     void setPageOrientation( const PageOrientation po ) {
         propPageOrientation.set( po );
     }
+    class Report &getReport() const { return mReport; }
+    
     /*<<<<<OUTPUT_PROPERTIES*/
 public:
 	Measure unitsPerInchX() const { return propUnitsPerInchX.get(); }

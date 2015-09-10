@@ -1,28 +1,18 @@
 == HECHO ==
 
-== HACER ALGÚN DÍA ==
-* rtk: Cómo alinear una sección o secciones al final de la página?
-* pedidocompramultiple, pedidoventamultiple.
-* Comprobar ciclo de oferta de venta y cobro.
-* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
-
 == HACIENDO ==
-
-== Errores en muebles capel ==
 * Informe de pedidos a proveedoras sin precios
-* Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
-* Funciona fatal la búsqueda incremental en datatable.
-
-== HACIENDO ==
+* factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
 
 == Errores ==
-* gongdbdefinition, no está aislado el boost
+* Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
+* Funciona fatal el osd de la búsqueda incremental en datatable.
 * ticket: cambiar mensaje del footer
 * ticket: no sale la fecha
-* factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
 
 == HACER ==
 * Refactor: DBAPP->hasModule("pagos") => ModuleInstance->getPagosModule()
+* El -1 de los informes debería significar a continuación del anterior
 
 == EN COLA ==
 * ENABLE_NLS no está definido: http://www.heiner-eichmann.de/autotools/adding_gettext.html
@@ -42,6 +32,8 @@
 
 == Ofertas ==
 * Estadísticas
+* Comprobar ciclo de oferta de venta y cobro.
+* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 
 == gong-tpv ==
 * Añadir botón Más botones y añadir ahí el resto de botones.
@@ -56,6 +48,7 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
+* pedidocompramultiple, pedidoventamultiple.
 * Factu: Formulario datos ventas y compras de artículos
 * Factu: Informe de existencias máximas y mínimas.
 * Imprimir etiquetas con códigos de barras
@@ -192,6 +185,7 @@
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
+* rtk: Cómo alinear una sección o secciones al final de la página?
 * No suprimir un valor en cambio de sección
 * Visor:
 ** Mostrar número de página/total páginas
@@ -252,6 +246,7 @@
 * dbRecord: save fields right trimmed
 
 == autotools, capel y gong.sh ==
+* gongdbdefinition, no está aislado el boost
 * En el gong.sh, capel no funciona con ficheros con espacios en el nombre
 * init_project Debug: Genera el makefile completo, no solo los modulos definidos en el configure.ac
 * Informe CUENTA.rtk: alignment de header debe y haber no funciona
