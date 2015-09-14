@@ -224,10 +224,14 @@ if( ModuleInstance->getContabModule() ) {
     editFormaPagoNombre->setWidthInChars(15);
     editNumero->setWidthInChars(20);
     editNotas->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum);
-    if( empresa::ModuleInstance->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() == false ) {
+	empresa::EmpresaModule *em = ModuleInstance->getEmpresaModule();
+	if( em && em->getRecEmpresa() && !em->getRecEmpresa()->getValue("RECARGOEQUIVALENCIA").toBool() ) {
         editRecargoEquivalencia->getLabel()->setVisible( false );
         editRecargoEquivalencia->setVisible( false );
-    }
+		mRecargoEquivalencia = false;
+    } else {
+		mRecargoEquivalencia = true;
+	}
     mHasPagos = false;
 }
 
@@ -308,6 +312,8 @@ if( ModuleInstance->getContabModule() ) {
 				editTipoDocCodigo->setJustEdited( true );
 				validateFields( editTipoDocCodigo, 0 );
 			}
+			if( mustRecargoEquivalencia() && comboIVADetallado->getCurrentItemValue() == 0 )
+				comboIVADetallado->setCurrentItemByValue( FldIVADetallado::con_recargo );
 		} else if( isUpdating() ) {
 			pFocusWidget = pFrmAlbaranCompraDet;
 		}
@@ -1075,6 +1081,16 @@ if( ModuleInstance->getTesoreriaModule() ) {
                                                DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str() ), "TIPODOC_ID" );
         *isvalid = false;
     }
+    if( !sender ) {
+		if( mustRecargoEquivalencia() ) {
+			if( comboIVADetallado->getCurrentItemValue() != FldIVADetallado::con_recargo 
+				&& comboIVADetallado->getCurrentItemValue() != FldIVADetallado::sin_iva ) {
+			validresult->addWarning( Xtring::printf(_("%s requiere recargo de equivalencia."),
+				DBAPP->getTableDescSingular("EMPRESA", "la").c_str() ),
+				"IVADETALLADO" );
+			}
+		}
+	}
     if ( !ir ) {
         showValidMessages( isvalid, *validresult, sender );
         delete validresult;

@@ -86,10 +86,14 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                       const Xtring &filter, const Xtring &order,
                       PageOrientation po, bool askforparameters )
 {
-    DBAPP->waitCursor ( true );
-    int ret = 0;
+    DBAPP->waitCursor( true );
+    bool ret = true;
     bool goon = true;
-	Xtring title = propTitle.getOrig();
+	Xtring title = this->title();
+	if( title.isEmpty() )
+		title = properties["TITLE"].toString();
+	if( title.isEmpty() )
+		title = propTitle.getOrig();;
 	if( title.isEmpty() )
 		title = _("Informe");
     if( !filter.isEmpty() ) /// TODO: mezclar con report.filter
@@ -121,8 +125,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                                           DBAPP->getAppSetting("RTK.OUTPUT.PRINTER.MARGINBOTTOM").toDouble() );
             break;
         case RTK_OpenOffice_Calc:
-            fn = theGuiApp->getSaveFileName ( title,
-                                              Xtring::null,
+            fn = theGuiApp->getSaveFileName ( title, title,
                                               _( "Hoja de cálculo de Open/LibreOffice (*.ods)" ),
                                               DBAPP->getMainWindow() );
             if ( !fn.isEmpty() )
@@ -136,8 +139,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
             }
             break;
         case RTK_GNumeric:
-            fn = theGuiApp->getSaveFileName ( title,
-                                              Xtring::null,
+            fn = theGuiApp->getSaveFileName ( title, title, 
                                               _( "Hoja de cálculo de GNUmeric (*.gnumeric)" ),
                                               DBAPP->getMainWindow() );
             if ( !fn.isEmpty() )
@@ -150,8 +152,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
             }
             break;
         case RTK_PostScript:
-            fn = theGuiApp->getSaveFileName ( title,
-                                              Xtring::null,
+            fn = theGuiApp->getSaveFileName ( title, title,
                                               _( "Fichero PostScript (*.ps)" ),
                                               DBAPP->getMainWindow() );
             if ( !fn.isEmpty() )
@@ -164,12 +165,10 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
             }
             break;
         case RTK_PDF:
-            fn = theGuiApp->getSaveFileName ( title,
-                                              Xtring::null,
+            fn = theGuiApp->getSaveFileName ( title, title,
                                               _( "Fichero Portable Document Format (*.pdf)" ),
                                               DBAPP->getMainWindow() );
-            if ( !fn.isEmpty() )
-            {
+            if ( !fn.isEmpty() ) {
                 fname = fn;
                 if ( FileUtils::extension ( fname ).isEmpty() )
                     fname += ".pdf";
@@ -182,8 +181,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
             }
             break;
         case RTK_Text:
-            fn = theGuiApp->getSaveFileName ( title,
-                                              Xtring::null,
+            fn = theGuiApp->getSaveFileName ( title, title,
                                               _( "Fichero de texto (*.txt)" ),
                                               DBAPP->getMainWindow() );
             if ( !fn.isEmpty() ) {
@@ -194,8 +192,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
             }
             break;
         case RTK_CSV:
-            fn = theGuiApp->getSaveFileName ( title,
-                                              Xtring::null,
+            fn = theGuiApp->getSaveFileName ( title, title,
                                               _( "Fichero de valores separados por comas (*.csv)" ),
                                               DBAPP->getMainWindow() );
             if ( !fn.isEmpty() )
@@ -241,7 +238,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                 || tiposalida == RTK_Printer_Without_Dialog ) {
             if ( ret == true ) {
                 // No borrar salida, que ya la borrará el viewer
-				title = propTitle.get();
+				title = this->title();
 				if( title.isEmpty() )
 					title = properties["TITLE"].toString();
 				if( title.isEmpty() )
@@ -250,7 +247,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
 					title = _("Informe");
                 mViewer = new ReportViewer ( salida, true, DBAPP->getMainWindow() ? DBAPP->getMainWindow()->getViewport() : 0);
                 mViewer->setObjectName( tmpnam(0) );
-                mViewer->setCaption ( toGUI( Xtring::printf( _( "Informe: %s" ), title.c_str() ) ) );
+                mViewer->setCaption ( toGUI( title.c_str() ) ) ;
                 mViewer->setPageDimensions ( ( int ) ( salida->sizeX() ), ( int ) ( salida->getFolioSizeY() ) );
                 mViewer->setPageCollection ( static_cast<ReportQtOutput *> ( salida )->getPageCollection() );
                 if( tiposalida == RTK_Screen ) {
@@ -269,7 +266,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
         } else {
             if ( ret == true && tiposalida == RTK_PDF ) {
                 Xtring cmd2pdf = "ps2pdf \"" + fname + ".~~~\" \"" + fname + "\"";
-                ret = FileUtils::execProcess ( cmd2pdf.c_str() );
+                ret = (FileUtils::execProcess( cmd2pdf.c_str() ) == 0);
                 unlink ( ( fname + ".~~~" ).c_str() );
             }
             if ( ret == true )
@@ -280,11 +277,11 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
         }
         if ( !ret || errorsCount() ) {
             Xtring errores;
-            int e, maxerrs = 10; // Do not show more that this number of errors
+            int e, maxerrs = 10; // Do not show more than this number of errors
             for ( e = 0; e < errorsCount() && maxerrs > 0; e++ ) {
                 if ( !getError(e) ->isWarning() ) {
                     maxerrs --;
-                    errores += Xtring::printf ( "Error: %s: %s\n%100s",
+                    errores += Xtring::printf ( "Error: %s: %s\n%s",
                                                 getError(e)->location(), getError(e)->message(), getError(e)->text() );
                 }
             }
@@ -292,7 +289,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                 for ( e = 0; e < errorsCount() && --maxerrs > 0; e++ ) {
                     if ( getError(e) ->isWarning() ) {
                         maxerrs --;
-                        errores += Xtring::printf ( "Warning: %s: %s\n%100s",
+                        errores += Xtring::printf ( "Warning: %s: %s\n%s",
                                                     getError(e)->location(), getError(e)->message(), getError(e)->text() );
                     }
                 }
@@ -300,7 +297,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
                 for ( e = 0; e < errorsCount() && --maxerrs > 0; e++ ) {
                     if ( getError(e) ->isWarning() ) {
                         maxerrs --;
-                        _GONG_DEBUG_WARNING( Xtring::printf ( "Warning: %s: %s\n%100s",
+                        _GONG_DEBUG_WARNING( Xtring::printf ( "Warning: %s: %s\n%s",
                                                               getError(e)->location(), getError(e)->message(), getError(e)->text() ) );
                     }
                 }

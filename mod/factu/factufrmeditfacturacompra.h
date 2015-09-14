@@ -63,7 +63,8 @@ protected:
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 	void specialControlKeyPressed(QWidget *sender, char key);
 /*>>>>>FRMEDITFACTURACOMPRA_VIRTUALS_FROM_FRMEDITREC*/
-
+	bool mustRecargoEquivalencia() const { return mRecargoEquivalencia; }
+	bool mRecargoEquivalencia;
 protected slots:
     void slotPagar();
 

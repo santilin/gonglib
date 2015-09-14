@@ -39,6 +39,7 @@ int Input::feedInputFieldValues()
         c = new IConv( "UTF-8", encoding() );
     for( uint i=0; i<mInputFields.size(); i++ ) {
         InputField *ifld = mInputFields[i];
+		_GONG_DEBUG_PRINT(0, ifld->name() );
         if( ifld->sourcePos() == -1 ) {
             if( strlen( ifld->constValue() ) != 0 ) {
                 if( ifld->value().type() == Variant::tInvalid ) {

@@ -1,6 +1,6 @@
-#include <QBoxLayout>
 #include <gongdebug.h>
 #include <gongfrmbase.h>
+#include <gongguinamespace.h>
 #include "dbapprecordcompleter.h"
 #include "dbappdbapplication.h"
 #include "dbappsearchbox.h"
@@ -199,6 +199,11 @@ void SearchBox::setReadOnly(bool readonly)
 	} else {
 		pEditDesc->setReadOnly(true);
 	}
+}
+
+void SearchBox::setText( const Xtring &text)
+{
+	QPushButton::setText(toGUI(text));
 }
 
 } // namespace gong

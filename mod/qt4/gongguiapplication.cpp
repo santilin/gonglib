@@ -170,13 +170,16 @@ Xtring GuiApplication::getOpenFileName(const Xtring &caption,
                                        QWidget *parent)
 {
     Xtring initial;
+	theGuiApp->waitCursor( false );
+	if( sLastSavePath.isEmpty() ) 
+		sLastSavePath = theGuiApp->getLocalDataDir();
     if( initialname.isEmpty() )
-        initial = sLastOpenPath ;
-    else
-        initial = initialname;
+        initial = sLastSavePath ;
+    else if( initialname.find("/") == Xtring::npos ) 
+        initial = sLastSavePath + "/" + initialname;
     QString fn = QFileDialog::getOpenFileName(parent, toGUI( caption ),
-                 toGUI ( initial ),
-                 toGUI( filter ) );
+                 toGUI ( initial ), toGUI( filter ) );
+	theGuiApp->resetCursor();
     if ( fn.isEmpty() )
         return Xtring::null;
     sLastOpenPath = FileUtils::path( fromGUI(fn) );
@@ -187,23 +190,26 @@ Xtring GuiApplication::getOpenFileName(const Xtring &caption,
  * @brief ...
  *
  * @param caption ...
- * @param initialname ...
+ * @param initialname ... If empty or only a filename, the last saved path is prepended
  * @param filter  "Ficheros CSV (*.csv);;Todos los ficheros (*)"
  * @param parent ...
- * @return Xtring
  **/
 Xtring GuiApplication::getSaveFileName(const Xtring &caption,
                                        const Xtring &initialname,
                                        const Xtring &filter,
                                        QWidget *parent)
 {
+	theGuiApp->waitCursor( false );
     Xtring initial;
+	if( sLastSavePath.isEmpty() ) 
+		sLastSavePath = theGuiApp->getLocalDataDir();
     if( initialname.isEmpty() )
-        initial = sLastOpenPath ;
-    else
-        initial = initialname;
+        initial = sLastSavePath ;
+    else if( initialname.find("/") == Xtring::npos ) 
+        initial = sLastSavePath + "/" + initialname;
     QString fn = QFileDialog::getSaveFileName(parent, toGUI( caption ),
                  toGUI ( initial ), toGUI( filter ) );
+	theGuiApp->resetCursor();
     if ( fn.isEmpty() )
         return Xtring::null;
     sLastSavePath = FileUtils::path( fromGUI(fn) );
@@ -215,9 +221,11 @@ Xtring GuiApplication::getExistingDirName(const Xtring& caption,
         const Xtring& initialname, QWidget* parent)
 {
     _GONG_DEBUG_TRACE(0);
+	theGuiApp->waitCursor( false );
     QString dirname = QFileDialog::getExistingDirectory(
                           parent, toGUI(caption), toGUI( initialname ),
                           QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+	theGuiApp->resetCursor();
     return fromGUI( dirname );
 }
 

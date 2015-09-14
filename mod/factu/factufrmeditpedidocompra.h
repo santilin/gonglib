@@ -21,10 +21,8 @@
 #include "factufrmeditpedidocompradet.h"
 /*>>>>>FRMEDITPEDIDOCOMPRA_INCLUDES*/
 
-namespace gong
-{
+namespace gong {
 namespace factu {
-
 
 /*<<<<<FRMEDITPEDIDOCOMPRA_CLASS*/
 class FrmEditPedidoCompra: public FrmEditRecMaster
@@ -48,14 +46,17 @@ public:
 	int getIvaDetallado() const { return comboIVADetallado->getCurrentItemValue(); }
 /*>>>>>FRMEDITPEDIDOCOMPRA_CABECERA_DECL*/
 
-    /*<<<<<FRMEDITPEDIDOCOMPRA_VIRTUALS_FROM_FRMEDITREC*/
+/*<<<<<FRMEDITPEDIDOCOMPRA_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
 	void specialControlKeyPressed(QWidget *sender, char key);
 /*>>>>>FRMEDITPEDIDOCOMPRA_VIRTUALS_FROM_FRMEDITREC*/
-    /*<<<<<FRMEDITPEDIDOCOMPRA_SCATTERS_AND_SLOTS*/
+	bool mustRecargoEquivalencia() const { return mRecargoEquivalencia; }
+	bool mRecargoEquivalencia;
+
+/*<<<<<FRMEDITPEDIDOCOMPRA_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterTipoDoc();
 	void scatterProveedora();

@@ -32,9 +32,9 @@ public:
     Xtring format(long long val, const char *aformat, const char *amask) const;
     Xtring format(double val, const char *aformat, const char *amask) const;
     Xtring format(const Money &val, const char *aformat, const char *amask) const;
-    Xtring format(const Date &adate, const char *format, const char *mask) const;
-    Xtring format(const Time &atime, const char *format, const char *mask) const;
-    Xtring format(const DateTime &adatetime, const char *format, const char *mask) const;
+    Xtring format(const Date &adate, const char *format) const;
+    Xtring format(const Time &atime, const char *format) const;
+    Xtring format(const DateTime &adatetime, const char *format) const;
     Xtring format(const Variant &avalue, const char *format,
                   const char *mask, Variant::Type valuetype = Variant::tInvalid) const;
 

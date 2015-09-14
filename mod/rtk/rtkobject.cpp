@@ -85,6 +85,9 @@ Xtring Object::text() const
 void Object::formatText()
 {
     mPrevFormattedText = mFormattedText;
+	if( !strempty(mask()) ) {
+		_GONG_DEBUG_PRINT(0, "Hay un mask")
+	}
     Variant v = realValue();
     mFormattedText = report()->formatter().format(v, format(), mask(), v.type() );
 }
@@ -546,109 +549,109 @@ void Object::fixParameters(const ParametersList &parameters, const char *delim)
 {
 /*<<<<<OBJECT_FIXPARAMETERS*/
 	if( !propValue.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propValue.getOrig(), "Value");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propValue.getOrig(), "Value");
 	if( !propFormulaBefore.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propFormulaBefore.getOrig(), "FormulaBefore");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propFormulaBefore.getOrig(), "FormulaBefore");
 	if( !propFormulaAfter.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propFormulaAfter.getOrig(), "FormulaAfter");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propFormulaAfter.getOrig(), "FormulaAfter");
 	if( !propAggregate.fix( parameters, delim, AggNone ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propAggregate.getOrig(), "Aggregate");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propAggregate.getOrig(), "Aggregate");
 	if( !propPosX.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propPosX.getOrig(), "PosX");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propPosX.getOrig(), "PosX");
 	if( !propPosY.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propPosY.getOrig(), "PosY");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propPosY.getOrig(), "PosY");
 	if( !propSizeX.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propSizeX.getOrig(), "SizeX");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propSizeX.getOrig(), "SizeX");
 	if( !propSizeY.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propSizeY.getOrig(), "SizeY");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propSizeY.getOrig(), "SizeY");
 	if( !propStyle.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propStyle.getOrig(), "Style");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propStyle.getOrig(), "Style");
 	if( !propUrl.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propUrl.getOrig(), "Url");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propUrl.getOrig(), "Url");
 	if( !propTag.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propTag.getOrig(), "Tag");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propTag.getOrig(), "Tag");
 	if( !propMarginLeft.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propMarginLeft.getOrig(), "MarginLeft");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propMarginLeft.getOrig(), "MarginLeft");
 	if( !propMarginRight.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propMarginRight.getOrig(), "MarginRight");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propMarginRight.getOrig(), "MarginRight");
 	if( !propMarginTop.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propMarginTop.getOrig(), "MarginTop");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propMarginTop.getOrig(), "MarginTop");
 	if( !propMarginBottom.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propMarginBottom.getOrig(), "MarginBottom");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propMarginBottom.getOrig(), "MarginBottom");
 	if( !propPadding.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propPadding.getOrig(), "Padding");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propPadding.getOrig(), "Padding");
 	if( !propPaddingLeft.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propPaddingLeft.getOrig(), "PaddingLeft");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propPaddingLeft.getOrig(), "PaddingLeft");
 	if( !propPaddingTop.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propPaddingTop.getOrig(), "PaddingTop");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propPaddingTop.getOrig(), "PaddingTop");
 	if( !propVisible.fix( parameters, delim, true ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propVisible.getOrig(), "Visible");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propVisible.getOrig(), "Visible");
 	if( !propSupressed.fix( parameters, delim, false ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propSupressed.getOrig(), "Supressed");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propSupressed.getOrig(), "Supressed");
 	if( !propSupressDup.fix( parameters, delim, false ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propSupressDup.getOrig(), "SupressDup");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propSupressDup.getOrig(), "SupressDup");
 	if( !propFontFamily.fix( parameters, delim, "Helvetica" ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propFontFamily.getOrig(), "FontFamily");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propFontFamily.getOrig(), "FontFamily");
 	if( !propFontSize.fix( parameters, delim, 10 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propFontSize.getOrig(), "FontSize");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propFontSize.getOrig(), "FontSize");
 	if( !propFontWeight.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propFontWeight.getOrig(), "FontWeight");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propFontWeight.getOrig(), "FontWeight");
 	if( !propFontItalic.fix( parameters, delim, false ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propFontItalic.getOrig(), "FontItalic");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propFontItalic.getOrig(), "FontItalic");
 	if( !propMinFontSize.fix( parameters, delim, 8 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propMinFontSize.getOrig(), "MinFontSize");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propMinFontSize.getOrig(), "MinFontSize");
 	if( !propAdjustment.fix( parameters, delim, AdjustTrim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propAdjustment.getOrig(), "Adjustment");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propAdjustment.getOrig(), "Adjustment");
 	if( !propMaxLines.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propMaxLines.getOrig(), "MaxLines");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propMaxLines.getOrig(), "MaxLines");
 	if( !propFormat.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propFormat.getOrig(), "Format");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propFormat.getOrig(), "Format");
 	if( !propMask.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propMask.getOrig(), "Mask");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propMask.getOrig(), "Mask");
 	if( !propLocale.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propLocale.getOrig(), "Locale");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propLocale.getOrig(), "Locale");
 	if( !propHAlignment.fix( parameters, delim, AlignAuto ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propHAlignment.getOrig(), "HAlignment");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propHAlignment.getOrig(), "HAlignment");
 	if( !propVAlignment.fix( parameters, delim, AlignAuto ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propVAlignment.getOrig(), "VAlignment");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propVAlignment.getOrig(), "VAlignment");
 	if( !propFontColor.fix( parameters, delim, Color::Black ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propFontColor.getOrig(), "FontColor");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propFontColor.getOrig(), "FontColor");
 	if( !propBackColor.fix( parameters, delim, Color::White ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBackColor.getOrig(), "BackColor");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBackColor.getOrig(), "BackColor");
 	if( !propBorderColor.fix( parameters, delim, Color::Black ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderColor.getOrig(), "BorderColor");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderColor.getOrig(), "BorderColor");
 	if( !propBorderWidth.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderWidth.getOrig(), "BorderWidth");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderWidth.getOrig(), "BorderWidth");
 	if( !propBorderStyle.fix( parameters, delim, BorderNone ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderStyle.getOrig(), "BorderStyle");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderStyle.getOrig(), "BorderStyle");
 	if( !propBorderTopColor.fix( parameters, delim, Color::Black ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderTopColor.getOrig(), "BorderTopColor");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderTopColor.getOrig(), "BorderTopColor");
 	if( !propBorderTopWidth.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderTopWidth.getOrig(), "BorderTopWidth");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderTopWidth.getOrig(), "BorderTopWidth");
 	if( !propBorderTopStyle.fix( parameters, delim, BorderNone ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderTopStyle.getOrig(), "BorderTopStyle");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderTopStyle.getOrig(), "BorderTopStyle");
 	if( !propBorderBottomColor.fix( parameters, delim, Color::Black ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderBottomColor.getOrig(), "BorderBottomColor");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderBottomColor.getOrig(), "BorderBottomColor");
 	if( !propBorderBottomWidth.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderBottomWidth.getOrig(), "BorderBottomWidth");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderBottomWidth.getOrig(), "BorderBottomWidth");
 	if( !propBorderBottomStyle.fix( parameters, delim, BorderNone ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderBottomStyle.getOrig(), "BorderBottomStyle");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderBottomStyle.getOrig(), "BorderBottomStyle");
 	if( !propBorderLeftColor.fix( parameters, delim, Color::Black ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderLeftColor.getOrig(), "BorderLeftColor");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderLeftColor.getOrig(), "BorderLeftColor");
 	if( !propBorderLeftWidth.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderLeftWidth.getOrig(), "BorderLeftWidth");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderLeftWidth.getOrig(), "BorderLeftWidth");
 	if( !propBorderLeftStyle.fix( parameters, delim, BorderNone ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderLeftStyle.getOrig(), "BorderLeftStyle");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderLeftStyle.getOrig(), "BorderLeftStyle");
 	if( !propBorderRightColor.fix( parameters, delim, Color::Black ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderRightColor.getOrig(), "BorderRightColor");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderRightColor.getOrig(), "BorderRightColor");
 	if( !propBorderRightWidth.fix( parameters, delim, 0 ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderRightWidth.getOrig(), "BorderRightWidth");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderRightWidth.getOrig(), "BorderRightWidth");
 	if( !propBorderRightStyle.fix( parameters, delim, BorderNone ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBorderRightStyle.getOrig(), "BorderRightStyle");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBorderRightStyle.getOrig(), "BorderRightStyle");
 	if( !propBackgroundImage.fix( parameters, delim ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propBackgroundImage.getOrig(), "BackgroundImage");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propBackgroundImage.getOrig(), "BackgroundImage");
 	if( !propImageStyle.fix( parameters, delim, RTK::ImageNone ) )
-		report()->addWarning( Error::InvalidArgument, 0, 0, propImageStyle.getOrig(), "ImageStyle");
+		report()->addWarning( Error::InvalidArgument, name(), 0, 0, propImageStyle.getOrig(), "ImageStyle");
 /*>>>>>OBJECT_FIXPARAMETERS*/
 	if( propFontSize.getOrig() && (*propFontSize.getOrig() == '+' || *propFontSize.getOrig() == '-' )) {
 		Xtring errmsg;

@@ -652,11 +652,14 @@ int Report::printPageFooters( Output *out )
     for ( uint i = 0; i < mSections.size(); i++ ) {
         if ( mSections[i]->isPageFooter() ) {
             if( mSections[i]->visible() )
-                totalsizey += mSections[ i ] ->sizeY();
+                totalsizey += mSections[i]->sizeY();
         }
     }
     _GONG_DEBUG_PRINT(5, Xtring::printf( "Positioning for page footers at Y: %f", out->getFolioSizeY() - out->marginBottom() - totalsizey) );
-    out->setPosY( out->getFolioSizeY() - out->marginBottom() - totalsizey );
+    out->setPosY( 
+		(out->getFolioSizeY() / 
+			(pagesPerFolio() > 1 ? (pagesPerFolio() * out->getCurrentPageInFolio()) : 1)) 
+			- out->marginBottom() - totalsizey );
     for ( uint i = 0; i < mSections.size(); i++ ) {
         if ( mSections[i]->isPageFooter() ) {
             ret = printSection( out, mSections[ i ] );
@@ -846,8 +849,14 @@ int Report::printSection( Output *out, Section *section )
             _GONG_DEBUG_PRINT(3, "Section is supressed because is duplicated or blank" );
             return 0;
         }
-        if( !section->isPageFooter() )
-            printPageFooterIfNeeded( out, section );
+		if( !section->isPageFooter() ) {
+			if (section->pageBefore() && !mNewPageIssued )  {
+				printPageFooters(out);
+				issueNewPage(out);
+			} else {
+				printPageFooterIfNeeded( out, section );
+			}
+		}
         // A nice hack to have alternated backcolored sections
         if( strcaseequal( section->propBackColor.getOrig(), "gray&white" ) ) {
             if( (section->recordNumber() % 2) == 0 )
@@ -862,6 +871,10 @@ int Report::printSection( Output *out, Section *section )
         printObject( out, section->getObject( i ) );
     section->execFormula(section->formulaAfter());
     out->endSection( *section );
+    if( mPasses == PASS_PRINT ) {
+        if( !section->isPageFooter() && (section->pageAfter() && !mNewPageIssued ) )
+            printPageFooters( out );
+	}
     if( section->isDetails() || section->isGroupFooter() || section->isGroupHeader()
             || section->isPageFooter() || section->isReportFooter() )
         mNewPageIssued = false;

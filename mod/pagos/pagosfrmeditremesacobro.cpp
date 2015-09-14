@@ -359,10 +359,10 @@ void FrmEditRemesaCobro::pushGenerarCB19_clicked()
     delete rs;
     cb19.addRegistroTotalOrdenante();
     cb19.addRegistroTotalGeneral();
-    QString fn = QFileDialog::getSaveFileName( QString::null, tr( "Ficheros Cb19 (*.c19);;Todos los ficheros(*)" ), this,
-                 "saveq19file", tr("Elige el fichero de destino") );
-    if( !fn.isEmpty() ) {
-        Xtring filename = (const char *)(fn.local8Bit());
+    Xtring filename = DBAPP->getSaveFileName( _("Elige el fichero de destino"), 
+				_( "Ficheros Cb19 (*.c19);;Todos los ficheros(*)" ), 
+				"saveq19file", this );
+    if( !filename.isEmpty() ) {
         if( FileUtils::extension( filename ).isEmpty() )
             filename += ".c19";
         DBAPP->waitCursor( true );

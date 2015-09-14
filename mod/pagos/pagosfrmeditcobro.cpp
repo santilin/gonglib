@@ -153,12 +153,12 @@ void FrmEditCobro::setUsarRemesas(bool usar, bool fijar)
 }
 
 
-void FrmEditCobro::cambiaFields()
+void FrmEditCobro::cambiaFields(const Xtring &fldfactcodigo, const Xtring &fldfactdesc,
+	const Xtring &fldterccodigo, const Xtring &fldtercdesc)
 {
 	Xtring tablafacturas = pRecord->getValue( "TABLAFACTURAS" ).toString();
-	Xtring fldfactcodigo, fldfactdesc;
 	Xtring tablaterceros = pRecord->getValue( "TABLATERCEROS" ).toString();
-	Xtring fldterccodigo, fldtercdesc, descsingular, descplural;
+	Xtring descsingular, descplural;
 	bool femenina = false;
 	
     if( !searchFacturaNumero || tablafacturas != searchFacturaNumero->getTableName()

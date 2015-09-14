@@ -378,7 +378,7 @@ void ReportQtViewer::slotPdf()
     }
 
     mDestPdf = GuiApplication::getSaveFileName( _("Guardar informe como PDF"),
-                       DBAPP->getLocalDataDir(),
+                       fromGUI(caption()),
                        "Ficheros PDF (*.pdf);;Todos los ficheros (*)", this );
     if( !mDestPdf.isEmpty() ) {
         DBAPP->waitCursor( true );
@@ -391,6 +391,8 @@ void ReportQtViewer::slotPdf()
         printer->setOutputFileName( mDestPdf.c_str() );
         printer->setFullPage( true );
         printer->setNumCopies( 1 );
+		if( mOutput->pageOrientation() == Landscape )
+			printer->setOrientation(QPrinter::Landscape);
         int printCopies = 1;
         int totalSteps = cnt * printCopies;
         QPicture *page;

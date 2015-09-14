@@ -174,7 +174,6 @@ void FrmAdvancedPrint::accept()
             }
         } else {
             msgOk( this, _("Imprimir uno por uno solo se puede hacer cuando se seleccionan registros uno por uno") );
-            return;
         }
     } else {
         pTheForm->printReport(reportfilename, properties, mCondition,

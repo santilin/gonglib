@@ -84,6 +84,7 @@ public:
     }
     void setVisible( bool visible );
     void setCompleter( bool wantit );
+	void setText( const Xtring &text );
 
 public slots:
     void slotClicked();

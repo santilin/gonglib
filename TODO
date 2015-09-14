@@ -1,49 +1,13 @@
 == HECHO ==
 
-== Errores en muebles capel ==
-* Copiar presupuesto a pedido:
-** No ha copiado ningún campo de la cabecera
-* Generar pedidos automáticos desde pedidos de clientes: 
-** hay un mensaje, al cancelar el primer pedido que sale vacío.
-** si elejimos serie B, no sale SIN IVA.
-* Guardar como: que se guarde la carpeta elegida anteriormente.
-* Informe de pedidos a proveedoras sin precios
-* Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
-* Taborder de artículos.
-* Funciona fatal la búsqueda incremental en datatable.
-
-== HACIENDO ==
-* Informes: botón enviar por correo.
-* Comprobar ciclo de oferta de venta y cobro.
-* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
-
-== Errores ==
-* gongdbdefinition, no está aislado el boost
-* ticket: cambiar mensaje del footer
-* ticket: no sale la fecha
-* factu: estadísticas: fatal el apaisado cuando se saca directamente a pdf; poner wait cursor
-
-== HACER ==
-* Refactor: DBAPP->hasModule("pagos") => ModuleInstance->getPagosModule()
-
-== EN COLA ==
-* ENABLE_NLS no está definido: http://www.heiner-eichmann.de/autotools/adding_gettext.html
-
-== NO HACER ==
-
-== ERRORES ==
-
-
-= PRESCINDIBLE =
-
-== CATS ==
-* Si la usuaria es recepción, no se pueden ver los datos extra de la princesa.
-
 == MODELOSFISCALES ==
 * Implementar algún día
 
 == Ofertas ==
+* Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
 * Estadísticas
+* Comprobar ciclo de oferta de venta y cobro.
+* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 
 == gong-tpv ==
 * Añadir botón Más botones y añadir ahí el resto de botones.
@@ -58,6 +22,7 @@
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
+* pedidocompramultiple, pedidoventamultiple.
 * Factu: Formulario datos ventas y compras de artículos
 * Factu: Informe de existencias máximas y mínimas.
 * Imprimir etiquetas con códigos de barras
@@ -128,7 +93,6 @@
 
 == gong-contactos ==
 * Visualizar contacto embebido: readonly botones
-* Enviar adjuntos por email
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Mostrar nombres parecidos al dar de alta un nombre
 
@@ -194,10 +158,11 @@
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
+* El -1 de los informes debería significar a continuación del anterior
+* rtk: Cómo alinear una sección o secciones al final de la página?
 * No suprimir un valor en cambio de sección
 * Visor:
 ** Mostrar número de página/total páginas
-** Añadir opción enviar por correo
 * Implementar padding de los objetos
 * El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
 * Al hacer un informe apaisado, el alto de línea es demasiado pequeño
@@ -217,6 +182,7 @@
 * rtk: startpage.drawImages no cubre todo el painter
 
 == gong-qt4 ==
+* Funciona fatal el osd de la búsqueda incremental en datatable.
 * ImageBox: Recibir un parámetro: convert_path
 * Tamaño de los listboxes ajustado al máximo del listbox
 * PushButton: una propiedad que diga qué hacer con el INTRO
@@ -255,6 +221,8 @@
 * dbRecord: save fields right trimmed
 
 == autotools, capel y gong.sh ==
+* ENABLE_NLS no está definido: http://www.heiner-eichmann.de/autotools/adding_gettext.html
+* gongdbdefinition, no está aislado el boost
 * En el gong.sh, capel no funciona con ficheros con espacios en el nombre
 * init_project Debug: Genera el makefile completo, no solo los modulos definidos en el configure.ac
 * Informe CUENTA.rtk: alignment de header debe y haber no funciona
