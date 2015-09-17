@@ -14,7 +14,7 @@
 //>>>>>COPYLEFT
 
 
-REPORT FacturaCompra
+REPORT FacturaCompraMultiPagina
 {
     Title = "Factura de compra";
     Units = chars;
@@ -22,8 +22,7 @@ REPORT FacturaCompra
     Tag = "Facturación";
     SizeX = 100;
 
-
-INPUT default {
+	INPUT default {
         driver = mysql;
         from = "FACTURACOMPRA INNER JOIN EMPRESA ON FACTURACOMPRA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN PROVEEDORA ON PROVEEDORA.ID = FACTURACOMPRA.PROVEEDORA_ID INNER JOIN CONTACTO PROVEEDORA_CONTACTO ON PROVEEDORA_CONTACTO.ID = PROVEEDORA.CONTACTO_ID INNER JOIN FACTURACOMPRADET ON FACTURACOMPRA.ID = FACTURACOMPRADET.FACTURACOMPRA_ID INNER JOIN ARTICULO ON ARTICULO.ID = FACTURACOMPRADET.ARTICULO_ID";
         orderby = "FACTURACOMPRADET.NLINEA";
@@ -185,13 +184,19 @@ INPUT default {
             Type = string;
         }
 //>>>>>INPUT_DEFAULT
+        INPUTFIELD FACTURACOMPRA_ID {
+            Source = FACTURACOMPRA.ID;
+			Type = Integer;
+        }
     }
 
     include = "compras_header.inc";
 
-    PAGEHEADER page_header_numero {
+    GROUPHEADER page_header_numero {
         sizey = 2;
         style = pageheader;
+		level = 1;
+		value = "=input.FACTURACOMPRA_ID";
 
         OBJECT pageheader_FACTURACOMPRA_NUMERO_CAPTION {
             fontsize = 14.0;
@@ -230,9 +235,9 @@ INPUT default {
     }
 
 
-    PAGEHEADER details_header {
+    GROUPHEADER details_header {
         posx = 0;
-        level = 0;
+        level = 1;
         style = detail;
         sizey = 1;
         fontweight = bold;
@@ -328,9 +333,10 @@ INPUT default {
 //		formulabefore = "= if( @input.FACTURACOMPRADET_HABER != 0 ) { @ARTICULO_ARTICULO.visible = 0; @ARTICULO_ARTICULO2.visible = 1; @ARTICULO_DESCRIPCION.visible = 0; @ARTICULO_DESCRIPCION2.visible = 1;} else { @ARTICULO_ARTICULO.visible = 1; @ARTICULO_ARTICULO2.visible = 0; @ARTICULO_DESCRIPCION.visible = 1; @ARTICULO_DESCRIPCION2.visible = 0;} return 0; ";
     }
 
-    PAGEFOOTER page_footer_notas {
+    GROUPFOOTER page_footer_notas {
         sizey = 2;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_FACTURACOMPRA_NOTAS {
             value = "= input.FACTURACOMPRA_NOTAS;";
@@ -341,9 +347,10 @@ INPUT default {
     }
 
 //<<<<<PAGE_FOOTER
-    PAGEFOOTER page_footer_captions {
+    GROUPFOOTER page_footer_captions {
         sizey = 1;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_FACTURACOMPRA_SUMAIMPORTES {
             value = "= const @DDD.FACTURACOMPRA_SUMAIMPORTES_CAPTION;";
@@ -414,9 +421,10 @@ INPUT default {
         posy = -0.2;
     }
 
-    PAGEFOOTER page_footer_values {
+    GROUPFOOTER page_footer_values {
         sizey = 1.5;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_values_FACTURACOMPRA_SUMAIMPORTES {
             value = "= input.FACTURACOMPRA_SUMAIMPORTES;";
@@ -498,9 +506,10 @@ INPUT default {
         }
     }
 
-    PAGEFOOTER page_footer_desgloseiva {
+    GROUPFOOTER page_footer_desgloseiva {
         sizey = 1;
         style = pagefooter;
+		level = 1;
         supifblank = true;
         formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
 
@@ -510,5 +519,12 @@ INPUT default {
             posx = 0.0;
         }
     }
+
+	GROUPFOOTER new_page {
+        sizey = 1;
+        style = pagefooter;
+		level = 1;
+		pageAfter = true;
+    }    
 
 }

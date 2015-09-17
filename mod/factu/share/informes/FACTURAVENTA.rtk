@@ -22,8 +22,7 @@ REPORT FacturaVenta
     Tag = "Facturación";
     SizeX = 100;
 
-
-INPUT default {
+	INPUT default {
         driver = mysql;
         from = "FACTURAVENTA INNER JOIN EMPRESA ON FACTURAVENTA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN CLIENTE ON CLIENTE.ID = FACTURAVENTA.CLIENTE_ID INNER JOIN CONTACTO CLIENTE_CONTACTO ON CLIENTE_CONTACTO.ID = CLIENTE.CONTACTO_ID INNER JOIN FACTURAVENTADET ON FACTURAVENTA.ID = FACTURAVENTADET.FACTURAVENTA_ID INNER JOIN ARTICULO ON ARTICULO.ID = FACTURAVENTADET.ARTICULO_ID";
         orderby = "FACTURAVENTADET.NLINEA";
@@ -185,13 +184,19 @@ INPUT default {
             Type = Text;
         }
 //>>>>>INPUT_DEFAULT
+        INPUTFIELD FACTURAVENTA_ID {
+            Source = FACTURAVENTA.ID;
+			Type = Integer;
+        }
     }
 
     Include = "ventas_header.inc";
 
-    PAGEHEADER page_header_numero {
+    GROUPHEADER page_header_numero {
         sizey = 2;
         style = pageheader;
+		level = 1;
+		value = "=input.FACTURAVENTA_ID";
 
         OBJECT pageheader_FACTURAVENTA_NUMERO_CAPTION {
             fontsize = 14.0;
@@ -226,8 +231,7 @@ INPUT default {
         borderbottomstyle = solid;
     }
 
-
-    PAGEHEADER details_header {
+    GROUPHEADER details_header {
         posx = 0;
         level = 0;
         style = detail;
@@ -238,7 +242,7 @@ INPUT default {
         borderbottomstyle = solid ;
         borderbottomcolor = black ;
         borderbottomwidth = 2;
-
+		level = 1;
 
         OBJECT header_FACTURAVENTADET_CANTIDAD {
             halignment = "right";
@@ -324,9 +328,10 @@ INPUT default {
         posx = 0;
     }
 
-    PAGEFOOTER page_footer_notas {
+    GROUPFOOTER page_footer_notas {
         sizey = 2;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_FACTURAVENTA_NOTAS {
             value = "= input.FACTURAVENTA_NOTAS;";
@@ -337,9 +342,10 @@ INPUT default {
     }
 
 //<<<<<PAGE_FOOTER
-    PAGEFOOTER page_footer_captions {
+    GROUPFOOTER page_footer_captions {
         sizey = 1;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_FACTURAVENTA_SUMAIMPORTES {
             value = "= const @DDD.FACTURAVENTA_SUMAIMPORTES_CAPTION;";
@@ -390,7 +396,6 @@ INPUT default {
             sizex = 12.0;
             halignment = "right";
         }
-
         OBJECT pagefooter_FACTURAVENTA_TOTAL {
             value = "= const @DDD.FACTURAVENTA_TOTAL_CAPTION;";
             posx = 85.0;
@@ -411,9 +416,10 @@ INPUT default {
         posy = -0.2;
     }
 
-    PAGEFOOTER page_footer_values {
+    GROUPFOOTER page_footer_values {
         sizey = 1.5;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_values_FACTURAVENTA_SUMAIMPORTES {
             value = "= input.FACTURAVENTA_SUMAIMPORTES;";
@@ -496,10 +502,11 @@ INPUT default {
         }
     }
 
-    PAGEFOOTER page_footer_desgloseiva {
+    GROUPFOOTER page_footer_desgloseiva {
         sizey = 1;
         style = pagefooter;
         supifblank = true;
+		level = 1;
         formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
 
         OBJECT pagefooter_DESGLOSEIVA {
@@ -507,6 +514,13 @@ INPUT default {
             posy = 0;
             posx = 0.0;
         }
-    }
-
+    }    
+    
+    GROUPFOOTER new_page {
+        sizey = 1;
+        style = pagefooter;
+		level = 1;
+		pageAfter = true;
+    }    
+    
 }

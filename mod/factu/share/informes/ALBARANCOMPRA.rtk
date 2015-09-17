@@ -23,7 +23,7 @@ REPORT AlbaranCompra
     SizeX = 100;
 
 
-INPUT default {
+	INPUT default {
         driver = mysql;
         from = "ALBARANCOMPRA INNER JOIN EMPRESA ON ALBARANCOMPRA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN PROVEEDORA ON PROVEEDORA.ID = ALBARANCOMPRA.PROVEEDORA_ID INNER JOIN CONTACTO PROVEEDORA_CONTACTO ON PROVEEDORA_CONTACTO.ID = PROVEEDORA.CONTACTO_ID INNER JOIN ALBARANCOMPRADET ON ALBARANCOMPRA.ID = ALBARANCOMPRADET.ALBARANCOMPRA_ID INNER JOIN ARTICULO ON ARTICULO.ID = ALBARANCOMPRADET.ARTICULO_ID";
         orderby = "ALBARANCOMPRADET.NLINEA";
@@ -185,13 +185,18 @@ INPUT default {
             Type = string;
         }
 //>>>>>INPUT_DEFAULT
+        INPUTFIELD ALBARANCOMPRA_ID {
+            Source = ALBARANCOMPRA.ID;
+			Type = Integer;
+        }
     }
 
     include = "compras_header.inc";
 
-    PAGEHEADER page_header_numero {
+    GROUPHEADER page_header_numero {
         sizey = 2;
         style = pageheader;
+		level = 1;
 
         OBJECT pageheader_ALBARANCOMPRA_NUMERO_CAPTION {
             fontsize = 14.0;
@@ -327,9 +332,10 @@ INPUT default {
         posx = 0;
     }
 
-    PAGEFOOTER page_footer_notas {
+    GROUPFOOTER page_footer_notas {
         sizey = 2;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_ALBARANCOMPRA_NOTAS {
             value = "= input.ALBARANCOMPRA_NOTAS;";
@@ -340,9 +346,10 @@ INPUT default {
     }
 
 //<<<<<PAGE_FOOTER
-    PAGEFOOTER page_footer_captions {
+    GROUPFOOTER page_footer_captions {
         sizey = 1;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_ALBARANCOMPRA_SUMAIMPORTES {
             value = "= const @DDD.ALBARANCOMPRA_SUMAIMPORTES_CAPTION;";
@@ -413,9 +420,10 @@ INPUT default {
         posy = -0.2;
     }
 
-    PAGEFOOTER page_footer_values {
+    GROUPFOOTER page_footer_values {
         sizey = 1.5;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_values_ALBARANCOMPRA_SUMAIMPORTES {
             value = "= input.ALBARANCOMPRA_SUMAIMPORTES;";
@@ -497,11 +505,12 @@ INPUT default {
         }
     }
 
-    PAGEFOOTER page_footer_desgloseiva {
+    GROUPFOOTER page_footer_desgloseiva {
         sizey = 1;
         style = pagefooter;
         supifblank = true;
         formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+		level = 1;
 
         OBJECT pagefooter_DESGLOSEIVA {
             value = "= input.DESGLOSEIVA;";
@@ -509,5 +518,12 @@ INPUT default {
             posx = 0.0;
         }
     }
+
+    GROUPFOOTER new_page {
+        sizey = 1;
+        style = pagefooter;
+		level = 1;
+		pageAfter = true;
+    }    
 
 }
