@@ -85,9 +85,6 @@ Xtring Object::text() const
 void Object::formatText()
 {
     mPrevFormattedText = mFormattedText;
-	if( !strempty(mask()) ) {
-		_GONG_DEBUG_PRINT(0, "Hay un mask")
-	}
     Variant v = realValue();
     mFormattedText = report()->formatter().format(v, format(), mask(), v.type() );
 }
@@ -476,7 +473,6 @@ void Object::fixMeasures( Measure outsizex, Measure outsizey,
     propPosX = fixOneMeasure( u, m, repunit, repsizex, outsizex );
     u = extractUnits(propPosY.getOrig(), repunit );
     m = stringTo<Measure>(propPosY.getOrig() );
-    bool posywasminus1 = ( m == Measure(-1) );
     propPosY = fixOneMeasure( u, m, repunit, repsizey, outsizey );
     // If the sizes are not defined, we take the parent's sizes
     m = stringTo<Measure>(propSizeX.getOrig() );
@@ -525,12 +521,6 @@ void Object::fixMeasures( Measure outsizex, Measure outsizey,
         u = extractUnits(sect->propPaddingTop.getOrig(), repunit );
         m = stringTo<Measure>(sect->propPaddingTop.getOrig() );
         sect->propPaddingTop = fixOneMeasure( u, m, repunit, repsizey, outsizey );
-    }
-    if( posywasminus1 ) {
-        if( prevobj )
-            propPosY = prevobj->posY() + prevobj->sizeY() - posY();
-        else
-            propPosY = 0;
     }
     if( posxwasminus1 ) {
         if( prevobj )

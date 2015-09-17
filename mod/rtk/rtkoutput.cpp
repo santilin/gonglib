@@ -198,7 +198,11 @@ bool Output::sectionFits( const Section *section,
 int Output::clipMeasures(const Object &object, int *x, int *y, int *w, int *h) const
 {
     Measure realPosX = mCurrX + object.posX();
-    Measure realPosY = mCurrY + object.posY();
+    Measure realPosY;
+	if( object.posY() < 0.0 )
+		realPosY = -object.posY();
+	else
+		realPosY = mCurrY + object.posY();
     if( !object.isSection() ) {
         // If this was a section, the margins would have been added to mCurrY and mCurrX in startSection
         realPosX += object.marginLeft();

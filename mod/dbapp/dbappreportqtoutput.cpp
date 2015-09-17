@@ -91,7 +91,8 @@ Measure ReportQtOutput::startSection( const Section &section )
     clipMeasures( section, &x0, &y0, &width, &height);
     _GONG_DEBUG_PRINT(4, Xtring::printf("Section:%s, After clipping: x=%d, y=%d, w=%d, h=%d",
                                         section.name(), x0, y0, width, height ) );
-    drawGraphics( section, x0, y0, width, height, true ); // beforetext
+	mCurry = y0;
+	drawGraphics( section, x0, y0, width, height, true ); // beforetext
     mGrowthY = 0;
     return 0;
 }
@@ -101,7 +102,15 @@ Measure ReportQtOutput::endSection( const Section &section )
 {
     int x0, y0, width, height;
     clipMeasures( section, &x0, &y0, &width, &height);
-    drawGraphics( section, x0, y0, width, height+int(round(mGrowthY,0)), false ); // aftertext
+	if( section.posY() < 0.0 ) {
+		_GONG_DEBUG_PRINT(0, section.posY() );
+		_GONG_DEBUG_PRINT(0, y0 );
+		mCurrY = sizeY() - marginBottom() + section.posY();
+		_GONG_DEBUG_PRINT(0, mCurrY);
+		drawGraphics( section, x0, mCurrY, width, height, false ); // aftertext
+	} else {
+		drawGraphics( section, x0, y0, width, height, false ); // aftertext
+	}
     Output::endSection(section);
     mCurrY = ceil(mCurrY);
     return 0;

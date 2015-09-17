@@ -843,7 +843,7 @@ void GenRTKCode::addProperties(const Xtring &filename, const Xtring &classname,
 						+ array[i].sDefValue + " ) )\n";
 					else
 						s+="\tif( !prop" + cm->capitalize(array[i].sName) + ".fix( parameters, delim ) )\n";
-					s+="\t\treport()->addWarning( Error::InvalidArgument, 0, 0, prop" 
+					s+="\t\treport()->addWarning( Error::InvalidArgument, name(), 0, 0, prop"
 						+ cm->capitalize(array[i].sName) + ".getOrig(), \"" + cm->capitalize(array[i].sName) +"\");\n";
 				} else {
 					if( array[i].sDefValue.size() )

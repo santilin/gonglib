@@ -339,6 +339,7 @@ INPUT default {
 
 //<<<<<PAGE_FOOTER
     REPORTFOOTER page_footer_captions {
+		visible = false;
         sizey = 1;
         style = pagefooter;
 

@@ -1,25 +1,11 @@
 == HECHO ==
 
-== MODELOSFISCALES ==
-* Implementar algún día
-
-== Ofertas ==
-* Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
-* Estadísticas
-* Comprobar ciclo de oferta de venta y cobro.
-* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
-
 == gong-tpv ==
+* saveEstado intenta grabar siempre, ver la diferencia
+* Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 * Añadir botón Más botones y añadir ahí el resto de botones.
-* Iniciar tpv, cuando no hay clientes, sale la ventana de elegir cliente, y si no se elige, vuelve a pedirlo.
 * tpv: Pagos por rondas: buscar un FrmList animado
 * Al limpiar la mesa, lee registros
-* saveEstado intenta grabar siempre, ver la diferencia
-* ???? Añadir forma de pago "Por cajón" y en la x, descontar los pagos de esa forma de pago.
-** Cuando se pague algo con esa forma de pago, en pagos, guardar la sesión tpv actual.
-* Que se resalte la familia seleccionada
-** No funciona bien el ItemIsSelectable
-* Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == gong-factu ==
 * pedidocompramultiple, pedidoventamultiple.
@@ -31,18 +17,16 @@
 * Enviar/recibir facturas a/de otro gestiong
 * Que la suma en mc de las ventas coincida con la suma de las facturas:
 * Añadir cliente si no existe, configurable
-** No añade el recargo ni los descuentos
 * Calcular el máximo de una unión en SQL: SELECT SUM() FROM ( SELECT .... UNION ALL .... );
 * Albaranes, facturas, etc. Añadir Cantidad asignada al proyecto
 * Artículos: Iva de compra e iva de venta
 * Crear clientes múltiples ya no es posible (si lo vuelvo a hacer, también para proveedoras)
 * Añadir a clientes y proveedoras: dia(s) de pago, mes no pago. Al generar los pagos, tenerlo en cuenta.
 * Buscador de documentos por número
-* Al darle a cerrar a la elección de detalles de los pedidos de venta, continúa y luego da mensaje de error sin texto
 
 == gong-socias ==
-* Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón, 
-  por lo que me deja sin opción de continuar no hacer nada más, 
+* Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón,
+  por lo que me deja sin opción de continuar no hacer nada más,
 * en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 * Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
 * Elegir remesa en generar recibos, elegir solo las no cerradas
@@ -62,8 +46,17 @@
 * Duplicar albarán de venta: no borra el check Liquidada
 * ¿Qué pasa si al meter una liquidación de un cliente los precios de los artículos han cambiado?
 
+== MODELOSFISCALES ==
+* Implementar algún día
+
+== gong-ofertas ==
+* Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
+* Estadísticas
+* Comprobar ciclo de oferta de venta y cobro.
+* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
+
 == gong-pagos ==
-* Pagos: regnerarlos: guardar el número como en apuntes de tesorería.
+* Pagos: regenerarlos: guardar el número como en apuntes de tesorería.
 * Crear pago: si hay socias, sale la fecha
 * Crear pago: Calcular el número siguiente
 * Pagos: Que pagar o anular sea el botón por defecto
@@ -100,7 +93,7 @@
 * struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
 
 == gong-dbapp ==
-* Recién creada la base de dato, no se almacena el nombre de la misma: al recuperar una copia el nombre está vacío
+* Recién creada la base de datos, no se almacena el nombre de la misma: al recuperar una copia el nombre está vacío
 * No se guarda el orden de los ficheros embebidos: Extracto de cuenta de tesoreria.
 * dbApp: Carga la configuración de los módulos antes del login, con lo cual se queda aunque luego el login sea false, esto provoca errores en las vistas, por ejemplo.
 * Exportar: Pedir bien el fichero
@@ -251,9 +244,6 @@
 * Si se copia un presupuestoventadet a un pedido peta
 * Si a un lineedit de tipo date le pasas un datetime en el settext, sale mal el formato y luego la máscara
 
-
-== mc ==
-http://blog.itsbilal.com/2012/12/connect-an-android-4-0-phonetablet-to-ubuntu-the-reliable-way/
 
 == CONTABILIDAD ==
 * Proveedoras: Es mejor no separar las cuentas.
