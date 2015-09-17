@@ -123,9 +123,17 @@ REPORT AlbaranVenta
             Source = ALBARANVENTADET.PVPSINIVA;
             Type = Money;
         }
+        INPUTFIELD ALBARANVENTADET_PVP {
+            Source = ALBARANVENTADET.PVP;
+            Type = Money;
+        }
         INPUTFIELD ALBARANVENTADET_DTOP100 {
             Source = ALBARANVENTADET.DTOP100;
             Type = double;
+        }
+        INPUTFIELD ALBARANVENTADET_IMPORTECONIVA {
+            Source = ALBARANVENTADET.IMPORTECONIVA;
+            Type = Money;
         }
         INPUTFIELD ALBARANVENTADET_IMPORTE {
             Source = ALBARANVENTADET.IMPORTE;
@@ -198,13 +206,8 @@ REPORT AlbaranVenta
     GROUPHEADER page_header_numero {
 		level = 1;
 		value = "=input.ALBARANVENTA_ID";
-        sizey = 1.3;
+        sizey = 1.4;
         style = pageheader;
-		paddingtop = 0.2;
-        bordertopwidth = 2;
-        bordertopstyle = solid;
-        borderbottomwidth = 2;
-        borderbottomstyle = solid;
 
         OBJECT pageheader_ALBARANVENTA_NUMERO_CAPTION {
             fontsize = 14.0;
@@ -239,16 +242,18 @@ REPORT AlbaranVenta
 
     GROUPHEADER details_header {
         posx = 0;
-        level = 0;
+        level = 1;
         style = detail;
-        sizey = 1;
+        sizey = 1.3;
         fontweight = bold;
-        margintop = 0.2;
-        marginbottom = 0.3;
+        paddingtop = 0.3;
+		marginbottom = 0.3;
+        bordertopstyle = solid ;
+        bordertopcolor = black ;
+        bordertopwidth = 2;
         borderbottomstyle = solid ;
         borderbottomcolor = black ;
         borderbottomwidth = 2;
-
 
         OBJECT header_ALBARANVENTADET_CANTIDAD {
             halignment = "right";
@@ -266,9 +271,17 @@ REPORT AlbaranVenta
             posx = 9.0;
             sizex = 57.0;
         }
-        OBJECT header_ALBARANVENTADET_PVP {
+        OBJECT header_ALBARANVENTADET_PVPSINIVA {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
             value = "= const @DDD.ALBARANVENTADET_PVPSINIVA_CAPTION;";
+            posx = 69.0;
+            sizex = 12.0;
+        }
+        OBJECT header_ALBARANVENTADET_PVP {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "= const @DDD.ALBARANVENTADET_PVP_CAPTION;";
             posx = 69.0;
             sizex = 12.0;
         }
@@ -279,6 +292,14 @@ REPORT AlbaranVenta
             sizex = 6.0;
         }
         OBJECT header_ALBARANVENTADET_IMPORTE {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "= const @DDD.ALBARANVENTADET_IMPORTE_CAPTION;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+        OBJECT header_ALBARANVENTADET_IMPORTECONIVA {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
             value = "= const @DDD.ALBARANVENTADET_IMPORTE_CAPTION;";
             posx = 88.0;
@@ -311,8 +332,16 @@ REPORT AlbaranVenta
             adjustment = "grow";
         }
         OBJECT ALBARANVENTADET_PVPSINIVA {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
             value = "=input.ALBARANVENTADET_PVPSINIVA;";
+            posx = 69.0;
+            sizex = 11.0;
+        }
+        OBJECT ALBARANVENTADET_PVP {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "=input.ALBARANVENTADET_PVP;";
             posx = 69.0;
             sizex = 11.0;
         }
@@ -325,8 +354,16 @@ REPORT AlbaranVenta
             sizex = 6.0;
         }
         OBJECT ALBARANVENTADET_IMPORTE {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
             value = "=input.ALBARANVENTADET_IMPORTE;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+        OBJECT ALBARANVENTADET_IMPORTECONIVA {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "=input.ALBARANVENTADET_IMPORTECONIVA;";
             posx = 88.0;
             sizex = 12.0;
         }
@@ -335,9 +372,9 @@ REPORT AlbaranVenta
     }
 
     GROUPFOOTER page_footer_notas {
+		level = 1;
         sizey = 2;
         style = pagefooter;
-		level = 1;
 
         OBJECT pagefooter_ALBARANVENTA_NOTAS {
             value = "= input.ALBARANVENTA_NOTAS;";
@@ -349,10 +386,10 @@ REPORT AlbaranVenta
 
 //<<<<<PAGE_FOOTER
     GROUPFOOTER page_footer_captions {
+		level = 1;
 		posy = -5;
         sizey = 1;
         style = pagefooter;
-		level = 1;
 
         OBJECT pagefooter_ALBARANVENTA_SUMAIMPORTES {
             value = "= const @DDD.ALBARANVENTA_SUMAIMPORTES_CAPTION;";
@@ -368,14 +405,14 @@ REPORT AlbaranVenta
         }
         // Sin recargo de equivalencia
         OBJECT pagefooter_ALBARANVENTA_BASEIMPONIBLE_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.ALBARANVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_ALBARANVENTA_IVA_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.ALBARANVENTA_IVA_CAPTION;";
             posx = 70;
             sizex = 14.0;
@@ -383,21 +420,21 @@ REPORT AlbaranVenta
         }
         // Con recargo de equivalencia
         OBJECT pagefooter_ALBARANVENTA_BASEIMPONIBLE_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.ALBARANVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 40.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_ALBARANVENTA_IVA_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.ALBARANVENTA_IVA_CAPTION;";
             posx = 55;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_ALBARANVENTA_RECARGOEQUIVALENCIA {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.ALBARANVENTA_RECARGOEQUIVALENCIA_CAPTION;";
             posx = 70.0;
             sizex = 12.0;
@@ -424,10 +461,10 @@ REPORT AlbaranVenta
     }
 
 	GROUPFOOTER page_footer_values {
-        sizey = 1.5;
-		posy = -3;
-        style = pagefooter;
 		level = 1;
+		posy = -3;
+        sizey = 2.5;
+        style = pagefooter;
 
         OBJECT pagefooter_values_ALBARANVENTA_SUMAIMPORTES {
             value = "= input.ALBARANVENTA_SUMAIMPORTES;";
@@ -465,42 +502,41 @@ REPORT AlbaranVenta
         }
         // Sin recargo de equivalencia
         OBJECT pagefooter_values_ALBARANVENTA_BASEIMPONIBLE_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= input.ALBARANVENTA_BASEIMPONIBLE;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_values_ALBARANVENTA_IVA_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.ALBARANVENTA_IVA;";
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= @input.ALBARANVENTA_IVA";
             posx = 70.0;
             sizex = 14.0;
             halignment = "right";
         }
         // Con recargo de equivalencia
         OBJECT pagefooter_values_ALBARANVENTA_BASEIMPONIBLE_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= input.ALBARANVENTA_BASEIMPONIBLE;";
             posx = 40.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_values_ALBARANVENTA_IVA_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= input.ALBARANVENTA_IVA;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_values_ALBARANVENTA_RECARGOEQUIVALENCIA {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= input.ALBARANVENTA_RECARGOEQUIVALENCIA;";
             posx = 70.0;
             sizex = 12.0;
             halignment = "right";
         }
-
         OBJECT pagefooter_values_ALBARANVENTA_TOTAL {
             value = "= input.ALBARANVENTA_TOTAL;";
             posx = 85.0;
@@ -508,28 +544,16 @@ REPORT AlbaranVenta
             halignment = "right";
             fontweight = "bold";
         }
-    }
-
-    GROUPFOOTER page_footer_desgloseiva {
-		level = 1;
-        sizey = 1;
-		posy = -1;
-        style = pagefooter;
-        supifblank = true;
-//        formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-
-        OBJECT pagefooter_DESGLOSEIVA {
-            value = "= input.DESGLOSEIVA;";
-            posy = 0;
-            posx = 0.0;
+        OBJECT pagefooter_values_ALBARANVENTA_DESGLOSEIVA {
+            formulabefore = "= if( @input.IVADETALLADO != 3 && @input.IVADETALLADO != 4 && @input.DESGLOSEIVA != \"\") { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= return \"Desglose del IVA: \" + @input.DESGLOSEIVA";
+			posy = 1.2;
+            posx = 40.0;
+            sizex = 44.0;
+			fontitalic = true;
+            halignment = "right";
         }
-    }
-
-    GROUPFOOTER new_page {
-        sizey = 1;
-        style = pagefooter;
-		level = 1;
+        
 		pageAfter = true;
-    }    
-
+    }
 }

@@ -1,6 +1,6 @@
 	GROUPHEADER page_header {
 		level = 1;
-		sizey = 12;
+		sizey = 11.5;
 		style = pageheader;
 
 		OBJECT pageheader_EMPRESA_LOGO {

@@ -22,8 +22,7 @@ REPORT PedidoVenta
     Tag = "Facturación";
     SizeX = 100;
 
-
-INPUT default {
+	INPUT default {
         driver = mysql;
         from = "PEDIDOVENTA INNER JOIN EMPRESA ON PEDIDOVENTA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN CLIENTE ON CLIENTE.ID = PEDIDOVENTA.CLIENTE_ID INNER JOIN CONTACTO CLIENTE_CONTACTO ON CLIENTE_CONTACTO.ID = CLIENTE.CONTACTO_ID INNER JOIN PEDIDOVENTADET ON PEDIDOVENTA.ID = PEDIDOVENTADET.PEDIDOVENTA_ID INNER JOIN ARTICULO ON ARTICULO.ID = PEDIDOVENTADET.ARTICULO_ID";
         orderby = "PEDIDOVENTADET.NLINEA";
@@ -180,7 +179,6 @@ INPUT default {
             Source = PEDIDOVENTA.DESGLOSEIVA;
             Type = String;
         }
-//>>>>>INPUT_DEFAULT
         INPUTFIELD IVADETALLADO {
             Source = PEDIDOVENTA.IVADETALLADO;
             Type = integer;
@@ -189,13 +187,29 @@ INPUT default {
             Source = PEDIDOVENTA.DESGLOSEIVA;
             Type = string;
         }
+//>>>>>INPUT_DEFAULT
+        INPUTFIELD PEDIDOVENTA_ID {
+            Source = PEDIDOVENTA.ID;
+			Type = Integer;
+        }
     }
 
     Include = "ventas_header.inc";
+	GROUPHEADER page_header {
+		value = "=input.PEDIDOVENTA_ID";
+	}
 
-    PAGEHEADER page_header_numero {
-        sizey = 2;
+    GROUPHEADER page_header_numero {
+		level = 1;
+		value = "=input.PEDIDOVENTA_ID";
+        sizey = 1.3;
         style = pageheader;
+		paddingtop = 0.2;
+		marginbottom = 0.2;
+        bordertopwidth = 2;
+        bordertopstyle = solid;
+        borderbottomwidth = 2;
+        borderbottomstyle = solid;
 
         OBJECT pageheader_PEDIDOVENTA_NUMERO_CAPTION {
             fontsize = 14.0;
@@ -216,7 +230,6 @@ INPUT default {
         OBJECT pageheader_PEDIDOVENTA_FECHA_CAPTION {
             fontsize = 14.0;
             value = "=const @DDD.PEDIDOVENTA_FECHA_CAPTION + \":\";";
-            posy = 0.2;
             sizex = 8.0;
             posx = 50.0;
             fontweight = bold;
@@ -224,17 +237,13 @@ INPUT default {
         OBJECT pageheader_PEDIDOVENTA_FECHA {
             fontsize = 14.0;
             value = "=input.PEDIDOVENTA_FECHA;";
-            posy = 0.2;
             posx = 60.0;
             format = "%d de %B de %Y";
             fontweight = bold;
         }
-        borderbottomwidth = 2;
-        borderbottomstyle = solid;
     }
 
-
-    PAGEHEADER details_header {
+    GROUPHEADER details_header {
         posx = 0;
         level = 0;
         style = detail;
@@ -331,7 +340,8 @@ INPUT default {
         posx = 0;
     }
 
-    PAGEFOOTER page_footer_notas {
+    GROUPFOOTER page_footer_notas {
+		level = 1;
         sizey = 2;
         style = pagefooter;
 
@@ -345,6 +355,8 @@ INPUT default {
 
 //<<<<<PAGE_FOOTER
     PAGEFOOTER page_footer_captions {
+		level = 1;
+		posy = -5;
         sizey = 1;
         style = pagefooter;
 
@@ -362,14 +374,14 @@ INPUT default {
         }
         // Sin recargo de equivalencia
         OBJECT pagefooter_PEDIDOVENTA_BASEIMPONIBLE_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_PEDIDOVENTA_IVA_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOVENTA_IVA_CAPTION;";
             posx = 70;
             sizex = 14.0;
@@ -377,21 +389,21 @@ INPUT default {
         }
         // Con recargo de equivalencia
         OBJECT pagefooter_PEDIDOVENTA_BASEIMPONIBLE_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 40.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_PEDIDOVENTA_IVA_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOVENTA_IVA_CAPTION;";
             posx = 55;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_PEDIDOVENTA_RECARGOEQUIVALENCIA {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOVENTA_RECARGOEQUIVALENCIA_CAPTION;";
             posx = 70.0;
             sizex = 12.0;
@@ -414,11 +426,13 @@ INPUT default {
         fontweight = bold;
         marginbottom = 0.3;
         sizey = 1.2;
-        posy = -0.2;
-    }
+		paddingtop = 0.3;
+	}
 
-    PAGEFOOTER page_footer_values {
-        sizey = 1.5;
+    GROUPFOOTER page_footer_values {
+		level = 1;
+		posy = -3;
+        sizey = 2.5;
         style = pagefooter;
 
         OBJECT pagefooter_values_PEDIDOVENTA_SUMAIMPORTES {
@@ -457,14 +471,14 @@ INPUT default {
         }
         // Sin recargo de equivalencia
         OBJECT pagefooter_values_PEDIDOVENTA_BASEIMPONIBLE_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= input.PEDIDOVENTA_BASEIMPONIBLE;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_values_PEDIDOVENTA_IVA_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= input.PEDIDOVENTA_IVA;";
             posx = 70.0;
             sizex = 14.0;
@@ -472,21 +486,21 @@ INPUT default {
         }
         // Con recargo de equivalencia
         OBJECT pagefooter_values_PEDIDOVENTA_BASEIMPONIBLE_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= input.PEDIDOVENTA_BASEIMPONIBLE;";
             posx = 40.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_values_PEDIDOVENTA_IVA_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= input.PEDIDOVENTA_IVA;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_values_PEDIDOVENTA_RECARGOEQUIVALENCIA {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= input.PEDIDOVENTA_RECARGOEQUIVALENCIA;";
             posx = 70.0;
             sizex = 12.0;
@@ -499,19 +513,16 @@ INPUT default {
             halignment = "right";
             fontweight = "bold";
         }
-    }
-
-    PAGEFOOTER page_footer_desgloseiva {
-        sizey = 1;
-        style = pagefooter;
-        supifblank = true;
-        formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-
-        OBJECT pagefooter_DESGLOSEIVA {
-            value = "= input.DESGLOSEIVA;";
-            posy = 0;
-            posx = 0.0;
+        OBJECT pagefooter_values_ALBARANVENTA_DESGLOSEIVA {
+            formulabefore = "= if( @input.IVADETALLADO != 3 && @input.IVADETALLADO != 4 && @input.DESGLOSEIVA != \"\") { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= return \"Desglose del IVA: \" + @input.DESGLOSEIVA";
+			posy = 1.2;
+            posx = 40.0;
+            sizex = 44.0;
+			fontitalic = true;
+            halignment = "right";
         }
+		pageAfter = true;
     }
 
 }
