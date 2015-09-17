@@ -91,7 +91,6 @@ Measure ReportQtOutput::startSection( const Section &section )
     clipMeasures( section, &x0, &y0, &width, &height);
     _GONG_DEBUG_PRINT(4, Xtring::printf("Section:%s, After clipping: x=%d, y=%d, w=%d, h=%d",
                                         section.name(), x0, y0, width, height ) );
-	mCurry = y0;
 	drawGraphics( section, x0, y0, width, height, true ); // beforetext
     mGrowthY = 0;
     return 0;

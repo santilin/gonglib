@@ -21,11 +21,9 @@ REPORT AlbaranVenta
     SizeY = 60;
     Tag = "Facturación";
     SizeX = 100;
-    marginleft = 2;
-    margintop = 4;
-    pagesperfolio = 2;
+	PagesPerFolio = 2;
 
-INPUT default {
+	INPUT default {
         driver = mysql;
         from = "ALBARANVENTA INNER JOIN EMPRESA ON ALBARANVENTA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN CLIENTE ON CLIENTE.ID = ALBARANVENTA.CLIENTE_ID INNER JOIN CONTACTO CLIENTE_CONTACTO ON CLIENTE_CONTACTO.ID = CLIENTE.CONTACTO_ID INNER JOIN ALBARANVENTADET ON ALBARANVENTA.ID = ALBARANVENTADET.ALBARANVENTA_ID INNER JOIN ARTICULO ON ARTICULO.ID = ALBARANVENTADET.ARTICULO_ID";
         orderby = "ALBARANVENTADET.NLINEA";
@@ -187,13 +185,19 @@ INPUT default {
             Type = string;
         }
 //>>>>>INPUT_DEFAULT
+        INPUTFIELD ALBARANVENTA_ID {
+            Source = ALBARANVENTA.ID;
+			Type = Integer;
+        }
     }
 
     Include = "ventas_header.inc";
 
-    PAGEHEADER page_header_numero {
+    GROUPHEADER page_header_numero {
         sizey = 2;
         style = pageheader;
+		level = 1;
+		value = "=input.ALBARANVENTA_ID";
 
         OBJECT pageheader_ALBARANVENTA_NUMERO_CAPTION {
             fontsize = 14.0;
@@ -228,7 +232,7 @@ INPUT default {
         borderbottomstyle = solid;
     }
 
-    PAGEHEADER details_header {
+    GROUPHEADER details_header {
         posx = 0;
         level = 0;
         style = detail;
@@ -325,9 +329,10 @@ INPUT default {
         posx = 0;
     }
 
-    REPORTFOOTER page_footer_notas {
+    GROUPFOOTER page_footer_notas {
         sizey = 2;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_ALBARANVENTA_NOTAS {
             value = "= input.ALBARANVENTA_NOTAS;";
@@ -338,10 +343,11 @@ INPUT default {
     }
 
 //<<<<<PAGE_FOOTER
-    REPORTFOOTER page_footer_captions {
-		visible = false;
+    GROUPFOOTER page_footer_captions {
+		posy = -5;
         sizey = 1;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_ALBARANVENTA_SUMAIMPORTES {
             value = "= const @DDD.ALBARANVENTA_SUMAIMPORTES_CAPTION;";
@@ -409,12 +415,12 @@ INPUT default {
         fontweight = bold;
         marginbottom = 0.3;
         sizey = 1.2;
-        posy = -0.2;
     }
 
-    REPORTFOOTER page_footer_values {
+    GROUPFOOTER page_footer_values {
         sizey = 1.5;
         style = pagefooter;
+		level = 1;
 
         OBJECT pagefooter_values_ALBARANVENTA_SUMAIMPORTES {
             value = "= input.ALBARANVENTA_SUMAIMPORTES;";
@@ -497,7 +503,7 @@ INPUT default {
         }
     }
 
-    REPORTFOOTER page_footer_desgloseiva {
+    GROUPFOOTER page_footer_desgloseiva {
         sizey = 1;
         style = pagefooter;
         supifblank = true;
@@ -509,5 +515,12 @@ INPUT default {
             posx = 0.0;
         }
     }
+
+    GROUPFOOTER new_page {
+        sizey = 1;
+        style = pagefooter;
+		level = 1;
+		pageAfter = true;
+    }    
 
 }

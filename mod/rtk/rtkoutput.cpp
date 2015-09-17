@@ -148,9 +148,25 @@ Measure Output::endPage()
     return 0;
 }
 
+/**
+ * @brief Inicia una nueva sección
+ * Si la posición y es menor que cero, se coloca desde el fin de la página
+ * Si la posición y es mayor que cero, se coloca desde el inicio de la página
+ * Si la posición es cero, se continúa por donde iba
+ * 
+ * @param section ...
+ * @return gong::Measure
+ */
 Measure Output::startSection(const Section &section)
 {
-    mCurrY += section.posY() + section.marginTop();
+    _GONG_DEBUG_PRINT(3, Xtring::printf("Printing section '%s' with x=%f, y=%f, w=%f, h=%f",
+                                        section.name(), section.posX(), section.posY(), section.sizeX(), section.sizeY() ) );
+	if( section.posY() < 0.0 )
+		mCurrY = sizeY() - marginBottom() + section.posY();
+	else if( section.posY() > 0.0 )
+		mCurrY = marginTop() + section.posY();
+	else
+		mCurrY += section.marginTop();
     mCurrX += section.posX() + section.marginLeft();
     mColumnCurrY = mCurrY;
     _GONG_DEBUG_PRINT(3, Xtring::printf("Printing section '%s' at x=%f, y=%f, w=%f, h=%f",
@@ -165,7 +181,7 @@ Measure Output::endSection(const Section &section)
         if( mCurrentColumn == (int)section.columns() ) {
             mCurrentColumn = 0;
             mCurrX = marginLeft();
-            mCurrY += section.sizeY()  + section.marginBottom() + mGrowthY;
+            mCurrY += section.sizeY() + section.marginBottom() + mGrowthY;
         } else {
             mCurrY = mColumnCurrY;
             mCurrX += round(section.sizeX() + section.marginLeft() + section.marginRight());
@@ -199,14 +215,11 @@ int Output::clipMeasures(const Object &object, int *x, int *y, int *w, int *h) c
 {
     Measure realPosX = mCurrX + object.posX();
     Measure realPosY;
-	if( object.posY() < 0.0 )
-		realPosY = -object.posY();
-	else
+    if( object.isSection() ) {
+		realPosY = mCurrY;
+	} else {
 		realPosY = mCurrY + object.posY();
-    if( !object.isSection() ) {
-        // If this was a section, the margins would have been added to mCurrY and mCurrX in startSection
         realPosX += object.marginLeft();
-        realPosY += object.marginTop();
     }
     Measure realSizeX = object.sizeX();
     // Problem: If the section has grown
