@@ -21,7 +21,6 @@ REPORT AlbaranVenta
     SizeY = 60;
     Tag = "Facturación";
     SizeX = 100;
-	PagesPerFolio = 2;
 
 	INPUT default {
         driver = mysql;
@@ -199,8 +198,13 @@ REPORT AlbaranVenta
     GROUPHEADER page_header_numero {
 		level = 1;
 		value = "=input.ALBARANVENTA_ID";
-        sizey = 2;
+        sizey = 1.3;
         style = pageheader;
+		paddingtop = 0.2;
+        bordertopwidth = 2;
+        bordertopstyle = solid;
+        borderbottomwidth = 2;
+        borderbottomstyle = solid;
 
         OBJECT pageheader_ALBARANVENTA_NUMERO_CAPTION {
             fontsize = 14.0;
@@ -231,8 +235,6 @@ REPORT AlbaranVenta
             format = "%d de %B de %Y";
             fontweight = bold;
         }
-        borderbottomwidth = 2;
-        borderbottomstyle = solid;
     }
 
     GROUPHEADER details_header {
@@ -417,7 +419,8 @@ REPORT AlbaranVenta
         borderbottomwidth = 2;
         fontweight = bold;
         marginbottom = 0.3;
-        sizey = 1.2;
+        sizey = 1.3;
+		paddingtop = 0.3;
     }
 
 	GROUPFOOTER page_footer_values {
@@ -510,9 +513,10 @@ REPORT AlbaranVenta
     GROUPFOOTER page_footer_desgloseiva {
 		level = 1;
         sizey = 1;
+		posy = -1;
         style = pagefooter;
         supifblank = true;
-        formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+//        formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
 
         OBJECT pagefooter_DESGLOSEIVA {
             value = "= input.DESGLOSEIVA;";

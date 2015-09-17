@@ -1,5 +1,9 @@
 == HECHO ==
 
+== Hacer ==
+* Copiar ALBARANVENTA.rtk a PRESUPUESTOVENTA, PEDIDOVENTA, FACTURAVENTA, PEDIDOCOMPRA, ALBARANCOMPRA, FACTURACOMPRA
+* Refundir todos los tipos de iva en un solo informe
+
 == gong-tpv ==
 * saveEstado intenta grabar siempre, ver la diferencia
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
@@ -8,7 +12,6 @@
 * Al limpiar la mesa, lee registros
 
 == gong-factu ==
-* pedidocompramultiple, pedidoventamultiple.
 * Factu: Formulario datos ventas y compras de artículos
 * Factu: Informe de existencias máximas y mínimas.
 * Imprimir etiquetas con códigos de barras

@@ -198,7 +198,4 @@
 			posx = 65.0;
 			fontweight = bold;
 		}
-
-		borderbottomstyle = solid;
-		borderbottomwidth = 1;
 	}
