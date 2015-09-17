@@ -190,14 +190,17 @@ REPORT AlbaranVenta
 			Type = Integer;
         }
     }
-
-    Include = "ventas_header.inc";
+    
+	Include = "ventas_header.inc";
+	GROUPHEADER page_header {
+		value = "=input.ALBARANVENTA_ID";
+	}
 
     GROUPHEADER page_header_numero {
-        sizey = 2;
-        style = pageheader;
 		level = 1;
 		value = "=input.ALBARANVENTA_ID";
+        sizey = 2;
+        style = pageheader;
 
         OBJECT pageheader_ALBARANVENTA_NUMERO_CAPTION {
             fontsize = 14.0;
@@ -417,8 +420,9 @@ REPORT AlbaranVenta
         sizey = 1.2;
     }
 
-    GROUPFOOTER page_footer_values {
+	GROUPFOOTER page_footer_values {
         sizey = 1.5;
+		posy = -3;
         style = pagefooter;
 		level = 1;
 
@@ -504,6 +508,7 @@ REPORT AlbaranVenta
     }
 
     GROUPFOOTER page_footer_desgloseiva {
+		level = 1;
         sizey = 1;
         style = pagefooter;
         supifblank = true;

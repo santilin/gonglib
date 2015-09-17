@@ -1,4 +1,5 @@
-	PAGEHEADER page_header {
+	GROUPHEADER page_header {
+		level = 1;
 		sizey = 12;
 		style = pageheader;
 

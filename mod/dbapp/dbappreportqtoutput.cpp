@@ -101,15 +101,7 @@ Measure ReportQtOutput::endSection( const Section &section )
 {
     int x0, y0, width, height;
     clipMeasures( section, &x0, &y0, &width, &height);
-	if( section.posY() < 0.0 ) {
-		_GONG_DEBUG_PRINT(0, section.posY() );
-		_GONG_DEBUG_PRINT(0, y0 );
-		mCurrY = sizeY() - marginBottom() + section.posY();
-		_GONG_DEBUG_PRINT(0, mCurrY);
-		drawGraphics( section, x0, mCurrY, width, height, false ); // aftertext
-	} else {
-		drawGraphics( section, x0, y0, width, height, false ); // aftertext
-	}
+	drawGraphics( section, x0, y0, width, height, false ); // aftertext
     Output::endSection(section);
     mCurrY = ceil(mCurrY);
     return 0;

@@ -162,9 +162,9 @@ Measure Output::startSection(const Section &section)
     _GONG_DEBUG_PRINT(3, Xtring::printf("Printing section '%s' with x=%f, y=%f, w=%f, h=%f",
                                         section.name(), section.posX(), section.posY(), section.sizeX(), section.sizeY() ) );
 	if( section.posY() < 0.0 )
-		mCurrY = sizeY() - marginBottom() + section.posY();
+		mCurrY = (sizeY() * mCurrentPageInFolio) - marginBottom() + section.posY();
 	else if( section.posY() > 0.0 )
-		mCurrY = marginTop() + section.posY();
+		mCurrY = (sizeY() * (mCurrentPageInFolio-1)) + marginTop() + section.posY();
 	else
 		mCurrY += section.marginTop();
     mCurrX += section.posX() + section.marginLeft();
