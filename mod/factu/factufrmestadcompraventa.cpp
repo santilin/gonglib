@@ -146,15 +146,27 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
                         + DBAPP->getConnection()->toSQL(empresa::ModuleInstance->getRecEmpresa()->getRecordID());
     }
 
-    Xtring extra_compras_albaranes_where = getExtraSQL( ComprasAlbaranesWhere );
-    Xtring extra_ventas_albaranes_where = getExtraSQL( VentasAlbaranesWhere );
-    Xtring extra_compras_facturas_where = getExtraSQL( ComprasFacturasWhere );
-    Xtring extra_ventas_facturas_where = getExtraSQL( VentasFacturasWhere );
-
-    from.clear();
     Xtring signo_ventas;
     if( ESTAD_COMPRASYVENTAS )
         signo_ventas = "-";
+    Xtring extra_compras_albaranes_where = getExtraSQL( ComprasAlbaranesWhere, signo_ventas, 
+		usa_prov_articulo, compras_where, ventas_where,
+		proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+		articulo_ids, familia_ids, tipodoc_ids );
+    Xtring extra_ventas_albaranes_where = getExtraSQL( VentasAlbaranesWhere, signo_ventas, 
+		usa_prov_articulo, compras_where, ventas_where,
+		proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+		articulo_ids, familia_ids, tipodoc_ids );
+    Xtring extra_compras_facturas_where = getExtraSQL( ComprasFacturasWhere, signo_ventas, 
+		usa_prov_articulo, compras_where, ventas_where,
+		proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+		articulo_ids, familia_ids, tipodoc_ids );
+    Xtring extra_ventas_facturas_where = getExtraSQL( VentasFacturasWhere, signo_ventas, 
+		usa_prov_articulo, compras_where, ventas_where,
+		proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+		articulo_ids, familia_ids, tipodoc_ids );
+
+    from.clear();
     if( ESTAD_COMPRAS ) {
         if( !ESTAD_SOLOFACTURAS ) {
             from +=
@@ -171,7 +183,10 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
                 from += "				INNER JOIN AGENTE ON AC.AGENTE_ID = AGENTE.ID";
             if( formapago_ids.size() )
                 from += "				INNER JOIN FORMAPAGO ON AC.FORMAPAGO_ID = FORMAPAGO.ID";
-            from += getExtraSQL( ComprasAlbaranesFrom );
+            from += getExtraSQL( ComprasAlbaranesFrom, signo_ventas, 
+				usa_prov_articulo, compras_where, ventas_where,
+				proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+				articulo_ids, familia_ids, tipodoc_ids ); 
             if( !compras_where.isEmpty() )
                 from += " WHERE " + compras_where;
             if( !extra_compras_albaranes_where.isEmpty() ) {
@@ -196,7 +211,10 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
                 from += "				INNER JOIN AGENTE ON FC.AGENTE_ID = AGENTE.ID";
             if( formapago_ids.size() )
                 from += "				INNER JOIN FORMAPAGO ON FC.FORMAPAGO_ID = FORMAPAGO.ID";
-            from += getExtraSQL( ComprasFacturasFrom );
+            from += getExtraSQL( ComprasFacturasFrom, signo_ventas, 
+				usa_prov_articulo, compras_where, ventas_where,
+				proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+				articulo_ids, familia_ids, tipodoc_ids ); 
             if( !compras_where.isEmpty() )
                 from += " WHERE " + compras_where.replace("AC.","FC.");
             if( !extra_compras_facturas_where.isEmpty() ) {
@@ -230,7 +248,10 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
                 from += "				INNER JOIN AGENTE ON AV.AGENTE_ID = AGENTE.ID";
             if( formapago_ids.size() )
                 from += "				INNER JOIN FORMAPAGO ON AV.FORMAPAGO_ID = FORMAPAGO.ID";
-            from += getExtraSQL( VentasAlbaranesFrom );
+            from += getExtraSQL( VentasAlbaranesFrom, signo_ventas, 
+				usa_prov_articulo, compras_where, ventas_where,
+				proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+				articulo_ids, familia_ids, tipodoc_ids ); 
             if( !ventas_where.isEmpty() )
                 from += " WHERE " + ventas_where;
             if( !extra_ventas_albaranes_where.isEmpty() ) {
@@ -260,7 +281,10 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
                 from += "				INNER JOIN AGENTE ON FV.AGENTE_ID = AGENTE.ID";
             if( formapago_ids.size() )
                 from += "				INNER JOIN FORMAPAGO ON FV.FORMAPAGO_ID = FORMAPAGO.ID";
-            from += getExtraSQL( VentasFacturasFrom );
+            from += getExtraSQL( VentasFacturasFrom, signo_ventas, 
+				usa_prov_articulo, compras_where, ventas_where,
+				proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+				articulo_ids, familia_ids, tipodoc_ids );
             if( !ventas_where.isEmpty() )
                 from += " WHERE " + ventas_where.replace("AV.","FV.").replace("AVD.","FVD.");
             if( !extra_ventas_facturas_where.isEmpty() ) {
@@ -272,7 +296,10 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
                 "			GROUP BY FVD.ID, FVD.PVPSINIVA, FVD.DTOP100, FVD.TIPOIVA_ID";
         }
     }
-    from += getExtraSQL( AnotherUnionAll );
+    from += getExtraSQL( AnotherUnionAll, signo_ventas, 
+		usa_prov_articulo, compras_where, ventas_where,
+		proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+		articulo_ids, familia_ids, tipodoc_ids );
     from = "ARTICULO A INNER JOIN (" + from + ") VT ON VT.ARTICULO_ID = A.ID";
 // 	msgOkLarge( this, "", from );
     Xtring rtkstring = readRTK( _template );

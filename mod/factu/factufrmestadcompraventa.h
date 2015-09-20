@@ -21,7 +21,13 @@ protected:
         ComprasAlbaranesWhere, VentasAlbaranesWhere, ComprasFacturasWhere, VentasFacturasWhere,
         AnotherUnionAll
     };
-    virtual Xtring getExtraSQL( ExtraSQLWhat what ) {
+    virtual Xtring getExtraSQL( ExtraSQLWhat what, const Xtring &signo_ventas, bool usa_prov_articulo, 
+		const Xtring &ventas_where, const Xtring &compras_where,
+		const List<dbRecordID> &proveedora_ids, const List<dbRecordID> &cliente_ids,
+		const List<dbRecordID> &agente_ids, const List<dbRecordID> &formapago_ids,
+		const List<dbRecordID> &articulo_ids, const List<dbRecordID> &familia_ids,
+		const List<dbRecordID> &tipodoc_ids)
+	{
         return Xtring::null;
     }
     DateRangeBox *pDateRange;

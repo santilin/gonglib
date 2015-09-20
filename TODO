@@ -1,7 +1,11 @@
 == HECHO ==
 
+== Haciendo ==
+* Comprobar estadísticas de ofertas
+* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
+
 == Hacer ==
-* Copiar ALBARANVENTA.rtk a PRESUPUESTOVENTA, PEDIDOVENTA, FACTURAVENTA, PEDIDOCOMPRA, ALBARANCOMPRA, FACTURACOMPRA utilizando plantillas
+* Copiar ALBARANVENTA.rtk a LIQUIDACION.rtk, DEPOSITO.rtk
 
 == gong-tpv ==
 * saveEstado intenta grabar siempre, ver la diferencia
@@ -53,9 +57,7 @@
 
 == gong-ofertas ==
 * Abro factura de venta, abro oferta de venta. Se superponen las ventanas.
-* Estadísticas
 * Comprobar ciclo de oferta de venta y cobro.
-* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 
 == gong-pagos ==
 * Pagos: regenerarlos: guardar el número como en apuntes de tesorería.
