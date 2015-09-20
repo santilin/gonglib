@@ -1,8 +1,7 @@
 == HECHO ==
 
 == Hacer ==
-* Copiar ALBARANVENTA.rtk a PRESUPUESTOVENTA, PEDIDOVENTA, FACTURAVENTA, PEDIDOCOMPRA, ALBARANCOMPRA, FACTURACOMPRA
-* Refundir todos los tipos de iva en un solo informe
+* Copiar ALBARANVENTA.rtk a PRESUPUESTOVENTA, PEDIDOVENTA, FACTURAVENTA, PEDIDOCOMPRA, ALBARANCOMPRA, FACTURACOMPRA utilizando plantillas
 
 == gong-tpv ==
 * saveEstado intenta grabar siempre, ver la diferencia

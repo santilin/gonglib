@@ -469,7 +469,6 @@ void Object::fixMeasures( Measure outsizex, Measure outsizey,
 {
     UnitsType u = extractUnits(propPosX.getOrig(), repunit );
     Measure m = stringTo<Measure>(propPosX.getOrig() );
-    bool posxwasminus1 = ( m == Measure(-1) );
     propPosX = fixOneMeasure( u, m, repunit, repsizex, outsizex );
     u = extractUnits(propPosY.getOrig(), repunit );
     m = stringTo<Measure>(propPosY.getOrig() );
@@ -522,17 +521,18 @@ void Object::fixMeasures( Measure outsizex, Measure outsizey,
         m = stringTo<Measure>(sect->propPaddingTop.getOrig() );
         sect->propPaddingTop = fixOneMeasure( u, m, repunit, repsizey, outsizey );
     }
-    if( posxwasminus1 ) {
-        if( prevobj )
-            propPosX = prevobj->posX() + prevobj->sizeX() - posX();
-        else
-            propPosX = 0;
-    } else if( posX() < Measure(0) ) {
-        if( parent() ) {
-            propPosX = static_cast<Object *>(parent())->sizeX() + posX();
-        } else
-            propPosX = outsizex - posX();
-    }
+    // Ahora el -1 se maneja al imprimir, es el final del campo anterior
+//     if( posxwasminus1 ) {
+//         if( prevobj )
+//             propPosX = prevobj->posX() + prevobj->sizeX() - posX();
+//         else
+//             propPosX = 0;
+//     } else if( posX() < Measure(0) ) {
+//         if( parent() ) {
+//             propPosX = static_cast<Object *>(parent())->sizeX() + posX();
+//         } else
+//             propPosX = outsizex - posX();
+//     }
 }
 
 void Object::fixParameters(const ParametersList &parameters, const char *delim)

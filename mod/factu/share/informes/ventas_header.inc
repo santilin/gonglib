@@ -1,5 +1,6 @@
 	GROUPHEADER page_header {
 		level = 1;
+		value = "=input.DOCUMENTO_ID";
 		sizey = 11.5;
 		style = pageheader;
 

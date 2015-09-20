@@ -1,5 +1,7 @@
-	PAGEHEADER page_header {
-		sizey = 12;
+	GROUPHEADER page_header {
+		level = 1;
+		value = "=input.DOCUMENTO_ID";
+		sizey = 11.5;
 		style = pageheader;
 
 		OBJECT pageheader_EMPRESA_LOGO {
@@ -197,7 +199,4 @@
 			posx = 65.0;
 			fontweight = bold;
 		}
-
-		borderbottomstyle = solid;
-		borderbottomwidth = 1;
 	}

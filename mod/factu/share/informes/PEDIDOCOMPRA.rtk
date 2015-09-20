@@ -1,5 +1,5 @@
 //<<<<<COPYLEFT
-// @file PEDIDOCOMPRA.rtk Factura de venta
+// @file PEDIDOCOMPRA.rtk Pedido de compra
 // GongLib project. (L) Santiago Capel Torres, 2003-2011
 //
 // This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@ REPORT PedidoCompra
     SizeX = 100;
 
 
-INPUT default {
+	INPUT default {
         driver = mysql;
         from = "PEDIDOCOMPRA INNER JOIN EMPRESA ON PEDIDOCOMPRA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN PROVEEDORA ON PROVEEDORA.ID = PEDIDOCOMPRA.PROVEEDORA_ID INNER JOIN CONTACTO PROVEEDORA_CONTACTO ON PROVEEDORA_CONTACTO.ID = PROVEEDORA.CONTACTO_ID INNER JOIN PEDIDOCOMPRADET ON PEDIDOCOMPRA.ID = PEDIDOCOMPRADET.PEDIDOCOMPRA_ID INNER JOIN ARTICULO ON ARTICULO.ID = PEDIDOCOMPRADET.ARTICULO_ID";
         orderby = "PEDIDOCOMPRADET.NLINEA";
@@ -60,12 +60,12 @@ INPUT default {
             Source = EMPRESA_CONTACTO.PROVINCIA;
             Type = string;
         }
-        INPUTFIELD EMPRESA_CONTACTO_TELEFONO {
-            Source = EMPRESA_CONTACTO.TELEFONO;
-            Type = string;
-        }
         INPUTFIELD EMPRESA_CONTACTO_EMAIL {
             Source = EMPRESA_CONTACTO.EMAIL;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_TELEFONO {
+            Source = EMPRESA_CONTACTO.TELEFONO;
             Type = string;
         }
         INPUTFIELD EMPRESA_LOGO {
@@ -73,7 +73,7 @@ INPUT default {
             Type = image;
         }
         INPUTFIELD PROVEEDORA_CONTACTO_NOMBRE {
-            Source = PROVEEDORA_CONTACTO.NOMBRE;
+            Source = PROVEEDORA.RAZONSOCIAL;
             Type = string;
         }
         INPUTFIELD PROVEEDORA_CONTACTO_CIF {
@@ -108,7 +108,7 @@ INPUT default {
             Source = PROVEEDORA_CONTACTO.EMAIL;
             Type = string;
         }
-        INPUTFIELD PEDIDOCOMPRADET_CANTIDAD {
+        INPUTFIELD DOCUMENTODET_CANTIDAD {
             Source = PEDIDOCOMPRADET.CANTIDAD;
             Type = double;
         }
@@ -120,55 +120,63 @@ INPUT default {
             Source = ARTICULO.NOMBRE;
             Type = string;
         }
-        INPUTFIELD PEDIDOCOMPRADET_COSTESINIVA {
+        INPUTFIELD DOCUMENTODET_COSTESINIVA {
             Source = PEDIDOCOMPRADET.COSTESINIVA;
             Type = Money;
         }
-        INPUTFIELD PEDIDOCOMPRADET_DTOP100 {
+        INPUTFIELD DOCUMENTODET_COSTE {
+            Source = PEDIDOCOMPRADET.COSTE;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTODET_DTOP100 {
             Source = PEDIDOCOMPRADET.DTOP100;
             Type = double;
         }
-        INPUTFIELD PEDIDOCOMPRADET_IMPORTE {
+        INPUTFIELD DOCUMENTODET_IMPORTECONIVA {
+            Source = PEDIDOCOMPRADET.IMPORTECONIVA;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTODET_IMPORTE {
             Source = PEDIDOCOMPRADET.IMPORTE;
             Type = Money;
         }
-        INPUTFIELD PEDIDOCOMPRA_FECHA {
+        INPUTFIELD DOCUMENTO_FECHA {
             Source = PEDIDOCOMPRA.FECHA;
             Type = date;
         }
-        INPUTFIELD PEDIDOCOMPRA_NUMERO {
+        INPUTFIELD DOCUMENTO_NUMERO {
             Source = PEDIDOCOMPRA.NUMERO;
             Type = string;
         }
-        INPUTFIELD PEDIDOCOMPRA_NOTAS {
+        INPUTFIELD DOCUMENTO_NOTAS {
             Source = PEDIDOCOMPRA.NOTAS;
             Type = string;
         }
-        INPUTFIELD PEDIDOCOMPRA_SUMAIMPORTES {
+        INPUTFIELD DOCUMENTO_SUMAIMPORTES {
             Source = PEDIDOCOMPRA.SUMAIMPORTES;
             Type = Money;
         }
-        INPUTFIELD PEDIDOCOMPRA_DESCUENTO {
+        INPUTFIELD DOCUMENTO_DESCUENTO {
             Source = PEDIDOCOMPRA.DESCUENTO;
             Type = Money;
         }
-        INPUTFIELD PEDIDOCOMPRA_DTOP100 {
+        INPUTFIELD DOCUMENTO_DTOP100 {
             Source = PEDIDOCOMPRA.DTOP100;
             Type = double;
         }
-        INPUTFIELD PEDIDOCOMPRA_BASEIMPONIBLE {
+        INPUTFIELD DOCUMENTO_BASEIMPONIBLE {
             Source = PEDIDOCOMPRA.BASEIMPONIBLE;
             Type = Money;
         }
-        INPUTFIELD PEDIDOCOMPRA_IVA {
+        INPUTFIELD DOCUMENTO_IVA {
             Source = PEDIDOCOMPRA.IVA;
             Type = Money;
         }
-        INPUTFIELD PEDIDOCOMPRA_RECARGOEQUIVALENCIA {
+        INPUTFIELD DOCUMENTO_RECARGOEQUIVALENCIA {
             Source = PEDIDOCOMPRA.RECARGOEQUIVALENCIA;
             Type = Money;
         }
-        INPUTFIELD PEDIDOCOMPRA_TOTAL {
+        INPUTFIELD DOCUMENTO_TOTAL {
             Source = PEDIDOCOMPRA.TOTAL;
             Type = Money;
         }
@@ -176,7 +184,6 @@ INPUT default {
             Source = PEDIDOCOMPRADET.DESCRIPCION;
             Type = Text;
         }
-//>>>>>INPUT_DEFAULT
         INPUTFIELD IVADETALLADO {
             Source = PEDIDOCOMPRA.IVADETALLADO;
             Type = integer;
@@ -185,215 +192,177 @@ INPUT default {
             Source = PEDIDOCOMPRA.DESGLOSEIVA;
             Type = string;
         }
+//>>>>>INPUT_DEFAULT
+        INPUTFIELD DOCUMENTO_ID {
+            Source = PEDIDOCOMPRA.ID;
+			Type = Integer;
+        }
     }
 
-    include = "compras_header.inc";
-
-    PAGEHEADER page_header_numero {
-        sizey = 2;
+	Include = "compras_header.inc";
+    
+    GROUPHEADER page_header_numero {
+		level = 1;
+		value = "=input.DOCUMENTO_ID";
+        sizey = 1.4;
         style = pageheader;
 
-        OBJECT pageheader_PEDIDOCOMPRA_NUMERO_CAPTION {
+        OBJECT pageheader_DOCUMENTO_NUMERO_CAPTION {
             fontsize = 14.0;
             value = "=const @DDD.PEDIDOCOMPRA_DESCSINGULAR;";
-            posx = 0;
-            posy = 0.2;
+            posx = 3;
+            sizex = 29;
             fontweight = bold;
         }
-        OBJECT pageheader_PEDIDOCOMPRA_NUMERO {
+        OBJECT pageheader_DOCUMENTO_NUMERO {
             fontsize = 14.0;
-            halignment = right;
-            value = "=input.PEDIDOCOMPRA_NUMERO;";
-            posy = 0.2;
-            sizex = 12.0;
-            posx= 30.0;
+            value = "=input.DOCUMENTO_NUMERO;";
+            sizex = 20.0;
+            posx= -1;
             fontweight = bold;
         }
-        OBJECT pageheader_PEDIDOCOMPRA_FECHA_CAPTION {
+        OBJECT pageheader_DOCUMENTO_FECHA_CAPTION {
             fontsize = 14.0;
             value = "=const @DDD.PEDIDOCOMPRA_FECHA_CAPTION + \":\";";
-            posy = 0.2;
             sizex = 8.0;
             posx = 50.0;
             fontweight = bold;
         }
-        OBJECT pageheader_PEDIDOCOMPRA_FECHA {
+        OBJECT pageheader_DOCUMENTO_FECHA {
             fontsize = 14.0;
-            value = "=input.PEDIDOCOMPRA_FECHA;";
-            posy = 0.2;
+            value = "=input.DOCUMENTO_FECHA;";
             posx = 60.0;
             format = "%d de %B de %Y";
             fontweight = bold;
         }
-        borderbottomwidth = 2;
-        borderbottomstyle = solid;
     }
 
-
-    PAGEHEADER details_header {
+    GROUPHEADER details_header {
         posx = 0;
-        level = 0;
+        level = 1;
         style = detail;
-        sizey = 1;
+        sizey = 1.3;
         fontweight = bold;
-        margintop = 0.2;
-        marginbottom = 0.3;
+        paddingtop = 0.3;
+		marginbottom = 0.3;
+        bordertopstyle = solid ;
+        bordertopcolor = black ;
+        bordertopwidth = 2;
         borderbottomstyle = solid ;
         borderbottomcolor = black ;
         borderbottomwidth = 2;
 
-
-        OBJECT header_PEDIDOCOMPRADET_CANTIDAD {
+        OBJECT header_DOCUMENTODET_CANTIDAD {
             halignment = "right";
             value = "= const @DDD.PEDIDOCOMPRADET_CANTIDAD_CAPTION;";
             posx = 0.0;
             sizex = 8.0;
         }
-        OBJECT header_ARTICULO_CODIGO {
-            value = "= const @DDD.ARTICULO_CODIGO_CAPTION;";
-            posx = 9.0;
-            sizex = 15.0;
-        }
+// 		OBJECT header_ARTICULO_CODIGO {
+// 			value = "= const @DDD.ARTICULO_CODIGO_CAPTION;";
+// 			posx = 9.0;
+// 			sizex = 15.0;
+// 		}
         OBJECT header_ARTICULO_NOMBRE {
             value = "= const @DDD.ARTICULO_NOMBRE_CAPTION;";
-            posx = 25.0;
-            sizex = 43.0;
+            posx = 9.0;
+            sizex = 58.0;
         }
-        OBJECT header_PEDIDOCOMPRADET_COSTE {
+        OBJECT header_DOCUMENTODET_COSTESINIVA {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
             value = "= const @DDD.PEDIDOCOMPRADET_COSTESINIVA_CAPTION;";
-            posx = 69.0;
+            posx = 68.0;
             sizex = 12.0;
         }
-        OBJECT header_PEDIDOCOMPRADET_DTOP100 {
+        OBJECT header_DOCUMENTODET_COSTE {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "= const @DDD.PEDIDOCOMPRADET_COSTE_CAPTION;";
+            posx = 68.0;
+            sizex = 12.0;
+        }
+        OBJECT header_DOCUMENTODET_DTOP100 {
             halignment = "right";
             value = "= const @DDD.PEDIDOCOMPRADET_DTOP100_CAPTION;";
             posx = 82.0;
             sizex = 6.0;
         }
-        OBJECT header_PEDIDOCOMPRADET_IMPORTE {
+        OBJECT header_DOCUMENTODET_IMPORTE {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "= const @DDD.PEDIDOCOMPRADET_IMPORTE_CAPTION;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+        OBJECT header_DOCUMENTODET_IMPORTECONIVA {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
             value = "= const @DDD.PEDIDOCOMPRADET_IMPORTE_CAPTION;";
             posx = 88.0;
             sizex = 12.0;
         }
     }
-
-//<<<<<DETAILS_0
-    DETAILS details {
-        posx = 2;
-        level = 0;
-        style = detail;
-        sizey = 1;
-
-        OBJECT PEDIDOCOMPRADET_CANTIDAD {
-            halignment = "right";
-            value = "=input.PEDIDOCOMPRADET_CANTIDAD;";
-            posx = 0.0;
-            sizex = 8.0;
-        }
-        OBJECT ARTICULO_CODIGO {
-            value = "=input.ARTICULO_CODIGO;";
-            posx = 9.0;
-            sizex = 15.0;
-        }
-        OBJECT ARTICULO_NOMBRE {
-            value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
-            posx = 25.0;
-            sizex = 43.0;
-            adjustment = "grow";
-        }
-        OBJECT PEDIDOCOMPRADET_COSTESINIVA {
-            halignment = "right";
-            value = "=input.PEDIDOCOMPRADET_COSTESINIVA;";
-            posx = 69.0;
-            sizex = 11.0;
-        }
-        OBJECT PEDIDOCOMPRADET_DTOP100 {
-            halignment = "right";
-            value = "=input.PEDIDOCOMPRADET_DTOP100;";
-            format = "%b";
-            mask = "999.99";
-            posx = 82.0;
-            sizex = 6.0;
-        }
-        OBJECT PEDIDOCOMPRADET_IMPORTE {
-            halignment = "right";
-            value = "=input.PEDIDOCOMPRADET_IMPORTE;";
-            posx = 88.0;
-            sizex = 12.0;
-        }
-//>>>>>DETAILS_0
-        posx = 0;
-    }
-
-    PAGEFOOTER page_footer_notas {
-        sizey = 2;
-        style = pagefooter;
-
-        OBJECT pagefooter_PEDIDOCOMPRA_NOTAS {
-            value = "= input.PEDIDOCOMPRA_NOTAS;";
-            posy = 0;
-            posx = 0.0;
-            sizey = 2;
-        }
-    }
-
-//<<<<<PAGE_FOOTER
-    PAGEFOOTER page_footer_captions {
+    
+    
+    Include = "compras_details.inc";
+	
+	GROUPFOOTER page_footer_captions {
+		level = 1;
+		posy = -5;
         sizey = 1;
         style = pagefooter;
 
-        OBJECT pagefooter_PEDIDOCOMPRA_SUMAIMPORTES {
+        OBJECT pagefooter_DOCUMENTO_SUMAIMPORTES {
             value = "= const @DDD.PEDIDOCOMPRA_SUMAIMPORTES_CAPTION;";
             posx = 0.0;
             sizex = 16.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PEDIDOCOMPRA_DESCUENTO {
+        OBJECT pagefooter_DOCUMENTO_DESCUENTO {
             value = "= const @DDD.PEDIDOCOMPRA_DESCUENTO_CAPTION;";
             posx = 17.0;
             sizex = 16.0;
             halignment = "right";
         }
         // Sin recargo de equivalencia
-        OBJECT pagefooter_PEDIDOCOMPRA_BASEIMPONIBLE_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+        OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOCOMPRA_BASEIMPONIBLE_CAPTION;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PEDIDOCOMPRA_IVA_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+        OBJECT pagefooter_DOCUMENTO_IVA_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOCOMPRA_IVA_CAPTION;";
             posx = 70;
             sizex = 14.0;
             halignment = "right";
         }
         // Con recargo de equivalencia
-        OBJECT pagefooter_PEDIDOCOMPRA_BASEIMPONIBLE_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+        OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOCOMPRA_BASEIMPONIBLE_CAPTION;";
             posx = 40.0;
             sizex = 14.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PEDIDOCOMPRA_IVA_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+        OBJECT pagefooter_DOCUMENTO_IVA_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOCOMPRA_IVA_CAPTION;";
             posx = 55;
             sizex = 14.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PEDIDOCOMPRA_RECARGOEQUIVALENCIA {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+        OBJECT pagefooter_DOCUMENTO_RECARGOEQUIVALENCIA {
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             value = "= const @DDD.PEDIDOCOMPRA_RECARGOEQUIVALENCIA_CAPTION;";
             posx = 70.0;
             sizex = 12.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PEDIDOCOMPRA_TOTAL {
+        OBJECT pagefooter_DOCUMENTO_TOTAL {
             value = "= const @DDD.PEDIDOCOMPRA_TOTAL_CAPTION;";
             posx = 85.0;
             sizex = 15.0;
@@ -409,105 +378,10 @@ INPUT default {
         borderbottomwidth = 2;
         fontweight = bold;
         marginbottom = 0.3;
-        sizey = 1.2;
-        posy = -0.2;
+        sizey = 1.3;
+		paddingtop = 0.3;
     }
-
-    PAGEFOOTER page_footer_values {
-        sizey = 1.5;
-        style = pagefooter;
-
-        OBJECT pagefooter_values_PEDIDOCOMPRA_SUMAIMPORTES {
-            value = "= input.PEDIDOCOMPRA_SUMAIMPORTES;";
-            posx = 0.0;
-            sizex = 16.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PEDIDOCOMPRA_DTOP100_ABRE {
-            formulabefore = "= if( @input.PEDIDOCOMPRA_DTOP100 == 0.0 ) {@this.visible = false;} else { @this.visible = true;} return true;";
-            value = "(";
-            posx = 19.0;
-            sizex = 2.0;
-        }
-        OBJECT pagefooter_values_PEDIDOCOMPRA_DTOP100 {
-            value = "= input.PEDIDOCOMPRA_DTOP100;";
-            format = "%b";
-            mask = "999.99";
-            posx = 20.0;
-            sizex = 5.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PEDIDOCOMPRA_DTOP100_CIERRA {
-            formulabefore = "= if( @input.PEDIDOCOMPRA_DTOP100 == 0.0 ) {@this.visible = false;} else { @this.visible = true;} return true;";
-            value = "%)";
-            posx = 25.0;
-            sizex = 4.0;
-        }
-        OBJECT pagefooter_values_PEDIDOCOMPRA_DESCUENTO {
-            value = "= input.PEDIDOCOMPRA_DESCUENTO;";
-            format = "%b";
-            mask = "999.99";
-            posx = 28.0;
-            sizex = 10.0;
-            halignment = "left";
-        }
-        // Sin recargo de equivalencia
-        OBJECT pagefooter_values_PEDIDOCOMPRA_BASEIMPONIBLE_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PEDIDOCOMPRA_BASEIMPONIBLE;";
-            posx = 55.0;
-            sizex = 14.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PEDIDOCOMPRA_IVA_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PEDIDOCOMPRA_IVA;";
-            posx = 70.0;
-            sizex = 14.0;
-            halignment = "right";
-        }
-        // Con recargo de equivalencia
-        OBJECT pagefooter_values_PEDIDOCOMPRA_BASEIMPONIBLE_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PEDIDOCOMPRA_BASEIMPONIBLE;";
-            posx = 40.0;
-            sizex = 14.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PEDIDOCOMPRA_IVA_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PEDIDOCOMPRA_IVA;";
-            posx = 55.0;
-            sizex = 14.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PEDIDOCOMPRA_RECARGOEQUIVALENCIA {
-            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PEDIDOCOMPRA_RECARGOEQUIVALENCIA;";
-            posx = 70.0;
-            sizex = 12.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PEDIDOCOMPRA_TOTAL {
-            value = "= input.PEDIDOCOMPRA_TOTAL;";
-            posx = 85.0;
-            sizex = 15.0;
-            halignment = "right";
-            fontweight = "bold";
-        }
-    }
-
-    PAGEFOOTER page_footer_desgloseiva {
-        sizey = 1;
-        style = pagefooter;
-        supifblank = true;
-        formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-
-        OBJECT pagefooter_DESGLOSEIVA {
-            value = "= input.DESGLOSEIVA;";
-            posy = 0;
-            posx = 0.0;
-        }
-    }
+	Include = "compras_footer.inc";
 
 }
+

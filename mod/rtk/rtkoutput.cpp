@@ -127,6 +127,7 @@ Measure Output::startPage()
     mCurrentColumn = 0;
     mGrowthY = 0;
     mCurrX = marginLeft();
+	mLastFieldRightPos = mLastFieldBottomPos = 0;
     mCurrY = mColumnCurrY = ( mCurrY + marginTop() );
     return 0;
 }
@@ -169,6 +170,7 @@ Measure Output::startSection(const Section &section)
 		mCurrY += section.marginTop();
     mCurrX += section.posX() + section.marginLeft();
     mColumnCurrY = mCurrY;
+	mLastFieldRightPos = mLastFieldBottomPos = 0;
     _GONG_DEBUG_PRINT(3, Xtring::printf("Printing section '%s' at x=%f, y=%f, w=%f, h=%f",
                                         section.name(), mCurrX, mCurrY, section.sizeX(), section.sizeY() ) );
     return 0;
@@ -213,7 +215,13 @@ bool Output::sectionFits( const Section *section,
 
 int Output::clipMeasures(const Object &object, int *x, int *y, int *w, int *h) const
 {
-    Measure realPosX = mCurrX + object.posX();
+	Measure realPosX; 
+	// If posx<0, starts where the last field ended
+	if( object.posX() < Measure(0) ) {
+		realPosX = mLastFieldRightPos - object.posX();
+	} else {
+		realPosX = mCurrX + object.posX();
+	}
     Measure realPosY;
     if( object.isSection() ) {
 		realPosY = mCurrY;

@@ -1,5 +1,5 @@
 //<<<<<COPYLEFT
-// @file PRESUPUESTOVENTA.rtk Factura de venta
+// @file PRESUPUESTOVENTA.rtk Presupuesto de venta
 // GongLib project. (L) Santiago Capel Torres, 2003-2011
 //
 // This program is free software; you can redistribute it and/or modify
@@ -7,7 +7,7 @@
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
 //
-// This program is distributed in the hope that it will be useful,
+// // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -72,7 +72,7 @@ REPORT PresupuestoVenta
             Type = image;
         }
         INPUTFIELD CLIENTE_CONTACTO_NOMBRE {
-            Source = CLIENTE_CONTACTO.NOMBRE;
+            Source = CLIENTE.RAZONSOCIAL;
             Type = string;
         }
         INPUTFIELD CLIENTE_CONTACTO_CIF {
@@ -107,7 +107,7 @@ REPORT PresupuestoVenta
             Source = CLIENTE_CONTACTO.EMAIL;
             Type = string;
         }
-        INPUTFIELD PRESUPUESTOVENTADET_CANTIDAD {
+        INPUTFIELD DOCUMENTODET_CANTIDAD {
             Source = PRESUPUESTOVENTADET.CANTIDAD;
             Type = double;
         }
@@ -119,55 +119,63 @@ REPORT PresupuestoVenta
             Source = ARTICULO.NOMBRE;
             Type = string;
         }
-        INPUTFIELD PRESUPUESTOVENTADET_PVPSINIVA {
+        INPUTFIELD DOCUMENTODET_PVPSINIVA {
             Source = PRESUPUESTOVENTADET.PVPSINIVA;
             Type = Money;
         }
-        INPUTFIELD PRESUPUESTOVENTADET_DTOP100 {
+        INPUTFIELD DOCUMENTODET_PVP {
+            Source = PRESUPUESTOVENTADET.PVP;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTODET_DTOP100 {
             Source = PRESUPUESTOVENTADET.DTOP100;
             Type = double;
         }
-        INPUTFIELD PRESUPUESTOVENTADET_IMPORTE {
+        INPUTFIELD DOCUMENTODET_IMPORTECONIVA {
+            Source = PRESUPUESTOVENTADET.IMPORTECONIVA;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTODET_IMPORTE {
             Source = PRESUPUESTOVENTADET.IMPORTE;
             Type = Money;
         }
-        INPUTFIELD PRESUPUESTOVENTA_FECHA {
+        INPUTFIELD DOCUMENTO_FECHA {
             Source = PRESUPUESTOVENTA.FECHA;
             Type = date;
         }
-        INPUTFIELD PRESUPUESTOVENTA_NUMERO {
+        INPUTFIELD DOCUMENTO_NUMERO {
             Source = PRESUPUESTOVENTA.NUMERO;
             Type = string;
         }
-        INPUTFIELD PRESUPUESTOVENTA_NOTAS {
+        INPUTFIELD DOCUMENTO_NOTAS {
             Source = PRESUPUESTOVENTA.NOTAS;
             Type = string;
         }
-        INPUTFIELD PRESUPUESTOVENTA_SUMAIMPORTES {
+        INPUTFIELD DOCUMENTO_SUMAIMPORTES {
             Source = PRESUPUESTOVENTA.SUMAIMPORTES;
             Type = Money;
         }
-        INPUTFIELD PRESUPUESTOVENTA_DESCUENTO {
+        INPUTFIELD DOCUMENTO_DESCUENTO {
             Source = PRESUPUESTOVENTA.DESCUENTO;
             Type = Money;
         }
-        INPUTFIELD PRESUPUESTOVENTA_DTOP100 {
+        INPUTFIELD DOCUMENTO_DTOP100 {
             Source = PRESUPUESTOVENTA.DTOP100;
             Type = double;
         }
-        INPUTFIELD PRESUPUESTOVENTA_BASEIMPONIBLE {
+        INPUTFIELD DOCUMENTO_BASEIMPONIBLE {
             Source = PRESUPUESTOVENTA.BASEIMPONIBLE;
             Type = Money;
         }
-        INPUTFIELD PRESUPUESTOVENTA_IVA {
+        INPUTFIELD DOCUMENTO_IVA {
             Source = PRESUPUESTOVENTA.IVA;
             Type = Money;
         }
-        INPUTFIELD PRESUPUESTOVENTA_RECARGOEQUIVALENCIA {
+        INPUTFIELD DOCUMENTO_RECARGOEQUIVALENCIA {
             Source = PRESUPUESTOVENTA.RECARGOEQUIVALENCIA;
             Type = Money;
         }
-        INPUTFIELD PRESUPUESTOVENTA_TOTAL {
+        INPUTFIELD DOCUMENTO_TOTAL {
             Source = PRESUPUESTOVENTA.TOTAL;
             Type = Money;
         }
@@ -184,49 +192,45 @@ REPORT PresupuestoVenta
             Type = string;
         }
 //>>>>>INPUT_DEFAULT
-        INPUTFIELD PRESUPUESTOVENTA_ID {
+        INPUTFIELD DOCUMENTO_ID {
             Source = PRESUPUESTOVENTA.ID;
 			Type = Integer;
         }
     }
 
-    Include = "ventas_header.inc";
-	GROUPHEADER page_header {
-		value = "=input.PRESUPUESTOVENTA_ID";
-	}
-
+	Include = "ventas_header.inc";
+    
     GROUPHEADER page_header_numero {
 		level = 1;
-		value = "=input.PRESUPUESTOVENTA_ID";
-        sizey = 1.3;
+		value = "=input.DOCUMENTO_ID";
+        sizey = 1.4;
         style = pageheader;
 
-        OBJECT pageheader_PRESUPUESTOVENTA_NUMERO_CAPTION {
+        OBJECT pageheader_DOCUMENTO_NUMERO_CAPTION {
             fontsize = 14.0;
-            value = "=const @DDD.PRESUPUESTOVENTA_DESCSINGULAR;";
+            value = "=const @DDD.FACTURAVENTA_DESCSINGULAR;";
             posx = 3;
-			sizex = 26;
+            sizex = 29;
             fontweight = bold;
         }
-        OBJECT pageheader_PRESUPUESTOVENTA_NUMERO {
+        OBJECT pageheader_DOCUMENTO_NUMERO {
             fontsize = 14.0;
-            value = "=input.PRESUPUESTOVENTA_NUMERO;";
-            halignment = right;
-            sizex = 16.0;
-            posx= 30;
+            value = "=input.DOCUMENTO_NUMERO;";
+            sizex = 20.0;
+            posx= -1;
             fontweight = bold;
         }
-        OBJECT pageheader_PRESUPUESTOVENTA_FECHA_CAPTION {
+        OBJECT pageheader_DOCUMENTO_FECHA_CAPTION {
             fontsize = 14.0;
-            value = "=const @DDD.PRESUPUESTOVENTA_FECHA_CAPTION + \":\";";
+            value = "=const @DDD.FACTURAVENTA_FECHA_CAPTION + \":\";";
             sizex = 8.0;
-            posx = 50;
+            posx = 50.0;
             fontweight = bold;
         }
-        OBJECT pageheader_PRESUPUESTOVENTA_FECHA {
+        OBJECT pageheader_DOCUMENTO_FECHA {
             fontsize = 14.0;
-            value = "=input.PRESUPUESTOVENTA_FECHA;";
-            posx = 60;
+            value = "=input.DOCUMENTO_FECHA;";
+            posx = 60.0;
             format = "%d de %B de %Y";
             fontweight = bold;
         }
@@ -247,10 +251,9 @@ REPORT PresupuestoVenta
         borderbottomcolor = black ;
         borderbottomwidth = 2;
 
-
-        OBJECT header_PRESUPUESTOVENTADET_CANTIDAD {
+        OBJECT header_DOCUMENTODET_CANTIDAD {
             halignment = "right";
-            value = "= const @DDD.PRESUPUESTOVENTADET_CANTIDAD_CAPTION;";
+            value = "= const @DDD.FACTURAVENTADET_CANTIDAD_CAPTION;";
             posx = 0.0;
             sizex = 8.0;
         }
@@ -262,146 +265,104 @@ REPORT PresupuestoVenta
         OBJECT header_ARTICULO_NOMBRE {
             value = "= const @DDD.ARTICULO_NOMBRE_CAPTION;";
             posx = 9.0;
-            sizex = 57.0;
+            sizex = 58.0;
         }
-        OBJECT header_PRESUPUESTOVENTADET_PVP {
+        OBJECT header_DOCUMENTODET_PVPSINIVA {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.PRESUPUESTOVENTADET_PVPSINIVA_CAPTION;";
-            posx = 69.0;
+            value = "= const @DDD.FACTURAVENTADET_PVPSINIVA_CAPTION;";
+            posx = 68.0;
             sizex = 12.0;
         }
-        OBJECT header_PRESUPUESTOVENTADET_DTOP100 {
+        OBJECT header_DOCUMENTODET_PVP {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.PRESUPUESTOVENTADET_DTOP100_CAPTION;";
+            value = "= const @DDD.FACTURAVENTADET_PVP_CAPTION;";
+            posx = 68.0;
+            sizex = 12.0;
+        }
+        OBJECT header_DOCUMENTODET_DTOP100 {
+            halignment = "right";
+            value = "= const @DDD.FACTURAVENTADET_DTOP100_CAPTION;";
             posx = 82.0;
             sizex = 6.0;
         }
-        OBJECT header_PRESUPUESTOVENTADET_IMPORTE {
+        OBJECT header_DOCUMENTODET_IMPORTE {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.PRESUPUESTOVENTADET_IMPORTE_CAPTION;";
+            value = "= const @DDD.FACTURAVENTADET_IMPORTE_CAPTION;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+        OBJECT header_DOCUMENTODET_IMPORTECONIVA {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "= const @DDD.FACTURAVENTADET_IMPORTE_CAPTION;";
             posx = 88.0;
             sizex = 12.0;
         }
     }
-
-//<<<<<DETAILS_0
-    DETAILS details {
-        posx = 2;
-        level = 0;
-        style = detail;
-        sizey = 1;
-
-        OBJECT PRESUPUESTOVENTADET_CANTIDAD {
-            halignment = "right";
-            value = "=input.PRESUPUESTOVENTADET_CANTIDAD;";
-            posx = 0.0;
-            sizex = 8.0;
-        }
-// 		OBJECT ARTICULO_CODIGO {
-// 			value = "=input.ARTICULO_CODIGO;";
-// 			posx = 9.0;
-// 			sizex = 15.0;
-// 		}
-        OBJECT ARTICULO_NOMBRE {
-            value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
-            posx = 9.0;
-            sizex = 57.0;
-            adjustment = "grow";
-        }
-        OBJECT PRESUPUESTOVENTADET_PVPSINIVA {
-            halignment = "right";
-            value = "=input.PRESUPUESTOVENTADET_PVPSINIVA;";
-            posx = 69.0;
-            sizex = 12.0;
-        }
-        OBJECT PRESUPUESTOVENTADET_DTOP100 {
-            halignment = "right";
-            value = "=input.PRESUPUESTOVENTADET_DTOP100;";
-            format = "%b";
-            mask = "999.99";
-            posx = 82.0;
-            sizex = 6.0;
-        }
-        OBJECT PRESUPUESTOVENTADET_IMPORTE {
-            halignment = "right";
-            value = "=input.PRESUPUESTOVENTADET_IMPORTE;";
-            posx = 88.0;
-            sizex = 12.0;
-        }
-//>>>>>DETAILS_0
-        posx = 0;
-    }
-
-    GROUPFOOTER page_footer_notas {
-		level = 1;
-        sizey = 2;
-        style = pagefooter;
-
-        OBJECT pagefooter_PRESUPUESTOVENTA_NOTAS {
-            value = "= input.PRESUPUESTOVENTA_NOTAS;";
-            posy = 0;
-            posx = 0.0;
-            sizey = 2;
-        }
-    }
-
-//<<<<<PAGE_FOOTER
-    GROUPFOOTER page_footer_captions {
+    
+    
+    Include = "ventas_details.inc";
+	
+	GROUPFOOTER page_footer_captions {
 		level = 1;
 		posy = -5;
+        sizey = 1;
         style = pagefooter;
 
-        OBJECT pagefooter_PRESUPUESTOVENTA_SUMAIMPORTES {
-            value = "= const @DDD.PRESUPUESTOVENTA_SUMAIMPORTES_CAPTION;";
+        OBJECT pagefooter_DOCUMENTO_SUMAIMPORTES {
+            value = "= const @DDD.FACTURAVENTA_SUMAIMPORTES_CAPTION;";
             posx = 0.0;
             sizex = 16.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PRESUPUESTOVENTA_DESCUENTO {
-            value = "= const @DDD.PRESUPUESTOVENTA_DESCUENTO_CAPTION;";
+        OBJECT pagefooter_DOCUMENTO_DESCUENTO {
+            value = "= const @DDD.FACTURAVENTA_DESCUENTO_CAPTION;";
             posx = 17.0;
             sizex = 16.0;
             halignment = "right";
         }
         // Sin recargo de equivalencia
-        OBJECT pagefooter_PRESUPUESTOVENTA_BASEIMPONIBLE_SIN_RECARGO {
+        OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_SIN_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.PRESUPUESTOVENTA_BASEIMPONIBLE_CAPTION;";
+            value = "= const @DDD.FACTURAVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PRESUPUESTOVENTA_IVA_SIN_RECARGO {
+        OBJECT pagefooter_DOCUMENTO_IVA_SIN_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.PRESUPUESTOVENTA_IVA_CAPTION;";
+            value = "= const @DDD.FACTURAVENTA_IVA_CAPTION;";
             posx = 70;
             sizex = 14.0;
             halignment = "right";
         }
         // Con recargo de equivalencia
-        OBJECT pagefooter_PRESUPUESTOVENTA_BASEIMPONIBLE_CON_RECARGO {
+        OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_CON_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.PRESUPUESTOVENTA_BASEIMPONIBLE_CAPTION;";
+            value = "= const @DDD.FACTURAVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 40.0;
             sizex = 14.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PRESUPUESTOVENTA_IVA_CON_RECARGO {
+        OBJECT pagefooter_DOCUMENTO_IVA_CON_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.PRESUPUESTOVENTA_IVA_CAPTION;";
+            value = "= const @DDD.FACTURAVENTA_IVA_CAPTION;";
             posx = 55;
             sizex = 14.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PRESUPUESTOVENTA_RECARGOEQUIVALENCIA {
+        OBJECT pagefooter_DOCUMENTO_RECARGOEQUIVALENCIA {
             formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.PRESUPUESTOVENTA_RECARGOEQUIVALENCIA_CAPTION;";
+            value = "= const @DDD.FACTURAVENTA_RECARGOEQUIVALENCIA_CAPTION;";
             posx = 70.0;
             sizex = 12.0;
             halignment = "right";
         }
-        OBJECT pagefooter_PRESUPUESTOVENTA_TOTAL {
-            value = "= const @DDD.PRESUPUESTOVENTA_TOTAL_CAPTION;";
+        OBJECT pagefooter_DOCUMENTO_TOTAL {
+            value = "= const @DDD.FACTURAVENTA_TOTAL_CAPTION;";
             posx = 85.0;
             sizex = 15.0;
             halignment = "right";
@@ -419,102 +380,7 @@ REPORT PresupuestoVenta
         sizey = 1.3;
 		paddingtop = 0.3;
     }
-
-    GROUPFOOTER page_footer_values {
-		level = 1;
-        sizey = 2.5;
-		posy = -3;
-        style = pagefooter;
-
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_SUMAIMPORTES {
-            value = "= input.PRESUPUESTOVENTA_SUMAIMPORTES;";
-            posx = 0.0;
-            sizex = 16.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_DTOP100_ABRE {
-            formulabefore = "= if( @input.PRESUPUESTOVENTA_DTOP100 == 0.0 ) {@this.visible = false;} else { @this.visible = true;} return true;";
-            value = "(";
-            posx = 19.0;
-            sizex = 2.0;
-        }
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_DTOP100 {
-            value = "= input.PRESUPUESTOVENTA_DTOP100;";
-            format = "%b";
-            mask = "999.99";
-            posx = 20.0;
-            sizex = 5.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_DTOP100_CIERRA {
-            formulabefore = "= if( @input.PRESUPUESTOVENTA_DTOP100 == 0.0 ) {@this.visible = false;} else { @this.visible = true;} return true;";
-            value = "%)";
-            posx = 25.0;
-            sizex = 4.0;
-        }
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_DESCUENTO {
-            value = "= input.PRESUPUESTOVENTA_DESCUENTO;";
-            format = "%b";
-            mask = "999.99";
-            posx = 28.0;
-            sizex = 10.0;
-            halignment = "left";
-        }
-        // Sin recargo de equivalencia
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_BASEIMPONIBLE_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PRESUPUESTOVENTA_BASEIMPONIBLE;";
-            posx = 55.0;
-            sizex = 14.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_IVA_SIN_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PRESUPUESTOVENTA_IVA;";
-            posx = 70.0;
-            sizex = 14.0;
-            halignment = "right";
-        }
-        // Con recargo de equivalencia
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_BASEIMPONIBLE_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PRESUPUESTOVENTA_BASEIMPONIBLE;";
-            posx = 40.0;
-            sizex = 14.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_IVA_CON_RECARGO {
-            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PRESUPUESTOVENTA_IVA;";
-            posx = 55.0;
-            sizex = 14.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_RECARGOEQUIVALENCIA {
-            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= input.PRESUPUESTOVENTA_RECARGOEQUIVALENCIA;";
-            posx = 70.0;
-            sizex = 12.0;
-            halignment = "right";
-        }
-        OBJECT pagefooter_values_PRESUPUESTOVENTA_TOTAL {
-            value = "= input.PRESUPUESTOVENTA_TOTAL;";
-            posx = 85.0;
-            sizex = 15.0;
-            halignment = "right";
-            fontweight = "bold";
-        }
-        OBJECT pagefooter_values_ALBARANVENTA_DESGLOSEIVA {
-            formulabefore = "= if( @input.IVADETALLADO != 3 && @input.IVADETALLADO != 4 && @input.DESGLOSEIVA != \"\") { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= return \"Desglose del IVA: \" + @input.DESGLOSEIVA";
-			posy = 1.2;
-            posx = 40.0;
-            sizex = 44.0;
-			fontitalic = true;
-            halignment = "right";
-        }
-        
-		pageAfter = true;
-    }
+	Include = "ventas_footer.inc";
 
 }
+

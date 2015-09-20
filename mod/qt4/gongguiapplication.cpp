@@ -89,9 +89,10 @@ QMdiSubWindow* GuiApplication::createClient(QWidget* w, bool force)
 bool GuiApplication::deleteClient(QWidget* frm)
 {
 	if( getMainWindow() ) {
-		getMainWindow()->deleteClient(frm);
+		return getMainWindow()->deleteClient(frm);
 	} else {
 		delete frm;
+		return true;
 	}		
 }
 

@@ -136,7 +136,8 @@ protected:
     class Report &mReport;
     static PaperSize mPaperSizes[];
     int mCurrentPage, mTotalPages, mCurrentColumn, mCurrentPageInFolio;
-    Measure mCurrX, mCurrY, mGrowthY, mColumnCurrY, mFolioSizeY;
+    Measure mCurrX, mCurrY, mGrowthY, mColumnCurrY, mFolioSizeY, 
+		mLastFieldRightPos, mLastFieldBottomPos;
 private:
     void initOutput();
 

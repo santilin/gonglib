@@ -336,11 +336,11 @@ Measure ReportQtOutput::printObject( const Object &object )
             default:
                 break;
             }
-
+			QRect outrect;
             switch ( object.adjustment() ) {
             case RTK::AdjustGrow: {
                 tf = tf | Qt::TextWordWrap;
-                QRect outrect = mPainter.boundingRect( x0, y0, width, -1, tf,
+                outrect = mPainter.boundingRect( x0, y0, width, -1, tf,
                                                        toGUI(text) );
                 mPainter.drawText( x0, y0 - fm.descent(), width, outrect.height(),
                                    tf, toGUI(text) );
@@ -352,7 +352,7 @@ Measure ReportQtOutput::printObject( const Object &object )
             break;
             case RTK::AdjustReduceFont: {
                 QFont *smallerfont = 0;
-                QRect outrect = mPainter.boundingRect( x0, y0, width, -1, tf, toGUI(text) );
+                outrect = mPainter.boundingRect( x0, y0, width, -1, tf, toGUI(text) );
                 while( (outrect.height() -2 - height > 0)
                         || (outrect.width() -1 - width > 0 ) ) {
                     if( !smallerfont )
@@ -378,15 +378,17 @@ Measure ReportQtOutput::printObject( const Object &object )
                 _GONG_DEBUG_PRINT(10, Xtring::printf("drawText(x=%d, y=%d, w=%d, h=%d, \"%s\")",
                                                      x0, y0-fm.descent(),width,height+fm.descent(), text.c_str() ) );
                 mPainter.drawText( x0, y0 - fm.descent(), width, height + fm.descent(),
-                                   tf, toGUI(text) );
+                                   tf, toGUI(text), &outrect );
                 break;
             case RTK::AdjustNone:
                 mPainter.drawText( x0, y0 - fm.descent(), int(round(sizeX() - marginRight() - x0, 0)), height + fm.descent(),
-                                   tf, toGUI(text) );
+                                   tf, toGUI(text), &outrect );
                 break;
             default:
                 break;
             }
+			mLastFieldBottomPos = y0 + outrect.height();
+			mLastFieldRightPos = x0 + outrect.width();
         }
     }
     drawGraphics( object, x0, y0, width, height, false ); // aftertext
