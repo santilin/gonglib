@@ -250,10 +250,10 @@ int Output::clipMeasures(const Object &object, int *x, int *y, int *w, int *h) c
                                                mFolioSizeY - marginBottom() - object.marginBottom() - realPosY ) );
         realSizeY = mFolioSizeY - marginBottom() - object.marginBottom() - realPosY ;
     }
-    *x = int(floor(realPosX)); // + object.marginLeft()));
-    *w = int(ceil(realSizeX)); //  - object.marginLeft() - object.marginRight()));
-    *y = int(floor(realPosY)); // + object.marginTop()));
-    *h = int(ceil(realSizeY)); // - object.marginTop() - object.marginBottom()));
+    *x = int(round(realPosX)); // + object.marginLeft()));
+    *w = int(round(realSizeX)); //  - object.marginLeft() - object.marginRight()));
+    *y = int(round(realPosY)); // + object.marginTop()));
+    *h = int(round(realSizeY)); // - object.marginTop() - object.marginBottom()));
     return 0;
 }
 

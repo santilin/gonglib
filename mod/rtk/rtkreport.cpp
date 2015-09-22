@@ -1339,7 +1339,6 @@ bool Report::print( Input *in, Output *out )
         setGroupLevels();
         propPageOrientation.fix(mParameters, paramDelim());
         // FixOutput(out) is done at the beginning in order to set the correct sizes of the objects of this report, 
-		// but the pageorientation of the output must be done once the report's properties are fixed
         if( out->pageOrientation() == DefaultOrientation ) {
             if( pageOrientation() != DefaultOrientation )
                 out->setPageOrientation( pageOrientation() );
@@ -1347,6 +1346,7 @@ bool Report::print( Input *in, Output *out )
                 out->setPageOrientation( Portrait ) ;
         }
         fixOutput(out);
+		// If the output is landscape but the report is not, reduce the number of lines of the report
         if( out->pageOrientation() == Landscape && pageOrientation() != Landscape ) {
 			Measure m = stringTo<Measure>(propSizeY.getOrig() );
 			m = (m * out->sizeY() / out->sizeX() );

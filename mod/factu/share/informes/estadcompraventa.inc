@@ -8,6 +8,7 @@ REPORT EstadCompraVenta_Inc
 #ifndef AGRUPAR
 	PageOrientation = landscape;
 	SizeX = 120;
+	SizeY = 40;
 #endif
 
 	Include = "estadcompraventa_comun.inc";

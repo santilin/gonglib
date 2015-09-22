@@ -228,7 +228,10 @@ Measure ReportQtOutput::printObject( const Object &object )
     int x0, y0, width, height;
     if( object.isSection() ) // If this is a section, do not print the value, which is the groupvalue
         return y0;
-	
+	if( Xtring(object.name()) == "VT_TIPODOC" ) {
+		Xtring s("hola");
+	}
+		
     clipMeasures( object, &x0, &y0, &width, &height);
     _GONG_DEBUG_PRINT(5, Xtring::printf("Printing object %s(%s) at x=%d, y=%d, w=%d, h=%d)",
                                         object.name(), Variant::typeToName(object.realValue().type()),
@@ -305,21 +308,17 @@ Measure ReportQtOutput::printObject( const Object &object )
             case AlignAuto:
                 if ( Variant::isNumeric( value.type() ) )
                     tf = Qt::AlignRight;
-                else
-                    tf = Qt::AlignLeft;
                 break;
             case AlignLeft:
-                tf = Qt::AlignLeft;
                 break;
             case AlignTop:
             case AlignJustify:  // TODO
-                tf = Qt::AlignLeft;
                 break;
             case AlignHCenter:
                 tf = Qt::AlignHCenter;
                 break;
             case AlignRight:
-            case AlignBottom:
+            case AlignBottom/1:
                 tf = Qt::AlignRight;
             default:
                 break;
@@ -358,7 +357,7 @@ Measure ReportQtOutput::printObject( const Object &object )
                 QFont *smallerfont = 0;
                 outrect = mPainter.boundingRect( x0, y0, width, -1, tf, guitext );
                 while( /*(outrect.height() -2 - height > 0)
-                        || */(outrect.width() - width > 0 ) ) {
+                        || */(outrect.width() > width ) ) {
                     if( !smallerfont )
                         smallerfont = new QFont( font );
                     smallerfont->setPointSize( smallerfont->pointSize() - 0.5 );
@@ -370,7 +369,8 @@ Measure ReportQtOutput::printObject( const Object &object )
                 }
                 if( smallerfont != 0 ) {
                     QFontMetrics fm( *smallerfont );
-                    mPainter.drawText( x0, y0 /*+ fm.descent()*/, width, height, tf, guitext );
+					// Lower a little bit the text if it is smaller
+                    mPainter.drawText( x0, y0 + ((height - outrect.height())/2), width, height, tf, guitext );
                     delete smallerfont;
                     mPainter.setFont( font );
                 } else {

@@ -67,7 +67,6 @@ public:
 protected:
     QtPageCollection mPageCollection;
     QPainter mPainter;
-    QBrush mSavedBrush;
 private:
     void initReportQtOutput();
     void drawGraphics( const Object &object, int x, int y, int width, int height, bool beforetext );

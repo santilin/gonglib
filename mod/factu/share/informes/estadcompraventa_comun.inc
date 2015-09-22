@@ -187,8 +187,7 @@
 #endif
 #ifdef AGRUPAR
 	GROUPHEADER header_captions {
-		fontitalic = "true";
-		sizey = 1.1;
+		fontitalic = true;
 #endif
 		style = header;
 		level = 1;
@@ -204,29 +203,28 @@
 #endif
 #ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_TIPODOC {
-			borderstyle=solid;
 			value = "= const @DDD.TIPODOC_DESCSINGULAR;";
-			posx = 7;
+			posx = 6;
 			adjustment = reducefont;
+			sizex = 11;
 #ifdef AGRUPAR_POR_FECHA_DIARIO
 			posx = 0;
 #endif
-			sizex = 10;
 		}
 		OBJECT VT_NUMERO {
-		borderstyle=solid;
+			adjustment = reducefont;
 			value = "= const @DDD.ALBARANVENTA_NUMERO_CAPTION;";
 			posx = 18;
 #ifdef AGRUPAR_POR_FECHA_DIARIO
 			posx = 12;
 #endif
-			sizex = 9;
+			sizex = 11;
 		}
 #endif
 		OBJECT VT_CANTIDAD {
 			value = "= const @DDD.ALBARANVENTADET_CANTIDAD_CAPTION;";
-			posx = 28;
-			sizex = 8;
+			posx = 29;
+			sizex = 7;
 			alignment = right;
 		}
 		OBJECT VT_PRECIO {
@@ -318,25 +316,26 @@
 		}
 		OBJECT VT_TIPODOC {
 			value = "=input.VT_TIPODOC";
-			sizex = 10;
-			posx = -1;
+			sizex = 8;
+			posx = -0.5;
+			adjustment = reducefont;
 		}
 		OBJECT VT_NUMERO {
-		borderstyle=solid;
 			value = "=input.VT_NUMERO";
 			posx = 18;
 #ifdef AGRUPAR_POR_FECHA_DIARIO
 			posx = 12;
 #endif
-			sizex = 10;
-//			adjustment = reducefont;
+			sizex = 11;
+			adjustment = reducefont;
 		}
 #endif
 		OBJECT VT_CANTIDAD {
 			value = "=input.VT_CANTIDAD";
-			posx = 28;
-			sizex = 8;
+			posx = 30;
+			sizex = 6;
 			alignment = right;
+			adjustment = reducefont;
 		}
 		OBJECT VT_PRECIOCONIVA {
 			value = "=input.VT_PRECIOSINIVA";
@@ -378,18 +377,14 @@
 			supressdup = true;
 			posx = 67;
 			sizex = 10;
+			adjustment = reducefont;
 		}
 		OBJECT ARTICULO_NOMBRE {
 			value = "=input.ARTICULO_NOMBRE";
 			supressdup = true;
 			posx = 78; 
-			sizex = 20;
+			sizex = 21;
 			adjustment = reducefont;
-		}
-#endif
-#ifndef AGRUPAR
-		OBJECT ARTICULO_NOMBRE {
-			sizex = 25;
 		}
 #endif
 #ifdef AGRUPAR_POR_RAZONSOCIAL
@@ -415,7 +410,7 @@
 			value = "=input.RAZONSOCIAL";
 			fontsize = -2;
 			supressdup = true;
-			posx = 103;
+			posx = 102.5;
 		}
 #endif
 	}
@@ -471,7 +466,6 @@
 		fontweight = bold;
 		bordertopstyle = solid;
 		margintop = 0.2;
-		paddingtop = 0.6;
 
 		OBJECT articulo_totales {
 			value = "Totales: ";
@@ -481,8 +475,8 @@
 		OBJECT VT_CANTIDAD_total {
 			value = "=input.VT_CANTIDAD";
 			aggregate = sum;
-			posx = 19;
-			sizex = 12;
+			posx = 26;
+			sizex = 10;
 			alignment = right;
 		}
 		OBJECT VT_IMPORTE_total {
@@ -493,7 +487,7 @@
 			value = "=input.VT_IMPORTE";
 #endif
 			aggregate = sum;
-			posx = 45;
+			posx = 50;
 			sizex = 12;
 			alignment = right;
 		}

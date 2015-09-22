@@ -1,4 +1,3 @@
-	borderstyle = solid;
 	INPUT default {
 		driver = mysql;
 

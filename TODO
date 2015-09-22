@@ -5,7 +5,7 @@
 * Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 
 == Hacer ==
-* Borrar mSavedBrush de dbappreportqtoutput.h
+* rtk: apaisado, el número de página no se va al final
 * Comprobar todos los -1 de los informes de estadísticas de compras y ventas, balance de pagos y cobros
 * Comprobar informe ALBARANVENTA_TIPODOCUMENTO.rtk
 
