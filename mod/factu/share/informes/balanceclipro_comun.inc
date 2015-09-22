@@ -59,7 +59,7 @@
 		}
 		OBJECT razonsocial_nombre {
 			value = "=input.RAZONSOCIAL_NOMBRE";
-			posx = -1;
+			posx = 6;
 			posy = 0.2;
 			sizex = 50;
 		}
@@ -87,33 +87,28 @@
 		OBJECT VT_FECHA {
 			value = "= const @DDD.FACTURAVENTA_FECHA_CAPTION;";
 			posx = 0;
-			sizex = 9;
+			sizex = 8;
 		}
 		OBJECT VT_TIPODOC {
 			value = "= const @DDD.TIPODOC_DESCSINGULAR;";
-			posx = -1;
+			posx = 9;
 			sizex = 20;
 		}
 		OBJECT VT_NUMERO {
 			value = "= const @DDD.FACTURAVENTA_NUMERO_CAPTION;";
-			posx = -1;
+			posx = 30;
 			sizex = 12;
 		}
 		OBJECT VT_TOTAL {
 			value = "= const @DDD.FACTURAVENTA_TOTAL_CAPTION;";
-			posx = -1;
+			posx = 43;
 			sizex = 12;
 			alignment = right;
 		}
 #ifndef AGRUPAR_POR_CLIPRO
-		OBJECT VT_CLIENTE_ESPACIOS {
-			value = "   ";
-			posx = -1;
-			sizex = 3;
-		}
 		OBJECT VT_CLIENTE {
 			value = "= const @DDD.CLIENTE_DESCSINGULAR;";
-			posx = -1;
+			posx = -4;
 			sizex = 40;
 		}
 #endif
@@ -157,45 +152,45 @@
 		OBJECT VT_FECHA {
 			value = "=input.VT_FECHA";
 			posx = 0;
-			sizex = 9;
+			sizex = 8;
 		}
 		OBJECT VT_TIPO {
 			value = "=input.VT_TIPO";
-			posx = -1;
+			posx = 9;
 			sizex = 3;
 		}
 		OBJECT VT_TIPODOC {
 			value = "=input.VT_TIPODOC";
-			posx = -1;
+			posx = 13;
 			sizex = 16;
 		}
 		OBJECT VT_NUMERO {
 			value = "=input.VT_NUMERO";
-			posx = -1;
+			posx = 30;
 			sizex = 12;
 		}
 		OBJECT VT_TOTAL {
 			value = "=input.VT_TOTAL";
-			posx = -1;
+			posx = 43;
 			sizex = 12;
 			alignment = right;
 		}
 #ifndef AGRUPAR
 		OBJECT razonsocial_codigo {
 			value = "=input.RAZONSOCIAL_CODIGO";
-			posx = -1;
+			posx = -1; // Ok
 			sizex = 5;
 			alignment = right;
 		}
 		OBJECT razonsocial_nombre {
 			value = "=input.RAZONSOCIAL_NOMBRE";
-			posx = -1;
+			posx = -1; // Ok
 		}
 #ifdef CSV
 #ifdef NOTAS
 		OBJECT VT_NOTAS {
 			value = "=input.VT_NOTAS";
-			posx = -1;
+			posx = -1; // Ok
 		}
 #endif
 #endif
@@ -237,7 +232,7 @@
 		}
 		OBJECT VT_TOTAL {
 			value = "=input.VT_TOTAL";
-			posx = -1;
+			posx = -1; // Ok
 			sizex = 14;
 			alignment = right;
 			aggregate = sum;

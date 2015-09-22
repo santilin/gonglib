@@ -19,7 +19,7 @@ REPORT SimpleReport
 {
     Title = "Recibí";
     Units = chars;
-    SizeX = 80;
+    SizeX = 100;
     SizeY = 60;
     PARAMETER asociacion {
         type = text;
@@ -79,65 +79,7 @@ INPUT default {
 //>>>>>INPUT_DEFAULT
     }
 
-//<<<<<PAGE_HEADER
-    PAGEHEADER page_header {
-        sizey = 4;
-        style = pageheader;
-        backgroundimage = logo;
-
-        OBJECT asociacion {
-            style = footer ;
-            halignment = left;
-            value="###asociacion###" ;
-            fontweight = bold;
-            sizey = 1;
-            sizex = 56;
-        }
-        OBJECT reportdate {
-            style = pagenumber;
-            value="= const @report.Date";
-            format="%d/%m/%Y %H:%M";
-            sizey = 1;
-            posx = -1 ;
-            sizex = 16;
-        }
-        OBJECT npagina_text  {
-            style = pagenumber ;
-            halignment = right ;
-            value="Pág." ;
-            sizey = 1;
-            posx = -1;
-            sizex = 4 ;
-        }
-        OBJECT npagina {
-            style = pagenumber ;
-            sizey = 1;
-            posx = -1 ;
-            halignment = right ;
-            value="= @report.PageNumber" ;
-            format = "0000" ;
-            sizex = 3;
-        }
-
-        OBJECT titulo {
-            style = title;
-            value = "= const @report.Title";
-            posy = 1;
-            sizey = 2;
-            halignment = center;
-            fontsize = 16;
-            fontweight = bold;
-        }
-        OBJECT seleccion {
-            fontsize = 8;
-            halignment = right;
-            adjustment = grow;
-            value="= const @report.Filter";
-            posy = 3;
-            sizey = 1;
-        }
-//>>>>>PAGE_HEADER
-    }
+	Include = "default_pageheader.inc";
 
     DETAILS details_contacto {
         style = detail;
@@ -213,28 +155,25 @@ INPUT default {
         }
         OBJECT APUNTE_CONCEPTO {
             value = "=input.APUNTE_CONCEPTO;";
-            posx = -1;
+            posx = 11;
             sizex = 45;
         }
         OBJECT pagado_a_text {
             value = " pagado a la cuenta ";
-            posx = -1;
+            posx = 47;
             sizex = 13;
         }
         OBJECT CUENTA_CUENTA {
             value = "=input.CUENTA_CUENTA;";
-            posx = -1;
+            posx = 61;
             sizex = 12;
         }
         OBJECT CUENTA_DESCRIPCION {
             value = "=input.CUENTA_DESCRIPCION;";
-            posx = -1;
-            sizex = 48;
+            posx = 74;
+            sizex = 35;
             visible = false;
         }
     }
-
-    Include = "passwords.inc";
-
 
 }

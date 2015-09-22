@@ -117,24 +117,24 @@ REPORT ARTICULO_EXISTENCIAS
 		}
 		OBJECT header_ARTICULO_NOMBRE {
 			value = "Nombre";
-			posx = -1;
+			posx = 16;
 			sizex = 44;
 		}
 		OBJECT header_FAMILIA_NOMBRE {
 			value = "Familia";
-			posx = -1;
+			posx = 61;
 			sizex = 17;
 			adjustment = "reducefont";
 		}
 		OBJECT header_ARTICULO_PVP {
 			value = "PVP";
-			posx = -1;
+			posx = 78;
 			sizex = 10;
 			alignment = "right";
 		}
 		OBJECT header_ARTICULO_STOCK {
 			value = "Existencias";
-			posx = -1;
+			posx = 89;
 			sizex = 14;
 			alignment = "right";
 		}
@@ -158,25 +158,25 @@ REPORT ARTICULO_EXISTENCIAS
 		OBJECT ARTICULO_NOMBRE {
 			value = "=input.ARTICULO_NOMBRE";
 			halignment = "left";
-			posx = -1;
+			posx = 16;
 			sizex = 44;
 		}
 		OBJECT FAMILIA_NOMBRE {
 			value = "=input.FAMILIA_NOMBRE";
 			halignment = "left";
-			posx = -1;
+			posx = 61;
 			sizex = 17;
 		}
 		OBJECT ARTICULO_PVP {
 			value = "=input.ARTICULO_PVP";
 			halignment = "right";
-			posx = -1;
+			posx = 78;
 			sizex = 10;
 		}
 		OBJECT ARTICULO_STOCK {
 			value = "=input.ARTICULO_STOCK";
 			halignment = "right";
-			posx = -1;
+			posx = 89;
 			sizex = 14;
 		}
  

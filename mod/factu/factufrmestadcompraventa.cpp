@@ -157,10 +157,6 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
 		usa_prov_articulo, compras_where, ventas_where,
 		proveedora_ids, cliente_ids, agente_ids, formapago_ids,
 		articulo_ids, familia_ids, tipodoc_ids );
-    Xtring extra_compras_facturas_where = getExtraSQL( ComprasFacturasWhere, signo_ventas, 
-		usa_prov_articulo, compras_where, ventas_where,
-		proveedora_ids, cliente_ids, agente_ids, formapago_ids,
-		articulo_ids, familia_ids, tipodoc_ids );
     Xtring extra_ventas_facturas_where = getExtraSQL( VentasFacturasWhere, signo_ventas, 
 		usa_prov_articulo, compras_where, ventas_where,
 		proveedora_ids, cliente_ids, agente_ids, formapago_ids,
@@ -215,8 +211,12 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
 				usa_prov_articulo, compras_where, ventas_where,
 				proveedora_ids, cliente_ids, agente_ids, formapago_ids,
 				articulo_ids, familia_ids, tipodoc_ids ); 
+			Xtring extra_compras_facturas_where = getExtraSQL( ComprasFacturasWhere, 
+				signo_ventas, usa_prov_articulo, compras_where, ventas_where,
+				proveedora_ids, cliente_ids, agente_ids, formapago_ids,
+				articulo_ids, familia_ids, tipodoc_ids );
             if( !compras_where.isEmpty() )
-                from += " WHERE " + compras_where.replace("AC.","FC.");
+                from += " WHERE " + Xtring(compras_where).replace("AC.","FC.");
             if( !extra_compras_facturas_where.isEmpty() ) {
                 if( !compras_where.isEmpty() )
                     from += " AND ";
@@ -286,7 +286,7 @@ Xtring FrmEstadCompraVenta::createRTK(const Xtring &_template,
 				proveedora_ids, cliente_ids, agente_ids, formapago_ids,
 				articulo_ids, familia_ids, tipodoc_ids );
             if( !ventas_where.isEmpty() )
-                from += " WHERE " + ventas_where.replace("AV.","FV.").replace("AVD.","FVD.");
+                from += " WHERE " + Xtring(ventas_where).replace("AV.","FV.").replace("AVD.","FVD.");
             if( !extra_ventas_facturas_where.isEmpty() ) {
                 if( !ventas_where.isEmpty() )
                     from += " AND ";

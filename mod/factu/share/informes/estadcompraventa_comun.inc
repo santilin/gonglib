@@ -103,7 +103,7 @@
 		}
 		OBJECT articulo_nombre {
 			value = "=input.ARTICULO_NOMBRE";
-			posx = -1;
+			posx = 23;
 			posy = 0.2;
 			sizex = 50;
 		}
@@ -118,7 +118,7 @@
 		}
 		OBJECT razonsocial_nombre {
 			value = "=input.RAZONSOCIAL";
-			posx = -1;
+			posx = 11;
 			posy = 0.2;
 			sizex = 0;
 		}
@@ -133,7 +133,7 @@
 		}
 		OBJECT fecha {
 			value = "=input.VT_FECHA";
-			posx = -1;
+			posx = -1; // Ok
 			posy = 0;
 		}
 #endif // AGRUPAR_POR_FECHA_DIARIO
@@ -147,17 +147,18 @@
 		OBJECT VT_TIPODOC {
 			value = "=input.VT_TIPODOC";
 			sizex = 14;
-			posx = -1;
+			posx = 3;
 		}
 		OBJECT numero {
+			borderstyle=solid;
 			value = "=input.VT_NUMERO";
-			posx = -1;
+			posx = 18;
 			sizex = 20;
 			posy = 0;
 		}
 		OBJECT fecha {
 			value = "=input.VT_FECHA";
-			posx = -1;
+			posx = 39;
 			sizex = 10;
 			posy = 0;
 		}
@@ -165,12 +166,12 @@
 			value = "=input.RAZONSOCIAL_CODIGO";
 			alignment = right;
 			sizex = 4;
-			posx = -1;
+			posx = 50;
 		}
 		OBJECT RAZONSOCIAL {
 			value = "=input.RAZONSOCIAL";
 			adjustment = reducefont;
-			posx = -1;
+			posx = 55;
 		}
 
 #endif // AGRUPAR_POR_DOCUMENTO
@@ -179,9 +180,8 @@
 
 #ifndef AGRUPAR
 	PAGEHEADER header_captions {
-		borderbottomstyle = solid;
-		borderbottomcolor = black;
-		marginbottom = .4;
+		borderstyle = solid;
+		bordercolor = black;
 		fontweight = bold;
 		sizey = 1.3;
 #endif
@@ -192,36 +192,41 @@
 #endif
 		style = header;
 		level = 1;
-		paddingtop = 0.1;
 
 #ifndef AGRUPAR_POR_FECHA_DIARIO
 #ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_FECHA {
 			value = "= const @DDD.ALBARANVENTA_FECHA_CAPTION;";
 			posx = 0;
-			sizex = 7;
+			sizex = 6;
 		}
 #endif
 #endif
 #ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_TIPODOC {
+			borderstyle=solid;
 			value = "= const @DDD.TIPODOC_DESCSINGULAR;";
-			posx = -1;
+			posx = 7;
+			adjustment = reducefont;
 #ifdef AGRUPAR_POR_FECHA_DIARIO
 			posx = 0;
 #endif
-			sizex = 6;
+			sizex = 10;
 		}
 		OBJECT VT_NUMERO {
+		borderstyle=solid;
 			value = "= const @DDD.ALBARANVENTA_NUMERO_CAPTION;";
-			posx = -1;
-			sizex = 8;
+			posx = 18;
+#ifdef AGRUPAR_POR_FECHA_DIARIO
+			posx = 12;
+#endif
+			sizex = 9;
 		}
 #endif
 		OBJECT VT_CANTIDAD {
 			value = "= const @DDD.ALBARANVENTADET_CANTIDAD_CAPTION;";
-			posx = -1;
-			sizex = 7;
+			posx = 28;
+			sizex = 8;
 			alignment = right;
 		}
 		OBJECT VT_PRECIO {
@@ -231,37 +236,38 @@
 #ifndef PRECIOS_CON_IVA
 			value = "Precio";
 #endif
-			posx = -1;
+			posx = 37;
 			sizex = 8;
 			alignment = right;
 		}
 		OBJECT VT_DTOP100 {
 			value = "= const @DDD.ALBARANVENTADET_DTOP100_CAPTION;";
-			posx = -1;
+			posx = 46;
 			sizex = 5;
 			alignment = right;
 		}
 		OBJECT VT_IMPORTE {
 			value = "= const @DDD.ALBARANVENTADET_IMPORTE_CAPTION;";
-			posx = -1;
+			posx = 52;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT VT_TIPOIVA_CODIGO {
 			value = "IVA";
-			posx = -1;
+			posx = 63;
 			sizex = 3;
 			alignment = right;
 		}
 #ifndef AGRUPAR_POR_ARTICULO
 		OBJECT ARTICULO_CODIGO {
 			value = "= const @DDD.ARTICULO_CODIGO_CAPTION;";
-			posx = -1;
+			posx = 67;
 			sizex = 10;
 		}
 		OBJECT ARTICULO_NOMBRE {
-			value = "= const @DDD.ARTICULO_NOMBRE_CAPTION;";
-			posx = -1;
+			value = "= const @DDD.ARTICULO_DESCSINGULAR;";
+			posx = 78;
+			sizex = 20;
 		}
 #endif
 #ifndef AGRUPAR
@@ -271,7 +277,6 @@
 #endif
 #ifdef AGRUPAR_POR_RAZONSOCIAL
 		OBJECT ARTICULO_NOMBRE {
-			sizex = 20;
 		}
 #endif
 #ifdef AGRUPAR_POR_FECHA_DIARIO
@@ -282,7 +287,7 @@
 #ifndef AGRUPAR_POR_RAZONSOCIAL
 		OBJECT CLIENTE_RAZONSOCIAL {
 			value = "= const @DDD.CLIENTE_RAZONSOCIAL_CAPTION;";
-			posx = -1;
+			posx = 99;
 		}
 #endif
 	}
@@ -305,7 +310,7 @@
 #ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_TIPO {
 			value = "=input.VT_TIPO";
-			posx = -1;
+			posx = 7;
 			sizex = 2;
 #ifdef AGRUPAR_POR_FECHA_DIARIO
 			posx = 0;
@@ -313,42 +318,39 @@
 		}
 		OBJECT VT_TIPODOC {
 			value = "=input.VT_TIPODOC";
-			sizex = 4;
-#ifdef AGRUPAR_POR_FECHA_DIARIO
-			posx = 2;
-#endif
-#ifndef AGRUPAR_POR_FECHA_DIARIO
-			posx = 10;
-#endif
+			sizex = 10;
+			posx = -1;
 		}
 		OBJECT VT_NUMERO {
+		borderstyle=solid;
 			value = "=input.VT_NUMERO";
-			posx = -1;
-			sizex = 8;
-			adjustment = reducefont;
+			posx = 18;
+#ifdef AGRUPAR_POR_FECHA_DIARIO
+			posx = 12;
+#endif
+			sizex = 10;
+//			adjustment = reducefont;
 		}
 #endif
 		OBJECT VT_CANTIDAD {
 			value = "=input.VT_CANTIDAD";
-			posx = -1;
-			sizex = 7;
+			posx = 28;
+			sizex = 8;
 			alignment = right;
 		}
 		OBJECT VT_PRECIOCONIVA {
+			value = "=input.VT_PRECIOSINIVA";
 #ifdef PRECIOS_CON_IVA
 			value = "=input.VT_PRECIOCONIVA";
 #endif
-#ifndef PRECIOS_CON_IVA
-			value = "=input.VT_PRECIOSINIVA";
-#endif
-			posx = -1;
+			posx = 37;
 			sizex = 8;
 			alignment = right;
 		}
 
 		OBJECT VT_DTOP100 {
 			value = "=input.VT_DTOP100";
-			posx = -1;
+			posx = 46;
 			sizex = 5;
 			alignment = right;
 			mask = "990.99";
@@ -360,13 +362,13 @@
 #ifndef PRECIOS_CON_IVA
 			value = "=input.VT_IMPORTE";
 #endif
-			posx = -1;
+			posx = 52;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT VT_TIPOIVA_CODIGO {
 			value = "=input.VT_TIPOIVA_CODIGO";
-			posx = -1;
+			posx = 63;
 			sizex = 3;
 			alignment = right;
 		}
@@ -374,13 +376,15 @@
 		OBJECT ARTICULO_CODIGO {
 			value = "=input.ARTICULO_CODIGO";
 			supressdup = true;
-			posx = -1;
+			posx = 67;
 			sizex = 10;
 		}
 		OBJECT ARTICULO_NOMBRE {
 			value = "=input.ARTICULO_NOMBRE";
 			supressdup = true;
-			posx = -1; // Tomar el mayor tamaño posible. Si luego hay que poner la razón social detrás, ya se cambiará el tamaño
+			posx = 78; 
+			sizex = 20;
+			adjustment = reducefont;
 		}
 #endif
 #ifndef AGRUPAR
@@ -390,8 +394,6 @@
 #endif
 #ifdef AGRUPAR_POR_RAZONSOCIAL
 		OBJECT ARTICULO_NOMBRE {
-			sizex = 20;
-			adjustment = reducefont;
 		}
 #endif
 #ifdef AGRUPAR_POR_FECHA_DIARIO
@@ -402,17 +404,18 @@
 #endif
 #ifndef AGRUPAR_POR_RAZONSOCIAL
 		OBJECT RAZONSOCIAL_CODIGO {
-			value = "=input.RAZONSOCIAL_CODIGO";
+			value = "= @input.RAZONSOCIAL_CODIGO";
+			fontsize = -2;
 			supressdup = true;
 			alignment = right;
-			sizex = 4;
-			posx = -1;
+			sizex = 3;
+			posx = 99;
 		}
 		OBJECT RAZONSOCIAL {
 			value = "=input.RAZONSOCIAL";
-			adjustment = reducefont;
+			fontsize = -2;
 			supressdup = true;
-			posx = -1;
+			posx = 103;
 		}
 #endif
 	}

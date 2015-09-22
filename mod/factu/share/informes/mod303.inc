@@ -85,65 +85,7 @@ REPORT Modelo303_Inc
 		}
 #endif
 	}
-
-	PAGEHEADER page_header_1 {
-		sizey = 4;
-		style = pageheader;
-		backgroundimage = logo;
-
-		OBJECT asociacion {
-			style = footer ;
-			halignment = left;
-			value="###asociacion###" ;
-			fontweight = bold;
-			sizey = 1;
-			sizex = 56;
-		}
-		OBJECT reportdate {
-			style = pagenumber;
-			value="= @report.date;";
-			format="%d/%m/%Y %H:%M";
-			sizey = 1;
-			posx = -1 ;
-			sizex = 14;
-		}
-		OBJECT npagina_text  {
-			style = pagenumber ;
-			halignment = right ;
-			value="Pág." ;
-			sizey = 1;
-			posx = -1;
-			sizex = 4 ;
-		}
-		OBJECT npagina {
-			style = pagenumber ;
-			sizey = 1;
-			posx = -1 ;
-			halignment = right ;
-			value="= @report.pagenumber;";
-			mask = "0000" ;
-			sizex = 3;
-		}
-
-		OBJECT titulo {
-			style = title;
-			value = "= @report.title;";
-			posy = 2;
-			sizey = 1;
-			sizex = 80;
-			halignment = center;
-			fontsize = 12;
-			fontweight = bold;
-		}
-		OBJECT seleccion {
-			adjustment = grow;
-			halignment = right;
-			fontsize = 8;
-			posy = 1;
-			sizey = 1;
-			value="= @report.filter;";
-		}
-	}
+	Include = "default_pageheader.inc";
 
 	PAGEHEADER header_captions {
 		style = header;
@@ -154,18 +96,18 @@ REPORT Modelo303_Inc
 		OBJECT header_FACTURAVENTA_FECHAIVA {
 			value = "= const @DDD.FACTURAVENTA_FECHAIVA_CAPTION;";
 			posx = 0;
-			sizex = 6;
+			sizex = 8;
 		}
 		OBJECT header_FACTURAVENTA_NUMERO {
 			value = "= const @DDD.FACTURAVENTA_NUMERO_CAPTION;";
-			posx = -1;
+			posx = 9;
 			sizex = 12;
 		}
 		OBJECT header_CLIENTE_RAZONSOCIAL {
 			value = "= const @DDD.CLIENTE_RAZONSOCIAL_CAPTION;";
-			posx = -1;
+			posx = 22;
 #ifdef SEPARARIVAS
-			sizex = 27;
+			sizex = 25;
 #endif
 #ifndef SEPARARIVAS
 			sizex = 14;
@@ -174,19 +116,19 @@ REPORT Modelo303_Inc
 #ifdef SEPARARIVAS
 		OBJECT header_BASE {
 			value = "= const @DDD.FACTURAVENTA_BASEIMPONIBLE_CAPTION;";
-			posx = -1;
+			posx = 48;
 			sizex = 11;
 			alignment = right;
 		}
 		OBJECT header_IVA {
 			value = "IVA";
-			posx = -1;
+			posx = 59;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT RECARGO {
 			value = "RECARGO";
-			posx = -1;
+			posx = 70;
 			sizex = 10;
 			alignment = right;
 		}
@@ -194,19 +136,19 @@ REPORT Modelo303_Inc
 #ifndef SEPARARIVAS
 		OBJECT header_FACTURAVENTA_BASEIMPONIBLE {
 			value = "= const @DDD.FACTURAVENTA_BASEIMPONIBLE_CAPTION;";
-			posx = -1;
+			posx = 37;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT header_FACTURAVENTA_IVA {
 			value = "= const @DDD.FACTURAVENTA_IVA_CAPTION;";
-			posx = -1;
+			posx = 48;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT header_FACTURAVENTA_TOTAL {
 			value = "= const @DDD.FACTURAVENTA_TOTAL_CAPTION;";
-			posx = -1;
+			posx = 59;
 			sizex = 10;
 			alignment = right;
 		}
@@ -240,22 +182,22 @@ REPORT Modelo303_Inc
 			value = "=input.FACTURAVENTA_FECHAIVA";
 			halignment = "left";
 			posx = 0;
-			sizex = 6;
+			sizex = 8;
 			supressdup = true;
 		}
 		OBJECT FACTURAVENTA_NUMERO {
 			value = "=input.FACTURAVENTA_NUMERO";
 			halignment = "left";
-			posx = -1;
+			posx = 9;
 			sizex = 12;
 			supressdup = true;
 		}
 		OBJECT CLIENTE_RAZONSOCIAL {
 			value = "=input.CLIENTE_RAZONSOCIAL";
 			halignment = "left";
-			posx = -1;
+			posx = 22;
 #ifdef SEPARARIVAS
-			sizex = 27;
+			sizex = 25;
 #endif
 #ifndef SEPARARIVAS
 			sizex = 14;
@@ -265,20 +207,20 @@ REPORT Modelo303_Inc
 #ifdef SEPARARIVAS
 		OBJECT BASEIVA {
 			value = "=input.BASEIVA";
-			posx = -1;
-			sizex = 11;
+			posx = 48;
+			sizex = 10;
 			alignment = right;
 		}
 		OBJECT IVA {
 			value = "= tomoney(@input.BASEIVA * @input.IVAP100 / 100);";
-			posx = -1;
+			posx = 59;
 			sizex = 10;
 			alignment = right;
 			format = "%$";
 		}
 		OBJECT RECARGO {
 			value = "= tomoney(@input.BASERECARGO * @input.RECARGOP100 / 100);";
-			posx = -1;
+			posx = 70;
 			sizex = 10;
 			alignment = right;
 			format = "%$";
@@ -288,25 +230,26 @@ REPORT Modelo303_Inc
 		OBJECT FACTURAVENTA_BASEIMPONIBLE {
 			value = "=input.FACTURAVENTA_BASEIMPONIBLE";
 			halignment = "right";
-			posx = -1;
+			posx = 37;
 			sizex = 10;
 		}
 		OBJECT FACTURAVENTA_IVA {
 			value = "=input.FACTURAVENTA_IVA";
 			halignment = "right";
-			posx = -1;
+			posx = 48;
 			sizex = 10;
 		}
 		OBJECT FACTURAVENTA_TOTAL {
 			value = "=input.FACTURAVENTA_TOTAL";
 			halignment = "right";
-			posx = -1;
+			posx = 59;
 			sizex = 10;
 		}
 		OBJECT FACTURAVENTA_DESGLOSEIVA {
 			value = "=input.FACTURAVENTA_DESGLOSEIVA";
 			halignment = "right";
-			posx = -1;
+			adjustment = "shrink";
+			posx = 70;
 			sizex = 10;
 		}
 #endif
@@ -333,7 +276,7 @@ REPORT Modelo303_Inc
 			posy = 0.2;
 			value = "=input.BASEIVA";
 			aggregate = sum;
-			posx = 50;
+			posx = 48;
 			sizex = 10;
 			format = "%$";
 			alignment = right;
@@ -342,7 +285,7 @@ REPORT Modelo303_Inc
 			posy = 0.2;
 			value = "= tomoney(@input.BASEIVA * @input.IVAP100 / 100);";
 			aggregate = sum;
-			posx = -1;
+			posx = 59;
 			sizex = 10;
 			format = "%$";
 			alignment = right;
@@ -351,7 +294,7 @@ REPORT Modelo303_Inc
 			posy = 0.2;
 			value = "= tomoney(@input.BASERECARGO * @input.RECARGOP100 / 100);";
 			aggregate = sum;
-			posx = -1;
+			posx = 70;
 			sizex = 10;
 			format = "%$";
 			alignment = right;
@@ -378,7 +321,7 @@ REPORT Modelo303_Inc
 			posy = 0.2;
 			value = "=input.BASEIVA";
 			aggregate = sum;
-			posx = 50;
+			posx = 48;
 			sizex = 10;
 			format = "%$";
 			alignment = right;
@@ -387,7 +330,7 @@ REPORT Modelo303_Inc
 			posy = 0.2;
 			value = "= tomoney(@input.BASEIVA * @input.IVAP100 / 100);";
 			aggregate = sum;
-			posx = -1;
+			posx = 59;
 			sizex = 10;
 			format = "%$";
 			alignment = right;
@@ -396,7 +339,7 @@ REPORT Modelo303_Inc
 			posy = 0.2;
 			value = "= tomoney(@input.BASERECARGO * @input.RECARGOP100 / 100);";
 			aggregate = sum;
-			posx = -1;
+			posx = 70;
 			sizex = 10;
 			format = "%$";
 			alignment = right;
@@ -407,20 +350,20 @@ REPORT Modelo303_Inc
 			value = "=input.FACTURAVENTA_BASEIMPONIBLE";
 			halignment = "right";
 			posx = 34;
-			sizex = 9;
+			sizex = 10;
 			aggregate = sum;
 		}
 		OBJECT suma_FACTURAVENTA_IVA {
 			value = "=input.FACTURAVENTA_IVA";
 			halignment = "right";
-			posx = -1;
+			posx = 45;
 			sizex = 10;
 			aggregate = sum;
 		}
 		OBJECT suma_FACTURAVENTA_TOTAL {
 			value = "=input.FACTURAVENTA_TOTAL";
 			halignment = "right";
-			posx = -1;
+			posx = 56;
 			sizex = 10;
 			aggregate = sum;
 		}

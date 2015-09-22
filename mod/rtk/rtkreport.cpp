@@ -1338,7 +1338,8 @@ bool Report::print( Input *in, Output *out )
         // These functions are called only once in every print
         setGroupLevels();
         propPageOrientation.fix(mParameters, paramDelim());
-        // FixOutput(out) is done at the beginning in order to set the correct sizes of the objects of this report, but the pageorientation of the output must be done once the report's properties are fixed
+        // FixOutput(out) is done at the beginning in order to set the correct sizes of the objects of this report, 
+		// but the pageorientation of the output must be done once the report's properties are fixed
         if( out->pageOrientation() == DefaultOrientation ) {
             if( pageOrientation() != DefaultOrientation )
                 out->setPageOrientation( pageOrientation() );
@@ -1346,6 +1347,11 @@ bool Report::print( Input *in, Output *out )
                 out->setPageOrientation( Portrait ) ;
         }
         fixOutput(out);
+        if( out->pageOrientation() == Landscape && pageOrientation() != Landscape ) {
+			Measure m = stringTo<Measure>(propSizeY.getOrig() );
+			m = (m * out->sizeY() / out->sizeX() );
+			propSizeY.setOrig( Xtring::number(m).c_str() );
+		}
         // Need this properties fixed here
         propOrder.fix(mParameters, paramDelim());
         propFilter.fix(mParameters, paramDelim());

@@ -125,7 +125,6 @@ if(empresa::ModuleInstance->usaProyectos()){
 	scatterProyecto();
 }
 /*>>>>>FRMEDITAPUNTETESORERIA_SCATTER*/
-    bool isvalid = true;
 	if (isFirstScatter() ) {
 		scatterTercero();
 		scatterConcepto();

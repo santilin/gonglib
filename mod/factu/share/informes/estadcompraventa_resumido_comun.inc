@@ -1,3 +1,4 @@
+	borderstyle = solid;
 	INPUT default {
 		driver = mysql;
 
@@ -82,11 +83,9 @@
 	PAGEHEADER header_captions {
 		style = header;
 		sizey = 1;
-		paddingtop = 0.1;
 		fontweight = "bold";
-		borderbottomstyle = solid;
-		borderbottomwidth = 1;
-		marginbottom = 0.3;
+		borderstyle = solid;
+		borderwidth = 1;
 
 #ifdef AGRUPAR_POR_FECHA_DIARIO
 		OBJECT fecha_caption {
@@ -104,10 +103,10 @@
 			sizex = 20;
 		}
 		OBJECT articulo_nombre {
-			value = "=const @DDD.ARTICULO_NOMBRE_CAPTION;";
-			posx = -1;
+			value = "=const @DDD.ARTICULO_DESCSINGULAR;";
+			posx = 21;
 			posy = 0;
-			sizex = 24;
+			sizex = 30;
 		}
 #endif
 #ifdef AGRUPAR_POR_RAZONSOCIAL
@@ -118,8 +117,8 @@
 			sizex = 6;
 		}
 		OBJECT articulo_nombre {
-			value = "=const @DDD.CLIENTE_RAZONSOCIAL_CAPTION;";
-			posx = -1;
+			value = "=const @DDD.CLIENTE_DESCSINGULAR;";
+			posx = 7;
 			posy = 0;
 			sizex = 48;
 		}
@@ -134,7 +133,7 @@
 		}
 		OBJECT VT_TIPO {
 			value = "=const @DDD.TIPODOC_DESCSINGULAR";
-			posx = -1;
+			posx = 7;
 			sizex = 10;
 		}
 		OBJECT numero {
@@ -144,20 +143,20 @@
 			posy = 0;
 		}
 		OBJECT RAZONSOCIAL_CODIGO {
-			value = "=const @DDD.CLIENTE_RAZONSOCIAL_CAPTION;";
+			value = "=const @DDD.CLIENTE_DESCSINGULAR;";
 			sizex = 18;
 			posx = -1;
 		}
 #endif // AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_CANTIDAD {
 			value = "= const @DDD.ALBARANVENTADET_CANTIDAD_CAPTION;";
-			posx = 55;
+			posx = 75;
 			sizex = 12;
 			alignment = right;
 		}
 		OBJECT VT_IMPORTE {
 			value = "= const @DDD.ALBARANVENTADET_IMPORTE_CAPTION;";
-			posx = 68;
+			posx = 88;
 			sizex = 12;
 			alignment = right;
 		}
@@ -180,9 +179,9 @@
 		}
 		OBJECT articulo_nombre {
 			value = "=input.ARTICULO_NOMBRE";
-			posx = -1;
+			posx = 21;
 			posy = 0;
-			sizex = 27;
+			sizex = 47;
 			adjustment = grow;
 		}
 #endif // AGRUPAR_POR_ARTICULO
@@ -196,7 +195,7 @@
 		}
 		OBJECT razonsocial_nombre {
 			value = "=input.RAZONSOCIAL";
-			posx = -1;
+			posx = 7;
 			posy = 0;
 			sizex = 49;
 		}
@@ -252,7 +251,7 @@
 		OBJECT VT_CANTIDAD_grupo {
 			value = "=input.VT_CANTIDAD";
 			aggregate = sum;
-			posx = 57;
+			posx = 77;
 			sizex = 10;
 			alignment = right;
 		}
@@ -264,7 +263,7 @@
 			value = "=input.VT_IMPORTE";
 #endif
 			aggregate = sum;
-			posx = 68;
+			posx = 88;
 			sizex = 12;
 			alignment = right;
 		}
@@ -278,7 +277,6 @@
 		fontweight = bold;
 		bordertopstyle = solid;
 		margintop = 0.2;
-		paddingtop = 0.6;
 
 		OBJECT articulo_totales {
 			value = "Totales: ";
@@ -288,7 +286,7 @@
 		OBJECT VT_CANTIDAD_total {
 			value = "=input.VT_CANTIDAD";
 			aggregate = sum;
-			posx = 55;
+			posx = 75;
 			sizex = 12;
 			alignment = right;
 		}
@@ -300,7 +298,7 @@
 			value = "=input.VT_IMPORTE";
 #endif
 			aggregate = sum;
-			posx = 68;
+			posx = 88;
 			sizex = 12;
 			alignment = right;
 		}

@@ -43,7 +43,7 @@ private:
     TextEdit *pMailsExtra, *pBody, *pResultado, *pOks, *pErrors;
     QCheckBox *pCheckSaveSettings;
     QLabel *lblProgreso;
-	Xtring mCampoIdContactos, mTablaContactos, mMimeType;
+	Xtring mTablaContactos, mCampoIdContactos, mMimeType;
 };
 
 } // namespace gong

@@ -80,9 +80,10 @@ bool GuiApplication::initMainWindow()
 QMdiSubWindow* GuiApplication::createClient(QWidget* w, bool force)
 {
 	if( getMainWindow() ) {
-		getMainWindow()->createClient(w, force);
+		return getMainWindow()->createClient(w, force);
 	} else {
 		w->show();
+		return 0;
 	}		
 }
 

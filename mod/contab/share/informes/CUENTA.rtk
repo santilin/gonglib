@@ -276,21 +276,21 @@ posx = 0.0;
 			sizex = 10.0;
 		}
 //>>>>>DETAILS_0
-OBJECT APUNTE_CONCEPTO {
-    fontitalic = "true";
-}
-OBJECT APUNTE_CONTRAPARTIDA {
-    fontitalic = "true";
-}
-OBJECT APUNTE_SALDO {
-    fontweight = "bold";
-    formulaBefore = "$saldo_acumulado = $saldo_acumulado + @INPUT.APUNTE_DEBE - @INPUT.APUNTE_HABER; @this.value = $saldo_acumulado;";
-    alignment = "right";
-    format = "%$";
-    posx = -1.0;
-    sizex = 10.0;
-}
-posx = 0.0;
+		OBJECT APUNTE_CONCEPTO {
+			fontitalic = "true";
+		}
+		OBJECT APUNTE_CONTRAPARTIDA {
+			fontitalic = "true";
+		}
+		OBJECT APUNTE_SALDO {
+			fontweight = "bold";
+			formulaBefore = "$saldo_acumulado = $saldo_acumulado + @INPUT.APUNTE_DEBE - @INPUT.APUNTE_HABER; @this.value = $saldo_acumulado;";
+			alignment = "right";
+			format = "%$";
+			posx = 86.0;
+			sizex = 12.0;
+		}
+		posx = 0.0;
 }
 
 GROUPFOOTER group_footer_0 {

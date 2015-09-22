@@ -1,7 +1,7 @@
 REPORT EstadCompraVenta_Inc
 {
 	Units = chars;
-	SizeX = 80;
+	SizeX = 100;
 	SizeY = 60;
 	Tag = "Estadísticas";
 

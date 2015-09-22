@@ -160,7 +160,7 @@
 		OBJECT pageheader_CLIENTE_PROVINCIA {
 			value = "=input.CLIENTE_CONTACTO_PROVINCIA;";
 			posy = 5.0;
-			posx = -1;
+			posx = -1; // Ok
 			fontweight = bold;
 		}
 		OBJECT pageheader_CLIENTE_TELEFONO_CAPTION {

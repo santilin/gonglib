@@ -5,9 +5,15 @@
 * Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 
 == Hacer ==
-* Copiar ALBARANVENTA.rtk a LIQUIDACION.rtk, DEPOSITO.rtk
+* Borrar mSavedBrush de dbappreportqtoutput.h
+* Comprobar todos los -1 de los informes de estadísticas de compras y ventas, balance de pagos y cobros
+* Comprobar informe ALBARANVENTA_TIPODOCUMENTO.rtk
+
+== gong-cats ==
+* Revisar los -1 de los informes
 
 == gong-tpv ==
+* Revisar los -1 de los informes
 * saveEstado intenta grabar siempre, ver la diferencia
 * Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 * Añadir botón Más botones y añadir ahí el resto de botones.
@@ -31,6 +37,7 @@
 * Buscador de documentos por número
 
 == gong-socias ==
+* Revisar los -1 de los informes
 * Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón,
   por lo que me deja sin opción de continuar no hacer nada más,
 * en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
@@ -40,6 +47,7 @@
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-deposit ==
+* Revisar los -1 de estadisticas compra y venta.
 * Generar liquidación, no genera el contador.
 * Al crear un albarán desde una liquidación, no rellena el importe de la liquidación en cada detalle
 * Generar liquidación a proveedoras, el validate del tipodoc no funciona
@@ -75,6 +83,7 @@
 * Borrar cuenta, si solo se usa como tercero_id, no se detecta si está siendo usada.
 
 == gong-contab ==
+* Comprobar todos los -1 de todos los informes.
 * No genera el contador en los asientos nuevos
 * Comprobar el asiento cuando el tipo de forma de pago es ignorar el resto.
 * Asiento compuesto, poner en el concepto el código del artículo cuando es un solo artículo

@@ -16,12 +16,13 @@ IApuntableRecord::IApuntableRecord(dbRecord* record, CargoAbono cargoabono,
 	const Xtring& tablaconceptos, bool conceptos_is_field, const Xtring& concepto_id_field, const Xtring& concepto_field, 
 	const Xtring& notas_field, const Xtring& proyecto_id_field)
 	: pRecord(record), mTablaApunteTesoreria(tabla_apunte_tesoreria), mRecordApunteIDField(record_apunte_id_field), 
-		mCuentaTesoreriaIDField(cuenta_tesoreria_id_field), mCargoAbono(cargoabono), 
+		mCuentaTesoreriaIDField(cuenta_tesoreria_id_field), 
 		mRecordCuentaTesoreriaIDField(record_cuenta_tesoreria_id_field), mFechaField(fecha_field), 
 		mImporteField(importe_field), mReferenciaField(referencia_field), mTablaTerceros(tablaterceros), 
-		mTercerosIsField( terceros_is_field), mTerceroIDField(tercero_id_field), mTerceroField(tercero_field), 
-		mTablaConceptos(tablaconceptos), mConceptosIsField(conceptos_is_field),	mConceptoIDField(concepto_id_field), 
-		mConceptoField(concepto_field), mNotasField(notas_field), mProyectoIDField(proyecto_id_field)
+		mTerceroIDField(tercero_id_field), mTerceroField(tercero_field), 
+		mTablaConceptos(tablaconceptos), mConceptoIDField(concepto_id_field), 
+		mConceptoField(concepto_field), mNotasField(notas_field), mProyectoIDField(proyecto_id_field),
+		mTercerosIsField( terceros_is_field), mConceptosIsField(conceptos_is_field), mCargoAbono(cargoabono)
 {
 }
 

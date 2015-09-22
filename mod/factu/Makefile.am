@@ -96,8 +96,10 @@ dist_factu_share_DATA = $(srcdir)/share/factu.ddd \
 # act_stocks.sql
 
 factu_informesdir = $(datadir)/gestiong/factu/informes
-dist_factu_informes_DATA = $(srcdir)/share/informes/ALBARANCOMPRA.rtk \
+dist_factu_informes_DATA = \
+	$(srcdir)/share/informes/ALBARANCOMPRA.rtk \
 	$(srcdir)/share/informes/ALBARANVENTA.rtk \
+	$(srcdir)/share/informes/ALBARANVENTA_TIPODOCUMENTO.rtk \
 	$(srcdir)/share/informes/ARTICULO_ETIQUETAS.rtk \
 	$(srcdir)/share/informes/ARTICULO_LISTA_DE_PRECIOS.rtk \
 	$(srcdir)/share/informes/balanceclipro.inc \
@@ -121,6 +123,5 @@ dist_factu_informes_DATA = $(srcdir)/share/informes/ALBARANCOMPRA.rtk \
 	$(srcdir)/share/informes/compras_details.inc \
 	$(srcdir)/share/informes/compras_footer.inc \
  	$(srcdir)/share/informes/FACTURAVENTA_POR_FECHA.rtk
-#	$(srcdir)/share/informes/ALBARANVENTA_DEPOSITO_IVAINCLUIDO.rtk
 
 

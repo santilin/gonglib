@@ -13,6 +13,7 @@
 	PAGEHEADER page_header_default {
 		sizey = 4;
 		style = pageheader;
+		borderstyle = solid;
 
 		OBJECT pageheader_EMPRESA_LOGO {
 			value = "###LOGO###";
@@ -38,27 +39,25 @@
 			format="%d/%m/%Y %H:%M";
 			sizey = 1;
 			posy = 0;
-			posx = -28 ;
-			sizex = 17;
+			posx = 75;
+			sizex = 15;
 		}
 		OBJECT npagina_text  {
 			style = pagenumber ;
-			halignment = right ;
 			value=" Pág." ;
 			posy = 0;
 			sizey = 1;
-			posx = -1;
-			sizex = 4.6;
+			posx = 91;
+			sizex = 5;
 		}
 		OBJECT npagina {
 			style = pagenumber ;
 			sizey = 1;
-			posx = -1;
+			posx = 96; // Ok
 			posy = 0;
-			halignment = right ;
 			value="= @report.pagenumber;";
 			mask = "0000" ;
-			sizex = 3.6;
+			sizex = 4;
 		}
 
 		OBJECT titulo {

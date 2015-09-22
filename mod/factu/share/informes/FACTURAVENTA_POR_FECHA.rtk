@@ -72,48 +72,48 @@ REPORT FACTURAVENTA_POR_FECHA
 		}
 		OBJECT header_FACTURAVENTA_NUMERO {
 			value = "Número";
-			posx = -1;
+			posx = 6;
 			sizex = 6;
 		}
 		OBJECT header_CLIENTE_RAZONSOCIAL {
 			value = "Cliente";
-			posx = -1;
+			posx = 13;
 			sizex = 14;
 		}
 		OBJECT header_TIPODOC_NOMBRE {
 			value = "Tipo";
-			posx = -1;
+			posx = 28;
 			sizex = 4;
 		}
 		OBJECT header_FACTURAVENTA_BASEIMPONIBLE {
 			value = "Base imponible";
-			posx = -1;
+			posx = 33;
 			sizex = 8;
 		}
 		OBJECT header_FACTURAVENTA_IVA {
 			value = "IVA";
-			posx = -1;
+			posx = 42;
 			sizex = 8;
 		}
 		OBJECT header_FACTURAVENTA_TOTAL {
 			value = "Total";
-			posx = -1;
+			posx = 51;
 			sizex = 8;
 		}
 		OBJECT header_FACTURAVENTA_RESTO {
 			value = "Resto";
-			posx = -1;
+			posx = 60;
 			sizex = 8;
 		}
 		OBJECT header_FACTURAVENTA_ENTREGA {
 			value = "Anticipo";
-			posx = -1;
+			posx = 69;
 			sizex = 8;
 		}
 		OBJECT header_FACTURAVENTA_NOTAS {
 			value = "Notas";
-			posx = -1;
-			sizex = 33;
+			posx = 78;
+			sizex = 22;
 		}
 
 	}
@@ -135,56 +135,56 @@ REPORT FACTURAVENTA_POR_FECHA
 		OBJECT FACTURAVENTA_NUMERO {
 			value = "=input.FACTURAVENTA_NUMERO";
 			halignment = "left";
-			posx = -1;
+			posx = 6;
 			sizex = 6;
 		}
 		OBJECT CLIENTE_RAZONSOCIAL {
 			value = "=input.CLIENTE_RAZONSOCIAL";
 			halignment = "left";
-			posx = -1;
+			posx = 13;
 			sizex = 14;
 		}
 		OBJECT TIPODOC_NOMBRE {
 			value = "=input.TIPODOC_NOMBRE";
 			halignment = "left";
-			posx = -1;
+			posx = 28;
 			sizex = 4;
 		}
 		OBJECT FACTURAVENTA_BASEIMPONIBLE {
 			value = "=input.FACTURAVENTA_BASEIMPONIBLE";
 			halignment = "right";
-			posx = -1;
+			posx = 33;
 			sizex = 8;
 		}
 		OBJECT FACTURAVENTA_IVA {
 			value = "=input.FACTURAVENTA_IVA";
 			halignment = "right";
-			posx = -1;
+			posx = 42;
 			sizex = 8;
 		}
 		OBJECT FACTURAVENTA_TOTAL {
 			value = "=input.FACTURAVENTA_TOTAL";
 			halignment = "right";
-			posx = -1;
+			posx = 51;
 			sizex = 8;
 		}
 		OBJECT FACTURAVENTA_RESTO {
 			value = "=input.FACTURAVENTA_RESTO";
 			halignment = "right";
-			posx = -1;
+			posx = 60;
 			sizex = 8;
 		}
 		OBJECT FACTURAVENTA_ENTREGA {
 			value = "=input.FACTURAVENTA_ENTREGA";
 			halignment = "right";
-			posx = -1;
+			posx = 69;
 			sizex = 8;
 		}
 		OBJECT FACTURAVENTA_NOTAS {
 			value = "=input.FACTURAVENTA_NOTAS";
 			halignment = "left";
-			posx = -1;
-			sizex = 33;
+			posx = 78;
+			sizex = 22;
 		}
 
 #endif

@@ -84,7 +84,7 @@ void Output::initPaperSizes()
         propSizeX = paperSizes[PaperSize()].width / 72 * unitsPerInchX();
         propSizeY = paperSizes[PaperSize()].height / 72 * unitsPerInchY();
     }
-    if( propPageOrientation == Landscape ) {
+    if( propPageOrientation == Landscape) {
         Measure swap = sizeX();
         propSizeX = sizeY();
         propSizeY = swap;
@@ -189,7 +189,7 @@ Measure Output::endSection(const Section &section)
             mCurrX += round(section.sizeX() + section.marginLeft() + section.marginRight());
         }
     } else {
-        mCurrY += section.sizeY()  + section.marginBottom() + mGrowthY;
+        mCurrY += section.sizeY() + section.marginBottom() + mGrowthY;
         // For the next subsection to start in the same x-pos
         mCurrX -= round( section.posX() + section.marginLeft() );
     }

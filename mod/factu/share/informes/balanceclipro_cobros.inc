@@ -163,12 +163,12 @@ REPORT BalanceCliPro_Inc
 		}
 		OBJECT VT_TIPODOC {
 			value = "= const @DDD.TIPODOC_DESCSINGULAR;";
-			posx = -1;
+			posx = 7;
 			sizex = 10;
 		}
 		OBJECT VT_NUMERO {
 			value = "= const @DDD.FACTURAVENTA_NUMERO_CAPTION;";
-			posx = -1;
+			posx = 18;
 			sizex = 8;
 		}
 #endif // RESUMIDO
@@ -181,25 +181,25 @@ REPORT BalanceCliPro_Inc
 		}
 		OBJECT VT_IVA {
 			value = "= const @DDD.FACTURAVENTA_IVA_CAPTION;";
-			posx = -1;
+			posx = 37;
 			sizex = 9;
 			alignment = right;
 		}
 		OBJECT VT_TOTAL {
 			value = "= const @DDD.FACTURAVENTA_TOTAL_CAPTION;";
-			posx = -1;
+			posx = 47;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT VT_PAGADO {
 			value = "= const @DDD.FACTURAVENTA_COBROS_CAPTION;";
-			posx = -1;
+			posx = 58;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT VT_RESTO {
 			value = "= const @DDD.FACTURAVENTA_RESTO_CAPTION;";
-			posx = -1;
+			posx = 69;
 			sizex = 10;
 			alignment = right;
 		}
@@ -221,28 +221,28 @@ REPORT BalanceCliPro_Inc
 		}
 		OBJECT VT_IVA {
 			value = "=input.VT_IVA";
-			posx = -1;
+			posx = 37;
 			sizex = 9;
 			alignment = right;
 			aggregate = distinctsum;
 		}
 		OBJECT VT_TOTAL {
 			value = "=input.VT_TOTAL";
-			posx = -1;
+			posx = 47;
 			sizex = 10;
 			alignment = right;
 			aggregate = distinctsum;
 		}
 		OBJECT VT_PAGADO {
 			value = "=input.VT_PAGADO";
-			posx = -1;
+			posx = 58;
 			sizex = 10;
 			alignment = right;
 			aggregate = distinctsum;
 		}
 		OBJECT VT_RESTO {
 			value = "=input.VT_RESTO";
-			posx = -1;
+			posx = 69;
 			sizex = 10;
 			alignment = right;
 			aggregate = distinctsum;
@@ -266,58 +266,58 @@ REPORT BalanceCliPro_Inc
 		}
 		OBJECT VT_TIPO {
 			value = "=input.VT_TIPO";
-			posx = -1;
+			posx = 7;
 			sizex = 2;
 		}
 		OBJECT VT_TIPODOC {
 			value = "=input.VT_TIPODOC";
-			posx = -1;
+			posx = 10;
 			sizex = 6;
 		}
 		OBJECT VT_NUMERO {
 			value = "=input.VT_NUMERO";
-			posx = -1;
+			posx = 17;
 			sizex = 8;
 		}
 		OBJECT VT_BASEIMPONIBLE {
 			value = "=input.VT_BASEIMPONIBLE";
-			posx = -1;
+			posx = 26;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT VT_IVA {
 			value = "=input.VT_IVA";
-			posx = -1;
+			posx = 37;
 			sizex = 9;
 			alignment = right;
 		}
 		OBJECT VT_TOTAL {
 			value = "=input.VT_TOTAL";
-			posx = -1;
+			posx = 47;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT VT_PAGADO {
 			value = "=input.VT_PAGADO";
-			posx = -1;
+			posx = 58;
 			sizex = 10;
 			alignment = right;
 		}
 		OBJECT VT_RESTO {
 			value = "=input.VT_RESTO";
-			posx = -1;
+			posx = 69;
 			sizex = 10;
 			alignment = right;
 		}
 #ifndef AGRUPAR
 		OBJECT razonsocial_codigo {
 			value = "=input.RAZONSOCIAL_CODIGO";
-			posx = -1;
+			posx = 80;
 			sizex = 5;
 		}
 		OBJECT razonsocial_nombre {
 			value = "=input.RAZONSOCIAL_NOMBRE";
-			posx = -1;
+			posx = 86;
 		}
 #ifdef CSV
 #ifdef NOTAS
@@ -344,25 +344,25 @@ REPORT BalanceCliPro_Inc
 		}
 		OBJECT VT_COBRO_DESCRIPCION {
 			value = "=input.VT_COBRO_DOCUMENTOPAGO";
-			posx = -1;
+			posx = 21;
 			sizex = 15;
 			alignment = left;
 		}
 		OBJECT VT_CUENTA_DESCRIPCION {
 			value = "=input.VT_CUENTA_DESCRIPCION";
-			posx = -1;
+			posx = 37;
 			sizex = 15;
 			alignment = left;
 		}
 		OBJECT VT_COBRO_FECHAPAGO {
 			value = "=input.VT_COBRO_FECHAPAGO";
-			posx = -1;
+			posx = 53;
 			sizex = 8;
 			alignment = left;
 		}
 		OBJECT VT_COBRO_IMPORTE {
 			value = "=input.VT_COBRO_IMPORTE";
-			posx = -1;
+			posx = 62;
 			sizex = 10;
 			alignment = right;
 			format = "%b";
@@ -400,7 +400,7 @@ REPORT BalanceCliPro_Inc
 		OBJECT razonsocial_totales {
 			value = "Totales: ";
 			posx = 2;
-			sizex = 8;
+			sizex = 9;
 		}
 		OBJECT VT_BASEIMPONIBLE {
 			value = "=input.VT_BASEIMPONIBLE";
@@ -411,28 +411,28 @@ REPORT BalanceCliPro_Inc
 		}
 		OBJECT VT_IVA {
 			value = "=input.VT_IVA";
-			posx = -1;
+			posx = 37;
 			sizex = 9;
 			alignment = right;
 			aggregate = distinctsum;
 		}
 		OBJECT VT_TOTAL {
 			value = "=input.VT_TOTAL";
-			posx = -1;
+			posx = 47;
 			sizex = 10;
 			alignment = right;
 			aggregate = distinctsum;
 		}
 		OBJECT VT_PAGADO {
 			value = "=input.VT_PAGADO";
-			posx = -1;
+			posx = 58;
 			sizex = 10;
 			alignment = right;
 			aggregate = distinctsum;
 		}
 		OBJECT VT_RESTO {
 			value = "=input.VT_RESTO";
-			posx = -1;
+			posx = 69;
 			sizex = 10;
 			alignment = right;
 			aggregate = distinctsum;
