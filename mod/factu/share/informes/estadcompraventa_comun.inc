@@ -90,7 +90,6 @@
 		level = 1;
 		sizey = 1.2;
 		fontweight = "bold";
-		margintop = 0.5;
 		fontcolor = "blue";
 
 #ifdef AGRUPAR_POR_ARTICULO
@@ -99,11 +98,11 @@
 			value = "=input.ARTICULO_CODIGO";
 			posx = 2;
 			posy = 0.2;
-			sizex = 20;
+			sizex = 25;
 		}
 		OBJECT articulo_nombre {
 			value = "=input.ARTICULO_NOMBRE";
-			posx = 23;
+			posx = 30;
 			posy = 0.2;
 			sizex = 50;
 		}
@@ -150,7 +149,6 @@
 			posx = 3;
 		}
 		OBJECT numero {
-			borderstyle=solid;
 			value = "=input.VT_NUMERO";
 			posx = 18;
 			sizex = 20;
@@ -183,12 +181,17 @@
 		borderstyle = solid;
 		bordercolor = black;
 		fontweight = bold;
-		sizey = 1.3;
 #endif
 #ifdef AGRUPAR
 	GROUPHEADER header_captions {
 		fontitalic = true;
+		bordertopstyle=solid;
+		bordertopwidth=1;
+		borderbottomstyle=solid;
+		borderbottomwidth=1;
+		fontsize = -2;
 #endif
+		sizey = 1.3;
 		style = header;
 		level = 1;
 
@@ -197,14 +200,18 @@
 		OBJECT VT_FECHA {
 			value = "= const @DDD.ALBARANVENTA_FECHA_CAPTION;";
 			posx = 0;
-			sizex = 6;
+			sizex = 7;
 		}
 #endif
 #endif
+#ifdef AGRUPAR_POR_DOCUMENTO
+// Como no se imprimen los primeros campos, se desplaza a la derecha
+	posx = -28;
+#endif	
 #ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_TIPODOC {
 			value = "= const @DDD.TIPODOC_DESCSINGULAR;";
-			posx = 6;
+			posx = 7;
 			adjustment = reducefont;
 			sizex = 11;
 #ifdef AGRUPAR_POR_FECHA_DIARIO
@@ -214,7 +221,7 @@
 		OBJECT VT_NUMERO {
 			adjustment = reducefont;
 			value = "= const @DDD.ALBARANVENTA_NUMERO_CAPTION;";
-			posx = 18;
+			posx = 19;
 #ifdef AGRUPAR_POR_FECHA_DIARIO
 			posx = 12;
 #endif
@@ -257,24 +264,10 @@
 			alignment = right;
 		}
 #ifndef AGRUPAR_POR_ARTICULO
-		OBJECT ARTICULO_CODIGO {
-			value = "= const @DDD.ARTICULO_CODIGO_CAPTION;";
-			posx = 67;
-			sizex = 10;
-		}
 		OBJECT ARTICULO_NOMBRE {
 			value = "= const @DDD.ARTICULO_DESCSINGULAR;";
-			posx = 78;
+			posx = 67;
 			sizex = 20;
-		}
-#endif
-#ifndef AGRUPAR
-		OBJECT ARTICULO_NOMBRE {
-			sizex = 25;
-		}
-#endif
-#ifdef AGRUPAR_POR_RAZONSOCIAL
-		OBJECT ARTICULO_NOMBRE {
 		}
 #endif
 #ifdef AGRUPAR_POR_FECHA_DIARIO
@@ -285,7 +278,10 @@
 #ifndef AGRUPAR_POR_RAZONSOCIAL
 		OBJECT CLIENTE_RAZONSOCIAL {
 			value = "= const @DDD.CLIENTE_RAZONSOCIAL_CAPTION;";
-			posx = 99;
+			posx = 70;
+#ifndef AGRUPAR_POR_ARTICULO
+			posx = 98;
+#endif
 		}
 #endif
 	}
@@ -305,10 +301,17 @@
 		}
 #endif
 #endif
+#ifdef AGRUPAR_POR_DOCUMENTO
+// Como no se imprimen los primeros campos, se desplaza a la derecha
+	posx = -28;
+#endif	
 #ifndef AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_TIPO {
 			value = "=input.VT_TIPO";
 			posx = 7;
+#ifdef AGRUPAR // Agrupado no es apaisado			
+			posx = 8;
+#endif			
 			sizex = 2;
 #ifdef AGRUPAR_POR_FECHA_DIARIO
 			posx = 0;
@@ -376,19 +379,18 @@
 			value = "=input.ARTICULO_CODIGO";
 			supressdup = true;
 			posx = 67;
-			sizex = 10;
+			sizex = 30;
+			fontsize = -2;
 			adjustment = reducefont;
+			fontweight = bold;
 		}
 		OBJECT ARTICULO_NOMBRE {
 			value = "=input.ARTICULO_NOMBRE";
 			supressdup = true;
-			posx = 78; 
+			posx = -0.5; 
 			sizex = 21;
+			fontsize = -2;
 			adjustment = reducefont;
-		}
-#endif
-#ifdef AGRUPAR_POR_RAZONSOCIAL
-		OBJECT ARTICULO_NOMBRE {
 		}
 #endif
 #ifdef AGRUPAR_POR_FECHA_DIARIO
@@ -400,17 +402,26 @@
 #ifndef AGRUPAR_POR_RAZONSOCIAL
 		OBJECT RAZONSOCIAL_CODIGO {
 			value = "= @input.RAZONSOCIAL_CODIGO";
+#ifndef AGRUPAR			
 			fontsize = -2;
+#endif			
 			supressdup = true;
-			alignment = right;
-			sizex = 3;
-			posx = 99;
+			alignment = left;
+			sizex = 5;
+			posx = 70;
+			fontweight = bold;
+			paddingleft = 0.2;
+#ifndef AGRUPAR_POR_ARTICULO
+			posx = 98;
+#endif
 		}
 		OBJECT RAZONSOCIAL {
 			value = "=input.RAZONSOCIAL";
+#ifndef AGRUPAR			
 			fontsize = -2;
+#endif			
 			supressdup = true;
-			posx = 102.5;
+			posx = -0.5;
 		}
 #endif
 	}
@@ -436,12 +447,18 @@
 		sizey = 1.2;
 		fontweight = "bold";
 		margintop = 0.3;
+		bordertopstyle = solid;
+		bordertopwidth = 1;
+#ifdef AGRUPAR_POR_DOCUMENTO
+// Como no se imprimen los primeros campos, se desplaza a la derecha
+	posx = -28;
+#endif	
 
 		OBJECT VT_CANTIDAD_grupo {
 			value = "=input.VT_CANTIDAD";
 			aggregate = sum;
-			posx = 19;
-			sizex = 12;
+			posx = 27;
+			sizex = 9;
 			alignment = right;
 		}
 		OBJECT VT_IMPORTE_grupo {
@@ -452,7 +469,7 @@
 			value = "=input.VT_IMPORTE";
 #endif
 			aggregate = sum;
-			posx = 45;
+			posx = 50;
 			sizex = 12;
 			alignment = right;
 		}
@@ -465,6 +482,7 @@
 		sizey = 1.2;
 		fontweight = bold;
 		bordertopstyle = solid;
+		bordertopwidth = 1;
 		margintop = 0.2;
 
 		OBJECT articulo_totales {

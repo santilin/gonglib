@@ -99,11 +99,11 @@
 			value = "=const @DDD.ARTICULO_CODIGO_CAPTION;";
 			posx = 0;
 			posy = 0;
-			sizex = 20;
+			sizex = 30;
 		}
 		OBJECT articulo_nombre {
 			value = "=const @DDD.ARTICULO_DESCSINGULAR;";
-			posx = 21;
+			posx = 31;
 			posy = 0;
 			sizex = 30;
 		}
@@ -113,11 +113,12 @@
 			value = "=const @DDD.CLIENTE_CODIGO_CAPTION;";
 			posx = 0;
 			posy = 0;
-			sizex = 6;
+			sizex = 7;
+			alignment = right;
 		}
 		OBJECT articulo_nombre {
-			value = "=const @DDD.CLIENTE_DESCSINGULAR;";
-			posx = 7;
+			value = "=const @DDD.CLIENTE_RAZONSOCIAL_CAPTION;";
+			posx = 8;
 			posy = 0;
 			sizex = 48;
 		}
@@ -137,14 +138,14 @@
 		}
 		OBJECT numero {
 			value = "=const @DDD.ALBARANVENTA_NUMERO_CAPTION;";
-			posx = -1;
+			posx = 22;
 			sizex = 12;
 			posy = 0;
 		}
 		OBJECT RAZONSOCIAL_CODIGO {
-			value = "=const @DDD.CLIENTE_DESCSINGULAR;";
-			sizex = 18;
-			posx = -1;
+			value = "=const @DDD.CLIENTE_RAZONSOCIAL_CAPTION;";
+			sizex = 23;
+			posx = 35;
 		}
 #endif // AGRUPAR_POR_DOCUMENTO
 		OBJECT VT_CANTIDAD {
@@ -174,11 +175,11 @@
 			value = "=input.ARTICULO_CODIGO";
 			posx = 0;
 			posy = 0;
-			sizex = 20;
+			sizex = 30;
 		}
 		OBJECT articulo_nombre {
 			value = "=input.ARTICULO_NOMBRE";
-			posx = 21;
+			posx = 31;
 			posy = 0;
 			sizex = 47;
 			adjustment = grow;
@@ -190,11 +191,11 @@
 			value = "=input.RAZONSOCIAL_CODIGO";
 			posx = 0;
 			posy = 0;
-			sizex = 6;
+			sizex = 7;
 		}
 		OBJECT razonsocial_nombre {
 			value = "=input.RAZONSOCIAL";
-			posx = 7;
+			posx = 8;
 			posy = 0;
 			sizex = 49;
 		}
@@ -212,8 +213,8 @@
 		value = "=input.DOCUMENTO_GRUPO";
 		OBJECT fecha {
 			value = "=input.VT_FECHA";
-			posx = -1;
-			sizex = 6;
+			posx = 0;
+			sizex = 7;
 			posy = 0;
 		}
 		OBJECT VT_TIPO {
@@ -228,7 +229,7 @@
 		}
 		OBJECT numero {
 			value = "=input.VT_NUMERO";
-			posx = -1;
+			posx = 22;
 			sizex = 12;
 			posy = 0;
 			adjustment = "reducefont";
@@ -236,14 +237,13 @@
 		OBJECT RAZONSOCIAL_CODIGO {
 			value = "=input.RAZONSOCIAL_CODIGO";
 			alignment = right;
-			sizex = 4;
-			posx = -1;
+			sizex = 5;
+			posx = 35;
 		}
 		OBJECT RAZONSOCIAL {
 			value = "=input.RAZONSOCIAL";
 			adjustment = reducefont;
-			posx = -1;
-			sizex = 22;
+			posx = 41;
 		}
 #endif // AGRUPAR_POR_DOCUMENTO
 

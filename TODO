@@ -5,9 +5,10 @@
 * Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
 
 == Hacer ==
+* Estadísticas de compras y ventas:
+** Agrupar por razón social, cómo sé si es cliente o proveedora?
 * rtk: apaisado, el número de página no se va al final
-* Comprobar todos los -1 de los informes de estadísticas de compras y ventas, balance de pagos y cobros
-* Comprobar informe ALBARANVENTA_TIPODOCUMENTO.rtk
+* Comprobar todos los -1 de los informes de balance de pagos y cobros
 
 == gong-cats ==
 * Revisar los -1 de los informes

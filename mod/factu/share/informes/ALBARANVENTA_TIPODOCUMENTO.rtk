@@ -1,5 +1,5 @@
 //<<<<<COPYLEFT
-// @file PRESUPUESTOVENTA.rtk Presupuesto de venta
+// @file ALBARANVENTA.rtk Albarán de venta
 // GongLib project. (L) Santiago Capel Torres, 2003-2011
 //
 // This program is free software; you can redistribute it and/or modify
@@ -7,16 +7,16 @@
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
 //
-// // This program is distributed in the hope that it will be useful,
+// This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //>>>>>COPYLEFT
 
 
-REPORT PresupuestoVenta
+REPORT AlbaranVenta
 {
-    Title = "Presupuesto de venta";
+    Title = "Albarán de venta";
     Units = chars;
     SizeY = 60;
     Tag = "Facturación";
@@ -24,8 +24,8 @@ REPORT PresupuestoVenta
 
 	INPUT default {
         driver = mysql;
-        from = "PRESUPUESTOVENTA INNER JOIN EMPRESA ON PRESUPUESTOVENTA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN CLIENTE ON CLIENTE.ID = PRESUPUESTOVENTA.CLIENTE_ID INNER JOIN CONTACTO CLIENTE_CONTACTO ON CLIENTE_CONTACTO.ID = CLIENTE.CONTACTO_ID INNER JOIN PRESUPUESTOVENTADET ON PRESUPUESTOVENTA.ID = PRESUPUESTOVENTADET.PRESUPUESTOVENTA_ID INNER JOIN ARTICULO ON ARTICULO.ID = PRESUPUESTOVENTADET.ARTICULO_ID";
-        orderby = "PRESUPUESTOVENTADET.NLINEA";
+        from = "ALBARANVENTA INNER JOIN EMPRESA ON ALBARANVENTA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN CLIENTE ON CLIENTE.ID = ALBARANVENTA.CLIENTE_ID INNER JOIN CONTACTO CLIENTE_CONTACTO ON CLIENTE_CONTACTO.ID = CLIENTE.CONTACTO_ID INNER JOIN ALBARANVENTADET ON ALBARANVENTA.ID = ALBARANVENTADET.ALBARANVENTA_ID INNER JOIN ARTICULO ON ARTICULO.ID = ALBARANVENTADET.ARTICULO_ID INNER JOIN TIPODOC ON TIPODOC.ID=ALBARANVENTA.TIPODOC_ID";
+        orderby = "ALBARANVENTADET.NLINEA";
 
         INPUTFIELD EMPRESA_NOMBRE {
             Source = EMPRESA.NOMBRE;
@@ -108,7 +108,7 @@ REPORT PresupuestoVenta
             Type = string;
         }
         INPUTFIELD DOCUMENTODET_CANTIDAD {
-            Source = PRESUPUESTOVENTADET.CANTIDAD;
+            Source = ALBARANVENTADET.CANTIDAD;
             Type = double;
         }
         INPUTFIELD ARTICULO_CODIGO {
@@ -120,82 +120,86 @@ REPORT PresupuestoVenta
             Type = string;
         }
         INPUTFIELD DOCUMENTODET_PVPSINIVA {
-            Source = PRESUPUESTOVENTADET.PVPSINIVA;
+            Source = ALBARANVENTADET.PVPSINIVA;
             Type = Money;
         }
         INPUTFIELD DOCUMENTODET_PVP {
-            Source = PRESUPUESTOVENTADET.PVP;
+            Source = ALBARANVENTADET.PVP;
             Type = Money;
         }
         INPUTFIELD DOCUMENTODET_DTOP100 {
-            Source = PRESUPUESTOVENTADET.DTOP100;
+            Source = ALBARANVENTADET.DTOP100;
             Type = double;
         }
         INPUTFIELD DOCUMENTODET_IMPORTECONIVA {
-            Source = PRESUPUESTOVENTADET.IMPORTECONIVA;
+            Source = ALBARANVENTADET.IMPORTECONIVA;
             Type = Money;
         }
         INPUTFIELD DOCUMENTODET_IMPORTE {
-            Source = PRESUPUESTOVENTADET.IMPORTE;
+            Source = ALBARANVENTADET.IMPORTE;
             Type = Money;
         }
         INPUTFIELD DOCUMENTO_FECHA {
-            Source = PRESUPUESTOVENTA.FECHA;
+            Source = ALBARANVENTA.FECHA;
             Type = date;
         }
         INPUTFIELD DOCUMENTO_NUMERO {
-            Source = PRESUPUESTOVENTA.NUMERO;
+            Source = ALBARANVENTA.NUMERO;
             Type = string;
         }
         INPUTFIELD DOCUMENTO_NOTAS {
-            Source = PRESUPUESTOVENTA.NOTAS;
+            Source = ALBARANVENTA.NOTAS;
             Type = string;
         }
         INPUTFIELD DOCUMENTO_SUMAIMPORTES {
-            Source = PRESUPUESTOVENTA.SUMAIMPORTES;
+            Source = ALBARANVENTA.SUMAIMPORTES;
             Type = Money;
         }
         INPUTFIELD DOCUMENTO_DESCUENTO {
-            Source = PRESUPUESTOVENTA.DESCUENTO;
+            Source = ALBARANVENTA.DESCUENTO;
             Type = Money;
         }
         INPUTFIELD DOCUMENTO_DTOP100 {
-            Source = PRESUPUESTOVENTA.DTOP100;
+            Source = ALBARANVENTA.DTOP100;
             Type = double;
         }
         INPUTFIELD DOCUMENTO_BASEIMPONIBLE {
-            Source = PRESUPUESTOVENTA.BASEIMPONIBLE;
+            Source = ALBARANVENTA.BASEIMPONIBLE;
             Type = Money;
         }
         INPUTFIELD DOCUMENTO_IVA {
-            Source = PRESUPUESTOVENTA.IVA;
+            Source = ALBARANVENTA.IVA;
             Type = Money;
         }
         INPUTFIELD DOCUMENTO_RECARGOEQUIVALENCIA {
-            Source = PRESUPUESTOVENTA.RECARGOEQUIVALENCIA;
+            Source = ALBARANVENTA.RECARGOEQUIVALENCIA;
             Type = Money;
         }
         INPUTFIELD DOCUMENTO_TOTAL {
-            Source = PRESUPUESTOVENTA.TOTAL;
+            Source = ALBARANVENTA.TOTAL;
             Type = Money;
         }
         INPUTFIELD ARTICULO_DESCRIPCION {
-            Source = PRESUPUESTOVENTADET.DESCRIPCION;
+            Source = ALBARANVENTADET.DESCRIPCION;
             Type = Text;
         }
         INPUTFIELD IVADETALLADO {
-            Source = PRESUPUESTOVENTA.IVADETALLADO;
+            Source = ALBARANVENTA.IVADETALLADO;
             Type = integer;
         }
         INPUTFIELD DESGLOSEIVA {
-            Source = PRESUPUESTOVENTA.DESGLOSEIVA;
+            Source = ALBARANVENTA.DESGLOSEIVA;
             Type = string;
         }
 //>>>>>INPUT_DEFAULT
         INPUTFIELD DOCUMENTO_ID {
-            Source = PRESUPUESTOVENTA.ID;
+            Source = ALBARANVENTA.ID;
 			Type = Integer;
         }
+        INPUTFIELD TIPODOCUMENTO_NOMBRE {
+			Source = TIPODOC.NOMBRE;
+			Type = string;
+		}
     }
 
 	Include = "ventas_header.inc";
@@ -208,7 +212,7 @@ REPORT PresupuestoVenta
 
         OBJECT pageheader_DOCUMENTO_NUMERO_CAPTION {
             fontsize = 14.0;
-            value = "=const @DDD.FACTURAVENTA_DESCSINGULAR;";
+            value = "=input.TIPODOCUMENTO_NOMBRE;";
             posx = 3;
             sizex = 29;
             fontweight = bold;
@@ -222,7 +226,7 @@ REPORT PresupuestoVenta
         }
         OBJECT pageheader_DOCUMENTO_FECHA_CAPTION {
             fontsize = 14.0;
-            value = "=const @DDD.FACTURAVENTA_FECHA_CAPTION + \":\";";
+            value = "=const @DDD.ALBARANVENTA_FECHA_CAPTION + \":\";";
             sizex = 8.0;
             posx = 50.0;
             fontweight = bold;
@@ -241,7 +245,7 @@ REPORT PresupuestoVenta
         level = 1;
         style = detail;
         sizey = 1.2;
-        margintop = 0.3;
+		margintop = 0.3;
         fontweight = bold;
         bordertopstyle = solid ;
         bordertopcolor = black ;
@@ -252,7 +256,7 @@ REPORT PresupuestoVenta
 
         OBJECT header_DOCUMENTODET_CANTIDAD {
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_CANTIDAD_CAPTION;";
+            value = "= const @DDD.ALBARANVENTADET_CANTIDAD_CAPTION;";
             posx = 0.0;
             sizex = 8.0;
         }
@@ -269,34 +273,34 @@ REPORT PresupuestoVenta
         OBJECT header_DOCUMENTODET_PVPSINIVA {
             formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_PVPSINIVA_CAPTION;";
+            value = "= const @DDD.ALBARANVENTADET_PVPSINIVA_CAPTION;";
             posx = 68.0;
             sizex = 12.0;
         }
         OBJECT header_DOCUMENTODET_PVP {
             formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_PVP_CAPTION;";
+            value = "= const @DDD.ALBARANVENTADET_PVP_CAPTION;";
             posx = 68.0;
             sizex = 12.0;
         }
         OBJECT header_DOCUMENTODET_DTOP100 {
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_DTOP100_CAPTION;";
+            value = "= const @DDD.ALBARANVENTADET_DTOP100_CAPTION;";
             posx = 82.0;
             sizex = 6.0;
         }
         OBJECT header_DOCUMENTODET_IMPORTE {
             formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_IMPORTE_CAPTION;";
+            value = "= const @DDD.ALBARANVENTADET_IMPORTE_CAPTION;";
             posx = 88.0;
             sizex = 12.0;
         }
         OBJECT header_DOCUMENTODET_IMPORTECONIVA {
             formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_IMPORTE_CAPTION;";
+            value = "= const @DDD.ALBARANVENTADET_IMPORTE_CAPTION;";
             posx = 88.0;
             sizex = 12.0;
         }
@@ -312,13 +316,13 @@ REPORT PresupuestoVenta
         style = pagefooter;
 
         OBJECT pagefooter_DOCUMENTO_SUMAIMPORTES {
-            value = "= const @DDD.FACTURAVENTA_SUMAIMPORTES_CAPTION;";
+            value = "= const @DDD.ALBARANVENTA_SUMAIMPORTES_CAPTION;";
             posx = 0.0;
             sizex = 16.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_DESCUENTO {
-            value = "= const @DDD.FACTURAVENTA_DESCUENTO_CAPTION;";
+            value = "= const @DDD.ALBARANVENTA_DESCUENTO_CAPTION;";
             posx = 17.0;
             sizex = 16.0;
             halignment = "right";
@@ -326,14 +330,14 @@ REPORT PresupuestoVenta
         // Sin recargo de equivalencia
         OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_SIN_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_BASEIMPONIBLE_CAPTION;";
+            value = "= const @DDD.ALBARANVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_IVA_SIN_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_IVA_CAPTION;";
+            value = "= const @DDD.ALBARANVENTA_IVA_CAPTION;";
             posx = 70;
             sizex = 14.0;
             halignment = "right";
@@ -341,27 +345,27 @@ REPORT PresupuestoVenta
         // Con recargo de equivalencia
         OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_CON_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_BASEIMPONIBLE_CAPTION;";
+            value = "= const @DDD.ALBARANVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 40.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_IVA_CON_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_IVA_CAPTION;";
+            value = "= const @DDD.ALBARANVENTA_IVA_CAPTION;";
             posx = 55;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_RECARGOEQUIVALENCIA {
             formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_RECARGOEQUIVALENCIA_CAPTION;";
+            value = "= const @DDD.ALBARANVENTA_RECARGOEQUIVALENCIA_CAPTION;";
             posx = 70.0;
             sizex = 12.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_TOTAL {
-            value = "= const @DDD.FACTURAVENTA_TOTAL_CAPTION;";
+            value = "= const @DDD.ALBARANVENTA_TOTAL_CAPTION;";
             posx = 85.0;
             sizex = 15.0;
             halignment = "right";
