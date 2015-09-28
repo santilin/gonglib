@@ -1,13 +1,8 @@
 == HECHO ==
-* Al limpiar la mesa, lee registros
-
-== Haciendo en lospajaros ==
-* Revisar los -1 de los informes
-* saveEstado intenta grabar siempre, ver la diferencia
-* Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == Hacer ==
 * rtk: Pensar: apaisado, el número de página no se va al final
+* rtk: adjustment: elide
 
 == gong-cats ==
 * Revisar los -1 de los informes
@@ -349,6 +344,10 @@
 * SENDBUG: No poder maximizar la ventana inactiva.
 * SENDBUG: A pesar de poner un stylesheet con font-size:10px, los editlines salen muy grandes (fontinfo?)
 * SENDBUG: el ctrl+e de un lineedit, no retoma el foco cuando se cierra la ventana (depurar con dos monitores)
+
+== Infinito ==
+* tpv: Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
+
 
 == .deb ==
 https://wiki.debian.org/IntroDebianPackaging

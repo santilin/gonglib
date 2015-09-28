@@ -103,6 +103,7 @@
 		OBJECT pageheader_CLIENTE_CONTACTO_NOMBRE {
 			value = "=input.CLIENTE_CONTACTO_NOMBRE;";
 			posy = 0.2;
+			sizey = 1.6;
 			posx = 50.0;
 			adjustment = reducefont;
 			fontweight = bold;

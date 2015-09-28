@@ -212,6 +212,7 @@ REPORT AlbaranCompra
             posx = 3;
             sizex = 29;
             fontweight = bold;
+			sizey = 1.4;
         }
         OBJECT pageheader_DOCUMENTO_NUMERO {
             fontsize = 14.0;
@@ -219,6 +220,7 @@ REPORT AlbaranCompra
             sizex = 20.0;
             posx= -1;
             fontweight = bold;
+			sizey = 1.4;
         }
         OBJECT pageheader_DOCUMENTO_FECHA_CAPTION {
             fontsize = 14.0;
@@ -226,6 +228,7 @@ REPORT AlbaranCompra
             sizex = 8.0;
             posx = 50.0;
             fontweight = bold;
+			sizey = 1.4;
         }
         OBJECT pageheader_DOCUMENTO_FECHA {
             fontsize = 14.0;
@@ -233,6 +236,7 @@ REPORT AlbaranCompra
             posx = 60.0;
             format = "%d de %B de %Y";
             fontweight = bold;
+			sizey = 1.4;
         }
     }
 
@@ -307,7 +311,7 @@ REPORT AlbaranCompra
 	
 	GROUPFOOTER page_footer_captions {
 		level = 1;
-		posy = -5;
+		posy = -4.5;
         sizey = 1;
         style = pagefooter;
 
@@ -377,7 +381,7 @@ REPORT AlbaranCompra
         fontweight = bold;
         marginbottom = 0.3;
         sizey = 1.3;
-		paddingtop = 0.3;
+		paddingtop = 0.1;
     }
 	Include = "compras_footer.inc";
 

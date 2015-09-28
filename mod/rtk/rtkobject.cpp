@@ -488,12 +488,15 @@ void Object::fixMeasures( Measure outsizex, Measure outsizey,
     _GONG_DEBUG_PRINT(10, Xtring::printf( "%s: posx=%f, sizex=%f", name(), posX(), sizeX() ) );
     m = stringTo<Measure>(propSizeY.getOrig() );
     if( m == Measure(0) ) {
-        if( parent() )
-            propSizeY = static_cast<Object *>(parent())->sizeY() - posY();
-        else
+		if( !isSection() && !isReport() ) {
+			u = chars;
+			m = stringTo<Measure>("1");
+			propSizeY = fixOneMeasure( u, m, repunit, repsizey, outsizey);
+		} else {
             propSizeY = outsizey - posY();
+		}
     } else {
-        u = extractUnits(propSizeY.getOrig(), repunit );
+		u = extractUnits(propSizeY.getOrig(), repunit );
         m = stringTo<Measure>(propSizeY.getOrig() );
         propSizeY = fixOneMeasure( u, m, repunit, repsizey, outsizey);
     }

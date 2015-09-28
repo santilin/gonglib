@@ -326,18 +326,17 @@ Measure ReportQtOutput::printObject( const Object &object )
 
             // Vertical
             switch ( object.vAlignment() ) {
-            case AlignJustify:  // ???
+            case AlignLeft:
             case AlignTop:
                 tf = tf | Qt::AlignTop;
                 break;
-            case AlignBottom:
-            case AlignRight:
-                tf = tf | Qt::AlignBottom;
-                break;
-            case AlignCenter:
             case AlignVCenter:
-            case AlignLeft:
                 tf = tf | Qt::AlignVCenter;
+				break;
+            case AlignBottom:
+            case AlignJustify:  // ???
+				tf = tf | Qt::AlignBottom;
+				break;
             default:
                 break;
             }
@@ -380,13 +379,13 @@ Measure ReportQtOutput::printObject( const Object &object )
             break;
             case RTK::AdjustTrim:
                 _GONG_DEBUG_PRINT(5, Xtring::printf("drawText(x=%d, y=%d, w=%d, h=%d, \"%s\")",
-                                                     x0, y0/*+fm.descent()*/,width,height/*+fm.descent()*/, text.c_str() ) );
-                mPainter.drawText( x0, y0 /*+ fm.descent()*/, width, height /*+ fm.descent()*/,
-                                   tf, guitext, &outrect );
+                                                     x0, y0 + height - fm.ascent() - fm.descent(),width,height, text.c_str() ) );
+                mPainter.drawText( x0, y0, width, height, tf, guitext, &outrect );
                 break;
             case RTK::AdjustNone:
-                mPainter.drawText( x0, y0 /*+ fm.descent()*/, int(round(sizeX() - marginRight() - x0, 0)), height /*+ fm.descent()*/,
-                                   tf, guitext, &outrect );
+                mPainter.drawText( x0, y0, 
+								   int(round(sizeX() - marginRight() - x0, 0)), 
+								   height, tf, guitext, &outrect );
                 break;
             default:
                 break;
