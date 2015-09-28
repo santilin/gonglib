@@ -1,27 +1,24 @@
 == HECHO ==
+* Al limpiar la mesa, lee registros
 
-== Haciendo ==
-* Comprobar estadísticas de ofertas
-* Añadir a ofertas la cuenta del pago, y que la copie de la forma de pago.
+== Haciendo en lospajaros ==
+* Revisar los -1 de los informes
+* saveEstado intenta grabar siempre, ver la diferencia
+* Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 
 == Hacer ==
-* Estadísticas de compras y ventas:
-** Agrupar por razón social, cómo sé si es cliente o proveedora?
-* rtk: apaisado, el número de página no se va al final
-* Comprobar todos los -1 de los informes de balance de pagos y cobros
+* rtk: Pensar: apaisado, el número de página no se va al final
 
 == gong-cats ==
 * Revisar los -1 de los informes
 
 == gong-tpv ==
-* Revisar los -1 de los informes
-* saveEstado intenta grabar siempre, ver la diferencia
-* Si no encuentra las imágenes next y previos, no dibuja los rectángulos.
 * Añadir botón Más botones y añadir ahí el resto de botones.
 * tpv: Pagos por rondas: buscar un FrmList animado
-* Al limpiar la mesa, lee registros
 
 == gong-factu ==
+* Comprobar todos los -1 de los informes de balance de pagos y cobros
+* Estadísticas de compras y ventas: Agrupar por razón social, ¿cómo sé si es cliente o proveedora?
 * Factu: Formulario datos ventas y compras de artículos
 * Factu: Informe de existencias máximas y mínimas.
 * Imprimir etiquetas con códigos de barras

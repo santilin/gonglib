@@ -273,11 +273,17 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
 
 void dbRecord::clear( bool setcustomvalues )
 {
+    for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ ) {
+		const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
+		if( flddef->getName() == pTableDef->getFldIDName() ) {
+			// To avoid reading related records
+			mFieldValues.seq_at(i)->clear();
+			break;
+		}
+	}
 	// Clear relations first and then set default values of reference ids
     clearRelations(); // Do not set customvalues on related records
-//  	_GONG_DEBUG_PRINT(0, Xtring::printf("clear registro %s", this->getTableName().c_str() ) );
-    for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
-    {
+    for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ ) {
 		const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
         if( !setcustomvalues ) {
 			if( flddef->isReference() ) {
@@ -1319,7 +1325,7 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
 
 bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
 {
-    if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
+	if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         read( getRecordID() );
 //  	_GONG_DEBUG_PRINT(0, Xtring::printf ( "table=%s, fld=%s, value=%s", getTableName().c_str(), fullfldname.c_str(), value.toString().c_str() ) );
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
