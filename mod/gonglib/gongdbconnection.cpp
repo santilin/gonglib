@@ -504,7 +504,7 @@ bool dbConnection::existsDatabase( const Xtring &databasename )
     case DRIVER_MYSQL: {
         /// TODO: usar mysql_list_databases
         std::auto_ptr<dbResultSet> rs( select( "SHOW DATABASES" ) );
-        if( rs->next() ) {
+        while( rs->next() ) {
             if ( rs->toString(0).upper() == databasename.upper() ) {
                 return true;
             }

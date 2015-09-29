@@ -148,7 +148,7 @@ void FrmEditEmpresa::specialControlKeyPressed( QWidget *sender, char key )
 
 void FrmEditEmpresa::scatterMoneda()
 {
-    /*<<<<<FRMEDITEMPRESA_SCATTER_MONEDA*/
+/*<<<<<FRMEDITEMPRESA_SCATTER_MONEDA*/
 	editMonedaCodigo->setText( getRecMoneda()->getValue("CODIGO") );
 	editMonedaNombre->setText( getRecMoneda()->getValue("NOMBRE") );
 /*>>>>>FRMEDITEMPRESA_SCATTER_MONEDA*/

@@ -483,7 +483,14 @@ Xtring RegConfig::buildDateMask( int wich_format, const char *nl_format )
     return Xtring( mask );
 }
 
+Xtring RegConfig::getCurrencyName() const
+{
+    struct lconv * lc;
+    lc = localeconv();
+	return lc->int_curr_symbol;
 }
+
+} // namespace gong
 
 
 

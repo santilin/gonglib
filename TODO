@@ -1,15 +1,22 @@
 == HECHO ==
 
-== Hacer ==
-* rtk: Pensar: apaisado, el número de página no se va al final
-* rtk: adjustment: elide
+== Errores ==
+
+== gong-empresa ==
+Añadir pestaña tesorería y poner ahí la cuenta caja.
+
+== gong-socias ==
+* Revisar los -1 de los informes
+* Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón,
+  por lo que me deja sin opción de continuar no hacer nada más,
+* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
+* Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
+* Elegir remesa en generar recibos, elegir solo las no cerradas
+* Tipo de partida: nameslisttable
+* Socias: ¿Están al corriente del pago? Avisar si no lo están.
 
 == gong-cats ==
 * Revisar los -1 de los informes
-
-== gong-tpv ==
-* Añadir botón Más botones y añadir ahí el resto de botones.
-* tpv: Pagos por rondas: buscar un FrmList animado
 
 == gong-factu ==
 * Comprobar todos los -1 de los informes de balance de pagos y cobros
@@ -29,15 +36,10 @@
 * Añadir a clientes y proveedoras: dia(s) de pago, mes no pago. Al generar los pagos, tenerlo en cuenta.
 * Buscador de documentos por número
 
-== gong-socias ==
-* Revisar los -1 de los informes
-* Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón,
-  por lo que me deja sin opción de continuar no hacer nada más,
-* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
-* Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
-* Elegir remesa en generar recibos, elegir solo las no cerradas
-* Tipo de partida: nameslisttable
-* Socias: ¿Están al corriente del pago? Avisar si no lo están.
+== gong-tpv ==
+* Ticket_estrecho: Copiar el de la ecotienda ceres.
+* Añadir botón Más botones y añadir ahí el resto de botones.
+* tpv: Pagos por rondas: buscar un FrmList animado
 
 == gong-deposit ==
 * Revisar los -1 de estadisticas compra y venta.
@@ -95,15 +97,13 @@
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Mostrar nombres parecidos al dar de alta un nombre
 
-== gong-empresa ==
-* struct lconv *lc = localeconv(); Usarlo para obtener el nombre de la moneda
-
 == gong-dbapp ==
-* Recién creada la base de datos, no se almacena el nombre de la misma: al recuperar una copia el nombre está vacío
+* No utilizar QWizard, no activar el botón crear base de datos al principio
+* Poner en rojo los mensajes de error
+* Encriptar la contraseña en settings.rc ?
 * No se guarda el orden de los ficheros embebidos: Extracto de cuenta de tesoreria.
 * dbApp: Carga la configuración de los módulos antes del login, con lo cual se queda aunque luego el login sea false, esto provoca errores en las vistas, por ejemplo.
 * Exportar: Pedir bien el fichero
-* Copia de seguridad: No pedir la carpeta.
 * Imprimir todo si hay un filtro tiene que imprimir solo los del filtro
 * dbRecord::seekCode, buscar por todos los códigos de la tabla
 ** Pensarlo mejor porque habría que pasar otro parámetro, quizás un flag: SeekCodeInAllCodes
@@ -157,14 +157,11 @@
 * Definir los .ddd de sin papeles y añadirlos a la configuración para las otras tablas
 
 == gong-rtk ==
-* El -1 de los informes debería significar a continuación del anterior
-* rtk: Cómo alinear una sección o secciones al final de la página?
+* rtk: Pensar: apaisado, el número de página no se va al final
+* rtk: adjustment: elide
 * No suprimir un valor en cambio de sección
 * Visor:
 ** Mostrar número de página/total páginas
-* Implementar padding de los objetos
-* El border bottom, cuando la sección tiene un posx=5, lo cuenta dos veces y empieza en pos=10
-* Al hacer un informe apaisado, el alto de línea es demasiado pequeño
 * Peta si se añade al inicio de xxxx_comun.inc:
 #ifndef AGRUPAR
 	SizeX = 120;

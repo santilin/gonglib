@@ -1,10 +1,3 @@
-/**
-	\todo {0.3.4} Poner en rojo los mensajes de error
-	\todo {0.3.4} No activar el botón crear base de datos al principio
-	\todo {0.3.4} Encriptar la contraseña en settings.rc ?
-*/
-
-
 #include <unistd.h>
 #include <cstdlib>              // getenv
 #include <cstdio>

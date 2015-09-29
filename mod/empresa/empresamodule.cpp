@@ -564,7 +564,7 @@ void EmpresaModule::rereadEmpresa()
                 pRecEmpresa->getRecMoneda()->setRegConfigFromValues( *DBAPP->getRegConfig() );
             } else {
                 pRecEmpresa->getRecMoneda()->clear( true );
-                pRecEmpresa->getRecMoneda()->setValue( "NOMBRE", "Moneda" );
+                pRecEmpresa->getRecMoneda()->setValue( "NOMBRE", (*DBAPP->getRegConfig()).getCurrencyName() );
                 pRecEmpresa->getRecMoneda()->setValue( "CODIGO", 1 );
                 pRecEmpresa->getRecMoneda()->setValuesFromRegConfig( *DBAPP->getRegConfig() );
                 pRecEmpresa->getRecMoneda()->save(false);
@@ -577,7 +577,7 @@ void EmpresaModule::rereadEmpresa()
         if( !pRecEmpresa->getRecContacto()->getRecordID() ) {
             DBAPP->showStickyOSD( DBAPP->getPackageString(),
                                   Xtring::printf(_("%s no tiene definidos sus datos de contacto. El programa no funcionará correctamente hasta que los definas."),
-                                                 DBAPP->getTableDescSingular("EMPRESA", "la").c_str() ) );
+                                                 DBAPP->getTableDescSingular("EMPRESA", "La").c_str() ) );
         }
         DBAPP->resetCursor();
     }

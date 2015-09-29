@@ -179,8 +179,10 @@ Xtring GuiApplication::getOpenFileName(const Xtring &caption,
         initial = sLastSavePath ;
     else if( initialname.find("/") == Xtring::npos ) 
         initial = sLastSavePath + "/" + initialname;
+	else
+		initial = initialname;
     QString fn = QFileDialog::getOpenFileName(parent, toGUI( caption ),
-                 toGUI ( initial ), toGUI( filter ) );
+                 initial.c_str(), toGUI( filter ) );
 	theGuiApp->resetCursor();
     if ( fn.isEmpty() )
         return Xtring::null;
@@ -209,8 +211,10 @@ Xtring GuiApplication::getSaveFileName(const Xtring &caption,
         initial = sLastSavePath ;
     else if( initialname.find("/") == Xtring::npos ) 
         initial = sLastSavePath + "/" + initialname;
+	else
+		initial = initialname;
     QString fn = QFileDialog::getSaveFileName(parent, toGUI( caption ),
-                 toGUI ( initial ), toGUI( filter ) );
+                 initial.c_str(), toGUI( filter ) );
 	theGuiApp->resetCursor();
     if ( fn.isEmpty() )
         return Xtring::null;
@@ -225,7 +229,7 @@ Xtring GuiApplication::getExistingDirName(const Xtring& caption,
     _GONG_DEBUG_TRACE(0);
 	theGuiApp->waitCursor( false );
     QString dirname = QFileDialog::getExistingDirectory(
-                          parent, toGUI(caption), toGUI( initialname ),
+                          parent, toGUI(caption), initialname.c_str(),
                           QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 	theGuiApp->resetCursor();
     return fromGUI( dirname );

@@ -200,6 +200,7 @@ public:
     void setGrouping(const Xtring& grouping) {
         mGrouping = grouping;
     };
+	Xtring getCurrencyName() const;
 
 private:
     char mDecimalPoint;
