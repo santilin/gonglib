@@ -67,6 +67,9 @@ share/tpv
 share/ventasweb
 share/editorial
 share/gastos
+share/dbapp
+share/modelosfiscales
+share/tesoreria
 tests/Debug/
 tests/dbapp
 tests/gonglib

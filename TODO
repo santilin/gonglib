@@ -7,7 +7,6 @@
 == Errores ==
 * No se carga la definición de los datos de los behaviors de empresa en tesoreria y pagos
 * Dar de alta una forma depago, dar de alta la cuenta escribiéndola en la forma de pago, al crear la cuenta no aparece el nombre de la cuenta.
-* Da error de que en forma de pago la cuenta no puede estar vacía.
 * Añadir la cuenta a la forma de pago desde un behavior en tesoreria.
 * Taborder en miembros
 * Añadir IBAN
