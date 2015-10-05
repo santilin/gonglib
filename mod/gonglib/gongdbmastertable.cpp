@@ -10,8 +10,8 @@ dbFieldDefinition *dbMasterTable::addFieldOne2OneRelation(const Xtring &name,
     Xtring reftable = dbFieldDefinition::extractTableName( referredField );
     Xtring reffield = dbFieldDefinition::extractFieldName( referredField );
     pTableDefinition->addRelationDefinition( dbRelationDefinition::one2one, pTableDefinition->getName(), name, reftable, reffield );
-    dbFieldReferenceID *fld = new dbFieldReferenceID(pTableDefinition->getName(), name, referredField,
-            canbenull ? dbFieldDefinition::NONE : dbFieldDefinition::NOTNULL);
+    dbFieldReferenceID *fld = new dbFieldReferenceID(pTableDefinition->getName(), name, referredField);
+	fld->setCanBeNull(canbenull);
     return pTableDefinition->addField(fld);
 }
 
