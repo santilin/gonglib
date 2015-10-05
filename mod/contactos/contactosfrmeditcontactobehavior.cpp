@@ -169,7 +169,7 @@ void FrmEditContactoBehavior::setTabOrders(QWidget* pre, QWidget* post)
 
 void FrmEditContactoBehavior::scatterContacto()
 {
-    /*<<<<<FRMEDITCONTACTOBEHAVIOR_SCATTER_CONTACTO*/
+/*<<<<<FRMEDITCONTACTOBEHAVIOR_SCATTER_CONTACTO*/
 	editContactoCIF->setText( getRecContacto()->getValue("CIF") );
 	editContactoNombre->setText( getRecContacto()->getValue("NOMBRE") );
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_SCATTER_CONTACTO*/
@@ -316,6 +316,7 @@ bool FrmEditContactoBehavior::setCIFAndLookForIt(const Xtring& cif)
         mSearching = 0;
         return true;
     } else {
+		DBAPP->hideOSD();
         mSearching = 1;
         getRecContacto()->setNew( true );
         getRecContacto()->clear( true );
@@ -323,6 +324,8 @@ bool FrmEditContactoBehavior::setCIFAndLookForIt(const Xtring& cif)
         getRecContacto()->setValue( "CIF", Xtring::null ); // Delete the provisional CIF
         getRecContacto()->setValue( "CODIGO", getRecContacto()->selectNextInt("CODIGO", Xtring::null, true ) );
         scatterContacto();
+		editContactoNombre->setJustEdited(true);
+		validateFields(true, editContactoNombre, 0, 0);
         return false;
     }
 }
@@ -443,7 +446,7 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
                     if( sender == editContactoCIF ) {
                         dbRecordID otherid = findDupCIFOrName( editContactoCIF, true );
                         if( otherid ) {
-                            if( pTheForm->msgYesNo( pTheForm, Xtring::printf( _("Existe %s con %s '%s'.\n¿Quieres copiar sus datos aqui?"),
+                            if( mSearching || pTheForm->msgYesNo( pTheForm, Xtring::printf( _("Existe %s con %s '%s'.\n¿Quieres copiar sus datos aqui?"),
                                                     DBAPP->getTableDescSingular("CONTACTO", "una").c_str(),
                                                     cifdef->getCaption().c_str(),
                                                     editContactoCIF->toString().c_str(),
@@ -464,7 +467,7 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
                     if( !copied && sender == editContactoNombre && editContactoNombre->isJustEdited() ) {
                         otherid = findDupCIFOrName( editContactoNombre, true );
                         if( otherid ) {
-                            if( pTheForm->msgYesNo( pTheForm, Xtring::printf( _("Existe %s con %s '%s'.\n¿Quieres copiar sus datos aqui?"),
+                            if( mSearching || pTheForm->msgYesNo( pTheForm, Xtring::printf( _("Existe %s con %s '%s'.\n¿Quieres copiar sus datos aqui?"),
                                                     DBAPP->getTableDescSingular("CONTACTO", "una").c_str(),
                                                     nombredef->getCaption().lower().c_str(),
                                                     editContactoNombre->toString().c_str() ) ) ) {
@@ -551,7 +554,7 @@ dbRecordID FrmEditContactoBehavior::findDupCIFOrName( QWidget *sender,
         if( !bigcond.isEmpty() )
             bigcond += " AND ";
         bigcond += "(NOMBRE=" + DBAPP->getConnection()->toSQL( editContactoNombre->toString() );
-        bigcond += "OR NOMBREALT=" + DBAPP->getConnection()->toSQL( editContactoNombre->toString() + ")");
+        bigcond += "OR NOMBREALT=" + DBAPP->getConnection()->toSQL( editContactoNombre->toString()) + ")";
     }
     if( !cond.isEmpty() )
         bigcond = "(" + bigcond + ")AND(" + cond + ")";

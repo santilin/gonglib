@@ -72,6 +72,7 @@ public:
 		QWidget *parent = 0, const char* name = 0,
 		WidgetFlags fl = WidgetFlags(0) );
 /*>>>>>PAGOSMODULE_CLASS_DEFINITION*/
+	void afterCreateEditForm( FrmEditRec *frm, dbRecord *rec );
 
     enum EstadoRecibo { ReciboSinEstado = 0, ReciboPendiente = 1, ReciboPagado = 2, ReciboDevuelto = 3, ReciboAnulado = 4 };
     virtual Xtring getMigrationSQL( uint old_version ) const;

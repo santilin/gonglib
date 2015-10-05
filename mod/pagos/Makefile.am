@@ -8,14 +8,14 @@ libgongpagos_la_SOURCES = pagosmodule.cpp \
 	pagosfrmeditremesacobro.cpp pagosrecremesacobro.cpp \
 	pagosfrmeditformapago.cpp pagosrecformapago.cpp \
 	pagosfrmpagarrecibo.cpp pagosipagablerecord.cpp \
-	pagoscuaderno19.cpp
+	pagoscuaderno19.cpp pagosfrmeditempresabehavior.cpp
 
 libgongpagos_la_HEADERS = pagosmodule.h pagosmastertable.h \
 	pagosfrmeditcobro.h pagosfrmpagarrecibo.h pagosfrmeditpago.h \
 	pagosfrmeditformapago.h pagosrecformapago.h \
 	pagosfrmeditremesacobro.h pagosrecremesacobro.h \
 	pagosreccobro.h pagosrecpago.h pagosipagablerecord.h \
-	pagoscuaderno19.h
+	pagoscuaderno19.h pagosfrmeditempresabehavior.h
 
 nodist_libgongpagos_la_SOURCES = moc_pagosmodule.cpp \
 	moc_pagosfrmeditcobro.cpp moc_pagosfrmeditpago.cpp \

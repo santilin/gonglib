@@ -23,7 +23,13 @@
 
 class QAction;
 class QMenu;
+#ifdef HAVE_EMPRESAMODULE
+#include <empresamodule.h>
+#else
+#error El módulo 'tesoreria::TesoreriaModule' requiere el módulo 'empresa'
+#endif
 /*>>>>>TESORERIAMODULE_INCLUDES*/
+#include <empresamodule.h>
 
 namespace gong {
 namespace tesoreria {
@@ -31,7 +37,7 @@ namespace tesoreria {
 /*<<<<<TESORERIAMODULE_CLASS_DEFINITION*/
 class TesoreriaModule: public QObject, public dbModule
 {
-	Q_OBJECT
+	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
 	TesoreriaModule();
 	virtual ~TesoreriaModule();
@@ -69,8 +75,14 @@ public:
         return mTablasDocumentos;
     }
 
+/*<<<<<TESORERIAMODULE_REQUIRES*/
+public:
+	empresa::EmpresaModule *getempresaModule() const { return pempresaModule; }
+private:
+	empresa::EmpresaModule *pempresaModule;
+/*>>>>>TESORERIAMODULE_REQUIRES*/
 
-    /*<<<<<TESORERIAMODULE_RECORD_DEFINITIONS*/
+/*<<<<<TESORERIAMODULE_RECORD_DEFINITIONS*/
 public:
 	tesoreria::MasterTable *getFicApunteTesoreria() const { return pFicApunteTesoreria; }
 	tesoreria::MasterTable *getFicCuentaTesoreria() const { return pFicCuentaTesoreria; }

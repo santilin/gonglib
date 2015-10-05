@@ -136,13 +136,8 @@ FactuModule::FactuModule()
     _GONG_DEBUG_TRACE( 1 );
     ModuleInstance = this;
     pModuleSettings = _settings;
-    pEmpresaModule = static_cast<empresa::EmpresaModule *>( DBAPP->findModule( "empresa" ) );
-    _GONG_DEBUG_ASSERT( pEmpresaModule );
-#ifdef HAVE_CONTABMODULE
-    pContabModule = static_cast<contab::ContabModule *>( DBAPP->findModule( "contab" ) );
-#endif
     mDescription = "Módulo de facturación";
-    /*<<<<<FACTUMODULE_PUBLIC_INFO*/
+/*<<<<<FACTUMODULE_PUBLIC_INFO*/
 	mModuleRequires << "empresa" << "pagos";
 	mMasterTables << "ARTICULO" << "CLIENTE" << "PROVEEDORA" << "AGENTE" << "FAMILIA" << "TIPODOC" << "PRESUPUESTOVENTA" << "PEDIDOVENTA" << "ALBARANVENTA" << "FACTURAVENTA" << "PEDIDOCOMPRA" << "ALBARANCOMPRA" << "FACTURACOMPRA" << "TIPOCLIENTE" << "ESTADOPEDIDO";
 	mDetailTables << "PRESUPUESTOVENTADET" << "PEDIDOVENTADET" << "ALBARANVENTADET" << "FACTURAVENTADET" << "PEDIDOCOMPRADET" << "ALBARANCOMPRADET" << "FACTURACOMPRADET";
@@ -155,6 +150,8 @@ FactuModule::FactuModule()
 	pContabModule = static_cast< contab::ContabModule * >(DBAPP->findModule( "Contab" ));
 #endif
 /*>>>>>FACTUMODULE_PUBLIC_INFO*/
+    _GONG_DEBUG_ASSERT( pPagosModule );
+    _GONG_DEBUG_ASSERT( pEmpresaModule );
     mMasterTables << "ARTICULOIMAGEN";
     mInsertables << "PRESUPUESTOVENTA" << "PEDIDOVENTA" << "ALBARANVENTA" << "FACTURAVENTA"
                  << "PEDIDOCOMPRA" << "ALBARANCOMPRA" << "FACTURACOMPRA";

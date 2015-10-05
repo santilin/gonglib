@@ -1688,16 +1688,20 @@ void FrmEditRec::scatter()
     QTabBar *tb = pTabWidget->findChild<QTabBar *>();
     if( tb && tb->isVisible() )
         tb->setCurrentIndex( 0 );
-    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-            bit != mBehaviors.end();
-            ++ bit ) {
-        (*bit)->scatterFields( BEHAVIOR_PRE );
-    }
-    scatterFields();
-    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-            bit != mBehaviors.end();
-            ++ bit ) {
-        (*bit)->scatterFields( BEHAVIOR_POST );
+	try {
+		for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+				bit != mBehaviors.end();
+				++ bit ) {
+			(*bit)->scatterFields( BEHAVIOR_PRE );
+		}
+		scatterFields();
+		for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+				bit != mBehaviors.end();
+				++ bit ) {
+			(*bit)->scatterFields( BEHAVIOR_POST );
+		}
+	} catch( dbError e ) {
+        FrmBase::msgError( DBAPP->getPackageString(), e.what() );
     }
     mIsFirstScatter = false;
 }
@@ -1706,22 +1710,27 @@ void FrmEditRec::validate(QWidget* sender, bool* isvalid, ValidResult* ir)
 {
     // If ir == 0, we want to show the messages, create a temporary validresult to hold
     // al the messages.
-    ValidResult *validresult = ( ir ? ir : new ValidResult() );
-    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-            bit != mBehaviors.end();
-            ++ bit ) {
-        (*bit)->validateFields( BEHAVIOR_PRE, sender, isvalid, validresult);
+	ValidResult *validresult = ( ir ? ir : new ValidResult() );
+	try {
+		for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+				bit != mBehaviors.end();
+				++ bit ) {
+			(*bit)->validateFields( BEHAVIOR_PRE, sender, isvalid, validresult);
+		}
+		validateFields(sender, isvalid, validresult);
+		for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
+				bit != mBehaviors.end();
+				++ bit ) {
+			(*bit)->validateFields( BEHAVIOR_POST, sender, isvalid, validresult);
+		}
+	} catch( dbError e ) {
+        FrmBase::msgError( DBAPP->getPackageString(), e.what() );
     }
-    validateFields(sender, isvalid, validresult);
-    for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
-            bit != mBehaviors.end();
-            ++ bit ) {
-        (*bit)->validateFields( BEHAVIOR_POST, sender, isvalid, validresult);
-    }
-    if ( !ir ) {
-        showValidMessages( isvalid, *validresult, sender );
-        delete validresult;
-    }
+	if ( !ir ) {
+		showValidMessages( isvalid, *validresult, sender );
+		delete validresult;
+	}
+
 }
 
 bool FrmEditRec::canBeginEdit(EditMode newmode)

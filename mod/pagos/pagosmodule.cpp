@@ -20,6 +20,8 @@
 #include <dbappdbapplication.h>
 #include <dbappnameslisttable.h>
 #include <dbappfrmeditnameslisttable.h>
+#include <empresamodule.h>
+#include "pagosfrmeditempresabehavior.h"
 #include "pagosmodule.h"
 #include "pagosfrmeditformapago.h"
 #include "pagosfrmeditremesacobro.h"
@@ -27,6 +29,7 @@
 #include "pagosfrmeditpago.h"
 /*>>>>>PAGOSMODULE_INCLUDES*/
 #include "pagosfrmpagarrecibo.h"
+#include "pagosfrmeditempresabehavior.h"
 
 #ifdef HAVE_CONTABMODULE
 #include <contabmodule.h>
@@ -88,12 +91,16 @@ bool PagosModule::initDatabase(dbDefinition *db)
     _GONG_DEBUG_ASSERT( db );
     pMainDatabase = db;
 
-    /*<<<<<PAGOSMODULE_INIT_DATABASE*/
+/*<<<<<PAGOSMODULE_INIT_DATABASE*/
 	pFicTipoFormaPago = new NamesListTable( *pMainDatabase, "TIPOFORMAPAGO" );
 	pMainDatabase->addTable( pFicTipoFormaPago->getTableDefinition() );
 	pFicEstadoRecibo = new NamesListTable( *pMainDatabase, "ESTADORECIBO" );
 	pMainDatabase->addTable( pFicEstadoRecibo->getTableDefinition() );
 /*>>>>>PAGOSMODULE_INIT_DATABASE*/
+
+    pagos::MasterTable *emt = new pagos::MasterTable( db->findTableDefinition( "EMPRESA" ) );
+    emt->addFieldString( "FORMATONUMRECIBO", 50 );
+    delete emt;
 
     // La tabla FORMAPAGO es común a todas las empresas y ejercicios
     pFicFormaPago = new empresa::MasterTable( *pMainDatabase, "FORMAPAGO" );
@@ -111,7 +118,7 @@ bool PagosModule::initDatabase(dbDefinition *db)
     pFicFormaPago->addField<contab::FldCuenta>( "SUBCUENTAPAGO" );
 #endif
 #ifdef HAVE_TESORERIAMODULE
-    pFicFormaPago->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
+    pFicFormaPago->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID", true );
 #endif
     pFicFormaPago->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicFormaPago->getTableDefinition() );
@@ -230,6 +237,14 @@ bool PagosModule::login(FrmLogin *frmlogin, const Xtring& version,
 {
     return true;
 }
+
+void PagosModule::afterCreateEditForm( FrmEditRec *frm, dbRecord *rec )
+{
+    if( rec->getTableName() == "EMPRESA" ) {
+        frm->addBehavior( new FrmEditEmpresaBehavior( frm ) );
+    }
+}
+
 
 /*<<<<<PAGOSMODULE_SLOT_EMPRESAFORMAPAGO*/
 void PagosModule::slotMenuEmpresaFormaPago()
@@ -380,6 +395,7 @@ RecRemesaCobro *PagosModule::getRecRemesaCobroPadre(const FrmEditRec *childfrm) 
     }
     return 0;
 }
+
 
 
 /*<<<<<PAGOSMODULE_FIN*/

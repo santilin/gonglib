@@ -76,6 +76,8 @@ public:
     bool isSelecting() const { return mEditMode == DataTable::selecting || mEditMode == DataTable::choosing; };
     bool isReadOnly() const { return mEditFlags & dbApplication::readOnly; }
     bool isFirstScatter() const { return mIsFirstScatter; }
+    void resetFlags(dbApplication::EditFlags flags) { mEditFlags = 
+		static_cast<dbApplication::EditFlags>(static_cast<int>(mEditFlags) & ~flags);  }
     void setFormFilter(const Xtring &filter) { mFormFilter = filter; }
     const Xtring &getFormFilter() const { return mFormFilter; }
     QWidget *findControl(const Xtring &fieldname) const;

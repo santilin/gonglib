@@ -1468,7 +1468,9 @@ Xtring dbApplication::upgradeDatabase( dbConnection *conn, dbDefinition* program
             programdb->dropIndexes(conn, false, true);
             programdb->createIndexes(conn, true);
             DBAPP->showStickyOSD( DBAPP->getPackageString(), _("Índices regenerados") );
-        }
+        } else {
+			DBAPP->hideOSD();
+		}
     } catch( dbError e ) {
         FrmBase::msgError( getPackageString(), e.what() );
     }

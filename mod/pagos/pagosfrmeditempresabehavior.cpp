@@ -1,43 +1,43 @@
 /*<<<<<MODULE_INFO*/
-// COPYLEFT Behavior para añadir campos al formulario de empresas
-// FIELD CuentaCaja string tabTesoreria
-// TYPE FrmEditRecBehavior tesoreria::Empresa 
+// COPYLEFT Behavior para añadir el campo formato número de recibo
+// FIELD FormatoNumRecibo string tabPagos
+// TYPE FrmEditRecBehavior pagos::Empresa
 /*>>>>>MODULE_INFO*/
 
 /*<<<<<FRMEDITEMPRESABEHAVIOR_INCLUDES*/
 #include <dbappmainwindow.h>
-#include "tesoreriafrmeditempresabehavior.h"
+#include "pagosfrmeditempresabehavior.h"
 /*>>>>>FRMEDITEMPRESABEHAVIOR_INCLUDES*/
 
 namespace gong {
-namespace tesoreria {
+namespace pagos {
 
 void FrmEditEmpresaBehavior::initGUI()
 {
 /*<<<<<FRMEDITEMPRESABEHAVIOR_INITGUI*/
 	QWidget *pControlsFrame = getControlsFrame();
 	QVBoxLayout* pControlsLayout = getControlsLayout();
-	QWidget *tabTesoreria = getOrCreateTab( "tabTesoreria" );
-	QVBoxLayout *tabTesoreriaLayout = static_cast<QVBoxLayout *>( tabTesoreria->layout() );
-	QHBoxLayout *cuentacajaLayout = new QHBoxLayout(0, 0, 6, "cuentacajaLayout");
-	editCuentaCaja = pTheForm->addEditField( tabTesoreria, "EMPRESA", "CUENTACAJA", cuentacajaLayout );
-	tabTesoreriaLayout->addLayout( cuentacajaLayout );
+	QWidget *tabPagos = getOrCreateTab( "tabPagos" );
+	QVBoxLayout *tabPagosLayout = static_cast<QVBoxLayout *>( tabPagos->layout() );
+	QHBoxLayout *formatonumreciboLayout = new QHBoxLayout(0, 0, 6, "formatonumreciboLayout");
+	editFormatoNumRecibo = pTheForm->addEditField( tabPagos, "EMPRESA", "FORMATONUMRECIBO", formatonumreciboLayout );
+	tabPagosLayout->addLayout( formatonumreciboLayout );
 /*>>>>>FRMEDITEMPRESABEHAVIOR_INITGUI*/
-    pTheForm->setTabTitle( tabTesoreria, _("Tesorería") );
+    pTheForm->setTabTitle( tabPagos, _("Pagos") );
 }
 
 void FrmEditEmpresaBehavior::scatterFields( bool is_pre )
 {
 	if( !is_pre) return;
 /*<<<<<FRMEDITEMPRESABEHAVIOR_SCATTER*/
-	editCuentaCaja->setText( pTheForm->getRecord()->getValue("CUENTACAJA").toString());
+	editFormatoNumRecibo->setText( pTheForm->getRecord()->getValue("FORMATONUMRECIBO").toString());
 /*>>>>>FRMEDITEMPRESABEHAVIOR_SCATTER*/
 }
 
 void FrmEditEmpresaBehavior::gatherFields()
 {
 /*<<<<<FRMEDITEMPRESABEHAVIOR_GATHER*/
-	pTheForm->getRecord()->setValue( "CUENTACAJA", editCuentaCaja->toString());
+	pTheForm->getRecord()->setValue( "FORMATONUMRECIBO", editFormatoNumRecibo->toString());
 /*>>>>>FRMEDITEMPRESABEHAVIOR_GATHER*/
 }
 
@@ -58,7 +58,7 @@ void FrmEditEmpresaBehavior::validateFields(bool is_pre,
 }
 
 /*<<<<<FRMEDITEMPRESABEHAVIOR_FIN*/
-} // namespace tesoreria
+} // namespace pagos
 } // namespace gong
 /*>>>>>FRMEDITEMPRESABEHAVIOR_FIN*/
 

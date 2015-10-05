@@ -151,6 +151,7 @@ void FrmEditProyecto::scatterFields()
         pTabMiembros->setEnabled(false);
         pTabRemesas->setEnabled(false);
         pTabPartidas->setEnabled(false);
+		resetFlags( dbApplication::editContinuous ); 
     }
 }
 

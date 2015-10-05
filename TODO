@@ -1,18 +1,22 @@
 == HECHO ==
 
-== Errores ==
-contactos: Borrar índice NOMBRE y crear índice NOMBRE + CIF
-* Se puede introducir un nombre alternativo, tipo alias, por el cual también se puede buscar el contacto.
+== Haciendo ==
+* Añadir pestaña tesorería a empresa y poner ahí la cuenta caja.
+* Campo en proyecto y empresa formato de los números de recibo
 
-== gong-empresa ==
-Añadir pestaña tesorería y poner ahí la cuenta caja.
+== Errores ==
+* No se carga la definición de los datos de los behaviors de empresa en tesoreria y pagos
+* Dar de alta una forma depago, dar de alta la cuenta escribiéndola en la forma de pago, al crear la cuenta no aparece el nombre de la cuenta.
+* Da error de que en forma de pago la cuenta no puede estar vacía.
+* Añadir la cuenta a la forma de pago desde un behavior en tesoreria.
+* Taborder en miembros
+* Añadir IBAN
 
 == gong-socias ==
+* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 * Revisar los -1 de los informes
 * Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón,
   por lo que me deja sin opción de continuar no hacer nada más,
-* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
-* Campo en remesa, o en proyecto o en la configuración: formato de los números de recibo
 * Elegir remesa en generar recibos, elegir solo las no cerradas
 * Tipo de partida: nameslisttable
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.
@@ -95,12 +99,13 @@ Añadir pestaña tesorería y poner ahí la cuenta caja.
 ** Niveles del plan contable
 
 == gong-contactos ==
-* fullAddress: No se usa para nada.
-* Visualizar contacto embebido: readonly botones
 * Comprobar que apellidos, nombre no duplica nombre, apellidos
 * Mostrar nombres parecidos al dar de alta un nombre
+* fullAddress: No se usa para nada.
+* Visualizar contacto embebido: readonly botones
 
 == gong-dbapp ==
+* comprobar ejercicios, si no hay nada,devuelve el 2008
 * No utilizar QWizard, no activar el botón crear base de datos al principio
 * Poner en rojo los mensajes de error
 * Encriptar la contraseña en settings.rc ?

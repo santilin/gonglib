@@ -5,6 +5,7 @@
 // RECORD TerceroTesoreria FrmEditRecMaster Tesoreria
 // RECORD ConceptoTesoreria FrmEditRecMaster Tesoreria
 // RECORD TipoApunteTesoreria FrmEditRecMaster Tesoreria
+// MODULE_REQUIRED Empresa
 // TYPE GongModule tesoreria::TesoreriaModule
 /*>>>>>MODULE_INFO*/
 
@@ -48,9 +49,10 @@ TesoreriaModule::TesoreriaModule()
     ModuleInstance = this;
     pModuleSettings = _settings;
 /*<<<<<TESORERIAMODULE_PUBLIC_INFO*/
-//	mModuleRequires
+	mModuleRequires << "empresa";
 	mMasterTables << "APUNTETESORERIA" << "CUENTATESORERIA" << "TERCEROTESORERIA" << "CONCEPTOTESORERIA" << "TIPOAPUNTETESORERIA";
 //	mDetailTables
+	pempresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "empresa" ));
 /*>>>>>TESORERIAMODULE_PUBLIC_INFO*/
     mTablasConceptos << "CONCEPTOTESORERIA";
     mTablasTerceros << "CUENTATESORERIA" << "CONTACTO";
@@ -138,7 +140,6 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicConceptoTesoreria->addFieldNotas();
     pFicConceptoTesoreria->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicConceptoTesoreria->getTableDefinition() );
-
 
     // Las cuentas son independientes para cada empresa y ejercicio
     pFicCuentaTesoreria = new MasterTable( *pMainDatabase, "CUENTATESORERIA" );
