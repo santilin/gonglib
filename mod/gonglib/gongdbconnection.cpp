@@ -76,7 +76,6 @@ static dbError doSqliteAlterTable(dbConnection *sqliteconn, const Xtring &query)
         // Simulate ALTER TABLE ... DROP COLUMN ...
         Xtring create = sqliteconn->selectString(
                             "select group_concat(SQL, x'0A' || ';' || x'0A') from SQLite_Master where tbl_name = '" + tablename + "'");
-        _GONG_DEBUG_PRINT(0, create);
         Xtring::size_type col_start = create.find("\"" + column + "\"");
         if(col_start == Xtring::npos) // sometimes there are no double quotes
             col_start = create.find("(" + column + " "); // Maybe is the first column
@@ -97,7 +96,6 @@ static dbError doSqliteAlterTable(dbConnection *sqliteconn, const Xtring &query)
                                            column.c_str()), 1091, query);
         create.erase(create.begin() + col_start, create.begin()+nextnull + null_length );
         // @todo Remove triggers and indexes
-        _GONG_DEBUG_PRINT(0, create);
         Xtring insert = "INSERT INTO \"" + tablename + "\" SELECT ";
         bool firstfield = true;
         dbResultSet *rs = sqliteconn->select( "SHOW FIELDS FROM " + tablename );

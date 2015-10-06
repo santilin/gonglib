@@ -379,7 +379,6 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
                 }
             }
         }
-        _GONG_DEBUG_PRINT(0, toString( TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS ));
         // Find or create related records
         for( XtringList::const_iterator relit = related_tables.begin();
                 relit != related_tables.end(); ++relit ) {

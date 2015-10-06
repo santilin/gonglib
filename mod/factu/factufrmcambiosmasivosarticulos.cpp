@@ -101,7 +101,6 @@ bool FrmCambiosMasivosArticulos::validate()
         msgError(this, _("Si seleccionas familias o proveedoras, no puedes seleccionar artículos") );
         return false;
     }
-    _GONG_DEBUG_PRINT(0, pComboCampoPrecioBase->getCurrentItemValue() );
     if( pComboOperacionPrecio->getCurrentItemValue() != OP_PRECIOS_FIJO
             && pComboCampoPrecioBase->getCurrentItemValue().isEmpty() ) {
         msgError(this, _("Elige un campo sobre el que aplicar los cambios") );

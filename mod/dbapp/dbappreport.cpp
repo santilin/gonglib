@@ -39,7 +39,6 @@ private:
 
 void ReportViewer::keyPressEvent( QKeyEvent *ke )
 {
-    _GONG_DEBUG_PRINT(0, ke->key() );
     if( !(ke->state() & (Qt::ControlModifier | Qt::ShiftModifier | Qt::MetaModifier | Qt::AltModifier )) )
         if( ke->key() == Qt::Key_Escape ) {
             close();

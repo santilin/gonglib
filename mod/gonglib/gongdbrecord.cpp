@@ -879,8 +879,6 @@ bool dbRecord::removeRelated( bool updating )
                         dbRecord *related_record_orig = recrel->getRelatedRecordListOrig()->at(nr);
 						if( optimizing_out ) {
 							if( nr < recrel->getRelatedRecordList()->size() ) {
-								_GONG_DEBUG_PRINT(0, recrel->getRelatedRecordList()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE ));
-								_GONG_DEBUG_PRINT(0, related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ));
 								if( recrel->getRelatedRecordList()->at(nr)->toString( TOSTRING_DEBUG_COMPLETE )
 									!= related_record_orig->toString( TOSTRING_DEBUG_COMPLETE ) )
 									optimizing_out = false;

@@ -221,7 +221,6 @@ int SettingsTree::findChild(QTreeWidgetItem *parent, const Xtring &text,
 {
 	QString search = toGUI(text).upper();
     for (int i = startIndex; i < childCount(parent); ++i) {
-		_GONG_DEBUG_PRINT(0, fromGUI(childAt(parent, i)->text(0)));
         if (childAt(parent, i)->text(0).upper() == search)
             return i;
     }

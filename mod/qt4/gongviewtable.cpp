@@ -30,13 +30,11 @@ private:
 
 int ViewTableModel::columnCount(const QModelIndex& parent) const
 {
-    _GONG_DEBUG_PRINT(0, mFields.size());
     return mFields.size();
 }
 
 int ViewTableModel::rowCount(const QModelIndex& parent) const
 {
-    _GONG_DEBUG_PRINT(0, getRowCount() );
     return getRowCount();
 }
 
@@ -70,8 +68,8 @@ QVariant ViewTableModel::headerData(int section, Qt::Orientation orientation, in
 
 void ViewTableModel::addColumn(const dbFieldDefinition *fldinfo, const QIcon& iconset)
 {
-    _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo campo %p,%s a la tabla con caption=%s y width=%d",
-                                        fldinfo, fldinfo->getFullName().c_str(), fldinfo->getCaption().c_str(), fldinfo->getDisplayWidth() ) );
+//     _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo campo %p,%s a la tabla con caption=%s y width=%d",
+//                                         fldinfo, fldinfo->getFullName().c_str(), fldinfo->getCaption().c_str(), fldinfo->getDisplayWidth() ) );
     mFields.push_back( fldinfo );
     mIcons.push_back( iconset );
 }
@@ -89,8 +87,8 @@ bool ViewTableModel::setView( int newview )
     {
         for ( unsigned int i = 0; i < curView->getFieldCount(); ++i )
         {
-            _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo columna: %s",
-                                                curView->getFieldDefinition(i)->getName().c_str() ) );
+//             _GONG_DEBUG_PRINT(0, Xtring::printf("Añadiendo columna: %s",
+//                                                 curView->getFieldDefinition(i)->getName().c_str() ) );
             addColumn( curView->getFieldDefinition(i), QIcon() );
         }
         reset();

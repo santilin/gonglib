@@ -124,14 +124,14 @@ Xtring dbFieldDefinition::sameSQLSchema( const dbFieldDefinition *other, dbConne
                || ( isPrimaryKey() != other->isPrimaryKey() )
                || ( isSequence() != other->isSequence() )
              )  {
-        _GONG_DEBUG_PRINT(0, Xtring::printf("Column type: %d, %d", getSqlColumnType(), other->getSqlColumnType() ) );
-        _GONG_DEBUG_PRINT(0, Xtring::printf("Primary key: %d, %d", isPrimaryKey(), other->isPrimaryKey() ) );
-        _GONG_DEBUG_PRINT(0, Xtring::printf("Sequence: %d, %d", isSequence(), other->isSequence() ) );
+        _GONG_DEBUG_PRINT(3, Xtring::printf("Column type: %d, %d", getSqlColumnType(), other->getSqlColumnType() ) );
+        _GONG_DEBUG_PRINT(3, Xtring::printf("Primary key: %d, %d", isPrimaryKey(), other->isPrimaryKey() ) );
+        _GONG_DEBUG_PRINT(3, Xtring::printf("Sequence: %d, %d", isSequence(), other->isSequence() ) );
         ret ="ALTER TABLE " + getTableName() + " CHANGE COLUMN " + other->getName() + " " + getName() + " " + toDDL(conn) + ";\n";
     }
     else if( !purging ) {
         if( canBeNull() != other->canBeNull() ) {
-            _GONG_DEBUG_PRINT(0, Xtring::printf("Null: %d, %d", canBeNull(), other->canBeNull() ) );
+            _GONG_DEBUG_PRINT(3, Xtring::printf("Null: %d, %d", canBeNull(), other->canBeNull() ) );
             ret ="ALTER TABLE " + getTableName() + " CHANGE COLUMN " + other->getName() + " " + getName() + " " + toDDL(conn) + ";\n";
         } else if( getSqlColumnType() != SQLFLOAT && // Float fields have no size
                    ( ((getSqlWidth() != 0) && (other->getSqlWidth() != 0) && (getSqlWidth() != other->getSqlWidth() ))
@@ -149,7 +149,7 @@ Xtring dbFieldDefinition::sameSQLSchema( const dbFieldDefinition *other, dbConne
             }
             if( changed ) {
                 // Avoid changing column if one default value is empty and the other is "0"
-                _GONG_DEBUG_PRINT(0, Xtring::printf("Default value: %s, %s", getDefaultValue().c_str(), other->getDefaultValue().c_str() ) );
+                _GONG_DEBUG_PRINT(3, Xtring::printf("Default value: %s, %s", getDefaultValue().c_str(), other->getDefaultValue().c_str() ) );
                 ret ="ALTER TABLE " + getTableName() + " CHANGE COLUMN " + other->getName() + " " + getName() + " " + toDDL(conn) + ";\n";
             }
         }

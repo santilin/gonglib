@@ -98,8 +98,6 @@ void GuiMainWindow::initGUI()
 
 void GuiMainWindow::initActions()
 {
-
-
     QString text, desc;
     text = toGUI( _( "Cortar" ) ) ;
     desc = toGUI( _( "Corta la sección seleccionada y la coloca en el portapapeles" ) ) ;

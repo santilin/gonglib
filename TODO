@@ -1,10 +1,12 @@
 == HECHO ==
 
 == Haciendo ==
-* Añadir pestaña tesorería a empresa y poner ahí la cuenta caja.
-* Campo en proyecto y empresa formato de los números de recibo
 
 == Errores ==
+* No deja entrar con el ratón a las cantidades numéricas
+* La ventana de artículos en el TPV, si se queda abajo luego no funciona bien.
+* tpv -t: al no cargar main window, los . y las , del total del ticket no se suma bien
+* Que no salga el error de opción errónea en getopt
 * No se carga la definición de los datos de los behaviors de empresa en tesoreria y pagos
 * Dar de alta una forma depago, dar de alta la cuenta escribiéndola en la forma de pago, al crear la cuenta no aparece el nombre de la cuenta.
 * Añadir la cuenta a la forma de pago desde un behavior en tesoreria.
@@ -24,6 +26,7 @@
 * Revisar los -1 de los informes
 
 == gong-factu ==
+* Cambios masivos: Sumar porcentaje 0. No funciona.
 * Comprobar todos los -1 de los informes de balance de pagos y cobros
 * Estadísticas de compras y ventas: Agrupar por razón social, ¿cómo sé si es cliente o proveedora?
 * Factu: Formulario datos ventas y compras de artículos

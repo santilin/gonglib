@@ -67,7 +67,6 @@ QMdiSubWindow *MainWindow::createClient(QWidget *widget, bool force )
 bool MainWindow::eventFilter( QObject * watched, QEvent * event )
 {
     if( FrmBase *asfrm = dynamic_cast<FrmBase *>(watched)) {
-        _GONG_DEBUG_PRINT(0, asfrm->name() );
         if( dynamic_cast<QCloseEvent *>(event) ) {
             Xtring name = asfrm->name();
             if( !name.isEmpty() ) {

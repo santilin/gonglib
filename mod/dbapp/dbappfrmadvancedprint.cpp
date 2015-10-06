@@ -46,7 +46,7 @@ FrmAdvancedPrint::FrmAdvancedPrint(FrmEditRecMaster *theform,
     ReportsList rplst = AppReport::getReportsList();
     for( ReportsList::iterator it = rplst.begin();
             it != rplst.end(); 	++it) {
-        _GONG_DEBUG_PRINT(0, Xtring::printf("Titulo: %s, repFrom:%s",
+        _GONG_DEBUG_PRINT(1, Xtring::printf("Titulo: %s, repFrom:%s",
                                             (*it).repTitle.c_str(), (*it).repFrom.join(",").c_str() ) );
         if( (*it).repFrom.contains( pTheForm->getRecord()->getTableName() ) ) {
             templates_captions << (*it).repPath;

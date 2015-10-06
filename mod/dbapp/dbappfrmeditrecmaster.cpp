@@ -1523,13 +1523,11 @@ void FrmEditRecMaster::menuTableImport_clicked()
             r->clear( true ); // set custom default values
             r->setNew( true );
             r->fromString( *linesit, TOSTRING_CSV, headersline );
-            _GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
             dbRecordID existing_id = 0;
             r->findMatchingRecord(&existing_id);
             if( existing_id ) {
                 if( siexiste == 0) { // Actualizar
                     r->read( existing_id );
-                    _GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
                     r->fromString( *linesit, TOSTRING_CSV, headersline );
                 } else if( siexiste == 1 ) { // Ignorar
                     continue; // Leer el siguiente
@@ -1538,9 +1536,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
                     break;
                 }
             }
-            _GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
             r->readRelated( true );
-            _GONG_DEBUG_PRINT(0, r->toString( TOSTRING_DEBUG_COMPLETE ) );
             bool revisaerroneo = false;
             if( !r->isValid( ValidResult::fixing, 0 ) ) {
                 DBAPP->showOSD( _("Importar"), _("Este registro contiene errores.") );

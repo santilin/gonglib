@@ -164,7 +164,7 @@ bool TesoreriaModule::initDatabase(dbDefinition *db)
     pFicApunteTesoreria->addFieldDate( "FECHA" );
     pFicApunteTesoreria->addFieldEuro( "IMPORTE" );
     pFicApunteTesoreria->addFieldOne2OneRelation( "PROYECTO_ID", "PROYECTO.ID", true );
-    pFicApunteTesoreria->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID" );
+    pFicApunteTesoreria->addFieldOne2OneRelation( "CUENTATESORERIA_ID", "CUENTATESORERIA.ID", false );
     pFicApunteTesoreria->addFieldListOfValues<Xtring>( false, &getTablasTerceros(), &getTablasTerceros(),
             "TABLATERCEROS" )->setCanBeNull(true);
     pFicApunteTesoreria->addFieldReferenceID( "TERCERO_ID", "TERCERO.ID" );

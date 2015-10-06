@@ -203,7 +203,6 @@ bool ReportInput::parseAttribute ( const char *token, const char *value )
         setOrigFrom ( value );
     else if ( strcaseequal ( token, "Where" ) ) {
         setOrigWhere ( value );
-		_GONG_DEBUG_PRINT(0, value);
 	}
     else if ( strcaseequal ( token, "OrderBy" ) )
         setOrigOrderBy ( value );

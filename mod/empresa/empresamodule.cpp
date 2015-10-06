@@ -446,6 +446,7 @@ void EmpresaModule::afterLoad()
 {
     if ( !pRecEmpresa )
         pRecEmpresa = static_cast<RecEmpresa *>( DBAPP->createRecord( "EMPRESA" ) );
+	rereadEmpresa();
 }
 
 
@@ -534,7 +535,6 @@ bool EmpresaModule::initMainWindow( MainWindow *mainwin )
     QAction *menucontactosmailing = DBAPP->getMainWindow()->findAction( "MenuContactosMailing" );
     if( menucontactosmailing )
         menucontactosmailing->addTo( pMenuEmpresa );
-    rereadEmpresa();
     return true;
 }
 

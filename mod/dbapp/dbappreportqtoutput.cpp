@@ -77,7 +77,6 @@ Measure ReportQtOutput::startPage()
             delete aPicture;
             return 0;
         }
-		_GONG_DEBUG_PRINT(0, mReport.backColor().name() );
 		mPainter.setBrush(QBrush(toQColor(mReport.backColor())));
         mPageCollection.push_back( aPicture );
     }

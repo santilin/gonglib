@@ -238,6 +238,11 @@ void dbApplication::readSettings()
     pMachineSettings->read( getGlobalDataDir() + Xtring(getPackageName()).lower() + ".ddd" );
     // Ŕead again the userlocalsettings so that they take precedence over the modules' settings
     pUserLocalSettings->read();
+    _GONG_DEBUG_PRINT(1, QIcon::themeName().latin1() );
+    const char *tn = getAppSetting( "ICON_THEME" ).toString().c_str();
+    if( !strempty(tn) && tn != QIcon::themeName() )
+        QIcon::setThemeName( tn );
+	
 }
 
 bool dbApplication::readDatabaseSettings(const Xtring& tablename, const Xtring& filter)
@@ -446,7 +451,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
             }
             uint db_mod_version = module->getValue( "VERSION" ).toInt();
             if( mod_version != 0 ) {
-                _GONG_DEBUG_PRINT(0, "Module " + mod->getUnixName() + ":version: " + Xtring::number( mod_version ) + ", dbversion " + Xtring::number( db_mod_version ) );
+                _GONG_DEBUG_PRINT(1, "Module " + mod->getUnixName() + ":version: " + Xtring::number( mod_version ) + ", dbversion " + Xtring::number( db_mod_version ) );
                 if( mod_version < db_mod_version ) {
                     FrmBase::msgError( DBAPP->getPackageString(),
                                        Xtring::printf( _("%s no está actualizado.\n"
@@ -608,10 +613,6 @@ bool dbApplication::initMainWindow()
         delete pFrmLogin;
         pFrmLogin = 0;
     }
-    _GONG_DEBUG_PRINT(1, QIcon::themeName().latin1() );
-    const char *tn = getAppSetting( "ICON_THEME" ).toString().c_str();
-    if( !strempty(tn) && tn != QIcon::themeName() )
-        QIcon::setThemeName( tn );
     return ret;
 }
 
