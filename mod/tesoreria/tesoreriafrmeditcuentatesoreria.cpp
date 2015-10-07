@@ -75,6 +75,15 @@ void FrmEditCuentaTesoreria::scatterFields()
 	editFechaSaldoInicial->setText(getRecCuentaTesoreria()->getValue("FECHASALDOINICIAL").toDate());
 	editNotas->setText(getRecCuentaTesoreria()->getValue("NOTAS").toString());
 /*>>>>>FRMEDITCUENTATESORERIA_SCATTER*/
+    if( isInserting() && !isDuplicating() && !DBAPP->codeNotFound().isEmpty() ) {
+        if( DBAPP->codeNotFound().toInt() != 0 ) {
+            editCodigo->setText( DBAPP->codeNotFound() );
+            editCodigo->setJustEdited( true );
+        } else {
+            editNombre->setText( DBAPP->codeNotFound() );
+            editNombre->setJustEdited( true );
+        }
+    }
     if( !mSaveSaldoInicial.isValid() ) {
         mSaveSaldoInicial = editSaldoInicial->toVariant();
         mSaveSaldo = editSaldo->toVariant();

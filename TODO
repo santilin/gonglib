@@ -5,11 +5,6 @@
 == Errores ==
 * No deja entrar con el ratón a las cantidades numéricas
 * La ventana de artículos en el TPV, si se queda abajo luego no funciona bien.
-* tpv -t: al no cargar main window, los . y las , del total del ticket no se suma bien
-* Que no salga el error de opción errónea en getopt
-* No se carga la definición de los datos de los behaviors de empresa en tesoreria y pagos
-* Dar de alta una forma depago, dar de alta la cuenta escribiéndola en la forma de pago, al crear la cuenta no aparece el nombre de la cuenta.
-* Añadir la cuenta a la forma de pago desde un behavior en tesoreria.
 * Taborder en miembros
 * Añadir IBAN
 
@@ -84,6 +79,7 @@
 
 == gong-tesoreria ==
 * Borrar cuenta, si solo se usa como tercero_id, no se detecta si está siendo usada.
+* Añadir la cuenta a la forma de pago desde un behavior en tesoreria.
 
 == gong-contab ==
 * Comprobar todos los -1 de todos los informes.

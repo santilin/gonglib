@@ -794,7 +794,6 @@ bool IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
             if( has_contab ) {
                 dbRecordID apunteid = recibo->getValue( apuntable->getRecordApunteIDField() ).toInt();
                 if( apunteid ) {
-					_GONG_DEBUG_PRINT(0, dynamic_cast<tesoreria::IApuntableRecord *>(recibo)->getTablaApunteTesoreria());
 					dbRecord *apunte = DBAPP->createRecord( apuntable->getTablaApunteTesoreria() );
                     if( apunte->read( apunteid ) ) {
 						try {

@@ -109,7 +109,6 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 		apunte->setValue( "IMPORTE", pRecord->getValue(mImporteField).toMoney() );
 	}
 	apunte->setValue( "REFERENCIA", pRecord->getValue(mReferenciaField) );
-	_GONG_DEBUG_PRINT(0, apunte->toString(TOSTRING_DEBUG_COMPLETE));
 	if( mTablaTerceros == Xtring::null && mTerceroField == Xtring::null ) {
 	} else if( mTablaTerceros != Xtring::null ) {
 		if( mTercerosIsField ) {
