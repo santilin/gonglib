@@ -109,9 +109,9 @@ FrmEditProyecto::FrmEditProyecto(FrmEditRec *parentfrm, dbRecord *master, dbReco
     pTabRemesas = tabRemesas;
     pTabPartidas = tabPartidas;
 
-    pTabWidget->insertTab( tabMiembros, "&Miembros" );
-    pTabWidget->insertTab( tabRemesas, "&Remesas" );
-    pTabWidget->insertTab( tabPartidas, "&Partidas" );
+    pTabWidget->insertTab( tabMiembros, toGUI(Xtring("&") + DBAPP->getDatabase()->findTableDefinition("MIEMBRO")->getDescPlural()) );
+    pTabWidget->insertTab( tabRemesas, toGUI(Xtring("&") + DBAPP->getDatabase()->findTableDefinition("REMESACOBRO")->getDescPlural()) );
+    pTabWidget->insertTab( tabPartidas, toGUI(Xtring("&") + DBAPP->getDatabase()->findTableDefinition("PARTIDAPROYECTO")->getDescPlural()) );
 }
 
 void FrmEditProyecto::scatterFields()

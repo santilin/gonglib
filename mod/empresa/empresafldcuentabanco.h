@@ -29,7 +29,7 @@ public:
     FldCuentaBanco( const Xtring &tablename, const Xtring &name,
                     dbFieldDefinition::Flags flags = dbFieldDefinition::NONE,
                     const Xtring &defaultvalue = Xtring::null )
-        : dbFieldDefinition( tablename, name, SQLSTRING, 20, 0, flags, defaultvalue ) {}
+        : dbFieldDefinition( tablename, name, SQLSTRING, 24, 0, flags, defaultvalue ) {}
     /*<<<<<DBFIELD_CUENTABANCO_MEMBERS*/
 	virtual bool isValid( dbRecord *r, dbFieldValue *value,
 		ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition

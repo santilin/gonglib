@@ -18,24 +18,47 @@ bool FldCuentaBanco::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Con
 /*>>>>>DBFIELD_CUENTABANCO_ISVALID*/
     if ( !dbFieldDefinition::isValid( r, value, context, integres ) )
         return false;
-    Xtring cuenta = value->toString().trim();
-    for ( unsigned int i = 0; i < cuenta.length(); i++ ) {
-        if ( !isdigit( cuenta[i] ) ) {
-            if( integres )
-                integres->addError( "Las cuentas bancarias sólo pueden contener dígitos",
-                                    getName() );
-            return false;
-        }
-    }
+    Xtring cuenta = value->toString().replace(" ", "");
+	bool esiban = false;
+	if( cuenta.length() == 20 ) { // Cuenta sin IBAN
+		esiban = false;
+		for ( unsigned int i = 0; i < cuenta.length(); i++ ) {
+			if ( !isdigit( cuenta[i] ) ) {
+				if( integres )
+					integres->addError( "Las cuentas bancarias sólo pueden contener dígitos.",
+										getName() );
+				return false;
+			}
+		}
+	} else if( cuenta.length() == 24 ) {
+		esiban = true;
+		cuenta[0] = toupper(cuenta[0]);
+		cuenta[1] = toupper(cuenta[1]);
+		for ( unsigned int i = 2; i < cuenta.length(); i++ ) {
+			if ( !isdigit( cuenta[i] ) ) {
+				if( integres )
+					integres->addError( "Las cuentas bancarias sólo pueden contener dígitos, salvo los dos primeros que pueden ser el código del país",
+										getName() );
+				return false;
+			}
+		}
+	} else {
+		if( integres )
+			integres->addError( "Las cuentas bancarias deben tener 20 o 24 dígitos",
+								getName() );
+		return false;
+	}
     if ( !cuenta.isEmpty() ) {
-        Xtring dc = cuenta.mid( 8, 2 );
-        if ( dc.toInt() != calcDigitosControl( cuenta ) ) {
-            if( integres )
-                integres->addError(
-                    Xtring::printf( "El dígito de control: %s es erróneo (debería ser %d)",
-                                    dc.c_str(), calcDigitosControl( cuenta ) ), getName() );
-            return false;
-        }
+		if( (esiban && cuenta.startsWith("ES")) || !esiban ) {
+			Xtring dc = cuenta.mid( (esiban ? 12 : 8), 2 );
+			if ( dc.toInt() != calcDigitosControl( cuenta ) ) {
+				if( integres )
+					integres->addError(
+						Xtring::printf( "El dígito de control: %s es erróneo (debería ser %d)",
+										dc.c_str(), calcDigitosControl( cuenta ) ), getName() );
+				return false;
+			}
+		}
     }
     return true;
 }

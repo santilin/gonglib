@@ -226,7 +226,7 @@ bool SociasModule::initMainWindow(MainWindow *mainwin)
     _GONG_DEBUG_TRACE(2);
     pMenuSocias = new QMenu( pMainWindow );
     pMenuSocias->setObjectName( "MenuSocias" );
-    pMainWindow->menuBar()->insertItem( toGUI( _( "&Socias" ) ), pMenuSocias );
+    pMainWindow->menuBar()->insertItem( toGUI( DBAPP->getDatabase()->findTableDefinition("MIEMBRO")->getDescPlural() ), pMenuSocias );
 
     /*<<<<<SOCIASMODULE_INITMAINWINDOW_MENUS*/
 	{
