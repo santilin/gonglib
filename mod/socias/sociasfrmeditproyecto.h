@@ -60,6 +60,7 @@ protected:
 	gong::EditBox *editNumCuotas;
 	gong::EditBox *editImporte;
 	gong::ComboBoxInt *comboPeriodicidad;
+	gong::EditBox *editCuentaBanco;
 	gong::EditBox *editFormatoNumRecibo;
 	gong::TextBox *editNotas;
 	FrmEditMiembro *pFrmMiembro;

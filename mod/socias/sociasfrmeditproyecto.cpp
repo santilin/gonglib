@@ -9,6 +9,7 @@
 // FIELD NumCuotas int - proyectoCuotas
 // FIELD Importe money - proyectoCuotas
 // FIELD Periodicidad comboint - proyectoCuotas
+// FIELD CuentaBanco string - formato
 // FIELD FormatoNumRecibo string - formato
 // FIELD Notas text - proyectoNotas
 // FIELD Miembro FrmEditRecMaster tabMiembros miembrosLayout
@@ -63,6 +64,7 @@ FrmEditProyecto::FrmEditProyecto(FrmEditRec *parentfrm, dbRecord *master, dbReco
 	editNumCuotas = addEditField( pControlsFrame, "PROYECTO", "NUMCUOTAS", proyectoCuotasLayout );
 	editImporte = addEditField( pControlsFrame, "PROYECTO", "IMPORTE", proyectoCuotasLayout );
 	comboPeriodicidad = addComboIntField( pControlsFrame, "PROYECTO", "PERIODICIDAD", proyectoCuotasLayout );
+	editCuentaBanco = addEditField( pControlsFrame, "PROYECTO", "CUENTABANCO", formatoLayout );
 	editFormatoNumRecibo = addEditField( pControlsFrame, "PROYECTO", "FORMATONUMRECIBO", formatoLayout );
 	editNotas = addTextField( pControlsFrame, "PROYECTO", "NOTAS", proyectoNotasLayout );
 
@@ -128,6 +130,7 @@ void FrmEditProyecto::scatterFields()
 	editNumCuotas->setText(getRecProyecto()->getValue("NUMCUOTAS").toInt());
 	editImporte->setText(getRecProyecto()->getValue("IMPORTE").toMoney());
 	comboPeriodicidad->setCurrentItemByValue(getRecProyecto()->getValue("PERIODICIDAD").toInt());
+	editCuentaBanco->setText(getRecProyecto()->getValue("CUENTABANCO").toString());
 	editFormatoNumRecibo->setText(getRecProyecto()->getValue("FORMATONUMRECIBO").toString());
 	editNotas->setText(getRecProyecto()->getValue("NOTAS").toString());
 	if( isInserting() && editCodigo->toInt() == 0 ) {
@@ -167,6 +170,7 @@ void FrmEditProyecto::gatherFields()
 	getRecProyecto()->setValue( "NUMCUOTAS", editNumCuotas->toInt());
 	getRecProyecto()->setValue( "IMPORTE", editImporte->toMoney());
 	getRecProyecto()->setValue( "PERIODICIDAD", comboPeriodicidad->getCurrentItemValue());
+	getRecProyecto()->setValue( "CUENTABANCO", editCuentaBanco->toString());
 	getRecProyecto()->setValue( "FORMATONUMRECIBO", editFormatoNumRecibo->toString());
 	getRecProyecto()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITPROYECTO_GATHER*/

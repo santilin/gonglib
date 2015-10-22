@@ -32,6 +32,12 @@ bool FldCuentaBanco::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Con
 		}
 	} else if( cuenta.length() == 24 ) {
 		esiban = true;
+		if( !isalpha(cuenta[0]) || !isalpha(cuenta[1]) ) {
+				if( integres )
+					integres->addError( "Los códigos IBAN deben comenzar por un código de país de dos letras",
+										getName() );
+				return false;
+		}
 		cuenta[0] = toupper(cuenta[0]);
 		cuenta[1] = toupper(cuenta[1]);
 		for ( unsigned int i = 2; i < cuenta.length(); i++ ) {
@@ -42,7 +48,7 @@ bool FldCuentaBanco::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Con
 				return false;
 			}
 		}
-	} else {
+	} else if( cuenta.length() != 0 ) {
 		if( integres )
 			integres->addError( "Las cuentas bancarias deben tener 20 o 24 dígitos",
 								getName() );
@@ -85,8 +91,14 @@ int FldCuentaBanco::modulo11( const Xtring & digitos )
 
 int FldCuentaBanco::calcDigitosControl( const Xtring & cuenta )
 {
-    int dig1 = modulo11( cuenta.left( 8 ) );
-    int dig2 = modulo11( cuenta.mid( 10 ) );
+	int dig1, dig2;
+	if( cuenta.length() == 20 ) {
+		dig1 = modulo11( cuenta.left( 8 ) );
+		dig2 = modulo11( cuenta.mid( 10 ) );
+	} else {
+		dig1 = modulo11( cuenta.mid( 4, 8 ) );
+		dig2 = modulo11( cuenta.mid( 14 ) );
+	}
     return dig1 * 10 + dig2;
 }
 

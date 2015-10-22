@@ -149,6 +149,8 @@ bool SociasModule::initDatabase(dbDefinition *db)
     pFicProyecto->addField<FldNamesListTable>("PERIODICIDAD");
     pFicProyecto->addFieldInt( "NUMCUOTAS" );
     pFicProyecto->addFieldString( "FORMATONUMRECIBO", 50 );
+	pFicProyecto->addField<empresa::FldCuentaBanco>( "CUENTABANCO" );
+
     pMainDatabase->addTable( pFicProyecto->getTableDefinition() );
 
     pFicTipoSocia = new socias::MasterTable( *db, "TIPOSOCIA" );

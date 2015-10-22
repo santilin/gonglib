@@ -2,7 +2,7 @@
 * Taborder en miembros
 
 == Haciendo ==
-* Añadir IBAN
+* IBAN: Comprobar checksum de la parte del país
 
 == Errores ==
 * No deja entrar con el ratón a las cantidades numéricas

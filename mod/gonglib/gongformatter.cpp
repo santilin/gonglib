@@ -72,10 +72,12 @@ Xtring Formatter::format( const Xtring &text, const char *aformat, const char *a
                 case '<':
                     low = true;
                     up = false;
+					formatted += text.upper();
                     break;
                 case '>':
                     up = true;
                     low = false;
+					formatted += text.lower();
                     break;
                 case 'p':
                     low = false;
