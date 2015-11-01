@@ -1,15 +1,12 @@
 == HECHO ==
-* Taborder en miembros
 
 == Haciendo ==
-* IBAN: Comprobar checksum de la parte del país
+* No deja entrar con el ratón a las cantidades numéricas
 
 == Errores ==
-* No deja entrar con el ratón a las cantidades numéricas
-* La ventana de artículos en el TPV, si se queda abajo luego no funciona bien.
 
 == gong-socias ==
-* en otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
+* En otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 * Revisar los -1 de los informes
 * Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón,
   por lo que me deja sin opción de continuar no hacer nada más,
@@ -40,6 +37,7 @@
 * Buscador de documentos por número
 
 == gong-tpv ==
+* La ventana de artículos en el TPV, si se queda abajo luego no funciona bien.
 * Ticket_estrecho: Copiar el de la ecotienda ceres.
 * Añadir botón Más botones y añadir ahí el resto de botones.
 * tpv: Pagos por rondas: buscar un FrmList animado

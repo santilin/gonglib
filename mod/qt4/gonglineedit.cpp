@@ -532,9 +532,10 @@ void LineEdit::focusInEvent( QFocusEvent *e )
         return;
     mWasFocusIn = true;
     mOldText = fromGUI( text() );
-    _GONG_DEBUG_PRINT(10, Xtring::printf("%s::modified=%d, justModified=%d, cursorpos=%d",
-                                         name(), isModified(), isJustEdited(), cursorPosition() ) );
-    QLineEdit::focusInEvent( e );
+	int cp = cursorPosition();
+    _GONG_DEBUG_PRINT(0, Xtring::printf("%s::value=%s,modified=%d, justModified=%d, cursorpos=%d",
+                                         name(), mOldText.c_str(), isModified(), isJustEdited(), cp ) );
+    QLineEdit::focusInEvent(e);
     if( mCancelling ) {
         mCancelling = false;
         return;
@@ -542,7 +543,7 @@ void LineEdit::focusInEvent( QFocusEvent *e )
     mCancelling = false;
     if( isReadOnly() ) return;
     if( calcValue() ) {
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s: text=%s, value=%s, type=%s", name(),
+        _GONG_DEBUG_PRINT(0, Xtring::printf("%s: text=%s, value=%s, type=%s", name(),
                                              fromGUI(text()).c_str(),
                                              toVariant().toString().c_str(),
                                              Variant::typeToName( mValueType ) ) );
@@ -550,7 +551,7 @@ void LineEdit::focusInEvent( QFocusEvent *e )
         // Si cambiamos el text en focus in, hay que respetar el estado de la propiedad edited, porque realmente
         // aun no hemos editado nada
         if ( maskedtext != toString() ) {
-            _GONG_DEBUG_PRINT(10, Xtring::printf("%s != %s", maskedtext.c_str(), toString().c_str() ) );
+            _GONG_DEBUG_PRINT(0, Xtring::printf("%s != %s", maskedtext.c_str(), toString().c_str() ) );
             setTextNoValidate( maskedtext );
         }
         mFormatted = false;
@@ -561,13 +562,20 @@ void LineEdit::focusInEvent( QFocusEvent *e )
     case Variant::tMoney:
     case Variant::tDouble:
     case Variant::tInt:
-        selectAll();
-        break;
+		if (e->reason() == Qt::MouseFocusReason)
+			QTimer::singleShot(0, this, SLOT(selectAll()));
+		else
+			selectAll();
+		break;
     case Variant::tDate:
     case Variant::tTime:
     case Variant::tDateTime:
-        if( mSelectedOnEntry )
-            selectAll();
+        if( mSelectedOnEntry ) {
+			if (e->reason() == Qt::MouseFocusReason)
+				QTimer::singleShot(0, this, SLOT(selectAll()));
+			else
+				selectAll();
+		}
         else {
             pos = Xtring(toString()).find_first_not_of(" ");
             if( pos == Xtring::npos )
@@ -576,9 +584,12 @@ void LineEdit::focusInEvent( QFocusEvent *e )
         }
         break;
     default:
-        if( mSelectedOnEntry )
-            selectAll();
-        else {
+        if( mSelectedOnEntry ) {
+			if (e->reason() == Qt::MouseFocusReason)
+				QTimer::singleShot(0, this, SLOT(selectAll()));
+			else
+				selectAll();
+		} else {
             pos = toString().length();
             setCursorPosition( pos );
         }
