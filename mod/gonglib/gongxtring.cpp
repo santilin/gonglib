@@ -321,7 +321,7 @@ long long Xtring::toLong ( bool *ok, int base ) const
         if( errno ) {
             _GONG_DEBUG_WARNING( strerror(errno) );
         } else {
-            _GONG_DEBUG_WARNING( Xtring::printf("Error converting '%s' to int, result='%ld'",
+            _GONG_DEBUG_WARNING( Xtring::printf("Error converting '%s' to long long, result='%ld'",
                                                 c_str(), l ) );
         }
     }

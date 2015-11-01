@@ -36,7 +36,9 @@ public:
 /*>>>>>DBFIELD_CUENTABANCO_MEMBERS*/
 private:
     static int modulo11( const Xtring &digitos );
+	static int modulo97( const Xtring &digitos );
     static int calcDigitosControl( const Xtring &cuenta );
+	static bool checkCodigoIBAN( const Xtring &cuenta, Xtring &dc, Xtring &error_message = Xtring::null );
 };
 
 /*<<<<<CUENTABANCO_POSTAMBLE*/
