@@ -99,7 +99,9 @@ public:
 	tesoreria::RecCuentaTesoreria *getRecCuentaTesoreria() const;
 #endif
 /*>>>>>ALBARANVENTA_RELATIONS*/
+#ifdef HAVE_TESORERIAMODULE
 	tesoreria::RecCuentaTesoreria *getRecCuentaPago() const { return getRecCuentaTesoreria(); }
+#endif
 }; // end class
 
 /*<<<<<ALBARANVENTA_POSTAMBLE*/

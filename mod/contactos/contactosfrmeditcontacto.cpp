@@ -288,6 +288,10 @@ void FrmEditContacto::validateFields(QWidget *sender, bool *isvalid, ValidResult
     if( mUsarTratamiento && (!sender || sender == editCIF ) && nac_espana && cif_error.isEmpty() ) {
         if( comboTratamientoContacto->getCurrentItemValue() == 0 )
             comboTratamientoContacto->setCurrentItemByValue( RecContacto::tratamientoFromCIF( editCIF->toString() ) );
+        if( comboTratamientoContacto->getCurrentItemValue() == 0 ) {
+			validresult->addWarning( Xtring::printf( _("Según la configuración, tienes que elegir un tratamiento."),
+                                 cifdef->getName().c_str(), cif_error.c_str()), "TRATAMIENTO");
+		}
     }
     if( !cif_error.isEmpty() ) {
         validresult->addWarning( Xtring::printf( _("%s erróneo: %s"),
@@ -315,7 +319,7 @@ void FrmEditContacto::validateFields(QWidget *sender, bool *isvalid, ValidResult
                                      editemail->toString().c_str() ), "NOMBRE" );
         }
     }
-    if (!ir) {
+    if( !ir ) {
         showValidMessages(isvalid, *validresult, sender);
         delete validresult;
     }

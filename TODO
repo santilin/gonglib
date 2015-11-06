@@ -1,7 +1,6 @@
 == HECHO ==
 
 == Haciendo ==
-* No deja entrar con el ratón a las cantidades numéricas
 
 == Errores ==
 
@@ -9,7 +8,6 @@
 * En otra ocasión me ha dado no se qué de tasa en la moneda, en todo caso en lo que se refiere a añadir recibos siempre me echa fuera.
 * Revisar los -1 de los informes
 * Asociación, Proyectos, Proyecto, remesa, recibos y al añadir recibo e intentar buscar la socia, se me cierra el programa del tirón,
-  por lo que me deja sin opción de continuar no hacer nada más,
 * Elegir remesa en generar recibos, elegir solo las no cerradas
 * Tipo de partida: nameslisttable
 * Socias: ¿Están al corriente del pago? Avisar si no lo están.

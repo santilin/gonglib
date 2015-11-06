@@ -994,11 +994,13 @@ if( ModuleInstance->getTesoreriaModule() ) {
 			}
 #if defined (HAVE_CONTABMODULE) 
             if( editCuentaPagoCuenta->toString().isEmpty() && getRecFormaPago()->getValue("SUBCUENTAPAGO").toString() == Xtring::null) {
-#elif defined (HAVE_TESORERIAMODULE)
-            if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID").toInt() == 0) {
-#endif
 				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida.\nNo se generará el apunte del pago en tesorería.", "CUENTAPAGO_ID");
 			}
+#elif defined (HAVE_TESORERIAMODULE)
+            if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID").toInt() == 0) {
+				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida.\nNo se generará el apunte del pago en tesorería.", "CUENTAPAGO_ID");
+			}
+#endif
 		}
 	}
 	if( sender == editEntrega && editEntrega->isJustEdited() ) {	

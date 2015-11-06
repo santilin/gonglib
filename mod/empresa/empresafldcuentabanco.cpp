@@ -19,6 +19,8 @@ bool FldCuentaBanco::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Con
     if ( !dbFieldDefinition::isValid( r, value, context, integres ) )
         return false;
     Xtring cuenta = value->toString().replace(" ", "");
+	if( cuenta.isEmpty() )
+		return true;
 	bool esiban = false;
 	if( cuenta.length() > 2 && isalpha(cuenta[0]) && isalpha(cuenta[1]) ) {
 		esiban = true;

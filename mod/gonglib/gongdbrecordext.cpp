@@ -312,19 +312,8 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
     }
     else if ( format == TOSTRING_CODE_AND_DESC_WITH_TABLENAME )
     {
-        // code and description
-        for ( i=0; i<getFieldCount(); i++ )
-        {
-            const dbFieldDefinition *flddef = getFieldDefinition ( i );
-            if ( ( flddef->isCode() || flddef->isDescription() )
-                    && ( !flddef->isPrimaryKey() ) )
-            {
-                if ( !text.isEmpty() )
-                    text += ", ";
-                text += getValue ( i ).toString();
-            }
-        }
-        text = getTableDefinition()->getDescSingular() + ": " + text;
+		text = getTableDefinition()->getDescSingular() 
+			+ ": " + toString( TOSTRING_CODE_AND_DESC, includedFields );
     }
     return text;
 }

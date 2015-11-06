@@ -285,6 +285,8 @@ void FrmEditMiembro::scatterContacto()
                                      DBAPP->getTableDescPlural( "CONTACTO", "" ).c_str() ) );
     } else {
         /*<<<<<FRMEDITMIEMBRO_SCATTER_CONTACTO*/
+		_GONG_DEBUG_PRINT(0, getRecContacto()->toString(TOSTRING_DEBUG_COMPLETE));
+		_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));
 	editContactoCIF->setText( getRecContacto()->getValue("CIF") );
 	editContactoNombre->setText( getRecContacto()->getValue("NOMBRE") );
 /*>>>>>FRMEDITMIEMBRO_SCATTER_CONTACTO*/
@@ -510,7 +512,7 @@ void FrmEditMiembro::scatterCliente()
 			if( getRecCliente()->getRecFormaPago()->getValue("CODIGO").toInt() != 0 )
 				searchFormaPagoCodigo->setValue( getRecCliente()->getRecFormaPago()->getValue("CODIGO") );
 		}
-		if( editContactoCIF->toString().isEmpty() ) {
+		if( getRecContacto()->isEmpty() ) {
 			getRecContacto()->copyRecord( getRecCliente()->getRecContacto() );
 			scatterContacto();
         }

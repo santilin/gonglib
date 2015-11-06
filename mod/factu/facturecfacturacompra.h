@@ -97,7 +97,9 @@ public:
 	tesoreria::RecCuentaTesoreria *getRecCuentaTesoreria() const;
 #endif
 /*>>>>>FACTURACOMPRA_RELATIONS*/
+#ifdef HAVE_TESORERIAMODULE
 	tesoreria::RecCuentaTesoreria *getRecCuentaPago() const { return getRecCuentaTesoreria(); }
+#endif
 }; // end class
 
 /*<<<<<FACTURACOMPRA_POSTAMBLE*/

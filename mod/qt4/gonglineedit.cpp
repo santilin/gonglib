@@ -30,16 +30,16 @@ QValidator::State LineEditValidator::validate( QString & input, int & position )
         return QValidator::Acceptable;
     int startpos = le->mOldCursorPosition;
 
-    _GONG_DEBUG_PRINT(10, Xtring::printf("Formatting text='%s', pos=%d, oldpos=%d, mask='%s', format='%s'",
-                                         fromGUI(input).c_str(), position, startpos,
-                                         le->getMask().c_str(), le->getFormat().c_str() ) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("Formatting text='%s', pos=%d, oldpos=%d, mask='%s', format='%s'",
+//                                          fromGUI(input).c_str(), position, startpos,
+//                                          le->getMask().c_str(), le->getFormat().c_str() ) );
     // If the mask is empty, the one from RegConfig is used
     Xtring masked = le->mMaskFormatter->mask_inedit( input.local8Bit(),
                     le->mValueType,
                     le->mMask.c_str(), startpos, &position );
     input = toGUI( masked );
-    _GONG_DEBUG_PRINT(10, Xtring::printf("Result='%s', pos=%d",
-                                         masked.c_str(), position) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("Result='%s', pos=%d",
+//                                          masked.c_str(), position) );
     // If we change input, the validator is called again, so we must keep de position
     le->mOldCursorPosition = position;
     le->setEdited( true );
@@ -127,7 +127,7 @@ void LineEdit::setWidthInChars(int chars)
 
 void LineEdit::cursorPositionChanged ( int old, int _new )
 {
-    _GONG_DEBUG_PRINT(10, Xtring::printf("Position changed from %d to %d", old, _new) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("Position changed from %d to %d", old, _new) );
     if( _new != -1 )
         mOldCursorPosition = _new;
     else
@@ -418,20 +418,20 @@ void LineEdit::setReadOnly( bool readonly )
 
 void LineEdit::focusOutEvent( QFocusEvent *e )
 {
-    _GONG_DEBUG_PRINT(10, Xtring::printf("%s lost focus, reason=%d", name(), e->reason() ) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("%s lost focus, reason=%d", name(), e->reason() ) );
     if( e->reason() == Qt::ActiveWindowFocusReason && !theGuiApp->focusWidget() )
         return;
-    _GONG_DEBUG_PRINT(10, Xtring::printf("%s::modified=%d, justEdited=%d, cursorpos=%d",
-                                         name(), isModified(), isJustEdited(), cursorPosition() ) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("%s::modified=%d, justEdited=%d, cursorpos=%d",
+//                                          name(), isModified(), isJustEdited(), cursorPosition() ) );
     mDoNotValidate = true;
     QLineEdit::focusOutEvent( e );
     mDoNotValidate = false;
     if ( mCancelling
             || !theGuiApp->focusWidget()
-//	    || !strlen(theGuiApp->focusWidget()->name())
+// 	    || !strlen(theGuiApp->focusWidget()->name())
             || !strcmp(theGuiApp->focusWidget()->name(), "pushCancel")
             || (theGuiApp->getMainWindow() && theGuiApp->getMainWindow()->amIClosing() ) ) {
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s::Cancelando, se ignora", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::Cancelando, se ignora", name() ) );
         mCancelling = false;
         return;
     }
@@ -442,7 +442,7 @@ void LineEdit::focusOutEvent( QFocusEvent *e )
             && e->reason() != Qt::TabFocusReason
             && e->reason() != Qt::OtherFocusReason // F12
             && e->reason() != Qt::BacktabFocusReason ) {
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s::Razón no valida %d. Salgo", name(), e->reason() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::Razón no valida %d. Salgo", name(), e->reason() ) );
         return;
     }
     if ( !mWasFocusIn ) {
@@ -450,40 +450,40 @@ void LineEdit::focusOutEvent( QFocusEvent *e )
            some problem validating, for example, a new window pops up from
            within the validation code
         */
-        _GONG_DEBUG_PRINT(10, Xtring::printf( "%s::No he notado el focus in. Salgo", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf( "%s::No he notado el focus in. Salgo", name() ) );
         return;
     } else
         mWasFocusIn = false;
     if ( mGlobalValidating == mLastGlobalValidating && mGlobalValidating ) {
-        _GONG_DEBUG_PRINT(10, Xtring::printf( "%s::Estoy validando. Salgo", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf( "%s::Estoy validando. Salgo", name() ) );
         return;
     }
     if ( mGettingFocus ) {
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s::Estoy retomando el foco. Salgo", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::Estoy retomando el foco. Salgo", name() ) );
         return;
     }
     if ( mValidating ) {
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s::Estoy validando. Salgo", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::Estoy validando. Salgo", name() ) );
         return ;
     }
     Xtring former_text = toString();
     bool isvalid = calcValue();
-    _GONG_DEBUG_PRINT(10, Xtring::printf("%s: text=%s, value=%s, type=%s", name(),
-                                         fromGUI(text()).c_str(),
-                                         toVariant().toString().c_str(),
-                                         Variant::typeToName( mValueType ) ) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("%s: text=%s, value=%s, type=%s", name(),
+//                                          fromGUI(text()).c_str(),
+//                                          toVariant().toString().c_str(),
+//                                          Variant::typeToName( mValueType ) ) );
     if( isvalid ) {
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s::mCancelling == false", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::mCancelling == false", name() ) );
         mValidating = true;
         mLastGlobalValidating = mGlobalValidating;
         mGlobalValidating++;
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s::about to emit validate", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::about to emit validate", name() ) );
         try {
             emit validate( this, &isvalid );
         } catch( std::overflow_error &e ) {
             isvalid = false;
         }
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s::emit validate returned %d", name(), isvalid ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::emit validate returned %d", name(), isvalid ) );
     }
     if ( !isvalid ) {
         setTextNoValidate("(Error)");
@@ -492,22 +492,22 @@ void LineEdit::focusOutEvent( QFocusEvent *e )
             usleep(10);
         }
         mGettingFocus = true;
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s::como no es valido, retomo el foco", name() ) );
-        _GONG_DEBUG_PRINT(10, Xtring::printf("Setting focus to %s", this->name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::como no es valido, retomo el foco", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("Setting focus to %s", this->name() ) );
         setFocus();
-        _GONG_DEBUG_PRINT(10, Xtring::printf("%s::ya he retomado el foco", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("%s::ya he retomado el foco", name() ) );
         mGettingFocus = false;
         setTextNoValidate( former_text );
     } else {
         mJustEdited = false;
-        _GONG_DEBUG_PRINT(10, "Setting just edited a FALSE: " + Xtring(name()) );
+//         _GONG_DEBUG_PRINT(10, "Setting just edited a FALSE: " + Xtring(name()) );
     }
     mCancelling = false;
     if( isvalid ) {
         Xtring formattedtext = mMaskFormatter->format( toVariant(), getFormat().c_str(), getMask().c_str());
-        _GONG_DEBUG_PRINT(10, Xtring::printf("Formatting %s: value: %s, formatted: %s, masked=%s",
-                                             name(), toVariant().toString().c_str(),
-                                             formattedtext.c_str(), toString().c_str() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf("Formatting %s: value: %s, formatted: %s, masked=%s",
+//                                              name(), toVariant().toString().c_str(),
+//                                              formattedtext.c_str(), toString().c_str() ) );
         // Cuando formattedtext esta vacio, es nulo, y entonces es diferente de text() vacio
         // Esto se puede solucionar cuando format devuelva y acepte QStrings
         if ( formattedtext != toString() ) {
@@ -527,14 +527,14 @@ void LineEdit::focusOutEvent( QFocusEvent *e )
 */
 void LineEdit::focusInEvent( QFocusEvent *e )
 {
-    _GONG_DEBUG_PRINT(10, Xtring::printf("%s got focus", name() ) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("%s got focus", name() ) );
     if( e->reason() == Qt::ActiveWindowFocusReason && !theGuiApp->focusWidget() )
         return;
     mWasFocusIn = true;
     mOldText = fromGUI( text() );
 	int cp = cursorPosition();
-    _GONG_DEBUG_PRINT(0, Xtring::printf("%s::value=%s,modified=%d, justModified=%d, cursorpos=%d",
-                                         name(), mOldText.c_str(), isModified(), isJustEdited(), cp ) );
+//     _GONG_DEBUG_PRINT(0, Xtring::printf("%s::value=%s,modified=%d, justModified=%d, cursorpos=%d",
+//                                          name(), mOldText.c_str(), isModified(), isJustEdited(), cp ) );
     QLineEdit::focusInEvent(e);
     if( mCancelling ) {
         mCancelling = false;
@@ -543,15 +543,15 @@ void LineEdit::focusInEvent( QFocusEvent *e )
     mCancelling = false;
     if( isReadOnly() ) return;
     if( calcValue() ) {
-        _GONG_DEBUG_PRINT(0, Xtring::printf("%s: text=%s, value=%s, type=%s", name(),
-                                             fromGUI(text()).c_str(),
-                                             toVariant().toString().c_str(),
-                                             Variant::typeToName( mValueType ) ) );
+//         _GONG_DEBUG_PRINT(0, Xtring::printf("%s: text=%s, value=%s, type=%s", name(),
+//                                              fromGUI(text()).c_str(),
+//                                              toVariant().toString().c_str(),
+//                                              Variant::typeToName( mValueType ) ) );
         Xtring maskedtext = mMaskFormatter->mask( toVariant(), getMask().c_str(), getValueType() );
         // Si cambiamos el text en focus in, hay que respetar el estado de la propiedad edited, porque realmente
         // aun no hemos editado nada
         if ( maskedtext != toString() ) {
-            _GONG_DEBUG_PRINT(0, Xtring::printf("%s != %s", maskedtext.c_str(), toString().c_str() ) );
+//             _GONG_DEBUG_PRINT(0, Xtring::printf("%s != %s", maskedtext.c_str(), toString().c_str() ) );
             setTextNoValidate( maskedtext );
         }
         mFormatted = false;
@@ -603,7 +603,7 @@ void LineEdit::setTextNoValidate(const Xtring &text)
     mValueValid = false;
     mDoNotValidate = true;
     bool edited = isModified();
-    _GONG_DEBUG_PRINT(10, Xtring::printf("%s:setTextNoValidate(%s)", name(), text.c_str() ) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("%s:setTextNoValidate(%s)", name(), text.c_str() ) );
     QLineEdit::setText( toGUI( text ) );
     setModified( edited );
     setCursorPosition( curpos );
@@ -634,13 +634,13 @@ bool LineEdit::isJustEdited() const
 {
 #ifdef _GONG_DEBUG
     if( !mJustEdited && ( isModified() ) ) {
-        _GONG_DEBUG_PRINT(10, Xtring::printf( "Field %s is not edited but is modified so isJustEdited()==true", name() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf( "Field %s is not edited but is modified so isJustEdited()==true", name() ) );
     }
     if( !mJustEdited && ( fromGUI( text() ) != mOldText ) ) {
-        _GONG_DEBUG_PRINT(10, Xtring::printf( "Field %s is not edited but text '%s' is different from oldtext '%s' so isJustEdited()==true",
-                                              name(), fromGUI( text() ).c_str(), mOldText.c_str() ) );
+//         _GONG_DEBUG_PRINT(10, Xtring::printf( "Field %s is not edited but text '%s' is different from oldtext '%s' so isJustEdited()==true",
+//                                               name(), fromGUI( text() ).c_str(), mOldText.c_str() ) );
     }
-    _GONG_DEBUG_PRINT(10, (mJustEdited ? Xtring("mJustEdited es TRUE") : Xtring("mJustEdited es FALSE")) );
+//     _GONG_DEBUG_PRINT(10, (mJustEdited ? Xtring("mJustEdited es TRUE") : Xtring("mJustEdited es FALSE")) );
 #endif
     return mJustEdited;
 }
@@ -655,8 +655,8 @@ void LineEdit::setCursorAtDecPoint()
     char decpoint = mMaskFormatter->getRegConfig().getDecimalPoint();
     int pos = toString().find(decpoint);
     setCursorPosition( pos );
-    _GONG_DEBUG_PRINT( 10, Xtring::printf("%s: text=%s, cursorpos=%d",
-                                          name(), toString().c_str(), pos ) );
+//     _GONG_DEBUG_PRINT( 10, Xtring::printf("%s: text=%s, cursorpos=%d",
+//                                           name(), toString().c_str(), pos ) );
 }
 
 } // namespace

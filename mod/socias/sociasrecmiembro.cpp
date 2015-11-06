@@ -74,6 +74,10 @@ Xtring RecMiembro::toString(int format, const Xtring &includedFields) const
 	Xtring result;
 /*>>>>>MIEMBRO_TOSTRING*/
     if( format == TOSTRING_CODE_AND_DESC ) {
+		result = getTableDefinition()->findFieldDefinition("NUMEROSOCIA")->getCaption();
+		result += ": ";
+		result += getValue("NUMEROSOCIA").toString();
+		result += ", ";
         if( !getRecContacto()->getValue("CIF").toString().isEmpty() )
             result += getRecContacto()->getValue( "CIF" ).toString() + ",";
         result += getRecContacto()->getValue("NOMBRE").toString();

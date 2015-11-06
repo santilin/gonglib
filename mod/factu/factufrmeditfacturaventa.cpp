@@ -840,9 +840,9 @@ void FrmEditFacturaVenta::pushProyectoCodigo_clicked()
 /*>>>>>FRMEDITFACTURAVENTA_PUSH_PROYECTO_CODIGO_CLICKED*/
 }
 
-#ifdef HAVE_TESORERIAMODULE
 void FrmEditFacturaVenta::pushCuentaPagoCodigo_clicked()
 {
+#ifdef HAVE_TESORERIAMODULE
 /*<<<<<FRMEDITFACTURAVENTA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
 	char action = mControlKeyPressed;
 	if( !isEditing() || searchCuentaPagoCodigo->mustBeReadOnly() )
@@ -900,8 +900,8 @@ void FrmEditFacturaVenta::pushCuentaPagoCodigo_clicked()
 			break;
 	}
 /*>>>>>FRMEDITFACTURAVENTA_PUSH_CUENTAPAGO_CODIGO_CLICKED*/
-}
 #endif
+}
 
 void FrmEditFacturaVenta::specialControlKeyPressed( QWidget *sender, char key )
 {
