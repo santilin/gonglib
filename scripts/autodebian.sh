@@ -144,7 +144,7 @@ completar_kde() {
 		fi
 	fi
 	instala_multimedia_libre_kde
-    instala_programa "para KDE" kdenetwork-filesharing k4dirstat
+    instala_programa "para KDE" kdenetwork-filesharing k4dirstat ntpdate
 
 }	
 

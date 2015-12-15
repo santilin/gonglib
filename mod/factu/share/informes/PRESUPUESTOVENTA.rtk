@@ -208,7 +208,7 @@ REPORT PresupuestoVenta
 
         OBJECT pageheader_DOCUMENTO_NUMERO_CAPTION {
             fontsize = 14.0;
-            value = "=const @DDD.FACTURAVENTA_DESCSINGULAR;";
+            value = "=const @DDD.PRESUPUESTOVENTA_DESCSINGULAR;";
             posx = 3;
             sizex = 29;
             fontweight = bold;
@@ -224,7 +224,7 @@ REPORT PresupuestoVenta
         }
         OBJECT pageheader_DOCUMENTO_FECHA_CAPTION {
             fontsize = 14.0;
-            value = "=const @DDD.FACTURAVENTA_FECHA_CAPTION + \":\";";
+            value = "=const @DDD.PRESUPUESTOVENTA_FECHA_CAPTION + \":\";";
             sizex = 8.0;
             posx = 50.0;
             fontweight = bold;
@@ -256,7 +256,7 @@ REPORT PresupuestoVenta
 
         OBJECT header_DOCUMENTODET_CANTIDAD {
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_CANTIDAD_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTADET_CANTIDAD_CAPTION;";
             posx = 0.0;
             sizex = 8.0;
         }
@@ -273,34 +273,34 @@ REPORT PresupuestoVenta
         OBJECT header_DOCUMENTODET_PVPSINIVA {
             formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_PVPSINIVA_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTADET_PVPSINIVA_CAPTION;";
             posx = 68.0;
             sizex = 12.0;
         }
         OBJECT header_DOCUMENTODET_PVP {
             formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_PVP_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTADET_PVP_CAPTION;";
             posx = 68.0;
             sizex = 12.0;
         }
         OBJECT header_DOCUMENTODET_DTOP100 {
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_DTOP100_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTADET_DTOP100_CAPTION;";
             posx = 82.0;
             sizex = 6.0;
         }
         OBJECT header_DOCUMENTODET_IMPORTE {
             formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_IMPORTE_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTADET_IMPORTE_CAPTION;";
             posx = 88.0;
             sizex = 12.0;
         }
         OBJECT header_DOCUMENTODET_IMPORTECONIVA {
             formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
-            value = "= const @DDD.FACTURAVENTADET_IMPORTE_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTADET_IMPORTE_CAPTION;";
             posx = 88.0;
             sizex = 12.0;
         }
@@ -316,13 +316,13 @@ REPORT PresupuestoVenta
         style = pagefooter;
 
         OBJECT pagefooter_DOCUMENTO_SUMAIMPORTES {
-            value = "= const @DDD.FACTURAVENTA_SUMAIMPORTES_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTA_SUMAIMPORTES_CAPTION;";
             posx = 0.0;
             sizex = 16.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_DESCUENTO {
-            value = "= const @DDD.FACTURAVENTA_DESCUENTO_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTA_DESCUENTO_CAPTION;";
             posx = 17.0;
             sizex = 16.0;
             halignment = "right";
@@ -330,14 +330,14 @@ REPORT PresupuestoVenta
         // Sin recargo de equivalencia
         OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_SIN_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_BASEIMPONIBLE_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 55.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_IVA_SIN_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_IVA_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTA_IVA_CAPTION;";
             posx = 70;
             sizex = 14.0;
             halignment = "right";
@@ -345,27 +345,27 @@ REPORT PresupuestoVenta
         // Con recargo de equivalencia
         OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_CON_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_BASEIMPONIBLE_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTA_BASEIMPONIBLE_CAPTION;";
             posx = 40.0;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_IVA_CON_RECARGO {
             formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_IVA_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTA_IVA_CAPTION;";
             posx = 55;
             sizex = 14.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_RECARGOEQUIVALENCIA {
             formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
-            value = "= const @DDD.FACTURAVENTA_RECARGOEQUIVALENCIA_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTA_RECARGOEQUIVALENCIA_CAPTION;";
             posx = 70.0;
             sizex = 12.0;
             halignment = "right";
         }
         OBJECT pagefooter_DOCUMENTO_TOTAL {
-            value = "= const @DDD.FACTURAVENTA_TOTAL_CAPTION;";
+            value = "= const @DDD.PRESUPUESTOVENTA_TOTAL_CAPTION;";
             posx = 85.0;
             sizex = 15.0;
             halignment = "right";

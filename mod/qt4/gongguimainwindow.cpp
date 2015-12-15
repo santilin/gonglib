@@ -55,7 +55,7 @@ int GuiMainWindow::getNumClients()
 void GuiMainWindow::closeEvent( QCloseEvent *event )
 {
     mImClosing = true;
-    QList<QMdiSubWindow*> list = pWorkspace->subWindowList( QMdiArea::ActivationHistoryOrder );
+    QList<QMdiSubWindow*> list = pWorkspace->subWindowList( QMdiArea::StackingOrder );
     while( list.size() ) {
         QMdiSubWindow *lastw = list[list.size()-1];
         if( lastw && lastw->widget() ) {
@@ -82,7 +82,7 @@ void GuiMainWindow::initGUI()
     pWorkspace->setHorizontalScrollBarPolicy( Qt::ScrollBarAsNeeded );
     pWorkspace->setVerticalScrollBarPolicy( Qt::ScrollBarAsNeeded );
     /* In the close event, we want to close subwindows in reverse creation order */
-    pWorkspace->setActivationOrder( QMdiArea::ActivationHistoryOrder );
+    pWorkspace->setActivationOrder( QMdiArea::StackingOrder );
     setCentralWidget( pWorkspace );
     connect( pWorkspace, SIGNAL( subWindowActivated( QMdiSubWindow* ) ), this, SLOT( slotUpdateMenus( QMdiSubWindow* ) ) );
     pWindowMapper = new QSignalMapper( this );

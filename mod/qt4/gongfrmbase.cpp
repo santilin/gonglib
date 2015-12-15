@@ -224,7 +224,7 @@ void FrmBase::closeEvent ( QCloseEvent *e )
             pShowModalFor->raise();
             pShowModalFor = 0;
             if( pSavedFocusWidget ) {
-                pSavedFocusWidget->setFocus();
+//                 pSavedFocusWidget->setFocus();
                 pSavedFocusWidget = 0;
             }
         }
