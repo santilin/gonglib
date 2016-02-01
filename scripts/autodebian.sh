@@ -529,18 +529,20 @@ menu_software_libre() {
 	while [ 1 ]; do
 		my_dialog --cancel-label "Volver" \
 			--title "=== INSTALACIÓN DE SOFTWARE LIBRE ===" \
-			--menu "Elige los programas a instalar" 20 75 8 \
+			--menu "Elige los programas a instalar" 20 75 6 \
 			1 "LibreOffice completo" \
 			2 "Gráficos: Photoshop, etc." \
 			3 "Thunderbird para leer mi correo (outlook)" \
 			4 "Programas para administradoras del sistema" \
-			5 "GestiONG" 
+			5 "GestiONG" \
+			6 "Completar LaTeX"
 		case `cat /tmp/menuoption.txt` in
 		1 ) 	clear; instala_libreoffice ;;
 		2 )		menu_graficos ;;
 		3 ) 	clear; instala_thunderbird ;;
 		4 )		clear; instala_programa "Administración del sistema" rsync mc nmap openssh-server ;;
 		5 )		instala_gestiong ;;
+		6 )     clear; instala_programa texlive-lang-spanish ;;
 		* )		break ;;
 		esac
 	done
