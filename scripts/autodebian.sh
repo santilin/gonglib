@@ -30,7 +30,7 @@ if test "x$LXDE" = "x"; then
 	LXDE="0"
 else
 	LXDE="1"
-fi 
+fi
 PING_TEST_IP="208.67.222.222"
 NTPDATE_SERVER="pool.ntp.org"
 HAY_INTERNET=0
@@ -45,7 +45,7 @@ LIBREOFFICE_OTHER="libreoffice-thesaurus-$LANGUAGE libreoffice-hypenation-$LANGU
 FREEFONTS="ttf-bitstream-vera fonts-breip ttf-dejavu ttf-freefont ttf-liberation ttf-opensymbol ttf-unifont fonts-linuxlibertine fonts-isabella"
 MSFONTS="ttf-mscorefonts-installer"
 
-pulsa_tecla() 
+pulsa_tecla()
 {
 	echo "Pulsa una tecla para continuar..."
 	read
@@ -106,19 +106,19 @@ instala_multimedia_libre() {
 	instala_programa "Multimedia básico" vorbis-tools mplayer transcode vlc
 	if [ ! -b /dev/cdrom ]; then
 		echo "/dev/cdrom existe";
-	else 
+	else
 		cd /dev
 		ln -s sr0 cdrom
 	fi
         if [ ! -b /dev/dvd ]; then
                 echo "/dev/dvd existe";
-        else 
+        else
                 cd /dev
                 ln -s sr0 dvd
         fi
-		
+
 	echo "Para ver DVD comerciales"
-	apt-get install -y libdvdread4 
+	apt-get install -y libdvdread4
 	case $DISTRO in
 	debian*)
 		wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_i386.deb -O /tmp/libdvdcss.deb
@@ -146,7 +146,7 @@ completar_kde() {
 	instala_multimedia_libre_kde
     instala_programa "para KDE" kdenetwork-filesharing k4dirstat ntpdate
 
-}	
+}
 
 compartir_ficheros() {
 # http://www.spencerstirling.com/computergeek/NFS_samba.html
@@ -179,11 +179,11 @@ completar_lxde() {
 				echo "@volumeicon" >> /etc/xdg/lxsession/autostart
 				ech "Instalado"
 			fi
-		else	
+		else
 			echo "Error instalando el control de volumen"
 		fi
 	fi
-}	
+}
 
 
 completar_gnome() {
@@ -193,7 +193,7 @@ completar_gnome() {
 		fi
 	fi
 	completar_escritorio
-	instala_multimedia_libre_gnome	
+	instala_multimedia_libre_gnome
 }
 
 instala_multimedia_prop() {
@@ -336,7 +336,7 @@ reloj_hora() {
 }
 
 language_espanol() {
-	case $DISTRO in 
+	case $DISTRO in
 	ubuntu*)
 		echo $(check-language-support -l es)
 		instala_programa "Escritorio en español" $(check-language-support -l es)
@@ -384,7 +384,7 @@ instala_thunderbird() {
 }
 
 instala_gestiong() {
-	case $DISTRO in 
+	case $DISTRO in
 	debian*)
 		case $DISTRO_VER in
 			7|8) instala_programa "GestiONG" build-essential libtool autoconf libpoco-dev libqt4-dev libboost-dev libxml2-dev libmysqlclient-dev libdb-dev libjpeg-dev libpng-dev libboost-regex-dev gawk libsqlite3-dev libx11-dev
@@ -392,7 +392,7 @@ instala_gestiong() {
 		esac
 		;;
 	*)
-		case $DISTRO_VER in 
+		case $DISTRO_VER in
 		12* ) instala_programa "GestiONG" build-essential libstdc++6-4.4-dbg libtool autoconf libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
 			;;
 		* ) instala_programa "GestiONG" build-essential libstdc++6-4.4-dbg libtool autoconf automake libx11-dev libqt4-dev libboost-all-dev libmysqlclient-dev libdb5.1-dev qt4-dev-tools libjpeg-dev libpng-dev libpoco-dev
@@ -458,18 +458,20 @@ menu_welcome() {
 		my_dialog --cancel-label "Salir" \
 			--backtitle "Distro: $DISTRO, Version: $DISTRO_VER" \
 			--title "=== MENÚ PRINCIPAL ===" \
-			--menu "Elige la sección" 20 75 5 \
+			--menu "Elige la sección" 20 75 6 \
 			1 "Sistema: actualizar software, idioma, reloj, etc." \
 			2 "Escritorio" \
 			3 "Software libre" \
 			4 "Software no libre" \
-			5 "Hardware: impresoras, discos externos, wifi, etc." 
+			5 "Hardware: impresoras, discos externos, wifi, etc." \
+			6 "Desarrollo"
 		case `cat /tmp/menuoption.txt` in
 		1 )		menu_sistema ;;
 		2 )		menu_escritorio ;;
 		3 )		menu_software_libre ;;
 		4 )		menu_software_no_libre ;;
 		5 )		menu_hardware ;;
+		6 )     menu_desarrollo ;;
 		* )	break ;;
 		esac
 	done
@@ -494,11 +496,11 @@ menu_sistema() {
 		3 ) 	clear; language_espanol ;;
 		4 )		clear; reloj_hora ;;
 # http://www.spencerstirling.com/computergeek/NFS_samba.html
-		5 ) 	clear; 
+		5 ) 	clear;
 				instala_programa "NFS" nfs-kernel-server nfs-common portmap
 				if test "x$KDE" = "x1"; then
 					instala_programa "GUI de kde para compartir archivos" kdenetwork-filesharing
-				fi 
+				fi
 				;;
 		6 ) 	menu_limpieza ;;
 		9 ) 	check_new_version ;;
@@ -534,7 +536,7 @@ menu_software_libre() {
 			2 "Gráficos: Photoshop, etc." \
 			3 "Thunderbird para leer mi correo (outlook)" \
 			4 "Programas para administradoras del sistema" \
-			5 "GestiONG" 
+			5 "GestiONG"
 		case `cat /tmp/menuoption.txt` in
 		1 ) 	clear; instala_libreoffice ;;
 		2 )		menu_graficos ;;
@@ -553,7 +555,7 @@ menu_software_no_libre() {
 			--menu "Elige los programas a instalar" 20 75 9 \
 			1 "Instalar fuentes propietarias de Windows kk" \
 			2 "Codecs propietarios mp3 y otros compatibles con Windows kk" \
-			3 "Programas propietarios: Flash, Skype, Spotify, etc." 
+			3 "Programas propietarios: Flash, Skype, Spotify, etc."
 		case `cat /tmp/menuoption.txt` in
 		1 )     clear; instala_fuentes_windows_kk ;;
 		2 ) 	clear; instala_multimedia_prop ;;
@@ -598,6 +600,23 @@ menu_hardware() {
 		esac
 	done
 }
+
+menu_desarrollo() {
+	while [ 1 ]; do
+		my_dialog --cancel-label "Volver" \
+			--title "=== MENÚ DESARROLLO ===" \
+			--menu "Elige el entorno a instalar" 20 75 1 \
+			1 "LAMP"
+		case `cat /tmp/menuoption.txt` in
+		1 )	instala_programa "apache2 mysql-server libapache2-mod-php5 php5-mysql php5-cli php5-xdebug php5-curl php5-intl \
+       mysql-server curl php5-gd"
+			a2enmod rewrite
+			;;
+		* )	break ;;
+		esac
+	done
+}
+
 
 menu_graficos() {
 	while [ 1 ]; do
@@ -659,7 +678,7 @@ menu_limpieza() {
 			4 "Eliminar bluetooh" \
 			5 "Eliminar modem" \
 			6 "Eliminar programas de KDE" \
-			7 "Borrar programas huérfanos" 
+			7 "Borrar programas huérfanos"
 		case `cat /tmp/menuoption.txt` in
         1 )     clear; liberar_espacio_home; pulsa_tecla ;;
 		2 ) 	clear; liberar_espacio_sistema; pulsa_tecla ;;
