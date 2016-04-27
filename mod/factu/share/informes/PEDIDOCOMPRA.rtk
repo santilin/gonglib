@@ -261,15 +261,15 @@ REPORT PedidoCompra
             posx = 0.0;
             sizex = 8.0;
         }
-// 		OBJECT header_ARTICULO_CODIGO {
-// 			value = "= const @DDD.ARTICULO_CODIGO_CAPTION;";
-// 			posx = 9.0;
-// 			sizex = 15.0;
-// 		}
+ 		OBJECT header_ARTICULO_CODIGO {
+ 			value = "= const @DDD.ARTICULO_CODIGO_CAPTION;";
+ 			posx = 9.0;
+ 			sizex = 10.0;
+ 		}
         OBJECT header_ARTICULO_NOMBRE {
             value = "= const @DDD.ARTICULO_NOMBRE_CAPTION;";
-            posx = 9.0;
-            sizex = 58.0;
+            posx = 19.0;
+            sizex = 48.0;
         }
         OBJECT header_DOCUMENTODET_COSTESINIVA {
             formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
@@ -307,7 +307,7 @@ REPORT PedidoCompra
         }
     }
     
-    
+#define INCLUDE_CODIGO
     Include = "compras_details.inc";
 	
 	GROUPFOOTER page_footer_captions {

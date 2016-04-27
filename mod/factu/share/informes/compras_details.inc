@@ -11,17 +11,27 @@
             posx = 0.0;
             sizex = 8.0;
         }
-// 		OBJECT ARTICULO_CODIGO {
-// 			value = "=input.ARTICULO_CODIGO;";
-// 			posx = 9.0;
-// 			sizex = 15.0;
-// 		}
+#ifdef INCLUDE_CODIGO        
+ 		OBJECT ARTICULO_CODIGO {
+ 			value = "=input.ARTICULO_CODIGO;";
+ 			posx = 9.0;
+ 			sizex = 10.0;
+ 			adjustment=reducefont;
+ 		}
+        OBJECT ARTICULO_NOMBRE {
+            value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
+            posx = 19.0;
+            sizex = 50.0;
+            adjustment = "grow";
+        }
+#else
         OBJECT ARTICULO_NOMBRE {
             value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
             posx = 9.0;
-            sizex = 57.0;
+            sizex = 60.0;
             adjustment = "grow";
         }
+#endif
         OBJECT DOCUMENTODET_COSTESINIVA {
             formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
             halignment = "right";
