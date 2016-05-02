@@ -298,9 +298,9 @@ if( ModuleInstance->getContabModule() ) {
 			pFocusWidget = pFrmAlbaranVentaDet;
 		}
 		pFrmAlbaranVentaDet->addDetailIfNeeded();
-		// Si estamos duplicando o copiando desde cualquier otro documento y no tenemos contador, generarlo, pero si es una 
+		// Si estamos duplicando o copiando desde cualquier otro documento y no tenemos contador, generarlo, pero si es una
 		// inserción normal, no generarlo hasta que se meta el tipo de documento
-		if( isInserting() && editContador->toInt() == 0 && editTipoDocCodigo->toInt() != 0 && isFirstScatter() ) 
+		if( isInserting() && editContador->toInt() == 0 && editTipoDocCodigo->toInt() != 0 && isFirstScatter() )
 			genNumeroDocumento();
 		searchClienteCodigo->setMustBeReadOnly( mHasCobros );
 		searchFormaPagoCodigo->setMustBeReadOnly( mHasCobros );
@@ -790,7 +790,7 @@ void FrmEditAlbaranVenta::scatterFormaPago()
 		searchCuentaPagoCuenta->setValue(getRecFormaPago()->getRecCuentaPago()->getValue("CODIGO").toString());
 #elif defined( HAVE_TESORERIAMODULE )
 		searchCuentaPagoCodigo->setValue(getRecFormaPago()->getValue("CUENTATESORERIA.CODIGO").toString());
-#endif		
+#endif
 	}
     if( getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::Contado
             || getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::SeIgnora ) {
@@ -984,7 +984,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
         if( editEntrega->toDouble() == 0.0 ) {
             editFechaPago->setText( Xtring::null );
             editDocumentoPago->setText( "" );
-#if defined (HAVE_CONTABMODULE) 
+#if defined (HAVE_CONTABMODULE)
             searchCuentaPagoCuenta->setValue( "" );
 #elif defined (HAVE_TESORERIAMODULE)
             searchCuentaPagoCodigo->setValue( "" );
@@ -993,17 +993,17 @@ if( ModuleInstance->getTesoreriaModule() ) {
 			if( editFechaPago->toString().isEmpty()) {
                 editFechaPago->setText( editFecha->toDate() );
 			}
-#if defined (HAVE_CONTABMODULE) 
-            if( editCuentaPagoCuenta->toString().isEmpty() && getRecFormaPago()->getValue("SUBCUENTAPAGO").toString() == Xtring::null) 
+#if defined (HAVE_CONTABMODULE)
+            if( editCuentaPagoCuenta->toString().isEmpty() && getRecFormaPago()->getValue("SUBCUENTAPAGO").toString() == Xtring::null)
 #elif defined (HAVE_TESORERIAMODULE)
-            if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID").toInt() == 0) 
+            if( editCuentaPagoCodigo->toString().isEmpty() && getRecFormaPago()->getValue("CUENTATESORERIA_ID").toInt() == 0)
 #endif
 			{
 				validresult->addError( "No se ha introducido una cuenta de pago y la forma de pago tampoco la tiene definida.\nNo se generará el apunte del cobro en tesorería.", "CUENTAPAGO_ID");
 			}
 		}
 	}
-	if( sender == editEntrega && editEntrega->isJustEdited() ) {	
+	if( sender == editEntrega && editEntrega->isJustEdited() ) {
         actTotales();
     }
 /*<<<<<FRMEDITALBARANVENTA_CABECERA_VALIDATE*/
@@ -1085,7 +1085,7 @@ void FrmEditAlbaranVenta::numeraLineas()
 	dbRecordList *reclst = getRecAlbaranVenta()->getListAlbaranVentaDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecAlbaranVentaDet *detalle = static_cast<RecAlbaranVentaDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITALBARANVENTA_CABECERA_NUMERALINEAS*/
