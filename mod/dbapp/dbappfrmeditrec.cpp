@@ -1518,12 +1518,11 @@ void FrmEditRec::applyFieldStyle(LineEdit *edit, const dbFieldDefinition *fieldd
     unsigned int fldwidth = fielddef->getStyleWidth( DBAPP->getDatabase() );
     bool hasmaskorstyle = false;
     _GONG_DEBUG_PRINT( 4, Xtring::printf("%s=>size:%d, mask=%s", edit->name(), fldwidth, edit->getMask().c_str() ) );
-    if( fldwidth < edit->getMask().size() ) {
+    if( fldwidth <= edit->getMask().size() ) {
         fldwidth = edit->getMask().size();
         hasmaskorstyle = true;
     }
     if( !hasmaskorstyle ) {
-        hasmaskorstyle = true;
         switch( edit->getValueType() ) {
         case Variant::tDouble:
             if( fldwidth == 0 )
@@ -1554,7 +1553,6 @@ void FrmEditRec::applyFieldStyle(LineEdit *edit, const dbFieldDefinition *fieldd
                 fldwidth = 100;
             else
                 edit->setMaxLength( fldwidth );
-            hasmaskorstyle = false;
             break;
         }
     }

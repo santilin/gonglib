@@ -61,6 +61,7 @@ protected:
 protected:
 	gong::EditBox *editCodigo;
 	gong::EditBox *editNombre;
+	gong::EditBox *editCategoria;
 	gong::SearchBox *searchTipoIVACodigo;
 	QPushButton *pushTipoIVACodigo;
 	gong::LineEdit *editTipoIVACodigo;

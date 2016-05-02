@@ -1435,7 +1435,7 @@ int Formatter::maskalfa_lasteditable( Variant::Type valuetype, const char *pmask
     return pos;
 }
 
-/* Formats a text according to its type and amask(string, date and time) */
+/* Formats a text according to its type and mask(string, date and time) */
 Xtring Formatter::maskalfa_mask( const char *origtext, Variant::Type valuetype, const char *amask,
                                  int startpos, int *position ) const
 {
@@ -1548,7 +1548,7 @@ Xtring Formatter::maskalfa_mask( const char *origtext, Variant::Type valuetype, 
 
 
 
-/* Generic function to aformat a text according to its type and amask */
+/* Generic function to format a text according to its type and amask */
 Xtring Formatter::mask_inedit( const char *origtext, Variant::Type valuetype,
                                const char *amask, int start_pos, int *position ) const
 {

@@ -2,6 +2,7 @@
 // COPYLEFT Fichero de edición de familias de artículos
 // FIELD Codigo int - codigo
 // FIELD Nombre string - codigo
+// FIELD Categoria string - codigo
 // FIELD TipoIVA_ID Reference(empresa::TipoIVA,Codigo,Nombre) - tipoiva
 // FIELD SubcuentaCompras string - subcuentas MODULE_INCLUDED(Contab)
 // FIELD SubcuentaVentas string - subcuentas MODULE_INCLUDED(Contab)
@@ -35,6 +36,7 @@ FrmEditFamilia::FrmEditFamilia(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editCodigo = addEditField( pControlsFrame, "FAMILIA", "CODIGO", codigoLayout );
 	editNombre = addEditField( pControlsFrame, "FAMILIA", "NOMBRE", codigoLayout );
+	editCategoria = addEditField( pControlsFrame, "FAMILIA", "CATEGORIA", codigoLayout );
 
 	searchTipoIVACodigo = addSearchField( pControlsFrame, "TIPOIVA_ID", "TIPOIVA", "CODIGO", "NOMBRE", tipoivaLayout );
 	pushTipoIVACodigo = searchTipoIVACodigo->getButton();
@@ -66,6 +68,7 @@ void FrmEditFamilia::scatterFields()
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editCodigo;
 	editNombre->setText(getRecFamilia()->getValue("NOMBRE").toString());
+	editCategoria->setText(getRecFamilia()->getValue("CATEGORIA").toString());
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {
 	editSubcuentaCompras->setText(getRecFamilia()->getValue("SUBCUENTACOMPRAS").toString());
@@ -99,6 +102,7 @@ void FrmEditFamilia::gatherFields()
     /*<<<<<FRMEDITFAMILIA_GATHER*/
 	getRecFamilia()->setValue( "CODIGO", editCodigo->toInt());
 	getRecFamilia()->setValue( "NOMBRE", editNombre->toString());
+	getRecFamilia()->setValue( "CATEGORIA", editCategoria->toString());
 	getRecFamilia()->setValue( "TIPOIVA_ID", getRecTipoIVA()->getRecordID() );
 #ifdef HAVE_CONTABMODULE
 if( ModuleInstance->getContabModule() ) {

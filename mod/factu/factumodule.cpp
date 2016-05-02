@@ -190,13 +190,14 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicFamilia->addFieldCodigo()->setUnique( true );
     pFicFamilia->addFieldDesc( "NOMBRE" )->setUnique( true );
     pFicFamilia->addFieldOne2OneRelation( "TIPOIVA_ID", "TIPOIVA.ID", false );
+	pFicFamilia->addFieldString( "CATEGORIA", 6 )->setUnique(true);
+    pFicFamilia->addFieldBool( "ENUSO" )->setDefaultValue("1");
 #ifdef HAVE_CONTABMODULE
     if ( pContabModule ) {
         pFicFamilia->addField<contab::FldCuenta>( "SUBCUENTACOMPRAS" );
         pFicFamilia->addField<contab::FldCuenta>( "SUBCUENTAVENTAS" );
     }
 #endif
-    pFicFamilia->addFieldBool( "ENUSO" )->setDefaultValue("1");
     pFicFamilia->addFieldNotas();
     pFicFamilia->addBehavior( DBAPP->getRecordTimestampBehavior() );
     pMainDatabase->addTable( pFicFamilia->getTableDefinition() );
