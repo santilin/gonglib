@@ -764,7 +764,8 @@ bool dbRecord::saveRelated( bool updating )
                 _GONG_DEBUG_PRINT(4, Xtring::printf("Saving 1:M or M:M relation %s",
                                                     recrel->getRelationDefinition()->getFullName().c_str() ) );
                 Variant leftvalue = getValue ( recrel->getLeftField() );
-				bool optimizing_out = updating;
+			// Como da muchos errores la optimización, la elimino.
+				bool optimizing_out = false; // updating;
                 for( uint nr = 0; nr < recrel->getRelatedRecordList()->size(); nr ++ ) {
 					dbRecord *detail = recrel->getRelatedRecordList()->at(nr);
                     // Detect as much identical records as we can
@@ -874,7 +875,7 @@ bool dbRecord::removeRelated( bool updating )
                 if ( leftvalue.isValid() )
                 {
                     // Detect as much identical records as we can
-                    bool optimizing_out = updating;
+                    bool optimizing_out = false; // updating;
                     for( uint nr = 0; nr < recrel->getRelatedRecordListOrig()->size(); nr ++ ) {
                         dbRecord *related_record_orig = recrel->getRelatedRecordListOrig()->at(nr);
 						if( optimizing_out ) {

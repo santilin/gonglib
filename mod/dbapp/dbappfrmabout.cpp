@@ -7,8 +7,8 @@ FrmAbout::FrmAbout(QWidget* parent, WidgetFlags fl)
     setTitle( _( "Acerca de " + GongLibraryInstance->getPackageString() ) );
     QHBoxLayout *descLayout = new QHBoxLayout();
     QLabel *descLabel = new QLabel( this );
-    descLabel->setText( toGUI( _( "Una bonita aplicación desarrollada por Santilín (gestiong@programacionsocial.net).\n\n"
-                                  "\nVersión de construcción del 29 de diciembre de 2015") ) );
+    descLabel->setText( toGUI( _( "Una bonita aplicación desarrollada por Santilín (gestiong@noviolento.es).\n\n"
+                                  "\nVersión de construcción del 18 de febrero de 2016") ) );
     descLayout->addWidget( descLabel );
     pControlsLayout->addLayout( descLayout );
 
