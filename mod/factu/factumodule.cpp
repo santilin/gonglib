@@ -187,10 +187,9 @@ bool FactuModule::initDatabase( dbDefinition *db )
     // Las familias son comunes a las empresas y ejercicios
     pFicFamilia = new factu::MasterTable( *pMainDatabase, "FAMILIA" );
     pFicFamilia->addFieldRecordID();
-    pFicFamilia->addFieldCodigo()->setUnique( true );
+    pFicFamilia->addFieldStringCode("CODIGO",6)->setUnique( true );
     pFicFamilia->addFieldDesc( "NOMBRE" )->setUnique( true );
     pFicFamilia->addFieldOne2OneRelation( "TIPOIVA_ID", "TIPOIVA.ID", false );
-	pFicFamilia->addFieldString( "CATEGORIA", 6 )->setUnique(true);
     pFicFamilia->addFieldBool( "ENUSO" )->setDefaultValue("1");
 #ifdef HAVE_CONTABMODULE
     if ( pContabModule ) {
