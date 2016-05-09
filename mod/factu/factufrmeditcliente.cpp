@@ -4,10 +4,12 @@
 // FIELD RazonSocial string - codigo
 // FIELD FormaPago_ID Reference(pagos::FormaPago,Codigo,Nombre,dbRecord::InsertIfNotFound)
 // FIELD NombreAlt string
-// FIELD DtoP100 double - leftotros
 // FIELD Activo bool - leftotros
-// FIELD Tarifa int - leftotros
+// FIELD Baja bool - leftotros
+// FIELD FechaBaja date - leftotros
 // FIELD Agente_ID Reference(Agente,Codigo,RazonSocial,dbRecord::InsertIfNotFound) tabExtra
+// FIELD DtoP100 double tabExtra leftotrosextra
+// FIELD Tarifa int tabExtra leftotrosextra
 // FIELD IVADetallado comboint tabExtra tipo
 // FIELD TipoCliente comboint tabExtra tipo
 // FIELD EntidadBanco string tabExtra cuentabanco
@@ -49,6 +51,7 @@ FrmEditCliente::FrmEditCliente(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 	QWidget *tabExtra = new QWidget( pTabWidget, "tabExtra" );
 	QVBoxLayout *tabExtraLayout = new QVBoxLayout(tabExtra, 11, 6, "tabExtraLayout");
 	QHBoxLayout *agente_idLayout = new QHBoxLayout(0, 0, 6, "agente_idLayout");
+	QHBoxLayout *leftotrosextraLayout = new QHBoxLayout(0, 0, 6, "leftotrosextraLayout");
 	QHBoxLayout *tipoLayout = new QHBoxLayout(0, 0, 6, "tipoLayout");
 	QHBoxLayout *cuentabancoLayout = new QHBoxLayout(0, 0, 6, "cuentabancoLayout");
 	QHBoxLayout *leftsubcuentasLayout = new QHBoxLayout(0, 0, 6, "leftsubcuentasLayout");
@@ -62,15 +65,17 @@ FrmEditCliente::FrmEditCliente(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 	editFormaPagoCodigo = searchFormaPagoCodigo->getEditCode();
 	editFormaPagoNombre = searchFormaPagoCodigo->getEditDesc();
 	editNombreAlt = addEditField( pControlsFrame, "CLIENTE", "NOMBREALT", nombrealtLayout );
-	editDtoP100 = addEditField( pControlsFrame, "CLIENTE", "DTOP100", leftotrosLayout );
 	checkActivo = addCheckField( pControlsFrame, "CLIENTE", "ACTIVO", leftotrosLayout );
-	editTarifa = addEditField( pControlsFrame, "CLIENTE", "TARIFA", leftotrosLayout );
+	checkBaja = addCheckField( pControlsFrame, "CLIENTE", "BAJA", leftotrosLayout );
+	editFechaBaja = addEditField( pControlsFrame, "CLIENTE", "FECHABAJA", leftotrosLayout );
 
 	searchAgenteCodigo = addSearchField( tabExtra, "AGENTE_ID", "AGENTE", "CODIGO", "RAZONSOCIAL", agente_idLayout );
 	pushAgenteCodigo = searchAgenteCodigo->getButton();
 	connect( pushAgenteCodigo, SIGNAL( clicked() ), this, SLOT( pushAgenteCodigo_clicked() ) );
 	editAgenteCodigo = searchAgenteCodigo->getEditCode();
 	editAgenteRazonSocial = searchAgenteCodigo->getEditDesc();
+	editDtoP100 = addEditField( tabExtra, "CLIENTE", "DTOP100", leftotrosextraLayout );
+	editTarifa = addEditField( tabExtra, "CLIENTE", "TARIFA", leftotrosextraLayout );
 	comboIVADetallado = addComboIntField( tabExtra, "CLIENTE", "IVADETALLADO", tipoLayout );
 	comboTipoCliente = addComboIntField( tabExtra, "CLIENTE", "TIPOCLIENTE", tipoLayout );
 	editEntidadBanco = addEditField( tabExtra, "CLIENTE", "ENTIDADBANCO", cuentabancoLayout );
@@ -88,6 +93,8 @@ if( ModuleInstance->getContabModule() ) {
 	pControlsLayout->addLayout( leftotrosLayout );
 	alignLayout( leftotrosLayout, true );
 	tabExtraLayout->addLayout( agente_idLayout );
+	tabExtraLayout->addLayout( leftotrosextraLayout );
+	alignLayout( leftotrosextraLayout, true );
 	tabExtraLayout->addLayout( tipoLayout );
 	tabExtraLayout->addLayout( cuentabancoLayout );
 	tabExtraLayout->addLayout( leftsubcuentasLayout );
@@ -113,8 +120,10 @@ void FrmEditCliente::scatterFields()
 		pFocusWidget = editCodigo;
 	editRazonSocial->setText(getRecCliente()->getValue("RAZONSOCIAL").toString());
 	editNombreAlt->setText(getRecCliente()->getValue("NOMBREALT").toString());
-	editDtoP100->setText(getRecCliente()->getValue("DTOP100").toDouble());
 	checkActivo->setChecked(getRecCliente()->getValue("ACTIVO").toBool());
+	checkBaja->setChecked(getRecCliente()->getValue("BAJA").toBool());
+	editFechaBaja->setText(getRecCliente()->getValue("FECHABAJA").toDate());
+	editDtoP100->setText(getRecCliente()->getValue("DTOP100").toDouble());
 	editTarifa->setText(getRecCliente()->getValue("TARIFA").toInt());
 	comboIVADetallado->setCurrentItemByValue(getRecCliente()->getValue("IVADETALLADO").toInt());
 	comboTipoCliente->setCurrentItemByValue(getRecCliente()->getValue("TIPOCLIENTE").toInt());
@@ -151,10 +160,12 @@ void FrmEditCliente::gatherFields()
 	getRecCliente()->setValue( "RAZONSOCIAL", editRazonSocial->toString());
 	getRecCliente()->setValue( "FORMAPAGO_ID", getRecFormaPago()->getRecordID() );
 	getRecCliente()->setValue( "NOMBREALT", editNombreAlt->toString());
-	getRecCliente()->setValue( "DTOP100", editDtoP100->toDouble());
 	getRecCliente()->setValue( "ACTIVO", checkActivo->isChecked());
-	getRecCliente()->setValue( "TARIFA", editTarifa->toInt());
+	getRecCliente()->setValue( "BAJA", checkBaja->isChecked());
+	getRecCliente()->setValue( "FECHABAJA", editFechaBaja->toDate());
 	getRecCliente()->setValue( "AGENTE_ID", getRecAgente()->getRecordID() );
+	getRecCliente()->setValue( "DTOP100", editDtoP100->toDouble());
+	getRecCliente()->setValue( "TARIFA", editTarifa->toInt());
 	getRecCliente()->setValue( "IVADETALLADO", comboIVADetallado->getCurrentItemValue());
 	getRecCliente()->setValue( "TIPOCLIENTE", comboTipoCliente->getCurrentItemValue());
 	getRecCliente()->setValue( "ENTIDADBANCO", editEntidadBanco->toString());
@@ -352,6 +363,14 @@ void FrmEditCliente::validateFields( QWidget *sender, bool *isvalid, ValidResult
                     editRazonSocial->setText( pEditContactoBehavior->getEditNombre()->toString() );
                 }
     }
+    if( sender == checkBaja ) {
+		if( checkBaja->isOn() ) {
+			editFechaBaja->setEnabled(true);
+			checkActivo->setChecked(false);
+		} else {
+			editFechaBaja->setEnabled(false);
+		}
+	}
     if ( !ir ) {
         showValidMessages( isvalid, *validresult, sender );
         delete validresult;

@@ -75,13 +75,15 @@ protected:
 	gong::LineEdit *editFormaPagoCodigo;
 	gong::LineEdit *editFormaPagoNombre;
 	gong::EditBox *editNombreAlt;
-	gong::EditBox *editDtoP100;
 	gong::CheckBox *checkActivo;
-	gong::EditBox *editTarifa;
+	gong::CheckBox *checkBaja;
+	gong::EditBox *editFechaBaja;
 	gong::SearchBox *searchAgenteCodigo;
 	QPushButton *pushAgenteCodigo;
 	gong::LineEdit *editAgenteCodigo;
 	gong::LineEdit *editAgenteRazonSocial;
+	gong::EditBox *editDtoP100;
+	gong::EditBox *editTarifa;
 	gong::ComboBoxInt *comboIVADetallado;
 	gong::ComboBoxInt *comboTipoCliente;
 	gong::EditBox *editEntidadBanco;

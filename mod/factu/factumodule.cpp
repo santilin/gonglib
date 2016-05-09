@@ -229,6 +229,8 @@ bool FactuModule::initDatabase( dbDefinition *db )
     pFicCliente->addFieldPercent( "DTOP100" );
     pFicCliente->addField<FldIVADetallado>( "IVADETALLADO" );
     pFicCliente->addFieldBool( "ACTIVO" )->setDefaultValue( "1" );
+    pFicCliente->addFieldBool( "BAJA" )->setDefaultValue( "0" );
+    pFicCliente->addFieldDate( "FECHABAJA" )->setCanBeNull(true);
     pFicCliente->addFieldInt( "TARIFA" )->setDefaultValue( "0" );
     pFicCliente->addFieldString("ENTIDADBANCO", 80);
     pFicCliente->addField<empresa::FldCuentaBanco>( "CUENTABANCO" );

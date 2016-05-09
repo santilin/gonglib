@@ -26,21 +26,21 @@ public:
 QValidator::State LineEditValidator::validate( QString & input, int & position ) const
 {
     LineEdit *le = static_cast<LineEdit *>(parent());
-	_GONG_DEBUG_TRACE(0);
+// 	_GONG_DEBUG_TRACE(0);
     if( le->mDoNotValidate )
         return QValidator::Acceptable;
     int startpos = le->mOldCursorPosition;
 
-    _GONG_DEBUG_PRINT(0, Xtring::printf("Formatting text='%s', pos=%d, oldpos=%d, mask='%s', format='%s'",
-                                         fromGUI(input).c_str(), position, startpos,
-                                         le->getMask().c_str(), le->getFormat().c_str() ) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("Formatting text='%s', pos=%d, oldpos=%d, mask='%s', format='%s'",
+//                                          fromGUI(input).c_str(), position, startpos,
+//                                          le->getMask().c_str(), le->getFormat().c_str() ) );
     // If the mask is empty, the one from RegConfig is used
     Xtring masked = le->mMaskFormatter->mask_inedit( input.local8Bit(),
                     le->mValueType,
                     le->mMask.c_str(), startpos, &position );
     input = toGUI( masked );
-    _GONG_DEBUG_PRINT(0, Xtring::printf("Result='%s', pos=%d",
-                                         masked.c_str(), position) );
+//     _GONG_DEBUG_PRINT(10, Xtring::printf("Result='%s', pos=%d",
+//                                          masked.c_str(), position) );
     // If we change input, the validator is called again, so we must keep de position
     le->mOldCursorPosition = position;
     le->setEdited( true );
