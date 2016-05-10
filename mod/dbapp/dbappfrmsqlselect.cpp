@@ -359,7 +359,7 @@ Xtring FrmSQLSelect::getSubCondition ( item_info iileft, int operindex )
             case SQLTIME:
             case SQLDATETIME:
             case SQLTIMESTAMP:
-				if( iileft.operation == yearof || iileft.operation == monthof || iileft.operation == dayof) 
+				if( iileft.operation == yearof || iileft.operation == monthof || iileft.operation == dayof)
 					cond += pConnection->toSQL ( textValorComparado->toInt() );
 				else
 					cond += pConnection->toSQL ( textValorComparado->toDateTime() );
@@ -586,7 +586,7 @@ void FrmSQLSelect::validateValorComparado ( QWidget *, bool * )
 		pushAnadirY_clicked();
         if ( !textValorComparado->toString().isEmpty() &&
                 lbCamposIzda->currentItem() == 0 &&
-                lbOperador->currentItem() == OP_CONTIENE ) { 
+                lbOperador->currentItem() == OP_CONTIENE ) {
 			// Equivalente a ctrl+f, enter y buscar
 			accept();
 		}
@@ -621,8 +621,8 @@ Variant FrmSQLSelect::chooseValue(dbConnection *conn,
     List<Variant> variants;
     while( rs->next() ) {
         habia = true;
-        variants.push_back( rs->getValue(0) );
-        _GONG_DEBUG_PRINT( 4, "Adding " + rs->toString(0) + " to the " + Xtring::number(variants.size()) + " variant[]" );
+        variants.push_back( rs->getValue((uint)0) );
+        _GONG_DEBUG_PRINT( 4, "Adding " + rs->toString((uint)0) + " to the " + Xtring::number(variants.size()) + " variant[]" );
         Xtring astring;
         for( uint nf = 0; nf < rs->getColumnCount(); nf ++ ) {
             if( nf != 0 )

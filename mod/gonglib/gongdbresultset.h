@@ -37,8 +37,8 @@ public:
         return mRowNumber;
     }
     bool next();
-    Variant getValue(unsigned int colnum);
     Variant getValue(size_type tup_num, unsigned int colnum);
+    Variant getValue(unsigned int colnum) const;
     Xtring toString(unsigned colnum) const;
     int toInt(unsigned colnum) const;
     uint toUInt(unsigned colnum) const;
@@ -52,6 +52,20 @@ public:
     bool isNull(unsigned colnum) const;
     Variant toBinary(unsigned colnum) const;
 
+    Variant getValue(const char *fldname) const { return getValue(getColumnPos(fldname)); }
+    Xtring toString(const char *fldname) const { return toString(getColumnPos(fldname)); }
+    int toInt(const char *fldname) const { return toInt(getColumnPos(fldname)); }
+    uint toUInt(const char *fldname) const { return toUInt(getColumnPos(fldname)); }
+    double toDouble(const char *fldname) const { return toDouble(getColumnPos(fldname)); }
+    long toLong(const char *fldname) const { return toDouble(getColumnPos(fldname)); }
+    Money toMoney(const char *fldname) const { return toMoney(getColumnPos(fldname)); }
+    Date toDate(const char *fldname) const { return toDate(getColumnPos(fldname)); }
+    DateTime toDateTime(const char *fldname) const { return toDateTime(getColumnPos(fldname)); }
+    Time toTime(const char *fldname) const { return toTime(getColumnPos(fldname)); }
+    bool toBool(const char *fldname) const { return toBool(getColumnPos(fldname)); }
+    bool isNull(const char *fldname) const { return isNull(getColumnPos(fldname)); }
+    Variant toBinary(const char *fldname) const { return toBinary(getColumnPos(fldname)); }
+
     dbConnection *getConnection() const {
         return pConnection;
     }
@@ -62,6 +76,9 @@ public:
     const char *getColumnName(unsigned int colnum) const;
     unsigned int getColumnWidth( unsigned int colnum ) const;
     unsigned int getColumnDecimals( unsigned int colnum ) const;
+	unsigned int getColumnPos(const Xtring &fldname) const
+		{ return getColumnPos(fldname.c_str()); }
+	unsigned int getColumnPos(const char *fldname) const;
 
 private:
     dbConnection *pConnection;

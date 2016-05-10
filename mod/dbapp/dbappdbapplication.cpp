@@ -242,7 +242,7 @@ void dbApplication::readSettings()
     const char *tn = getAppSetting( "ICON_THEME" ).toString().c_str();
     if( !strempty(tn) && tn != QIcon::themeName() )
         QIcon::setThemeName( tn );
-	
+
 }
 
 bool dbApplication::readDatabaseSettings(const Xtring& tablename, const Xtring& filter)
@@ -356,11 +356,11 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         if ( nversionindatabase > nversioninprogram ) {
             FrmBase::msgError( DBAPP->getPackageString(),
                                Xtring::printf( _("%s no está actualizado.\n"
-                                                 "La base de datos tiene la versión '%s' y este programa está preparado para "
-                                                 "utilizar la versión '%s'\n"
+                                                 "La base de datos tiene la versión '%s(%d)' y este programa está preparado para "
+                                                 "utilizar la versión '%s(%d)'\n"
                                                  "Actualiza el programa.\n"),
-                                               DBAPP->getPackageString().c_str(), versionInDatabase.c_str(),
-                                               DBAPP->getdbVersion().c_str() ) );
+                                               DBAPP->getPackageString().c_str(), versionInDatabase.c_str(), nversionindatabase,
+                                               DBAPP->getdbVersion().c_str(), nversioninprogram ) );
             return false;
         }
 
@@ -424,8 +424,8 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
             }
         }
     }
-    
-    
+
+
     // Check if the database has changed
     if( startingapp ) {
         pFrmLogin->addMessage( _("Comprobando las versiones de los módulos...") );
@@ -850,9 +850,9 @@ bool dbApplication::chooseMulti( List<dbRecordID> &v,
 
 
 /**
- * @brief Busca un registro a partir de un código, una descripción o 
+ * @brief Busca un registro a partir de un código, una descripción o
  * un código secundario ( si el flag dbApplication::SeekCodeSecundary está activo)
- * 
+ *
  * @param rec el registro en el que se busca
  * @param owner el formulario padre, si existe, para enviarlo al formulario choose o edit_Rec
  * @param fldcod el nombre del campo de código del formulario
@@ -1595,6 +1595,9 @@ long int dbApplication::version2Long(const Xtring& version)
 {
     XtringList versions;
     version.tokenize( versions, "." );
+	while( versions.size() < 5 ) {
+		versions.push_back("0");
+	}
     long nversion = 0;
     for ( unsigned int nitem = 0; nitem < versions.size(); nitem ++ )
         nversion = nversion * 100 + versions[nitem].toInt();

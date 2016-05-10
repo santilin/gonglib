@@ -40,7 +40,7 @@ void NamesListTable::fillInfoList(dbConnection* conn)
         Xtring sql = "SELECT CODIGO, NOMBRE FROM " + conn->nameToSQL( tablename );
         dbResultSet *rs = conn->select( sql );
         while( rs->next() ) {
-            info->values.push_back( rs->toInt(0) );
+            info->values.push_back( rs->toInt((uint)0) );
             info->captions.push_back( rs->toString(1) );
         }
         if( info->values.size() == 0 ) {
@@ -139,7 +139,7 @@ void FldNamesListTable::fill( dbConnection &conn )
     dbResultSet *rs = conn.select( sql );
     while( rs->next() ) {
         pListOfCaptions->push_back( rs->toString(1) );
-        pListOfValues->push_back( rs->toInt(0) );
+        pListOfValues->push_back( rs->toInt((uint)0) );
     }
 }
 

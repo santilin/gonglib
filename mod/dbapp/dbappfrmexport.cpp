@@ -88,7 +88,7 @@ void FrmExport::doExport(ExportViewItem *current, std::ofstream &stream, const X
         selectall += " ORDER BY " + orderby;
         std::auto_ptr<dbResultSet> rs( r->getConnection()->select( selectall ) );
         while( rs->next() ) {
-            r->read( rs->toInt(0) );
+            r->read( rs->toInt((uint)0) );
             stream << r->toString(TOSTRING_FUGIT) << "\n";
         }
         delete r;

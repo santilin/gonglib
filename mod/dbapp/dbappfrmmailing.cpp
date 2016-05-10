@@ -131,7 +131,7 @@ int FrmMailing::getEmailsList( XtringList &list, bool include_names ) const
                    " AND " + mTablaContactos + ".EMAIL <> '' AND " + conn->nameToSQL( tablename ) + ".ID IN(" + ids.join(",") + ")";
             dbResultSet *rs = conn->select (sql );
             while( rs->next() ) {
-                Xtring email = rs->toString(0);
+                Xtring email = rs->toString((uint)0);
                 Xtring nombre = rs->toString(1);
                 addEmailToList(list, email, nombre, include_names);
             }
@@ -253,7 +253,7 @@ void FrmMailing::accept()
 				if( !filename.isEmpty() ) {
 					FilePartSource *attachement = new FilePartSource(filename.c_str(), mMimeType.isEmpty() ? "application/pdf" : mMimeType);
 //					attachement->headers().add("Content-ID", "<image>");
-					message->addPart("adjunto1", attachement, Poco::Net::MailMessage::CONTENT_ATTACHMENT, Poco::Net::MailMessage::ENCODING_BASE64);					
+					message->addPart("adjunto1", attachement, Poco::Net::MailMessage::CONTENT_ATTACHMENT, Poco::Net::MailMessage::ENCODING_BASE64);
 				}
                 sent = s.sendMessage( message );
                 delete message;

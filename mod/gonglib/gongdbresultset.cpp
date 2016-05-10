@@ -85,7 +85,7 @@ dbResultSet::size_type dbResultSet::getRowCount()
     }
 }
 
-Variant dbResultSet::getValue(unsigned int colnum)
+Variant dbResultSet::getValue(unsigned int colnum) const
 {
     Variant::Type t;
     switch( pConnection->getSqlDriver() ) {
@@ -442,6 +442,36 @@ unsigned int dbResultSet::getColumnDecimals( unsigned int colnum ) const
     default:
         return 2; /// TODO
     }
+}
+
+
+unsigned int dbResultSet::getColumnPos(const char *fldname) const
+{
+	if (!fldname || *fldname == '\0')
+		throw; /// TODO
+    switch( pConnection->getSqlDriver() ) {
+    case dbConnection::DRIVER_MYSQL:
+	{
+		uint i = 0;
+		while(1) {
+			const char *name = _data.mysql.pFieldDefs[i].name;
+			if (name == 0 ) {
+				throw; /// TODO
+			} else {
+				if( strcasecmp( name, fldname ) == 0 )
+					return i;
+			}
+			++i;
+		}
+	}
+#ifdef HAVE_SQLITE3
+    case dbConnection::DRIVER_SQLITE3:
+        throw;
+#endif
+    default:
+        throw; /// TODO
+    }
+
 }
 
 

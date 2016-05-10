@@ -70,7 +70,7 @@ dbDefinition *dbDefinition::fromSQLSchema( dbConnection *conn, const Xtring &dbn
     dbdef = new dbDefinition( dbname, "Generated from Schema" );
     std::auto_ptr<dbResultSet> rsTables(conn->select( "SHOW TABLES" ));
     while( rsTables->next() ) {
-        tblname = rsTables->toString(0);
+        tblname = rsTables->toString((uint)0);
 #ifdef HAVE_SQLITE3
         if( tblname == "sqlite_sequence" )
             continue;
@@ -431,14 +431,14 @@ int dbDefinition::readDescriptionsFromFile( const Xtring &filename )
 }
 
 /**
- * @brief Añade una vista a esta base de datos a partir de una cadena. 
- * 
+ * @brief Añade una vista a esta base de datos a partir de una cadena.
+ *
  * @param caption Título de la vista
  * @param viewstr Definición de la vista
  * @param origin El origen de la vista, por ejemplo, la clave en el diccionario de settings
  * @return int el número de vistas en la base de datos
  * @see dbViewDefinition::dbViewDefinition
- * 
+ *
  * @todo: it might not be necessary the caption field, we can use mDescSingular
  */
 int dbDefinition::addViewFromString( const Xtring &caption, const Xtring &viewstr, const Xtring &origin)

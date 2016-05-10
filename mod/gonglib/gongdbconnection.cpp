@@ -503,7 +503,7 @@ bool dbConnection::existsDatabase( const Xtring &databasename )
         /// TODO: usar mysql_list_databases
         std::auto_ptr<dbResultSet> rs( select( "SHOW DATABASES" ) );
         while( rs->next() ) {
-            if ( rs->toString(0).upper() == databasename.upper() ) {
+            if ( rs->toString(uint(0)).upper() == databasename.upper() ) {
                 return true;
             }
         }
@@ -569,7 +569,7 @@ Xtring dbConnection::nameToSQL( const Xtring &p_val ) const
 		ret = p_val;
         return "`" + ret.replace(".", "`.`") + "`";
 #ifdef HAVE_SQLITE3
-    case DRIVER_SQLITE3: 
+    case DRIVER_SQLITE3:
 		{
 			XtringList palabrasentrecomillas;
 			ret = p_val.upper();
@@ -580,7 +580,7 @@ Xtring dbConnection::nameToSQL( const Xtring &p_val ) const
 				(*pecit).tokenize(palabras, " ");
 				for( XtringList::const_iterator pit = palabras.begin(); pit != palabras.end(); ++pit) {
 					ret += ' ';
-					if( *pit == "ON" || *pit == "INNER" || *pit == "JOIN" || *pit == "RIGHT" || *pit == "LEFT" ) 
+					if( *pit == "ON" || *pit == "INNER" || *pit == "JOIN" || *pit == "RIGHT" || *pit == "LEFT" )
 						ret += *pit;
 					else {
 						Xtring rpalabra = (*pit);
@@ -929,7 +929,7 @@ bool dbConnection::dropDatabase( const Xtring &dbname, bool ignoreerrors )
         {
             dbResultSet *rs = select( "SELECT user FROM mysql.db WHERE Db=" + toSQL( dbname ) );
             while( rs->next() )
-                dropUser( dbname, rs->toString(0), true );
+                dropUser( dbname, rs->toString(uint(0)), true );
             delete rs;
             return exec( "DROP DATABASE " + dbname, ignoreerrors );
         }

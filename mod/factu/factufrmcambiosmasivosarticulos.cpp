@@ -150,7 +150,7 @@ long unsigned int FrmCambiosMasivosArticulos::cambiar_precios(
     DBAPP->waitCursor(true);
     while( rs->next() ) {
         DBAPP->processEvents();
-        if( articulo->read( rs->toInt(0) ) ) {
+        if( articulo->read( rs->toInt((uint)0) ) ) {
             switch( operacion ) {
             case OP_PRECIOS_FIJO:
                 if( fldbase.isEmpty() )
@@ -238,7 +238,7 @@ unsigned long int FrmCambiosMasivosArticulos::cargar_imagenes()
             Xtring imagename = dirname + "/" + Xtring::printf(
                                    ModuleInstance->getModuleSetting( "IMGARTFILENAME" ).toString(),
                                    rs->toString(1).c_str() );
-            dbRecordID a_id = rs->toInt(0);
+            dbRecordID a_id = rs->toInt((uint)0);
             dbRecordID ai_id = rs->toInt(2);
             if( FileUtils::exists( imagename.c_str() ) ) {
                 if( pixmap->load( imagename.c_str() ) ) {

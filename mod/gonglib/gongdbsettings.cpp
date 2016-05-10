@@ -16,8 +16,8 @@ bool dbSettings::read(const Xtring &scope)
             value.copy( rs->toString(1) );
         else
             value = rs->toString(1);
-        _GONG_DEBUG_PRINT(5, "Name: " + rs->toString(0) + ", value: " + value.toString() );
-        Settings::setValue( rs->toString(0), value );
+        _GONG_DEBUG_PRINT(5, "Name: " + rs->toString((uint)0) + ", value: " + value.toString() );
+        Settings::setValue( rs->toString((uint)0), value );
     }
     return true;
 }

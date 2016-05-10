@@ -336,7 +336,7 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
         tbldef->setDescSingular( db.getName() + "." + tblname + " from SQL Schema" );
         tbldef->mFrom = tblname;
         while( rsFields->next() ) {
-            fldname = rsFields->toString( 0 );
+            fldname = rsFields->toString(uint(0));
             t = dbConnection::extractSqlColumnType( rsFields->toString( 1 ).c_str(), &w, &d );
             dbFieldDefinition::Flags tmpflags = dbFieldDefinition::NONE;
             if ( rsFields->toString( 2 ) == "NO" )
