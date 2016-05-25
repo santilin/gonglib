@@ -154,7 +154,7 @@ void MainWindow::initGUI()
     pMenuSystemIntegrity->setStatusTip( text );
     pMenuSystemIntegrity->setWhatsThis( text );
     connect(pMenuSystemIntegrity, SIGNAL(activated()), this, SLOT(slotMenuSystemIntegrity()));
-// TODO    pMenuSystemIntegrity->addTo(pMenuSystem);
+    pMenuSystemIntegrity->addTo(pMenuSystem);
 
 
 
@@ -339,7 +339,7 @@ void MainWindow::slotMenuWindowRemoveGeometry()
 
 void MainWindow::slotMenuSystemIntegrity()
 {
-    FrmIntegrity *frminteg = new FrmIntegrity( DBAPP->getDatabase() );
+    FrmIntegrity *frminteg = new FrmIntegrity( DBAPP );
     frminteg->show();
     createClient( frminteg );
 }

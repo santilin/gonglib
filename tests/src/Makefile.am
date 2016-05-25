@@ -1,10 +1,10 @@
 AM_CPPFLAGS = @GONGLIB_CPPFLAGS@
 AM_CXXFLAGS = @AM_CXXFLAGS@
 
-gonglibtest_LDADD = @GONGLIB_LIBS@
+gongtest_LDADD = @GONGLIB_LIBS@
 
-bin_PROGRAMS = gonglibtest
-gonglibtest_SOURCES = main.cpp testcommon.cpp testdatabase.cpp \
+bin_PROGRAMS = gongtest
+gongtest_SOURCES = main.cpp testcommon.cpp testdatabase.cpp \
 	testdbconnection.cpp testdbdefinition.cpp testdbfieldvalue.cpp testdbrecord.cpp \
 	testdbschema.cpp testdbtabledef.cpp testintegrityresult.cpp testlibrary.cpp \
 	testsettings.cpp testtabledatamodel.cpp testregconfig.cpp \

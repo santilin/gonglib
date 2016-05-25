@@ -1,5 +1,5 @@
-#ifndef _GONG_FRMINTEGRITY_H
-#define _GONG_FRMINTEGRITY_H
+#ifndef _DBAPP_FRMINTEGRITY_H
+#define _DBAPP_FRMINTEGRITY_H
 
 /** @file dbappfrmintegrity.h A Form to check the integrity of the database
  * Proyecto gestiong. (C) 2003-2013, Francisco Santiago Capel Torres
@@ -12,9 +12,14 @@
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
 
-#include <dbappfrmcustom.h>
+#include "dbappfrmcustom.h"
+#include "dbappdbtablesmodel.h"
+
+class QListView;
+class QTreeView;
 
 namespace gong {
+
 #if 0
 struct IntegrityListItemInfo
 {
@@ -41,16 +46,18 @@ class dbDefinition;
 class FrmIntegrity : public FrmCustom
 {
     Q_OBJECT
-
 public:
-    FrmIntegrity ( dbDefinition *db,
-                   QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-    int exec();
-
+    FrmIntegrity(dbApplication *dbapp, QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
+    virtual void accept();
+protected slots:
+    void slotSelectAll();
+    void slotUnselectAll();
+private:
     dbDefinition *pDbDefinition;
+    QListView *pListTables;
+    DBTablesModel *pModelTables;
 };
 
 }
 
-#endif // _GONG_FRMINTEGRITY_H
-
+#endif // _DBAPP_FRMINTEGRITY_H

@@ -1,4 +1,4 @@
-
+#include <QListView>
 #include <gongdbdefinition.h>
 #include "dbappfrmintegrity.h"
 
@@ -12,23 +12,17 @@ namespace gong {
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-FrmIntegrity::FrmIntegrity(dbDefinition *db,
-                           QWidget* parent, const char* name, WidgetFlags fl )
+FrmIntegrity::FrmIntegrity(dbApplication *dbapp, QWidget* parent, const char* name, WidgetFlags fl )
     : FrmCustom( parent, name, fl ),
-      pDbDefinition( db )
+      pDbDefinition( dbapp->getDatabase() )
 {
     if ( objectName().isEmpty() )
         setObjectName ( "FrmIngtegrity" );
-
+    pListTables = new QListView( this );
+    pModelTables = new DBTablesModel( dbapp->getDatabase(), dbapp->getConnection(), this );
+    pListTables->setModel( pModelTables );
 }
 
-int FrmIntegrity::exec()
-{
-    showModalFor( getRealParent(), false, true );
-    if( !wasCancelled() ) {
-    }
-    return !wasCancelled();
-}
 
 
 } // namespace gong

@@ -24,7 +24,7 @@ int TestCSV::run()
 //	_GONG_DEBUG_ASSERT( tokens[1] == "LANGUAGE" );
 //	tokens.clear();
 	content = "\"Santi \"\"Santilín\"\"\",\"c++\"";
-	CsvUtils::tokenize( tokens, content, '\"', ',' );
+	CSVUtils::tokenize( tokens, content, '\"', ',' );
 	_GONG_DEBUG_ASSERT( tokens[0] == "Santi \"Santilín\"" );
 	_GONG_DEBUG_ASSERT( tokens[1] == "c++" );
 
