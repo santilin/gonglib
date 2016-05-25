@@ -10,7 +10,6 @@ class dbDefinition;
 
 class DBTablesModel: public QAbstractListModel
 {
-    Q_OBJECT
 public:
     DBTablesModel( dbDefinition *db, dbConnection *conn, QObject *parent = 0 );
     int rowCount( const QModelIndex & parent = QModelIndex() ) const;

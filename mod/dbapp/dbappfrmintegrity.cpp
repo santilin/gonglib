@@ -21,8 +21,24 @@ FrmIntegrity::FrmIntegrity(dbApplication *dbapp, QWidget* parent, const char* na
     pListTables = new QListView( this );
     pModelTables = new DBTablesModel( dbapp->getDatabase(), dbapp->getConnection(), this );
     pListTables->setModel( pModelTables );
+	pControlsLayout->addWidget(pListTables);
 }
 
+void FrmIntegrity::accept()
+{
+	FrmBase::msgOk(this, "Ok");
+}
 
+void FrmIntegrity::slotSelectAll()
+{
+    pModelTables->selectAll();
+    pListTables->repaint();
+}
+
+void FrmIntegrity::slotUnselectAll()
+{
+    pModelTables->unselectAll();
+    pListTables->repaint();
+}
 
 } // namespace gong
