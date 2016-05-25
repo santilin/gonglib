@@ -30,13 +30,12 @@ public:
         bool fixable;
     };
 
-    ValidResult() : mContext(saving) {}
-    uint count() const {
-        return mMessages.size();
-    }
+    ValidResult(Context ctxt = saving) : mContext(ctxt) {}
+    uint count() const { return mMessages.size(); }
     uint countErrors() const;
     uint countWarnings() const;
-    void addMessage(ErrorCode code, const Xtring &message, const Xtring &fld, bool fixable=false);
+	std::vector<MessageInfo> getMessages() const { return mMessages; }
+	void addMessage(ErrorCode code, const Xtring &message, const Xtring &fld, bool fixable=false);
     void addError(const Xtring &message, const Xtring &fld, bool fixable=false) {
         addMessage( error, message, fld, fixable);
     }
