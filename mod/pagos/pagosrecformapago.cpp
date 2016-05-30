@@ -14,12 +14,16 @@ namespace pagos {
 
 /*<<<<<FORMAPAGO_RELATIONS*/
 #ifdef HAVE_TESORERIAMODULE
+// if( ModuleInstance->getTesoreriaModule() ) {
 tesoreria::RecCuentaTesoreria *RecFormaPago::getRecCuentaTesoreria() const
 {
 	return static_cast<tesoreria::RecCuentaTesoreria*>(findRelatedRecord("CUENTATESORERIA_ID"));
 }
+
+// }
 #endif
 /*>>>>>FORMAPAGO_RELATIONS*/
+//{capel} eliminar el if fuera de la función
 
 } // namespace pagos
 } // namespace gong

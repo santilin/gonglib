@@ -63,7 +63,7 @@ protected:
     void scatterFactura();
     void scatterTercero();
 
-    /*<<<<<FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
+/*<<<<<FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterRemesaCobro();
 	void scatterMoneda();

@@ -135,8 +135,10 @@ void FrmEditApunte::validateFields(QWidget *sender, bool *isvalid, ValidResult *
 	if( !isvalid )
 		isvalid = &v;
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
-	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-			*isvalid = false;
+	if( !sender && !pRecord->validate( ValidResult::editing) ) {
+		validresult->append( pRecord->getErrors() );
+		*isvalid = false;
+	}
 	if( focusWidget() != pushCuentaCuenta) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editCuentaCuenta, editCuentaDescripcion,
 		getRecCuenta(), "CUENTA", "DESCRIPCION", Xtring::null) )

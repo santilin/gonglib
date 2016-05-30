@@ -200,8 +200,8 @@ public:
                             const Xtring &includedFields = Xtring::null);
 
     /** Validate the record */
-    virtual bool isValid(ValidResult::Context context);
-    virtual bool validate();
+    virtual bool validate(ValidResult::Context context = ValidResult::saving );
+	const ValidResult &getErrors() const { return mErrors; }
 
     /** Meta-information about the table, based upon the Data Dictionary */
     const dbTableDefinition* getTableDefinition() const {
@@ -283,7 +283,6 @@ private:
     /* Avoid copy. Use copyRecord instead */
     dbRecord(const dbRecord &other);
     dbRecord &operator=(const dbRecord &other);
-    friend class FugitRecordImporter;
 };
 
 }; // namespace gong

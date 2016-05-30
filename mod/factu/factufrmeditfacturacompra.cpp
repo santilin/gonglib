@@ -938,8 +938,10 @@ void FrmEditFacturaCompra::validateFields( QWidget *sender, bool *isvalid, Valid
 	if( !isvalid )
 		isvalid = &v;
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
-	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-			*isvalid = false;
+	if( !sender && !pRecord->validate( ValidResult::editing) ) {
+		validresult->append( pRecord->getErrors() );
+		*isvalid = false;
+	}
 	if( focusWidget() != pushTipoDocCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editTipoDocCodigo, editTipoDocNombre,
 		getRecTipoDoc(), "CODIGO", "NOMBRE", Xtring::null) )

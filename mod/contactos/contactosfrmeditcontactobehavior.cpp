@@ -75,7 +75,7 @@ void FrmEditContactoBehavior::_initGUI()
 	QHBoxLayout *nonameLayout = new QHBoxLayout(0, 0, 6, "nonameLayout");
 
 	searchContactoCIF = pTheForm->addSearchField( tabContacto, "CONTACTO_ID", "CONTACTO", "CIF", "NOMBRE", contactoLayout,
-												  static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
+		static_cast<SearchBox::Flags>(SearchBox::FlagShowLabels | SearchBox::FlagEditableDesc ));
 	pushContactoCIF = searchContactoCIF->getButton();
 	connect( pushContactoCIF, SIGNAL( clicked() ), this, SLOT( pushContactoCIF_clicked() ) );
 	editContactoCIF = searchContactoCIF->getEditCode();
@@ -211,7 +211,7 @@ void FrmEditContactoBehavior::pushContactoCIF_clicked()
 		case 'E':
 			{
 				editContactoCIF->setJustEdited( false );
-				DBAPP->createClient( DBAPP->createEditForm(static_cast<FrmEditRecMaster *>(pTheForm),
+				DBAPP->createClient( DBAPP->createEditForm(static_cast<FrmEditRec *>(pTheForm),
 					getRecContacto(), 0, DataTable::selecting,
 				dbApplication::simpleEdition, pTheForm ) );
 			}
@@ -337,8 +337,10 @@ void FrmEditContactoBehavior::validateFields( bool is_pre, QWidget *sender, bool
         if( !isvalid )
             isvalid = &v;
         ValidResult *validresult = ( ir ? ir : new ValidResult() );
-        if( !sender && !getRecContacto()->isValid(ValidResult::editing, validresult) )
+        if( !sender && !getRecContacto()->validate(ValidResult::editing) ) {
+			validresult->append( getRecContacto()->getErrors() );
             *isvalid = false;
+		}
         // Comprobamos y reparamos el cif antes de validar si está duplicado
         dbFieldDefinition *cifdef = DBAPP->getDatabase()->findFieldDefinition("CONTACTO.CIF");
         dbFieldDefinition *nombredef = DBAPP->getDatabase()->findFieldDefinition("CONTACTO.NOMBRE");
@@ -652,7 +654,7 @@ void FrmEditContactoBehavior::slotEditFull_clicked()
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
 	if( pTheForm->focusWidget() != pushContactoCIF) // To avoid triggering the validating if the button is pressed
 	if( pTheForm->validSeekCode( sender, isvalid, *validresult, editContactoCIF, editContactoNombre,
-		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbApplication::dbRecord::AllowNotFound )) )
+		getRecContacto(), "CIF", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::AllowNotFound )) )
 		scatterContacto();
 /*>>>>>FRMEDITCONTACTOBEHAVIOR_VALIDATE*/
 #endif

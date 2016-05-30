@@ -34,7 +34,7 @@ class SinPapelesFrmEditRecBehavior;
 /*<<<<<SINPAPELESMODULE_CLASS_DEFINITION*/
 class SinPapelesModule: public QObject, public dbModule
 {
-	Q_OBJECT
+	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
 	SinPapelesModule();
 	virtual ~SinPapelesModule();

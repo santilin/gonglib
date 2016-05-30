@@ -17,7 +17,6 @@
 
 /*<<<<<ASIENTO_INCLUDES*/
 #include <dbappdbapplication.h>
-#include <gongdbvalidresult.h>
 
 #include "empresarecproyecto.h"
 #include "contabrecapunte.h"
@@ -38,7 +37,6 @@ public:
         init();
     }
     /*<<<<<ASIENTO_MEMBERS*/
-	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
 	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 /*>>>>>ASIENTO_MEMBERS*/
     void rescateValues( RecAsiento *other );

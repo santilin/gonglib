@@ -65,6 +65,11 @@ void FugitRecordImporter::startElement( const Xtring &name, const Attributes &at
 void FugitRecordImporter::startElement( const xmlChar *name, const xmlChar **attributes )
 #endif
 {
+	class FugitRecord: public dbRecord {
+	public:
+		FugitRecord(dbConnection *conn, dbTableDefinition *tbldef)
+			: dbRecord(conn, tbldef) {}
+	};
 // 	_GONG_DEBUG_PRINT(0, Xtring::printf("level=%d,%s,%s", mLevel, name, (attributes)?((const char *)*attributes):"(null attributes)"));
     const Xtring tagname = Xtring(name).upper();
     mFldData.clear();
@@ -76,7 +81,7 @@ void FugitRecordImporter::startElement( const xmlChar *name, const xmlChar **att
             pRecord = pRecords[ mLevel - 1 ];
             dbRecordRelation *rel = pRecord->findRelationByRelatedTable( mCurTable );
             if( rel ) {
-                pRecords[mLevel] = pRecord = new dbRecord( pRecords[0]->getConnection(),
+                pRecords[mLevel] = pRecord = new FugitRecord( pRecords[0]->getConnection(),
                         pdbDefinition->findTableDefinition(mCurTable) );
                 rel->addRelatedRecord( pRecord );
             } else {
@@ -423,16 +428,15 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
     return true;
 }
 
-bool dbRecord::isValid(ValidResult::Context context, ValidResult *result)
+bool dbRecord::validate(ValidResult::Context context)
 {
-    _GONG_DEBUG_PRINT(10, toString ( TOSTRING_DEBUG_COMPLETE ) );
+	mErrors.clear();
     if( context == ValidResult::saving ) {
         if ( getRecordID() == 0 && !mIsNew && !mIsDeleted ) {
             // If this happens, the record is seriously damaged
             // Moreover, it cant be read by other related records
-            if ( result )
-                result->addError( _( "Existing records can't have ID=0" ),
-                                  getTableDefinition()->getFldIDName() );
+			mErrors.addError( _( "Existing records can't have ID=0" ),
+								getTableDefinition()->getFldIDName() );
             return false;
         }
         Variant creadate = getValue ( "REC_FECHA_CREA" );
@@ -455,12 +459,12 @@ bool dbRecord::isValid(ValidResult::Context context, ValidResult *result)
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
 // 		_GONG_DEBUG_PRINT(0, Xtring::printf("Validating '%s', value='%s'",
 // 					flddef->getFullName().c_str(), getValue( nf ).toString().c_str() ) );
-        if ( !flddef->isValid ( this, mFieldValues.seq_at(nf), context, result ) ) {
+        if ( !flddef->isValid ( this, mFieldValues.seq_at(nf), context, &mErrors ) ) {
 #ifdef _GONG_DEBUG
-            if( result && result->count() ) {
+            if( mErrors.count() ) {
                 _GONG_DEBUG_PRINT(3, Xtring::printf("Field '%s' is not valid: '%s'",
                                                     flddef->getFullName().c_str(),
-                                                    result ? "" : result->getMessageInfo(0).message.c_str() ) );
+                                                    mErrors.getMessageInfo(0).message.c_str() ) );
             } else {
                 _GONG_DEBUG_PRINT(3, Xtring::printf("Field '%s' is not valid",
                                                     flddef->getFullName().c_str() ) );

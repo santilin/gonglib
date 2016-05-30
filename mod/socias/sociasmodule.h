@@ -54,7 +54,7 @@ namespace socias {
 /*<<<<<SOCIASMODULE_CLASS_DEFINITION*/
 class SociasModule: public QObject, public dbModule
 {
-	Q_OBJECT
+	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
 	SociasModule();
 	virtual ~SociasModule();

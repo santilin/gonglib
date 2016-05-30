@@ -32,7 +32,7 @@ void RecCuenta::resetSaldos()
 }
 
 /*<<<<<CUENTA_ISVALID*/
-bool RecCuenta::isValid(ValidResult::Context context, ValidResult *result )
+bool RecCuenta::isValid(ValidResult::Context context)
 {
 	bool ret = dbRecord::isValid(context, result);
 /*>>>>>CUENTA_ISVALID*/

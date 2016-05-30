@@ -12,7 +12,7 @@ namespace gong {
 namespace socias {
 
 /*<<<<<TIPOSOCIA_ISVALID*/
-bool RecTipoSocia::isValid(ValidResult::Context context, ValidResult *result )
+bool RecTipoSocia::isValid(ValidResult::Context context)
 {
 	bool ret = dbRecord::isValid(context, result);
 /*>>>>>TIPOSOCIA_ISVALID*/

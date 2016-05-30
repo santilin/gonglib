@@ -51,7 +51,7 @@ class RecRemesaCobro;
 /*<<<<<PAGOSMODULE_CLASS_DEFINITION*/
 class PagosModule: public QObject, public dbModule
 {
-	Q_OBJECT
+	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
 	PagosModule();
 	virtual ~PagosModule();

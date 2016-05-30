@@ -164,13 +164,13 @@ void addRecordDefinition(CppModule *cpcpp, CppModule *cph, const Xtring &fullrec
 				"{\n",
 				"\treturn dbRecord::fromString( source, format, includedFields);\n"
 				"}\n");
-		} else if( membername == "isValid" ) {
+		} else if( membername == "validate" ) {
 			hayvalid = true;
-			hmembers += "\tvirtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord\n";
+			hmembers += "\tvirtual bool validate(ValidResult::Context context); // from dbRecord\n";
 			cpcpp->insert_extrusion(ext_prefix + "ISVALID",
-"bool Rec" + recname + "::isValid(ValidResult::Context context, ValidResult *result )\n"
+"bool Rec" + recname + "::validate(ValidResult::Context context)\n"
 "{\n"
-"\tbool ret = " + baserecordtype + "::isValid(context, result);", "\treturn ret;\n}\n");
+"\tbool ret = " + baserecordtype + "::validate(context);", "\treturn ret;\n}\n");
 		} else if( membername == "isEmpty" ) {
 			hmembers += "\tbool isEmpty( const Xtring &nocheck_fields = Xtring::null ) const; // from dbRecord\n";
 			cpcpp->insert_extrusion(ext_prefix + "ISEMPTY",

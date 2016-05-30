@@ -52,7 +52,7 @@ TesoreriaModule::TesoreriaModule()
 	mModuleRequires << "empresa";
 	mMasterTables << "APUNTETESORERIA" << "CUENTATESORERIA" << "TERCEROTESORERIA" << "CONCEPTOTESORERIA" << "TIPOAPUNTETESORERIA";
 //	mDetailTables
-	pempresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "empresa" ));
+	pEmpresaModule = static_cast< empresa::EmpresaModule * >(DBAPP->findModule( "Empresa" ));
 /*>>>>>TESORERIAMODULE_PUBLIC_INFO*/
     mTablasConceptos << "CONCEPTOTESORERIA";
     mTablasTerceros << "CUENTATESORERIA" << "CONTACTO";
