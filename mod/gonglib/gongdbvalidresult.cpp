@@ -88,8 +88,8 @@ uint ValidResult::countWarnings() const
 
 const ValidResult &ValidResult::append( const ValidResult &other)
 {
-    for( std::vector<MessageInfo>::const_iterator it = mMessages.begin();
-            it != mMessages.end(); ++it ) {
+    for( std::vector<MessageInfo>::const_iterator it = other.getMessages().begin();
+            it != other.getMessages().end(); ++it ) {
 		this->addMessage( *it );
 	}
 	return *this;

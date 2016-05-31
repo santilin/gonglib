@@ -65,7 +65,7 @@ protected:
 
 protected slots:
     void slotCobrar();
-	
+
 /*<<<<<FRMEDITALBARANVENTA_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterTipoDoc();

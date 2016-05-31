@@ -57,13 +57,10 @@ void print_limits()
 
 int main(int argc, char *argv[])
 {
-#ifdef _GONG_DEBUG	
+#ifdef _GONG_DEBUG
 	__gong_debug::_gong_debug_level = 4;
-#endif	
+#endif
 
-	Xtring path = "/home/santilin/.gestiong/lospajaros/tpv/informes";
-	_GONG_DEBUG_WARNING( FileUtils::findInPath( path, "TICKET2.rtk") );
-	
 #if 0
 	TestMoney testmoney;
 	testmoney.run();
@@ -101,9 +98,9 @@ int main(int argc, char *argv[])
  	testdbcalculator.run("4 + PVP");
 	TestdbNamesListTable testdbnameslisttable;
 	testdbnameslisttable.run();
-#endif
 	TestImportCSV testimporcsv;
 	testimporcsv.run();
+#endif
 
 
 // 	TestSearchISBN testisbnsearch;
