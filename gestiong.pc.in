@@ -9,3 +9,4 @@ Version: @PACKAGE_VERSION@
 URL: @PACKAGE_URL@
 Libs: -L${libdir} -lgonglib-@GONGLIB_API_VERSION@
 Cflags: -I${includedir}/example-@GONGLIB_API_VERSION@ -I${libdir}/example-@GONGLIB_API_VERSION@/include
+
