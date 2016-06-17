@@ -1,3 +1,4 @@
+#include "gongdebug.h"
 #include "gongdbvalidresult.h"
 
 /**
@@ -41,10 +42,10 @@ const Xtring &ValidResult::getMessage(uint i) const
 		return Xtring::null;
 }
 
-
 void ValidResult::addMessage(ErrorCode code, const Xtring &message,
                              const Xtring &fld, bool fixable)
 {
+	_GONG_DEBUG_PRINT(0, "Añadiendo mensaje: " + message);
     MessageInfo mes = { message, fld.upper(), code, fixable };
     bool found = false;
     for( std::vector<MessageInfo>::const_iterator it = mMessages.begin();
@@ -60,6 +61,7 @@ void ValidResult::addMessage(ErrorCode code, const Xtring &message,
 
 void ValidResult::addMessage(const MessageInfo &mi)
 {
+	_GONG_DEBUG_PRINT(0, "Añadiendo mensaje: " + mi.message);
 	mMessages.push_back(mi);
 }
 

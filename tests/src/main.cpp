@@ -82,8 +82,6 @@ int main(int argc, char *argv[])
 	testdbschema.run();
 	TestTableDef testtabledef;
 	testtabledef.run();
-	TestdbRecord testdbrecord;
-	testdbrecord.run();
 	TestValidResult testvalidresult;
 	testvalidresult.run();
 	TestLibrary testlibrary;
@@ -125,6 +123,8 @@ int main(int argc, char *argv[])
 	testxmlpaser.run();
 #endif
 
+	TestdbRecord testdbrecord;
+	testdbrecord.run();
 
 }
 

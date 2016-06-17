@@ -34,7 +34,7 @@ public:
     uint count() const { return mMessages.size(); }
     uint countErrors() const;
     uint countWarnings() const;
-	std::vector<MessageInfo> getMessages() const { return mMessages; }
+	const std::vector<MessageInfo> &getMessages() const { return mMessages; }
 	void addMessage(const MessageInfo &mi);
 	void addMessage(ErrorCode code, const Xtring &message, const Xtring &fld, bool fixable=false);
     void addError(const Xtring &message, const Xtring &fld, bool fixable=false) {
