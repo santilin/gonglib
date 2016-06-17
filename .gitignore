@@ -1,6 +1,4 @@
-gestiong/m4
-capel/m4
-gestiong/tesoreria
+Makefile.in
 Makefile
 share/deposit
 share/gestiong
@@ -73,7 +71,6 @@ share/tesoreria
 tests/Debug/
 tests/dbapp
 tests/gonglib
-tests/m4
 tests/qt4
 tests/share/
 tests/src/passwords.nosvn.h
