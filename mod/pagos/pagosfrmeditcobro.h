@@ -39,9 +39,9 @@ public:
 	RecCobro *getRecCobro() const { return (RecCobro *)getRecord(); }
 /*>>>>>FRMEDITCOBRO_CLASS*/
     void setUsarRemesas( bool usar, bool fijar );
-    virtual void cambiaFields(const Xtring &fldfactcodigo = Xtring::null, 
+    virtual void cambiaFields(const Xtring &fldfactcodigo = Xtring::null,
 							  const Xtring &fldfactdesc = Xtring::null,
-							  const Xtring &fldterccodigo = Xtring::null, 
+							  const Xtring &fldterccodigo = Xtring::null,
 							  const Xtring &fldtercdesc = Xtring::null);
 protected:
     virtual void updateStatus( bool callbehaviors );
@@ -63,7 +63,7 @@ protected:
     void scatterFactura();
     void scatterTercero();
 
-    /*<<<<<FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
+/*<<<<<FRMEDITCOBRO_SCATTERS_AND_SLOTS*/
 protected:
 	void scatterRemesaCobro();
 	void scatterMoneda();

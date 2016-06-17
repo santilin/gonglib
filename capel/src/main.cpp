@@ -70,7 +70,7 @@ void genventadirecta();
  * 	    * NAMESLISTTABLE tablename
  *
  * 	 TYPE dbRecord namespace::recname flags
- *  	* MEMBER   init|clear|toString|fromString|isValid|isEmpty|save|remove|read|findMatchingRecord|getDetalles
+ *  	* MEMBER   init|clear|toString|fromString|validate|isEmpty|save|remove|read|findMatchingRecord|getDetalles
  *		* RELATION relname [Detalles] [conditional]
  *		* INTERFACE ifacename [Detalles] [conditional]
  *		* INHERIT  recname

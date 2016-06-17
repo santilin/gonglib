@@ -645,8 +645,10 @@ void addFrmEditRecMasterFields(CppModule *cpcpp, CppModule *cph, const Xtring &f
 "\t" + inherit_namespace + "FrmEdit" + inherit + "::validateFields(sender, isvalid, validresult);\n";
 	} else {
 		whole_validate +=
-"\tif( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )\n"
-"\t\t\t*isvalid = false;\n";
+"\tif( !sender && !pRecord->validate( ValidResult::editing) ) {\n"
+"\t\tvalidresult->append( pRecord->getErrors() );\n"
+"\t\t*isvalid = false;\n"
+"\t}\n";
 	}
 	whole_validate += validate;
 

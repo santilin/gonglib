@@ -1,6 +1,6 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT dbFieldDefinition que representa una cuenta bancaria
-// MEMBER isValid
+// MEMBER validate
 // TYPE dbFieldDefinition empresa::CuentaBanco NoConstr
 /*>>>>>MODULE_INFO*/
 

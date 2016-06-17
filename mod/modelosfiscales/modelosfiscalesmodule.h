@@ -31,7 +31,7 @@ namespace modelosfiscales {
 /*<<<<<MODELOSFISCALESMODULE_CLASS_DEFINITION*/
 class ModelosFiscalesModule: public QObject, public dbModule
 {
-	Q_OBJECT
+	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
 	ModelosFiscalesModule();
 	virtual ~ModelosFiscalesModule();

@@ -45,7 +45,7 @@ public:
 	RecArticuloImagen *getRecArticuloImagen() const;
 /*>>>>>ARTICULO_RELATIONS*/
     /*<<<<<ARTICULO_MEMBERS*/
-	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
+	virtual bool validate(ValidResult::Context context); // from dbRecord
 /*>>>>>ARTICULO_MEMBERS*/
 
     void actStocks(bool savingdetail, bool compra, double cantidad);

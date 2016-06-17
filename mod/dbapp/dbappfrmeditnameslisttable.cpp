@@ -49,8 +49,10 @@ void FrmEditNamesListTable::validateFields(QWidget* sender, bool* isvalid, Valid
     if( !isvalid )
         isvalid = &v;
     ValidResult *validresult = ( ve ? ve : new ValidResult() );
-    if( !sender )
-        *isvalid = pRecord->isValid( ValidResult::editing, validresult );
+    if( !sender ) {
+        *isvalid = pRecord->validate( ValidResult::editing );
+		validresult->append( pRecord->getErrors() );
+	}
     if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "CODIGO", "NOMBRE" ) )
         if( !sender )
             *isvalid = false;

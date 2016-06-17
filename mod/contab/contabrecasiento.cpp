@@ -116,7 +116,7 @@ void RecAsiento::addApunte(const RecApunte *apunte, int pos)
 }
 
 /*<<<<<ASIENTO_ISVALID*/
-bool RecAsiento::isValid(ValidResult::Context context, ValidResult *result )
+bool RecAsiento::isValid(ValidResult::Context context)
 {
 	bool ret = dbRecord::isValid(context, result);
 /*>>>>>ASIENTO_ISVALID*/

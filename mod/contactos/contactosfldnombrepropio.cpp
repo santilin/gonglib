@@ -1,6 +1,6 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT dbFieldDefinition que representa un nombre pripio, de persona o asociación
-// MEMBER isValid
+// MEMBER validate
 // TYPE dbFieldDefinition contactos::NombrePropio
 /*>>>>>MODULE_INFO*/
 /*<<<<<DBFIELD_NOMBREPROPIO_INCLUDES*/

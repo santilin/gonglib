@@ -20,6 +20,7 @@
 #include <dbappfrmeditrecmaster.h>
 #include "sociasrecproyecto.h"
 #include "sociasfrmeditmiembro.h"
+#include "sociasfrmeditremesacobro.h"
 #include "sociasfrmeditpartidaproyecto.h"
 /*>>>>>FRMEDITPROYECTO_INCLUDES*/
 //{capel} quitar sociasfrmeditremesacobro .h

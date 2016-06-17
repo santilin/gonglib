@@ -111,8 +111,10 @@ void FrmEditMoneda::validateFields( QWidget *sender, bool *isvalid, ValidResult 
 	if( !isvalid )
 		isvalid = &v;
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
-	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-			*isvalid = false;
+	if( !sender && !pRecord->validate( ValidResult::editing) ) {
+		validresult->append( pRecord->getErrors() );
+		*isvalid = false;
+	}
 	if( !validCodeAndDesc( sender, *validresult, editCodigo, editNombre, "codigo", "nombre" ) )
 		if( !sender )
 			*isvalid = false;

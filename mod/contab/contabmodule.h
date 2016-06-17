@@ -43,7 +43,7 @@ class RecCuenta;
 /*<<<<<CONTABMODULE_CLASS_DEFINITION*/
 class ContabModule: public QObject, public dbModule
 {
-	Q_OBJECT
+	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
 	ContabModule();
 	virtual ~ContabModule();

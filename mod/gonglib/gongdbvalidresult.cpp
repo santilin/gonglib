@@ -1,3 +1,4 @@
+#include "gongdebug.h"
 #include "gongdbvalidresult.h"
 
 /**
@@ -23,9 +24,28 @@ ValidResult::MessageInfo ValidResult::getMessageInfo(unsigned int i) const
     }
 }
 
+const Xtring &ValidResult::getFirstErrorMessage() const
+{
+    for( std::vector<MessageInfo>::const_iterator it = mMessages.begin();
+            it != mMessages.end(); ++it ) {
+        if( it->code == error )
+			return it->message;
+	}
+	return Xtring::null;
+}
+
+const Xtring &ValidResult::getMessage(uint i) const
+{
+    if( i < mMessages.size() )
+        return mMessages[i].message;
+	else
+		return Xtring::null;
+}
+
 void ValidResult::addMessage(ErrorCode code, const Xtring &message,
                              const Xtring &fld, bool fixable)
 {
+	_GONG_DEBUG_PRINT(0, "Añadiendo mensaje: " + message);
     MessageInfo mes = { message, fld.upper(), code, fixable };
     bool found = false;
     for( std::vector<MessageInfo>::const_iterator it = mMessages.begin();
@@ -37,6 +57,12 @@ void ValidResult::addMessage(ErrorCode code, const Xtring &message,
             found = true;
     if( !found )
         mMessages.push_back(mes);
+}
+
+void ValidResult::addMessage(const MessageInfo &mi)
+{
+	_GONG_DEBUG_PRINT(0, "Añadiendo mensaje: " + mi.message);
+	mMessages.push_back(mi);
 }
 
 
@@ -62,5 +88,15 @@ uint ValidResult::countWarnings() const
     return count;
 }
 
-
+const ValidResult &ValidResult::append( const ValidResult &other)
+{
+    for( std::vector<MessageInfo>::const_iterator it = other.getMessages().begin();
+            it != other.getMessages().end(); ++it ) {
+		this->addMessage( *it );
+	}
+	return *this;
 }
+
+
+
+} // namespace gong

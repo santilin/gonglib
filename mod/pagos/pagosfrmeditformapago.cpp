@@ -245,8 +245,10 @@ void FrmEditFormaPago::validateFields( QWidget *sender, bool *isvalid, ValidResu
 	if( !isvalid )
 		isvalid = &v;
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
-	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-			*isvalid = false;
+	if( !sender && !pRecord->validate( ValidResult::editing) ) {
+		validresult->append( pRecord->getErrors() );
+		*isvalid = false;
+	}
 #ifdef HAVE_TESORERIAMODULE
 if( ModuleInstance->getTesoreriaModule() ) {
 	if( focusWidget() != pushCuentaTesoreriaCodigo) // To avoid triggering the validating if the button is pressed

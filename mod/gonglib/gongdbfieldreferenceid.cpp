@@ -1,6 +1,6 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT A dbFieldDefinition for RecordIDs
-// MEMBER isValid
+// MEMBER validate
 // TYPE dbFieldDefinition ReferenceID NoConstr
 /*>>>>>MODULE_INFO*/
 

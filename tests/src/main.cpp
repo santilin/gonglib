@@ -127,6 +127,8 @@ int main(int argc, char *argv[])
 	testxmlpaser.run();
 #endif
 
+	TestdbRecord testdbrecord;
+	testdbrecord.run();
 
 }
 

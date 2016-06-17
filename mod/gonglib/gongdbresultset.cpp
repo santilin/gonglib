@@ -448,21 +448,19 @@ unsigned int dbResultSet::getColumnDecimals( unsigned int colnum ) const
 unsigned int dbResultSet::getColumnPos(const char *fldname) const
 {
 	if (!fldname || *fldname == '\0')
-		throw; /// TODO
+		throw std::invalid_argument(__FILE__);
+// 	_GONG_DEBUG_PRINT(0, Xtring::printf("Looking for %s", fldname));
     switch( pConnection->getSqlDriver() ) {
     case dbConnection::DRIVER_MYSQL:
 	{
-		uint i = 0;
-		while(1) {
+		for (uint i = 0; i < mColumnCount; ++i ) {
 			const char *name = _data.mysql.pFieldDefs[i].name;
-			if (name == 0 ) {
-				throw; /// TODO
-			} else {
-				if( strcasecmp( name, fldname ) == 0 )
-					return i;
+			if( strcasecmp( name, fldname ) == 0 ) {
+// 				_GONG_DEBUG_PRINT(0, Xtring::printf("Found at %d", i));
+				return i;
 			}
-			++i;
 		}
+		throw std::invalid_argument(Xtring::printf("%s, %s:%s", fldname, __FILE__,__FUNCTION__));
 	}
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:

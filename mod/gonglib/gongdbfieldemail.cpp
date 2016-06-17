@@ -1,6 +1,6 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT dbFieldDefinition for email addresses
-// MEMBER isValid
+// MEMBER validate
 // TYPE dbFieldDefinition Email
 /*>>>>>MODULE_INFO*/
 

@@ -33,7 +33,7 @@ class ColorFrmEditRecBehavior;
 /*<<<<<RECCOLORMODULE_CLASS_DEFINITION*/
 class RecColorModule: public QObject, public dbModule
 {
-	Q_OBJECT
+	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
 	RecColorModule();
 	virtual ~RecColorModule();

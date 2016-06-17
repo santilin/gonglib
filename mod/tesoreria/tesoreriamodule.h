@@ -26,7 +26,7 @@ class QMenu;
 #ifdef HAVE_EMPRESAMODULE
 #include <empresamodule.h>
 #else
-#error El módulo 'tesoreria::TesoreriaModule' requiere el módulo 'empresa'
+#error El módulo 'tesoreria::TesoreriaModule' requiere el módulo 'Empresa'
 #endif
 /*>>>>>TESORERIAMODULE_INCLUDES*/
 #include <empresamodule.h>
@@ -77,9 +77,9 @@ public:
 
 /*<<<<<TESORERIAMODULE_REQUIRES*/
 public:
-	empresa::EmpresaModule *getempresaModule() const { return pempresaModule; }
+	empresa::EmpresaModule *getEmpresaModule() const { return pEmpresaModule; }
 private:
-	empresa::EmpresaModule *pempresaModule;
+	empresa::EmpresaModule *pEmpresaModule;
 /*>>>>>TESORERIAMODULE_REQUIRES*/
 
 /*<<<<<TESORERIAMODULE_RECORD_DEFINITIONS*/

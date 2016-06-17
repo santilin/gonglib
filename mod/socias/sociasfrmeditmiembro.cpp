@@ -285,8 +285,6 @@ void FrmEditMiembro::scatterContacto()
                                      DBAPP->getTableDescPlural( "CONTACTO", "" ).c_str() ) );
     } else {
         /*<<<<<FRMEDITMIEMBRO_SCATTER_CONTACTO*/
-		_GONG_DEBUG_PRINT(0, getRecContacto()->toString(TOSTRING_DEBUG_COMPLETE));
-		_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));
 	editContactoCIF->setText( getRecContacto()->getValue("CIF") );
 	editContactoNombre->setText( getRecContacto()->getValue("NOMBRE") );
 /*>>>>>FRMEDITMIEMBRO_SCATTER_CONTACTO*/
@@ -618,8 +616,10 @@ void FrmEditMiembro::validateFields( QWidget *sender, bool *isvalid, ValidResult
 	if( !isvalid )
 		isvalid = &v;
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
-	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-			*isvalid = false;
+	if( !sender && !pRecord->validate( ValidResult::editing) ) {
+		validresult->append( pRecord->getErrors() );
+		*isvalid = false;
+	}
 	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoDescripcion,
 		getRecProyecto(), "CODIGO", "DESCRIPCION", Xtring::null) )

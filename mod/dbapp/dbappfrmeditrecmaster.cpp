@@ -1538,8 +1538,9 @@ void FrmEditRecMaster::menuTableImport_clicked()
             }
             r->readRelated( true );
             bool revisaerroneo = false;
-            if( !r->isValid( ValidResult::fixing, 0 ) ) {
-                DBAPP->showOSD( _("Importar"), _("Este registro contiene errores.") );
+            if( !r->validate( ValidResult::fixing ) ) {
+                DBAPP->showOSD( _("Importar"), Xtring::printf(_("Registro erróneo:\n%s"),
+					r->getErrors().getFirstErrorMessage().c_str()));
                 DBAPP->processEvents();
                 revisaerroneo = true;
             }

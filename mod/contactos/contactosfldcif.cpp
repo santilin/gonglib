@@ -1,6 +1,6 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT dbFieldDefinition que representa un cif
-// MEMBER isValid
+// MEMBER validate
 // TYPE dbFieldDefinition contactos::Cif
 /*>>>>>MODULE_INFO*/
 

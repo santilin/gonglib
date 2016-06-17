@@ -200,7 +200,8 @@ public:
                             const Xtring &includedFields = Xtring::null);
 
     /** Validate the record */
-    virtual bool isValid(ValidResult::Context context, ValidResult *result=0 );
+    virtual bool validate(ValidResult::Context context = ValidResult::saving );
+	const ValidResult &getErrors() const { return mErrors; }
 
     /** Meta-information about the table, based upon the Data Dictionary */
     const dbTableDefinition* getTableDefinition() const {
@@ -277,11 +278,11 @@ private:
     /* This dictionary is indexed only by the name of the fields, without the table name */
     Dictionary<dbFieldValue *> mFieldValues, mOrigFieldValues;
     XtringList mSemanticProperties;
+	ValidResult mErrors;
 
     /* Avoid copy. Use copyRecord instead */
     dbRecord(const dbRecord &other);
     dbRecord &operator=(const dbRecord &other);
-    friend class FugitRecordImporter;
 };
 
 }; // namespace gong

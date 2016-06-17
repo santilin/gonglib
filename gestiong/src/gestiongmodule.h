@@ -31,7 +31,7 @@ namespace gestiong {
 /*<<<<<GESTIONGMODULE_CLASS_DEFINITION*/
 class GestiongModule: public QObject, public dbModule
 {
-	Q_OBJECT
+	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
 	GestiongModule();
 	virtual ~GestiongModule();

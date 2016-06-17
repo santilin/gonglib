@@ -91,7 +91,7 @@ do_capel()
 	FILES=
 	if test -d $FILENAME; then
 		# añadir -L al find para que entre en los enlaces simbólicos
-		FILES=$(find $FILENAME -name "*.cpp" -o -name "*.rtk" | xargs grep -l MODULE_INFO)
+		FILES=$(find -L $FILENAME -name "*.cpp" -o -name "*.rtk" | xargs grep -l MODULE_INFO)
 	else
 		if test -f $FILENAME; then
 			cd $(dirname $FILENAME)

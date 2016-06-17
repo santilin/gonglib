@@ -17,7 +17,6 @@
 
 /*<<<<<CUENTA_INCLUDES*/
 #include <dbappdbapplication.h>
-#include <gongdbvalidresult.h>
 
 #include "contactosreccontacto.h"
 /*>>>>>CUENTA_INCLUDES*/
@@ -37,7 +36,6 @@ public:
         init();
     }
     /*<<<<<CUENTA_MEMBERS*/
-	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
 	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 	void init();
 /*>>>>>CUENTA_MEMBERS*/

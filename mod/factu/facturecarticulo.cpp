@@ -1,6 +1,6 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Registro de artículos
-// MEMBER isValid
+// MEMBER validate
 // RELATION Familia
 // RELATION empresa::TipoIVA
 // RELATION Proveedora
@@ -291,9 +291,9 @@ Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &forma
 }
 
 /*<<<<<ARTICULO_ISVALID*/
-bool RecArticulo::isValid(ValidResult::Context context, ValidResult *result )
+bool RecArticulo::validate(ValidResult::Context context)
 {
-	bool ret = dbRecord::isValid(context, result);
+	bool ret = dbRecord::validate(context);
 /*>>>>>ARTICULO_ISVALID*/
     if( context == ValidResult::fixing ) {
         if( getValue( "COSTESINIVA" ).toDouble() != 0.0 )

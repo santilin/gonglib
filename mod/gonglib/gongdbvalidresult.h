@@ -30,23 +30,25 @@ public:
         bool fixable;
     };
 
-    ValidResult() : mContext(saving) {}
-    uint count() const {
-        return mMessages.size();
-    }
+    ValidResult(Context ctxt = saving) : mContext(ctxt) {}
+    uint count() const { return mMessages.size(); }
     uint countErrors() const;
     uint countWarnings() const;
-    void addMessage(ErrorCode code, const Xtring &message, const Xtring &fld, bool fixable=false);
+	const std::vector<MessageInfo> &getMessages() const { return mMessages; }
+	void addMessage(const MessageInfo &mi);
+	void addMessage(ErrorCode code, const Xtring &message, const Xtring &fld, bool fixable=false);
     void addError(const Xtring &message, const Xtring &fld, bool fixable=false) {
         addMessage( error, message, fld, fixable);
     }
     void addWarning(const Xtring &message, const Xtring &fld, bool fixable=false) {
         addMessage( warning, message, fld, fixable);
     }
-    MessageInfo getMessageInfo(unsigned int i) const;
-    Context getContext() const {
-        return mContext;
-    }
+    MessageInfo getMessageInfo(uint i) const;
+    Context getContext() const { return mContext; }
+    void clear() { mMessages.clear(); }
+    const Xtring &getFirstErrorMessage() const;
+	const Xtring &getMessage(uint i) const;
+	const ValidResult &append( const ValidResult &other);
 private:
     std::vector<MessageInfo> mMessages;
     Context mContext;

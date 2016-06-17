@@ -17,7 +17,6 @@
 
 /*<<<<<TIPOSOCIA_INCLUDES*/
 #include <dbappdbapplication.h>
-#include <gongdbvalidresult.h>
 
 /*>>>>>TIPOSOCIA_INCLUDES*/
 
@@ -33,7 +32,7 @@ public:
 /*>>>>>TIPOSOCIA_CONSTRUCTOR*/
     {}
     /*<<<<<TIPOSOCIA_MEMBERS*/
-	virtual bool isValid(ValidResult::Context context, ValidResult *result=0); // from dbRecord
+
 /*>>>>>TIPOSOCIA_MEMBERS*/
 
 }; // class

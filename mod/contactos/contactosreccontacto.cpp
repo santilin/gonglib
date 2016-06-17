@@ -1,7 +1,7 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Registro de Contactos
 // RELATION ContactoImagen
-// MEMBER isValid
+// MEMBER validate
 // MEMBER toString
 // MEMBER findMatchingRecord
 // MEMBER save
@@ -55,9 +55,9 @@ RecContactoImagen *RecContacto::getRecContactoImagen() const
 /*>>>>>CONTACTO_RELATIONS*/
 
 /*<<<<<CONTACTO_ISVALID*/
-bool RecContacto::isValid(ValidResult::Context context, ValidResult *result )
+bool RecContacto::validate(ValidResult::Context context)
 {
-	bool ret = dbRecord::isValid(context, result);
+	bool ret = dbRecord::validate(context);
 /*>>>>>CONTACTO_ISVALID*/
     if( context == ValidResult::editing || context == ValidResult::fixing ) {
         // Las funciones normaliza actúan según la configuración

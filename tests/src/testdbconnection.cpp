@@ -80,7 +80,7 @@ int TestConnection::testCreateDatabase()
 	_GONG_DEBUG_ASSERT(  rs  );
 	bool found = false;
 	while( rs->next() ) {
-		_GONG_DEBUG_PRINT(0, rs->toString((uint)0) );
+		_GONG_DEBUG_PRINT(0, rs->toString(uint(0)) );
 		if( rs->toString((uint)0) == "testdbase" )
 			found = true;
 	}

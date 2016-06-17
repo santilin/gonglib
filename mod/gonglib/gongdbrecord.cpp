@@ -40,6 +40,7 @@ dbRecord::~dbRecord()
 
 void dbRecord::init_record()
 {
+	mErrors.clear();
     // Create values
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
     {
@@ -194,6 +195,7 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
         mIsNew = other->mIsNew;
         mIsDeleted = other->mIsDeleted;
         mIsRead = true; // Avoid reading this record
+        mErrors = other->mErrors;
         pUser = other->pUser;
         if( deep ) {
             clearRelations();
@@ -568,6 +570,7 @@ bool dbRecord::read( const Xtring &sql )
         if( !(*bit)->read( this, BEHAVIOR_PRE, sql ) )
             return false;
     }
+	mErrors.clear();
     bool ret = SELECT( sql );
     if ( !ret )	{
         setNew( true );
@@ -593,6 +596,7 @@ bool dbRecord::read(dbRecordID recid)
         clear( true );
         clearRelations();
         setModified( false );
+		mErrors.clear();
         return false;
     } else {
         return read(getTableDefinition()->getFldIDName() + "=" + pConn->toSQL(recid));
@@ -698,6 +702,7 @@ bool dbRecord::save( bool saverelated )
                 ret = saveRelated( true );
         }
         if( ret ) {
+			mErrors.clear();
             for( dbRecordBehaviorsList::const_iterator bit = getTableDefinition()->getRecordBehaviors().begin();
                     bit != getTableDefinition()->getRecordBehaviors().end();
                     ++ bit ) {
@@ -816,6 +821,7 @@ bool dbRecord::remove()
         if ( ret ) // Remove this record
             ret = DELETE();
         if( ret ) {
+			mErrors.clear();
             for( dbRecordBehaviorsList::const_iterator bit = getTableDefinition()->getRecordBehaviors().begin();
                     bit != getTableDefinition()->getRecordBehaviors().end();
                     ++ bit ) {

@@ -322,8 +322,10 @@ void FrmEditAsiento::validateFields(QWidget *sender, bool *isvalid, ValidResult 
 	if( !isvalid )
 		isvalid = &v;
 	ValidResult *validresult = ( ir ? ir : new ValidResult() );
-	if( !sender && !pRecord->isValid( ValidResult::editing, validresult ) )
-			*isvalid = false;
+	if( !sender && !pRecord->validate( ValidResult::editing) ) {
+		validresult->append( pRecord->getErrors() );
+		*isvalid = false;
+	}
 	if( focusWidget() != pushProyectoCodigo) // To avoid triggering the validating if the button is pressed
 	if( validSeekCode( sender, isvalid, *validresult, editProyectoCodigo, editProyectoNombre,
 		getRecProyecto(), "CODIGO", "NOMBRE", Xtring::null, dbRecord::SeekCodeFlags( dbRecord::InsertIfNotFound )) )
