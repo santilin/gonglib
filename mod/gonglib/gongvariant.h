@@ -102,7 +102,7 @@ public:
     Variant &copy( const Variant &other );
 
     /** @brief Destructs the Variant, freeing the allocated space if neccesary */
-    ~Variant() {
+    virtual ~Variant() {
         clear();
     }
 
@@ -165,7 +165,7 @@ public:
     // This allows you to use variants in template functions
     template <class T> T to() const;
 
-private:
+protected:
     Type mType;
     union {
         bool b;

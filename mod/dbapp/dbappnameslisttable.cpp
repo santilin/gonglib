@@ -162,8 +162,8 @@ bool FldNamesListTable::isValid( dbRecord *r, dbFieldValue *value,
     /// TODO: check that the field values contains value
     bool ret = dbFieldDefinition::isValid(r, value, context, integres);
     if( context == ValidResult::fixing ) {
-        if( value->value().type() == Variant::tString ) {
-            value->setValue( findCode( value->value().toString() ) );
+        if( value->type() == Variant::tString ) {
+            value->setValue( findCode( value->toString() ) );
         }
     }
     return ret;

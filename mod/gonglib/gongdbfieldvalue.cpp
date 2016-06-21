@@ -16,61 +16,83 @@
 
 namespace gong {
 
-dbFieldValue::dbFieldValue(const dbFieldDefinition *flddef, Variant::Type type, bool isnull)
-    : mValue(type), mNull(isnull), mModified(false)
+dbFieldValue::dbFieldValue(Variant::Type type, bool isnull, const dbFieldDefinition *flddef)
+    : Variant(type), mNull(isnull), mModified(false)
 {
     if( type == Variant::tMoney ) {
-        mValue = Money(0.0, flddef->getDecimals() > 7 ? 7 : flddef->getDecimals() );
-    }
+		if( flddef ) {
+			*this = Variant(Money(0.0, flddef->getDecimals() > 7 ? 7 : flddef->getDecimals() ));
+		} else {
+			*this = Variant(Money(0.0));
+		}
+	}
+	if (flddef) {
+		_GONG_DEBUG_PRINT(0, flddef->getName() );
+		_GONG_DEBUG_PRINT(0, mType );
+	}
 }
-
-void dbFieldValue::setValue(const Variant &value)
-{
-#ifdef _GONG_DEBUG
-    if( mValue.type() != value.type() ) {
-        _GONG_DEBUG_WARNING( Xtring::printf("'%s' != '%s'",
-                                            Variant::typeToName( mValue.type() ),
-                                            Variant::typeToName( value.type() ) ) );
-    }
-#endif
-    if( mValue != value ) {
-        mValue.copy(value);
-        mModified = true;
-    }
-    mNull = false;
-#ifdef _GONG_DEBUG
-    if( mValue != value ) {
-        _GONG_DEBUG_WARNING( Xtring::printf("'%s' != '%s'", mValue.toString().c_str(), value.toString().c_str() ) );
-//         bool check_again = (mValue != value );
-    }
-#endif
-}
-
 
 bool dbFieldValue::isEmpty() const
 {
-    if( mValue.type() == Variant::tBool )
+    if( type() == Variant::tBool )
         return isNull();
-    else if( mValue.isNumeric( mValue.type() ) )
-        return mValue.toDouble() == 0.0;
+    else if( isNumeric( type() ) )
+        return toDouble() == 0.0;
     else
-        return mValue.isEmpty();
+        return Variant::isEmpty();
 }
 
 
 void dbFieldValue::clear( const Variant &defvalue )
 {
     if( defvalue.isValid() ) {
-        mValue = defvalue;
+        static_cast<Variant >(*this) = defvalue;
         mNull = false;
     } else {
-        if( mValue.type() == Variant::tMoney )
-            mValue = Money( 0.0, mValue.toMoney().getDecimals() );
-        else
-            mValue = Variant(mValue.type());
+		Variant::clear();
         mNull = true;
     }
     mModified = false;
 }
+
+dbFieldValue &dbFieldValue::operator=(const Variant &other)
+{
+	return setValue(&other);
+}
+
+dbFieldValue &dbFieldValue::setValue(const Variant &other)
+{
+#ifdef _GONG_DEBUG
+    if( type() != other.type() ) {
+        _GONG_DEBUG_WARNING( Xtring::printf("'%s' != '%s'",
+                                            Variant::typeToName( type() ),
+                                            Variant::typeToName( other.type() ) ) );
+    }
+#endif
+    if( static_cast<Variant>(*this) != other) {
+        copy(other);
+        mModified = true;
+    }
+    mNull = false;
+#ifdef _GONG_DEBUG
+    if( static_cast<Variant>(*this) != other) {
+        _GONG_DEBUG_WARNING( Xtring::printf("'%s' != '%s'", toString().c_str(), toString().c_str() ) );
+//         bool check_again = (*this != value );
+    }
+#endif
+	return *this;
+}
+
+
+bool dbFieldValue::operator==(const Variant &other) const
+{
+	return static_cast<Variant>(*this) == other;
+}
+
+double dbFieldValue::toDouble(bool *ok) const
+{
+	return toString().toDoubleLocIndep(ok);
+}
+
 
 }

@@ -85,16 +85,16 @@ public:
     bool removeRelated( bool updating );
 
     /** Gets the value of a field. If the field doesn't exists, returns a Variant() */
-    Variant getValue(unsigned int nfield) const;
+    dbFieldValue getValue(unsigned int nfield) const;
     bool isNullValue(unsigned int nfield) const;
-    Variant getValue(const Xtring &fldname) const;
+    dbFieldValue getValue(const Xtring &fldname) const;
     bool isNullValue(const Xtring &fldname) const;
-    virtual Variant calcValue(const Xtring &fldname) const;
+    virtual dbFieldValue calcValue(const Xtring &fldname) const;
 
     /** Gets the original value of a field. If the field doesn't exists, returns a Variant() */
-    Variant getOrigValue(unsigned int nfield) const;
+    dbFieldValue getOrigValue(unsigned int nfield) const;
     bool isNullOrigValue(unsigned int nfield) const;
-    Variant getOrigValue(const Xtring &fldname) const;
+    dbFieldValue getOrigValue(const Xtring &fldname) const;
     bool isNullOrigValue(const Xtring &fldname) const;
 
     /** Sets the value of a field by position. If the field doesn't exists, returns false */
@@ -276,7 +276,7 @@ private:
     XtringList mFilters;
     dbRecordRelationDict mRecordRelations;
     /* This dictionary is indexed only by the name of the fields, without the table name */
-    Dictionary<dbFieldValue *> mFieldValues, mOrigFieldValues;
+    Dictionary<dbFieldValue> mFieldValues, mOrigFieldValues;
     XtringList mSemanticProperties;
 	ValidResult mErrors;
 

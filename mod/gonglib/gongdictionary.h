@@ -84,7 +84,7 @@ public:
         mSequential.clear();
     }
 
-    const T seq_at(uint pos) const
+    const T &seq_at(uint pos) const
     {
         if( pos < mSequential.size() )
             return operator[] (mSequential[pos]);
@@ -92,6 +92,16 @@ public:
             std::__throw_out_of_range(__N("Dictionary::at"));
         }
     }
+
+    T &seq_at(uint pos)
+    {
+        if( pos < mSequential.size() )
+            return operator[] (mSequential[pos]);
+        else {
+            std::__throw_out_of_range(__N("Dictionary::at"));
+        }
+    }
+
 
     mapped_type &at(const key_type& __k)
     {
@@ -108,6 +118,14 @@ public:
     const mapped_type &operator[](const key_type& __k) const
     {
         const_iterator __i = this->find( __k.upper() );
+        if( __i == this->end() )
+            return mNullValue; // Not to return a temporary value
+        return (*__i).second;
+    }
+
+    mapped_type &operator[](const key_type& __k)
+    {
+        iterator __i = this->find( __k.upper() );
         if( __i == this->end() )
             return mNullValue; // Not to return a temporary value
         return (*__i).second;

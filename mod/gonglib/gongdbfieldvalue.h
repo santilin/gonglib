@@ -19,43 +19,25 @@ namespace gong {
 
 class dbFieldDefinition;
 
-class dbFieldValue
+class dbFieldValue: public Variant
 {
 public:
-    dbFieldValue(const dbFieldDefinition *flddef, const Variant &value = Variant(), bool isnull = true )
-        : mValue(value), mNull(isnull), mModified(false) {}
-    dbFieldValue(const dbFieldDefinition *flddef, Variant::Type type, bool isnull = true );
-    ~dbFieldValue() {
-        clear();
-    }
+	dbFieldValue() {};
+	dbFieldValue(const Variant &v) : Variant(v), mNull(true), mModified(false) {}
+    dbFieldValue(Variant::Type type, bool isnull, const dbFieldDefinition *flddef = 0);
+	~dbFieldValue() {}
+    bool isEmpty() const;
+	dbFieldValue &operator=(const Variant &other);
+	bool operator==(const Variant &other) const;
 
-    Xtring toString() const {
-        return mValue.toString();
-    }
-    void clear( const Variant &defvalue = Variant());
 
-    Variant value() const { return mValue; }
-    void setValue(const Variant &value);
+	dbFieldValue &setValue(const Variant &value);
     void setNull() {
         if( !isNull() ) {
             clear();
             mModified = true;
         }
     }
-
-    bool operator==(const Variant &other) {
-        return (mValue == other);
-    }
-    bool operator!=(const Variant &other) {
-        return !operator==(other);
-    }
-    bool operator<=(const Variant &other) {
-        return (mValue <= other);
-    }
-    bool operator<(const Variant &other) {
-        return (mValue < other);
-    }
-    bool isEmpty() const;
     bool isNull() const {
         return mNull;
     }
@@ -65,8 +47,10 @@ public:
     void setModified(bool modified=true) {
         mModified = modified;
     }
+    double toDouble(bool * ok = 0) const;
+	void clear( const Variant &defvalue = Variant() );
+
 protected:
-    Variant mValue;
     bool mNull;
     bool mModified;
 };

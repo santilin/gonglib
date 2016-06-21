@@ -32,10 +32,6 @@ dbRecord::~dbRecord()
 {
     _GONG_DEBUG_PRINT(10, "Destroying record for table " + pTableDef->getName() );
     removeRelations();
-    for ( unsigned int i = 0; i<mFieldValues.size(); i++ ) {
-        delete mFieldValues.seq_at(i);
-        delete mOrigFieldValues.seq_at(i);
-    }
 }
 
 void dbRecord::init_record()
@@ -45,12 +41,12 @@ void dbRecord::init_record()
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
     {
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
-        mFieldValues.insert( flddef->getName(), flddef->createFieldValue() );
-		Variant value = flddef->createFieldValue();
-        mOrigFieldValues.insert( flddef->getName(), flddef->createFieldValue() );
-// 		_GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
-// 											i, Variant::typeToName( mOrigFieldValues.seq_at(i)->value().type() ), 
-// 											value.toString().c_str(), Variant::typeToName( value.type() ) ) );
+		dbFieldValue value(flddef->createFieldValue());
+        mFieldValues.insert( flddef->getName(), value );
+        mOrigFieldValues.insert( flddef->getName(), value );
+ 		_GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
+ 											i, Variant::typeToName( mOrigFieldValues.seq_at(i).type() ),
+ 											value.toString().c_str(), Variant::typeToName( value.type() ) ) );
     }
     // Create relations
     for ( unsigned int nr = 0; nr < getTableDefinition()->getRelationDefinitions().size(); ++nr )
@@ -87,7 +83,7 @@ dbRecordID dbRecord::getRecordID() const
     if( idfldname.isEmpty() )
         idfldname = "ID";
     if( mFieldValues.find(idfldname) != mFieldValues.end() )
-        return mFieldValues[idfldname]->value().toUInt();
+        return mFieldValues[idfldname].toUInt();
     return 0;
 }
 
@@ -118,8 +114,8 @@ void dbRecord::setRecordID(dbRecordID recid)
     if( idfldname.isEmpty() )
         idfldname = "ID";
     if( mFieldValues.find(idfldname) != mFieldValues.end() ) {
-        if( mFieldValues[idfldname]->value().toUInt() != recid ) {
-            mFieldValues[idfldname]->setValue( recid );
+        if( mFieldValues[idfldname].toUInt() != recid ) {
+            mFieldValues.at(idfldname).setValue( recid );
             mIsRead = false;
         }
         if( recid != 0 )
@@ -139,11 +135,11 @@ bool dbRecord::isEmpty( const Xtring &nocheckfields ) const
             continue;
         if( nocheck_list.contains( flddef->getName() ) )
             continue;
-        if( mFieldValues.seq_at(i)->isEmpty() )
+        if( mFieldValues.seq_at(i).isEmpty() )
             continue;
-        if( mFieldValues.seq_at(i)->isNull() )
+        if( mFieldValues.seq_at(i).isNull() )
             continue;
-        if( mFieldValues.seq_at(i)->value() == flddef->customDefaultValue() )
+        if( mFieldValues.seq_at(i) == flddef->customDefaultValue() )
             continue;
         return false;
     }
@@ -154,13 +150,13 @@ void dbRecord::setModified ( bool changed )
 {
     _GONG_DEBUG_PRINT(10, Xtring("set modified = ") + (changed ? "true" : "false") + " on " + getTableDefinition()->getName() );
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
-        mFieldValues.seq_at(i)->setModified ( changed );
+        mFieldValues.seq_at(i).setModified ( changed );
 }
 
 bool dbRecord::isModified() const
 {
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ ) {
-        if ( mFieldValues.seq_at(i)->isModified() )
+        if ( mFieldValues.seq_at(i).isModified() )
             return true;
     }
     return false;
@@ -279,7 +275,7 @@ void dbRecord::clear( bool setcustomvalues )
 		const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
 		if( flddef->getName() == pTableDef->getFldIDName() ) {
 			// To avoid reading related records
-			mFieldValues.seq_at(i)->clear();
+			mFieldValues.seq_at(i).clear();
 			break;
 		}
 	}
@@ -291,59 +287,59 @@ void dbRecord::clear( bool setcustomvalues )
 			if( flddef->isReference() ) {
 				setValue(i, 0);
 			} else {
-				mFieldValues.seq_at(i)->clear();
+				mFieldValues.seq_at(i).clear();
 			}
-			mOrigFieldValues.seq_at(i)->clear();
+			mOrigFieldValues.seq_at(i).clear();
         } else {
 			Variant customvalue = flddef->customDefaultValue();
-/*			
+/*
 			_GONG_DEBUG_PRINT(0, Xtring::printf("Set custom default value for '%s'(%s) to '%s'(%s)",
   								flddef->getFullName().c_str(),
-  								Variant::typeToName(mFieldValues.seq_at(i)->toVariant().type() ),
+  								Variant::typeToName(mFieldValues.seq_at(i).toVariant().type() ),
   								customvalue.toString().c_str(),
   								flddef->getDefaultValue().c_str() ) );
-*/  								
+*/
             switch ( flddef->getSqlColumnType() ) {
             case SQLINTEGER:
 				// If this field is a reference, setting its default value must set the id of the related record, which setValue does
 				if( customvalue.toInt() && flddef->isReference() ) {
 					setValue(i, customvalue.toInt() );
-					mOrigFieldValues.seq_at(i)->clear( customvalue.toInt() );
+					mOrigFieldValues.seq_at(i).clear( customvalue.toInt() );
 				} else {
-					mFieldValues.seq_at(i)->clear( customvalue.toInt() );
-					mOrigFieldValues.seq_at(i)->clear( customvalue.toInt() );
+					mFieldValues.seq_at(i).clear( customvalue.toInt() );
+					mOrigFieldValues.seq_at(i).clear( customvalue.toInt() );
 				}
                 break;
             case SQLSTRING:
             case SQLBLOB:
             case SQLTEXT:
-                mFieldValues.seq_at(i)->clear ( customvalue.toString() );
-                mOrigFieldValues.seq_at(i)->clear ( customvalue.toString() );
+                mFieldValues.seq_at(i).clear ( customvalue.toString() );
+                mOrigFieldValues.seq_at(i).clear ( customvalue.toString() );
                 break;
             case SQLDATE:
-                mFieldValues.seq_at(i)->clear ( customvalue.toString() );
-                mOrigFieldValues.seq_at(i)->clear ( customvalue.toString() );
+                mFieldValues.seq_at(i).clear ( customvalue.toString() );
+                mOrigFieldValues.seq_at(i).clear ( customvalue.toString() );
                 break;
             case SQLTIME:
-                mFieldValues.seq_at(i)->clear ( customvalue.toString() );
-                mOrigFieldValues.seq_at(i)->clear ( customvalue.toString() );
+                mFieldValues.seq_at(i).clear ( customvalue.toString() );
+                mOrigFieldValues.seq_at(i).clear ( customvalue.toString() );
                 break;
             case SQLDATETIME:
             case SQLTIMESTAMP:
-                mFieldValues.seq_at(i)->clear ( customvalue.toDateTime() );
-                mOrigFieldValues.seq_at(i)->clear ( customvalue.toDateTime() );
+                mFieldValues.seq_at(i).clear ( customvalue.toDateTime() );
+                mOrigFieldValues.seq_at(i).clear ( customvalue.toDateTime() );
                 break;
             case SQLDECIMAL:
-                mFieldValues.seq_at(i)->clear ( Money ( customvalue.toString().toDoubleLocIndep(), flddef->getDecimals() ) );
-                mOrigFieldValues.seq_at(i)->clear ( Money ( customvalue.toString().toDoubleLocIndep(), flddef->getDecimals() ) );
+                mFieldValues.seq_at(i).clear ( Money ( customvalue.toString().toDoubleLocIndep(), flddef->getDecimals() ) );
+                mOrigFieldValues.seq_at(i).clear ( Money ( customvalue.toString().toDoubleLocIndep(), flddef->getDecimals() ) );
                 break;
             case SQLFLOAT:
-                mFieldValues.seq_at(i)->clear ( customvalue.toString().toDoubleLocIndep() );
-                mOrigFieldValues.seq_at(i)->clear ( customvalue.toString().toDoubleLocIndep() );
+                mFieldValues.seq_at(i).clear ( customvalue.toString().toDoubleLocIndep() );
+                mOrigFieldValues.seq_at(i).clear ( customvalue.toString().toDoubleLocIndep() );
                 break;
             case SQLBOOL:
-                mFieldValues.seq_at(i)->clear ( customvalue.toBool() );
-                mOrigFieldValues.seq_at(i)->clear ( customvalue.toBool() );
+                mFieldValues.seq_at(i).clear ( customvalue.toBool() );
+                mOrigFieldValues.seq_at(i).clear ( customvalue.toBool() );
                 break;
             }
         }
@@ -428,6 +424,8 @@ bool dbRecord::SELECT ( const Xtring &where )
             case SQLTIMESTAMP:
             case SQLBOOL:
             case SQLFLOAT:
+                setValue( i, value );
+				break;
             case SQLBLOB:
                 setValue( i, value );
                 break;
@@ -437,12 +435,12 @@ bool dbRecord::SELECT ( const Xtring &where )
                 break;
             }
 //             _GONG_DEBUG_PRINT(3, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
-// 												i, Variant::typeToName( mOrigFieldValues.seq_at(i)->value().type() ), 
+// 												i, Variant::typeToName( mOrigFieldValues.seq_at(i).type() ),
 // 												value.toString().c_str(), Variant::typeToName( value.type() ) ) );
-            mOrigFieldValues.seq_at(i)->setValue( value );
+            mOrigFieldValues.seq_at(i).setValue(value);
             if ( rs->isNull ( i ) ) {
                 setNullValue ( i );
-                mOrigFieldValues.seq_at(i)->setNull();
+                mOrigFieldValues.seq_at(i).setNull();
             }
         }
         setNew ( false );
@@ -463,13 +461,13 @@ bool dbRecord::INSERT()
     {
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
         Xtring fldname = flddef->getName();
-        dbFieldValue *fldval = mFieldValues.seq_at(i);
+        dbFieldValue &fldval = mFieldValues.seq_at(i);
         fields += "," + pConn->nameToSQL( fldname );
         if ( (flddef->canBeNull() || flddef->isPrimaryKey() )
-                && ( fldval->isNull() || fldval->isEmpty() ) )
+                && ( fldval.isNull() || fldval.isEmpty() ) )
             values += ",NULL";
         else
-            values += "," + flddef->toSQL ( pConn, *fldval, true /*inserting*/ );
+            values += "," + flddef->toSQL ( pConn, fldval, true /*inserting*/ );
     }
     if ( !values.isEmpty() ) {
         fields[0]=' ';
@@ -495,13 +493,13 @@ bool dbRecord::UPDATE()
     {
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
         Xtring fldname = flddef->getName();
-        const dbFieldValue *fldval = mFieldValues.seq_at(i);
-        if ( fldval->isModified() )
+        const dbFieldValue &fldval = mFieldValues.seq_at(i);
+        if ( fldval.isModified() )
         {
-            if ( flddef->canBeNull() && ( fldval->isNull() || fldval->isEmpty() ) )
+            if ( flddef->canBeNull() && ( fldval.isNull() || fldval.isEmpty() ) )
                 update += "," + fldname + "= NULL";
             else
-                update += "," + fldname + "=" + flddef->toSQL ( pConn, *fldval, false /* updating */ );
+                update += "," + fldname + "=" + flddef->toSQL ( pConn, fldval, false /* updating */ );
         }
     }
     if ( !update.isEmpty() )
@@ -530,10 +528,10 @@ bool dbRecord::DELETE()
             for ( unsigned int i=0; i<getFieldCount(); i++ ) {
                 const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
                 Xtring fldname = flddef->getName();
-                const dbFieldValue *fldval = mFieldValues.seq_at(i);
+                const dbFieldValue &fldval = mFieldValues.seq_at(i);
                 if( !cond.isEmpty() )
                     cond += " AND ";
-                cond += pConn->nameToSQL(fldname) + "=" + flddef->toSQL ( pConn, *fldval );
+                cond += pConn->nameToSQL(fldname) + "=" + flddef->toSQL ( pConn, fldval );
             }
         } else {
             if ( getRecordID() == 0 ) {
@@ -1052,12 +1050,12 @@ bool dbRecord::addRelatedDetailRecord ( const Xtring &reltable, const dbRecord *
 }
 
 
-Variant dbRecord::getValue( unsigned int nfield ) const
+dbFieldValue dbRecord::getValue( unsigned int nfield ) const
 {
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mFieldValues.size() ) {
-        return mFieldValues.seq_at(nfield)->value();
+        return mFieldValues.seq_at(nfield);
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1065,12 +1063,12 @@ Variant dbRecord::getValue( unsigned int nfield ) const
     }
 }
 
-Variant dbRecord::getOrigValue(unsigned int nfield) const
+dbFieldValue dbRecord::getOrigValue(unsigned int nfield) const
 {
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mOrigFieldValues.size() ) {
-        return mOrigFieldValues.seq_at(nfield)->value();
+        return mOrigFieldValues.seq_at(nfield);
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1083,7 +1081,7 @@ bool dbRecord::isNullValue ( unsigned int nfield ) const
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mFieldValues.size() ) {
-        return mFieldValues.seq_at(nfield)->isNull();
+        return mFieldValues.seq_at(nfield).isNull();
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1096,7 +1094,7 @@ bool dbRecord::isNullOrigValue(unsigned int nfield) const
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
     if ( nfield < mOrigFieldValues.size() ) {
-        return mOrigFieldValues.seq_at(nfield)->isNull();
+        return mOrigFieldValues.seq_at(nfield).isNull();
     } else {
         _GONG_DEBUG_WARNING ( Xtring::printf ( "Field number '%d' not found in table '%s'",
                                                nfield, getTableName().c_str() ) );
@@ -1115,7 +1113,7 @@ bool dbRecord::isNullValue ( const Xtring &fullfldname ) const
         if( flddef && flddef->isCalculated() ) {
             return isEmpty();
         } else if ( mFieldValues.find ( fldname ) != mFieldValues.end() ) {
-            return mFieldValues[fldname]->isNull();
+            return mFieldValues[fldname].isNull();
         }
     } else {
         if ( dbRecordRelation *rel = findRelationByRelatedTable ( tablename ) ) {
@@ -1143,7 +1141,7 @@ bool dbRecord::isNullOrigValue(const Xtring& fullfldname) const
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
     if ( tablename.isEmpty() || tablename == getTableName() ) {
         if ( mOrigFieldValues.find ( fldname ) != mOrigFieldValues.end() ) {
-            return mOrigFieldValues[fldname]->isNull();
+            return mOrigFieldValues[fldname].isNull();
         }
     } else {
         _GONG_DEBUG_WARNING("Testing null orig value of related record is not allowed");
@@ -1154,7 +1152,7 @@ bool dbRecord::isNullOrigValue(const Xtring& fullfldname) const
 
 }
 
-Variant dbRecord::getValue( const Xtring &fullfldname ) const
+dbFieldValue dbRecord::getValue( const Xtring &fullfldname ) const
 {
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
@@ -1165,15 +1163,15 @@ Variant dbRecord::getValue( const Xtring &fullfldname ) const
         if( flddef && flddef->isCalculated() ) {
             return calcValue( fldname );
         } else if ( mFieldValues.find ( fldname ) != mFieldValues.end() ) {
-            return mFieldValues[fldname]->value();
+            return mFieldValues[fldname];
         } else if (fldname == "~CODE_AND_DESC_WITH_TABLENAME") {
-			return toString(TOSTRING_CODE_AND_DESC_WITH_TABLENAME);
+			return Variant(toString(TOSTRING_CODE_AND_DESC_WITH_TABLENAME));
         } else if (fldname == "~CODE_AND_DESC") {
-			return toString(TOSTRING_CODE_AND_DESC);
+			return Variant(toString(TOSTRING_CODE_AND_DESC));
         } else if (fldname == "~DESC") {
-			return toString(TOSTRING_DESC);
+			return Variant(toString(TOSTRING_DESC));
         } else if (fldname == "~USER") {
-			return toString(TOSTRING_USER);
+			return Variant(toString(TOSTRING_USER));
 		}
     } else {
         /* get a value from a related table
@@ -1199,7 +1197,7 @@ Variant dbRecord::getValue( const Xtring &fullfldname ) const
     return Variant();
 }
 
-Variant dbRecord::getOrigValue(const Xtring& fullfldname) const
+dbFieldValue dbRecord::getOrigValue(const Xtring& fullfldname) const
 {
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
@@ -1207,7 +1205,7 @@ Variant dbRecord::getOrigValue(const Xtring& fullfldname) const
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
     if ( tablename.isEmpty() || tablename == getTableName() ) {
         if ( mOrigFieldValues.find ( fldname ) != mOrigFieldValues.end() ) {
-            return mOrigFieldValues[fldname]->value();
+            return mOrigFieldValues[fldname];
         }
     } else {
         _GONG_DEBUG_WARNING("Getting orig value of related record is not allowed");
@@ -1218,7 +1216,7 @@ Variant dbRecord::getOrigValue(const Xtring& fullfldname) const
 }
 
 
-Variant dbRecord::calcValue(const Xtring &fldname) const
+dbFieldValue dbRecord::calcValue(const Xtring &fldname) const
 {
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         const_cast<dbRecord *>(this)->read( getRecordID() );
@@ -1231,7 +1229,7 @@ bool dbRecord::setNullValue ( unsigned int nfield )
         read( getRecordID() );
     if ( nfield < mFieldValues.size() )
     {
-        mFieldValues.seq_at(nfield)->setNull();
+        mFieldValues.seq_at(nfield).setNull();
         return true;
     }
     else
@@ -1246,7 +1244,7 @@ void dbRecord::setRelatedID( int nfield, const Variant &id )
 {
     dbRecordRelation *relation = findRelation( getTableName() + "." + getTableDefinition()->getFieldDefinition(nfield)->getName() );
     if( relation && relation->isEnabled() ) {
-		if( !relation->pRelatedRecord && id.toUInt() == 0) 
+		if( !relation->pRelatedRecord && id.toUInt() == 0)
 			return; // No lo crees solo para ponerlo a cero
         dbRelationDefinition *reldef = relation->getRelationDefinition();
         if( reldef->getType() == dbRelationDefinition::one2one
@@ -1266,7 +1264,7 @@ bool dbRecord::setNullValue ( const Xtring &fullfldname )
     {
         if ( mFieldValues.find ( fldname ) != mFieldValues.end() )
         {
-            mFieldValues[fldname]->setNull();
+            mFieldValues[fldname].setNull();
             setRelatedID( getTableDefinition()->getFieldPosition(fldname), Variant(0) );
             return true;
         }
@@ -1295,14 +1293,14 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
     if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         read( getRecordID() );
 //   	_GONG_DEBUG_PRINT(3, Xtring::printf( "%s.%s(%d), value=%s", getTableName().c_str(),
-// 										 getTableDefinition()->getFieldDefinition(nfield)->getName().c_str(), 
+// 										 getTableDefinition()->getFieldDefinition(nfield)->getName().c_str(),
 // 										 nfield, value.toString().c_str() ) );
     if ( nfield < getFieldCount() )
     {
-        bool wasnull = mFieldValues.seq_at(nfield)->isNull();
+        bool wasnull = mFieldValues.seq_at(nfield).isNull();
         // If the field is null and the value is empty, do not change anything
         if( !(wasnull && value.isEmpty()) ) {
-            mFieldValues.seq_at(nfield)->setValue ( value );
+            mFieldValues.seq_at(nfield).setValue(value);
 			const dbFieldDefinition *flddef = getTableDefinition()->getFieldDefinition ( nfield );
 			if( flddef->isReference() ) {
                 setRelatedID( nfield, value );
@@ -1315,7 +1313,7 @@ bool dbRecord::setValue( unsigned int nfield, const Variant &value )
                           || flddef->getSqlColumnType() == SQLSTRING || flddef->getSqlColumnType() == SQLTEXT
                           || flddef->getSqlColumnType() == SQLDATE || flddef->getSqlColumnType() == SQLDATETIME
                           || flddef->getSqlColumnType() == SQLDATETIME || flddef->getSqlColumnType() == SQLTIMESTAMP ) )
-                    mFieldValues.seq_at(nfield)->setNull();
+                    mFieldValues.seq_at(nfield).setNull();
             }
         }
         return true;
@@ -1344,13 +1342,13 @@ bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
             _GONG_DEBUG_WARNING ( getTableName() + ":Can't update ID value for non-new records" );
             return false;
         }
-        Dictionary<dbFieldValue *>::iterator it = mFieldValues.find(fldname);
+        Dictionary<dbFieldValue>::iterator it = mFieldValues.find(fldname);
         if( it != mFieldValues.end() )
         {
-            bool wasnull = it->second->isNull();
+            bool wasnull = it->second.isNull();
             // If the field is null and the value is empty, do not change anything
             if( !(wasnull && value.isEmpty()) ) {
-                it->second->setValue( value );
+                it->second.setValue(value);
 				const dbFieldDefinition *flddef = getTableDefinition()->findFieldDefinition( fldname );
 				if( flddef->isReference() ) {
                     setRelatedID( getTableDefinition()->getFieldPosition(fldname), value );
@@ -1362,7 +1360,7 @@ bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
                               || flddef->getSqlColumnType() == SQLSTRING || flddef->getSqlColumnType() == SQLTEXT
                               || flddef->getSqlColumnType() == SQLDATE || flddef->getSqlColumnType() == SQLDATETIME
                               || flddef->getSqlColumnType() == SQLDATETIME || flddef->getSqlColumnType() == SQLTIMESTAMP ) )
-                        it->second->setNull();
+                        it->second.setNull();
                 }
             }
             return true;

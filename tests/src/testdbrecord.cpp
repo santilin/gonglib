@@ -38,11 +38,11 @@ int TestdbRecord::test_normal()
 
 	dbConnection conn;
 	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "")  );
-	conn.exec("DROP DATABASE test_db", true);
+	conn.exec("DROP DATABASE santilin_db", true);
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  || conn.getLastError().getNumber() == 1008);
-	conn.exec("CREATE DATABASE test_db");
+	conn.exec("CREATE DATABASE santilin_db");
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
-	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "test_db")  );
+	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "santilin_db")  );
 	conn.exec("CREATE TABLE test_table (ID INTEGER)");
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
 	dbDefinition db("TEST", "Test db");
@@ -52,6 +52,7 @@ int TestdbRecord::test_normal()
 	_GONG_DEBUG_ASSERT( !r0.read(1)  );
 	_GONG_DEBUG_ASSERT( r0.isNew()  );
 	_GONG_DEBUG_ASSERT( !r0.isModified()  );
+	_GONG_DEBUG_PRINT(0, r0.getRecordID() );
 	_GONG_DEBUG_ASSERT( r0.getRecordID() == 0  );
 	_GONG_DEBUG_ASSERT( r0.setValue("id", 1)  );
 	_GONG_DEBUG_ASSERT( r0.isNew()  );
@@ -109,11 +110,11 @@ int TestdbRecord::test_imagefield()
 
 	dbConnection conn;
 	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "")  );
-	conn.exec("DROP DATABASE test_db", true);
+	conn.exec("DROP DATABASE santilin_db", true);
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  || conn.getLastError().getNumber() == 1008);
-	conn.exec("CREATE DATABASE test_db");
+	conn.exec("CREATE DATABASE santilin_db");
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
-	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "test_db")  );
+	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "santilin_db")  );
 	conn.exec("CREATE TABLE test_table (ID INTEGER, IMAGE MEDIUMBLOB)");
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
 	dbDefinition db("TEST", "Test db");
@@ -144,11 +145,11 @@ int TestdbRecord::test_tostringfugit()
 
 	dbConnection conn;
 	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "")  );
-	conn.exec("DROP DATABASE test_db", true);
+	conn.exec("DROP DATABASE santilin_db", true);
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  || conn.getLastError().getNumber() == 1008);
-	conn.exec("CREATE DATABASE test_db");
+	conn.exec("CREATE DATABASE santilin_db");
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
-	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "test_db")  );
+	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "santilin_db")  );
 	conn.exec("CREATE TABLE test_table (ID INTEGER, NUMERO DECIMAL(12,4))");
 	dbDefinition db("TEST", "Test db");
 	dbTableDefinition atable(db, "test_table", "test_table to test dbRecord", "test_table");

@@ -36,7 +36,7 @@ public:
 /*>>>>>DBINDEXDEFINITION_FULLCONSTRUCTOR*/
     {}
 
-    dbFieldDefinition *getFieldDefinition(const Xtring &name)
+    dbFieldDefinition *getFieldDefinition(const Xtring &name) 
     {
         return mFieldDefinitions[name];
     }

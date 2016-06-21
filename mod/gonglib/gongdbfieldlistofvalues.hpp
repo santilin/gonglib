@@ -75,8 +75,8 @@ bool dbFieldListOfValues<int>::isValid( dbRecord *r, dbFieldValue *value,
     }
     if( !dbFieldDefinition::isValid(r, value, context, integres ) )
         return false;
-    if( value->value().type() == Variant::tInt
-            && pListOfValues->contains( value->value().toInt() ) ) {
+    if( value->type() == Variant::tInt
+            && pListOfValues->contains( value->toInt() ) ) {
         return true;
     } else if( pListOfCaptions->contains( value->toString() ) && context == ValidResult::fixing ) {
         // Fix value if the field has the caption instead of the value
@@ -98,7 +98,7 @@ bool dbFieldListOfValues<Xtring>::isValid( dbRecord *r, dbFieldValue *value,
         return true;
     if( !dbFieldDefinition::isValid(r, value, context, integres ) )
         return false;
-    if( value->value().type() == Variant::tString
+    if( value->type() == Variant::tString
             && pListOfValues->contains( value->toString() ) ) {
         return true;
     } else if( pListOfCaptions->contains( value->toString() ) && context == ValidResult::fixing ) {

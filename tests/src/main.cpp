@@ -82,10 +82,6 @@ int main(int argc, char *argv[])
 	testdbschema.run();
 	TestTableDef testtabledef;
 	testtabledef.run();
-#endif
-	TestdbRecord testdbrecord;
-	testdbrecord.run();
-#if 0
 	TestValidResult testvalidresult;
 	testvalidresult.run();
 	TestLibrary testlibrary;

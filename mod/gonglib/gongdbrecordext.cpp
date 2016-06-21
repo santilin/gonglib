@@ -163,7 +163,7 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
             const dbFieldDefinition *flddef = getFieldDefinition(i);
             if( flddef->getSqlColumnType() == SQLBLOB )
                 continue;
-            if( !mFieldValues.seq_at(i)->isModified() )
+            if( !mFieldValues.seq_at(i).isModified() )
                 continue;
             if ( i!=0 )
                 text += ",";
@@ -317,7 +317,7 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
     }
     else if ( format == TOSTRING_CODE_AND_DESC_WITH_TABLENAME )
     {
-		text = getTableDefinition()->getDescSingular() 
+		text = getTableDefinition()->getDescSingular()
 			+ ": " + toString( TOSTRING_CODE_AND_DESC, includedFields );
     }
     return text;
@@ -459,7 +459,7 @@ bool dbRecord::validate(ValidResult::Context context)
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
 // 		_GONG_DEBUG_PRINT(0, Xtring::printf("Validating '%s', value='%s'",
 // 					flddef->getFullName().c_str(), getValue( nf ).toString().c_str() ) );
-        if ( !flddef->isValid ( this, mFieldValues.seq_at(nf), context, &mErrors ) ) {
+        if ( !flddef->isValid ( this, &mFieldValues.seq_at(nf), context, &mErrors ) ) {
 #ifdef _GONG_DEBUG
             if( mErrors.count() ) {
                 _GONG_DEBUG_PRINT(3, Xtring::printf("Field '%s' is not valid: '%s'",

@@ -643,7 +643,7 @@ dbTableDefinition *dbDefinition::findTableDefinition(const Xtring &tablename, bo
     return tbldef;
 }
 
-dbTableDefinition *dbDefinition::getTableDefinition(unsigned int i)
+dbTableDefinition *dbDefinition::getTableDefinition(unsigned int i) 
 {
     dbTableDefinition *tbldef = mTables.seq_at(i);
 #ifdef _GONG_DEBUG

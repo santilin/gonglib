@@ -284,7 +284,7 @@ public:
     static Xtring extractTableName( const Xtring &fullfldname );
     /** Extracts the Field part of a full qualified field name */
     static Xtring extractFieldName( const Xtring &fullfldname );
-    dbFieldValue *createFieldValue() const;
+    dbFieldValue createFieldValue() const;
     /** finds the relation definition for this field in its parent's definition */
     class dbRelationDefinition *findRelationDefinition( const dbTableDefinition &tlbdef ) const;
 private:

@@ -169,15 +169,15 @@ bool dbFieldDefinition::isValid( dbRecord *r, dbFieldValue *value,
     // comboints can get the value 0
     if (!canBeNull() && (
                 value->isNull()
-                || (value->value().type() == Variant::tString && value->isEmpty())
-                || (value->value().type() == Variant::tDateTime && value->isEmpty())
-                || (value->value().type() == Variant::tDate && value->isEmpty())
-                || (value->value().type() == Variant::tTime && value->isEmpty())
+                || (value->type() == Variant::tString && value->isEmpty())
+                || (value->type() == Variant::tDateTime && value->isEmpty())
+                || (value->type() == Variant::tDate && value->isEmpty())
+                || (value->type() == Variant::tTime && value->isEmpty())
                 || (isCode() && value->isEmpty() )
             )
        ) {
         if( integres ) {
-            if( Variant::isNumeric( value->value().type() ) ) {
+            if( Variant::isNumeric( value->type() ) ) {
                 integres->addError( Xtring::printf( _("'%s' no puede ser cero."),
                                                     getCaption().c_str() ), getName() );
             } else {
@@ -187,7 +187,7 @@ bool dbFieldDefinition::isValid( dbRecord *r, dbFieldValue *value,
         }
         ret = false;
     }
-    switch( value->value().type() )
+    switch( value->type() )
     {
     case Variant::tString:
         if( getSqlWidth() != 0 && value->toString().size() > getSqlWidth() ) {
@@ -214,9 +214,9 @@ Variant::Type dbFieldDefinition::getVariantType() const
  * If the field can be null, makes it null
  * @return a pointer to the newly created fldValue
  */
-dbFieldValue *dbFieldDefinition::createFieldValue() const
+dbFieldValue dbFieldDefinition::createFieldValue() const
 {
-    return new dbFieldValue( this, getVariantType(), canBeNull() );
+    return dbFieldValue( getVariantType(), canBeNull(), this );
 }
 
 Xtring dbFieldDefinition::toSQL( dbConnection *conn, const dbFieldValue &value, bool inserting) const
@@ -225,23 +225,23 @@ Xtring dbFieldDefinition::toSQL( dbConnection *conn, const dbFieldValue &value, 
     case SQLTEXT:
     case SQLSTRING:
     case SQLBLOB:
-        return conn->toSQL( value.value().toString() );
+        return conn->toSQL( value.toString() );
     case SQLINTEGER:
-        return conn->toSQL( value.value().toInt() );
+        return conn->toSQL( value.toInt() );
     case SQLDECIMAL:
-        return conn->toSQL( value.value().toMoney() );
+        return conn->toSQL( value.toMoney() );
     case SQLDATE:
-        return conn->toSQL( value.value().toDate() );
+        return conn->toSQL( value.toDate() );
     case SQLTIMESTAMP:
     case SQLDATETIME:
-        return conn->toSQL( value.value().toDateTime() );
+        return conn->toSQL( value.toDateTime() );
     case SQLTIME:
-        return conn->toSQL( value.value().toTime() );
+        return conn->toSQL( value.toTime() );
     case SQLBOOL:
-        return conn->toSQL( value.value().toBool()?"1":"0" );
+        return conn->toSQL( value.toBool()?"1":"0" );
     case SQLFLOAT:
     default:
-        return conn->toSQL( value.value().toDouble() );
+        return conn->toSQL( value.toDouble() );
     }
 }
 

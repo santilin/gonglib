@@ -13,6 +13,9 @@
 #include "dbapprecmetadbdata.h"
 #include "dbappnameslisttable.h"
 
+/// @TODO borrar con el sleep
+#include "unistd.h"
+
 namespace gong {
 
 dbApplication *DBAPP = 0;
@@ -399,7 +402,6 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         }
     }
 
-
     if( getRecMetaDBData()->getValue( "LOCKED" ).toBool() ) {
         FrmBase::msgOk( getPackageString(),
                         Xtring::printf("La base de datos fue bloqueada el día %s por la usuaria %s:"
@@ -425,6 +427,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         }
     }
 
+    _GONG_DEBUG_PRINT(0, getRecMetaDBData()->getValue( "LOCKED" ).toBool() );
 
     // Check if the database has changed
     if( startingapp ) {

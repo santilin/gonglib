@@ -18,7 +18,8 @@ bool FldCuentaBanco::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Con
 /*>>>>>DBFIELD_CUENTABANCO_ISVALID*/
     if ( !dbFieldDefinition::isValid( r, value, context, integres ) )
         return false;
-    Xtring cuenta = value->toString().replace(" ", "");
+    Xtring cuenta = value->toString();
+	cuenta.replace(" ", "");
 	if( cuenta.isEmpty() )
 		return true;
 	bool esiban = false;
@@ -39,7 +40,7 @@ bool FldCuentaBanco::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Con
 			integres->addError( _("Las cuentas bancarias deben tener 20 dígitos (españolas y sin IBAN) o 24 dígitos (IBAN)"),
 								getName() );
 		return false;
-	}	
+	}
 	if( (esiban && cuenta.startsWith("ES")) || !esiban ) {
 		Xtring dc = cuenta.mid( (esiban ? 12 : 8), 2 );
 		if ( dc.toInt() != calcDigitosControl( cuenta ) ) {
@@ -49,7 +50,7 @@ bool FldCuentaBanco::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Con
 									dc.c_str(), calcDigitosControl( cuenta ) ), getName() );
 			return false;
 		}
-	} 
+	}
 	if( esiban ) {
 		Xtring dc_calculado, error;
 		if( !checkCodigoIBAN( cuenta, dc_calculado, error ) ) {
@@ -108,7 +109,7 @@ int FldCuentaBanco::modulo97(const Xtring &ibanstring)
       number = Xtring(prepended + ibanstring.mid( segstart , step )).toLong() ;
       int remainder = number % 97 ;
       prepended =  Xtring::number( remainder ) ;
-      if ( remainder < 10 ) 
+      if ( remainder < 10 )
 	 prepended = "0" + prepended ;
       segstart = segstart + step ;
       step = 7 ;
@@ -128,14 +129,14 @@ bool FldCuentaBanco::checkCodigoIBAN( const Xtring &cuenta, Xtring &dc, Xtring &
 			   {"CZ" , 24} , {"DK" , 18} , {"DO" , 28} , {"EE" , 20 } ,
 			   {"FO" , 18} , {"FI" , 18} , {"FR" , 27} , {"GE" , 22 } ,
 				{"DE" , 22} , {"GI" , 23} , {"GR" , 27} , {"GL" , 18 } ,
-				{"GT" , 28} , {"HU" , 28} , {"IS" , 26} , {"IE" , 22 } , 
+				{"GT" , 28} , {"HU" , 28} , {"IS" , 26} , {"IE" , 22 } ,
 			   {"IL" , 23} , {"IT" , 27} , {"KZ" , 20} , {"KW" , 30 } ,
-			   {"LV" , 21} , {"LB" , 28} , {"LI" , 21} , {"LT" , 20 } , 
-			   {"LU" , 20} , {"MK" , 19} , {"MT" , 31} , {"MR" , 27 } , 
-			   {"MU" , 30} , {"MC" , 27} , {"MD" , 24} , {"ME" , 22 } , 
-			   {"NL" , 18} , {"NO" , 15} , {"PK" , 24} , {"PS" , 29 } , 
-			   {"PL" , 28} , {"PT" , 25} , {"RO" , 24} , {"SM" , 27 } , 
-			   {"SA" , 24} , {"RS" , 22} , {"SK" , 24} , {"SI" , 19 } , 
+			   {"LV" , 21} , {"LB" , 28} , {"LI" , 21} , {"LT" , 20 } ,
+			   {"LU" , 20} , {"MK" , 19} , {"MT" , 31} , {"MR" , 27 } ,
+			   {"MU" , 30} , {"MC" , 27} , {"MD" , 24} , {"ME" , 22 } ,
+			   {"NL" , 18} , {"NO" , 15} , {"PK" , 24} , {"PS" , 29 } ,
+			   {"PL" , 28} , {"PT" , 25} , {"RO" , 24} , {"SM" , 27 } ,
+			   {"SA" , 24} , {"RS" , 22} , {"SK" , 24} , {"SI" , 19 } ,
 			   {"ES" , 24} , {"SE" , 24} , {"CH" , 21} , {"TN" , 24 } ,
 			   {"TR" , 26} , {"AE" , 23} , {"GB" , 22} , {"VG" , 24 } } ;
    Xtring teststring( cuenta.upper() ) ;
@@ -149,23 +150,23 @@ bool FldCuentaBanco::checkCodigoIBAN( const Xtring &cuenta, Xtring &dc, Xtring &
 	   }
    }
    if( i == sizeof(ci) ) {
-	   if( &error_message != &Xtring::null ) 
+	   if( &error_message != &Xtring::null )
 		   error_message = Xtring::printf(_("Código de país erróneo: %s"), pais.c_str());
 	   return false;
    }
    if ( teststring.length( ) != ci[ i ].length ) {
-	   if( &error_message != &Xtring::null ) 
+	   if( &error_message != &Xtring::null )
 		   error_message = Xtring::printf(_("Longitud de la cuenta errónea, debe de ser: %d"), ci[ i ].length);
 	   return false;
    }
    teststring = teststring.mid(4) + teststring.mid(0,2) + "00";
- 
+
    Xtring numberstring ;//will contain the letter substitutions
    for (int c=0; c<teststring.length(); ++c) {
 	   char ch = teststring[c];
-      if (std::isdigit(ch)) 
+      if (std::isdigit(ch))
 		numberstring += ch;
-      if (std::isupper(ch)) 
+      if (std::isupper(ch))
 		numberstring += Xtring::number(static_cast<int>(ch) - 55);
    }
    int idc = 98 - modulo97(numberstring);
@@ -173,7 +174,7 @@ bool FldCuentaBanco::checkCodigoIBAN( const Xtring &cuenta, Xtring &dc, Xtring &
    if( (idc) < 10 )
 	   sdc = "0" + sdc;
    if (sdc != cuenta.mid(2,2)) {
-	   if( &error_message != &Xtring::null ) 
+	   if( &error_message != &Xtring::null )
 		   error_message = Xtring::printf(_("Dígitos de control erróneos, deberían ser %s"), sdc.c_str());
 	   return false;
    } else {
