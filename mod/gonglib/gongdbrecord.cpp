@@ -413,7 +413,6 @@ bool dbRecord::SELECT ( const Xtring &where )
     if ( rs->next() ) {
         for ( unsigned int i=0; i<getFieldCount(); i++ ) {
             dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
-			Variant value( rs->getValue(i) );
             switch ( flddef->getSqlColumnType() ) {
             case SQLINTEGER:
             case SQLSTRING:
@@ -424,10 +423,13 @@ bool dbRecord::SELECT ( const Xtring &where )
             case SQLTIMESTAMP:
             case SQLBOOL:
             case SQLFLOAT:
-                setValue( i, value );
+				{
+					Variant value( rs->getValue(i) );
+					setValue( i, value );
+				}
 				break;
             case SQLBLOB:
-                setValue( i, value );
+				setValue( i, rs->toBinary(i) );
                 break;
             case SQLDECIMAL:
                 setValue( i, Money( rs->toDouble(i),
@@ -437,7 +439,7 @@ bool dbRecord::SELECT ( const Xtring &where )
 //             _GONG_DEBUG_PRINT(3, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
 // 												i, Variant::typeToName( mOrigFieldValues.seq_at(i).type() ),
 // 												value.toString().c_str(), Variant::typeToName( value.type() ) ) );
-            mOrigFieldValues.seq_at(i).setValue(value);
+            mOrigFieldValues.seq_at(i).setValue(mFieldValues.seq_at(i));
             if ( rs->isNull ( i ) ) {
                 setNullValue ( i );
                 mOrigFieldValues.seq_at(i).setNull();
