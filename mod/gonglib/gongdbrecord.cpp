@@ -44,9 +44,11 @@ void dbRecord::init_record()
 		dbFieldValue value(flddef->createFieldValue());
         mFieldValues.insert( flddef->getName(), value );
         mOrigFieldValues.insert( flddef->getName(), value );
- 		_GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d](%s)=%s(%s)",
- 											i, Variant::typeToName( mOrigFieldValues.seq_at(i).type() ),
- 											value.toString().c_str(), Variant::typeToName( value.type() ) ) );
+		Xtring s(value.toString());
+		Xtring s1(flddef->createFieldValue().toString());
+//  		_GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d]%s(%s)=%s(%s)",
+//  											i, flddef->getName().c_str(), Variant::typeToName( mOrigFieldValues.seq_at(i).type() ),
+//  											value.toString().c_str(), Variant::typeToName( value.type() ) ) );
     }
     // Create relations
     for ( unsigned int nr = 0; nr < getTableDefinition()->getRelationDefinitions().size(); ++nr )

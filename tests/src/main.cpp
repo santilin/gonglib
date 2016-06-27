@@ -62,8 +62,6 @@ int main(int argc, char *argv[])
 #endif
 
 #if 0
-	TestMoney testmoney;
-	testmoney.run();
 	TestDate testdate;
 	testdate.run();
 	TestSettings testsettings;x
@@ -121,8 +119,10 @@ int main(int argc, char *argv[])
 #endif
 	TestXMLParser testxmlpaser;
 	testxmlpaser.run();
-#endif
 
+	TestMoney testmoney;
+	testmoney.run();
+#endif
 	TestdbRecord testdbrecord;
 	testdbrecord.run();
 

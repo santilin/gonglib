@@ -667,7 +667,8 @@ Variant& Variant::copy( const Variant& other )
         mValue.datetime = other.toDateTime().packed();
         break;
     case tMoney:
-        mValue.money = Money(other.toDouble(), toMoney().getDecimals() ).packed();
+        mValue.money = other.mValue.money;
+		// Money(other.toDouble(), other.toMoney().getDecimals() ).packed();
         break;
     }
     return *this;
@@ -1226,9 +1227,17 @@ bool Variant::operator==( const Variant &other ) const
     {
         // Even if the values of the moneys are equal,
         // if the number of decimals are not, comparing the packed value would be wrong
-        // I don't want to use the double comparison, but the money comparison
-        Money otherval = other.toMoney( 7, &otherok);
-        return ( otherok && toMoney() == otherval );
+		if( other.mType == tMoney ) {
+			return toMoney() == other.toMoney();
+		} else {
+			int thisdec = toMoney().getDecimals();
+			int otherdec = other.toMoney().getDecimals();
+			if( otherdec == thisdec ) {
+				return mValue.money == other.mValue.money;
+			} else {
+				return toDouble() == other.toDouble();
+			}
+		}
     }
     case tString:
     case tBinary:

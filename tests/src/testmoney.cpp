@@ -25,9 +25,29 @@ int TestMoney::testToString()
 	return 1;
 }
 
+int TestMoney::testDecimals()
+{
+	Money m;
+	_GONG_DEBUG_ASSERT(m.getDecimals() == Money::defaultDecimals() );
+	_GONG_DEBUG_ASSERT(Money(0.0, 0 ).getDecimals() == 0);
+	_GONG_DEBUG_ASSERT(Money(0.0, 1 ).getDecimals() == 1);
+	_GONG_DEBUG_ASSERT(Money(0.0, 2 ).getDecimals() == 2);
+	_GONG_DEBUG_ASSERT(Money(0.0, 3 ).getDecimals() == 3);
+	_GONG_DEBUG_ASSERT(Money(0.0, 4 ).getDecimals() == 4);
+	_GONG_DEBUG_ASSERT(Money(0.0, 5 ).getDecimals() == 5);
+	_GONG_DEBUG_ASSERT(Money(0.0, 6 ).getDecimals() == 6);
+	_GONG_DEBUG_ASSERT(Money(0.0, 7 ).getDecimals() == 7);
+	m = Money(0.0, 4 );
+	_GONG_DEBUG_ASSERT(m.getDecimals() == 4);
+	Variant v(m);
+	_GONG_DEBUG_ASSERT(v.toMoney().getDecimals() == 4);
+}
+
 int TestMoney::run()
 {
+	testDecimals();
 	testToString();
+
 	Money m0;
 	_GONG_DEBUG_ASSERT( m0.toDouble() == 0.0 );
 	Money m102(102, 2);

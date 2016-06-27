@@ -23,7 +23,7 @@ class dbFieldValue: public Variant
 {
 public:
 	dbFieldValue() {};
-	dbFieldValue(const Variant &v) : Variant(v), mNull(true), mModified(false) {}
+	dbFieldValue(const Variant &v);
     dbFieldValue(Variant::Type type, bool isnull, const dbFieldDefinition *flddef = 0);
 	~dbFieldValue() {}
     bool isEmpty() const;

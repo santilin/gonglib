@@ -16,19 +16,23 @@
 
 namespace gong {
 
+dbFieldValue::dbFieldValue(const Variant &v)
+	: Variant(v), mNull(true), mModified(false)
+{
+    if( type() == Variant::tMoney ) {
+		_GONG_DEBUG_PRINT(0, toMoney().getDecimals());
+	}
+}
+
 dbFieldValue::dbFieldValue(Variant::Type type, bool isnull, const dbFieldDefinition *flddef)
     : Variant(type), mNull(isnull), mModified(false)
 {
     if( type == Variant::tMoney ) {
 		if( flddef ) {
-			*this = Variant(Money(0.0, flddef->getDecimals() > 7 ? 7 : flddef->getDecimals() ));
+			*this = Money(0.0, flddef->getDecimals() > 7 ? 7 : flddef->getDecimals());
 		} else {
 			*this = Variant(Money(0.0));
 		}
-	}
-	if (flddef) {
-		_GONG_DEBUG_PRINT(0, flddef->getName() );
-		_GONG_DEBUG_PRINT(0, mType );
 	}
 }
 
@@ -57,7 +61,7 @@ void dbFieldValue::clear( const Variant &defvalue )
 
 dbFieldValue &dbFieldValue::operator=(const Variant &other)
 {
-	return setValue(&other);
+	return setValue(other);
 }
 
 dbFieldValue &dbFieldValue::setValue(const Variant &other)
@@ -69,15 +73,14 @@ dbFieldValue &dbFieldValue::setValue(const Variant &other)
                                             Variant::typeToName( other.type() ) ) );
     }
 #endif
-    if( static_cast<Variant>(*this) != other) {
-        copy(other);
+    if( *this != other || (mType == tMoney && toMoney().getDecimals() != other.toMoney().getDecimals()) ) {
+        copy(other); // Do not use = because we want to preserve the type
         mModified = true;
     }
     mNull = false;
 #ifdef _GONG_DEBUG
-    if( static_cast<Variant>(*this) != other) {
+    if( *this != other) {
         _GONG_DEBUG_WARNING( Xtring::printf("'%s' != '%s'", toString().c_str(), toString().c_str() ) );
-//         bool check_again = (*this != value );
     }
 #endif
 	return *this;

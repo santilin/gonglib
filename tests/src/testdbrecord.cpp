@@ -24,10 +24,10 @@ TestdbRecord::~TestdbRecord()
 void TestdbRecord::run()
 {
 	_GONG_DEBUG_TRACE(0);
+	test_tostringfugit();
  	test_normal();
  	test_create();
  	test_imagefield();
-	test_tostringfugit();
 	std::cout << "TestdbRecord finished" << std::endl;
 }
 
@@ -42,7 +42,7 @@ int TestdbRecord::test_normal()
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  || conn.getLastError().getNumber() == 1008);
 	conn.exec("CREATE DATABASE santilin_db");
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
-	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "santilin_db")  );
+	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, DBTEST_DBNAME)  );
 	conn.exec("CREATE TABLE test_table (ID INTEGER)");
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
 	dbDefinition db("TEST", "Test db");
@@ -110,11 +110,11 @@ int TestdbRecord::test_imagefield()
 
 	dbConnection conn;
 	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "")  );
-	conn.exec("DROP DATABASE santilin_db", true);
+	conn.exec(Xtring("DROP DATABASE ") + DBTEST_DBNAME, true);
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  || conn.getLastError().getNumber() == 1008);
-	conn.exec("CREATE DATABASE santilin_db");
+	conn.exec(Xtring("CREATE DATABASE ") + DBTEST_DBNAME);
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
-	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "santilin_db")  );
+	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, DBTEST_DBNAME)  );
 	conn.exec("CREATE TABLE test_table (ID INTEGER, IMAGE MEDIUMBLOB)");
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
 	dbDefinition db("TEST", "Test db");
@@ -145,20 +145,20 @@ int TestdbRecord::test_tostringfugit()
 
 	dbConnection conn;
 	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "")  );
-	conn.exec("DROP DATABASE santilin_db", true);
+	conn.exec(Xtring("DROP DATABASE ") + DBTEST_DBNAME, true);
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  || conn.getLastError().getNumber() == 1008);
-	conn.exec("CREATE DATABASE santilin_db");
+	conn.exec(Xtring("CREATE DATABASE ") + DBTEST_DBNAME);
 	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
-	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "santilin_db")  );
-	conn.exec("CREATE TABLE test_table (ID INTEGER, NUMERO DECIMAL(12,4))");
+	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, DBTEST_DBNAME)  );
+	conn.exec("CREATE TABLE test_table (ID INTEGER, PRECIO DECIMAL(12,4))");
 	dbDefinition db("TEST", "Test db");
 	dbTableDefinition atable(db, "test_table", "test_table to test dbRecord", "test_table");
 	atable.addFieldRecordID();
-	atable.addFieldMoney("NUMERO", 12, 4);
+	atable.addFieldMoney("PRECIO", 12, 4);
 
 	DerivedRecord r0(&conn, &atable);
-	_GONG_DEBUG_ASSERT( r0.setValue("NUMERO", 2.3435)  );
-	_GONG_DEBUG_ASSERT_EQUALS( r0.getValue("NUMERO").toString(), "2.3435"  );
+	_GONG_DEBUG_ASSERT( r0.setValue("PRECIO", Money(2.3435, 4))  );
+	_GONG_DEBUG_ASSERT_EQUALS( r0.getValue("PRECIO").toString(), "2.3435"  );
 	_GONG_DEBUG_ASSERT( r0.setValue("id", 1)  );
 	_GONG_DEBUG_ASSERT( r0.save(false)  );
 	_GONG_DEBUG_PRINT(0, r0.toString( TOSTRING_FUGIT ) );

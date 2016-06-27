@@ -81,8 +81,8 @@ Money::Money(double amount, unsigned short int ndecimals)
         u.s.mSign = 0;
         u.s.mAmount = static_cast<long long>(rint(amount * _exp10[getDecimals()]));
     }
-    _GONG_DEBUG_PRINT(10, Xtring::printf("sign=%d, amount=%ld, decimals=%d",
-                                         (int)u.s.mSign, (long long int)u.s.mAmount, (int)u.s.mDecimals) );
+//     _GONG_DEBUG_PRINT(0, Xtring::printf("sign=%d, amount=%ld, decimals=%d",
+//                                          (int)u.s.mSign, (long long int)u.s.mAmount, (int)u.s.mDecimals) );
 }
 
 long long Money::toInt() const
@@ -173,6 +173,7 @@ Money& Money::operator=( const Money& other )
     if( u.s.mDecimals == other.u.s.mDecimals ) {
         u = other.u;
     } else {
+		u.s.mDecimals = other.u.s.mDecimals;
         double amount = other.toDouble();
         if( amount < 0LL ) {
             u.s.mSign = 1;
@@ -182,6 +183,8 @@ Money& Money::operator=( const Money& other )
             u.s.mAmount = static_cast<long long>(rint(amount * _exp10[getDecimals()]));
         }
     }
+//     _GONG_DEBUG_PRINT(0, Xtring::printf("sign=%d, amount=%ld, decimals=%d",
+//                                          (int)u.s.mSign, (long long int)u.s.mAmount, (int)u.s.mDecimals) );
     return *this;
 }
 

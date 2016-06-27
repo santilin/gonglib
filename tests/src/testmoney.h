@@ -10,6 +10,7 @@ public:
 	~TestMoney();
 	int run();
 	int testToString();
+	int testDecimals();
 };
 
 #endif
