@@ -66,13 +66,24 @@ Variant::Variant( const Variant &other )
     }
 }
 
-void Variant::clear()
+Variant::~Variant()
 {
     switch ( mType ) {
     case tString:
     case tBinary:
         if( mValue.stringptr )
             delete mValue.stringptr;
+        break;
+	}
+}
+
+void Variant::clear()
+{
+    switch ( mType ) {
+    case tString:
+    case tBinary:
+        if( mValue.stringptr )
+            *mValue.stringptr = Xtring("");
         break;
     case tMoney:
         mValue.money = Money( 0.0, toMoney().getDecimals() ).packed();
@@ -667,7 +678,10 @@ Variant& Variant::copy( const Variant& other )
         mValue.datetime = other.toDateTime().packed();
         break;
     case tMoney:
-        mValue.money = other.mValue.money;
+		if( other.mType == tMoney )
+			mValue.money = other.toMoney().packed();
+		else
+			*this = Money(other.toDouble(), toMoney().getDecimals());
 		// Money(other.toDouble(), other.toMoney().getDecimals() ).packed();
         break;
     }
@@ -1233,7 +1247,7 @@ bool Variant::operator==( const Variant &other ) const
 			int thisdec = toMoney().getDecimals();
 			int otherdec = other.toMoney().getDecimals();
 			if( otherdec == thisdec ) {
-				return mValue.money == other.mValue.money;
+				return toMoney() == other.toMoney();
 			} else {
 				return toDouble() == other.toDouble();
 			}

@@ -37,7 +37,8 @@ int TestConnection::testConnection()
 	dbConnection conn;
 	unlink( "una base de datos que no existe.sql3" );
 	_GONG_DEBUG_ASSERT( !conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, "una base de datos que no existe" ) );
-	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 1045 || conn.getLastError().getNumber() == 1049 );
+// 	_GONG_DEBUG_PRINT(0, conn.getLastError().getNumber() );
+	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 1045 || conn.getLastError().getNumber() == 1049 || conn.getLastError().getNumber() == 1044);
 	_GONG_DEBUG_ASSERT( strlen(conn.getLastError().what()) );
 	if( conn.isMySQL() ) {
 		if( conn.getLastError().getNumber() == 2002 )
@@ -48,8 +49,10 @@ int TestConnection::testConnection()
 		_GONG_DEBUG_ASSERT( !conn.connect(testdriver, DBTEST_USER, "una contraseña erronea", "db2" ) );
 		_GONG_DEBUG_ASSERT( strlen(conn.getLastError().what()));
 		_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 1045 );
-		_GONG_DEBUG_ASSERT( conn.exec("CREATE DATABASE testdbase") );
-		_GONG_DEBUG_ASSERT( conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, "testdbase" ) );
+		if( conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, "" ) )
+			conn.exec( Xtring("DROP DATABASE ") + DBTEST_DBNAME, true);
+		_GONG_DEBUG_ASSERT( conn.exec(Xtring("CREATE DATABASE ") + DBTEST_DBNAME) );
+		_GONG_DEBUG_ASSERT( conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, DBTEST_DBNAME) );
 		_GONG_DEBUG_ASSERT( !strlen(conn.getLastError().what()) );
 		_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0 );
 		dbResultSet *rs = conn.select("SHOW TABLES");
@@ -65,8 +68,8 @@ int TestConnection::testCreateDatabase()
 {
 	dbConnection conn;
 
-	if( conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, "testdbase" ) )
-		_GONG_DEBUG_ASSERT( conn.exec( "DROP DATABASE testdbase", true) == 1 );
+	if( conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, DBTEST_DBNAME ) )
+		_GONG_DEBUG_ASSERT( conn.exec( Xtring("DROP DATABASE ") + DBTEST_DBNAME, true) == 1 );
 	else if( conn.isMySQL() &&  conn.getLastError().getNumber() == 2002 ) {
 		std::cout << "please run /etc/init.d/mysql start" << std::endl;
 		_GONG_DEBUG_ASSERT( strlen(conn.getLastError().what()) == 0 );
@@ -75,28 +78,27 @@ int TestConnection::testCreateDatabase()
 	} else {
 		_GONG_DEBUG_ASSERT( conn.connect(testdriver, DBTEST_USER, DBTEST_PASSWORD, Xtring::null ) );
 	}
-	_GONG_DEBUG_ASSERT( conn.exec("CREATE DATABASE testdbase") );
+	_GONG_DEBUG_ASSERT( conn.exec(Xtring("CREATE DATABASE ") + DBTEST_DBNAME) );
 	dbResultSet *rs = conn.select("SHOW DATABASES");
 	_GONG_DEBUG_ASSERT(  rs  );
 	bool found = false;
 	while( rs->next() ) {
 		_GONG_DEBUG_PRINT(0, rs->toString(uint(0)) );
-		if( rs->toString((uint)0) == "testdbase" )
+		if( rs->toString((uint)0) == DBTEST_DBNAME )
 			found = true;
 	}
 //	_GONG_DEBUG_ASSERT(  found  );
 
 
-	_GONG_DEBUG_ASSERT(  conn.selectDatabase( "testdbase" )  );
+	_GONG_DEBUG_ASSERT(  conn.selectDatabase( DBTEST_DBNAME )  );
 	_GONG_DEBUG_ASSERT(  conn.select( "SHOW TABLES" )->getRowCount() == 0L  );
 	conn.exec( "CREATE TABLE contactos ( CONTACTO VARCHAR(50) )" );
 	_GONG_DEBUG_ASSERT(  conn.select( "SHOW TABLES" )->getRowCount() == 1L  );
 	cout << conn.getLastError().what() << endl;
-	_GONG_DEBUG_ASSERT(  !conn.selectDatabase( "testdbase2" )  );
+	_GONG_DEBUG_ASSERT(  !conn.selectDatabase( "santilin_testdbase2" )  );
 
 
-	cout << conn.exec( "DROP DATABASE testdbase") << endl;
-//	cout << conn.getLastError().what() << endl;
+	conn.exec( Xtring("DROP DATABASE ") + DBTEST_DBNAME);
 	_GONG_DEBUG_ASSERT(  conn.getLastError().getNumber() == 0  ); //database doesn't exist
 	return 1;
 }

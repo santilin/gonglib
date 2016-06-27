@@ -19,9 +19,6 @@ namespace gong {
 dbFieldValue::dbFieldValue(const Variant &v)
 	: Variant(v), mNull(true), mModified(false)
 {
-    if( type() == Variant::tMoney ) {
-		_GONG_DEBUG_PRINT(0, toMoney().getDecimals());
-	}
 }
 
 dbFieldValue::dbFieldValue(Variant::Type type, bool isnull, const dbFieldDefinition *flddef)

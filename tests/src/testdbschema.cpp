@@ -20,7 +20,7 @@ void TestdbSchema::run()
 	_GONG_DEBUG_TRACE(0);
 	TestCommon t;
 	
-	dbDefinition *dbdef = dbDefinition::fromSQLSchema(&t.mConnection, "test_gestiong", XtringList());
+	dbDefinition *dbdef = dbDefinition::fromSQLSchema(&t.mConnection, "santilin_gestiong", XtringList());
 	Xtring diff = t.pDatabase->sameSQLSchema( dbdef, &t.mConnection ); 
 	std::cout << diff << std::endl;
 	_GONG_DEBUG_ASSERT( diff.isEmpty() );

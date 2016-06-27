@@ -28,6 +28,17 @@ void TestRegConfig::testNumberMasks()
 	rc.setLocale("es_ES.utf8");
 	_GONG_DEBUG_PRINT( 0, rc.getCurrencyMask() );
 	_GONG_DEBUG_PRINT( 0, rc.getNumberMask() );
+	_GONG_DEBUG_ASSERT(rc.getCurrencyDecimalPoint() == ',');
+	_GONG_DEBUG_ASSERT(rc.getCurrencyThousandsSep() == '.');
+	_GONG_DEBUG_ASSERT(rc.getDecimalPoint() == ',');
+	_GONG_DEBUG_ASSERT(rc.getThousandsSep() == '.');
+	rc.setLocale("C");
+	_GONG_DEBUG_PRINT( 0, rc.getCurrencyMask() );
+	_GONG_DEBUG_PRINT( 0, rc.getNumberMask() );
+	_GONG_DEBUG_ASSERT(rc.getCurrencyDecimalPoint() == '.');
+	_GONG_DEBUG_ASSERT(rc.getCurrencyThousandsSep() == ',');
+	_GONG_DEBUG_ASSERT(rc.getDecimalPoint() == '.');
+	_GONG_DEBUG_ASSERT(rc.getThousandsSep() == ',');
 }
 
 

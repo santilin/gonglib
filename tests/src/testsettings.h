@@ -13,7 +13,7 @@
 #define TESTSETTINGS_H
 
 /**
-	@author Santiago Capel <elcansino@arremolina.com>
+	@author Santiago Capel <santilin@noviolento.es>
 */
 class TestSettings{
 public:

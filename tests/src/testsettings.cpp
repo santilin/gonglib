@@ -51,7 +51,7 @@ void TestSettings::testStringOfSettings()
 	_GONG_DEBUG_ASSERT( s.getValue( "timevalue" ).toTime() == Time(12,49) );
 
 	_GONG_DEBUG_ASSERT( s.readString( local_settings ) );
-	_GONG_DEBUG_PRINT( 0, s.getValue( "intvalue" ).toString() );
+// 	_GONG_DEBUG_PRINT( 0, s.getValue( "intvalue" ).toString() );
 	_GONG_DEBUG_ASSERT_EQUALS( s.getValue( "intvalue" ).toString(), "3" );
 	_GONG_DEBUG_ASSERT( s.getValue( "intvalue" ).toInt() == 3 );
 	_GONG_DEBUG_ASSERT_EQUALS( s.getValue( "doublevalue" ).toString(), "1.3" );

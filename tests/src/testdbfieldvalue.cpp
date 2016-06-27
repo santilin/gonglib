@@ -104,7 +104,6 @@ int TestdbFieldValue::test_normal()
 
 	dbFieldValue fbinary(Variant( (void *)"hola", 4) );
 	_GONG_DEBUG_ASSERT ( fbinary.type() == Variant::tBinary );
-	std::cout << fbinary.toString() << std::endl;
 	_GONG_DEBUG_ASSERT ( fbinary.isNull() == true );
 	_GONG_DEBUG_ASSERT ( fbinary.isModified() == false );
 	_GONG_DEBUG_ASSERT ( fbinary.toString() == "hola" );
@@ -130,7 +129,6 @@ int TestdbFieldValue::test_normal()
 	_GONG_DEBUG_ASSERT ( fmoney.isNull() == false );
 	_GONG_DEBUG_ASSERT ( fmoney.isModified() == true );
 	_GONG_DEBUG_ASSERT ( fmoney == 10.2 );
-	_GONG_DEBUG_PRINT(0, fmoney.toString() );
 	_GONG_DEBUG_ASSERT ( fmoney.toString() == "10.20" );
 	fmoney.setNull();
 	_GONG_DEBUG_ASSERT ( fmoney.isNull() == true );

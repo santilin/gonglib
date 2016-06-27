@@ -8,7 +8,7 @@ TestCommon::TestCommon()
 {
 	mConnection.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "");
 
-	pDatabase = new dbDefinition("test_gestiong", "Tests");
+	pDatabase = new dbDefinition("santilin_gestiong", "Tests");
 	mConnection.dropDatabase(pDatabase->getName(), true);
 	pDatabase->create(&mConnection);
 

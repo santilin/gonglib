@@ -61,10 +61,10 @@ int main(int argc, char *argv[])
 	__gong_debug::_gong_debug_level = 4;
 #endif
 
-#if 0
+#if 1
 	TestDate testdate;
 	testdate.run();
-	TestSettings testsettings;x
+	TestSettings testsettings;
 	testsettings.run();
 	TestDatabase testdatabase;
 	testdatabase.run();
@@ -120,9 +120,9 @@ int main(int argc, char *argv[])
 	TestXMLParser testxmlpaser;
 	testxmlpaser.run();
 
+#endif
 	TestMoney testmoney;
 	testmoney.run();
-#endif
 	TestdbRecord testdbrecord;
 	testdbrecord.run();
 

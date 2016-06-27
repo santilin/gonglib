@@ -56,12 +56,12 @@ dbRecord *TestdbCalculator::createRecord()
 {
 	_GONG_DEBUG_TRACE(0);
 	dbConnection conn;
-	_GONG_DEBUG_ASSERT(  conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "")  );
-	conn.exec("DROP DATABASE test_db", true);
-	_GONG_DEBUG_ASSERT(  conn.getLastError().getNumber() == 0  || conn.getLastError().getNumber() == 1008);
-	conn.exec("CREATE DATABASE test_db");
-	_GONG_DEBUG_ASSERT(  conn.getLastError().getNumber() == 0  );
-	_GONG_DEBUG_ASSERT(  conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "test_db")  );
+	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "")  );
+	conn.exec(Xtring("DROP DATABASE ") + DBTEST_DBNAME , true);
+	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  || conn.getLastError().getNumber() == 1008);
+	conn.exec(Xtring("CREATE DATABASE ") + DBTEST_DBNAME );
+	_GONG_DEBUG_ASSERT( conn.getLastError().getNumber() == 0  );
+	_GONG_DEBUG_ASSERT( conn.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, DBTEST_DBNAME)  );
 	conn.exec("CREATE TABLE test_table (ID INTEGER, VALUE INTEGER)");
 	_GONG_DEBUG_ASSERT(  conn.getLastError().getNumber() == 0  );
 	dbDefinition db("TEST", "Test db");

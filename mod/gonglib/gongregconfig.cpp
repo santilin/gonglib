@@ -130,9 +130,9 @@ bool RegConfig::setLocaleCurrencyFormat( const char *locale )
         _GONG_DEBUG_WARNING( Xtring::printf("LC_MONETARY '%s' not available", locale) );
         return false;
     }
-    _GONG_DEBUG_PRINT(10, Xtring("LC_MONETARY set to ") + setlocale( LC_MONETARY, NULL) );
+    _GONG_DEBUG_PRINT(0, Xtring("LC_MONETARY set to ") + setlocale( LC_MONETARY, NULL) );
     lc = localeconv();
-    _GONG_DEBUG_PRINT(10, Xtring::printf("codeset='%s' decpoint='%c' currency='%s' thousep='%c'",
+    _GONG_DEBUG_PRINT(0, Xtring::printf("codeset='%s' decpoint='%c' currency='%s' thousep='%c'",
                                          codeset.c_str(), *lc->mon_decimal_point, lc->currency_symbol, *lc->mon_thousands_sep ) );
     // glibc bug: es_ES localedata is not correct for p_cs_precedes and n_cs_precedes
     bool is_es_ES = (strncasecmp( ret, "es_ES", 4 ) == 0);
@@ -203,17 +203,13 @@ void RegConfig::setCurrencyFormat(
     setCurrencySymbol( currencysymbol );
     if ( currencydecimalpoint != '\0' ) {
         setCurrencyDecimalPoint( currencydecimalpoint );
-    } else if ( getDecimalPoint() != '\0' ) {
-        setCurrencyDecimalPoint( getDecimalPoint() );
     } else {
-        setCurrencyDecimalPoint( '.' );
+        setCurrencyDecimalPoint( getDecimalPoint() != '\0' ? getDecimalPoint() : '.' );
     }
     if ( currencythousandssep != '\0' ) {
         setCurrencyThousandsSep( currencythousandssep );
-    } else if ( getThousandsSep() != '\0' ) {
-        setCurrencyThousandsSep( getThousandsSep() );
     } else {
-        setCurrencyThousandsSep( ',' );
+        setCurrencyThousandsSep( getThousandsSep() != '\0' ? getThousandsSep() : ',' );
     }
     mCurrencyMask = buildNumberMask( grouping, (currencyfracdigits==127)?2:currencyfracdigits );
     mPSignPosn = p_sign_posn;
@@ -241,12 +237,12 @@ void RegConfig::setNumberFormat(
     if ( decimalpoint != '\0' ) {
         setDecimalPoint( decimalpoint );
     } else {
-        setDecimalPoint( ',' );
+        setDecimalPoint( '.' );
     }
     if ( thousandssep != '\0' ) {
         setThousandsSep( thousandssep );
     } else {
-        setThousandsSep( '.' );
+        setThousandsSep( mDecimalPoint == ',' ? '.' : ',' );
     }
     mNumberMask = buildNumberMask( grouping, frac_digits );
 }

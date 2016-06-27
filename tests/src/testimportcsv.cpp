@@ -27,9 +27,9 @@ int TestImportCSV::run()
 	
 	dbConnection *conn = app.getConnection();
 	conn->connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "");
-	conn->exec("DROP DATABASE tests", true);
-	conn->exec("CREATE DATABASE tests");
-	conn->connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "tests");
+	conn->exec(Xtring("DROP DATABASE ") + DBTEST_DBNAME , true);
+	conn->exec(Xtring("CREATE DATABASE ") + DBTEST_DBNAME );
+	conn->connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, DBTEST_DBNAME );
 	app.initDatabases();
 	dbDefinition *db = app.getDatabase();
 	conn->dropDatabase(db->getName(), true);
@@ -56,7 +56,7 @@ int TestImportCSV::run()
 	DerivedRecord *r = new DerivedRecord( conn, cliente_t->getTableDefinition() );
 	r->fromString( csvvalues, TOSTRING_CSV, csvfields );
 	r->save(true);
-	_GONG_DEBUG_WARNING( r->toString( TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS ) );
+// 	_GONG_DEBUG_WARNING( r->toString( TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS ) );
 	return 1;
 }
 

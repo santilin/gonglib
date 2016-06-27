@@ -102,10 +102,7 @@ public:
     Variant &copy( const Variant &other );
 
     /** @brief Destructs the Variant, freeing the allocated space if neccesary */
-    virtual ~Variant() {
-        clear();
-    }
-
+    virtual ~Variant();
 
     /** @brief Returns the bool value of the variant */
     bool toBool() const;

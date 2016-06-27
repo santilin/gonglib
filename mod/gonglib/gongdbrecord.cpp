@@ -1354,18 +1354,23 @@ bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
             if( !(wasnull && value.isEmpty()) ) {
                 it->second.setValue(value);
 				const dbFieldDefinition *flddef = getTableDefinition()->findFieldDefinition( fldname );
-				if( flddef->isReference() ) {
-                    setRelatedID( getTableDefinition()->getFieldPosition(fldname), value );
+				if( flddef ) {
+					if( flddef->isReference() ) {
+						setRelatedID( getTableDefinition()->getFieldPosition(fldname), value );
+					}
+					// If value is empty and the field was not null, set it to null if it can be null
+					if ( value.isEmpty() && !wasnull ) {
+						if ( flddef->canBeNull() &&
+								( flddef->isReference()
+									|| flddef->getSqlColumnType() == SQLSTRING || flddef->getSqlColumnType() == SQLTEXT
+									|| flddef->getSqlColumnType() == SQLDATE || flddef->getSqlColumnType() == SQLDATETIME
+									|| flddef->getSqlColumnType() == SQLDATETIME || flddef->getSqlColumnType() == SQLTIMESTAMP ) )
+							it->second.setNull();
+					}
+				} else {
+					_GONG_DEBUG_WARNING ( Xtring::printf ( "Field '%s' not found in table %s",
+                                           fldname.c_str(), getTableName().c_str() ) );
 				}
-                // If value is empty and the field was not null, set it to null if it can be null
-                if ( value.isEmpty() && !wasnull ) {
-                    if ( flddef->canBeNull() &&
-                            ( flddef->isReference()
-                              || flddef->getSqlColumnType() == SQLSTRING || flddef->getSqlColumnType() == SQLTEXT
-                              || flddef->getSqlColumnType() == SQLDATE || flddef->getSqlColumnType() == SQLDATETIME
-                              || flddef->getSqlColumnType() == SQLDATETIME || flddef->getSqlColumnType() == SQLTIMESTAMP ) )
-                        it->second.setNull();
-                }
             }
             return true;
         }

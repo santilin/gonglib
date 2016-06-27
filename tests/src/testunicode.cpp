@@ -25,9 +25,9 @@ void TestUnicode::testIConAcentos()
 	_GONG_DEBUG_ASSERT ( !strlen(conn.getLastError().what()) );
 	_GONG_DEBUG_ASSERT ( conn.getLastError().getNumber() == 0 );
 
-	conn.exec( "DROP DATABASE `gong-tests`", true );
-	conn.exec( "CREATE DATABASE `gong-tests` DEFAULT CHARSET 'latin1'" );
-	conn.exec( "USE `gong-tests`" );
+	conn.exec( "DROP DATABASE `santilin_tests`", true );
+	conn.exec( "CREATE DATABASE `santilin_tests` DEFAULT CHARSET 'latin1'" );
+	conn.exec( "USE `santilin_tests`" );
 	conn.exec( "CREATE TABLE test ( texto CHAR(100) ) ENGINE=MyISAM" );
 	conn.exec( "INSERT INTO test VALUES ('á')" );
 	Xtring s = conn.selectString("SELECT texto FROM test");

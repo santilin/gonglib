@@ -1,6 +1,7 @@
 #include <gongdebug.h>
 #include <gongmoney.h>
 #include <gongvariant.h>
+#include <gongregconfig.h>
 #include "testmoney.h"
 
 using namespace gong;
@@ -19,7 +20,7 @@ TestMoney::~TestMoney()
 int TestMoney::testToString()
 {
 	Money m(1234.3456, 4 );
-	_GONG_DEBUG_ASSERT_EQUALS( m.toString(), "1234.3456" );
+	_GONG_DEBUG_ASSERT_EQUALS( m.toString(new RegConfig("C")), "1,234.35" );
 	Money m1(1234.34, 4 );
 	_GONG_DEBUG_ASSERT_EQUALS( m1.toString(), "1234.3400" );
 	return 1;
