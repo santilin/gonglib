@@ -364,7 +364,7 @@ bool FrmEditRec::save()
         if( !ret )
             break;
     }
-    if( (ret = getRecord()->save( true )) ) {
+    if( (ret = getRecord()->save( false, true )) ) {
         pOrigRecord->copyRecord( getRecord(), true ); // deep copy
         if( pParentForm )
             pParentForm->refresh();

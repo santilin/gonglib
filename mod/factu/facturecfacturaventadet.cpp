@@ -38,9 +38,11 @@ bool RecFacturaVentaDet::actStocks( dbRecord *facturaventa, bool saving ) const
     double cantidad;
     if( static_cast<RecFacturaVenta *>(facturaventa)->getRecTipoDoc()->getValue("ACTUALIZASTOCKS").toBool() )
         cantidad = getValue( "CANTIDAD" ).toDouble();
-    else
+    else {
         cantidad = 0.0;
-    if( getValue( "ALBARANVENTA_ID" ).toInt() == 0 ) {
+		_GONG_DEBUG_WARNING("El tipo de documento de la factura no actualiza stocks");
+	}
+    if( getValue( "ALBARANVENTA_ID" ).toInt() == 0 && cantidad != 0.0) {
         // Las líneas que proceden de albaranes no cambian el stock, ya lo hicieron en el albarán
         getRecArticulo()->actStocks(saving, false /*venta*/, cantidad);
     }

@@ -100,7 +100,7 @@ Xtring RecAlbaranVenta::toString(int format, const Xtring &includedFields) const
 }
 
 /*<<<<<ALBARANVENTA_SAVE*/
-bool RecAlbaranVenta::save(bool saverelated) throw( dbError )
+bool RecAlbaranVenta::save(bool validate, bool saverelated = true) throw( dbError )
 {
 /*>>>>>ALBARANVENTA_SAVE*/
 	if( saverelated ) {
@@ -109,7 +109,7 @@ bool RecAlbaranVenta::save(bool saverelated) throw( dbError )
 			actRestoFactura();
 #endif
 	}
-    bool ret = dbRecord::save(saverelated);
+    bool ret = dbRecord::save(validate, saverelated);
     if( ret && saverelated ) {
 #ifdef HAVE_PAGOSMODULE
 		if( DBAPP->findModule("pagos") ) {

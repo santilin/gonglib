@@ -104,7 +104,7 @@ void FrmMultiUpdate::accept()
             } else {
                 DBAPP->waitCursor( true );
                 try {
-                    record->save( false ); // Don't update relations
+                    record->save(false, false ); // Don't update relations
                     nupdated ++;
                     if( nupdated % 5 == 0 )
                         DBAPP->showOSD( _("Modificando"), Xtring::printf(_("Modificados %d registros"), nupdated ) ); // TODO descplural

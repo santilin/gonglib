@@ -130,9 +130,9 @@ bool RegConfig::setLocaleCurrencyFormat( const char *locale )
         _GONG_DEBUG_WARNING( Xtring::printf("LC_MONETARY '%s' not available", locale) );
         return false;
     }
-    _GONG_DEBUG_PRINT(0, Xtring("LC_MONETARY set to ") + setlocale( LC_MONETARY, NULL) );
+    _GONG_DEBUG_PRINT(10, Xtring("LC_MONETARY set to ") + setlocale( LC_MONETARY, NULL) );
     lc = localeconv();
-    _GONG_DEBUG_PRINT(0, Xtring::printf("codeset='%s' decpoint='%c' currency='%s' thousep='%c'",
+    _GONG_DEBUG_PRINT(10, Xtring::printf("codeset='%s' decpoint='%c' currency='%s' thousep='%c'",
                                          codeset.c_str(), *lc->mon_decimal_point, lc->currency_symbol, *lc->mon_thousands_sep ) );
     // glibc bug: es_ES localedata is not correct for p_cs_precedes and n_cs_precedes
     bool is_es_ES = (strncasecmp( ret, "es_ES", 4 ) == 0);

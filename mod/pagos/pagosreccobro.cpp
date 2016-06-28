@@ -102,12 +102,12 @@ dbRecord *RecCobro::getRecTercero()
 }
 
 /*<<<<<COBRO_SAVE*/
-bool RecCobro::save(bool saverelated) throw( dbError )
+bool RecCobro::save(bool validate, bool saverelated = true) throw( dbError )
 {
 /*>>>>>COBRO_SAVE*/
 	if( getValue( "CONTADOR" ).toInt() == 0 )
 		setValue( "CONTADOR", empresa::ModuleInstance->getMaxContador() );
-    bool ret = dbRecord::save(saverelated);
+    bool ret = dbRecord::save(validate, saverelated);
     if( ret && saverelated ) {
 #ifdef HAVE_PAGOSMODULE
 		if( DBAPP->findModule("pagos") ) 

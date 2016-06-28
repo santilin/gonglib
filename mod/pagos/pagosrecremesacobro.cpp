@@ -24,11 +24,11 @@ void RecRemesaCobro::actTotales()
 }
 
 /*<<<<<REMESACOBRO_SAVE*/
-bool RecRemesaCobro::save(bool saverelated) throw( dbError )
+bool RecRemesaCobro::save(bool validate, bool saverelated = true) throw( dbError )
 {
 /*>>>>>REMESACOBRO_SAVE*/
     actTotales();
-    return dbRecord::save(saverelated);
+    return dbRecord::save(validate, saverelated);
 }
 
 /*<<<<<REMESACOBRO_RELATIONS*/

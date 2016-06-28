@@ -76,7 +76,7 @@ public:
     /** Read the related records */
     bool readRelated( bool force );
     /** Saves this record. If it is new, executes an INSERT else an UPDATE */
-    virtual bool save( bool saverelated );
+    virtual bool save( bool validate, bool saverelated );
     /** Save the related records */
     bool saveRelated( bool updating );
     /** Removes the current record. Executes a DELETE */

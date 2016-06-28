@@ -28,11 +28,11 @@ RecMoneda *RecEmpresa::getRecMoneda() const
 /*>>>>>EMPRESA_RELATIONS*/
 
 /*<<<<<EMPRESA_SAVE*/
-bool RecEmpresa::save(bool saverelated) throw( dbError )
+bool RecEmpresa::save(bool validate, bool saverelated = true) throw( dbError )
 {
 /*>>>>>EMPRESA_SAVE*/
     // Si se modifica la empresa actual, actualizar la referencia en este módulo a la empresa actual
-    bool ret = dbRecord::save(saverelated);
+    bool ret = dbRecord::save(validate, saverelated);
     if( ret && getRecordID() == ModuleInstance->getRecEmpresa()->getRecordID() )
         ModuleInstance->getRecEmpresa()->copyRecord( this );
     return ret;

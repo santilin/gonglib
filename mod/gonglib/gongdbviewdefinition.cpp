@@ -65,7 +65,8 @@ dbViewDefinition::dbViewDefinition(const dbViewDefinition &other)
         }
         dbTableDefinition *firsttbldef = dbdef.findTableDefinition(firstfrom, false);
         if( !firsttbldef ) {
-            _GONG_DEBUG_PRINT(1, "Table '" + firstfrom + "' not found in view '" + name + "'" );
+            _GONG_DEBUG_PRINT(3, Xtring::printf("Table '%s' not found in view '%s'",
+				firstfrom.c_str(), name == "" ? origin.c_str() : name.c_str() ));
         } else {
             setDescSingular( firsttbldef->getDescPlural() );
             setDescPlural( getDescSingular() );
@@ -114,7 +115,7 @@ dbViewDefinition::dbViewDefinition(const dbViewDefinition &other)
                                                     flddef, flddef->getFullName().c_str(), flddef->getCaption().c_str(), flddef->getDisplayWidth(), this, getName().c_str() ) );
                 addField ( flddef );
             } else {
-                _GONG_DEBUG_PRINT(1, Xtring::printf("Field %s of the view %s not found",
+                _GONG_DEBUG_PRINT(3, Xtring::printf("Field %s of the view %s not found",
                                                     fldname.c_str(), origin.c_str() ) );
             }
             if( mCaption.isEmpty() )

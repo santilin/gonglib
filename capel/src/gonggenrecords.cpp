@@ -177,11 +177,11 @@ void addRecordDefinition(CppModule *cpcpp, CppModule *cph, const Xtring &fullrec
 "bool Rec" + recname + "::isEmpty( const Xtring &nocheck_fields ) const\n"
 "{\n", "\treturn false;\n}\n");
 		} else if( membername == "save" ) {
-			hmembers += "\tvirtual bool save(bool saverelated) throw( dbError ); // from dbRecord\n";
+			hmembers += "\tvirtual bool save(bool validate, bool saverelated) throw( dbError ); // from dbRecord\n";
 			cpcpp->insert_extrusion(ext_prefix + "SAVE",
-"bool Rec" + recname + "::save(bool saverelated) throw( dbError )\n"
+"bool Rec" + recname + "::save(bool validate, bool saverelated = true) throw( dbError )\n"
 "{\n",
-				"\tbool ret = " + baserecordtype + "::save(saverelated);\n\treturn ret;\n}\n");
+				"\tbool ret = " + baserecordtype + "::save(validate, saverelated);\n\treturn ret;\n}\n");
 		} else if( membername == "remove" ) {
 			hmembers += "\tvirtual bool remove() throw( dbError ); // from dbRecord\n";
 			cpcpp->insert_extrusion(ext_prefix + "REMOVE",

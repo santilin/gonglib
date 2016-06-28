@@ -100,7 +100,7 @@ Xtring RecMiembro::toString(int format, const Xtring &includedFields) const
 }
 
 /*<<<<<MIEMBRO_SAVE*/
-bool RecMiembro::save(bool saverelated) throw( dbError )
+bool RecMiembro::save(bool validate, bool saverelated = true) throw( dbError )
 {
 /*>>>>>MIEMBRO_SAVE*/
 #ifdef HAVE_PAGOSMODULE

@@ -1272,7 +1272,7 @@ bool FactuModule::editPVPsArticulo(FrmBase *parentform,
                 bool showosd = false;
                 if( !canedit || articulo->getValue("COSTESINIVA").toDouble() != 0.0 ) {
                     // Si el coste no se queda a cero, se puede grabar ...
-                    showosd = articulo->save(false);
+                    showosd = articulo->save(false,false);
                 } else {
                     // ... pero si no, se edita el artículo
                     showosd = DBAPP->editRecord(0, articulo, 0, DataTable::updating,
@@ -1285,7 +1285,7 @@ bool FactuModule::editPVPsArticulo(FrmBase *parentform,
                 }
             } else {
                 articulo->setPVP( tarifacliente, pvpconiva );
-                if( articulo->save(false) ) {
+                if( articulo->save(true, false) ) {
                     DBAPP->showOSD( parentform->getTitle(), Xtring::printf( _( "Se ha actualizado el PVP del artículo PARA ESTE CLIENTE: %s" ),
                                     Money(pvp).toString( DBAPP->getRegConfig() ).c_str() ) );
                 }
@@ -1311,7 +1311,7 @@ bool FactuModule::editCostesArticulo(FrmBase *parentform,
             bool showosd = false;
             if( !canedit || articulo->getValue("PVPSINIVA").toDouble() != 0.0 ) {
                 // Si el pvp no se queda a cero, se puede grabar ...
-                showosd = articulo->save(false);
+                showosd = articulo->save(false, false);
             } else {
                 // ... pero si no, se edita el artículo
                 showosd = DBAPP->editRecord(0, articulo, 0, DataTable::updating,

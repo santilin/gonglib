@@ -78,7 +78,7 @@ void NamesListTable::fillInfoList(dbConnection* conn)
                     r->setValue( "CODIGO", value.toInt() );
                     r->setValue( "NOMBRE", caption );
                 }
-                r->save( false );
+                r->save(false, false );
                 r->setNew( true );
             }
             delete r;
@@ -176,7 +176,7 @@ RecNamesListTable::RecNamesListTable(const Xtring& tablename, dbConnection* conn
 
 bool RecNamesListTable::save(bool saverelated)
 {
-    if( dbRecord::save(saverelated) ) {
+    if( dbRecord::save(false, saverelated) ) {
         updateDatabaseFields();
         return true;
     } else {

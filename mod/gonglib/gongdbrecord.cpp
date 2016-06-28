@@ -297,7 +297,7 @@ void dbRecord::clear( bool setcustomvalues )
 /*
 			_GONG_DEBUG_PRINT(0, Xtring::printf("Set custom default value for '%s'(%s) to '%s'(%s)",
   								flddef->getFullName().c_str(),
-  								Variant::typeToName(mFieldValues.seq_at(i).toVariant().type() ),
+  								Variant::typeToName(mFieldValues.seq_at(i).type() ),
   								customvalue.toString().c_str(),
   								flddef->getDefaultValue().c_str() ) );
 */
@@ -319,12 +319,12 @@ void dbRecord::clear( bool setcustomvalues )
                 mOrigFieldValues.seq_at(i).clear ( customvalue.toString() );
                 break;
             case SQLDATE:
-                mFieldValues.seq_at(i).clear ( customvalue.toString() );
-                mOrigFieldValues.seq_at(i).clear ( customvalue.toString() );
+                mFieldValues.seq_at(i).clear ( customvalue.toDate() );
+                mOrigFieldValues.seq_at(i).clear ( customvalue.toDate() );
                 break;
             case SQLTIME:
-                mFieldValues.seq_at(i).clear ( customvalue.toString() );
-                mOrigFieldValues.seq_at(i).clear ( customvalue.toString() );
+                mFieldValues.seq_at(i).clear ( customvalue.toTime() );
+                mOrigFieldValues.seq_at(i).clear ( customvalue.toTime() );
                 break;
             case SQLDATETIME:
             case SQLTIMESTAMP:
@@ -666,11 +666,16 @@ bool dbRecord::readRelated( bool force )
     return true;
 }
 
-bool dbRecord::save( bool saverelated )
+bool dbRecord::save( bool validate, bool saverelated )
 {
     _GONG_DEBUG_ASSERT ( pConn );
     _GONG_DEBUG_PRINT(3, "Saving table: " + getTableName() );
     bool ret = true;
+	if( validate ) {
+		if (!this->validate()) {
+			return false;
+		}
+	}
     try
     {
         if ( hasEnabledRelations() )
@@ -758,17 +763,17 @@ bool dbRecord::saveRelated( bool updating )
                     agg_record->remove();
                 } else {
                     agg_record->beforeSaveRelated( this );
-                    agg_record->save( true );
+                    agg_record->save( true, true );
                     rightvalue = agg_record->getValue( recrel->getRightField() );
                 }
                 // Update this record reference to the aggregated one
                 if( rightvalue != leftvalue ) {
                     setValue( recrel->getLeftField(), rightvalue );
-                    save( false ); // Dont save related again
+                    save( false, false ); // Dont save related again
                 }
             } else if ( recrel->getType() == dbRelationDefinition::one2many
                         || recrel->getType() == dbRelationDefinition::many2many ) {
-                _GONG_DEBUG_PRINT(4, Xtring::printf("Saving 1:M or M:M relation %s",
+                _GONG_DEBUG_PRINT(3, Xtring::printf("Saving 1:M or M:M relation %s",
                                                     recrel->getRelationDefinition()->getFullName().c_str() ) );
                 Variant leftvalue = getValue ( recrel->getLeftField() );
 			// Como da muchos errores la optimización, la elimino.
@@ -792,7 +797,7 @@ bool dbRecord::saveRelated( bool updating )
                             detail->setNew( true );
                             detail->setValue( recrel->getRightField(), leftvalue );
                             detail->beforeSaveRelated( this );
-                            detail->save( true );
+                            detail->save( false, true );
                         }
                     } else {
                         _GONG_DEBUG_PRINT(1, "Record " + Xtring::number(nr) + " has been optimized");

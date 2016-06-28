@@ -567,9 +567,9 @@ void EmpresaModule::rereadEmpresa()
                 pRecEmpresa->getRecMoneda()->setValue( "NOMBRE", (*DBAPP->getRegConfig()).getCurrencyName() );
                 pRecEmpresa->getRecMoneda()->setValue( "CODIGO", 1 );
                 pRecEmpresa->getRecMoneda()->setValuesFromRegConfig( *DBAPP->getRegConfig() );
-                pRecEmpresa->getRecMoneda()->save(false);
+                pRecEmpresa->getRecMoneda()->save(false,false);
                 pRecEmpresa->setValue( "MONEDA_ID", pRecEmpresa->getRecMoneda()->getRecordID() );
-                pRecEmpresa->save(false);
+                pRecEmpresa->save(false,false);
                 DBAPP->showStickyOSD( DBAPP->getPackageString(),
                                       _("Se ha definido una moneda por defecto, revísala para confirmar que es la moneda que quieres utilizar.") );
             }

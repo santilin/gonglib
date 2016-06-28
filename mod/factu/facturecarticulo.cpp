@@ -96,8 +96,8 @@ void RecArticulo::actStocks( bool savingdetail, bool compra, double cantidad )
                                               getValue( "CODIGO" ).toString().c_str() ) );
             }
         }
+		save( false, false );
     }
-    save( false );
 }
 
 void RecArticulo::fixMargenYDescuento()

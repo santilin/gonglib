@@ -35,7 +35,7 @@ public:
     {};
     void actTotales();
     /*<<<<<REMESACOBRO_MEMBERS*/
-	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool save(bool validate, bool saverelated) throw( dbError ); // from dbRecord
 /*>>>>>REMESACOBRO_MEMBERS*/
     /*<<<<<REMESACOBRO_RELATIONS*/
 	empresa::RecProyecto *getRecProyecto() const;

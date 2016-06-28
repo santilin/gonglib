@@ -168,7 +168,7 @@ long unsigned int FrmCambiosMasivosArticulos::cambiar_precios(
                 break;
             }
             articulo->fixPrecios( fldcambio );
-            if( articulo->save( false ) )
+            if( articulo->save(true, false ) )
                 count ++;
             if( count % 10 == 0 )
                 DBAPP->showOSD( getTitle(), Xtring::printf(_("%d artículos cambiados"), count), 0 );

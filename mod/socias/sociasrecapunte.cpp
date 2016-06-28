@@ -53,7 +53,7 @@ int RecApunte::actImportesPartida(bool sumar, const dbRecordID partida_id, Money
 
 
 /*<<<<<APUNTE_SAVE*/
-bool RecApunte::save(bool saverelated) throw( dbError )
+bool RecApunte::save(bool validate, bool saverelated = true) throw( dbError )
 {
 /*>>>>>APUNTE_SAVE*/
     // Es más importante grabar el apunte que actualizar los saldos de las cuentas

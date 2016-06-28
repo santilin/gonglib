@@ -39,8 +39,8 @@ public:
 	contactos::RecContacto *getRecContacto() const;
 	RecMoneda *getRecMoneda() const;
 /*>>>>>EMPRESA_RELATIONS*/
-    /*<<<<<EMPRESA_MEMBERS*/
-	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+/*<<<<<EMPRESA_MEMBERS*/
+	virtual bool save(bool validate, bool saverelated) throw( dbError ); // from dbRecord
 /*>>>>>EMPRESA_MEMBERS*/
 }; // class
 

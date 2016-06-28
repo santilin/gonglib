@@ -391,7 +391,7 @@ void FrmEditAlbaranVentaDet::validateFields( QWidget *sender, bool *isvalid, Val
             getRecArticulo()->setValue("PVPSINIVA", editPVPSinIVA->toMoney() );
             getRecArticulo()->setValue("PVP", editPVP->toMoney() );
             getRecArticulo()->fixMargenYDescuento();
-            if( getRecArticulo()->save(false) )
+            if( getRecArticulo()->save(true, false) )
                 DBAPP->showStickyOSD( getTitle(), Xtring::printf( _( "Se han actualizado los precios de venta del artículo a los de este detalle: sin IVA: %s, con IVA: %s" ),
                                       getRecArticulo()->getValue( "PVPSINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
                                       getRecArticulo()->getValue( "PVP" ).toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );

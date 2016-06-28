@@ -42,7 +42,7 @@ public:
 /*>>>>>APUNTE_RELATIONS*/
     int actImportesPartida(bool sumar, const dbRecordID partida_id, Money importe);
     /*<<<<<APUNTE_MEMBERS*/
-	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool save(bool validate, bool saverelated) throw( dbError ); // from dbRecord
 	virtual bool remove() throw( dbError ); // from dbRecord
 /*>>>>>APUNTE_MEMBERS*/
 }; // end class

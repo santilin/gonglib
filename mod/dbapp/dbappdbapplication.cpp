@@ -375,7 +375,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
             pRecMetaDBData->setValue( "ORDER", 0 );
             pRecMetaDBData->setValue( "LOCKED", false );
             pRecMetaDBData->setValue( "VERSION", getdbVersion() );
-            pRecMetaDBData->save( false );
+            pRecMetaDBData->save( false, false );
         }
         // Check if the database is locked
         if( pRecMetaDBData->getValue( "LOCKED" ).toBool() )
@@ -427,8 +427,6 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         }
     }
 
-    _GONG_DEBUG_PRINT(0, getRecMetaDBData()->getValue( "LOCKED" ).toBool() );
-
     // Check if the database has changed
     if( startingapp ) {
         pFrmLogin->addMessage( _("Comprobando las versiones de los módulos...") );
@@ -450,7 +448,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
                 module->setValue( "ORDER", 10 * (i+1) );
                 module->setValue( "LOCKED", false );
                 module->setValue( "VERSION", Xtring::number(mod_version) );
-                module->save( false );
+                module->save( false, false );
             }
             uint db_mod_version = module->getValue( "VERSION" ).toInt();
             if( mod_version != 0 ) {
@@ -485,7 +483,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
                                         pConnection->exec( querys, false /* do not ignore errors */ );
                                         setDatabaseChanged( true );
                                         module->setValue( "VERSION", mod_version );
-                                        module->save( false );
+                                        module->save( false, false );
                                     } catch( dbError &e) {
                                         throw std::runtime_error(e.what());
                                     }

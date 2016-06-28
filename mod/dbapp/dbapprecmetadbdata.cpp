@@ -16,7 +16,7 @@ bool RecMetaDBData::lock(const Xtring &user, const Xtring &password, const Xtrin
     setValue( "LOCKED_USER", user );
     setValue( "LOCKED_DESC", desc );
     setValue( "LOCKED_DATE", date );
-    return save( false );
+    return save(false, false);
 }
 
 bool RecMetaDBData::unlock(const Xtring &password)
@@ -27,7 +27,7 @@ bool RecMetaDBData::unlock(const Xtring &password)
         setValue( "LOCKED_USER", Xtring::null  );
         setValue( "LOCKED_DESC", Xtring::null  );
         setNullValue( "LOCKED_DATE" );
-        return save( false );
+        return save(false, false);
     }
     return false;
 }

@@ -44,10 +44,19 @@ bool dbFieldValue::isEmpty() const
 }
 
 
+/**
+ * @brief Borra o pone un valor por defecto para el campo
+ * Si se pasa un valor por defecto, el campo no se considera null.
+ * La diferencia con setValue es que setValue hace comprobaciones de si se ha modificado,
+ * mientras que clear impone que el campo no está modificado
+ *
+ * @param defvalue ...
+ * @return void
+ */
 void dbFieldValue::clear( const Variant &defvalue )
 {
     if( defvalue.isValid() ) {
-        static_cast<Variant >(*this) = defvalue;
+        *this = defvalue;
         mNull = false;
     } else {
 		Variant::clear();

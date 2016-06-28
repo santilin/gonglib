@@ -571,7 +571,7 @@ bool FrmEditContactoBehavior::save()
             getRecContacto()->setValue( "CODIGO", getRecContacto()->selectNextInt("CODIGO", Xtring::null, true ) );
     }
     bool modified = getRecContacto()->isModified();
-    if( !getRecContacto()->save( false ) ) {
+    if( !getRecContacto()->save( true, false ) ) {
         FrmBase::msgError( pTheForm, _("No se ha podido grabar el contacto") );
         return false;
     }

@@ -50,7 +50,7 @@ public:
 
     /*<<<<<APUNTETESORERIA_MEMBERS*/
 	void init();
-	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool save(bool validate, bool saverelated) throw( dbError ); // from dbRecord
 	virtual bool remove() throw( dbError ); // from dbRecord
 /*>>>>>APUNTETESORERIA_MEMBERS*/
     void actSaldoCuenta(dbRecordID cuentatesoreria_id, const Money &importe, bool saving);

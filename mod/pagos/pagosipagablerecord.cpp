@@ -148,7 +148,7 @@ bool IPagableRecord::actPagos()
     if( pagos != pFactura->getValue( mPagosField ).toDouble() ) {
         pFactura->setValue( mPagosField, pagos );
         actRestoFactura();
-        pFactura->save(false);
+        pFactura->save(false,false);
     }
     return true;
 }
@@ -234,7 +234,7 @@ int IPagableRecord::genPagos()
                                     + " AND FECHAVALOR=" + recibo->getConnection()->toSQL( fechavalor )
                                     + " AND IMPORTE=" + recibo->getConnection()->toSQL( importe ) ) ) {
             try {
-                recibo->save(false);
+                recibo->save(false,false);
             } catch( dbError &e ) {
                 informe += Xtring::printf( _("\tError: %s\n"), e.what() );
             }
@@ -376,7 +376,7 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                     recibo->setValue( "CUENTAPAGO_ID", cuentapago_id );
 #endif
                     recibo->setValue( "FECHAPAGO", fechapago );
-                    recibo->save(false);
+                    recibo->save(false,false);
                     pagado = true;
 #ifdef HAVE_CONTABMODULE
                     if( has_contab ) {
@@ -447,7 +447,7 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
 #endif
                         recibo->setValue( "FECHAPAGO", fechapago );
                         recibo->setValue( "NUMEROAGRUPADO", numeroagrupado );
-                        recibo->save(false);
+                        recibo->save(false,false);
                         pagado = true;
 #ifdef HAVE_CONTABMODULE
                         if( has_contab ) {
@@ -538,7 +538,7 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                         recibo->setNullValue( "CUENTAPAGO_ID" );
 #endif
                         recibo->setNullValue( "DOCUMENTOPAGO" );
-                        recibo->save(false);
+                        recibo->save(false, false);
                         pagado = true;
                         reciboid = 0;
                         pago = importe - pago;
@@ -574,7 +574,7 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
                         recibo->setValue( "CUENTAPAGO_ID", cuentapago_id );
 #endif
                         recibo->setValue( "FECHAPAGO", fechapago );
-                        recibo->save(false);
+                        recibo->save(false, false);
                         pagado = true;
 #ifdef HAVE_CONTABMODULE
                         if( has_contab ) {
@@ -841,7 +841,7 @@ bool IPagableRecord::anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reci
                 }
 #endif
                 try {
-                    if( recibo->save(false) ) {
+                    if( recibo->save(false, false) ) {
                         actRestoFactura();
 						DBAPP->showStickyOSD( recibo->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
                                   Xtring::printf( _("Se ha anulado el pago") ) );

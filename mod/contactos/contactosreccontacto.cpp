@@ -111,7 +111,7 @@ bool RecContacto::findMatchingRecord(dbRecordID *matchingid) const
 }
 
 /*<<<<<CONTACTO_SAVE*/
-bool RecContacto::save(bool saverelated) throw( dbError )
+bool RecContacto::save(bool validate, bool saverelated = true) throw( dbError )
 {
 /*>>>>>CONTACTO_SAVE*/
     switch( getValue( "TRATAMIENTOCONTACTO" ).toInt() ) {
@@ -132,7 +132,7 @@ bool RecContacto::save(bool saverelated) throw( dbError )
         setValue( "NOMBRECOMPLETO", getValue("NOMBRE") );
         break;
     }
-    int ret = dbRecord::save(saverelated);
+    int ret = dbRecord::save(validate, saverelated);
     return ret;
 }
 

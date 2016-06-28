@@ -1546,7 +1546,7 @@ void FrmEditRecMaster::menuTableImport_clicked()
             }
             if( !revisar && !revisaerroneo ) {
                 try {
-                    r->save( false ); // Don't update relations
+                    r->save( false, false ); // Don't update relations
                     nimported ++;
                     if( nimported % 5 == 0 ) {
                         DBAPP->showOSD( _("Importando"), Xtring::printf(_("Importados %d registros"), nimported ) ); // TODO descplural

@@ -56,7 +56,7 @@ public:
 	virtual bool validate(ValidResult::Context context); // from dbRecord
 	Xtring toString(int format, const Xtring &includedFields = Xtring::null) const;
 	virtual bool findMatchingRecord(dbRecordID *matchingid) const; // from dbRecord
-	virtual bool save(bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool save(bool validate, bool saverelated) throw( dbError ); // from dbRecord
 /*>>>>>CONTACTO_MEMBERS*/
     /*<<<<<CONTACTO_RELATIONS*/
 	RecContactoImagen *getRecContactoImagen() const;

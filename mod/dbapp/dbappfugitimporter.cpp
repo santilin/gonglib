@@ -325,7 +325,7 @@ bool FugitImporter::importRecord( const Xtring &tablename )
             {   // No existe
                 pRecord->setValue("REC_ORIGEN", mDescription );
                 pRecord->setRecordID( 0 );
-                if( pRecord->save(true) )
+                if( pRecord->save(false, true) )
                 {
                     addMessage( mRecToString );
                     Xtring m = "+++++ " + pRecord->getTableDefinition()->getDescSingular();
@@ -356,7 +356,7 @@ bool FugitImporter::importRecord( const Xtring &tablename )
                     setlocale( LC_TIME, ltime_save );
                     if( existingrecord->isModified() )
                     {
-                        if( existingrecord->save(true) ) {
+                        if( existingrecord->save(false, true) ) {
                             addMessage( mRecToString );
                             Xtring m = "+++++ " + pRecord->getTableDefinition()->getDescSingular();
                             m += pRecord->getTableDefinition()->isFemenina() ? _(" modificada.") : _(" modificado");

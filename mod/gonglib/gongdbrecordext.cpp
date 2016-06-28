@@ -404,7 +404,7 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
                                 + relrecord->getFilter("WHERE", codecond ) );
                     }
                     if( recid == 0 && relation->getType() == dbRelationDefinition::aggregate ) {
-                        if( relrecord->save(false) )
+                        if( relrecord->save(false, false) )
                             recid = relrecord->getRecordID();
                     }
                     setValue( *relit + "_ID", recid );

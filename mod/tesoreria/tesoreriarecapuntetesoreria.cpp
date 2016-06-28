@@ -84,7 +84,7 @@ RecTercero *RecApunteTesoreria::getRecTercero()
 }
 
 /*<<<<<APUNTETESORERIA_SAVE*/
-bool RecApunteTesoreria::save(bool saverelated) throw( dbError )
+bool RecApunteTesoreria::save(bool validate, bool saverelated = true) throw( dbError )
 {
 /*>>>>>APUNTETESORERIA_SAVE*/
 	bool wasnew = isNew();

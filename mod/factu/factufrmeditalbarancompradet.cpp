@@ -393,7 +393,7 @@ void FrmEditAlbaranCompraDet::validateFields( QWidget *sender, bool *isvalid, Va
             getRecArticulo()->setValue("COSTESINIVA", editCosteSinIVA->toMoney() );
             getRecArticulo()->setValue("COSTE", editCoste->toMoney() );
             getRecArticulo()->fixMargenYDescuento();
-            if( getRecArticulo()->save(false) )
+            if( getRecArticulo()->save(true, false) )
                 DBAPP->showStickyOSD( getTitle(), Xtring::printf( _( "Se han actualizado los costes del artículo a los de este detalle: sin IVA: %s, con IVA: %s" ),
                                       getRecArticulo()->getValue( "COSTESINIVA" ).toMoney().toString( DBAPP->getRegConfig() ).c_str(),
                                       getRecArticulo()->getValue( "COSTE" ).toMoney().toString( DBAPP->getRegConfig() ).c_str() ) );

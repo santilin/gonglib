@@ -37,7 +37,6 @@ public:
 	virtual bool isValid( dbRecord *r, dbFieldValue *value,
 		ValidResult::Context context, ValidResult *integres) const; // From dbFieldDefinition
 /*>>>>>DBFIELD_REFERENCEID_MEMBERS*/
-
 }; // class
 
 /*<<<<<REFERENCEID_POSTAMBLE*/

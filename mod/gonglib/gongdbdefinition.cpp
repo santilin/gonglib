@@ -246,7 +246,7 @@ const dbFieldDefinition *dbDefinition::findFieldDefinition(const Xtring &tablena
 dbFieldDefinition *dbDefinition::findFieldDefinition(const Xtring &fullfldname, bool warning)
 {
     Xtring tablename = fullfldname.left( fullfldname.find('.') );
-    dbTableDefinition *tbldef = findTableDefinition( tablename );
+    dbTableDefinition *tbldef = findTableDefinition( tablename, warning );
     if( tbldef ) {
         Xtring fldname = fullfldname.mid( fullfldname.find('.') + 1 );
         return tbldef->findFieldDefinition( fldname, warning );
