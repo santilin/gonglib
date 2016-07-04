@@ -337,6 +337,8 @@ bool FrmEditRec::read(dbRecordID id )
     ret = getRecord()->read( id );
     if ( !ret ) {
         getRecord()->setNew();
+		getRecord()->clear(true);
+		FrmEditRec::msgError(this, "El registro no se ha podido leer, posiblemente porque ha sido borrado por otro usuario");
     } else {
         for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
                 bit != mBehaviors.end();
@@ -344,7 +346,7 @@ bool FrmEditRec::read(dbRecordID id )
             ret = (*bit)->read( id );
         }
     }
-    pOrigRecord->copyRecord( getRecord());
+    pOrigRecord->copyRecord(getRecord());
     mEdited = false;
     return ret;
 }

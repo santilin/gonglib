@@ -428,7 +428,7 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
     return true;
 }
 
-bool dbRecord::validate(ValidResult::Context context)
+bool dbRecord::validate(ValidResult::Context context, const Xtring &changedfld)
 {
 	mErrors.clear();
     if( context == ValidResult::saving ) {
@@ -454,7 +454,7 @@ bool dbRecord::validate(ValidResult::Context context)
         }
     }
     bool ret = true;
-    for ( unsigned int nf = 1 /* Skip ID */; nf < mFieldValues.size(); nf ++ )
+	for ( unsigned int nf = 1 /* Skip ID */; nf < mFieldValues.size(); nf ++ )
     {
         const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
 // 		_GONG_DEBUG_PRINT(0, Xtring::printf("Validating '%s', value='%s'",

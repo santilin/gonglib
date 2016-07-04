@@ -21,7 +21,7 @@ class ValidResult
 {
 public:
     enum ErrorCode { ok = 0, warning, error };
-    enum Context { saving = 0, editing, checking, fixing };
+    enum Context { saving = 0, fixing, editing, checking };
     struct MessageInfo
     {
         Xtring message;

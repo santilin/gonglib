@@ -166,11 +166,11 @@ void addRecordDefinition(CppModule *cpcpp, CppModule *cph, const Xtring &fullrec
 				"}\n");
 		} else if( membername == "validate" ) {
 			hayvalid = true;
-			hmembers += "\tvirtual bool validate(ValidResult::Context context); // from dbRecord\n";
+			hmembers += "\tvirtual bool validate(ValidResult::Context context, const Xtring &changedfld = Xtring::null); // from dbRecord\n";
 			cpcpp->insert_extrusion(ext_prefix + "ISVALID",
-"bool Rec" + recname + "::validate(ValidResult::Context context)\n"
+"bool Rec" + recname + "::validate(ValidResult::Context context, const Xtring &changedfld)\n"
 "{\n"
-"\tbool ret = " + baserecordtype + "::validate(context);", "\treturn ret;\n}\n");
+"\tbool ret = " + baserecordtype + "::validate(context, changedfld);", "\treturn ret;\n}\n");
 		} else if( membername == "isEmpty" ) {
 			hmembers += "\tbool isEmpty( const Xtring &nocheck_fields = Xtring::null ) const; // from dbRecord\n";
 			cpcpp->insert_extrusion(ext_prefix + "ISEMPTY",

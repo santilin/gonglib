@@ -97,9 +97,9 @@ bool FrmEditRecMaster::read(dbRecordID id)
         id = getTableRecordID();
     if( FrmEditRec::read(id) ) {
         mMustRead = false;
-		mIsFirstScatter = true;
     } else
         mMustRead = true;
+	mIsFirstScatter = true;
     return !mMustRead;
 }
 
@@ -1157,82 +1157,90 @@ void FrmEditRecMaster::beginEdit( DataTable *dt, DataTable::EditMode newmode,
                     ensureEditView();
                 }
             } else if ( newmode == DataTable::duplicating && r.canAdd ) {
-                if( mMustRead )
-                    read( getTableRecordID() );
-                if( canBeginEdit( DataTable::duplicating ) ) {
-                    mWasBrowsing = mBrowsing;
-                    mEditMode = DataTable::duplicating;
-                    mEditStatus = not_saved;
-                    ensureEditView();
-                    // Trick: first we copy data to form, then make the record new
-                    clearRecord( true /*duplicating*/ );
-                }
+                if( mMustRead ) {
+                    if (read( getTableRecordID() )) {
+						if( canBeginEdit( DataTable::duplicating ) ) {
+							mWasBrowsing = mBrowsing;
+							mEditMode = DataTable::duplicating;
+							mEditStatus = not_saved;
+							ensureEditView();
+							// Trick: first we copy data to form, then make the record new
+							clearRecord( true /*duplicating*/ );
+						}
+					}
+				}
             } else if ( newmode == DataTable::updating && r.canEdit ) {
-                if( mMustRead ) 
-                    read( getTableRecordID() );
-                if( canBeginEdit( DataTable::updating ) ) {
-                    mWasBrowsing = mBrowsing;
-                    mEditMode = DataTable::updating;
-                    mEditStatus = not_saved;
-                    ensureEditView();
-                }
+                if( mMustRead ) {
+                    if( read( getTableRecordID() ) ) {
+						if( canBeginEdit( DataTable::updating ) ) {
+							mWasBrowsing = mBrowsing;
+							mEditMode = DataTable::updating;
+							mEditStatus = not_saved;
+							ensureEditView();
+						}
+					}
+				}
             } else if ( newmode == DataTable::deleting && r.canDelete ) {
-                if( mMustRead )
-                    read( getTableRecordID() );
-                if( canBeginEdit( DataTable::deleting ) ) {
-                    mWasBrowsing = mBrowsing;
-                    bool wasbrowsing = mBrowsing;
-                    mEditMode = DataTable::deleting;
-                    mEditStatus = not_saved;
-                    try {
-                        ensureEditView(); // scatter might throw
-                    } catch( ... ) {
-                    }
-                    int yes_no_cancel = FrmBase::Yes;
-                    if( !mMultipleDeleting ) {
-                        if( mEditFlags & dbApplication::editContinuous ) {
-                            yes_no_cancel = msgYesNoAllCancel( this,
-                                                               Xtring::printf( _( "¿Estás segura de borrar %s?\n" ),
-                                                                       DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str() ), false );
-                        } else {
-                            yes_no_cancel = msgYesNoCancel( this,
-                                                            Xtring::printf( _( "¿Estás segura de borrar %s?\n" ),
-                                                                    DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str() ), false );
-                        }
-                    }
-                    switch( yes_no_cancel ) {
-                    case FrmBase::Yes:
-                        mEditMode = DataTable::deleting;
-                        accept();
-                        break;
-                    case FrmBase::YesToAll:
-                        mMultipleDeleting = true;
-                        mEditMode = DataTable::deleting;
-                        accept();
-                        break;
-                    case FrmBase::No:
-                        break;
-                    case FrmBase::Cancel:
-                        mEditFlags = static_cast<dbApplication::EditFlags>(mEditFlags & ~dbApplication::editContinuous );
-                        break;
-                    }
-                    if( mEditStatus == not_saved ||
-                            (wasbrowsing && !( mEditFlags & dbApplication::editContinuous ) ) )
-                        ensureBrowseView();
-                }
+                if( mMustRead ) {
+                    if (read( getTableRecordID() )) {
+						if( canBeginEdit( DataTable::deleting ) ) {
+							mWasBrowsing = mBrowsing;
+							bool wasbrowsing = mBrowsing;
+							mEditMode = DataTable::deleting;
+							mEditStatus = not_saved;
+							try {
+								ensureEditView(); // scatter might throw
+							} catch( ... ) {
+							}
+							int yes_no_cancel = FrmBase::Yes;
+							if( !mMultipleDeleting ) {
+								if( mEditFlags & dbApplication::editContinuous ) {
+									yes_no_cancel = msgYesNoAllCancel( this,
+																	Xtring::printf( _( "¿Estás segura de borrar %s?\n" ),
+																			DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str() ), false );
+								} else {
+									yes_no_cancel = msgYesNoCancel( this,
+																	Xtring::printf( _( "¿Estás segura de borrar %s?\n" ),
+																			DBAPP->getTableDescSingular( pRecord->getTableName(), "esta" ).c_str() ), false );
+								}
+							}
+							switch( yes_no_cancel ) {
+							case FrmBase::Yes:
+								mEditMode = DataTable::deleting;
+								accept();
+								break;
+							case FrmBase::YesToAll:
+								mMultipleDeleting = true;
+								mEditMode = DataTable::deleting;
+								accept();
+								break;
+							case FrmBase::No:
+								break;
+							case FrmBase::Cancel:
+								mEditFlags = static_cast<dbApplication::EditFlags>(mEditFlags & ~dbApplication::editContinuous );
+								break;
+							}
+							if( mEditStatus == not_saved ||
+									(wasbrowsing && !( mEditFlags & dbApplication::editContinuous ) ) )
+								ensureBrowseView();
+						}
+					}
+				}
             } else if ( newmode == DataTable::selecting && r.canView ) {
                 if ( !mBrowsing ) {
                     mWasBrowsing = mBrowsing;
                     ensureBrowseView();
                 } else {
-                    if( mMustRead )
-                        read( getTableRecordID() );
-                    if( canBeginEdit( mEditMode ) ) {
-                        mWasBrowsing = mBrowsing;
-                        mEditMode = DataTable::selecting;
-                        ensureEditView();
-                        enableSearchBoxes( true );
-                    }
+                    if( mMustRead ) {
+                        if (read( getTableRecordID() )) {
+							if( canBeginEdit( mEditMode ) ) {
+								mWasBrowsing = mBrowsing;
+								mEditMode = DataTable::selecting;
+								ensureEditView();
+								enableSearchBoxes( true );
+							}
+						}
+					}
                 }
             }
         }

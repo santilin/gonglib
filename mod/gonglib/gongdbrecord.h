@@ -200,7 +200,7 @@ public:
                             const Xtring &includedFields = Xtring::null);
 
     /** Validate the record */
-    virtual bool validate(ValidResult::Context context = ValidResult::saving );
+    virtual bool validate(ValidResult::Context context = ValidResult::saving, const Xtring &changedfld = Xtring::null);
 	const ValidResult &getErrors() const { return mErrors; }
 
     /** Meta-information about the table, based upon the Data Dictionary */

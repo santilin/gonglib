@@ -61,8 +61,7 @@ FrmEditEmpresa::FrmEditEmpresa(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 	checkUsarProyectos = addCheckField( pControlsFrame, "EMPRESA", "USARPROYECTOS", opcionesLayout );
 	editNotas = addTextField( pControlsFrame, "EMPRESA", "NOTAS", notasLayout );
 	editLogo = addImageField( tabLogo, "EMPRESA", "LOGO", logoLayout );
-	pControlsLayout->addLayout( codigoLayout );
-	pControlsLayout->addWidget( pFrameContactos );
+	pControlsLayout->addLayout( codigoLayout );pControlsLayout->addWidget( pFrameContactos );
 	pControlsLayout->addLayout( monedaLayout );
 	pControlsLayout->addLayout( cuentabancoLayout );
 	pControlsLayout->addLayout( opcionesLayout );

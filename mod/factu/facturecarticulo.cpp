@@ -291,9 +291,9 @@ Xtring RecArticulo::formatCodigoArticulo(const Xtring &last, const Xtring &forma
 }
 
 /*<<<<<ARTICULO_ISVALID*/
-bool RecArticulo::validate(ValidResult::Context context)
+bool RecArticulo::validate(ValidResult::Context context, const Xtring &changedfld)
 {
-	bool ret = dbRecord::validate(context);
+	bool ret = dbRecord::validate(context, changedfld);
 /*>>>>>ARTICULO_ISVALID*/
     if( context == ValidResult::fixing ) {
         if( getValue( "COSTESINIVA" ).toDouble() != 0.0 )

@@ -55,9 +55,9 @@ RecContactoImagen *RecContacto::getRecContactoImagen() const
 /*>>>>>CONTACTO_RELATIONS*/
 
 /*<<<<<CONTACTO_ISVALID*/
-bool RecContacto::validate(ValidResult::Context context)
+bool RecContacto::validate(ValidResult::Context context, const Xtring &changedfld)
 {
-	bool ret = dbRecord::validate(context);
+	bool ret = dbRecord::validate(context, changedfld);
 /*>>>>>CONTACTO_ISVALID*/
     if( context == ValidResult::editing || context == ValidResult::fixing ) {
         // Las funciones normaliza actúan según la configuración
