@@ -348,7 +348,11 @@ bool dbConnection::exec( const Xtring &query, bool ignoreerrors )
     switch( mSqlDriver ) {
     case DRIVER_MYSQL:
         if ( !::mysql_real_query( pMySql, query.c_str(), query.length() ) ) {
-            _GONG_DEBUG_PRINT(1, Xtring::printf( "My:(%lu rows):%s ", ( unsigned long ) ::mysql_affected_rows( pMySql ), query.c_str() ) );
+#ifdef _GONG_DEBUG
+			if (query != "BEGIN WORK" && query != "COMMIT") {
+				_GONG_DEBUG_PRINT(1, Xtring::printf( "My:(%lu rows):%s ", ( unsigned long ) ::mysql_affected_rows( pMySql ), query.c_str() ) );
+			}
+#endif
             mRowsAffected = ::mysql_affected_rows( pMySql );
         } else {
             setError( query );

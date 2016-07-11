@@ -44,11 +44,9 @@ void dbRecord::init_record()
 		dbFieldValue value(flddef->createFieldValue());
         mFieldValues.insert( flddef->getName(), value );
         mOrigFieldValues.insert( flddef->getName(), value );
-		Xtring s(value.toString());
-		Xtring s1(flddef->createFieldValue().toString());
-//  		_GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d]%s(%s)=%s(%s)",
-//  											i, flddef->getName().c_str(), Variant::typeToName( mOrigFieldValues.seq_at(i).type() ),
-//  											value.toString().c_str(), Variant::typeToName( value.type() ) ) );
+//   		_GONG_DEBUG_PRINT(2, Xtring::printf("Setting origvalue[%d]%s(%s)=%s(%s)",
+//   											i, flddef->getName().c_str(), Variant::typeToName( mOrigFieldValues.seq_at(i).type() ),
+//   											value.toString().c_str(), Variant::typeToName( value.type() ) ) );
     }
     // Create relations
     for ( unsigned int nr = 0; nr < getTableDefinition()->getRelationDefinitions().size(); ++nr )
@@ -150,7 +148,7 @@ bool dbRecord::isEmpty( const Xtring &nocheckfields ) const
 
 void dbRecord::setModified ( bool changed )
 {
-    _GONG_DEBUG_PRINT(10, Xtring("set modified = ") + (changed ? "true" : "false") + " on " + getTableDefinition()->getName() );
+//     _GONG_DEBUG_PRINT(10, Xtring("set modified = ") + (changed ? "true" : "false") + " on " + getTableDefinition()->getName() );
     for ( unsigned int i = 0; i<pTableDef->getFieldCount(); i++ )
         mFieldValues.seq_at(i).setModified ( changed );
 }
@@ -261,7 +259,7 @@ bool dbRecord::copyRecord( dbRecord *other, bool deep,
                 continue;
             if( fldname == getTableDefinition()->getFldIDName() )
                 continue;
-            _GONG_DEBUG_PRINT(4, "Copying field " + fldname + ", value=" + other->getValue( fldname ).toString() );
+//             _GONG_DEBUG_PRINT(4, "Copying field " + fldname + ", value=" + other->getValue( fldname ).toString() );
             if ( other->isNullValue(fldname) )
                 setNullValue(fldname);
             else
@@ -800,7 +798,7 @@ bool dbRecord::saveRelated( bool updating )
                             detail->save( false, true );
                         }
                     } else {
-                        _GONG_DEBUG_PRINT(1, "Record " + Xtring::number(nr) + " has been optimized");
+                        _GONG_DEBUG_PRINT(2, "Record " + Xtring::number(nr) + " has been optimized");
                     }
                 }
             }
@@ -909,7 +907,7 @@ bool dbRecord::removeRelated( bool updating )
                                                     + recrel->getRelatedRecord(nr)->toString( TOSTRING_DEBUG_COMPLETE ) );
                             }
                         } else {
-                            _GONG_DEBUG_PRINT(1, "Record " + Xtring::number(nr) + " has been optimized");
+                            _GONG_DEBUG_PRINT(2, "Record " + Xtring::number(nr) + " has been optimized");
                         }
                     }
 #ifdef _GONG_DEBUG
@@ -964,9 +962,11 @@ int dbRecord::getRelationIndex( const Xtring &relname ) const
         else if( getRelation( i )->getName() == getTableName() + "." + relname )
             return i;
     }
+#ifdef _GONG_DEBUG
     for ( unsigned int i=0; i<mRecordRelations.size(); i++ ) {
 		_GONG_DEBUG_PRINT(5, getRelation(i)->getRelationDefinition()->getFullName());
 	}
+#endif
     return -1;
 }
 

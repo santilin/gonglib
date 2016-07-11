@@ -10,14 +10,15 @@
 #include "empresafldejercicio.h"
 /*>>>>>DBFIELD_EJERCICIO_INCLUDES*/
 
-namespace gong
-{
+namespace gong {
 namespace empresa {
 
 /*<<<<<DBFIELD_EJERCICIO_ISVALID*/
 bool FldEjercicio::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
 /*>>>>>DBFIELD_EJERCICIO_ISVALID*/
+	if( context == ValidResult::saving && value->toInt() == 0 )
+		return false;
     return true;
 }
 

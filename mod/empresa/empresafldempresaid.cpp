@@ -28,6 +28,8 @@ FldEmpresaID::FldEmpresaID(const Xtring& tablename, const Xtring& name,
 bool FldEmpresaID::isValid( dbRecord *r, dbFieldValue *value, ValidResult::Context context, ValidResult *integres) const
 {
 /*>>>>>DBFIELD_EMPRESAID_ISVALID*/
+	if( context == ValidResult::saving && value->toInt() == 0 )
+		return false;
     return true;
 }
 

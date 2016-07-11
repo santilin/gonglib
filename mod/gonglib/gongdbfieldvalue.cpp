@@ -30,6 +30,7 @@ dbFieldValue::dbFieldValue(Variant::Type type, bool isnull, const dbFieldDefinit
 		} else {
 			*this = Variant(Money(0.0));
 		}
+		mNull = isnull;
 	}
 }
 
