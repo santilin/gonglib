@@ -61,7 +61,7 @@ dbDefinition::dbDefinition(const Xtring& name, const Xtring& description,
 
 
 dbDefinition *dbDefinition::fromSQLSchema( dbConnection *conn, const Xtring &dbname,
-        const XtringList &tables )
+        const XtringList &tables, bool descriptions )
 {
     _GONG_DEBUG_ASSERT( conn );
     Xtring tblname;
@@ -75,7 +75,7 @@ dbDefinition *dbDefinition::fromSQLSchema( dbConnection *conn, const Xtring &dbn
         if( tblname == "sqlite_sequence" )
             continue;
 #endif
-        dbTableDefinition *tbldef = dbTableDefinition::fromSQLSchema( conn, *dbdef, tblname );
+        dbTableDefinition *tbldef = dbTableDefinition::fromSQLSchema( conn, *dbdef, tblname, descriptions );
         dbdef->addTable( tbldef );
     }
     return dbdef;

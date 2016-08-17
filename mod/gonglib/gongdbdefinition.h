@@ -72,7 +72,8 @@ public:
     void addStyleFromString( const Xtring &name, const Xtring &styledef );
 
     static dbDefinition *fromSQLSchema( dbConnection *conn, const Xtring &dbname,
-                                        const XtringList &tables = XtringList() );
+                                        const XtringList &tables = XtringList(),
+										bool descriptions = false );
     bool create( dbConnection *conn, const Xtring &extraargs = Xtring::null,
                  bool ignoreerrors = true);
     bool createTables( dbConnection *conn, const Xtring &extraargs = Xtring::null,
