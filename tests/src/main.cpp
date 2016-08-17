@@ -29,6 +29,7 @@
 #include "testviewtable.h"
 #include "testxmlparser.h"
 #include "testimportcsv.h"
+#include "testhttpserver.h"
 
 #include <stdarg.h>      // addError
 
@@ -61,7 +62,7 @@ int main(int argc, char *argv[])
 	__gong_debug::_gong_debug_level = 4;
 #endif
 
-#if 1
+#if 0
 	TestDate testdate;
 	testdate.run();
 	TestSettings testsettings;
@@ -120,12 +121,13 @@ int main(int argc, char *argv[])
 	TestXMLParser testxmlpaser;
 	testxmlpaser.run();
 
-#endif
 	TestMoney testmoney;
 	testmoney.run();
 	TestdbRecord testdbrecord;
 	testdbrecord.run();
-
+#endif
+	TestHTTPServer testhttpserver;
+	testhttpserver.run();
 }
 
 

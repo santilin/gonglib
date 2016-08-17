@@ -5,6 +5,7 @@
 #include <testdbrecord.h>
 #include "dbappdbapplication.h"
 #include "passwords.nosvn.h"
+#include "testcommon.h"
 #include "testimportcsv.h"
 
 using namespace gong;
@@ -55,7 +56,7 @@ int TestImportCSV::run()
 
 	DerivedRecord *r = new DerivedRecord( conn, cliente_t->getTableDefinition() );
 	r->fromString( csvvalues, TOSTRING_CSV, csvfields );
-	r->save(true);
+	r->save(false, true);
 // 	_GONG_DEBUG_WARNING( r->toString( TOSTRING_DEBUG_COMPLETE_WITH_RELATIONS ) );
 	return 1;
 }

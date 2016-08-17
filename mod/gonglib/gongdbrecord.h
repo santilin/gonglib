@@ -34,6 +34,7 @@ const int TOSTRING_FUGIT = 10;
 const int TOSTRING_CSV = 11;
 const int TOSTRING_SQL_INSERT = 12;
 const int TOSTRING_SQL_UPDATE = 13;
+const int TOSTRING_JSON = 14;
 const int TOSTRING_USER = 100;
 
 class dbRecord

@@ -52,7 +52,7 @@ int TestTableDataModel::testTableDataModel()
 	_GONG_DEBUG_ASSERT(  arecord->setValue("BOOLEANO", true ) );
 	_GONG_DEBUG_ASSERT(  arecord->setValue("ENTERO", 10) );
 	_GONG_DEBUG_ASSERT(  arecord->setValue("FLOTANTE", -343.34 ) );
-	_GONG_DEBUG_ASSERT(  arecord->save(false)  );
+	_GONG_DEBUG_ASSERT(  arecord->save(false, false)  );
 	dbRecordID recid = arecord->getRecordID();
 
 	dbRecordDataModel dm(arecord, views );

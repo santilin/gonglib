@@ -2,6 +2,7 @@
 #include <gongdbdefinition.h>
 #include <gongdbcalculator.h>
 #include <gongdebug.h>
+#include "testcommon.h"
 #include "testdbrecord.h"
 #include "testdbcalculator.h"
 #include "passwords.nosvn.h"

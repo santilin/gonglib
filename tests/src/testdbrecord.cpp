@@ -1,7 +1,7 @@
-
 #include <gongdbdefinition.h>
 #include <gongdbrecord.h>
 #include <iostream>
+#include "testcommon.h"
 #include "testdbrecord.h"
 #include <gongdbfieldimage.h>
 #include "passwords.nosvn.h"
@@ -57,7 +57,7 @@ int TestdbRecord::test_normal()
 	_GONG_DEBUG_ASSERT( r0.setValue("id", 1)  );
 	_GONG_DEBUG_ASSERT( r0.isNew()  );
 	_GONG_DEBUG_ASSERT( r0.isModified()  );
-	_GONG_DEBUG_ASSERT( r0.save(false) );
+	_GONG_DEBUG_ASSERT( r0.save(false, false) );
 
 	DerivedRecord r1(&conn, &atable);
 	_GONG_DEBUG_ASSERT( r1.read(1)  );
@@ -70,7 +70,7 @@ int TestdbRecord::test_normal()
 	r1.setNew(true);
 	r1.setValue("id", 2);
 	_GONG_DEBUG_ASSERT( r1.isModified()  );
-	_GONG_DEBUG_ASSERT( r1.save(false)  );
+	_GONG_DEBUG_ASSERT( r1.save(false, false)  );
 
 	DerivedRecord r2(&conn, &atable);
 	_GONG_DEBUG_ASSERT( r2.read(2)  );
@@ -80,7 +80,7 @@ int TestdbRecord::test_normal()
 	_GONG_DEBUG_ASSERT( !r2.setValue("id", 3)  );
 	r1.setNew(true);
 	_GONG_DEBUG_ASSERT( r1.setValue("id", 3)  );
-	_GONG_DEBUG_ASSERT( r2.save(false)  );
+	_GONG_DEBUG_ASSERT( r2.save(false, false)  );
 
 	return ret;
 }
@@ -127,7 +127,7 @@ int TestdbRecord::test_imagefield()
 	_GONG_DEBUG_ASSERT( r0.setValue("image", "value")  );
 	_GONG_DEBUG_ASSERT_EQUALS( r0.getValue("image").toString(), "value"  );
 	_GONG_DEBUG_ASSERT( r0.setValue("id", 1)  );
-	_GONG_DEBUG_ASSERT( r0.save(false)  );
+	_GONG_DEBUG_ASSERT( r0.save(false, false)  );
 
 	DerivedRecord r1(&conn, &atable);
 	_GONG_DEBUG_ASSERT( r1.read(1)  );
@@ -160,7 +160,7 @@ int TestdbRecord::test_tostringfugit()
 	_GONG_DEBUG_ASSERT( r0.setValue("PRECIO", Money(2.3435, 4))  );
 	_GONG_DEBUG_ASSERT_EQUALS( r0.getValue("PRECIO").toString(), "2.3435"  );
 	_GONG_DEBUG_ASSERT( r0.setValue("id", 1)  );
-	_GONG_DEBUG_ASSERT( r0.save(false)  );
+	_GONG_DEBUG_ASSERT( r0.save(false, false)  );
 	_GONG_DEBUG_PRINT(0, r0.toString( TOSTRING_FUGIT ) );
 	return ret;
 }

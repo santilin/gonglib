@@ -44,7 +44,7 @@ public:
 	virtual void error( const Xtring &message ) {}
 	virtual void warning( const Xtring &message ) {}
 	virtual void fatalError( const Xtring &message ) {}
-    const Xtring &getAttrValue( const Xtring &name, const Attributes &attrList) {
+    const Xtring getAttrValue( const Xtring &name, const Attributes &attrList) {
 		return attrList.getValue( Xtring::null, name );
 	}
 
