@@ -147,16 +147,19 @@ void FrmEditRecDetail::clearRecord(bool duplicating)
     getRecord()->setNew(true);
 }
 
-// El id es en realidad el número de columna
+// El id es en realidad el número de columna. si es 0, es el de la línea seleccionada
 bool FrmEditRecDetail::read(dbRecordID id)
 {
-    if( (int)id == -1 || id >= pDetalles->size() )
+    if( id > pDetalles->size() )
         return false;
-    else {
-        pDetalles->getRecord( id )->readRelated( false );
-        getRecord()->copyRecord( pDetalles->getRecord( id ) );
-        return true;
-    }
+	if( id == 0 )
+		id = getDataTable()->currentRow();
+	else
+		--id;
+	pDetalles->getRecord( id )->readRelated( false );
+	getRecord()->copyRecord( pDetalles->getRecord( id ) );
+	_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));
+	return true;
 }
 
 bool FrmEditRecDetail::remove()
@@ -197,7 +200,7 @@ void FrmEditRecDetail::beginEdit(DataTable *dt, EditMode newmode,
         addDetailIfNeeded( false );
     int row = dt->currentRow();
     if( mMustRead )
-        read( row );
+        read( row + 1 );
     dbRecordPermissions r = getPermissions();
     if( newmode == DataTable::defaulteditmode )
     {

@@ -323,7 +323,7 @@ bool dbTableDefinition::dropIndex(dbConnection* conn, const Xtring& indexname, b
 
 
 dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
-        dbDefinition &db, const Xtring &tblname )
+        dbDefinition &db, const Xtring &tblname, bool descriptions )
 {
     Xtring fldname;
     SqlColumnType t;
@@ -355,7 +355,14 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
                 rsFields->toString( 4 ) ); // default value
             flddef->setOrigDDL( rsFields->toString(1) );
             flddef->setCaption( fldname.proper() );
-            flddef->setDescription( tblname + "." + fldname );
+			// ver si hay una descripcion
+			if( descriptions ) {
+				Xtring description( conn->selectString( "SELECT column_comment FROM information_schema.columns WHERE table_schema = "
+					+ conn->toSQL(db.getName())
+					+ " AND table_name = " + conn->toSQL(tblname)
+					+ " AND column_name = " + conn->toSQL(fldname)));
+				flddef->setDescription( description );
+			}
             tbldef->addField( flddef );
         }
         Xtring createtablesql = conn->selectString( "SHOW CREATE TABLE " + conn->nameToSQL( tblname ), 1 );

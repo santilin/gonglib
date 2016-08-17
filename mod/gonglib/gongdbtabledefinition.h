@@ -38,7 +38,7 @@ public:
     }
     /** Creates a dbTableDefinition from the schema of a SQL database */
     static dbTableDefinition *fromSQLSchema( dbConnection *conn, dbDefinition &db,
-            const Xtring &tablename );
+            const Xtring &tablename, bool descriptions = false );
     static bool parseSelectStatement( const Xtring &select, Xtring &fields, Xtring &from,
                                       Xtring &where, Xtring &orderby, Xtring &groupby );
     ~dbTableDefinition();
