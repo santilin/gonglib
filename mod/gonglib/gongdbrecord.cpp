@@ -1339,7 +1339,7 @@ bool dbRecord::setValue( const Xtring &fullfldname, const Variant &value )
 {
 	if( !mIsRead && !mIsDeleted && getRecordID() != 0 )
         read( getRecordID() );
-//  	_GONG_DEBUG_PRINT(0, Xtring::printf ( "table=%s, fld=%s, value=%s", getTableName().c_str(), fullfldname.c_str(), value.toString().c_str() ) );
+  	_GONG_DEBUG_PRINT(0, Xtring::printf ( "table=%s, fld=%s, value=%s", getTableName().c_str(), fullfldname.c_str(), value.toString().c_str() ) );
     Xtring tablename = dbFieldDefinition::extractTableName ( fullfldname );
     Xtring fldname = dbFieldDefinition::extractFieldName ( fullfldname );
     if( fldname.isEmpty() )

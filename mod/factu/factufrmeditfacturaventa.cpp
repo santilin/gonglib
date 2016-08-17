@@ -302,9 +302,9 @@ if( ModuleInstance->getContabModule() ) {
 				editTipoDocCodigo->setJustEdited( true );
 				validateFields( editTipoDocCodigo, 0 );
 			}
-			// Si estamos duplicando o copiando desde cualquier otro documento y no tenemos contador, generarlo, pero si es una 
+			// Si estamos duplicando o copiando desde cualquier otro documento y no tenemos contador, generarlo, pero si es una
 			// inserción normal, no generarlo hasta que se meta el tipo de documento
-			if( editContador->toInt() == 0 && editTipoDocCodigo->toInt() != 0 && isFirstScatter() ) 
+			if( editContador->toInt() == 0 && editTipoDocCodigo->toInt() != 0 && isFirstScatter() )
 				genNumeroDocumento();
 		} else if( isUpdating() ) {
 			pFocusWidget = pFrmFacturaVentaDet;
@@ -545,7 +545,7 @@ void FrmEditFacturaVenta::scatterFormaPago()
 		searchCuentaPagoCuenta->setValue(getRecFormaPago()->getRecCuentaPago()->getValue("CODIGO").toString());
 #elif defined( HAVE_TESORERIAMODULE )
 		searchCuentaPagoCodigo->setValue(getRecFormaPago()->getValue("CUENTATESORERIA.CODIGO").toString());
-#endif		
+#endif
 	}
     if( getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::Contado
             || getRecFormaPago()->getValue( "TIPOFORMAPAGO" ).toInt() == pagos::RecFormaPago::SeIgnora ) {
@@ -990,7 +990,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
         if( editEntrega->toDouble() == 0.0 ) {
             editFechaPago->setText( Xtring::null );
             editDocumentoPago->setText( "" );
-#if defined (HAVE_CONTABMODULE) 
+#if defined (HAVE_CONTABMODULE)
             searchCuentaPagoCuenta->setValue( "" );
 #elif defined (HAVE_TESORERIAMODULE)
             searchCuentaPagoCodigo->setValue( "" );
@@ -1010,7 +1010,7 @@ if( ModuleInstance->getTesoreriaModule() ) {
 #endif
 		}
 	}
-	if( sender == editEntrega && editEntrega->isJustEdited() ) {	
+	if( sender == editEntrega && editEntrega->isJustEdited() ) {
         actTotales();
     }
 /*<<<<<FRMEDITFACTURAVENTA_CABECERA_VALIDATE*/
@@ -1092,7 +1092,7 @@ void FrmEditFacturaVenta::numeraLineas()
 	dbRecordList *reclst = getRecFacturaVenta()->getListFacturaVentaDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecFacturaVentaDet *detalle = static_cast<RecFacturaVentaDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITFACTURAVENTA_CABECERA_NUMERALINEAS*/

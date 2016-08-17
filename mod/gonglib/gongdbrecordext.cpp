@@ -380,12 +380,12 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
             if( relation ) {
                 dbRecord *relrecord = relation->getRelatedRecord();
                 if( relrecord ) {
-                    pTableDef = relrecord->getTableDefinition();
+                    const dbTableDefinition *tbldef = relrecord->getTableDefinition();
                     /// TODO: Refactor, make this a function as it it used in existAnother
                     Xtring codecond;
-                    for ( unsigned int nf = 0; nf < pTableDef->getFieldCount(); nf ++ )
+                    for ( unsigned int nf = 0; nf < tbldef->getFieldCount(); nf ++ )
                     {
-                        const dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( nf );
+                        const dbFieldDefinition *flddef = tbldef->getFieldDefinition ( nf );
                         if( !flddef->isPrimaryKey() && flddef->isCode() )
                         {
                             Variant fldvalue = relrecord->getValue( flddef->getName() );
@@ -393,7 +393,8 @@ bool dbRecord::fromString ( const Xtring &source, int format, const Xtring &incl
                             {
                                 if ( !codecond.isEmpty() )
                                     codecond += "OR";
-                                codecond += "(" + getConnection()->nameToSQL ( flddef->getName() )
+                                codecond += "(" + getConnection()->nameToSQL ( tbldef->getName() )
+											+ "." + getConnection()->nameToSQL ( flddef->getName() )
                                             + "=" + getConnection()->toSQL ( fldvalue ) + ")";
                             }
                         }
