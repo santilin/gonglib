@@ -155,10 +155,10 @@ RecApunteTesoreria* IApuntableRecord::creaApunte(RecApunteTesoreria* old_apunte,
 		apunte->setValue( "PROYECTO_ID", pRecord->getValue(mProyectoIDField) );
 	apunte->setValue("TABLADOCUMENTOS", pRecord->getTableName() );
 	apunte->setValue("DOCUMENTO_ID", pRecord->getRecordID() );
-	if( apunte->save(false) ) {
+	if( apunte->save(true, false) ) {
 		pRecord->setValue(mRecordApunteIDField, apunte->getRecordID() );
 		if( pRecord->isModified() ) {
-			pRecord->save( false );
+			pRecord->save(false, false);
 		}
         DBAPP->showStickyOSD( pRecord->toString( TOSTRING_CODE_AND_DESC_WITH_TABLENAME ),
 							  Xtring::printf(old_apunte->isRead() ? _("Apunte %d regenerado en tesorería") : _("Apunte %d generado en tesorería"),

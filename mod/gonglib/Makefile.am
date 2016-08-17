@@ -43,7 +43,8 @@ libgonglib_la_HEADERS = gongcsvutils.h gongdate.h \
 	gonggettext.h gongdbcalculator.h \
 	gongdbfieldemail.h gongdbmastertable.h \
 	gongdbfieldimage.h gongdbresultsetdatamodel.h \
-	gongdbrecordbehavior.h gongdbrecordtimestampbehavior.h
+	gongdbrecordbehavior.h gongdbrecordtimestampbehavior.h \
+	server_http.hpp client_http.hpp
 
 if COMPILE_WITH_POCOLIB
 libgonglib_la_SOURCES += gongxmlparser.cpp

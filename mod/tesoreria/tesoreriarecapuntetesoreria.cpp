@@ -88,7 +88,7 @@ bool RecApunteTesoreria::save(bool validate, bool saverelated = true) throw( dbE
 {
 /*>>>>>APUNTETESORERIA_SAVE*/
 	bool wasnew = isNew();
-    bool ret = dbRecord::save(saverelated);
+    bool ret = dbRecord::save(validate, saverelated);
     if( ret ) {
 		// Descontar el original
 		Money importe = getOrigValue("IMPORTE").toDouble();
@@ -135,7 +135,7 @@ void RecApunteTesoreria::actSaldoCuenta(dbRecordID cuentatesoreria_id, const Mon
     RecCuentaTesoreria *cuentatesoreria = static_cast<RecCuentaTesoreria*>( DBAPP->createRecord("CUENTATESORERIA") );
     if ( cuentatesoreria->read( cuentatesoreria_id ) ) {
 		cuentatesoreria->setValue( "SALDO", cuentatesoreria->getValue( "SALDO" ).toMoney() + importe );
-        cuentatesoreria->save(false);
+        cuentatesoreria->save(false, false);
     }
     delete cuentatesoreria;
 }
