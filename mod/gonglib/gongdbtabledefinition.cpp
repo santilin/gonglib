@@ -32,7 +32,7 @@
 	\todo {refactor} change Femenina into Femenin?
  */
 
-#include <memory> // auto_ptr<>
+#include <memory> // unique_ptr<>
 #include "gongdebug.h"
 #include "gongregexp.h"
 #include "gongdbfieldlistofvalues.h"
@@ -331,7 +331,7 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
     dbTableDefinition *tbldef = 0;
 
     if ( conn->isMySQL() ) {
-        std::auto_ptr<dbResultSet> rsFields( conn->select( "SHOW FIELDS FROM " + tblname ) );
+        std::unique_ptr<dbResultSet> rsFields( conn->select( "SHOW FIELDS FROM " + tblname ) );
         tbldef = new dbTableDefinition( db, tblname );
         tbldef->setDescSingular( db.getName() + "." + tblname + " from SQL Schema" );
         tbldef->mFrom = tblname;
@@ -386,7 +386,7 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
                                           righttable.replace("`",""), rightfield.replace("`","") );
         }
     } else if( conn->isSQLite() ) {
-        std::auto_ptr<dbResultSet> rsFields( conn->select( "PRAGMA table_info(" + tblname + ")" ) );
+        std::unique_ptr<dbResultSet> rsFields( conn->select( "PRAGMA table_info(" + tblname + ")" ) );
         tbldef = new dbTableDefinition( db, tblname );
         tbldef->setDescSingular( db.getName() + "." + tblname + " from SQL Schema" );
         tbldef->mFrom = tblname;

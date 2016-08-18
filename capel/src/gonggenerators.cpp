@@ -212,6 +212,15 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 
 	Xtring ext_prefix = "GONGLIB_MODULE_";
 
+	Xtring boost_extra_modules, boost_extra_libs;
+	if( modules.contains("HttpServer") ) {
+		boost_extra_modules =
+"\tAX_BOOST_FILESYSTEM\n"
+"\tAX_BOOST_SYSTEM\n"
+"\tAX_BOOST_THREAD\n";
+		boost_extra_libs = " $BOOST_FILESYSTEM_LIB $BOOST_SYSTEM_LIB $BOOST_THREAD_LIB";
+	}
+
 	Xtring ac_init =
 "AC_CONFIG_MACRO_DIR([m4])\n"
 "AC_CONFIG_HEADERS([config.h])\n"
@@ -284,6 +293,7 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 "\tif test \"$ac_cv_use_boost\" = yes ; then\n"
 "\t\tAX_BOOST_BASE(1.0)\n"
 "\t\tAX_BOOST_REGEX\n"
++ boost_extra_modules +
 "fi\n"
 "\n";
 
@@ -296,7 +306,7 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 	Xtring ac_lib_path = (isproject ? ".." : "../.." );
 	ac_gonglib +=
 "GONGLIB_CPPFLAGS=\"$AM_CPPFLAGS -I" + ac_inc_path + "/gonglib $MYSQL_CPPFLAGS $SQLITE3_CFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS \"\n"
-"GONGLIB_LIBS=\"-L" + ac_lib_path + "/gonglib -lgonglib $MYSQL_LIBS $SQLITE3_LDFLAGS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB\"\n";
+"GONGLIB_LIBS=\"-L" + ac_lib_path + "/gonglib -lgonglib $MYSQL_LIBS $SQLITE3_LDFLAGS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB" + boost_extra_libs + "\"\n";
 	cpm->insert_extrusion( ext_prefix + "GONGLIB",
 	                      ac_gonglib);
 

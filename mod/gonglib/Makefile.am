@@ -1,6 +1,6 @@
 localedir = $(datadir)/locale
 AM_CPPFLAGS = @AM_CPPFLAGS@ @GONGLIB_CPPFLAGS@ -DLOCALEDIR=\"$(localedir)\"
-AM_CXXFLAGS = @AM_CXXFLAGS@ -std=gnu++11
+AM_CXXFLAGS = @AM_CXXFLAGS@
 
 libgonglib_la_LDFLAGS = -version-info 0:5:0
 libgonglib_ladir = $(includedir)/gonglib
@@ -43,8 +43,7 @@ libgonglib_la_HEADERS = gongcsvutils.h gongdate.h \
 	gonggettext.h gongdbcalculator.h \
 	gongdbfieldemail.h gongdbmastertable.h \
 	gongdbfieldimage.h gongdbresultsetdatamodel.h \
-	gongdbrecordbehavior.h gongdbrecordtimestampbehavior.h \
-	gonghttpserver.h server_http.hpp client_http.hpp
+	gongdbrecordbehavior.h gongdbrecordtimestampbehavior.h
 
 if COMPILE_WITH_POCOLIB
 libgonglib_la_SOURCES += gongxmlparser.cpp
