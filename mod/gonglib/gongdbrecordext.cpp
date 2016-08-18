@@ -8,34 +8,8 @@
 #include "gonglibrary.h"
 #include "gongdbfieldlistofvalues.h"
 #include "gongxmlparser.h"
-#include <sstream> // json_escape
-#include <iomanip>
 
 namespace gong {
-
-// @todo mover de aquí
-Xtring json_escape(const Xtring &s) {
-	std::ostringstream o;
-    for (const auto &c : s) {
-        switch (c) {
-        case '"': o << "\\\""; break;
-        case '\\': o << "\\\\"; break;
-        case '\b': o << "\\b"; break;
-        case '\f': o << "\\f"; break;
-        case '\n': o << "\\n"; break;
-        case '\r': o << "\\r"; break;
-        case '\t': o << "\\t"; break;
-        default:
-            if ('\x00' <= c && c <= '\x1f') {
-                o << "\\u"
-                  << std::hex << std::setw(4) << std::setfill('0') << (int)c;
-            } else {
-                o << c;
-            }
-        }
-    }
-    return o.str();
-}
 
 class FugitRecordImporter: public XmlParser
 {
@@ -354,7 +328,7 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
                 text += ",\n";
             text += "\"" + getFieldDefinition(i)->getName() + "\":\"";
             if( !isNullValue(i) ) {
-                text += json_escape(getValue(i).toString());
+                text += getValue(i).toString().toJSON();
 			}
 			text += "\"";
         }

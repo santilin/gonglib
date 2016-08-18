@@ -92,6 +92,7 @@ public:
     static Xtring stringInc(const Xtring &str, int inc=1);
     static Xtring stringDec(const Xtring &str);
     Xtring toHex() const;
+	Xtring toJSON() const;
     Xtring XMLProtect() const;
 };
 

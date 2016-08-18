@@ -6,6 +6,8 @@
 #include <cstdarg>
 #include <cstring>
 #include <cmath> // isnan
+#include <sstream> // json_escape
+#include <iomanip>
 #include "gongdebug.h"
 #include "gonggettext.h"
 #include "gongxtring.h"
@@ -609,16 +611,40 @@ Xtring Xtring::toHex() const
     static char hexdigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                                 'A', 'B', 'C', 'D', 'E', 'F'
                               };
-    for ( Xtring::const_iterator it = begin();
-            it != end();
-            ++it )
-    {
+    for ( Xtring::const_iterator it = begin(); it != end(); ++it ) {
         unsigned char ord = *it;
         ret += hexdigits[ ord / 16 ];
         ret += hexdigits[ ord % 16 ];
     }
     return ret;
 }
+
+
+Xtring Xtring::toJSON() const
+{
+	std::ostringstream o;
+    for ( Xtring::const_iterator it = begin(); it != end(); ++it ) {
+        unsigned char c = *it;
+        switch (c) {
+        case '"': o << "\\\""; break;
+        case '\\': o << "\\\\"; break;
+        case '\b': o << "\\b"; break;
+        case '\f': o << "\\f"; break;
+        case '\n': o << "\\n"; break;
+        case '\r': o << "\\r"; break;
+        case '\t': o << "\\t"; break;
+        default:
+            if ('\x00' <= c && c <= '\x1f') {
+                o << "\\u"
+                  << std::hex << std::setw(4) << std::setfill('0') << (int)c;
+            } else {
+                o << c;
+            }
+        }
+    }
+    return o.str();
+}
+
 
 Xtring Xtring::XMLProtect() const
 {

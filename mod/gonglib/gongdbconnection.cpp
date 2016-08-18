@@ -1,5 +1,5 @@
 #include <cstdarg>
-#include <memory>  // unique_ptr<>
+#include <memory>  // auto_ptr<>
 
 #include "config.h"
 #include <mysql/mysql.h>
@@ -505,7 +505,7 @@ bool dbConnection::existsDatabase( const Xtring &databasename )
     switch ( mSqlDriver ) {
     case DRIVER_MYSQL: {
         /// TODO: usar mysql_list_databases
-        std::unique_ptr<dbResultSet> rs( select( "SHOW DATABASES" ) );
+        std::auto_ptr<dbResultSet> rs( select( "SHOW DATABASES" ) );
         while( rs->next() ) {
             if ( rs->toString(uint(0)).upper() == databasename.upper() ) {
                 return true;
@@ -863,7 +863,7 @@ dbRecordID dbConnection::getLastInsertID( const Xtring &table, const Xtring &fld
 
 int dbConnection::selectInt( const Xtring &sql, int nfield )
 {
-    std::unique_ptr<dbResultSet> rs( select( sql ) );
+    std::auto_ptr<dbResultSet> rs( select( sql ) );
     if( rs->next() )
         return rs->toInt( nfield );
     else
@@ -872,7 +872,7 @@ int dbConnection::selectInt( const Xtring &sql, int nfield )
 
 double dbConnection::selectDouble( const Xtring &sql, int nfield )
 {
-    std::unique_ptr<dbResultSet> rs( select( sql ) );
+    std::auto_ptr<dbResultSet> rs( select( sql ) );
     if ( rs->next() )
         return rs->toDouble( nfield );
     else
@@ -881,7 +881,7 @@ double dbConnection::selectDouble( const Xtring &sql, int nfield )
 
 Money dbConnection::selectMoney(const Xtring& sql, int nfield)
 {
-    std::unique_ptr<dbResultSet> rs( select( sql ) );
+    std::auto_ptr<dbResultSet> rs( select( sql ) );
     if ( rs->next() )
         return rs->toMoney( nfield );
     else
@@ -891,7 +891,7 @@ Money dbConnection::selectMoney(const Xtring& sql, int nfield)
 
 Date dbConnection::selectDate(const Xtring & sql, int nfield)
 {
-    std::unique_ptr<dbResultSet> rs( select( sql ) );
+    std::auto_ptr<dbResultSet> rs( select( sql ) );
     if ( rs->next() )
         return rs->toDate( nfield );
     else
@@ -901,7 +901,7 @@ Date dbConnection::selectDate(const Xtring & sql, int nfield)
 XtringList dbConnection::selectStringList( int nfields, const Xtring &sql )
 {
     XtringList ret;
-    std::unique_ptr<dbResultSet> rs( select( sql ) );
+    std::auto_ptr<dbResultSet> rs( select( sql ) );
     while( rs->next() ) {
         Xtring astring;
         for ( int i = 0; i < nfields; i++ ) {
@@ -916,7 +916,7 @@ XtringList dbConnection::selectStringList( int nfields, const Xtring &sql )
 
 Xtring dbConnection::selectString( const Xtring & sql, int nfield )
 {
-    std::unique_ptr<dbResultSet> rs( select( sql ) );
+    std::auto_ptr<dbResultSet> rs( select( sql ) );
     _GONG_DEBUG_ASSERT( nfield < rs->getColumnCount() );
     if ( rs->next() && nfield < (int)rs->getColumnCount() )
         return rs->toString( nfield );
@@ -970,7 +970,7 @@ int dbConnection::selectValues( const Xtring & statement, ... )
 {
     va_list fieldtypes;
     va_start( fieldtypes, statement );
-    std::unique_ptr<dbResultSet> rs( select( statement ) );
+    std::auto_ptr<dbResultSet> rs( select( statement ) );
     if( rs->next() ) {
         for ( unsigned int i = 0; i < rs->getColumnCount(); i++ ) {
             Variant *pvariant = va_arg( fieldtypes, Variant * );
