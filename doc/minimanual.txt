@@ -1,0 +1,50 @@
+== Asociación o empresa ==
+* Se puede trabajar con todas las empresas que sean necesarias. 
+* Se puede trabajar con todos los tipos de monedas que sea necesarias.
+* Se puede crear departamentos y proyectos para cada empresa.
+* Todas las empresas comparten los datos de los contactos, departamentos, monedas y proyectos.
+** Además, según los módulos, también comparten las formas de pago, tipos de IVA, tipos de socias, etc.
+* Se puede cambiar en todos los textos del programa, de forma sencilla, la denominación por la que se refiere a tu asociación: empresa, asociación, cooperativa, etc.
+* Se puede asociar una imagen, normalmente el logo, a la empresa.
+* Se puede definir una empresa como de sólo lectura, de forma que no se puede modificar ningún dato.
+* Se pueden definir algunos parámetros para cada empresa: recargo de equivalencia, cuenta de caja, etc.
+* Se puede importar los tipos de IVA estandard.
+
+== Contactos ==
+* Fichero común de datos de contacto para los proveedores, clientes, empresas, socias, etc.
+* Se puede configurar un campo ''Tratamiento'' para especificar qué tipo de contacto es: persona, empresa, etc. y si es una persona, el sexo.
+** Una vez especificado, el programa comprueba que los datos introducidos se ajustan a ese tratamiento.
+** Se pueden añadir nuevos tratamientos.
+* Ayudas para que los datos se introduzcan correctamente:
+** Si la nacionalidad es española, calcula o comprueba la letra de todos los tipos de CIF/NIF: personales, extranjeros, sociedades, etc.
+** Si se utilizan los tratamientos, se puede configurar si queremos que el nombre se escriba siempre en mayúsculas, o minúsculas y el orden de apellidos y nombre.
+** Si la dirección es española, se pueden buscar los códigos postales a partir de las localidades y viceversa.
+*** Cuando se introduce un código postal, aparece automáticamente la localidad y la provincia
+* Se puede grabar nombres o cifs duplicados y el programa avisa, pero no se pueden grabar dos contactos con el mismo nombre y CIF.
+* Se puede introducir un nombre alternativo, tipo alias, por el cual también se puede buscar el contacto.
+* Se puede asociar una imagen a cada contacto.
+
+== Tesorería ==
+
+== Pagos ==
+* Se puede importar una serie de formas de pago estándard.
+
+== Facturación ==
+
+== Gestión de socias ==
+* La gestión de socias incluye la emisión de remesas de recibos y el control del pago de los mismos.
+* Se puede definir el formato del número de los recibos.
+* Si está instalado el módulo de facturación, los socios pueden ser o no clientes.
+
+
+== Generador de informes ==
+
+== GUI ==
+
+== General ==
+
+== Adaptabilidad ==
+* Todos los nombres de ficheros y campos se pueden modificar, incluso para usuarias distintas.
+* Todos los formatos, tamaños y estilos de los campos se pueden modificar.
+* Se pueden ocultar campos que no vamos a usar de cualquier fichero y darles un valor por defecto.
+* El programa se puede traducir a otros idiomas.

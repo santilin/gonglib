@@ -1,5 +1,3 @@
-gestiong/m4
-capel/m4
 gestiong/tesoreria
 Makefile
 share/deposit
@@ -28,8 +26,6 @@ capel/src/capel
 capel/stamp-h1
 gestiong/Debug/
 gestiong/Release/
-gestiong/acinclude.m4
-gestiong/aclocal.m4
 gestiong/config.h.in
 gestiong/contab
 gestiong/contactos
@@ -37,7 +33,6 @@ gestiong/dbapp
 gestiong/empresa
 gestiong/factu
 gestiong/gonglib
-gestiong/m4/
 gestiong/pagos
 gestiong/qt4
 gestiong/reccolor
@@ -73,7 +68,6 @@ share/tesoreria
 tests/Debug/
 tests/dbapp
 tests/gonglib
-tests/m4
 tests/qt4
 tests/share/
 tests/src/passwords.nosvn.h
