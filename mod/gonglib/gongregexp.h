@@ -27,10 +27,12 @@ typedef boost::sregex_iterator RegExpIterator;
 class RegExp: public boost::regex
 {
 public:
-    RegExp( std::string pattern) : boost::regex(pattern) {}
-    bool search( std::string subject, RegExpMatchList &matches );
-    bool searchAll( std::string subject, RegExpMatchList &matches );
-    bool match( std::string subject, RegExpMatchList &matches );
+    RegExp( const std::string &pattern) : boost::regex(pattern) {}
+    bool search( const std::string &subject, RegExpMatchList &matches ) const;
+    bool searchAll( const std::string &subject, RegExpMatchList &matches ) const;
+    bool match( const std::string &subject, RegExpMatchList &matches ) const;
+	std::string replaceAll( const std::string &subject, const std::string &fmt) const;
+	std::string replaceFirst( const std::string &subject, const std::string &fmt) const;
 };
 
 } // namespace gong
@@ -56,7 +58,7 @@ typedef struct {
     int offset;
     int length;
 } RegExpMatch;
-typedef std::vector<Poco::RegularExpression::Match> RegExpMatchList;
+typedef std::vector<RegExpMatch> RegExpMatchList;
 
 class RegExp {
 public:
