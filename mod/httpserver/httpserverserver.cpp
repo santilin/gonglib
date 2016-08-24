@@ -1,7 +1,9 @@
 #include <fstream>
+#include <sstream>
 #include <boost/filesystem.hpp>
 #include <vector>
 #include <algorithm>
+#include <boost/property_tree/json_parser.hpp>
 #include <gongdbrecord.h>
 #include <gongdbdefinition.h>
 #include <gongfileutils.h>
@@ -31,10 +33,24 @@ Server::Server ( const Xtring &document_root,
 
     mVariables.insert ( "BASEURL", mDocumentRoot );
 
-    //Default GET-example. If no other matches, this anonymous function will be called.
-    //Will respond with content in the web/-directory, and its subdirectories.
-    //Default file: index.html
-    //Can for instance be used to retrieve an HTML 5 client that uses REST-resources on this server
+    // Responds with request-information
+    resource["^/info$"]["GET"]=[] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request )
+    {
+        stringstream content_stream;
+        content_stream << "<h1>Request from " << request->remote_endpoint_address << " (" << request->remote_endpoint_port << ")</h1>";
+        content_stream << request->method << " " << request->path << " HTTP/" << request->http_version << "<br>";
+        for ( auto& header: request->header ) {
+            content_stream << header.first << ": " << header.second << "<br>";
+        }
+        //find length of content_stream (length received using content_stream.tellp())
+        content_stream.seekp ( 0, ios::end );
+        *response <<  "HTTP/1.1 200 OK\r\nContent-Length: " << content_stream.tellp() << "\r\n\r\n" << content_stream.rdbuf();
+    };
+
+
+    // Default GET-example. If no other matches, this anonymous function will be called.
+    // Will respond with content in the web/-directory, and its subdirectories.
+    // Default file: index.html
     default_resource["GET"]=[this] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
         const auto web_root_path=boost::filesystem::canonical ( mDocumentRoot );
         boost::filesystem::path path = web_root_path;
@@ -126,11 +142,28 @@ void Server::addRestRoutes(const Xtring &prefix)
 void Server::addAuthRoutes(const Xtring &prefix)
 {
     resource["^/" + prefix + "/auth$"]["POST"]=[] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
-		_GONG_DEBUG_TRACE(0);
-        auto content=request->content.string();
-		_GONG_DEBUG_PRINT(0, content);
-        *response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.length() << "\r\n\r\n" << content;
-    };	
+        try {
+			std::istringstream icontent(request->content.string());
+            boost::property_tree::ptree pt;
+            boost::property_tree::read_json ( icontent, pt );
+            string name=pt.get<string> ( "email" ) +" "+pt.get<string> ( "password" );
+
+			pt.put("role", "administrador");
+			pt.put("permissions", "administrator/agentes/read");
+			std::string content;
+			std::stringstream ocontent(content);
+			boost::property_tree::write_json( ocontent, pt );
+			_GONG_DEBUG_PRINT(0, content);
+			
+            *response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.length() << "\r\n\r\n" << content;
+        } catch ( exception& e ) {
+            *response << "HTTP/1.1 400 Bad Request\r\nContent-Length: " << strlen ( e.what() ) << "\r\n\r\n" << e.what();
+        }
+    };
+    resource["^/" + prefix + "/logout$"]["POST"]=[] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
+		std::string content("logged out");
+		*response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.length() << "\r\n\r\n" << content;
+    };
 }
 
 Xtring Server::getResource ( const Xtring &table, dbRecordID id )
@@ -149,58 +182,6 @@ Xtring Server::getResource ( const Xtring &table, dbRecordID id )
 
 #if 0
 //Add resources using path-regex and method-string, and an anonymous function
-//POST-example for the path /string, responds the posted string
-server.resource["^/string$"]["POST"]=[] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request )
-{
-    //Retrieve string:
-    auto content=request->content.string();
-    //request->content.string() is a convenience function for:
-    //stringstream ss;
-    //ss << request->content.rdbuf();
-    //string content=ss.str();
-
-    *response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.length() << "\r\n\r\n" << content;
-};
-
-//POST-example for the path /json, responds firstName+" "+lastName from the posted json
-//Responds with an appropriate error message if the posted json is not valid, or if firstName or lastName is missing
-//Example posted json:
-//{
-//  "firstName": "John",
-//  "lastName": "Smith",
-//  "age": 25
-//}
-server.resource["^/json$"]["POST"]=[] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request )
-{
-    try {
-        ptree pt;
-        read_json ( request->content, pt );
-
-        string name=pt.get<string> ( "firstName" ) +" "+pt.get<string> ( "lastName" );
-
-        *response << "HTTP/1.1 200 OK\r\nContent-Length: " << name.length() << "\r\n\r\n" << name;
-    } catch ( exception& e ) {
-        *response << "HTTP/1.1 400 Bad Request\r\nContent-Length: " << strlen ( e.what() ) << "\r\n\r\n" << e.what();
-    }
-};
-
-//GET-example for the path /info
-//Responds with request-information
-server.resource["^/info$"]["GET"]=[] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request )
-{
-    stringstream content_stream;
-    content_stream << "<h1>Request from " << request->remote_endpoint_address << " (" << request->remote_endpoint_port << ")</h1>";
-    content_stream << request->method << " " << request->path << " HTTP/" << request->http_version << "<br>";
-    for ( auto& header: request->header ) {
-        content_stream << header.first << ": " << header.second << "<br>";
-    }
-
-    //find length of content_stream (length received using content_stream.tellp())
-    content_stream.seekp ( 0, ios::end );
-
-    *response <<  "HTTP/1.1 200 OK\r\nContent-Length: " << content_stream.tellp() << "\r\n\r\n" << content_stream.rdbuf();
-};
-
 
 //Get example simulating heavy work in a separate thread
 server.resource["^/work$"]["GET"]=[&server] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> /*request*/ )

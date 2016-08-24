@@ -27,29 +27,11 @@
 #include <dbappdbapplication.h>
 
 /*<<<<<MODULES_INCLUDES*/
-#ifdef HAVE_CONTACTOSMODULE
-#	include <contactosmodule.h>
+#ifdef HAVE_USERMODULE
+#	include <usermodule.h>
 #endif
-#ifdef HAVE_EMPRESAMODULE
-#	include <empresamodule.h>
-#endif
-#ifdef HAVE_TESORERIAMODULE
-#	include <tesoreriamodule.h>
-#endif
-#ifdef HAVE_PAGOSMODULE
-#	include <pagosmodule.h>
-#endif
-#ifdef HAVE_FACTUMODULE
-#	include <factumodule.h>
-#endif
-#ifdef HAVE_SOCIASMODULE
-#	include <sociasmodule.h>
-#endif
-#ifdef HAVE_SINPAPELESMODULE
-#	include <sinpapelesmodule.h>
-#endif
-#ifdef HAVE_RECCOLORMODULE
-#	include <reccolormodule.h>
+#ifdef HAVE_HTTPSERVERMODULE
+#	include <httpservermodule.h>
 #endif
 /*>>>>>MODULES_INCLUDES*/
 //{capel} Eliminar factumodule
@@ -74,29 +56,11 @@ int main( int argc, char *argv[] )
 // 		}
         DBAPP->init();
 /*<<<<<LOAD_MODULES*/
-#ifdef HAVE_CONTACTOSMODULE
-		DBAPP->addModule( new contactos::ContactosModule() );
+#ifdef HAVE_USERMODULE
+		DBAPP->addModule( new user::UserModule() );
 #endif
-#ifdef HAVE_EMPRESAMODULE
-		DBAPP->addModule( new empresa::EmpresaModule() );
-#endif
-#ifdef HAVE_TESORERIAMODULE
-		DBAPP->addModule( new tesoreria::TesoreriaModule() );
-#endif
-#ifdef HAVE_PAGOSMODULE
-		DBAPP->addModule( new pagos::PagosModule() );
-#endif
-#ifdef HAVE_FACTUMODULE
-		DBAPP->addModule( new factu::FactuModule() );
-#endif
-#ifdef HAVE_SOCIASMODULE
-		DBAPP->addModule( new socias::SociasModule() );
-#endif
-#ifdef HAVE_SINPAPELESMODULE
-		DBAPP->addModule( new sinpapeles::SinPapelesModule() );
-#endif
-#ifdef HAVE_RECCOLORMODULE
-		DBAPP->addModule( new reccolor::RecColorModule() );
+#ifdef HAVE_HTTPSERVERMODULE
+		DBAPP->addModule( new httpserver::HttpServerModule() );
 #endif
 /*>>>>>LOAD_MODULES*/
 //{capel} Eliminar factumodule
