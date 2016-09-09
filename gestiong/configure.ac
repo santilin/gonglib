@@ -6,14 +6,14 @@ dnl MODULE User
 dnl MODULE HttpServer
 dnl TYPE Project gestiong
 dnl >>>>>MODULE_INFO
-dnl MODULE Contactos
-dnl MODULE Empresa
-dnl MODULE Tesoreria
-dnl MODULE Pagos
-dnl MODULE Factu
-dnl MODULE Socias
-dnl MODULE SinPapeles
-dnl MODULE RecColor
+dnl aMODULE Contactos
+dnl aMODULE Empresa
+dnl aMODULE Tesoreria
+dnl aMODULE Pagos
+dnl aMODULE Factu
+dnl aMODULE Socias
+dnl aMODULE SinPapeles
+dnl aMODULE RecColor
 
 AC_INIT([GestiONG],[0.5.2],[gestiong@programacionsocial.net],[gestiong])
 
@@ -194,6 +194,6 @@ AC_SUBST(GONGLIB_LIBS)
 AM_CONDITIONAL( [COMPILE_EXPERIMENTAL], [ test ! false ])
 
 
-AC_CONFIG_FILES( Makefile gonglib/Makefile rtk/Makefile qt4/Makefile dbapp/Makefile user/Makefile httpserver/Makefile contactos/Makefile empresa/Makefile tesoreria/Makefile pagos/Makefile factu/Makefile socias/Makefile sinpapeles/Makefile reccolor/Makefile \
+AC_CONFIG_FILES( Makefile gonglib/Makefile rtk/Makefile qt4/Makefile dbapp/Makefile user/Makefile httpserver/Makefile \
 	src/Makefile )
 AC_OUTPUT

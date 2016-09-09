@@ -30,11 +30,7 @@
 #ifdef HAVE_USERMODULE
 #	include <usermodule.h>
 #endif
-#ifdef HAVE_HTTPSERVERMODULE
-#	include <httpservermodule.h>
-#endif
 /*>>>>>MODULES_INCLUDES*/
-//{capel} Eliminar factumodule
 
 #include "gestiongmodule.h"
 
@@ -58,9 +54,6 @@ int main( int argc, char *argv[] )
 /*<<<<<LOAD_MODULES*/
 #ifdef HAVE_USERMODULE
 		DBAPP->addModule( new user::UserModule() );
-#endif
-#ifdef HAVE_HTTPSERVERMODULE
-		DBAPP->addModule( new httpserver::HttpServerModule() );
 #endif
 /*>>>>>LOAD_MODULES*/
 //{capel} Eliminar factumodule

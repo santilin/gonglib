@@ -1,7 +1,7 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Módulo de usuarias y autenticación
-// RECORD Usuaria FrmEditRecMaster Facturacion
-// RECORD Rol FrmEditRecMaster Facturacion
+// RECORD Usuaria FrmEditRecMaster System
+// RECORD Rol FrmEditRecMaster System
 // TYPE GongModule user::UserModule
 /*>>>>>MODULE_INFO*/
 /*<<<<<USERMODULE_INCLUDES*/
@@ -45,42 +45,43 @@ bool UserModule::initDatabase(dbDefinition *db)
 	_GONG_DEBUG_ASSERT( db );
 	pMainDatabase = db;
 
-	pFicUser = new user::MasterTable( *pMainDatabase, "USER" );
-    pFicUser->addFieldRecordID();
-    pFicUser->addFieldStringCode("user", 100)->setUnique( true );
-    pFicUser->addFieldStringCode("password", 64)->setUnique( true );
-    pFicUser->addFieldBool( "active" )->setDefaultValue("1");
-    pFicUser->addFieldNotas();
-    pFicUser->addBehavior( DBAPP->getRecordTimestampBehavior() );
-    pMainDatabase->addTable( pFicUser->getTableDefinition() );
+	/*<<<<<USERMODULE_INIT_DATABASE*/
 
+/*>>>>>USERMODULE_INIT_DATABASE*/
+
+	pFicUsuaria = new user::MasterTable( *pMainDatabase, "USUARIA" );
+    pFicUsuaria->addFieldRecordID();
+    pFicUsuaria->addFieldStringCode("LOGIN", 100)->setUnique( true );
+    pFicUsuaria->addFieldStringCode("PASSWORD", 64)->setUnique( true );
+    pFicUsuaria->addFieldBool( "ACTIVA" )->setDefaultValue("1");
+    pFicUsuaria->addFieldNotas();
+    pFicUsuaria->addBehavior( DBAPP->getRecordTimestampBehavior() );
+    pMainDatabase->addTable( pFicUsuaria->getTableDefinition() );
+
+	pFicRol = new user::MasterTable( *pMainDatabase, "ROL" );
+    pFicRol->addFieldRecordID();
+    pFicRol->addFieldStringCode("NOMBRE", 100)->setUnique( true );
+    pFicRol->addFieldNotas();
+    pFicRol->addBehavior( DBAPP->getRecordTimestampBehavior() );
+    pMainDatabase->addTable( pFicRol->getTableDefinition() );
 	
 	
 	return true;
 }
 
-
-/*<<<<<USERMODULE_SLOT_FACTURACIONUSER*/
-void UserModule::slotMenuFacturacionUser()
+/*<<<<<USERMODULE_SLOT_SYSTEMUSUARIA*/
+void UserModule::slotMenuSystemUsuaria()
 {
-	pMainWindow->slotMenuEditRecMaestro( "USER" );
+	pMainWindow->slotMenuEditRecMaestro( "USUARIA" );
 }
-/*>>>>>USERMODULE_SLOT_FACTURACIONUSER*/
-/*<<<<<USERMODULE_SLOT_FACTURACIONROL*/
-void UserModule::slotMenuFacturacionRol()
+/*>>>>>USERMODULE_SLOT_SYSTEMUSUARIA*/
+/*<<<<<USERMODULE_SLOT_SYSTEMROL*/
+void UserModule::slotMenuSystemRol()
 {
 	pMainWindow->slotMenuEditRecMaestro( "ROL" );
 }
-/*>>>>>USERMODULE_SLOT_FACTURACIONROL*/
-/*<<<<<USERMODULE_SLOT_FACTURACIONPERMISO*/
-void UserModule::slotMenuFacturacionPermiso()
-{
-	pMainWindow->slotMenuEditRecMaestro( "PERMISO" );
-}
-/*>>>>>USERMODULE_SLOT_FACTURACIONPERMISO*/
-/*<<<<<USERMODULE_INIT_DATABASE*/
+/*>>>>>USERMODULE_SLOT_SYSTEMROL*/
 
-/*>>>>>USERMODULE_INIT_DATABASE*/
 dbRecord *UserModule::createRecord(const Xtring &tablename, dbRecordID recid, dbUser *user)
 {
 	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
@@ -126,26 +127,33 @@ bool UserModule::initMainWindow(MainWindow *mainwin)
 	_GONG_DEBUG_ASSERT( ModuleInstance ); // Assign ModuleInstance to your application
 	_GONG_DEBUG_ASSERT(mainwin);
 	pMainWindow = mainwin;
+	QMenu *pMenuSystem = mainwin->getMenuSystem();
+	
 /*<<<<<USERMODULE_INITMAINWINDOW_MENUS*/
 	{
 		Xtring caption = DBAPP->getDatabase()->findTableDefinition("USUARIA")->getDescPlural();
-		pMenuFacturacionUsuaria = new QAction( toGUI( caption ) + "...", pMainWindow );
-		pMenuFacturacionUsuaria->setObjectName( "MenuFacturacionUsuaria" );
-		pMenuFacturacionUsuaria->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-		pMenuFacturacionUsuaria->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-		pMainWindow->connect(pMenuFacturacionUsuaria, SIGNAL(activated()), this, SLOT(slotMenuFacturacionUsuaria()));
-		pMenuFacturacionUsuaria->addTo(pMenuFacturacion);
+		pMenuSystemUsuaria = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuSystemUsuaria->setObjectName( "MenuSystemUsuaria" );
+		pMenuSystemUsuaria->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuSystemUsuaria->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuSystemUsuaria, SIGNAL(activated()), this, SLOT(slotMenuSystemUsuaria()));
+		pMenuSystemUsuaria->addTo(pMenuSystem);
 	}
 	{
 		Xtring caption = DBAPP->getDatabase()->findTableDefinition("ROL")->getDescPlural();
-		pMenuFacturacionRol = new QAction( toGUI( caption ) + "...", pMainWindow );
-		pMenuFacturacionRol->setObjectName( "MenuFacturacionRol" );
-		pMenuFacturacionRol->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
-		pMenuFacturacionRol->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
-		pMainWindow->connect(pMenuFacturacionRol, SIGNAL(activated()), this, SLOT(slotMenuFacturacionRol()));
-		pMenuFacturacionRol->addTo(pMenuFacturacion);
+		pMenuSystemRol = new QAction( toGUI( caption ) + "...", pMainWindow );
+		pMenuSystemRol->setObjectName( "MenuSystemRol" );
+		pMenuSystemRol->setStatusTip( toGUI( Xtring::printf( _("Fichero de %s"), caption.c_str() ) ) );
+		pMenuSystemRol->setWhatsThis( toGUI( Xtring::printf( _("Abre el fichero de "), caption.c_str() ) ) );
+		pMainWindow->connect(pMenuSystemRol, SIGNAL(activated()), this, SLOT(slotMenuSystemRol()));
+		pMenuSystemRol->addTo(pMenuSystem);
 	}
 /*>>>>>USERMODULE_INITMAINWINDOW_MENUS*/
+	return true;
+}
+
+bool UserModule::login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp)
+{
 	return true;
 }
 
@@ -154,9 +162,5 @@ bool UserModule::initMainWindow(MainWindow *mainwin)
 } // namespace gong
 
 /*>>>>>USERMODULE_FIN*/
-/*<<<<<USERMODULE_SLOT_FACTURACIONUSUARIA*/
-void UserModule::slotMenuFacturacionUsuaria()
-{
-	pMainWindow->slotMenuEditRecMaestro( "USUARIA" );
-}
-/*>>>>>USERMODULE_SLOT_FACTURACIONUSUARIA*/
+
+

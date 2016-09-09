@@ -1,60 +1,72 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de usuarias
-// FIELD Name string
+// FIELD login string
 // FIELD Password string
-// TYPE FrmEditRecMaster user::User
+// FIELD Activo bool
+// FIELD Notas text
+// TYPE FrmEditRecMaster user::Usuaria
 /*>>>>>MODULE_INFO*/
 
-/*<<<<<FRMEDITUSER_INCLUDES*/
+/*<<<<<FRMEDITUSUARIA_INCLUDES*/
 #include <dbappmainwindow.h>
 #include <dbappdbapplication.h>
-#include "userfrmedituser.h"
-/*>>>>>FRMEDITUSER_INCLUDES*/
+#include "userfrmeditusuaria.h"
+/*>>>>>FRMEDITUSUARIA_INCLUDES*/
 
 namespace gong {
 namespace user {
 
 
-/*<<<<<FRMEDITUSER_CONSTRUCTOR*/
-FrmEditUser::FrmEditUser(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
+/*<<<<<FRMEDITUSUARIA_CONSTRUCTOR*/
+FrmEditUsuaria::FrmEditUsuaria(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataModel *dm,
 	                               EditMode editmode, dbApplication::EditFlags editflags,
 	                               QWidget *parent, const char* name, WidgetFlags fl )
 	    : FrmEditRecMaster( parentfrm, master, dm, editmode, editflags, parent, name, fl )
 {
 	if ( !name )
-	    setName( "FrmEditUser" );
-/*>>>>>FRMEDITUSER_CONSTRUCTOR*/
-/*<<<<<FRMEDITUSER_INIT_CONTROLS*/
-	QHBoxLayout *nameLayout = new QHBoxLayout(0, 0, 6, "nameLayout");
+	    setName( "FrmEditUsuaria" );
+/*>>>>>FRMEDITUSUARIA_CONSTRUCTOR*/
+/*<<<<<FRMEDITUSUARIA_INIT_CONTROLS*/
+	QHBoxLayout *loginLayout = new QHBoxLayout(0, 0, 6, "loginLayout");
 	QHBoxLayout *passwordLayout = new QHBoxLayout(0, 0, 6, "passwordLayout");
-	editName = addEditField( pControlsFrame, "USER", "NAME", nameLayout );
-	editPassword = addEditField( pControlsFrame, "USER", "PASSWORD", passwordLayout );
-	pControlsLayout->addLayout( nameLayout );
+	QHBoxLayout *activoLayout = new QHBoxLayout(0, 0, 6, "activoLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
+	editlogin = addEditField( pControlsFrame, "USUARIA", "LOGIN", loginLayout );
+	editPassword = addEditField( pControlsFrame, "USUARIA", "PASSWORD", passwordLayout );
+	checkActivo = addCheckField( pControlsFrame, "USUARIA", "ACTIVO", activoLayout );
+	editNotas = addTextField( pControlsFrame, "USUARIA", "NOTAS", notasLayout );
+	pControlsLayout->addLayout( loginLayout );
 	pControlsLayout->addLayout( passwordLayout );
-/*>>>>>FRMEDITUSER_INIT_CONTROLS*/
+	pControlsLayout->addLayout( activoLayout );
+	pControlsLayout->addLayout( notasLayout );
+/*>>>>>FRMEDITUSUARIA_INIT_CONTROLS*/
 }
 
-void FrmEditUser::scatterFields()
+void FrmEditUsuaria::scatterFields()
 {
-/*<<<<<FRMEDITUSER_SCATTER*/
-	editName->setText(getRecUser()->getValue("NAME").toString());
+/*<<<<<FRMEDITUSUARIA_SCATTER*/
+	editlogin->setText(getRecUsuaria()->getValue("LOGIN").toString());
 	if( isEditing() && (pFocusWidget == 0) )
-		pFocusWidget = editName;
-	editPassword->setText(getRecUser()->getValue("PASSWORD").toString());
-/*>>>>>FRMEDITUSER_SCATTER*/
+		pFocusWidget = editlogin;
+	editPassword->setText(getRecUsuaria()->getValue("PASSWORD").toString());
+	checkActivo->setChecked(getRecUsuaria()->getValue("ACTIVO").toBool());
+	editNotas->setText(getRecUsuaria()->getValue("NOTAS").toString());
+/*>>>>>FRMEDITUSUARIA_SCATTER*/
 }
 
-void FrmEditUser::gatherFields()
+void FrmEditUsuaria::gatherFields()
 {
-/*<<<<<FRMEDITUSER_GATHER*/
-	getRecUser()->setValue( "NAME", editName->toString());
-	getRecUser()->setValue( "PASSWORD", editPassword->toString());
-/*>>>>>FRMEDITUSER_GATHER*/
+/*<<<<<FRMEDITUSUARIA_GATHER*/
+	getRecUsuaria()->setValue( "LOGIN", editlogin->toString());
+	getRecUsuaria()->setValue( "PASSWORD", editPassword->toString());
+	getRecUsuaria()->setValue( "ACTIVO", checkActivo->isChecked());
+	getRecUsuaria()->setValue( "NOTAS", editNotas->toString());
+/*>>>>>FRMEDITUSUARIA_GATHER*/
 }
 
-void FrmEditUser::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
+void FrmEditUsuaria::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir)
 {
-/*<<<<<FRMEDITUSER_VALIDATE*/
+/*<<<<<FRMEDITUSUARIA_VALIDATE*/
 	bool v=true;
 	if( !isvalid )
 		isvalid = &v;
@@ -63,15 +75,15 @@ void FrmEditUser::validateFields(QWidget *sender, bool *isvalid, ValidResult *ir
 		validresult->append( pRecord->getErrors() );
 		*isvalid = false;
 	}
-/*>>>>>FRMEDITUSER_VALIDATE*/
+/*>>>>>FRMEDITUSUARIA_VALIDATE*/
 	if( !ir ) {
 		showValidMessages(isvalid, *validresult, sender);
 		delete validresult;
 	}
 }
 
-/*<<<<<FRMEDITUSER_FIN*/
+/*<<<<<FRMEDITUSUARIA_FIN*/
 } // namespace user
 } // namespace gong
-/*>>>>>FRMEDITUSER_FIN*/
+/*>>>>>FRMEDITUSUARIA_FIN*/
 

@@ -1,6 +1,7 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de roles del módulo user
 // FIELD Nombre string
+// FIELD Notas text
 // TYPE FrmEditRecMaster user::Rol
 /*>>>>>MODULE_INFO*/
 
@@ -24,8 +25,11 @@ FrmEditRol::FrmEditRol(FrmEditRec *parentfrm, dbRecord *master, dbRecordDataMode
 /*>>>>>FRMEDITROL_CONSTRUCTOR*/
 /*<<<<<FRMEDITROL_INIT_CONTROLS*/
 	QHBoxLayout *nombreLayout = new QHBoxLayout(0, 0, 6, "nombreLayout");
+	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
 	editNombre = addEditField( pControlsFrame, "ROL", "NOMBRE", nombreLayout );
+	editNotas = addTextField( pControlsFrame, "ROL", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( nombreLayout );
+	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITROL_INIT_CONTROLS*/
 }
 
@@ -35,6 +39,7 @@ void FrmEditRol::scatterFields()
 	editNombre->setText(getRecRol()->getValue("NOMBRE").toString());
 	if( isEditing() && (pFocusWidget == 0) )
 		pFocusWidget = editNombre;
+	editNotas->setText(getRecRol()->getValue("NOTAS").toString());
 /*>>>>>FRMEDITROL_SCATTER*/
 }
 
@@ -42,6 +47,7 @@ void FrmEditRol::gatherFields()
 {
 /*<<<<<FRMEDITROL_GATHER*/
 	getRecRol()->setValue( "NOMBRE", editNombre->toString());
+	getRecRol()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITROL_GATHER*/
 }
 

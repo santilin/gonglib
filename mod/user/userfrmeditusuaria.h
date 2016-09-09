@@ -1,7 +1,7 @@
-/*<<<<<FRMEDITUSER_PREAMBLE*/
+/*<<<<<FRMEDITUSUARIA_PREAMBLE*/
 #ifndef _USER_USERFRMEDITUSUARIA_H
 #define _USER_USERFRMEDITUSUARIA_H
-/*>>>>>FRMEDITUSER_PREAMBLE*/
+/*>>>>>FRMEDITUSUARIA_PREAMBLE*/
 /*<<<<<COPYLEFT*/
 /** @file userfrmeditusuaria.h Fichero de edición de usuarias
  * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
@@ -14,42 +14,44 @@
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
 /*>>>>>COPYLEFT*/
-/*<<<<<FRMEDITUSER_INCLUDES*/
+/*<<<<<FRMEDITUSUARIA_INCLUDES*/
 #include <gongfrmbase.h>
 #include <dbappfrmeditrecmaster.h>
-#include "userrecuser.h"
-/*>>>>>FRMEDITUSER_INCLUDES*/
+#include "userrecusuaria.h"
+/*>>>>>FRMEDITUSUARIA_INCLUDES*/
 
 namespace gong {
 namespace user {
 
 
-/*<<<<<FRMEDITUSER_CLASS*/
-class FrmEditUser: public FrmEditRecMaster
+/*<<<<<FRMEDITUSUARIA_CLASS*/
+class FrmEditUsuaria: public FrmEditRecMaster
 {
 	Q_OBJECT
 
 public:
-	FrmEditUser(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
+	FrmEditUsuaria(FrmEditRec *parentfrm, dbRecord *maestro, dbRecordDataModel *dm=0,
 		EditMode editmode = DataTable::defaulteditmode, dbApplication::EditFlags flags = dbApplication::editNone,
 		QWidget* parent = 0, const char* name = 0, WidgetFlags fl = 0 );
-	RecUser *getRecUser() const { return (RecUser *)getRecord(); }
-/*>>>>>FRMEDITUSER_CLASS*/
-/*<<<<<FRMEDITUSER_VIRTUALS_FROM_FRMEDITREC*/
+	RecUsuaria *getRecUsuaria() const { return (RecUsuaria *)getRecord(); }
+/*>>>>>FRMEDITUSUARIA_CLASS*/
+/*<<<<<FRMEDITUSUARIA_VIRTUALS_FROM_FRMEDITREC*/
 protected:
 	virtual void scatterFields(); // From FrmEditRec
 	virtual void gatherFields();
 	virtual void validateFields(QWidget *sender, bool *isvalid, ValidResult *ir = 0);
-/*>>>>>FRMEDITUSER_VIRTUALS_FROM_FRMEDITREC*/
-/*<<<<<FRMEDITUSER_CONTROLS*/
+/*>>>>>FRMEDITUSUARIA_VIRTUALS_FROM_FRMEDITREC*/
+/*<<<<<FRMEDITUSUARIA_CONTROLS*/
 protected:
-	gong::EditBox *editName;
+	gong::EditBox *editlogin;
 	gong::EditBox *editPassword;
-/*>>>>>FRMEDITUSER_CONTROLS*/
+	gong::CheckBox *checkActivo;
+	gong::TextBox *editNotas;
+/*>>>>>FRMEDITUSUARIA_CONTROLS*/
 };
-/*<<<<<FRMEDITUSER_POSTAMBLE*/
+/*<<<<<FRMEDITUSUARIA_POSTAMBLE*/
 } // namespace user
 } // namespace gong
 #endif // USER_USERFRMEDITUSUARIA_H
-/*>>>>>FRMEDITUSER_POSTAMBLE*/
+/*>>>>>FRMEDITUSUARIA_POSTAMBLE*/
 

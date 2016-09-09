@@ -1,10 +1,10 @@
-/*<<<<<USER_PREAMBLE*/
-#ifndef _USER_USERRECUSER_H
-#define _USER_USERRECUSER_H
-/*>>>>>USER_PREAMBLE*/
+/*<<<<<USUARIA_PREAMBLE*/
+#ifndef _USER_USERRECUSUARIA_H
+#define _USER_USERRECUSUARIA_H
+/*>>>>>USUARIA_PREAMBLE*/
 
 /*<<<<<COPYLEFT*/
-/** @file userrecuser.h Registro de usuarias
+/** @file userrecusuaria.h Registro de
  * Proyecto GestiONG. (C) 2003-2013, Francisco Santiago Capel Torres
  *
  * This library is free software; you can redistribute it and/or
@@ -17,28 +17,28 @@
 /*>>>>>COPYLEFT*/
 #include <dbappdbapplication.h>
 
-/*<<<<<USER_INCLUDES*/
+/*<<<<<USUARIA_INCLUDES*/
 #include <dbappdbapplication.h>
 
-/*>>>>>USER_INCLUDES*/
+/*>>>>>USUARIA_INCLUDES*/
 
 namespace gong {
 namespace user {
 
 
-/*<<<<<USER_CONSTRUCTOR*/
-class RecUser: public dbRecord
+/*<<<<<USUARIA_CONSTRUCTOR*/
+class RecUsuaria: public dbRecord
 {
 public:
-	RecUser(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
-		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("USER"), recid, user)
-/*>>>>>USER_CONSTRUCTOR*/
+	RecUsuaria(dbConnection *conn, dbRecordID recid=0, dbUser *user=0)
+		: dbRecord(conn, DBAPP->getDatabase()->findTableDefinition("USUARIA"), recid, user)
+/*>>>>>USUARIA_CONSTRUCTOR*/
 	{};
 }; // end class
 
-/*<<<<<USER_POSTAMBLE*/
+/*<<<<<USUARIA_POSTAMBLE*/
 } // namespace user
 } // namespace gong
-#endif // USER_USERRECUSER_H
-/*>>>>>USER_POSTAMBLE*/
+#endif // USER_USERRECUSUARIA_H
+/*>>>>>USUARIA_POSTAMBLE*/
 

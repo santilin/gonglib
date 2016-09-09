@@ -25,6 +25,8 @@ class QAction;
 class QMenu;
 /*>>>>>USERMODULE_INCLUDES*/
 
+#include "userrecusuaria.h"
+
 namespace gong {
 namespace user {
 
@@ -63,11 +65,11 @@ private:
 /*>>>>>USERMODULE_RECORD_DEFINITIONS*/
 /*<<<<<USERMODULE_MENU_DEFINITIONS*/
 private slots:
-	void slotMenuFacturacionUsuaria();
-	void slotMenuFacturacionRol();
+	void slotMenuSystemUsuaria();
+	void slotMenuSystemRol();
 protected:
-	QAction *pMenuFacturacionUsuaria;
-	QAction *pMenuFacturacionRol;
+	QAction *pMenuSystemUsuaria;
+	QAction *pMenuSystemRol;
 /*>>>>>USERMODULE_MENU_DEFINITIONS*/
 };
 

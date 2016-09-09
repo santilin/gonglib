@@ -6,7 +6,20 @@
 namespace gong {
 namespace user {
 
-typedef dbMasterTable MasterTable;
+class MasterTable: public dbMasterTable
+{
+public:
+    MasterTable(dbDefinition &db, const Xtring &name,
+                const Xtring &from = Xtring::null,
+                const Xtring &where = Xtring::null, const Xtring &orderby = Xtring::null)
+        : dbMasterTable( new dbTableDefinition( db, name, from, where, orderby ) ) {}
+    MasterTable( dbTableDefinition *tbldef )
+        : dbMasterTable( tbldef ) {}
+    dbFieldDefinition *addFieldNotas(const Xtring &name="NOTAS",
+                                     dbFieldDefinition::Flags flags = dbFieldDefinition::NONE) {
+        return addFieldText(name, flags);
+    }
+};
 
 } // namespace pagos
 } // namespace gong

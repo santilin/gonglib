@@ -43,6 +43,7 @@ protected:
 /*<<<<<FRMEDITROL_CONTROLS*/
 protected:
 	gong::EditBox *editNombre;
+	gong::TextBox *editNotas;
 /*>>>>>FRMEDITROL_CONTROLS*/
 };
 /*<<<<<FRMEDITROL_POSTAMBLE*/
