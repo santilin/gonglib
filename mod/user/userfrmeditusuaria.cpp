@@ -1,8 +1,8 @@
 /*<<<<<MODULE_INFO*/
 // COPYLEFT Fichero de edición de usuarias
-// FIELD login string
+// FIELD Login string
 // FIELD Password string
-// FIELD Activo bool
+// FIELD Activa bool
 // FIELD Notas text
 // TYPE FrmEditRecMaster user::Usuaria
 /*>>>>>MODULE_INFO*/
@@ -29,15 +29,15 @@ FrmEditUsuaria::FrmEditUsuaria(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 /*<<<<<FRMEDITUSUARIA_INIT_CONTROLS*/
 	QHBoxLayout *loginLayout = new QHBoxLayout(0, 0, 6, "loginLayout");
 	QHBoxLayout *passwordLayout = new QHBoxLayout(0, 0, 6, "passwordLayout");
-	QHBoxLayout *activoLayout = new QHBoxLayout(0, 0, 6, "activoLayout");
+	QHBoxLayout *activaLayout = new QHBoxLayout(0, 0, 6, "activaLayout");
 	QHBoxLayout *notasLayout = new QHBoxLayout(0, 0, 6, "notasLayout");
-	editlogin = addEditField( pControlsFrame, "USUARIA", "LOGIN", loginLayout );
+	editLogin = addEditField( pControlsFrame, "USUARIA", "LOGIN", loginLayout );
 	editPassword = addEditField( pControlsFrame, "USUARIA", "PASSWORD", passwordLayout );
-	checkActivo = addCheckField( pControlsFrame, "USUARIA", "ACTIVO", activoLayout );
+	checkActiva = addCheckField( pControlsFrame, "USUARIA", "ACTIVA", activaLayout );
 	editNotas = addTextField( pControlsFrame, "USUARIA", "NOTAS", notasLayout );
 	pControlsLayout->addLayout( loginLayout );
 	pControlsLayout->addLayout( passwordLayout );
-	pControlsLayout->addLayout( activoLayout );
+	pControlsLayout->addLayout( activaLayout );
 	pControlsLayout->addLayout( notasLayout );
 /*>>>>>FRMEDITUSUARIA_INIT_CONTROLS*/
 }
@@ -45,11 +45,11 @@ FrmEditUsuaria::FrmEditUsuaria(FrmEditRec *parentfrm, dbRecord *master, dbRecord
 void FrmEditUsuaria::scatterFields()
 {
 /*<<<<<FRMEDITUSUARIA_SCATTER*/
-	editlogin->setText(getRecUsuaria()->getValue("LOGIN").toString());
+	editLogin->setText(getRecUsuaria()->getValue("LOGIN").toString());
 	if( isEditing() && (pFocusWidget == 0) )
-		pFocusWidget = editlogin;
+		pFocusWidget = editLogin;
 	editPassword->setText(getRecUsuaria()->getValue("PASSWORD").toString());
-	checkActivo->setChecked(getRecUsuaria()->getValue("ACTIVO").toBool());
+	checkActiva->setChecked(getRecUsuaria()->getValue("ACTIVA").toBool());
 	editNotas->setText(getRecUsuaria()->getValue("NOTAS").toString());
 /*>>>>>FRMEDITUSUARIA_SCATTER*/
 }
@@ -57,9 +57,9 @@ void FrmEditUsuaria::scatterFields()
 void FrmEditUsuaria::gatherFields()
 {
 /*<<<<<FRMEDITUSUARIA_GATHER*/
-	getRecUsuaria()->setValue( "LOGIN", editlogin->toString());
+	getRecUsuaria()->setValue( "LOGIN", editLogin->toString());
 	getRecUsuaria()->setValue( "PASSWORD", editPassword->toString());
-	getRecUsuaria()->setValue( "ACTIVO", checkActivo->isChecked());
+	getRecUsuaria()->setValue( "ACTIVA", checkActiva->isChecked());
 	getRecUsuaria()->setValue( "NOTAS", editNotas->toString());
 /*>>>>>FRMEDITUSUARIA_GATHER*/
 }

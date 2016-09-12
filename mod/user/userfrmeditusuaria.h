@@ -43,9 +43,9 @@ protected:
 /*>>>>>FRMEDITUSUARIA_VIRTUALS_FROM_FRMEDITREC*/
 /*<<<<<FRMEDITUSUARIA_CONTROLS*/
 protected:
-	gong::EditBox *editlogin;
+	gong::EditBox *editLogin;
 	gong::EditBox *editPassword;
-	gong::CheckBox *checkActivo;
+	gong::CheckBox *checkActiva;
 	gong::TextBox *editNotas;
 /*>>>>>FRMEDITUSUARIA_CONTROLS*/
 };
