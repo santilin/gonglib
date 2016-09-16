@@ -12,14 +12,6 @@
 
 namespace gong {
 
-inline Xtring getRealUser(const Xtring &user)
-{
-// 	if( user != "root" )
-// 		return "gong" + Xtring::number ( codasoc ).padL ( 4, '0' ) + "_" + user;
-// 	else
-    return user;
-}
-
 const char *loginInstructions = gettext_noop(
                                     "Introduce los datos para conectarte a la base de datos de %1s.\n\n"
                                     "   Si la base de datos ya existe, introduce los datos necesarios para encontrarla, es decir,"
@@ -217,7 +209,7 @@ dbError FrmLogin::createUser()
     addMessage ( _("Creando usuario/a...") );
     try {
         DBAPP->getConnection()->createUser( mDBName,
-                                            getRealUser( getCreateUserUser() ),
+                                            getCreateUserUser(),
                                             getCreateUserPassword(), getCreateDBHost(), Xtring::null );
     } catch( dbError e ) {
         _GONG_DEBUG_WARNING( e.what() );
@@ -264,8 +256,7 @@ void FrmLogin::accept()
 
         DBAPP->waitCursor();
         DBAPP->getConnection()->connect( dbConnection::SqlDriver(comboDriver->currentIndex()),
-                                         getRealUser(getUser()),
-                                         getPassword(), mDBName, getHost(), getPort() );
+                                         getUser(), getPassword(), mDBName, getHost(), getPort() );
         DBAPP->resetCursor();
         break;
     case 1:   // Creacion de la base de datos

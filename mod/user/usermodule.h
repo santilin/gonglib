@@ -39,7 +39,7 @@ public:
 	virtual ~UserModule();
 	virtual bool initMainWindow(class MainWindow *win);
 	virtual bool initDatabase(dbDefinition *dbdef);
-	virtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
+	virtual bool login(gong::FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
 	virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
 	virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
 		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,
@@ -54,6 +54,9 @@ public:
 		QWidget *parent = 0, const char* name = 0,
 		WidgetFlags fl = WidgetFlags(0) );
 /*>>>>>USERMODULE_CLASS_DEFINITION*/
+
+	bool isLogged() const { return mIsLogged; }
+
 /*<<<<<USERMODULE_RECORD_DEFINITIONS*/
 public:
 	user::MasterTable *getFicUsuaria() const { return pFicUsuaria; }
@@ -71,6 +74,9 @@ protected:
 	QAction *pMenuSystemUsuaria;
 	QAction *pMenuSystemRol;
 /*>>>>>USERMODULE_MENU_DEFINITIONS*/
+protected:
+	bool doLogin( const Xtring &user, const Xtring &password);
+	bool mIsLogged;
 };
 
 extern UserModule *ModuleInstance;

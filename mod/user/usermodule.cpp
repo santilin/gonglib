@@ -14,6 +14,7 @@
 #include "userfrmeditusuaria.h"
 #include "userfrmeditrol.h"
 /*>>>>>USERMODULE_INCLUDES*/
+#include "userfrmlogin.h"
 
 namespace gong {
 namespace user {
@@ -21,7 +22,7 @@ namespace user {
 UserModule *ModuleInstance = 0;
 
 UserModule::UserModule()
-	: dbModule("user")
+	: dbModule("user"), mIsLogged(false)
 {
 	ModuleInstance = this;
     _GONG_DEBUG_TRACE(1);
@@ -152,10 +153,30 @@ bool UserModule::initMainWindow(MainWindow *mainwin)
 	return true;
 }
 
-bool UserModule::login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp)
+bool UserModule::login(gong::FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp)
 {
-	return true;
+	bool autologin = DBAPP->getAppSetting ( "AUTOLOGIN", "false" ).toBool();
+	bool logged = false;
+	if (autologin) {
+		logged = doLogin(DBAPP->getAppSetting("USER").toString(), DBAPP->getAppSetting("PASSWORD").toString());
+	}
+	if( !logged) {
+		FrmLogin *loginform = new FrmLogin();
+		loginform->exec();
+		if (loginform->result() == QDialog::Accepted)
+			logged = doLogin( loginform->getUser(), loginform->getPassword() );
+	}
+	return logged;
 }
+
+bool UserModule::doLogin(const Xtring& user, const Xtring& password)
+{
+	Xtring r( pConnection->selectString("SELECT LOGIN FROM USUARIA WHERE"
+	"LOGIN=" + pConnection->toSQL(user) + " AND PASSWORD=" + pConnection->toSQL(password)));
+	return !r.isEmpty();
+}
+
+
 
 /*<<<<<USERMODULE_FIN*/
 } // namespace user

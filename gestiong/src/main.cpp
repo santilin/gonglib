@@ -56,7 +56,6 @@ int main( int argc, char *argv[] )
 		DBAPP->addModule( new user::UserModule() );
 #endif
 /*>>>>>LOAD_MODULES*/
-//{capel} Eliminar factumodule
         DBAPP->addModule( new gestiong::GestiongModule() );
         DBAPP->readSettings();
         DBAPP->initDatabases();

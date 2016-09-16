@@ -63,7 +63,9 @@ protected:
     Xtring mCurrentExtrusion;
 
     Xtring fill_begin_extrusion(const Xtring &extrusion_name);
+    Xtring fill_begin_extrusion_with_space(const Xtring &extrusion_name);
     Xtring fill_end_extrusion(const Xtring &extrusion_name);
+    Xtring fill_end_extrusion_with_space(const Xtring &extrusion_name);
     Xtring::size_type lookup_extrusion_begin(const Xtring &extrusion_name);
     Xtring get_parameters(const Xtring &extrusion_name);
     Xtring::size_type lookup_extrusion_code(const Xtring &extrusion_name);

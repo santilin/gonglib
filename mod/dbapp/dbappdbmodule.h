@@ -77,7 +77,7 @@ public:
     virtual void readSettings();
     virtual void afterLoad() {};
     virtual bool initMainWindow(MainWindow *win) = 0;
-    virtual bool login(FrmLogin *frmlogin, const Xtring &version,
+    virtual bool login( QDialog *frmlogin, const Xtring &version,
                        Xtring &addTitle, bool startingapp = true) {
         return true;
     }

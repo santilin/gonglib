@@ -133,7 +133,7 @@ void SinPapelesModule::afterLoad()
 }
 
 
-bool SinPapelesModule::login(FrmLogin *frmlogin, const Xtring& version,
+bool SinPapelesModule::login( QDialog *frmlogin, const Xtring& version,
                              Xtring& addTitle, bool startingapp)
 {
     return true;

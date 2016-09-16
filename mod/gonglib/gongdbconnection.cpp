@@ -1353,5 +1353,19 @@ XtringList dbConnection::extractSqlTables(const Xtring & select)
     return tables;
 }
 
+dbConnection::SqlDriver dbConnection::stringToSqlDriver(const char *driver)
+{
+	if( !strcasecmp(driver, "mysql")) {
+		return dbConnection::DRIVER_MYSQL;
+	} else if( !strcasecmp(driver, "postgresql") || !strcasecmp(driver, "postgre") ) {
+		return dbConnection::DRIVER_POSTGRESQL;
+	} else if( !strcasecmp(driver, "sqlite") || !strcasecmp(driver, "sqlite3") ) {
+		return dbConnection::DRIVER_SQLITE3;
+	} else {
+		throw std::runtime_error(Xtring("Driver no encontrado:" ) + driver);
+	}
+}
+
+
 
 } // Namespace

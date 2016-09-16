@@ -321,21 +321,37 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
     bool bAutoLogin;
     if( startingapp ) {
         bAutoLogin = getAppSetting("AUTOLOGIN", false).toBool();
-    } else
+    } else {
         bAutoLogin = autologin;
-    pFrmLogin = new FrmLogin(startingapp);
-    pFrmLogin->setAutoLogin(bAutoLogin);
-    pFrmLogin->init(); // Tratar de hacer el autologin
-    if( pFrmLogin->result() == QDialog::Rejected ) {
-        delete pFrmLogin;
-        pFrmLogin = 0;
-        return false;
-    }
-    mDbUser = pFrmLogin->getUser();
-    mDbHost = pFrmLogin->getHost();
-    mDbUserPassword = pFrmLogin->getPassword();
-    getConnection()->selectDatabase( pFrmLogin->getDBName() );
-    getDatabase()->setName( pFrmLogin->getDBName() );
+	}
+	bool connected = false;
+	dbModule *moduser = findModule("user");
+	if( moduser && moduser->isEnabled()) {
+        waitCursor();
+		connected = getConnection()->connect(
+			dbConnection::stringToSqlDriver(DBAPP->getAppSetting ( "DBDRIVER", "MYSQL" ).toString().c_str()),
+			getAppSetting ( "DBUSER" ).toString(),
+			getAppSetting ( "DBPASSWORD" ).toString(),
+			getAppSetting ( "DBNAME" ).toString(),
+			getAppSetting ( "DBHOST" ).toString(),
+			getAppSetting ( "DBPORT" ).toInt() );
+        resetCursor();
+	}
+	if (!connected) {
+		pFrmLogin = new FrmLogin(startingapp);
+		pFrmLogin->setAutoLogin(bAutoLogin);
+		pFrmLogin->init(); // Tratar de hacer el autologin
+		if( pFrmLogin->result() == QDialog::Rejected ) {
+			delete pFrmLogin;
+			pFrmLogin = 0;
+			return false;
+		}
+		mDbUser = pFrmLogin->getUser();
+		mDbHost = pFrmLogin->getHost();
+		mDbUserPassword = pFrmLogin->getPassword();
+		getConnection()->selectDatabase( pFrmLogin->getDBName() );
+		getDatabase()->setName( pFrmLogin->getDBName() );
+	}
 
     if( startingapp ) {
         // Create some needed tables, after logging in to the database

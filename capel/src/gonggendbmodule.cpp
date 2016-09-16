@@ -77,7 +77,7 @@ void addModuleDefinition(CppModule *cpcpp, CppModule *cph,
     	"\tvirtual ~" + classname + "();\n"
     	"\tvirtual bool initMainWindow(class MainWindow *win);\n"
     	"\tvirtual bool initDatabase(dbDefinition *dbdef);\n"
-    	"\tvirtual bool login(FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);\n"
+    	"\tvirtual bool login(QDialog *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);\n"
     	"\tvirtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);\n"
     	"\tvirtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,\n"
         "\t\tFrmEditRec::EditMode editmode = DataTable::defaulteditmode,\n"

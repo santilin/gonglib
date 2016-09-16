@@ -159,7 +159,6 @@ protected slots:
 private:
     dbError createDatabase();
     dbError createUser();
-    int mGroupEstructuraOpcion;
     void updateConfig();
     void gather();
     void setMessages(const Xtring &welcome, const Xtring &detailed);

@@ -125,6 +125,7 @@ public:
         return mbRootUser;
     }
     void clearError(void);
+	static SqlDriver stringToSqlDriver(const char *driver);
 
 private:
     void setError( const Xtring &query = Xtring::null);
