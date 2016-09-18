@@ -459,13 +459,13 @@ void dbConnection::setError( const Xtring &query )
 #define SQLITE_ROW         100  /* sqlite3_step() has another row ready */
 #define SQLITE_DONE        101  /* sqlite3_step() has finished executing */
 #endif
-        int errno = sqlite3_errcode( pSqLite );
-        switch( errno ) {
+        int sqlite_errno = sqlite3_errcode( pSqLite );
+        switch( sqlite_errno ) {
         case SQLITE_CANTOPEN: /* 14 */
-            errno = 1049;
+            sqlite_errno = 1049;
             break;
         }
-        mLastError = dbError( sqlite3_errmsg( pSqLite ), errno, query );
+        mLastError = dbError( sqlite3_errmsg( pSqLite ), sqlite_errno, query );
         if( mLastError.getNumber() != 1091 ) {
             _GONG_DEBUG_WARNING( Xtring::printf( "(%s):%d:%s",
                                                  query.c_str(), mLastError.getNumber(), mLastError.what() ) );

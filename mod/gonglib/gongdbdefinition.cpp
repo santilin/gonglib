@@ -68,7 +68,7 @@ dbDefinition *dbDefinition::fromSQLSchema( dbConnection *conn, const Xtring &dbn
     dbDefinition *dbdef = 0;
 
     dbdef = new dbDefinition( dbname, "Generated from Schema" );
-    std::auto_ptr<dbResultSet> rsTables(conn->select( "SHOW TABLES" ));
+    std::unique_ptr<dbResultSet> rsTables(conn->select( "SHOW TABLES" ));
     while( rsTables->next() ) {
         tblname = rsTables->toString((uint)0);
 #ifdef HAVE_SQLITE3
@@ -369,7 +369,7 @@ int dbDefinition::readDescriptionsFromFile( const Xtring &filename )
 
     Xtring inputString, wholeline;
     int count = 0;
-    while(getline(input, inputString) != NULL)
+    while(getline(input, inputString))
     {
         if( inputString.endsWith("\\") )
             wholeline += inputString.mid( 0, inputString.length() - 1 );
@@ -504,7 +504,7 @@ int dbDefinition::addViewsFromFile( const Xtring &filename )
     Xtring inputString, wholeline, origin;
     origin = _("From file ") + filename;
     int count = 0;
-    while(getline(input, inputString) != NULL)
+    while(getline(input, inputString))
     {
         if( inputString.endsWith("\\") )
             wholeline += inputString.mid( 0, inputString.length() - 1 );
