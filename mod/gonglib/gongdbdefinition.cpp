@@ -1,15 +1,3 @@
-/*<<<<<MODULE_INFO*/
-// COPYLEFT Root of the data dictionary
-// MEMBER Name Xtring rwc
-// MEMBER Description Xtring rwc
-// MEMBER Encoding Xtring rwc 0
-// MEMBER Collation Xtring rwc 0
-// MEMBER Tables dbTableDefinitionDict rw
-// MEMBER Views dbViewDefinitionDict rw
-// MEMBER FieldStyles dbFieldStyleDict rw
-// TYPE Class dbDefinition
-/*>>>>>MODULE_INFO*/
-
 /**
 	@class gong::dbDefinition
 	@brief Root of the data dictionary
@@ -41,13 +29,21 @@
 */
 
 #include <fstream>
-#include <memory>
 #include "gonggettext.h"
 #include "gongdebug.h"
 #include "gongfileutils.h"
 #include "gongdbconnection.h"
 #include "gongdbdefinition.h"
 #include "gongdbrecord.h"
+
+// Manage auto_ptr warnings and deprecation in C++11
+#if (__cplusplus >= 201103L)
+#include <auto_ptr>
+using std::unique_ptr;
+#else
+#include <memory>
+#define unique_ptr auto_ptr
+#endif // C++11
 
 namespace gong {
 

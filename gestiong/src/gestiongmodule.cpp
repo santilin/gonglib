@@ -51,8 +51,7 @@ GestiongModule::~GestiongModule()
     _GONG_DEBUG_PRINT(1, "Destruyendo module GestiongModule...");
 }
 
-bool GestiongModule::login( QDialog *frmlogin, const Xtring& version,
-                           Xtring& addTitle, bool startingapp)
+bool GestiongModule::login( const Xtring& version, Xtring& addTitle, bool startingapp)
 {
     return true;
 }

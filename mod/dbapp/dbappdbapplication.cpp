@@ -341,7 +341,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
 		pFrmLogin = new FrmLogin(startingapp);
 		pFrmLogin->setAutoLogin(bAutoLogin);
 		pFrmLogin->init(); // Tratar de hacer el autologin
-		if( pFrmLogin->result() == QDialog::Rejected ) {
+		if( pFrmLogin->wasCancelled() ) {
 			delete pFrmLogin;
 			pFrmLogin = 0;
 			return false;
@@ -408,7 +408,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         if( mod->isEnabled() ) {
             Xtring title;
             _GONG_DEBUG_PRINT(2, "Module " + mod->getUnixName() + " logging in" );
-            if ( !mod->login ( pFrmLogin, version, title, startingapp ) ) {
+            if ( !mod->login ( version, title, startingapp ) ) {
                 _GONG_DEBUG_WARNING( "Module " + mod->getUnixName() + " has not logged in" );
                 mod->setEnabled( false );
             } else {

@@ -13,6 +13,7 @@
  */
 
 #include <gongguiapplication.h>
+#include <dbappfrmcustom.h>
 #include "dbappfrmeditrec.h"
 #include "dbappfrmeditrecdetail.h"
 
@@ -77,8 +78,7 @@ public:
     virtual void readSettings();
     virtual void afterLoad() {};
     virtual bool initMainWindow(MainWindow *win) = 0;
-    virtual bool login( QDialog *frmlogin, const Xtring &version,
-                       Xtring &addTitle, bool startingapp = true) {
+    virtual bool login( const Xtring &version, Xtring &addTitle, bool startingapp = true) {
         return true;
     }
     virtual bool initDatabase(dbDefinition *dbdef) {

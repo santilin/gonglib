@@ -18,45 +18,24 @@
 #include <gonglineedit.h>
 #include <gongrichtextedit.h>
 #include <gongpushbutton.h>
+#include "dbappdaterangebox.h"
 #include "dbappsearchbox.h"
 #include "dbappdbapplication.h"
 
-namespace gong {
 
-class DateRangeBox
-{
-public:
-    DateRangeBox( QWidget *parent, const Xtring &name, const Xtring &caption,
-                  Variant::Type type, const DateTime date_from, const DateTime date_to,
-                  const Xtring &caption_from, const Xtring &caption_to,
-                  QBoxLayout *layout = 0);
-    Date getDateFrom() const;
-    DateTime getDateTimeFrom() const;
-    Date getDateTo() const;
-    DateTime getDateTimeTo() const;
-    QBoxLayout *getLayout() const {
-        return pLayout;
-    }
-    LineEdit *getEditDateFrom() const {
-        return pEditDateFrom;
-    }
-    LineEdit *getEditDateTo() const {
-        return pEditDateTo;
-    }
-private:
-    LineEdit *pEditDateFrom, *pEditDateTo;
-    QBoxLayout *pLayout;
-};
+namespace gong {
 
 class FrmCustom: public FrmBase
 {
     Q_OBJECT
 public:
     FrmCustom( QWidget *parent=0, const char *name=0, WidgetFlags fl = 0 );
+    virtual void accept(); // from FrmBase
     // Tab widget
     void showTabs(bool show = true );
-    QWidget *insertTab(QWidget *tab, const Xtring &label, int index = -1);
+    QWidget *insertTab(QWidget *tab, const Xtring &label, const char *name = 0, int index = -1);
     void setTabTitle( QWidget *tab, const Xtring &title );
+
     // Independent controls. The name is necessary in these controls
     QLabel *addLabel( QWidget *parent, const Xtring &caption, const Variant &value,
                       const Xtring &style = Xtring::null, const char *name = 0, QBoxLayout *layout = 0 );
@@ -76,7 +55,7 @@ public:
                                  const XtringList &captions, const IntList &values, const Xtring &empty = Xtring::null,
                                  const char *name = 0, QBoxLayout * layout = 0, bool horiz = true );
     GroupBox *addGroupBox( QWidget *parent, XtringList &options, const Xtring &caption,
-                           int selected, bool horiz = true, QBoxLayout *layout = 0 );
+                           int selected, QBoxLayout *layout = 0, bool horiz = true );
     DateRangeBox *addDateRangeBox( QWidget *parent, const Xtring &caption,
                                    const DateTime date_from, const DateTime date_to,
                                    const Xtring &caption_from = Xtring::null,
@@ -85,11 +64,13 @@ public:
     PushButton *addButton( QWidget *parent, const Xtring &caption,
                            const char *name = 0, QBoxLayout *layout = 0 );
     RichTextBox *addRichTextBox( QWidget *parent, const Xtring &caption,
-                                 const char *name = 0, QBoxLayout *layout = 0 );
+                                 const char *name = 0, QBoxLayout *layout = 0, bool horiz = true );
     FileNameBox *addFileNameBox( QWidget *parent, const Xtring &caption,
-                                 bool horiz = true, QBoxLayout *layout = 0);
+                                 const char *name = 0, QBoxLayout *layout = 0, bool horiz = true );
     FileNameBox *addDirNameBox( QWidget *parent, const Xtring &caption,
-                                bool horiz = true, QBoxLayout *layout = 0);
+                                const char *name = 0, QBoxLayout *layout = 0, bool horiz = true);
+	QLabel *addImage( QWidget *parent, QPixmap &pixmap, const char *name = 0, QBoxLayout *layout = 0);
+
     // Controls bound to fields
     LineEdit *addInputField ( QWidget *parent, const Xtring &caption, const Xtring &tablename,
                               const Xtring &fldname, const Variant &value, QBoxLayout *layout = 0 );
@@ -100,10 +81,8 @@ public:
                                    const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
                                    const Xtring &empty = Xtring::null,
                                    const char *name = 0, QBoxLayout * layout = 0 );
-    ComboBoxXtring *addComboXtringField( QWidget *parent, const Xtring &caption, const Xtring &tablename,
-                                         const Xtring &fldnamecaptions, const Xtring &fldnamevalues,
-                                         const Xtring &empty = Xtring::null,
-                                         const char *name = 0, QBoxLayout * layout = 0 );
+    ComboBoxXtring *addComboXtringField(QWidget *parent, const Xtring &tablename,
+                                        const Xtring &fldname, QBoxLayout *layout = 0, bool horiz = true);
     SearchBox *addSearchField( QWidget *parent, const Xtring &tablename,
                                const Xtring &fldnamecodigo, const Xtring &fldnamenombre, QBoxLayout *layout = 0,
                                SearchBox::Flags flags = SearchBox::FlagHorizontal );
@@ -111,7 +90,6 @@ public:
                                        const Xtring &fldnamecodigo, const Xtring &fldnamenombre, QBoxLayout *layout = 0 );
     SearchBox *addLabeledSearchField( QWidget *parent, const Xtring &tablename,
                                       const Xtring &fldnamecodigo, const Xtring &fldnamenombre, QBoxLayout *layout = 0 );
-    virtual void accept(); // from FrmBase
 protected slots:
     virtual void validate_input( QWidget *, bool * );
     virtual bool validate() {
@@ -122,7 +100,7 @@ protected slots:
 
 protected:
     QTabWidget *pTabWidget;
-    QWidget* pControlsFrame;
+    QWidget *pControlsFrame;
     QVBoxLayout *pFormLayout, *pMainLayout, *pControlsLayout;
     QHBoxLayout *pButtonsLayout;
 };

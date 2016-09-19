@@ -366,13 +366,7 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
     }
     if ( x != parentwin->x() || y != parentwin->y() )
         parentwin->move ( x, y );
-//    raise();
-//    activateWindow();
     theGuiApp->changeOverrideCursor( QCursor( Qt::ArrowCursor ) );
-//     while ( !isHidden() ) {
-//         theGuiApp->processEvents();
-//         usleep ( 1000 );
-//     }
     pEventLoop = new QEventLoop();
     QPointer<FrmBase> guard = this;
     mWasCancelled = pEventLoop->exec(QEventLoop::DialogExec);
@@ -380,11 +374,43 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
         mWasCancelled = true;
     delete pEventLoop;
     pEventLoop = 0;
-//     theGuiApp->resetCursor();
     if( wasmaximized )
         wasmaximized->showMaximized();
     // parent is reenabled in the close event of this form
 }
+
+int FrmBase::exec()
+{
+    if (pEventLoop) {
+        _GONG_DEBUG_WARNING("QDialog::exec: Recursive call detected");
+        return -1;
+    }
+
+    bool deleteOnClose = testAttribute(Qt::WA_DeleteOnClose);
+    setAttribute(Qt::WA_DeleteOnClose, false);
+
+    bool wasShowModal = testAttribute(Qt::WA_ShowModal);
+    setAttribute(Qt::WA_ShowModal, true);
+	mWasCancelled = false;
+
+    pEventLoop = new QEventLoop();
+    QPointer<FrmBase> guard = this;
+    mWasCancelled = pEventLoop->exec(QEventLoop::DialogExec);
+    if( guard.isNull() ) {
+		mWasCancelled = true;
+		return false;
+	}
+    delete pEventLoop;
+    pEventLoop = 0;
+
+    setAttribute(Qt::WA_ShowModal, wasShowModal);
+
+    if (deleteOnClose)
+        delete this;
+    return !mWasCancelled;
+}
+
+
 
 bool FrmBase::isModalFor( QWidget *parent) const
 {

@@ -83,7 +83,7 @@ SociasModule::~SociasModule()
     _GONG_DEBUG_PRINT(1, "Destruyendo module SociasModule...");
 }
 
-bool SociasModule::login( QDialog *frmlogin, const Xtring& version,
+bool SociasModule::login( QWidget *frmlogin, const Xtring& version,
                          Xtring& addTitle, bool startingapp)
 {
     return true;

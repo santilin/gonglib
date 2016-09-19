@@ -12,15 +12,12 @@
  * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.
  */
 
-#include <QDialog>
-#include <QBoxLayout>
-#include <gongcheckbox.h>
-#include <gonglineedit.h>
+#include <dbappfrmcustom.h>
 
 namespace gong {
 namespace user {
 
-class FrmLogin: public QDialog
+class FrmLogin: public FrmCustom
 {
 public:
     FrmLogin(QWidget* parent = 0);
@@ -33,12 +30,6 @@ public:
     void setAutoLogin(bool autologin) { checkAutoLogin->setChecked(autologin); }
     bool isSavePassword() const { return checkSavePassword->isChecked(); }
     void setSavePassword(bool savepassword) { checkSavePassword->setChecked(savepassword); }
-
-	// @todo crear un DialogCustom y añadir estas funciones ahí
-    LineEdit *addInput(QWidget *parent, const Xtring &caption, const Variant &value,
-						const Xtring &style = Xtring::null, const char *name = 0, QBoxLayout *layout = 0 );
-    CheckBox *addCheckBox( QWidget *parent, const Xtring &caption,
-                           bool value, const char *name = 0, QBoxLayout *layout = 0 );
 
 protected:
     LineEdit *editUser;

@@ -379,7 +379,7 @@ int FrmViewEdit::exec()
     }
     lstFields->setCurrentRow(1); // skip ID
     updateStatus();
-    showModalFor( parent(), false, true );
+    showModalFor( parentWidget(), false, true );
     if( !wasCancelled() ) {
         if( pViewDefinition->isModified()
                 || pViewDefinition->getCaption() != txtViewName->toString()

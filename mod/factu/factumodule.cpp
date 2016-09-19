@@ -609,7 +609,7 @@ bool FactuModule::initDatabase( dbDefinition *db )
     return true;
 }
 
-bool FactuModule::login( QDialog *frmlogin, const Xtring &version,
+bool FactuModule::login( QWidget *frmlogin, const Xtring &version,
                          Xtring &addtitle, bool startingapp )
 {
     return true;

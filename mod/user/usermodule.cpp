@@ -163,7 +163,7 @@ bool UserModule::login(gong::FrmLogin *frmlogin, const Xtring &version, Xtring &
 	if( !logged) {
 		FrmLogin *loginform = new FrmLogin();
 		loginform->exec();
-		if (loginform->result() == QDialog::Accepted)
+		if (!loginform->wasCancelled())
 			logged = doLogin( loginform->getUser(), loginform->getPassword() );
 	}
 	return logged;

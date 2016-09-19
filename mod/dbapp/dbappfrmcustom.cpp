@@ -7,71 +7,15 @@
 #include <gongfileutils.h>
 #include <gongvariant.h>
 #include <gongpushbutton.h>
+#include <gongguicontrols.h>
 #include "dbappsearchbox.h"
 #include "dbappdbapplication.h"
 #include "dbappfrmeditrec.h"
 #include "dbappfrmcustom.h"
 #include "dbappnameslisttable.h"
+#include "dbappdaterangebox.h"
 
 namespace gong {
-
-DateRangeBox::DateRangeBox( QWidget *parent, const Xtring& name, const Xtring& caption,
-                            Variant::Type type, const DateTime date_from, const DateTime date_to,
-                            const Xtring &caption_from, const Xtring &caption_to,
-                            QBoxLayout *layout )
-{
-    if( !(pLayout = layout) ) {
-        pLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-        pLayout->setObjectName( toGUI("layout_" + name) );
-    }
-    QLabel *label = new QLabel( parent );
-    label->setText ( toGUI ( caption.c_str() ) );
-    pLayout->addWidget ( label );
-    QLabel *label_from = new QLabel( parent );
-    if( caption_from.isEmpty() )
-        label_from->setText ( _("del") );
-    else
-        label_from->setText ( toGUI ( caption_from.c_str() ) );
-    pLayout->addWidget ( label_from );
-    pEditDateFrom = new LineEdit( parent, "Edit" + name + "FechaIni", type );
-    pEditDateFrom->setMask( DBAPP->getRegConfig()->getDateMask() );
-    pEditDateFrom->setFormat("%x");
-    pEditDateFrom->setText( (Date)date_from );
-    pLayout->addWidget( pEditDateFrom);
-    QLabel *label_to = new QLabel( parent );
-    if( caption_to.isEmpty() )
-        label_to->setText ( _("al") );
-    else
-        label_to->setText ( toGUI ( caption_to.c_str() ) );
-    pLayout->addWidget ( label_to );
-    pEditDateTo = new LineEdit( parent, "Edit" + name + "FechaFin", type );
-    pEditDateTo->setMask( DBAPP->getRegConfig()->getDateMask() );
-    pEditDateTo->setFormat("%x");
-    pEditDateTo->setText( (Date)date_to );
-    pLayout->addWidget( pEditDateTo);
-    QSpacerItem *spacer1 = new QSpacerItem ( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-    pLayout->addItem ( spacer1 );
-}
-
-Date DateRangeBox::getDateFrom() const
-{
-    return pEditDateFrom->toDate();
-}
-
-DateTime DateRangeBox::getDateTimeFrom() const
-{
-    return DateTime( getDateFrom(), Time(0,0,0) );
-}
-
-Date DateRangeBox::getDateTo() const
-{
-    return pEditDateTo->toDate() ;
-}
-
-DateTime DateRangeBox::getDateTimeTo() const
-{
-    return DateTime( getDateTo(), Time(23,59,59) );
-}
 
 
 FrmCustom::FrmCustom ( QWidget *parent, const char *name, WidgetFlags f )
@@ -111,10 +55,10 @@ void FrmCustom::showTabs(bool show)
         tb->setVisible( show );
 }
 
-QWidget *FrmCustom::insertTab(QWidget* tab, const Xtring& label, int index)
+QWidget *FrmCustom::insertTab(QWidget* tab, const Xtring& label, const char *name, int index)
 {
     if( !tab )
-        tab = new QWidget( this );
+        tab = new QWidget( this, name );
     pTabWidget->insertTab( index, tab, toGUI(label) );
     return tab;
 }
@@ -212,11 +156,21 @@ TextEdit* FrmCustom::addTextEditBox(QWidget* parent, const Xtring& caption,
 }
 
 
+/**
+ * @brief ...
+ *
+ * @param parent ...
+ * @param caption ...
+ * @param name ...
+ * @param layout ...
+ * @param horiz
+ * @return RichTextBox*
+ */
 RichTextBox* FrmCustom::addRichTextBox(QWidget* parent, const Xtring& caption,
-                                       const char* name, QBoxLayout *layout )
+                                       const char* name, QBoxLayout *layout, bool horiz)
 {
     RichTextBox *rich = new RichTextBox( parent ? parent : pControlsFrame,
-                                         name ? (Xtring("editRich_") + name).c_str() : "", "", false);
+                                         name ? (Xtring("editRich_") + name).c_str() : "", "", horiz);
     rich->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     connect( rich, SIGNAL ( validate ( QWidget *, bool * ) ),
              this, SLOT ( validate_input ( QWidget *, bool * ) ) );
@@ -264,28 +218,44 @@ PushButton* FrmCustom::addButton(QWidget* parent, const Xtring& caption,
     return button;
 }
 
-void FrmCustom::button_clicked()
+
+QLabel* FrmCustom::addImage(QWidget* parent, QPixmap& pixmap, const char *name, QBoxLayout* layout)
 {
-    bool is_valid = true;
-    validate_input( static_cast<QWidget *>(sender()), &is_valid );
+	QLabel *label = new QLabel( parent, name );
+    label->setEnabled( TRUE );
+    label->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, label->sizePolicy().hasHeightForWidth() ) );
+    label->setPaletteBackgroundColor( QColor( 255, 255, 255 ) );
+    label->setFrameShape( QFrame::StyledPanel );
+    label->setFrameShadow( QLabel::Sunken );
+    label->setLineWidth( 3 );
+    label->setPixmap( pixmap );
+    label->setScaledContents( FALSE );
+    label->setAlignment( int( Qt::AlignTop | Qt::AlignHCenter ) );
+    if( !layout ) {
+        layout = new QHBoxLayout();
+        pControlsLayout->addLayout(layout);
+    }
+    layout->addWidget(label);
 }
 
-ComboBoxXtring *FrmCustom::addComboBoxXtring(bool byref, QWidget* parent, const Xtring& caption,
-        const XtringList& captions, const XtringList& values,
-        const Xtring& empty, const char *_name, QBoxLayout* layout, bool horiz)
+ComboBoxXtring *FrmCustom::addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
+        const XtringList &captions_values, const Xtring &empty,
+        const char *name, QBoxLayout* layout, bool horiz )
 {
-    Xtring name = _name;
-    if( name.isEmpty() )
-        name = "combo_" + Xtring(caption).replace(" ", "_");
+    return addComboBoxXtring( byref, parent, caption, captions_values, captions_values,
+                              empty, name, layout, horiz );
+}
+
+ComboBoxXtring* FrmCustom::addComboBoxXtring(bool byref, QWidget* parent, const Xtring& caption, const XtringList& captions, const XtringList& values, const Xtring& empty, const char* name, QBoxLayout* layout, bool horiz)
+{
     ComboBoxXtring *combo;
     if( byref )
-        combo = new ComboBoxXtring( captions, values, parent ? parent : pControlsFrame,
-                                    name.c_str(), caption, horiz );
+        combo = new ComboBoxXtring( captions, values, parent ? parent : pControlsFrame, name, caption, horiz );
     else
-        combo = new ComboBoxXtring( const_cast<XtringList &>(captions), const_cast<XtringList&>(values),
-                                    parent ? parent : pControlsFrame, name.c_str(), caption, horiz );
+        combo = new ComboBoxXtring( const_cast<XtringList &>(captions), const_cast<XtringList &>(values),
+                                 parent ? parent : pControlsFrame, name, caption, horiz );
     if( !empty.isEmpty() ) {
-        combo->insertItem( empty, "", 0 );
+        combo->insertItem( empty, Xtring::null, 0 );
         combo->setCurrentIndex( 0 );
     }
     if ( !layout )
@@ -295,14 +265,6 @@ ComboBoxXtring *FrmCustom::addComboBoxXtring(bool byref, QWidget* parent, const 
     return combo;
 }
 
-
-ComboBoxXtring *FrmCustom::addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,
-        const XtringList &captions_values, const Xtring &empty,
-        const char *name, QBoxLayout* layout, bool horiz )
-{
-    return addComboBoxXtring( byref, parent, caption, captions_values, captions_values,
-                              empty, name, layout, horiz );
-}
 
 ComboBoxInt *FrmCustom::addComboBoxInt( bool byref, QWidget *parent, const Xtring &caption,
                                         const XtringList &captions, const IntList &values, const Xtring &empty,
@@ -327,7 +289,7 @@ ComboBoxInt *FrmCustom::addComboBoxInt( bool byref, QWidget *parent, const Xtrin
 
 
 GroupBox* FrmCustom::addGroupBox(QWidget* parent, XtringList& options, const Xtring& caption,
-                                 int selected, bool horiz, QBoxLayout* layout)
+                                 int selected, QBoxLayout* layout, bool horiz)
 {
     GroupBox *grpbox = new GroupBox( options, caption,
                                      parent ? parent : pControlsFrame, horiz );
@@ -340,10 +302,10 @@ GroupBox* FrmCustom::addGroupBox(QWidget* parent, XtringList& options, const Xtr
     return grpbox;
 }
 
-FileNameBox* FrmCustom::addFileNameBox(QWidget* parent, const Xtring& caption, bool horiz,
-                                       QBoxLayout* layout)
+FileNameBox* FrmCustom::addFileNameBox(QWidget* parent, const Xtring& caption, const char *name,
+                                       QBoxLayout* layout, bool horiz)
 {
-    FileNameBox *fnbox= new FileNameBox( parent ? parent : pControlsFrame, "", caption, false /*choosedir*/, horiz );
+    FileNameBox *fnbox= new FileNameBox( parent ? parent : pControlsFrame, name, caption, false /*choosedir*/, horiz );
     if ( !layout )
         layout = pControlsLayout;
     layout->addLayout( fnbox->getLayout() );
@@ -351,10 +313,10 @@ FileNameBox* FrmCustom::addFileNameBox(QWidget* parent, const Xtring& caption, b
 }
 
 
-FileNameBox* FrmCustom::addDirNameBox(QWidget* parent, const Xtring& caption, bool horiz,
-                                      QBoxLayout* layout)
+FileNameBox* FrmCustom::addDirNameBox(QWidget* parent, const Xtring& caption, const char *name,
+                                      QBoxLayout* layout, bool horiz)
 {
-    FileNameBox *fnbox= new FileNameBox( parent ? parent : pControlsFrame, "", caption, true /*choosedir*/, horiz );
+    FileNameBox *fnbox= new FileNameBox( parent ? parent : pControlsFrame, name, caption, true /*choosedir*/, horiz );
     if ( !layout )
         layout = pControlsLayout;
     layout->addLayout( fnbox->getLayout() );
@@ -373,6 +335,10 @@ DateRangeBox* FrmCustom::addDateRangeBox( QWidget *parent, const Xtring& caption
     pControlsLayout->addLayout ( drbox->getLayout() );
     return drbox;
 }
+
+
+/// FIELDS
+
 
 LineEdit *FrmCustom::addInputField( QWidget *parent, const Xtring &acaption,
                                     const Xtring &tablename, const Xtring &fldname,
@@ -512,6 +478,12 @@ void FrmCustom::accept()
 {
     if( validate() )
         FrmBase::accept();
+}
+
+void FrmCustom::button_clicked()
+{
+    bool is_valid = true;
+    validate_input( static_cast<QWidget *>(sender()), &is_valid );
 }
 
 void FrmCustom::validate_input( QWidget *sender, bool *is_valid )

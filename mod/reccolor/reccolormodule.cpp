@@ -113,7 +113,7 @@ void RecColorModule::afterLoad()
 }
 
 
-bool RecColorModule::login( QDialog *frmlogin, const Xtring& version,
+bool RecColorModule::login( QWidget *frmlogin, const Xtring& version,
                            Xtring& addTitle, bool startingapp)
 {
     Xtring cfg_tables = ModuleInstance->getModuleSetting( "TABLES" ).toString();
