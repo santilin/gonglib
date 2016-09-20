@@ -7,7 +7,7 @@
 
 namespace gong {
 
-dbModule::dbModule(const char *unixname)
+dbModule::dbModule(const char *unixname, int argc, char *argv[])
     : pApplication(DBAPP), pMainWindow(0), pMainDatabase(0), pConnection(0),
       mVersion(1), mUnixName( unixname ), pModuleSettings(0), mEnabled( true )
 {

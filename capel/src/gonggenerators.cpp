@@ -162,7 +162,7 @@ void capel::genModuleCpp(const Xtring &args, const XtringList &modules)
 "#endif\n";
 		modules_load +=
 "#ifdef HAVE_" + module.upper() + "MODULE\n"
-"\t\tDBAPP->addModule( new " + module.lower() + "::" + module + "Module() );\n"
+"\t\tDBAPP->addModule( new " + module.lower() + "::" + module + "Module(argc, argv) );\n"
 "#endif\n";
 	}
 	main_cpp->insert_extrusion( "MODULES_INCLUDES", modules_includes, after_includes, before_includes);

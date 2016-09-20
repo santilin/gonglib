@@ -14,10 +14,9 @@
 
 using namespace std;
 
-namespace gong
-{
-namespace httpserver
-{
+namespace gong {
+
+namespace httpserver {
 
 //Unless you do more heavy non-threaded processing in the resources,
 //1 thread is usually faster than several threads

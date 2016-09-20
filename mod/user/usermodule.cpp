@@ -21,8 +21,8 @@ namespace user {
 
 UserModule *ModuleInstance = 0;
 
-UserModule::UserModule()
-	: dbModule("user"), mIsLogged(false)
+UserModule::UserModule(int argc, char *argv[])
+	: dbModule("user", argc, argv), mIsLogged(false)
 {
 	ModuleInstance = this;
     _GONG_DEBUG_TRACE(1);

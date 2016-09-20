@@ -40,7 +40,7 @@ struct dbModuleSetting {
 class dbModule
 {
 public:
-    dbModule(const char *unixname);
+    dbModule(const char *unixname, int argc, char *argv[]);
     virtual ~dbModule() {};
 
     // module's public data

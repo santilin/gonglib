@@ -53,7 +53,7 @@ int main( int argc, char *argv[] )
         DBAPP->init();
 /*<<<<<LOAD_MODULES*/
 #ifdef HAVE_USERMODULE
-		DBAPP->addModule( new user::UserModule() );
+		DBAPP->addModule( new user::UserModule(argc, argv) );
 #endif
 /*>>>>>LOAD_MODULES*/
         DBAPP->addModule( new gestiong::GestiongModule() );

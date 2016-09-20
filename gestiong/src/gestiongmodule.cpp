@@ -33,7 +33,7 @@ namespace gestiong {
 
 GestiongModule *GestiongModuleApp = 0;
 
-GestiongModule::GestiongModule()
+GestiongModule::GestiongModule(int argc, char *argv[])
     : dbModule("gestiong")
 {
     GestiongModuleApp = this;
