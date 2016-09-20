@@ -54,7 +54,7 @@ public:
     bool wasCancelled() const {
         return mWasCancelled;
     }
-    int exec();
+    int exec(bool centered = true);
     void showModalFor( QWidget *parent, bool centered, bool createclient );
     bool isModalFor( QWidget *parent ) const;
     QWidget *getRealParent() const {

@@ -126,8 +126,7 @@ bool EmpresaModule::usaProyectos() const
 }
 
 
-bool EmpresaModule::login( QWidget *frmlogin, const Xtring &version,
-                           Xtring &addtitle, bool startingapp )
+bool EmpresaModule::login( const Xtring &version, Xtring &addtitle, bool startingapp )
 {
     setCodEmpresa( DBAPP->getAppSetting( "CodEmpresa", 1 ).toInt() );
     if( !startingapp )

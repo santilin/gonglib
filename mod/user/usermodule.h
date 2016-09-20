@@ -39,7 +39,7 @@ public:
 	virtual ~UserModule();
 	virtual bool initMainWindow(class MainWindow *win);
 	virtual bool initDatabase(dbDefinition *dbdef);
-	virtual bool login(gong::FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp = true);
+	virtual bool login(const Xtring &version, Xtring &addTitle, bool startingapp = true);
 	virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
 	virtual FrmEditRec *createEditForm(FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm = 0,
 		FrmEditRec::EditMode editmode = DataTable::defaulteditmode,

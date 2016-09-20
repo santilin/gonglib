@@ -326,13 +326,14 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
 	}
 	bool connected = false;
 	dbModule *moduser = findModule("user");
+	Xtring dbname = getAppSetting ( "DBNAME" ).toString();
 	if( moduser && moduser->isEnabled()) {
         waitCursor();
 		connected = getConnection()->connect(
 			dbConnection::stringToSqlDriver(DBAPP->getAppSetting ( "DBDRIVER", "MYSQL" ).toString().c_str()),
 			getAppSetting ( "DBUSER" ).toString(),
 			getAppSetting ( "DBPASSWORD" ).toString(),
-			getAppSetting ( "DBNAME" ).toString(),
+			dbname,
 			getAppSetting ( "DBHOST" ).toString(),
 			getAppSetting ( "DBPORT" ).toInt() );
         resetCursor();
@@ -341,13 +342,14 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
 		pFrmLogin = new FrmLogin(startingapp);
 		pFrmLogin->setAutoLogin(bAutoLogin);
 		pFrmLogin->init(); // Tratar de hacer el autologin
-		if( pFrmLogin->wasCancelled() ) {
+		if( pFrmLogin->result() == QDialog::Rejected ) {
 			delete pFrmLogin;
 			pFrmLogin = 0;
 			return false;
 		}
 		mDbUser = pFrmLogin->getUser();
 		mDbHost = pFrmLogin->getHost();
+		dbname = pFrmLogin->getDBName();
 		mDbUserPassword = pFrmLogin->getPassword();
 		getConnection()->selectDatabase( pFrmLogin->getDBName() );
 		getDatabase()->setName( pFrmLogin->getDBName() );
@@ -445,7 +447,8 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
 
     // Check if the database has changed
     if( startingapp ) {
-        pFrmLogin->addMessage( _("Comprobando las versiones de los módulos...") );
+        if( pFrmLogin )
+			pFrmLogin->addMessage( _("Comprobando las versiones de los módulos...") );
         DBAPP->processEvents();
 
         // Check the modules database versions against the modules program versions
@@ -492,7 +495,8 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
                                     XtringList querys;
                                     mig.tokenize( querys, ";" );
                                     try {
-                                        pFrmLogin->addMessage( Xtring::printf(
+										if( pFrmLogin )
+											pFrmLogin->addMessage( Xtring::printf(
                                                                    _("Actualizando módulo %s a la versión %d"), mod_name.c_str(), mod_version ) );
 
                                         DBAPP->processEvents();
@@ -514,12 +518,13 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
         }
         delete module;
 
-        pFrmLogin->addMessage( Xtring::printf(_("Comprobando la base de datos %s ..."),
-                                              pFrmLogin->getDBName().c_str() ) );
+        if( pFrmLogin )
+			pFrmLogin->addMessage( Xtring::printf(_("Comprobando la base de datos %s ..."),
+                                              dbname.c_str() ) );
         DBAPP->processEvents();
         Xtring diff = upgradeDatabase( getConnection(), getDatabase(),
-                                       pFrmLogin->getDBName(), false /*not purging*/ );
-        if( !diff.isEmpty() ) {
+                                       dbname, false /*not purging*/ );
+        if( !diff.isEmpty() && pFrmLogin ) {
             pFrmLogin->addMessage( Xtring::printf( _("La base de datos de %s no está actualizada\n"),
                                                    getPackageString().c_str() ) );
             pFrmLogin->addMessage( diff );
@@ -549,7 +554,8 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
     NamesListTable::fillInfoList( getConnection() );
 
     if( !startingapp ) {
-        delete pFrmLogin;
+		if( pFrmLogin )
+			delete pFrmLogin;
         pFrmLogin = 0;
     } // else it will be deleted in initMainWindow
     return getConnection()->isMySQL() || getConnection()->isPGSQL();

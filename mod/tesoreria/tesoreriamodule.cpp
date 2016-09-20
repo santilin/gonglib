@@ -65,7 +65,7 @@ TesoreriaModule::~TesoreriaModule()
     _GONG_DEBUG_TRACE(1);
 }
 
-bool TesoreriaModule::login(FrmLogin* frmlogin, const Xtring& version, Xtring& addTitle, bool startingapp)
+bool TesoreriaModule::login(const Xtring& version, Xtring& addTitle, bool startingapp)
 {
     return true;
 }

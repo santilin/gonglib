@@ -62,4 +62,5 @@ DateTime DateRangeBox::getDateTimeTo() const
     return DateTime( getDateTo(), Time(23,59,59) );
 }
 
+
 } // namespace gong

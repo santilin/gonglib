@@ -230,8 +230,7 @@ Xtring PagosModule::getMigrationSQL( uint old_version ) const
     return ret;
 }
 
-bool PagosModule::login( QWidget *frmlogin, const Xtring& version,
-                        Xtring& addTitle, bool startingapp)
+bool PagosModule::login( const Xtring& version, Xtring& addTitle, bool startingapp)
 {
     return true;
 }

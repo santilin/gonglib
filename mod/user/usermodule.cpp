@@ -153,7 +153,7 @@ bool UserModule::initMainWindow(MainWindow *mainwin)
 	return true;
 }
 
-bool UserModule::login(gong::FrmLogin *frmlogin, const Xtring &version, Xtring &addTitle, bool startingapp)
+bool UserModule::login(const Xtring &version, Xtring &addTitle, bool startingapp)
 {
 	bool autologin = DBAPP->getAppSetting ( "AUTOLOGIN", "false" ).toBool();
 	bool logged = false;
@@ -162,18 +162,37 @@ bool UserModule::login(gong::FrmLogin *frmlogin, const Xtring &version, Xtring &
 	}
 	if( !logged) {
 		FrmLogin *loginform = new FrmLogin();
-		loginform->exec();
-		if (!loginform->wasCancelled())
-			logged = doLogin( loginform->getUser(), loginform->getPassword() );
+		while( !logged) {
+			loginform->exec();
+			if (!loginform->wasCancelled()) {
+				if( doLogin( loginform->getUser(), loginform->getPassword() ) ) {
+					logged = true;
+				} else {
+					FrmBase::msgOk(loginform, "El usuario o la contraseña son erróneos");
+				}
+			} else {
+				break;
+			}
+		}
+		delete loginform;
 	}
 	return logged;
 }
 
 bool UserModule::doLogin(const Xtring& user, const Xtring& password)
 {
-	Xtring r( pConnection->selectString("SELECT LOGIN FROM USUARIA WHERE"
-	"LOGIN=" + pConnection->toSQL(user) + " AND PASSWORD=" + pConnection->toSQL(password)));
-	return !r.isEmpty();
+	dbConnection *conn = getConnection();
+	Xtring r( conn->selectString("SELECT LOGIN FROM USUARIA WHERE "
+	"LOGIN=" + conn->toSQL(user) + " AND PASSWORD=" + conn->toSQL(password)));
+	if( r.isEmpty() ) {
+		int count = conn->selectInt("SELECT COUNT(*) FROM USUARIA");
+		if( count == 0 ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	return true;
 }
 
 

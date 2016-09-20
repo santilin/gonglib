@@ -82,8 +82,7 @@ ContactosModule::~ContactosModule()
     _GONG_DEBUG_TRACE(1);
 }
 
-bool ContactosModule::login( QWidget *frmlogin, const Xtring &version,
-                            Xtring &addtitle, bool startingapp)
+bool ContactosModule::login( const Xtring &version, Xtring &addtitle, bool startingapp)
 {
     return true;
 }

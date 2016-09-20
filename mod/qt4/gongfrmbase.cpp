@@ -379,13 +379,34 @@ void FrmBase::showModalFor( QWidget *parent, bool centered, bool createclient )
     // parent is reenabled in the close event of this form
 }
 
-int FrmBase::exec()
+int FrmBase::exec(bool centered)
 {
     if (pEventLoop) {
         _GONG_DEBUG_WARNING("QDialog::exec: Recursive call detected");
         return -1;
     }
 
+    show();
+    if ( centered || !theGuiApp->getMainWindow() )
+    {
+		int x = this->x(), y = this->y();
+        if ( parentWidget() )  // Center to the parent
+        {
+            if ( width() < parentWidget()->width() )
+                x = parentWidget()->x() + ( parentWidget()->width() - width() ) / 2;
+            if ( height() < parentWidget()->height() )
+                y = parentWidget()->y() + ( parentWidget()->height() - height() ) / 2;
+        } else if ( theGuiApp->getMainWindow() )  { // Center to the main window
+            x = ( theGuiApp->getMainWindow()->getViewport()->width()
+                  - parentWidget()->width() ) / 2;
+            y = ( theGuiApp->getMainWindow()->getViewport()->height()
+                  - parentWidget()->height() ) / 2;
+        } else {
+			// @todo center to the screen
+		}
+		if ( x != this->x() || y != this->y() )
+			move ( x, y );
+    }
     bool deleteOnClose = testAttribute(Qt::WA_DeleteOnClose);
     setAttribute(Qt::WA_DeleteOnClose, false);
 
