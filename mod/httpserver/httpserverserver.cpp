@@ -65,10 +65,10 @@ Server::Server ( const Xtring &document_root,
                     Xtring filename ( path.c_str() );
                     if ( filename.endsWith ( ".blade.php" ) ) {
                         Xtring content = BladeInterpreter::interpret ( FileUtils::readFile ( filename ), this->getVariables() );
-                        _GONG_DEBUG_PRINT ( 0, "Enviando el fichero interpretado: "  + filename );
+                        std::cout << "Enviando el fichero interpretado: " << filename << std::endl;
                         *response << "HTTP/1.1 200 Ok\r\nContent-Length: " << content.length() << "\r\n\r\n" << content;
                     } else {
-                        _GONG_DEBUG_PRINT ( 0, "Enviando el fichero "  + filename );
+                        std::cout << "Enviando el fichero: " << filename << std::endl;
                         auto ifs=make_shared<ifstream>();
                         ifs->open ( path.string(), ifstream::in | ios::binary );
                         if ( *ifs ) {
@@ -131,9 +131,8 @@ void Server::addRestRoutes(const Xtring &prefix)
 {
     resource["^/" + prefix + "/filter/([A-Za-z_]+)\\?(.*)$"]["GET"]=[this] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
         string request_table=request->path_match[1];
-        string request_number=request->path_match[2];
-        dbRecordID id = Xtring ( request_number.c_str() ).toInt();
-        Xtring response_str = getResource ( Xtring ( request_table.c_str() ).upper(), id );
+        string request_params=request->path_match[2];
+        Xtring response_str = getResource ( Xtring ( request_table.c_str() ).upper(), 1 );
         *response << "HTTP/1.1 200 OK\r\nContent-Length: " << response_str.length() << "\r\n\r\n" << response_str;
     };
     resource["^/" + prefix + "/([A-Za-z_]+)/([0-9]+)$"]["GET"]=[this] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
@@ -177,6 +176,7 @@ Xtring Server::getResource ( const Xtring &table, dbRecordID id )
 {
     Xtring response_str;
     dbConnection *conn = DBAPP->getConnection();
+	assert( conn );
     dbRecord *record = DBAPP->createRecord ( table, id );
     if ( !record ) {
         response_str = "No se ha podido crear un registro para la tabla " + table;

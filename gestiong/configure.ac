@@ -23,7 +23,6 @@ AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
 AM_PROG_LIBTOOL
 AM_INIT_AUTOMAKE
-AX_CXX_COMPILE_STDCXX([11])
 
 AC_MSG_NOTICE( [gestiong Custom configuration] )
 

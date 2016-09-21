@@ -324,6 +324,7 @@ namespace SimpleWeb {
                 if(request->method==res.first) {
                     for(auto& res_path: res.second) {
                         boost::smatch sm_res;
+						std::cout << "Comprobando request: " << request->path << " con resource " << res_path.first << std::endl;
                         if(boost::regex_match(request->path, sm_res, res_path.first)) {
                             request->path_match=std::move(sm_res);
                             write_response(socket, request, res_path.second);

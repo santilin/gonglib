@@ -1,7 +1,5 @@
-
 #include <fstream>
 #include <cerrno>
-#include <memory>
 #include <gonggettext.h>
 #include <gonglist.h>
 #include "dbappdbapplication.h"
@@ -86,7 +84,7 @@ void FrmExport::doExport(ExportViewItem *current, std::ofstream &stream, const X
         dbRecord *r = DBAPP->createRecord(tablename);
         selectall += r->getFilter( "WHERE" );
         selectall += " ORDER BY " + orderby;
-        std::auto_ptr<dbResultSet> rs( r->getConnection()->select( selectall ) );
+        std::unique_ptr<dbResultSet> rs( r->getConnection()->select( selectall ) );
         while( rs->next() ) {
             r->read( rs->toInt((uint)0) );
             stream << r->toString(TOSTRING_FUGIT) << "\n";

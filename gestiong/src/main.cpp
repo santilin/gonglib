@@ -60,13 +60,13 @@ int main( int argc, char *argv[] )
         DBAPP->addModule( new gestiong::GestiongModule(argc, argv) );
         DBAPP->readSettings();
         DBAPP->initDatabases();
-		if (DBAPP->isServerMode()) {
-			httpserver::Server server(FileUtils::path(DBAPP->getGonglibDataDir()) + "/httpserver/httpdocs", 8080, 1);
-			server.addAuthRoutes("public/api");
-			server.addRestRoutes("public/api");
-			server.run();
-		} else {
-			if( DBAPP->login(PACKAGE_VERSION) ) {
+		if( DBAPP->login(PACKAGE_VERSION) ) {
+			if (DBAPP->isServerMode()) {
+				httpserver::Server server(FileUtils::path(DBAPP->getGonglibDataDir()) + "/httpserver/httpdocs", 8080, 1);
+				server.addAuthRoutes("api");
+				server.addRestRoutes("api");
+				server.run();
+			} else {
 				DBAPP->initMainWindow();
 				DBAPP->exec();
 				DBAPP->writeSettings();
