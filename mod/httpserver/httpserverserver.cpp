@@ -185,6 +185,7 @@ Xtring Server::getResource ( const Xtring &table, dbRecordID id )
     } else {
         response_str = Xtring::printf ( "No se ha encontrado el registro de id %d en la tabla %s", id, table.c_str() );
     }
+    return response_str;
 }
 
 #if 0

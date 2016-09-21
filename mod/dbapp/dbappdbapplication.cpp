@@ -342,7 +342,7 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
 	bool connected = false;
 	dbModule *moduser = findModule("user");
 	Xtring dbname = getAppSetting ( "DBNAME" ).toString();
-	if( moduser && moduser->isEnabled()) {
+	if( mServerMode || (moduser && moduser->isEnabled())) {
         waitCursor();
 		connected = getConnection()->connect(
 			dbConnection::stringToSqlDriver(DBAPP->getAppSetting ( "DBDRIVER", "MYSQL" ).toString().c_str()),

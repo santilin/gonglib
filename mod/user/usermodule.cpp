@@ -155,6 +155,8 @@ bool UserModule::initMainWindow(MainWindow *mainwin)
 
 bool UserModule::login(const Xtring &version, Xtring &addTitle, bool startingapp)
 {
+	if( DBAPP->isServerMode() )
+		return true;
 	bool autologin = DBAPP->getAppSetting ( "AUTOLOGIN", "false" ).toBool();
 	bool logged = false;
 	if (autologin) {
