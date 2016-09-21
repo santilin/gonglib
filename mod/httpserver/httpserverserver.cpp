@@ -26,7 +26,7 @@ Server::Server ( const Xtring &document_root,
       mDocumentRoot ( document_root )
 {
     if ( !FileUtils::isDir ( mDocumentRoot.c_str() ) ) {
-        _GONG_DEBUG_PRINT ( 0, mDocumentRoot );
+        _GONG_DEBUG_PRINT ( 0, mDocumentRoot + ": directorio no encontrado" );
         throw new std::runtime_error ( "Document root: '" + mDocumentRoot  + "' no existe" );
     }
 
@@ -129,6 +129,13 @@ void Server::default_resource_send ( shared_ptr<HttpServer::Response> response,
 // Ejemplos de resources
 void Server::addRestRoutes(const Xtring &prefix)
 {
+    resource["^/" + prefix + "/filter/([A-Za-z_]+)\\?(.*)$"]["GET"]=[this] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
+        string request_table=request->path_match[1];
+        string request_number=request->path_match[2];
+        dbRecordID id = Xtring ( request_number.c_str() ).toInt();
+        Xtring response_str = getResource ( Xtring ( request_table.c_str() ).upper(), id );
+        *response << "HTTP/1.1 200 OK\r\nContent-Length: " << response_str.length() << "\r\n\r\n" << response_str;
+    };
     resource["^/" + prefix + "/([A-Za-z_]+)/([0-9]+)$"]["GET"]=[this] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
         string request_table=request->path_match[1];
         string request_number=request->path_match[2];
@@ -136,6 +143,7 @@ void Server::addRestRoutes(const Xtring &prefix)
         Xtring response_str = getResource ( Xtring ( request_table.c_str() ).upper(), id );
         *response << "HTTP/1.1 200 OK\r\nContent-Length: " << response_str.length() << "\r\n\r\n" << response_str;
     };
+
 }
 
 void Server::addAuthRoutes(const Xtring &prefix)

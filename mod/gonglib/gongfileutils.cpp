@@ -104,7 +104,9 @@ Xtring FileUtils::path (const Xtring &spec)
 {
     // scan back through filename until a separator is found and remove prefix
     // if there is no separator, remove the whole
-    unsigned i = spec.size();
+    unsigned i = spec.size()-1;
+	if( isSeparator(spec[i]) )
+		--i;
     while (i--)
     {
         if (isSeparator(spec[i]))

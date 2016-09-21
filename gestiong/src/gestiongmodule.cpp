@@ -34,7 +34,7 @@ namespace gestiong {
 GestiongModule *GestiongModuleApp = 0;
 
 GestiongModule::GestiongModule(int argc, char *argv[])
-    : dbModule("gestiong")
+    : dbModule("gestiong", argc, argv)
 {
     GestiongModuleApp = this;
     _GONG_DEBUG_PRINT(1, "Inicializando GestiongModule...");

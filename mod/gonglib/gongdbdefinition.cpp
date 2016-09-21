@@ -36,15 +36,6 @@
 #include "gongdbdefinition.h"
 #include "gongdbrecord.h"
 
-// Manage auto_ptr warnings and deprecation in C++11
-#if (__cplusplus >= 201103L)
-#include <auto_ptr>
-using std::unique_ptr;
-#else
-#include <memory>
-#define unique_ptr auto_ptr
-#endif // C++11
-
 namespace gong {
 
 // create database cauac_db default charset utf8 collate utf8_spanish_ci

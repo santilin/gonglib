@@ -52,10 +52,10 @@ public:
     /// Creates a record from another record
     dbRecord *createRecord(const dbRecord *record);
 
-    bool isReadOnly() const {
-        return mReadOnly;
-    }
+    bool isReadOnly() const { return mReadOnly; }
     void setReadOnly(bool ro);
+    bool isServerMode() const { return mServerMode; }
+    
     bool preventOperationIf( bool cond, const Xtring &operation, const Xtring &reason );
     dbRecordPermissions getRecordPermissions( dbRecord *rec, dbUser *user );
 
@@ -254,16 +254,16 @@ public:	// Edit forms
     static long version2Long( const Xtring &version );
 
 protected:
-    dbConnection *pConnection;
-    dbDefinition *pDatabase;
-    FrmLogin *pFrmLogin;
-    const char *mdbVersion;
+    dbConnection *pConnection = 0;
+    dbDefinition *pDatabase = 0;
+    FrmLogin *pFrmLogin = 0;
+    const char *mdbVersion = 0;
     Dictionary<dbModule *> mModules;
-    Settings *pMachineSettings, *pUserLocalSettings, *pGlobalSettings, *pUserGlobalSettings;
-    bool mDatabaseChanged;
-    bool mReadOnly;
+    Settings *pMachineSettings = 0, *pUserLocalSettings = 0, *pGlobalSettings = 0, *pUserGlobalSettings = 0;
+    bool mDatabaseChanged = false;
+    bool mReadOnly = false;
     Xtring mDbUser, mDbHost, mDbUserPassword, mReportsLocalPath, mReportsGlobalPath;
-    dbModuleSetting *pModuleSettings;
+    dbModuleSetting *pModuleSettings = 0;
     static XtringList mMasterTables, mDetailTables;
     static Xtring sCodeNotFound, sDescNotFound, sClipBoardContent;
     static List<dbRecordID> sSeekCodeRecordIDs;
@@ -271,8 +271,8 @@ protected:
     static Date sWorkingDate;
     static dbRecordTimestampBehavior *sTimestampBehavior;
 private:
-    bool mRealSQLUser;
-    RecMetaDBData *pRecMetaDBData;
+    bool mRealSQLUser = false, mServerMode = false;
+    RecMetaDBData *pRecMetaDBData = 0;
 };
 
 extern dbApplication *DBAPP;

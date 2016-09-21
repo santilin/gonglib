@@ -25,13 +25,14 @@
 #include <gonglist.hpp>
 #include <gongdbfieldlistofvalues.hpp>
 #include <dbappdbapplication.h>
+#include <gongfileutils.h>
 
 /*<<<<<MODULES_INCLUDES*/
 #ifdef HAVE_USERMODULE
 #	include <usermodule.h>
 #endif
 /*>>>>>MODULES_INCLUDES*/
-
+#include <httpserverserver.h>
 #include "gestiongmodule.h"
 
 using namespace gong;
@@ -56,14 +57,21 @@ int main( int argc, char *argv[] )
 		DBAPP->addModule( new user::UserModule(argc, argv) );
 #endif
 /*>>>>>LOAD_MODULES*/
-        DBAPP->addModule( new gestiong::GestiongModule() );
+        DBAPP->addModule( new gestiong::GestiongModule(argc, argv) );
         DBAPP->readSettings();
         DBAPP->initDatabases();
-        if( DBAPP->login(PACKAGE_VERSION) ) {
-            DBAPP->initMainWindow();
-            DBAPP->exec();
-            DBAPP->writeSettings();
-        }
+		if (DBAPP->isServerMode()) {
+			httpserver::Server server(FileUtils::path(DBAPP->getGonglibDataDir()) + "/httpserver/httpdocs", 8080, 1);
+			server.addAuthRoutes("public/api");
+			server.addRestRoutes("public/api");
+			server.run();
+		} else {
+			if( DBAPP->login(PACKAGE_VERSION) ) {
+				DBAPP->initMainWindow();
+				DBAPP->exec();
+				DBAPP->writeSettings();
+			}
+		}
     } catch( std::runtime_error e) {
         _GONG_DEBUG_WARNING( e.what() );
         return 1;

@@ -149,9 +149,7 @@ dbApplication::dbApplication ( const char *dbversion, const char *datadir,
                                const char *packagename, const char *packageversion,
                                int &argc, char **argv )
     : GuiApplication ( datadir, packagename, packageversion, argc, argv ),
-      pConnection( new dbConnection() ), pDatabase ( 0 ), pFrmLogin( 0 ),
-      mdbVersion( dbversion ), pGlobalSettings(0), pUserGlobalSettings(0),
-      mDatabaseChanged( false ), mReadOnly(false), mRealSQLUser( false )
+      pConnection( new dbConnection() ), mdbVersion( dbversion )
 {
     DBAPP = this;
     _GONG_DEBUG_TRACE ( 1 );
@@ -163,6 +161,23 @@ dbApplication::dbApplication ( const char *dbversion, const char *datadir,
                                        _("Configuración local para este ordenador") );
     pUserLocalSettings->read(); // will be read again later
     pModuleSettings = _settings;
+	int c;
+	optind = 1;
+	while ( 1 ) {
+			c = getopt( argc, argv, "s");
+			if ( c == -1 )
+					break;
+
+			switch ( c ) {
+			case 's':
+#ifdef HAVE_HTTPSERVERMODULE
+				mServerMode = true;
+#else
+				_GONG_DEBUG_WARNING("Opción -s sin módulo httpserver");
+#endif
+				break;
+			}
+	}
 }
 
 dbApplication::~dbApplication()
