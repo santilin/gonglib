@@ -227,6 +227,7 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 "AC_PROG_CXX\n"
 "AM_PROG_LIBTOOL\n"
 "AM_INIT_AUTOMAKE\n"
+"AX_CXX_COMPILE_STDCXX([11])\n"
 "\n"
 "AC_MSG_NOTICE( [" + modulename + " Custom configuration] )\n"
 "\n"
