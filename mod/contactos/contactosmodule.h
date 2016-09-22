@@ -36,7 +36,7 @@ class ContactosModule: public QObject, public dbModule
 {
 	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
-	ContactosModule();
+	ContactosModule(int argc, char *argv[]);
 	virtual ~ContactosModule();
 	virtual bool initMainWindow(class MainWindow *win);
 	virtual bool initDatabase(dbDefinition *dbdef);

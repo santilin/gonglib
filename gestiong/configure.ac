@@ -4,9 +4,9 @@ dnl MODULE qt4 GONG_CHECK_QT4
 dnl MODULE dbapp
 dnl MODULE User
 dnl MODULE HttpServer
+dnl MODULE Contactos
 dnl TYPE Project gestiong
 dnl >>>>>MODULE_INFO
-dnl aMODULE Contactos
 dnl aMODULE Empresa
 dnl aMODULE Tesoreria
 dnl aMODULE Pagos
@@ -23,6 +23,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
 AM_PROG_LIBTOOL
 AM_INIT_AUTOMAKE
+AX_CXX_COMPILE_STDCXX([11])
 
 AC_MSG_NOTICE( [gestiong Custom configuration] )
 
@@ -185,6 +186,24 @@ else
 fi
 AC_SUBST(GONGHTTPSERVER_CPPFLAGS)
 AC_SUBST(GONGHTTPSERVER_LIBS)
+
+AC_ARG_WITH( [gong-contactos],
+AS_HELP_STRING([--with-gong-contactos], [Support for the gong contactos module (default is YES)]), 
+[ac_cv_use_gong_contactos=$withval],
+[ac_cv_use_gong_contactos=yes] )
+AM_CONDITIONAL( [COMPILE_WITH_GONG_CONTACTOS], [ test "$ac_cv_use_gong_contactos" = yes ])
+if test "$ac_cv_use_gong_contactos" = yes ; then
+	AC_DEFINE( [HAVE_CONTACTOSMODULE], [1], [Define to 1 if you have the Contactos module.] )
+	GONGCONTACTOS_CPPFLAGS="-I../../contactos"
+	GONGCONTACTOS_LIBS="-L../contactos -lgongcontactos"
+	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGCONTACTOS_CPPFLAGS"
+	GONGLIB_LIBS="$GONGCONTACTOS_LIBS $GONGLIB_LIBS"
+else
+	GONGCONTACTOS_CPPFLAGS=
+	GONGCONTACTOS_LIBS=
+fi
+AC_SUBST(GONGCONTACTOS_CPPFLAGS)
+AC_SUBST(GONGCONTACTOS_LIBS)
 AC_SUBST(AM_CXXFLAGS)
 AC_SUBST(AM_CPPFLAGS)
 dnl >>>>>GONGLIB_MODULE__MODULES
@@ -194,6 +213,6 @@ AC_SUBST(GONGLIB_LIBS)
 AM_CONDITIONAL( [COMPILE_EXPERIMENTAL], [ test ! false ])
 
 
-AC_CONFIG_FILES( Makefile gonglib/Makefile rtk/Makefile qt4/Makefile dbapp/Makefile user/Makefile httpserver/Makefile \
+AC_CONFIG_FILES( Makefile gonglib/Makefile rtk/Makefile qt4/Makefile dbapp/Makefile user/Makefile httpserver/Makefile contactos/Makefile \
 	src/Makefile )
 AC_OUTPUT

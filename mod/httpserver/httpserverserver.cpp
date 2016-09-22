@@ -132,7 +132,7 @@ void Server::addRestRoutes(const Xtring &prefix)
     resource["^/" + prefix + "/filter/([A-Za-z_]+)\\?(.*)$"]["GET"]=[this] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
         string request_table=request->path_match[1];
         string request_params=request->path_match[2];
-        Xtring response_str = getResource ( Xtring ( request_table.c_str() ).upper(), 1 );
+        Xtring response_str = getResources(Xtring ( request_table.c_str() ).upper(), request_params );
         *response << "HTTP/1.1 200 OK\r\nContent-Length: " << response_str.length() << "\r\n\r\n" << response_str;
     };
     resource["^/" + prefix + "/([A-Za-z_]+)/([0-9]+)$"]["GET"]=[this] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
@@ -187,6 +187,37 @@ Xtring Server::getResource ( const Xtring &table, dbRecordID id )
     }
     return response_str;
 }
+
+Xtring Server::getResources(const Xtring& table, const Xtring& params_str)
+{
+    Xtring response_str;
+	XtringList params;
+	params_str.tokenize(params,"&");
+    dbConnection *conn = DBAPP->getConnection();
+	assert( conn );
+    dbRecord *record = DBAPP->createRecord(table);
+    if ( !record ) {
+        response_str = "No se ha podido crear un registro para la tabla " + table;
+    } else {
+		long int records = conn->selectInt("SELECT COUNT(*) FROM " + conn->nameToSQL(table));
+		response_str = "{ \"total\": " + Xtring::number(records) + ",\n \"data\": [\n";
+		if( records ) {
+			dbResultSet *rs( conn->select("SELECT ID FROM " + conn->nameToSQL(table) + " LIMIT 1, 10" ) );
+			bool first = true;
+			while( rs->next() ) {
+				if (record->read( rs->toInt((uint) 0) ) ) {
+					if (!first)
+						response_str += ",\n";
+					first = false;
+					response_str += record->toString( TOSTRING_JSON );
+				}
+			}
+		}
+		response_str += "] }";
+	}
+	return response_str;
+}
+
 
 #if 0
 //Add resources using path-regex and method-string, and an anonymous function

@@ -69,28 +69,7 @@ int main( int argc, char *argv[] )
 // 		}
         DBAPP->init();
 #ifdef HAVE_CONTACTOSMODULE
-        DBAPP->addModule( new contactos::ContactosModule() );
-#endif
-#ifdef HAVE_EMPRESAMODULE
-        DBAPP->addModule( new empresa::EmpresaModule() );
-#endif
-#ifdef HAVE_TESORERIAMODULE
-		DBAPP->addModule( new tesoreria::TesoreriaModule() );
-#endif
-#ifdef HAVE_PAGOSMODULE
-        DBAPP->addModule( new pagos::PagosModule() );
-#endif
-#ifdef HAVE_FACTUMODULE
-        DBAPP->addModule( new factu::FactuModule() );
-#endif
-#ifdef HAVE_SOCIASMODULE
-        DBAPP->addModule( new socias::SociasModule() );
-#endif
-#ifdef HAVE_SINPAPELESMODULE
-        DBAPP->addModule( new sinpapeles::SinPapelesModule() );
-#endif
-#ifdef HAVE_RECCOLORMODULE
-        DBAPP->addModule( new reccolor::RecColorModule() );
+        DBAPP->addModule( new contactos::ContactosModule(argc, argv) );
 #endif
         DBAPP->readSettings();
         DBAPP->initDatabases();

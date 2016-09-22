@@ -60,8 +60,8 @@ static dbModuleSetting _settings[] = {
     {dbModuleSetting::None}
 };
 
-ContactosModule::ContactosModule()
-    : dbModule("contactos"), pFicContacto(0), pMenuContactosContacto(0)
+ContactosModule::ContactosModule(int argc, char *argv[])
+    : dbModule("contactos", argc, argv), pFicContacto(0), pMenuContactosContacto(0)
 {
     _GONG_DEBUG_TRACE(1);
     ModuleInstance = this;

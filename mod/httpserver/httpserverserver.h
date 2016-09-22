@@ -20,6 +20,7 @@ public:
 	const Dictionary<Xtring> &getVariables() const { return mVariables; }
 protected:
 	Xtring getResource(const Xtring &table, dbRecordID id);
+	Xtring getResources(const Xtring &table, const Xtring &params);
 	void default_resource_send(std::shared_ptr<HttpServer::Response> response,
                            std::shared_ptr<std::ifstream> ifs, std::shared_ptr<std::vector<char> > buffer);
 private:

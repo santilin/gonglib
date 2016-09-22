@@ -154,7 +154,7 @@ void capel::genModuleCpp(const Xtring &args, const XtringList &modules)
 	for( XtringList::const_iterator it = modules.begin();
 		it != modules.end(); ++ it ) {
 		const Xtring &module = *it;
-		if( module.startsWith("rtk") || module.startsWith("qt4") || module == "dbapp" )
+		if( module.startsWith("rtk") || module.startsWith("qt4") || module == "dbapp" || module == "HttpServer" )
 			continue;
 		modules_includes +=
 "#ifdef HAVE_" + module.upper() + "MODULE\n"

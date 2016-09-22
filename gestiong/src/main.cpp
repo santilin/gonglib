@@ -31,6 +31,9 @@
 #ifdef HAVE_USERMODULE
 #	include <usermodule.h>
 #endif
+#ifdef HAVE_CONTACTOSMODULE
+#	include <contactosmodule.h>
+#endif
 /*>>>>>MODULES_INCLUDES*/
 #include <httpserverserver.h>
 #include "gestiongmodule.h"
@@ -55,6 +58,9 @@ int main( int argc, char *argv[] )
 /*<<<<<LOAD_MODULES*/
 #ifdef HAVE_USERMODULE
 		DBAPP->addModule( new user::UserModule(argc, argv) );
+#endif
+#ifdef HAVE_CONTACTOSMODULE
+		DBAPP->addModule( new contactos::ContactosModule(argc, argv) );
 #endif
 /*>>>>>LOAD_MODULES*/
         DBAPP->addModule( new gestiong::GestiongModule(argc, argv) );
