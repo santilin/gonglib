@@ -1,0 +1,16 @@
+.top_nav{
+    .nav_menu{
+        padding: 0 10px;
+        @media screen and (max-width: 991px){
+            padding: 0px;
+        }
+        
+        // nombre de usuario con la primera letra en mayuscula
+        .user-profile{ text-transform: capitalize;}
+        
+        ul.navbar-nav{
+            // evitamos que al hacer el menú pequeño se oculte el icono de desplegar las opciones del usuario
+            span.fa-angle-down{ display: inline-block !important;}
+        }
+    }
+}

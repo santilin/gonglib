@@ -1,0 +1,54 @@
+<div class="col-md-3 left_col menu_fixed" ng-controller="navCtrl" >
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <a ng-click="activarLink(null)" ng-href="#/" class="site_title"><i class="fa fa-paw"></i> <span>{{AppTitle}}</span></a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <!-- menu profile quick info -->
+        <div class="profile" ng-show="registrado()">
+            <div class="profile_pic">
+                <img ng-src="{{ usuario.foto || 'images/user.png' }}" alt="..." class="img-circle profile_img">
+            </div>
+            <div class="profile_info">
+                <span>Bienvenido,</span>
+                <h2>{{usuario.name}}</h2>
+            </div>
+        </div>
+        <!-- /menu profile quick info -->
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" ng-show="registrado()" >
+            <div class="menu_section">
+                <h3>{{usuario.role}}</h3>
+                <!--menu de administrador-->
+                <ul class="nav side-menu" ng-if="menuAdmin()">
+                    <li ng-class="{'active':linkActivo === 'usuarios'}" ng-click="activarLink('usuarios')"><a href="#/usuarios"><i class="fa fa-users"></i>Usuarios</a></li>
+                    <li ng-class="{'active':linkActivo === 'agentes'}" ng-click="activarLink('agentes')"><a href="#/agentes"><i class="fa fa-database"></i>Agentes</a></li>
+                    <li ng-class="{'active':linkActivo === 'contratos'}" ng-click="activarLink('contratos')"><a href="#/contratos"><i class="fa fa-pencil-square-o"></i>Contratos de Agentes</a></li>
+                    <li ng-class="{'active':linkActivo === 'ramos'}" ng-click="activarLink('ramos')"><a href="#/ramos"><i class="fa fa-list-alt"></i>Ramos</a></li>
+                    <li ng-class="{'active':linkActivo === 'importaciones'}" ng-click="activarLink('importaciones')"><a href="#/importaciones"><i class="fa fa-files-o"></i>Importaciones</a></li>
+                    <li ng-class="{'active':linkActivo === 'comisiones'}" ng-click="activarLink('comisiones')"><a href="#/comisiones"><i class="fa fa-money"></i>Comisiones</a></li>
+                </ul>
+                <!--menu de coordinador-->
+                <ul class="nav side-menu" ng-if="menuCoord()">
+                    <li ng-class="{'active':linkActivo === 'agentes'}" ng-click="activarLink('agentes')"><a href="#/agentes"><i class="fa fa-database"></i>Agentes</a></li>
+                    <li ng-class="{'active':linkActivo === 'importaciones'}" ng-click="activarLink('importaciones')"><a href="#/importaciones"><i class="fa fa-files-o"></i>Importaciones</a></li>
+                    <li ng-class="{'active':linkActivo === 'comisiones'}" ng-click="activarLink('comisiones')"><a href="#/comisiones"><i class="fa fa-money"></i>Comisiones</a></li>
+                </ul>
+                <!--menu de contable-->
+                <ul class="nav side-menu" ng-if="menuConta()">
+                    <li ng-class="{'active':linkActivo === 'ficheros-de-pagos'}" ng-click="activarLink('ficheros-de-pagos')"><a href="#/ficheros-de-pagos"><i class="fa fa-money"></i>Fichero de Pagos</a></li>
+                </ul>
+            </div>
+            <!--menu para graficas-->
+            <div class="menu_section" ng-if="mostrarGraficas()" >
+                <ul class="nav side-menu">
+                    <li ng-class="{'active':linkActivo === 'graficas'}" ng-click="activarLink('graficas')"><a href="#/graficas"><i class="fa fa-bar-chart"></i>Gráficas</a></li>
+                </ul>
+            </div> 
+        </div>
+        <!-- /sidebar menu -->
+    </div>
+</div>

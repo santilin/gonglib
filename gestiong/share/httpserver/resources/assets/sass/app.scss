@@ -1,0 +1,54 @@
+$tiempoEfectoTransicionEntrePaginas : 0.4s;
+$colorVerde : #1ABB9C;
+$colorBlancoTexto : #ECF0F1;
+$tablasresponsivas : 480px; // anchura del dispositivo para mostrar las tablas responsivas
+
+@import "_holamundo.scss";
+@import "elementos/_tablas.scss";
+@import "elementos/_modales.scss";
+@import "elementos/_formularios.scss";
+@import "elementos/_notificaciones.scss";
+@import "elementos/_tooltip.scss";
+@import "secciones/_nav-left.scss";
+@import "secciones/_nav-top.scss";
+@import "secciones/_perfil-de-usuario.scss";
+@import "mixins/_flexbox.scss";
+@import "mixins/_general-mixins.scss";
+@import "mixins/_prefix-transitions.scss";
+
+body{ 
+    min-height: 100vh;
+    padding: 0 !important;
+    .container{ 
+        .main_container{
+            min-height: 100vh;
+            .right_col{
+                padding-top: 67px !important;
+                min-height: 100vh;
+            }
+        }
+    }
+    // *****************************************
+    // transiciones de las paginas
+    // *****************************************
+    ng-view.ng-enter, ng-view.ng-leave {
+        transition: all $tiempoEfectoTransicionEntrePaginas cubic-bezier(1.000, 0.615, 0.000, 0.900);
+        display:block;
+        position:relative;
+    }
+
+    ng-view.ng-enter {
+        transition-delay: $tiempoEfectoTransicionEntrePaginas;
+        /*transform: scale(0);*/
+        opacity: 0;
+    }
+    ng-view.ng-enter.ng-enter-active {
+        opacity: 1;
+        /*transform: scale(1);*/
+    }
+    ng-view.ng-leave.ng-leave-active {
+        opacity: 0;
+        /*transform: scale(0);*/
+    }
+    // *****************************************
+}

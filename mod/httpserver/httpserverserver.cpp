@@ -20,7 +20,7 @@ namespace httpserver {
 
 //Unless you do more heavy non-threaded processing in the resources,
 //1 thread is usually faster than several threads
-Server::Server ( const Xtring &document_root,
+Server::Server( const Xtring &document_root,
                  short unsigned int port, size_t num_threads, long int timeout_request, long int timeout_content )
     : HttpServer ( port, num_threads, timeout_request, timeout_content ),
       mDocumentRoot ( document_root )
@@ -218,6 +218,44 @@ Xtring Server::getResources(const Xtring& table, const Xtring& params_str)
 	return response_str;
 }
 
+
+bool Server::url_decode(const std::string& in, std::string& out)
+{
+  out.reserve(in.size());
+  for (std::size_t i = 0; i < in.size(); ++i)
+  {
+    if (in[i] == '%')
+    {
+      if (i + 3 <= in.size())
+      {
+        int value = 0;
+        std::istringstream is(in.substr(i + 1, 2));
+        if (is >> std::hex >> value)
+        {
+          out += static_cast<char>(value);
+          i += 2;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+    }
+    else if (in[i] == '+')
+    {
+      out += ' ';
+    }
+    else
+    {
+      out += in[i];
+    }
+  }
+  return true;
+}
 
 #if 0
 //Add resources using path-regex and method-string, and an anonymous function

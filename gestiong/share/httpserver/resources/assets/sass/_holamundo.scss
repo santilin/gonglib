@@ -1,0 +1,81 @@
+/*! holamundo.css v0.0.1 | http://holamundo.me */
+
+
+////////////////////////////////////////////////////////////////////////////////
+/////////////   Plantilla Estilos para usar en todos los proyectos de Hola Mundo
+////////////////////////////////////////////////////////////////////////////////
+
+// Nota: puede que no funcione en todos los navegadores aún. En caso que se detecte
+// que algo no funciona en algún navegador por favor añadir el código necesario.
+
+
+// variables 
+$colorPlaceholder: #4e4e4e;
+
+
+
+// quitamos el recuadro de los 90 de los botones, enlaces... en todo el documento 
+* { outline: none; } 
+
+// quitamos el recuadro punteado de los botones al seleccionarlo
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+    border: none; 
+}
+
+// quitamos el recuadro punteado de los enlaces al seleccionarlos  
+a:active, a:active * { outline: none !important; -moz-outline-style: none !important; }
+a:focus, a:focus * { outline: none !important; -moz-outline-style: none !important; }
+
+// quitamos el borde rojo de validacion de los formularios 
+input{  box-shadow:none; }  // Firefox y Google Chrome 
+
+// quitamos el placeholder de los inputs y textarea en los focus 
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; } // FF 4-18 
+input:focus::-moz-placeholder { color:transparent; } // FF 19+ 
+input:focus:-ms-input-placeholder { color:transparent; } // IE 10+ 
+input:focus:-o-input-placeholder { color:transparent; } // Opera 
+textarea:focus::-webkit-input-placeholder { color:transparent; }
+textarea:focus:-moz-placeholder { color:transparent; } // FF 4-18 
+textarea:focus::-moz-placeholder { color:transparent; } // FF 19+ 
+textarea:focus:-ms-input-placeholder { color:transparent; } // IE 10+ 
+textarea:focus:-o-input-placeholder { color:transparent; } // Opera 
+
+// establecemos el color que queramos a los placeholder  
+*::-webkit-input-placeholder { color: $colorPlaceholder; } // Google Chrome y Safari 
+*:-moz-placeholder { color: $colorPlaceholder; } // Firefox anterior a 19 
+*::-moz-placeholder { color: $colorPlaceholder; } // Firefox 19 y superior 
+*:-ms-input-placeholder { color: $colorPlaceholder; } // Internet Explorer 10 y superior 
+
+// hacemos que todas las IMG de la web sean no seleccionables. podemos aplicar esto a cualquier elemento, no sólo a las imagenes 
+img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+// eliminamos la barra de scroll (decidir en cada proyecto si la quitamos o no)
+/*::-webkit-scrollbar {
+  display:none;
+}*/
+
+/*******************************************************************************/
+/*****************           sin comprobar aún         *************************/
+/*******************************************************************************/
+
+// quitamos el borde punteado de los mapas en EDGE 
+map area{ outline: none !important; -moz-outline-style: none !important; }
+
+// quitamos el fondo amarillo de los inputs en chrome (autocompletado) 
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+}
+

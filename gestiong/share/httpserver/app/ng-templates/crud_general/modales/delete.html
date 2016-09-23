@@ -1,0 +1,28 @@
+<div class="modal fade" id="eliminar_{{textos.elemento | lowercase }}" tabindex="-1" role="dialog" aria-labelledby="modalCreateLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Eliminar {{textos.elemento}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row" style="margin-bottom: 30px">
+                        <h1 class='text-center'>¿Estas seguro de eliminar el {{textos.elemento}}?</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 pull-left" ng-repeat='(key,value) in delForm'>
+                            <p ng-if='delFormShow(key)'>
+                                <strong>{{key}} :</strong> {{value}} 
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-sm btn-dark" ng-click='del_Item()'>Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+@import "../mixins/_general-mixins.scss";
+
+.modal {
+    z-index: 9999;
+    .modal-dialog {
+        width: 800px;
+        .modal-content{}
+        .modal-header{ 
+            background-color: #2A3F54; 
+            color: #ECF0F1;
+            button.close{ color: #ECF0F1;}           
+        }
+        .modal-body{ 
+            background-color: #F7F7F7;
+            // mensaje de error de validacion
+            .error{ color: rgba(255,0,0,0.8); }
+        };
+        .modal-footer{
+            button{ margin-bottom: 0;}
+        }
+    }
+}

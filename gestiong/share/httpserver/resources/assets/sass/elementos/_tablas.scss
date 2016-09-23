@@ -1,0 +1,127 @@
+.x_panel{
+    //**********************************
+    // HEADER
+    //**********************************
+    // titulo de la tabla
+    .x_title{
+        // iconos de la derecha
+        .panel_toolbox{
+            li{ float: right !important;}
+        }
+        // filtros de columnas
+        .filtros small{ display: block; line-height: 2rem;}
+
+    }
+
+    //**********************************
+    // contenido de la tabla
+    //**********************************
+    .x_content{
+        table{ 
+            margin-bottom: 20px;
+            // cabecera
+            thead tr{
+                // titulos de los campos
+                &.ng-table-sort-header{
+                    background-color: rgba(52,73,94,0.94);
+                    color: $colorBlancoTexto;
+                    border: 2px solid rgba(52,73,94,0.94);
+
+                    span{
+                        &::before{ border-color: $colorBlancoTexto transparent; }
+                        &::after{ border-color: $colorBlancoTexto transparent; }
+                    }
+                }
+                // fila de los filtros
+                &.ng-table-filters{ 
+                    background-color: rgba(80, 135, 149, 0.2);
+                    /*background-color: #D9DEE4;*/
+                    input{ 
+                        height: 29px;
+                        font-size: 13px;
+                    }
+                }
+            }
+
+            // cuerpo
+            tbody{
+                // inputs para edicion en linea
+                .editable-input { width: 100%; }
+                // botones de las acciones
+                button.btn-sm{ padding: 4px 5px;}
+            }
+        }
+        // fila posterior de la tabla con la paginacion y el selector de registros por página
+        .ng-table-pager{
+            // paginacion
+            ul.pagination{ 
+                margin-bottom: 10px;
+                li.active a{
+                    background-color: rgba(52,73,94,0.94);
+                    color: $colorBlancoTexto;
+                }
+            }
+            // selector de registros por pagina (lo eliminamos porque lo vamos a poner en la parte superior)
+            .ng-table-counts{ display: none; }
+
+        }
+        // fila seleccionada
+        .selected_row { 
+            transition: all 0.3s ease-in-out;
+            /*background-color: rgba(200, 234, 200,.5);*/
+            background-color: $colorVerde;
+            color: $colorBlancoTexto;
+        }
+
+    }
+
+    // selector de registros por pagina (es lo mismo que viene por defecto en ng-table pero lo que cambiado de sitio y le he dado formato)
+    .paginar_resultados, .btn-add{
+        margin-bottom: 20px;
+        @media screen and (max-width: 767px){
+            margin-top: 20px;
+        }
+
+        button.active{
+            background-color: rgba(52,73,94,0.94);
+            color: $colorBlancoTexto;
+            z-index: 0;
+        }
+    }
+}
+
+
+// tablas responsivas
+@media only screen and (max-width: $tablasresponsivas) {
+    .hm-responsive-table{
+        table, thead, tbody, th, td, tr { display: block;}
+        // ocultamos las cabeceras y los filtros
+        thead tr { display: none; }
+        // cada una de las filas (creamos un borde que separe cada uno de los registros)
+        tr{  border: 1px solid #ccc; }
+        // cada una de las celdas
+        td{
+            border: none;
+            border-bottom: 1px solid #eee; 
+            position: relative;
+            padding-left: 25% !important; 
+            text-align:right !important;
+            min-height: 30px;
+            white-space: initial !important;
+            &:before{
+                position: absolute;
+                left: 6px;
+                max-width: fit-content; 
+                padding-right: 10px; 
+                white-space: nowrap;
+                text-align:left;
+                font-weight: bold;
+                // texto de las cabeceras
+                content: attr(data-title); 
+                display: inline-table;
+                font-size: x-small;
+            }
+        }
+
+    }
+}

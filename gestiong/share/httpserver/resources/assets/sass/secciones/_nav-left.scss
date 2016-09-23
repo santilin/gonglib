@@ -1,0 +1,44 @@
+.left_col{
+    // perfil del usuario
+    .profile{
+        // nombre de usuario con la primera letra en mayuscula
+        .profile_info h2{ text-transform: capitalize;}
+    }
+    // Rol del usuario
+    .menu_section h3{ padding: 10px 0 0 12px; line-height: 22px;}
+
+    // Enlaces del menú
+    .nav.side-menu{ 
+        margin-top: 30px;
+
+        li{
+            border: 0px solid $colorVerde;
+            // icono
+            i{ transition: all 0.3s ease-in-out;}
+            
+            // enlace cuando estas sobre el o está activo
+            &:hover, &.active{ 
+                border-right: 5px solid $colorVerde;
+                text-shadow: rgba(0,0,0,0.25) 0 -1px 0;
+                background: linear-gradient(#334556, #2C4257),#2A3F54;
+                box-shadow: rgba(0,0,0,0.25) 0 1px 0,inset rgba(255,255,255,0.16) 0 1px 0;
+                
+                i{ margin-right: 6px; transition: all 0.3s ease-in-out;}
+            }
+        }
+    }
+}
+
+
+
+/*// CAMBIAMOS LA FUNCIONALIDAD POR DEFECTO DE LA PLANTILLA DE GENTELELLA PARA QUE NAV-SM EN MOVILES NO SEA VISIBLE
+@media screen and (max-width: 991px){
+    body.nav-sm{
+        transition: all 0.3s ease-in-out;
+        
+        hm-left-nav{ display: none;}
+        
+
+    }
+}*/
+
