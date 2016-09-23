@@ -20,10 +20,10 @@ public:
 	int run();
 	void takeController(Controller *controller);
 	const Dictionary<Xtring> &getVariables() const { return mVariables; }
+	static const char *getStatusText(int response_code);
 protected:
 	void default_resource_send(std::shared_ptr<HttpServer::Response> response,
                            std::shared_ptr<std::ifstream> ifs, std::shared_ptr<std::vector<char> > buffer);
-	bool url_decode(const Xtring& in, Xtring &out);
 private:
 	Xtring mDocumentRoot;
 	Dictionary<Xtring> mVariables;

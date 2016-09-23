@@ -26,10 +26,10 @@ angular.module('biosegura')
                     // si queremos que el campo sea de tipo numérico añadimos tipo: 'number' pero si ademas queremos que pueda ser decimal o que vaya
                     // step a step tenemos que añadir la propiedad STEP, si no lo hacemos se mostrará como un step normal de 1 en 1
                     // mientras que si lo añadimos se puede mostrar un step que avance de 0.5 en 0.5, por ejemplo
-                    {field: "CODIGO", title: "Código", filter: {nombre: 'text'}, show: true, sortable: "CODIGO", tipo: 'text', required: true},
-                    {field: "NOMBRE", title: "Nombre", filter: {nombre: 'text'}, show: true, sortable: "NOMBRE", tipo: 'text', required: true},
-                    {field: "CIF", title: "Cif/nif", filter: {nombre: 'text'}, show: true, sortable: "CIF", tipo: 'text', required: true},
-                    {field: "DIRECCION", title: "Dirección", filter: {nombre: 'text'}, show: true, sortable: "DIRECCION", tipo: 'text', required: true},
+                    {field: "CODIGO", title: "Código", filter: {CODIGO: 'text'}, show: true, sortable: "CODIGO", tipo: 'text', required: true},
+                    {field: "NOMBRE", title: "Nombre", filter: {NOMBRE: 'text'}, show: true, sortable: "NOMBRE", tipo: 'text', required: true},
+                    {field: "CIF", title: "Cif/nif", filter: {CIF: 'text'}, show: true, sortable: "CIF", tipo: 'text', required: true},
+                    {field: "DIRECCION", title: "Dirección", filter: {DIRECCION: 'text'}, show: true, sortable: "DIRECCION", tipo: 'text', required: true},
                     {title: "Acciones", show: true, botones: true}
                 ];
 

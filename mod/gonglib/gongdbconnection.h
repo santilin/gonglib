@@ -76,6 +76,7 @@ public:
     bool rollbackTransaction();
 
     Xtring toSQL( int p_val ) const;
+    Xtring toSQL( long int p_val ) const;
     Xtring toSQL( dbRecordID p_val ) const {
         return toSQL( (int)p_val );
     }

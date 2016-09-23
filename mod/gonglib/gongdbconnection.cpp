@@ -768,6 +768,12 @@ Xtring dbConnection::toSQL( int p_val ) const
     return Xtring::number( p_val );
 }
 
+Xtring dbConnection::toSQL(long int p_val) const
+{
+	return Xtring::number( p_val );
+}
+
+
 Xtring dbConnection::toSQL( double p_val ) const
 {
     // sprintf uses the locale to format numbers, but the server should use the POSIX locale

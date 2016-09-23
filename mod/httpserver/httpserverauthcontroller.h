@@ -9,9 +9,9 @@ namespace httpserver {
 class AuthController: public Controller
 {
 public:
-	AuthController(const char *name, const char *prefix)
-		: Controller(name, prefix) {}
-	virtual Controller *addRoutes(Server &server) override;
+	AuthController(Server *server, const char *name, const char *prefix)
+		: Controller(server, name, prefix) {}
+	virtual Controller *addRoutes() override;
 };
 	
 } // namespace httpserver 

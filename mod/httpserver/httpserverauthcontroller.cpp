@@ -8,9 +8,9 @@
 namespace gong {
 namespace httpserver {
 
-Controller* AuthController::addRoutes(Server& server)
+Controller* AuthController::addRoutes()
 {	
-    server.resource[Xtring("^/") + getPrefix() + "/auth$"]["POST"]=[] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
+    getServer()->resource[Xtring("^/") + getPrefix() + "/auth$"]["POST"]=[] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
         try {
 			std::istringstream icontent(request->content.string());
             boost::property_tree::ptree pt;
@@ -29,7 +29,7 @@ Controller* AuthController::addRoutes(Server& server)
             *response << "HTTP/1.1 400 Bad Request\r\nContent-Length: " << strlen ( e.what() ) << "\r\n\r\n" << e.what();
         }
     };
-    server.resource[Xtring("^/") + getPrefix() + "/logout$"]["POST"]=[] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
+    getServer()->resource[Xtring("^/") + getPrefix() + "/logout$"]["POST"]=[] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
 		std::string content("logged out");
 		*response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.length() << "\r\n\r\n" << content;
     };
