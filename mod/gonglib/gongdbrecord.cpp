@@ -1,4 +1,4 @@
-#include <memory> // auto_ptrread<>
+#include <memory> // unique_ptrread<>
 
 #include "gongformatter.h"
 #include "gonglibrary.h"
@@ -409,7 +409,7 @@ bool dbRecord::SELECT ( const Xtring &where )
         select += pConn->nameToSQL ( pTableDef->getFieldDefinition ( i )->getName() );
     }
     select += " FROM " + pConn->nameToSQL ( getTableName() ) + " WHERE " + where;
-    std::auto_ptr<dbResultSet> rs ( pConn->select ( select ) );
+    std::unique_ptr<dbResultSet> rs ( pConn->select ( select ) );
     if ( rs->next() ) {
         for ( unsigned int i=0; i<getFieldCount(); i++ ) {
             dbFieldDefinition *flddef = pTableDef->getFieldDefinition ( i );
@@ -640,7 +640,7 @@ bool dbRecord::readRelated( bool force )
                 recrel->getRelatedRecordListOrig()->clear();
                 if ( leftvalue.isValid() && !leftvalue.toInt() == 0 )
                 {
-                    std::auto_ptr<dbResultSet> rs ( pConn->select ( "SELECT * FROM "
+                    std::unique_ptr<dbResultSet> rs ( pConn->select ( "SELECT * FROM "
                                                     + pConn->nameToSQL ( recrel->getRightTable() )
                                                     + " WHERE " + pConn->nameToSQL(recrel->getRightTable())
                                                     + "." + pConn->nameToSQL(recrel->getRightField())

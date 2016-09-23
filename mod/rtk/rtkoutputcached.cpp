@@ -17,6 +17,9 @@ OutputCached::OutputCached(Report &r, const Input *in, CacheType cachetype, cons
     : Output(r, 0,0), pInput(in), mCacheType(cachetype), pBaseName(basename),
       pDB(0)
 {
+#ifdef HAVE_BDB
+	throw std::runtime_error("BDB is not compiled");
+#endif
 }
 
 OutputCached::~OutputCached()
@@ -24,8 +27,6 @@ OutputCached::~OutputCached()
 #ifdef HAVE_BDB
     if( pDB )
         pDB->close(pDB);
-#else
-	throw std::runtime_error("BDB is not compiled");
 #endif
 }
 

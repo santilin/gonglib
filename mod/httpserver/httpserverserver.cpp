@@ -3,7 +3,6 @@
 #include <boost/filesystem.hpp>
 #include <vector>
 #include <algorithm>
-#include <boost/property_tree/json_parser.hpp>
 #include <gongdbrecord.h>
 #include <gongdbdefinition.h>
 #include <gongfileutils.h>
@@ -98,6 +97,30 @@ Server::Server( const Xtring &document_root,
     };
 }
 
+Server::~Server()
+{
+	// Borra todos los controladores que ha tomado
+	for( ControllersList::const_iterator it = mControllers.cbegin();
+		it != mControllers.cend(); ++it ) {
+		delete it->second;
+	}
+}
+
+
+/**
+ * @brief Añade un controlador y toma posesión de él
+ * 
+ * @param controller ...
+ * @param prefix ...
+ * @return void
+ */
+void Server::takeController(Controller *controller)
+{
+	if (mControllers.find(controller->getName()) == mControllers.end() ) {
+		mControllers[controller->getName()] = controller;
+		controller->addRoutes(*this);
+	}
+}
 
 int Server::run()
 {
@@ -126,100 +149,7 @@ void Server::default_resource_send ( shared_ptr<HttpServer::Response> response,
     }
 }
 
-// Ejemplos de resources
-void Server::addRestRoutes(const Xtring &prefix)
-{
-    resource["^/" + prefix + "/filter/([A-Za-z_]+)\\?(.*)$"]["GET"]=[this] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
-        string request_table=request->path_match[1];
-        string request_params=request->path_match[2];
-        Xtring response_str = getResources(Xtring ( request_table.c_str() ).upper(), request_params );
-        *response << "HTTP/1.1 200 OK\r\nContent-Length: " << response_str.length() << "\r\n\r\n" << response_str;
-    };
-    resource["^/" + prefix + "/([A-Za-z_]+)/([0-9]+)$"]["GET"]=[this] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
-        string request_table=request->path_match[1];
-        string request_number=request->path_match[2];
-        dbRecordID id = Xtring ( request_number.c_str() ).toInt();
-        Xtring response_str = getResource ( Xtring ( request_table.c_str() ).upper(), id );
-        *response << "HTTP/1.1 200 OK\r\nContent-Length: " << response_str.length() << "\r\n\r\n" << response_str;
-    };
-
-}
-
-void Server::addAuthRoutes(const Xtring &prefix)
-{
-    resource["^/" + prefix + "/auth$"]["POST"]=[] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
-        try {
-			std::istringstream icontent(request->content.string());
-            boost::property_tree::ptree pt;
-            boost::property_tree::read_json ( icontent, pt );
-            string name=pt.get<string> ( "email" ) +" "+pt.get<string> ( "password" );
-
-			pt.put("role", "administrador");
-			pt.put("permissions", "administrator/agentes/read");
-			std::string content;
-			std::stringstream ocontent(content);
-			boost::property_tree::write_json( ocontent, pt );
-			_GONG_DEBUG_PRINT(0, content);
-			
-            *response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.length() << "\r\n\r\n" << content;
-        } catch ( exception& e ) {
-            *response << "HTTP/1.1 400 Bad Request\r\nContent-Length: " << strlen ( e.what() ) << "\r\n\r\n" << e.what();
-        }
-    };
-    resource["^/" + prefix + "/logout$"]["POST"]=[] ( shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request ) {
-		std::string content("logged out");
-		*response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.length() << "\r\n\r\n" << content;
-    };
-}
-
-Xtring Server::getResource ( const Xtring &table, dbRecordID id )
-{
-    Xtring response_str;
-    dbConnection *conn = DBAPP->getConnection();
-	assert( conn );
-    dbRecord *record = DBAPP->createRecord ( table, id );
-    if ( !record ) {
-        response_str = "No se ha podido crear un registro para la tabla " + table;
-    } else if ( record->read ( id ) ) {
-        response_str = record->toString ( TOSTRING_JSON );
-    } else {
-        response_str = Xtring::printf ( "No se ha encontrado el registro de id %d en la tabla %s", id, table.c_str() );
-    }
-    return response_str;
-}
-
-Xtring Server::getResources(const Xtring& table, const Xtring& params_str)
-{
-    Xtring response_str;
-	XtringList params;
-	params_str.tokenize(params,"&");
-    dbConnection *conn = DBAPP->getConnection();
-	assert( conn );
-    dbRecord *record = DBAPP->createRecord(table);
-    if ( !record ) {
-        response_str = "No se ha podido crear un registro para la tabla " + table;
-    } else {
-		long int records = conn->selectInt("SELECT COUNT(*) FROM " + conn->nameToSQL(table));
-		response_str = "{ \"total\": " + Xtring::number(records) + ",\n \"data\": [\n";
-		if( records ) {
-			dbResultSet *rs( conn->select("SELECT ID FROM " + conn->nameToSQL(table) + " LIMIT 1, 10" ) );
-			bool first = true;
-			while( rs->next() ) {
-				if (record->read( rs->toInt((uint) 0) ) ) {
-					if (!first)
-						response_str += ",\n";
-					first = false;
-					response_str += record->toString( TOSTRING_JSON );
-				}
-			}
-		}
-		response_str += "] }";
-	}
-	return response_str;
-}
-
-
-bool Server::url_decode(const std::string& in, std::string& out)
+bool Server::url_decode(const Xtring& in, Xtring& out)
 {
   out.reserve(in.size());
   for (std::size_t i = 0; i < in.size(); ++i)

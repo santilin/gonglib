@@ -36,6 +36,7 @@
 #endif
 /*>>>>>MODULES_INCLUDES*/
 #include <httpserverserver.h>
+#include <httpservercrudcontroller.h>
 #include "gestiongmodule.h"
 
 using namespace gong;
@@ -69,8 +70,7 @@ int main( int argc, char *argv[] )
 		if( DBAPP->login(PACKAGE_VERSION) ) {
 			if (DBAPP->isServerMode()) {
 				httpserver::Server server(FileUtils::path(DBAPP->getGonglibDataDir()) + "/httpserver/httpdocs", 8080, 1);
-				server.addAuthRoutes("api");
-				server.addRestRoutes("api");
+				server.takeController(new gong::httpserver::CrudController("crudcontroller", "api"));
 				server.run();
 			} else {
 				DBAPP->initMainWindow();
