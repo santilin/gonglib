@@ -2,6 +2,7 @@
 #define HTTPSERVER_CONTROLLER_H
 
 #include <gongxtring.h>
+#include "httpserverjsontree.h"
 
 namespace gong {
 namespace httpserver {
@@ -21,7 +22,6 @@ public:
 	static bool url_decode(const Xtring& in, Xtring &out);
 protected:
 	Server *getServer() const { return pServer; }
-	void parsePlainJSON(const Xtring &JSON, XtringList names_values);
 	
 private:
 	const char *pName, *pPrefix;

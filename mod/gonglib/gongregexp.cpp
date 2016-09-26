@@ -5,12 +5,12 @@ namespace gong {
 	
 #ifdef HAVE_BOOST_REGEX
 	
-bool RegExp::search( const std::string &subject, RegExpMatchList &matches ) const
+bool RegExp::search( const char *subject, RegExpMatchList &matches ) const
 {
     return regex_search( subject, matches, *this );
 }
 
-bool RegExp::match( const std::string &subject, RegExpMatchList &matches ) const
+bool RegExp::match( const char *subject, RegExpMatchList &matches ) const
 {
     return regex_match( subject, matches, *this );
 }

@@ -20,17 +20,19 @@
 
 namespace gong {
 
-typedef boost::ssub_match RegExpMatch;
-typedef boost::smatch RegExpMatchList;
+typedef boost::csub_match RegExpMatch;
+typedef boost::cmatch RegExpMatchList;
 typedef boost::sregex_iterator RegExpIterator;
 
 class RegExp: public boost::regex
 {
 public:
     RegExp( const std::string &pattern) : boost::regex(pattern) {}
-    bool search( const std::string &subject, RegExpMatchList &matches ) const;
+    /** Busca una subcadena */
+    bool search( const char *subject, RegExpMatchList &matches ) const;
     bool searchAll( const std::string &subject, RegExpMatchList &matches ) const;
-    bool match( const std::string &subject, RegExpMatchList &matches ) const;
+	/** Determina si la cadena completa concuerda */
+    bool match( const char *subject, RegExpMatchList &matches ) const;
 	std::string replaceAll( const std::string &subject, const std::string &fmt) const;
 	std::string replaceFirst( const std::string &subject, const std::string &fmt) const;
 };

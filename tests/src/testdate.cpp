@@ -1,35 +1,20 @@
-/*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) 2012  <copyright holder> <email>
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License along
-    with this program; if not, write to the Free Software Foundation, Inc.,
-    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-
-#include <gongdebug.h>
-#include "testdate.h"
 #include <gongdate.h>
 
+#define BOOST_TEST_DYN_LINK
+#ifdef STAND_ALONE
+#   define BOOST_TEST_MODULE Main
+#endif
+#include <boost/test/unit_test.hpp>
+
+BOOST_AUTO_TEST_SUITE( TestDate )
 using namespace gong;
 
-TestDate::TestDate()
-{
-}
-
-void TestDate::run()
+BOOST_AUTO_TEST_CASE( TestConstructor )
 {
     Date dateTest;
-    _GONG_DEBUG_ASSERT( dateTest.isNull() == true );
+	BOOST_TEST( dateTest.isNull() == true );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
+
 

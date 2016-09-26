@@ -1,8 +1,11 @@
 
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE Main
+#include <boost/test/unit_test.hpp>
+#if 0
 #include <gonglibrary.h>
 #include <limits>
 #include <gongfileutils.h>
-#include <gongdbfieldlistofvalues.hpp>
 #include "testmoney.h"
 #include "testdatabase.h"
 #include "testdbconnection.h"
@@ -35,7 +38,17 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#endif
+#include <gongdbfieldlistofvalues.hpp>
+#include <gongdbrecord.h>
+namespace gong {
+dbRecord* dbRecord::duplicate()
+{
+    return 0;
+}
+}
 
+#if 0
 using namespace gong;
 
 
@@ -125,9 +138,9 @@ int main(int argc, char *argv[])
 	testmoney.run();
 	TestdbRecord testdbrecord;
 	testdbrecord.run();
-#endif
 	TestHTTPServer testhttpserver;
 	testhttpserver.run();
+#endif
 }
 
 
@@ -150,4 +163,6 @@ int main(int argc, char *argv[])
 	view.show();
 
 	return app.exec();
+#endif
+
 #endif

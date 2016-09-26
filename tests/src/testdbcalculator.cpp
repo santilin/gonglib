@@ -1,4 +1,3 @@
-#include <dbappdbapplication.h>
 #include <gongdbdefinition.h>
 #include <gongdbcalculator.h>
 #include <gongdebug.h>

@@ -51,4 +51,4 @@ tests/gonglib
 tests/qt4
 tests/share/
 tests/src/passwords.nosvn.h
-
+tests/httpserver

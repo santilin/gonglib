@@ -8,22 +8,23 @@ gongtest_SOURCES = main.cpp testcommon.cpp testdatabase.cpp \
 	testdbconnection.cpp testdbdefinition.cpp testdbfieldvalue.cpp testdbrecord.cpp \
 	testdbschema.cpp testdbtabledef.cpp testintegrityresult.cpp testlibrary.cpp \
 	testsettings.cpp testtabledatamodel.cpp testregconfig.cpp \
-	testlineedit.cpp testfrmbase.cpp testdate.cpp testfrmcustom.cpp \
-	testunicode.cpp testmoney.cpp testcsv.cpp testlistview.cpp \
-	testdbcalculator.cpp testdbnameslisttable.cpp testviewtable.cpp \
-	testxmlparser.cpp testimportcsv.cpp testhttpserver.cpp
+	testdate.cpp testunicode.cpp testmoney.cpp testcsv.cpp \
+	testxmlparser.cpp testhttpserver.cpp testregexp.cpp
+	
+#	testlistview.cpp testviewtable.cpp testimportcsv.cpp \
+	testdbcalculator.cpp testdbnameslisttable.cpp \
+	testlineedit.cpp testfrmbase.cpp testfrmcustom.cpp 
 
 noinst_HEADERS = testcommon.h testdatabase.h testdbconnection.h \
 	testdbdefinition.h testdbfieldvalue.h testdbrecord.h testdbschema.h testdbtabledef.h \
 	testintegrityresult.h testlibrary.h testscript.h testsettings.h testtabledatamodel.h \
-	testregconfig.h testlineedit.h testfrmbase.h testdate.h testfrmcustom.h \
-	testunicode.h testmoney.h testcsv.h testlistview.h \
-	testdbcalculator.h testdbnameslisttable.h testviewtable.h \
-	testxmlparser.h testimportcsv.h testhttpserver.h
-
-
-
-
+	testregconfig.h testunicode.h testmoney.h testcsv.h \
+	testxmlparser.h 
+	
+#	testlineedit.h testfrmbase.h testfrmcustom.h \
+	testdbcalculator.h testdbnameslisttable.h \
+	testviewtable.h testimportcsv.h  \
+	testlistview.h 
 
 
 

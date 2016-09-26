@@ -1,8 +1,8 @@
 #ifndef HTTPSERVER_BLADEINTERPRETER_H
 #define HTTPSERVER_BLADEINTERPRETER_H
 
+#include <map>
 #include <gongxtring.h>
-#include <gongdictionary.h>
 
 namespace gong {
 namespace httpserver {
@@ -11,7 +11,7 @@ namespace httpserver {
 class BladeInterpreter
 {
 public:
-	static Xtring interpret(const Xtring &source, const Dictionary<Xtring> &variables);
+	static Xtring interpret(const Xtring &source, const std::map<Xtring, Xtring> &variables);
 };
   
 } // namespace httpserver 

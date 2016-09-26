@@ -7,6 +7,8 @@ AC_LANG_CPLUSPLUS
 AC_PROG_CXX
 AM_PROG_LIBTOOL
 AC_CONFIG_MACRO_DIR([m4])
+AX_CXX_COMPILE_STDCXX([11])
+
 
 
 AC_MSG_NOTICE( [gestiong-tests Custom configuration] )
@@ -63,49 +65,31 @@ if test "$ac_cv_use_boost" = yes ; then
 		AX_BOOST_FILESYSTEM
 		AX_BOOST_SYSTEM
 		AX_BOOST_THREAD
+		AX_BOOST_UNIT_TEST_FRAMEWORK
 fi
 
 GONGLIB_CPPFLAGS="$AM_CPPFLAGS -I../../gonglib $MYSQL_CPPFLAGS $POCO_CPPFLAGS $BOOST_CPPFLAGS"
-GONGLIB_LIBS="-L../gonglib -lgonglib $MYSQL_LIBS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB $BOOST_FILESYSTEM_LIB $BOOST_THREAD_LIB $BOOST_SYSTEM_LIB"
+GONGLIB_LIBS="-L../gonglib -lgonglib $MYSQL_LIBS $POCO_LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB $BOOST_FILESYSTEM_LIB $BOOST_THREAD_LIB $BOOST_SYSTEM_LIB $BOOST_UNIT_TEST_FRAMEWORK_LIB"
 
-AC_ARG_WITH( [gong-qt4],
-AS_HELP_STRING([--with-gong-qt4], [Support for the gong qt4 module (default is YES)]),
-[ac_cv_use_gong_qt4=$withval],
-[ac_cv_use_gong_qt4=yes] )
-AM_CONDITIONAL( [COMPILE_WITH_GONG_QT4], [ test "$ac_cv_use_gong_qt4" = yes ])
-if test "$ac_cv_use_gong_qt4" = yes ; then
 
-	GONG_CHECK_QT4
-
-	AC_DEFINE( [HAVE_QT4MODULE], [1], [Define to 1 if you have the qt4 module.] )
-	GONGQT4_CPPFLAGS="-I../../qt4 $QT_CXXFLAGS"
-	GONGQT4_LIBS="-L../qt4 -lgongqt4 $QT_LDADD -lQt3Support"
-	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGQT4_CPPFLAGS"
-	GONGLIB_LIBS="$GONGQT4_LIBS $GONGLIB_LIBS"
+AC_ARG_WITH( [gong-httpserver],
+AS_HELP_STRING([--with-gong-httpserver], [Support for the gong httpserver module (default is YES)]), 
+[ac_cv_use_gong_httpserver=$withval],
+[ac_cv_use_gong_httpserver=yes] )
+AM_CONDITIONAL( [COMPILE_WITH_GONG_HTTPSERVER], [ test "$ac_cv_use_gong_httpserver" = yes ])
+if test "$ac_cv_use_gong_httpserver" = yes ; then
+	AC_DEFINE( [HAVE_HTTPSERVERMODULE], [1], [Define to 1 if you have the HttpServer module.] )
+	GONGHTTPSERVER_CPPFLAGS="-I../../httpserver"
+	GONGHTTPSERVER_LIBS="-L../httpserver -lgonghttpserver"
+	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGHTTPSERVER_CPPFLAGS"
+	GONGLIB_LIBS="$GONGHTTPSERVER_LIBS $GONGLIB_LIBS"
 else
-	GONGQT4_CPPFLAGS=
-	GONGQT4_LIBS=
+	GONGHTTPSERVER_CPPFLAGS=
+	GONGHTTPSERVER_LIBS=
 fi
-AC_SUBST(GONGQT4_CPPFLAGS)
-AC_SUBST(GONGQT4_LIBS)
+AC_SUBST(GONGHTTPSERVER_CPPFLAGS)
+AC_SUBST(GONGHTTPSERVER_LIBS)
 
-AC_ARG_WITH( [gong-dbapp],
-AS_HELP_STRING([--with-gong-dbapp], [Support for the gong dbapp module (default is YES)]),
-[ac_cv_use_gong_dbapp=$withval],
-[ac_cv_use_gong_dbapp=yes] )
-AM_CONDITIONAL( [COMPILE_WITH_GONG_DBAPP], [ test "$ac_cv_use_gong_dbapp" = yes ])
-if test "$ac_cv_use_gong_dbapp" = yes ; then
-	AC_DEFINE( [HAVE_DBAPPMODULE], [1], [Define to 1 if you have the dbapp module.] )
-	GONGDBAPP_CPPFLAGS="-I../../dbapp"
-	GONGDBAPP_LIBS="-L../dbapp -lgongdbapp"
-	GONGLIB_CPPFLAGS="$GONGLIB_CPPFLAGS $GONGDBAPP_CPPFLAGS"
-	GONGLIB_LIBS="$GONGDBAPP_LIBS $GONGLIB_LIBS"
-else
-	GONGDBAPP_CPPFLAGS=
-	GONGDBAPP_LIBS=
-fi
-AC_SUBST(GONGDBAPP_CPPFLAGS)
-AC_SUBST(GONGDBAPP_LIBS)
 
 AC_SUBST(GONGLIB_CPPFLAGS)
 AC_SUBST(GONGLIB_LIBS)
@@ -113,5 +97,5 @@ AM_CONDITIONAL( [COMPILE_EXPERIMENTAL], [ test ! false ] )
 AM_CONDITIONAL( [COMPILE_WITH_GONG_RTK], [ test ! false ] )
 
 AC_CONFIG_FILES( Makefile gonglib/Makefile \
-	qt4/Makefile dbapp/Makefile src/Makefile )
+	httpserver/Makefile src/Makefile )
 AC_OUTPUT

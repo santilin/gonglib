@@ -3,7 +3,6 @@
 #include <gongdbdefinition.h>
 #include <gongdbmastertable.h>
 #include <testdbrecord.h>
-#include "dbappdbapplication.h"
 #include "passwords.nosvn.h"
 #include "testcommon.h"
 #include "testimportcsv.h"

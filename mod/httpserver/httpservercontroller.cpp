@@ -46,12 +46,7 @@ bool Controller::url_decode(const Xtring& in, Xtring& out)
   }
   return true;
 }
-	
-	
-void Controller::parsePlainJSON(const Xtring& JSON, XtringList names_values)
-{
 
-}
 
 	
 
