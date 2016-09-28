@@ -12,7 +12,7 @@ using namespace gong;
 BOOST_AUTO_TEST_CASE( TestConstructor )
 {
     Date dateTest;
-	BOOST_TEST( dateTest.isNull() == true );
+	BOOST_CHECK( dateTest.isNull() == true );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -14,70 +14,70 @@ BOOST_AUTO_TEST_CASE( Basic )
 {
 	RegExpMatchList matches;
 	RegExp re("[0-9]");
-	BOOST_TEST( re.search("2", matches) );
-	BOOST_TEST( matches.size() == 1 );
-	BOOST_TEST( matches[0] == "2" );
-	BOOST_TEST( !re.search("a", matches) );
+	BOOST_CHECK( re.search("2", matches) );
+	BOOST_CHECK( matches.size() == 1 );
+	BOOST_CHECK( matches[0] == "2" );
+	BOOST_CHECK( !re.search("a", matches) );
 
 	RegExp re2("\\s*[0-9]");
-	BOOST_TEST( re2.search(" 2", matches) );
-	BOOST_TEST( matches.size() == 1 );
-	BOOST_TEST( matches[0] == " 2" );
-	BOOST_TEST( re2.search("    2", matches) );
-	BOOST_TEST( re2.search("     \t 2", matches) );
-	BOOST_TEST( !re2.search("a", matches) );
+	BOOST_CHECK( re2.search(" 2", matches) );
+	BOOST_CHECK( matches.size() == 1 );
+	BOOST_CHECK( matches[0] == " 2" );
+	BOOST_CHECK( re2.search("    2", matches) );
+	BOOST_CHECK( re2.search("     \t 2", matches) );
+	BOOST_CHECK( !re2.search("a", matches) );
 
 	{
 		RegExp re("\\s*([0-9])");
-		BOOST_TEST( re.search(" 2", matches) );
-		BOOST_TEST( matches.size() == 2 );
-		BOOST_TEST( matches[0] == " 2" );
-		BOOST_TEST( matches[1] == "2" );
-		BOOST_TEST( re.search("    2", matches) );
-		BOOST_TEST( re.search("     \t 2", matches) );
-		BOOST_TEST( !re.search("a", matches) );
+		BOOST_CHECK( re.search(" 2", matches) );
+		BOOST_CHECK( matches.size() == 2 );
+		BOOST_CHECK( matches[0] == " 2" );
+		BOOST_CHECK( matches[1] == "2" );
+		BOOST_CHECK( re.search("    2", matches) );
+		BOOST_CHECK( re.search("     \t 2", matches) );
+		BOOST_CHECK( !re.search("a", matches) );
 	}
 	{
 		RegExp re("\\s*asset");
-		BOOST_TEST( re.search(" asset", matches) );
-		BOOST_TEST( re.search("    asset", matches) );
-		BOOST_TEST( re.search("     \t asset", matches) );
-		BOOST_TEST( re.search("     \t gasset", matches) );
-		BOOST_TEST( !re.search("a", matches) );
+		BOOST_CHECK( re.search(" asset", matches) );
+		BOOST_CHECK( re.search("    asset", matches) );
+		BOOST_CHECK( re.search("     \t asset", matches) );
+		BOOST_CHECK( re.search("     \t gasset", matches) );
+		BOOST_CHECK( !re.search("a", matches) );
 	}
 	{
 		RegExp re("^asset$");
-		BOOST_TEST( re.search("asset", matches) );
-		BOOST_TEST( !re.search("    asset", matches) );
-		BOOST_TEST( !re.search("gasset", matches) );
-		BOOST_TEST( !re.search("a", matches) );
+		BOOST_CHECK( re.search("asset", matches) );
+		BOOST_CHECK( !re.search("    asset", matches) );
+		BOOST_CHECK( !re.search("gasset", matches) );
+		BOOST_CHECK( !re.search("a", matches) );
 	}
 
 	{
 		RegExp re("\\s*asset\\(");
-		BOOST_TEST( re.search("asset(", matches) );
-		BOOST_TEST( re.search(" asset(", matches) );
-		BOOST_TEST( re.search("df  dfdfasset(", matches) );
-		BOOST_TEST( !re.search("    aset", matches) );
+		BOOST_CHECK( re.search("asset(", matches) );
+		BOOST_CHECK( re.search(" asset(", matches) );
+		BOOST_CHECK( re.search("df  dfdfasset(", matches) );
+		BOOST_CHECK( !re.search("    aset", matches) );
 	}
 	
 	{
 		RegExp re("\\s*asset\\(");
-		BOOST_TEST( re.search("asset(", matches) );
-		BOOST_TEST( matches.size() == 1 );
-		BOOST_TEST( matches[0] == "asset(" );
-		BOOST_TEST( re.search(" asset(", matches) );
-		BOOST_TEST( re.search("df  dfdfasset(", matches) );
-		BOOST_TEST( !re.search("    aset", matches) );
+		BOOST_CHECK( re.search("asset(", matches) );
+		BOOST_CHECK( matches.size() == 1 );
+		BOOST_CHECK( matches[0] == "asset(" );
+		BOOST_CHECK( re.search(" asset(", matches) );
+		BOOST_CHECK( re.search("df  dfdfasset(", matches) );
+		BOOST_CHECK( !re.search("    aset", matches) );
 	}
 
 	{
 		RegExpMatchList matches;
 		RegExp repl_reg_exp("\\s*asset\\(['\"]([a-z]*)['\"]\\)\\s*");
-		BOOST_TEST( repl_reg_exp.search("____   asset('hola') ", matches) );
-		BOOST_TEST( matches.size() == 2 );
-		BOOST_TEST( matches.str(0) == "   asset('hola') " );
-		BOOST_TEST( matches.str(1) == "hola" );
+		BOOST_CHECK( repl_reg_exp.search("____   asset('hola') ", matches) );
+		BOOST_CHECK( matches.size() == 2 );
+		BOOST_CHECK( matches.str(0) == "   asset('hola') " );
+		BOOST_CHECK( matches.str(1) == "hola" );
 	}
 	
 	

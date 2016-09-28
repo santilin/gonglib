@@ -46,8 +46,6 @@ public:
     Xtring getPackageString() const {
         return Xtring(mPackageName) + " " + mPackageVersion;
     }
-
-    /// \todo {refactor} dbRecordFactory
     virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, class dbUser *user=0);
     Xtring getHostIP(const Xtring &host) const;
     Xtring getInterfaceIP(const Xtring &ifname) const;

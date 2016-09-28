@@ -728,16 +728,6 @@ FrmEditRecDetail *dbApplication::createEditDetailForm (
     return frm;
 }
 
-/**
- * @brief In order to use the gonglib with databases, you have to define this function
- *
- * @return dbRecord*
- **/
-dbRecord* dbRecord::duplicate()
-{
-    return DBAPP->createRecord( getTableName(), 0, getUser() );
-}
-
 dbRecord *dbApplication::createRecord( const Xtring &tablename, dbRecordID recid, dbUser *user )
 {
     _GONG_DEBUG_ASSERT ( getConnection() );
@@ -784,12 +774,6 @@ dbRecord *dbApplication::createRecord( const Xtring &tablename, dbRecordID recid
     }
     return rec;
 }
-
-dbRecord *dbApplication::createRecord ( const dbRecord *other )
-{
-    return createRecord( other->getTableName(), other->getRecordID(), other->getUser() );
-}
-
 
 bool dbApplication::editRecord( FrmEditRec *parentfrm, dbRecord *rec, dbRecordDataModel *dm,
                                 DataTable::EditMode editmode, dbApplication::EditFlags editflags,

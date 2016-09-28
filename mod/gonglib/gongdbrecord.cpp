@@ -1669,4 +1669,12 @@ dbRecordID dbRecord::seekCode( int &nvalues, const Xtring &fldcod, const Variant
     return recid;
 }
 
+dbRecord* dbRecord::duplicate()
+{
+	dbRecord *r = GongLibraryInstance->createRecord( this->getTableName(), this->getRecordID(), this->getUser() );
+	r->copyRecord(this, true); // deep
+	return r;
+}
+
+
 }; // namespace gong

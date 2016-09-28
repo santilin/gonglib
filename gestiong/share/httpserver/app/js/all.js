@@ -263,9 +263,9 @@ angular.module('biosegura')
                 // plantillas que usaremos en distintos sitios
                 $scope.templates = {
                     modales: {
-                        add: 'ng-templates/crud_general/modales/add.html',
-                        edit: 'ng-templates/crud_general/modales/edit.html',
-                        del: 'ng-templates/crud_general/modales/delete.html'
+                        add: 'ng-templates/contactos/add.html',
+                        edit: 'ng-templates/contactos/edit.html',
+                        del: 'ng-templates/contactos/delete.html'
                     }
                 };
 
@@ -279,30 +279,13 @@ angular.module('biosegura')
                     // si queremos que el campo sea de tipo numérico añadimos tipo: 'number' pero si ademas queremos que pueda ser decimal o que vaya
                     // step a step tenemos que añadir la propiedad STEP, si no lo hacemos se mostrará como un step normal de 1 en 1
                     // mientras que si lo añadimos se puede mostrar un step que avance de 0.5 en 0.5, por ejemplo
-                    {field: "CODIGO", title: "Código", filter: {nombre: 'text'}, show: true, sortable: "CODIGO", tipo: 'text', required: true},
+                    {field: "CODIGO", title: "Código", filter: {CODIGO: 'text'}, show: true, sortable: "CODIGO", tipo: 'text', required: true},
                     {field: "NOMBRE", title: "Nombre", filter: {NOMBRE: 'text'}, show: true, sortable: "NOMBRE", tipo: 'text', required: true},
                     {field: "CIF", title: "Cif/nif", filter: {CIF: 'text'}, show: true, sortable: "CIF", tipo: 'text', required: true},
                     {field: "DIRECCION", title: "Dirección", filter: {DIRECCION: 'text'}, show: true, sortable: "DIRECCION", tipo: 'text', required: true},
                     {title: "Acciones", show: true, botones: true}
                 ];
 
-
-                $scope.colsEdit = [
-                    {field: "codigo_agropelayo", title: "#AgroPelayo", filter: {codigo_agropelayo: 'text'}, show: true, sortable: "codigo_agropelayo", tipo: 'text', required: true},
-                    {field: "codigo_tib", title: "#Tib", filter: {codigo_tib: 'text'}, show: true, sortable: "codigo_tib", tipo: 'text', required: true},
-                    {field: "codigo_reale", title: "#Reale", filter: {codigo_reale: 'text'}, show: true, sortable: "codigo_reale", tipo: 'text', required: true},
-                    {field: "tipo", title: "Tipo", filter: {Tipo: 'number'}, show: false, sortable: "tipo", tipo: 'text', required: true},
-                    {field: "nombre", title: "Nombre", filter: {nombre: 'text'}, show: true, sortable: "nombre", tipo: 'text', required: true},
-                    {field: "irpf", title: "IRPF", filter: {irpf: 'text'}, show: true, sortable: "irpf", tipo: 'text', required: true},
-//                    {field: "irpf", title: "IRPF", filter: {irpf: 'text'}, show: true, sortable: "irpf", tipo: 'number', step: '0.10', required: true},
-                    {field: "cif_nif", title: "CIF/NIF", filter: {cif_nif: 'text'}, show: true, sortable: "cif_nif", tipo: 'text', required: true},
-                    {field: "cuenta_banco", title: "IBAN", filter: {cuenta_banco: 'text'}, show: true, sortable: "cuenta_banco", tipo: 'text', required: true},
-                    {field: "direccion", title: "Dirección", filter: {direccion: 'text'}, show: true, sortable: "direccion", tipo: 'text', required: true},
-                    {field: "localidad", title: "Localidad", filter: {localidad: 'text'}, show: true, sortable: "localidad", tipo: 'text', required: true},
-                    {field: "cp", title: "C.P", filter: {cp: 'text'}, show: true, sortable: "cp", tipo: 'text', required: true},
-                    {field: "provincia", title: "Provincia", filter: {provincia: 'text'}, show: true, sortable: "provincia", tipo: 'text', required: false},
-                    {title: "Acciones", show: true, botones: true}
-                ];
 
                 // configuracion de NG-TABLE
                 $scope.tableParams = new NgTableParams({
@@ -330,10 +313,11 @@ angular.module('biosegura')
                  /*
                  * AÑADIR AGENTES
                  */
-                $scope.add_Item = function () {
+                $scope.add_Item = function (form) {
+					console.log('Creando');
                     Notification.clearAll();
 
-                    Contactos.create($scope.addingForm).$promise
+                    Contactos.create(form).$promise
                             .then(function (result) {
                                 // añadimos visualmente el nuevo elemento añadido
                                 $scope.tableParams.data.unshift(result);
@@ -357,11 +341,16 @@ angular.module('biosegura')
                     $scope.addingForm = {};
                 };
 
+                $scope.nada = function () {
+                    console.log(2);
+                };
+
+
                 /*
                  * ELIMINAR AGENTES
                  */
-                $scope.eliminar = function (agente) {
-                    $scope.delForm = agente;
+                $scope.eliminar = function (contacto) {
+                    $scope.delForm = contacto;
                 };
 
                 $scope.del_Item = function () {

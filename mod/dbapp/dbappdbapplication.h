@@ -48,9 +48,7 @@ public:
     bool login(const Xtring &version, bool startingapp = true, bool autologin = false);
     bool initDatabases();
     /// Creates a record from a table name
-    dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0);
-    /// Creates a record from another record
-    dbRecord *createRecord(const dbRecord *record);
+    virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, dbUser *user=0) override;
 
     bool isReadOnly() const { return mReadOnly; }
     void setReadOnly(bool ro);

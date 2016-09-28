@@ -18,16 +18,16 @@ BOOST_AUTO_TEST_CASE( TestBladeInterpreter )
 	Xtring source;
 	source = "<HTML><BODY></BODY></HTML>";
 	Xtring not_changed( BladeInterpreter::interpret(source, variables) );
-	BOOST_TEST( not_changed == source );
+	BOOST_CHECK( not_changed == source );
 	source = "<HTML><BODY><A href='$BASEURL'></BODY></HTML>";
 	Xtring changed( BladeInterpreter::interpret(source, variables) );
-	BOOST_TEST( changed  == "<HTML><BODY><A href='http://www.gestiong.org'></BODY></HTML>" );
+	BOOST_CHECK( changed  == "<HTML><BODY><A href='http://www.gestiong.org'></BODY></HTML>" );
 	source = "<HTML><BODY><A href='{{asset('/index.html')}}'></BODY></HTML>";
 	Xtring changed_asset( BladeInterpreter::interpret(source, variables) );
-	BOOST_TEST( changed_asset  == "<HTML><BODY><A href='http://www.gestiong.org/index.html'></BODY></HTML>" );
+	BOOST_CHECK( changed_asset  == "<HTML><BODY><A href='http://www.gestiong.org/index.html'></BODY></HTML>" );
 	source = "<HTML><BODY><A href='{{asset('index.html')}}'></BODY></HTML>";
 	Xtring changed_asset_no_slash( BladeInterpreter::interpret(source, variables) );
-	BOOST_TEST( changed_asset_no_slash == "<HTML><BODY><A href='http://www.gestiong.org/index.html'></BODY></HTML>" );
+	BOOST_CHECK( changed_asset_no_slash == "<HTML><BODY><A href='http://www.gestiong.org/index.html'></BODY></HTML>" );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

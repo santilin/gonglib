@@ -70,7 +70,8 @@ int main( int argc, char *argv[] )
 		if( DBAPP->login(PACKAGE_VERSION) ) {
 			if (DBAPP->isServerMode()) {
 				httpserver::Server server(FileUtils::path(DBAPP->getGonglibDataDir()) + "/httpserver/httpdocs", 8080, 1);
-				server.takeController(new gong::httpserver::CrudController(&server, "crudcontroller", "api"));
+				server.takeController(new gong::httpserver::CrudController(
+					&server, DBAPP->getConnection(), "crudcontroller", "api"));
 				server.run();
 			} else {
 				DBAPP->initMainWindow();
