@@ -25,26 +25,12 @@ angular.module("biosegura", ["ngRoute", "ngCookies", "ngResource", "ngTable", "n
                         templateUrl: "ng-templates/crud_general/index.html",
                         authenticated: false
                     })
-                    .when("/contratos", {
-                        controller: "contratosCtrl",
+                    .when("/contactos", {
+                        controller: "contactosCtrl",
                         templateUrl: "ng-templates/crud_general/index.html",
                         authenticated: false
                     })
-                    .when("/ramos", {
-                        controller: "ramosCtrl",
-                        templateUrl: "ng-templates/crud_general/index.html",
-                        authenticated: true
-                    })
-                    .when("/importaciones", {
-                        controller: "importacionesCtrl",
-                        templateUrl: "ng-templates/crud_general/index.html",
-                        authenticated: true
-                    })
-                    .when("/comisiones", {
-                        controller: "importacionesCtrl",
-                        templateUrl: "ng-templates/importacion/index.html",
-                        authenticated: true
-                    })
+
                     // ERRORES
                     .otherwise({
                         templateUrl: "ng-templates/errors/404.html",

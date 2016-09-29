@@ -25,26 +25,12 @@ angular.module("biosegura", ["ngRoute", "ngCookies", "ngResource", "ngTable", "n
                         templateUrl: "ng-templates/crud_general/index.html",
                         authenticated: false
                     })
-                    .when("/contratos", {
-                        controller: "contratosCtrl",
+                    .when("/contactos", {
+                        controller: "contactosCtrl",
                         templateUrl: "ng-templates/crud_general/index.html",
                         authenticated: false
                     })
-                    .when("/ramos", {
-                        controller: "ramosCtrl",
-                        templateUrl: "ng-templates/crud_general/index.html",
-                        authenticated: true
-                    })
-                    .when("/importaciones", {
-                        controller: "importacionesCtrl",
-                        templateUrl: "ng-templates/crud_general/index.html",
-                        authenticated: true
-                    })
-                    .when("/comisiones", {
-                        controller: "importacionesCtrl",
-                        templateUrl: "ng-templates/importacion/index.html",
-                        authenticated: true
-                    })
+
                     // ERRORES
                     .otherwise({
                         templateUrl: "ng-templates/errors/404.html",
@@ -314,7 +300,8 @@ angular.module('biosegura')
                  * AÑADIR AGENTES
                  */
                 $scope.add_Item = function (form) {
-					console.log('Creando');
+					console.log(form);
+					console.log($scope);
                     Notification.clearAll();
 
                     Contactos.create(form).$promise
@@ -340,11 +327,6 @@ angular.module('biosegura')
                 $scope.clean_addF = function () {
                     $scope.addingForm = {};
                 };
-
-                $scope.nada = function () {
-                    console.log(2);
-                };
-
 
                 /*
                  * ELIMINAR AGENTES

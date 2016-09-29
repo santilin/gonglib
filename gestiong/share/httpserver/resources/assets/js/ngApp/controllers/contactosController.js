@@ -61,7 +61,8 @@ angular.module('biosegura')
                  * AÑADIR AGENTES
                  */
                 $scope.add_Item = function (form) {
-					console.log('Creando');
+					console.log(form);
+					console.log($scope);
                     Notification.clearAll();
 
                     Contactos.create(form).$promise
@@ -87,11 +88,6 @@ angular.module('biosegura')
                 $scope.clean_addF = function () {
                     $scope.addingForm = {};
                 };
-
-                $scope.nada = function () {
-                    console.log(2);
-                };
-
 
                 /*
                  * ELIMINAR AGENTES
