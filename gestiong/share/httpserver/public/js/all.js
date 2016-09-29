@@ -66,7 +66,7 @@ angular.module("biosegura", ["ngRoute", "ngCookies", "ngResource", "ngTable", "n
                     if (next.$$route.originalPath === '/') {
                         if (User.getAuthStatus()) {
 //                            $location.path('/mi-panel');
-                            $location.path('/clientes');
+                            $location.path('/contactos');
                         }
                     }
                 });

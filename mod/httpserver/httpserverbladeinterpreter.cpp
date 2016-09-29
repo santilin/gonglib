@@ -7,7 +7,7 @@ namespace gong {
 namespace httpserver {
 
 const char *replacements[][2] = {
-	{ "{{\\s*asset\\(['\"](/*)(.*)['\"]\\);*\\s*}}", "$BASEURL/\\2" }
+	{ "\\{\\{\\s*asset\\(['\"](/*)(.*)['\"]\\);*\\s*\\}\\}", "$BASEURL/\\2" }
 };
 	
 
