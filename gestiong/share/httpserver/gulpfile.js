@@ -22,6 +22,6 @@ elixir(function (mix) {
         proxy: 'app.aseaga.com'
     });
     
-    mix.scriptsIn('resources/assets/js/ngApp', 'app/js/all.js');
-    mix.scriptsIn('resources/assets/js/custom', 'app/js/biosegura.min.js');
+    mix.scriptsIn('resources/assets/js/ngApp', 'public/js/all.js');
+    mix.scriptsIn('resources/assets/js/custom', 'public/js/biosegura.min.js');
 });
