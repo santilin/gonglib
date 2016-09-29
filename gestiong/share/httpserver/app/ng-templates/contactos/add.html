@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
 
-                <div class="container" data-ng-form='addContacto'>
+                <FORM class="container" data-ng-form='addContacto'>
                     <div class="row">
                         <!--repeticiones para mostrar los campos-->
                         <div class="col-xs-12 col-sm-6 col-md-6">
@@ -46,9 +46,9 @@
                     <div class="modal-footer">
                         <input type="reset" class="btn btn-sm btn-default" data-dismiss="modal" data-ng-click="addContacto.$setPristine()" value="Cancelar"/>
                         <!--<input type="reset" class="btn btn-sm btn-default" data-dismiss="modal" value="Cancelar"/>-->
-                        <input type="submit" class="btn btn-sm btn-dark" data-ng-click='add_Item(addContacto)' data-ng-disabled='addContacto.$invalid' value="Crear" />
+                        <input type="submit" class="btn btn-sm btn-dark" data-ng-submit='add_Item(addContacto)' data-ng-disabled='addContacto.$invalid' value="Crear" />
                     </div>
-                </div>
+                </FORM>
             </div>
         </div>
     </div>
