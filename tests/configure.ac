@@ -1,4 +1,4 @@
-AC_INIT([gestiong-tests],[0.1],[santi@programacionsocial.net],[gestiong-tests])
+AC_INIT([gonglib-tests],[0.1],[santi@programacionsocial.net],[gonglib-tests])
 
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE
@@ -11,7 +11,7 @@ AX_CXX_COMPILE_STDCXX([11])
 
 
 
-AC_MSG_NOTICE( [gestiong-tests Custom configuration] )
+AC_MSG_NOTICE( [gonglib-tests Custom configuration] )
 
 AC_ARG_ENABLE(debug,
   AS_HELP_STRING([--enable-debug],
