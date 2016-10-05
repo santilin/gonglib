@@ -1,33 +1,27 @@
-//
-// C++ Implementation: testlibrary
-//
-// Description:
-//
-//
-// Author: Santiago Capel <elcansino@arremolina.com>, (C) 2007
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
 #include <gonglibrary.h>
-#include <gongdebug.h>
-#include "testlibrary.h"
 
+#define BOOST_TEST_DYN_LINK
+#ifdef STAND_ALONE
+#   define BOOST_TEST_MODULE Main
+#endif
+#include <boost/test/unit_test.hpp>
+
+BOOST_AUTO_TEST_SUITE( TestLibrary )
 using namespace gong;
 
-TestLibrary::TestLibrary()
+BOOST_AUTO_TEST_CASE( TestConstructorSinParametros )
 {
+	__gong_debug::_gong_debug_level = 0;
+// 	BOOST_CHECK_THROW( GongLibrary l("", "", ""), std::runtime_error);
+}
+
+BOOST_AUTO_TEST_CASE( TestConstructorConParametros )
+{
+	GongLibrary l("/usr/share/", "gestiong", "");
+	BOOST_CHECK_EQUAL( l.getGonglibDataDir(), "/usr/share/gonglib/" );
+	BOOST_CHECK_EQUAL( l.getGlobalDataDir(), "/usr/share/gestiong/" );
+	BOOST_CHECK_EQUAL( l.getLocalDataDir(), "/home/santilin/.gonglib/gestiong/" );
 }
 
 
-TestLibrary::~TestLibrary()
-{
-}
-
-void TestLibrary::run()
-{
-	GongLibrary l("", "", "");
-//	_GONG_DEBUG_ASSERT_EQUALS( l.getHostIP("localhost"), "127.0.1.1" );
-//	_GONG_DEBUG_ASSERT_EQUALS( l.getInterfaceIP("eth0"), "84.121.119.151" );
-	_GONG_DEBUG_PRINT(0, "TestLibrary finished" );
-}
+BOOST_AUTO_TEST_SUITE_END()

@@ -49,7 +49,7 @@ Xtring CrudController::getResources(const Xtring& table, const Xtring& params_st
 	result_code = 200;
 	params_str.tokenize(params,"&");
 	long int count = 0, page = 1;
-	JsonTree filters, sort;
+	JsonTree filters, sorts;
 	for( auto &i : params ) {
 		Xtring decoded;
 		if( url_decode(i, decoded) ) {
@@ -67,9 +67,9 @@ Xtring CrudController::getResources(const Xtring& table, const Xtring& params_st
 					return "WRONG filter specification";
 				}
 			} else if( param == "SORTING" && !value.isEmpty() ) {
-				if( !sort.parse(value) ) {
+				if( !sorts.parse(value) ) {
 					result_code = 400; 
-					return "WRONG sort specification";
+					return "WRONG sorting specification";
 				}
 			}
 		} else {
@@ -78,6 +78,10 @@ Xtring CrudController::getResources(const Xtring& table, const Xtring& params_st
 		}
 	}
     dbRecord *record = GongLibraryInstance->createRecord(table);
+    if ( !record ) {
+		result_code = 422;
+        return "No se ha podido crear un registro para la tabla " + table;
+    } 
 	Xtring filter;
 	for( JsonTree::const_iterator fit = filters.begin(); fit != filters.end(); ++fit ) {
 		if (!filter.isEmpty() )
@@ -86,14 +90,18 @@ Xtring CrudController::getResources(const Xtring& table, const Xtring& params_st
 			filter = " WHERE ";
 		filter += pConnection->toSQLLike(fit->first, fit->second.get_value<Xtring>());
 	}
-    if ( !record ) {
-		result_code = 422;
-        return "No se ha podido crear un registro para la tabla " + table;
-    } 
+	Xtring sort;
+	for( JsonTree::const_iterator sit = sorts.begin(); sit != sorts.end(); ++sit ) {
+		if (!sort.isEmpty() )
+			sort += ",";
+		else 
+			sort = " ORDER BY ";
+		sort += pConnection->nameToSQL(sit->first) + " " + sit->second.get_value<Xtring>();
+	}
 	int records = pConnection->selectInt("SELECT COUNT(*) FROM " + pConnection->nameToSQL(table) + filter);
 	Xtring response_str = "{ \"total\": " + Xtring::number(records) + ",\n \"data\": [\n";
 	if( records ) {
-		dbResultSet *rs( pConnection->select("SELECT ID FROM " + pConnection->nameToSQL(table) + filter 
+		dbResultSet *rs( pConnection->select("SELECT ID FROM " + pConnection->nameToSQL(table) + filter + sort
 			+ " LIMIT " + pConnection->toSQL((page-1)*count) + "," + pConnection->toSQL(count) ) );
 		bool first = true;
 		while( rs->next() ) {

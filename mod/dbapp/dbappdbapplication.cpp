@@ -418,23 +418,6 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
     // Read all the database stored settings
     DBAPP->readDatabaseSettings( "GLOBALCONFIG", Xtring::null );
 
-    // Do the login of the plugins and add their title to the application title
-    mTitle = getPackageString();
-    for ( unsigned int i=0; i < mModules.size(); i++ ) {
-        dbModule *mod = mModules.seq_at(i);
-        if( mod->isEnabled() ) {
-            Xtring title;
-            _GONG_DEBUG_PRINT(2, "Module " + mod->getUnixName() + " logging in" );
-            if ( !mod->login ( version, title, startingapp ) ) {
-                _GONG_DEBUG_WARNING( "Module " + mod->getUnixName() + " has not logged in" );
-                mod->setEnabled( false );
-            } else {
-                if( !title.isEmpty() )
-                    mTitle += " " + title;
-            }
-        }
-    }
-
     if( getRecMetaDBData()->getValue( "LOCKED" ).toBool() ) {
         FrmBase::msgOk( getPackageString(),
                         Xtring::printf("La base de datos fue bloqueada el día %s por la usuaria %s:"
@@ -462,6 +445,21 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
 
     // Check if the database has changed
     if( startingapp ) {
+        if( pFrmLogin )
+			pFrmLogin->addMessage( Xtring::printf(_("Comprobando la base de datos %s ..."),
+                                              dbname.c_str() ) );
+        DBAPP->processEvents();
+        Xtring diff = upgradeDatabase( getConnection(), getDatabase(),
+                                       dbname, false /*not purging*/ );
+        if( !diff.isEmpty() && pFrmLogin ) {
+            pFrmLogin->addMessage( Xtring::printf( _("La base de datos de %s no está actualizada\n"),
+                                                   getPackageString().c_str() ) );
+            pFrmLogin->addMessage( diff );
+            DBAPP->processEvents();
+        }
+	}	
+	
+	if( startingapp ) {
         if( pFrmLogin )
 			pFrmLogin->addMessage( _("Comprobando las versiones de los módulos...") );
         DBAPP->processEvents();
@@ -532,21 +530,26 @@ bool dbApplication::login( const Xtring &version, bool startingapp, bool autolog
             }
         }
         delete module;
+    }
 
-        if( pFrmLogin )
-			pFrmLogin->addMessage( Xtring::printf(_("Comprobando la base de datos %s ..."),
-                                              dbname.c_str() ) );
-        DBAPP->processEvents();
-        Xtring diff = upgradeDatabase( getConnection(), getDatabase(),
-                                       dbname, false /*not purging*/ );
-        if( !diff.isEmpty() && pFrmLogin ) {
-            pFrmLogin->addMessage( Xtring::printf( _("La base de datos de %s no está actualizada\n"),
-                                                   getPackageString().c_str() ) );
-            pFrmLogin->addMessage( diff );
-            DBAPP->processEvents();
+        // Do the login of the plugins and add their title to the application title
+    mTitle = getPackageString();
+    for ( unsigned int i=0; i < mModules.size(); i++ ) {
+        dbModule *mod = mModules.seq_at(i);
+        if( mod->isEnabled() ) {
+            Xtring title;
+            _GONG_DEBUG_PRINT(2, "Module " + mod->getUnixName() + " logging in" );
+            if ( !mod->login ( version, title, startingapp ) ) {
+                _GONG_DEBUG_WARNING( "Module " + mod->getUnixName() + " has not logged in" );
+                mod->setEnabled( false );
+            } else {
+                if( !title.isEmpty() )
+                    mTitle += " " + title;
+            }
         }
     }
 
+    
     if ( isDatabaseChanged() )
     {
         _GONG_DEBUG_WARNING( "Database has changed" );

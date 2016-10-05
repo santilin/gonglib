@@ -1,5 +1,5 @@
 AM_CPPFLAGS = @GONGLIB_CPPFLAGS@
-AM_CXXFLAGS = -std=c++11 @AM_CXXFLAGS@
+AM_CXXFLAGS = @AM_CXXFLAGS@
 
 gongtest_LDADD = @GONGLIB_LIBS@
 
@@ -17,7 +17,7 @@ gongtest_SOURCES = main.cpp testcommon.cpp testdatabase.cpp \
 
 noinst_HEADERS = testcommon.h testdatabase.h testdbconnection.h \
 	testdbdefinition.h testdbfieldvalue.h testdbrecord.h testdbschema.h testdbtabledef.h \
-	testintegrityresult.h testlibrary.h testscript.h testsettings.h testtabledatamodel.h \
+	testintegrityresult.h testscript.h testsettings.h testtabledatamodel.h \
 	testregconfig.h testunicode.h testmoney.h testcsv.h \
 	testxmlparser.h 
 	

@@ -5,5 +5,5 @@ AUTOMAKE_OPTIONS = foreign 1.4
 ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS=gonglib \
-	httpserver
+	src httpserver
 

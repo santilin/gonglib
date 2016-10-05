@@ -51,15 +51,17 @@ GongLibrary::GongLibrary( const char *datadir, const char *packagename,
     std::set_unexpected( unexpected_handler );
     std::set_terminate (__gnu_cxx::__verbose_terminate_handler);
     GongLibraryInstance = this;
-    FileUtils::addSeparator( mGlobalDataDir);
-    mGonglibDataDir = mGlobalDataDir + "gestiong/";
+	if( mGlobalDataDir.isEmpty() )
+		throw new std::runtime_error("GongLibrary::datadir can not be empty");
+    FileUtils::addSeparator( mGlobalDataDir );
+    mGonglibDataDir = mGlobalDataDir + "gonglib/";
     mGlobalDataDir += Xtring(packagename).lower() + "/";
-    mLocalDataDir = Xtring( getenv( "HOME" ) ) + "/.gestiong/" + Xtring(mPackageName).lower() + "/";
+    mLocalDataDir = Xtring( getenv( "HOME" ) ) + "/.gonglib/" + Xtring(mPackageName).lower() + "/";
     Xtring packagename_save = mPackageName, localdadadir_save = mLocalDataDir;
     parseArguments( argc, argv ); // Here datadir can have changed
     if( packagename_save != mPackageName && localdadadir_save == mLocalDataDir ) {
         // If packagename has changed but localdatadir has not, rebuild localdatadir
-        mLocalDataDir = Xtring( getenv( "HOME" ) ) + "/.gestiong/" + Xtring(mPackageName).lower() + "/";
+        mLocalDataDir = Xtring( getenv( "HOME" ) ) + "/.gonglib/" + Xtring(mPackageName).lower() + "/";
     }
     FileUtils::addSeparator( mLocalDataDir);
     FileUtils::addSeparator( mGlobalDataDir);
