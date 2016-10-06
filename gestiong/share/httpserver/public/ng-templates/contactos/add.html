@@ -1,0 +1,59 @@
+<div class="modal fade" id="crear_{{textos.elemento| lowercase }}" tabindex="-1" role="dialog" aria-labelledby="modalCreateLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Crear {{textos.elemento}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <FORM class="container" name='addContacto' data-ng-submit='add_Item(addContacto)'>
+                    <div class="row">
+                        <!--repeticiones para mostrar los campos-->
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label>Nombre<span> *</span></label>
+
+                                <!--campos de text y password-->
+                                <input
+									name='NOMBRE'
+                                    ng-class='{error: NOMBRE.$invalid && NOMBRE.$dirty}'
+                                    ng-model="addingForm['NOMBRE']"
+                                    type="text"
+                                    class="form-control"
+                                    ng-required="true" />
+                                <label>Email<span> *</span></label>
+                                <input
+                                    name='EMAIL'
+                                    ng-class='{error: EMAIL.$invalid && EMAIL.$dirty}'
+                                    ng-model="addingForm['EMAIL']"
+                                    type="text"
+                                    class="form-control"
+                                    ng-required="true" />
+                                <!--campos select-
+                                <select data-ng-if='col.tipo === "select"'
+                                        name="{{col.field}}"
+                                        class="form-control"
+
+                                        data-ng-model="addF_select"
+                                        ng-options="option.rol for option in roles track by option.id"
+                                        data-ng-required="{{col.required}}">
+                                </select> -->
+
+                                <!--mostramos los mensajes de error del frontend-
+                                <small>
+                                    <span ng-if="addContacto.email.$error.email && col.tipo==='email'">&#10006; Formato de correo no válido.</span>
+                                </small> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="reset" class="btn btn-sm btn-default" data-dismiss="modal" data-ng-click="addContacto.$setPristine()" value="Cancelar"/>
+                        <!--<input type="reset" class="btn btn-sm btn-default" data-dismiss="modal" value="Cancelar"/>-->
+                        <input type="submit" class="btn btn-sm btn-dark" id='submit' data-ng-disabled='addContacto.$invalid' value="Crear" />
+                    </div>
+                </FORM>
+            </div>
+        </div>
+    </div>
+</div>
