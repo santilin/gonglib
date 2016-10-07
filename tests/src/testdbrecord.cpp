@@ -1,9 +1,9 @@
+#include <iostream>
 #include <gongdbdefinition.h>
 #include <gongdbrecord.h>
-#include <iostream>
-#include "testcommon.h"
-#include "testdbrecord.h"
 #include <gongdbfieldimage.h>
+#include "testdbcommon.h"
+#include "testdbrecord.h"
 #include "passwords.nosvn.h"
 
 using namespace gong;

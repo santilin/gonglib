@@ -11,7 +11,7 @@ using namespace gong;
 
 BOOST_AUTO_TEST_CASE( TestConstructorSinParametros )
 {
-	__gong_debug::_gong_debug_level = 0;
+	__gong_debug::_gong_debug_level = -1;
 // 	BOOST_CHECK_THROW( GongLibrary l("", "", ""), std::runtime_error);
 }
 

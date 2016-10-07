@@ -23,9 +23,11 @@ void TestViewTable::run()
 {
 	int argc = 1;
 	char *argv[] = { (char *)"gongcommontests", 0 };
-	TestCommon t;
 	QApplication app(argc, argv, true);
-	DerivedRecord contacto(&t.mConnection, t.pTableContactos );
+	dbDefinition *database= new dbDefinition("tests_gonglib", "Tests");
+	dbConnection *conn = create_connection();
+	dbTableDefinition *contactos_def = create_contactos(database, conn);
+	DerivedRecord contacto(conn, contactos_def );
 	contacto.setValue("ID",1);
 	contacto.setValue("NOMBRE","Santilín");
 	contacto.save(false, false);

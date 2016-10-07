@@ -1,4 +1,4 @@
-#include "testcommon.h"
+#include "testdbcommon.h"
 #include "passwords.nosvn.h"
 #include "testunicode.h"
 

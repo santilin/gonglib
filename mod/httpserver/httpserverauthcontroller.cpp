@@ -12,10 +12,9 @@ Controller* AuthController::addRoutes()
         try {
 			JsonTree pt;
 			if( pt.parse(request->content.string() ) ) {
-				Xtring name=pt.get<Xtring> ( "email" ) +" "+pt.get<Xtring> ( "password" );
-				pt.put("role", "administrador");
-				pt.put("permissions", "administrator/agentes/read");
-				pt.write(content);
+				pt["role"] = "administrador";
+				pt["permissions"] = "administrator/agentes/read";
+				content = pt.dump();
 			} else {
 				result_code = 400;
 				content = "Request contains invalid JSON parameters";

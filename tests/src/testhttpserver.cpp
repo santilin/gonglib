@@ -3,13 +3,27 @@
 #   define BOOST_TEST_MODULE Main
 #endif
 #include <boost/test/unit_test.hpp>
-
+#include <gongfileutils.h>
 #include <httpserverserver.h>
 #include <httpserverbladeinterpreter.h>
+#include <httpservercrudcontroller.h>
+#include "testdbcommon.h"
+
 
 BOOST_AUTO_TEST_SUITE( TestHttpServer )
 using namespace gong;
 using namespace gong::httpserver;
+
+
+BOOST_AUTO_TEST_CASE( TestCrudController )
+{
+	dbDefinition *database= new dbDefinition("tests_gonglib", "Tests");
+	dbConnection *conn = create_connection();
+	create_contactos(database, conn);
+	httpserver::Server server("/tmp/", 8080, 1);
+	server.takeController(new CrudController( &server, conn, "crudcontroller", "api"));
+	server.run();
+}
 
 BOOST_AUTO_TEST_CASE( TestBladeInterpreter )
 {

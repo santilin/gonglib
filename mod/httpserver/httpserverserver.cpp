@@ -66,7 +66,6 @@ Server::Server( const Xtring &document_root,
                         std::cout << "Enviando el fichero interpretado: " << filename << std::endl;
                         *response << this->getResponse(200, content);
                     } else {
-                        std::cout << "Enviando el fichero: " << filename << std::endl;
                         auto ifs=make_shared<ifstream>();
                         ifs->open ( path.string(), ifstream::in | ios::binary );
                         if ( *ifs ) {

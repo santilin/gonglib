@@ -1,18 +1,20 @@
-#include "testcommon.h"
-#include "passwords.nosvn.h"
+#include "testdbcommon.h"
 
 using namespace gong;
 
-
-TestCommon::TestCommon()
+dbConnection *create_connection()
 {
-	mConnection.connect(dbConnection::DRIVER_MYSQL, DBTEST_USER, DBTEST_PASSWORD, "");
+	dbConnection *conn = new dbConnection();
+	conn->connect(dbConnection::DRIVER_SQLITE3, Xtring::null, Xtring::null, "/tmp/test.sql3");
+	return conn;
+}
 
-	pDatabase = new dbDefinition("santilin_gestiong", "Tests");
-	mConnection.dropDatabase(pDatabase->getName(), true);
-	pDatabase->create(&mConnection);
+dbTableDefinition *create_contactos(dbDefinition *pDatabase, dbConnection *conn)
+{
+	conn->dropDatabase(pDatabase->getName(), true);
+	pDatabase->create(conn);
 
-	pTableContactos = new dbTableDefinition( *pDatabase, "contactos" );
+	dbTableDefinition *pTableContactos = new dbTableDefinition( *pDatabase, "contactos" );
 	pTableContactos->addFieldRecordID();
 	pTableContactos->addFieldString("NOMBRE", 80);
 	pTableContactos->addField("CP", SQLINTEGER, 5, 0);
@@ -26,11 +28,6 @@ TestCommon::TestCommon()
 	pTableContactos->addField("FLOTANTE",  SQLFLOAT, 10, 2 );
 
 	pDatabase->addTable( pTableContactos );
-	pDatabase->createTables(&mConnection);
-}
-
-
-TestCommon::~ TestCommon()
-{
-	delete pDatabase;
+	pDatabase->createTables(conn);
+	return pTableContactos;
 }

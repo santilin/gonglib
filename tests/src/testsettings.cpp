@@ -1,5 +1,5 @@
 #include <gongsettings.h>
-#include "testcommon.h"
+#include "testdbcommon.h"
 #include "testsettings.h"
 
 using namespace gong;

@@ -1,8 +1,8 @@
 
-#include "testcommon.h"
-#include "testtabledatamodel.h"
 #include <gongdebug.h>
 #include <gongdbrecorddatamodel.h>
+#include "testdbcommon.h"
+#include "testtabledatamodel.h"
 #include "testdbrecord.h"
 
 
@@ -11,7 +11,6 @@ using namespace gong;
 
 
 TestTableDataModel::TestTableDataModel()
-
 {
 }
 
@@ -32,16 +31,17 @@ void TestTableDataModel::run()
 
 int TestTableDataModel::testTableDataModel()
 {
-	TestCommon t;
-
+	dbDefinition *database= new dbDefinition("tests_gonglib", "Tests");
+	dbConnection *conn = create_connection();
+	dbTableDefinition *contactos_def = create_contactos(database, conn);
 	dbViewDefinitionDict views;
-	dbViewDefinition *v = new dbViewDefinition(*t.pTableContactos);
+	dbViewDefinition *v = new dbViewDefinition(*contactos_def);
 	views.insert( "testview", v );
 
 	_GONG_DEBUG_ASSERT(  views.size() == 1  );
 	_GONG_DEBUG_ASSERT(  views.seq_at(0)->getName() == "contactos"  );
 
-	DerivedRecord *arecord = new DerivedRecord(&t.mConnection, t.pTableContactos);
+	DerivedRecord *arecord = new DerivedRecord(conn, contactos_def);
 	_GONG_DEBUG_ASSERT(  arecord->setValue("NOMBRE", "Santiago")  );
 	_GONG_DEBUG_ASSERT(  arecord->setValue("CP", 12345)  );
 	_GONG_DEBUG_ASSERT(  arecord->setValue("IMPORTE", 1234.34 )  );

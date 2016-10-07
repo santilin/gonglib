@@ -320,7 +320,7 @@ namespace SimpleWeb {
 
         void find_resource(std::shared_ptr<socket_type> socket, std::shared_ptr<Request> request) {
             //Find path- and method-match, and call write_response
-			std::cout << "Access: " << request->path << std::endl;
+			std::cout << request->method << " " << request->path << std::endl;
             for(auto& res: opt_resource) {
                 if(request->method==res.first) {
                     for(auto& res_path: res.second) {

@@ -1,4 +1,4 @@
-#include "testcommon.h"
+#include "testdbcommon.h"
 #include "testdbtabledef.h"
 
 using namespace gong;
