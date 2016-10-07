@@ -23,6 +23,27 @@ Controller *CrudController::addRoutes()
         Xtring response_str(getResource ( Xtring ( request_table.c_str() ).upper(), id, result_code));
         *response << getServer()->getResponse(result_code, response_str);
     };
+    getServer()->resource[Xtring("^/") + getPrefix() + "/([A-Za-z_]+)$"]["POST"]=[this] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
+        std::string request_table=request->path_match[1];
+		_GONG_DEBUG_PRINT(0, request_table);
+		int result_code = 200;
+		Xtring content;
+        try {
+			JsonTree pt;
+			if( pt.parse(request->content.string() ) ) {
+				Xtring name=pt.get<Xtring> ( "email" ) +" "+pt.get<Xtring> ( "password" );
+				pt.put("role", "administrador");
+				pt.put("permissions", "administrator/agentes/read");
+				pt.write(content);
+			} else {
+				result_code = 400;
+				content = "Request contains invalid JSON parameters";
+			}
+        } catch ( std::exception& e ) {
+			content = e.what();
+        }
+		*response << getServer()->getResponse(result_code, content);
+    };
 	return this;
 }
 	
