@@ -16,6 +16,7 @@
 #include <boost/log/common.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/log/sinks.hpp>
+#include <boost/log/sinks/text_ostream_backend.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/log/utility/setup/console.hpp>
 #include <boost/log/support/date_time.hpp>
@@ -30,6 +31,7 @@ enum severity_level {INFO};
 // Initializing global boost::log logger
 typedef boost::log::sources::severity_channel_logger_mt<
     severity_level, std::string> global_logger_type;
+typedef sinks::synchronous_sink< sinks::text_ostream_backend > text_sink;
 
 BOOST_LOG_INLINE_GLOBAL_LOGGER_INIT(global_logger, global_logger_type)
 {

@@ -3,12 +3,22 @@
 #include "httpserverserver.h"
 #include "httpservercrudcontroller.h"
 
+// http://www.restapitutorial.com/lessons/httpmethods.html
+
 namespace gong {
 namespace httpserver {
 
 Controller *CrudController::addRoutes()
 {
-    getServer()->resource[Xtring("^/") + getPrefix() + "/([A-Za-z_]+)/([0-9]+)$"]["GET"]=[this] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
+	// POST: Create
+    getServer()->resource[Xtring("^/") + getPrefix() + "/([A-Za-z0-9_]+)$"]["POST"]=[this] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
+        std::string request_table=request->path_match[1];
+		int result_code;
+        Xtring response_str(createResource ( Xtring ( request_table.c_str() ).upper(), result_code));
+        *response << getServer()->getResponse(result_code, response_str);
+    };
+	// GET: Read id
+	getServer()->resource[Xtring("^/") + getPrefix() + "/([A-Za-z0-9_]+)/([0-9]+)(/edit)+$"]["GET"]=[this] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
         std::string request_table=request->path_match[1];
         std::string request_number=request->path_match[2];
         dbRecordID id = Xtring ( request_number.c_str() ).toInt();
@@ -16,14 +26,16 @@ Controller *CrudController::addRoutes()
         Xtring response_str(getResource ( Xtring ( request_table.c_str() ).upper(), id, result_code));
         *response << getServer()->getResponse(result_code, response_str);
     };
-    getServer()->resource[Xtring("^/") + getPrefix() + "/([A-Za-z_]+)\\?(.*)$"]["GET"]=[this] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
+	// GET: Select with filters
+    getServer()->resource[Xtring("^/") + getPrefix() + "/([A-Za-z0-9_]+)\\?(.*)$"]["GET"]=[this] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
         std::string request_table=request->path_match[1];
         std::string request_params=request->path_match[2];
 		int result_code;
         Xtring response_str(getResources(Xtring ( request_table.c_str() ).upper(), request_params, result_code ));
         *response << getServer()->getResponse(result_code, response_str);
     };
-    getServer()->resource[Xtring("^/") + getPrefix() + "/([A-Za-z_]+)$"]["POST"]=[this] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
+	// PUT: Update/Replace 
+    getServer()->resource[Xtring("^/") + getPrefix() + "/([A-Za-z0-9_]+)/([0-9]+)$"]["PUT"]=[this] ( std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request ) {
         std::string request_table=request->path_match[1];
 		int result_code = 200;
 		dbRecordID recid = 0;
@@ -57,9 +69,21 @@ Xtring CrudController::updateResource( const Xtring &table, dbRecordID &id,
 			result_code = 400;
 			response_str = "malformed parameters JSON";
 		} else {
-			for( JsonTree::const_iterator pit = pt.begin(); pit != pt.end(); ++pit ) {
-				Xtring value = *pit;
-				record->setValue( pit.key(), value );
+			for( JsonTree::const_iterator pit = pt.cbegin(); pit != pt.cend(); ++pit ) {
+				std::cout << pit.key() << std::endl;
+				std::cout << pit.value() << std::endl;
+				auto pt_value = pit.value();
+				if( pt_value.is_string() ) {
+					record->setValue( pit.key(), pit->get<Xtring>() );
+				} else if( pt_value.is_number_integer() || pt_value.is_number_unsigned() ) {
+					record->setValue( pit.key(), pit->get<int>() );
+				} else if( pt_value.is_null() ) {
+					record->setNullValue( pit.key() );
+				} else if( pt_value.is_boolean() ) {
+					record->setValue( pit.key(), pit->get<bool>() );
+				} else if( pt_value.is_number_float() ) {
+					record->setValue( pit.key(), pit->get<double>() );
+				}
 			}
 			if( record->save(true, false) ) {
 				response_str = record->toString(TOSTRING_JSON);
@@ -89,6 +113,21 @@ Xtring CrudController::getResource ( const Xtring &table, dbRecordID id, int &re
         response_str = Xtring::printf ( "No se ha encontrado el registro de id %d en la tabla %s", id, table.c_str() );
 		result_code = 404;
     }
+    delete record;
+    return response_str;
+}
+
+Xtring CrudController::createResource ( const Xtring &table, int &result_code)
+{
+    Xtring response_str;
+    dbRecord *record = GongLibraryInstance->createRecord ( table );
+    if ( !record ) {
+		result_code = 422;
+        return "No se ha podido crear un registro para la tabla " + table;
+    } 
+    record->clear(true);
+	result_code = 200;
+	response_str = record->toString ( TOSTRING_JSON );
     delete record;
     return response_str;
 }

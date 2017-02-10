@@ -326,11 +326,19 @@ Xtring dbRecord::toString ( int format, const Xtring &includedFields ) const
                 continue;
             if ( i!=0 )
                 text += ",\n";
-            text += "\"" + getFieldDefinition(i)->getName() + "\":\"";
-            if( !isNullValue(i) ) {
-                text += getValue(i).toString().toJSON();
+            text += "\"" + getFieldDefinition(i)->getName() + "\":";
+			Variant v(getValue(i));
+            switch( v.type() ) {
+				case Variant::tString:
+				case Variant::tTime:
+				case Variant::tDate:
+				case Variant::tDateTime:
+				case Variant::tBinary:
+					text += "\"" + getValue(i).toString().toJSON() + "\"";
+					break;
+				default:
+					text += getValue(i).toString().toJSON();
 			}
-			text += "\"";
         }
         text += "}\n";
 	}

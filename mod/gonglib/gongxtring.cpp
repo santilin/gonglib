@@ -712,6 +712,21 @@ int Xtring::splitIn2( Xtring &first, Xtring &second, const Xtring &sep) const
     }
 }
 
+// @todo añadir a Xtring
+Xtring Xtring::randomName(const int len) 
+{
+	Xtring ret;
+    static const char alphanum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+
+    for (int i = 0; i < len; ++i) {
+        ret[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+    }
+    return ret;
+}
+
 /**
  * @brief appends text to a string, appending a separator if not empty
  *

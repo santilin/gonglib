@@ -94,7 +94,9 @@ public:
     Xtring toHex() const;
 	Xtring toJSON() const;
     Xtring XMLProtect() const;
+	static Xtring randomName(const int len);
 };
+
 
 typedef List<Xtring> XtringList;
 

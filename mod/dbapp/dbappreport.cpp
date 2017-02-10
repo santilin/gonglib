@@ -79,20 +79,6 @@ bool AppReport::readString( const Xtring &rtkcode, const Xtring &initdefines, In
     return readRtkString ( rtkcode.c_str(), 0, "From String", pGongInput, initdefines );
 }
 
-// @todo añadir a Xtring
-Xtring gen_random_name(const int len) {
-	Xtring ret;
-    static const char alphanum[] =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-
-    for (int i = 0; i < len; ++i) {
-        ret[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
-    }
-    return ret;
-}
-
 int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &properties,
                       const Xtring &filter, const Xtring &order,
                       PageOrientation po, bool askforparameters )
@@ -257,7 +243,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
 				if( title.isEmpty() )
 					title = _("Informe");
                 mViewer = new ReportViewer ( salida, true, DBAPP->getMainWindow() ? DBAPP->getMainWindow()->getViewport() : 0);
-                mViewer->setObjectName( gen_random_name(8).c_str() );
+                mViewer->setObjectName( Xtring::randomName(8).c_str() );
                 mViewer->setCaption ( toGUI( title.c_str() ) ) ;
                 mViewer->setPageDimensions ( ( int ) ( salida->sizeX() ), ( int ) ( salida->getFolioSizeY() ) );
                 mViewer->setPageCollection ( static_cast<ReportQtOutput *> ( salida )->getPageCollection() );

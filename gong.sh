@@ -180,7 +180,7 @@ create_app)
 		echo "Falta el nombre del proyecto"
 		exit 1
 	fi
-	MODULE=$2
+	MODULE=$1
 	if test "x$MODULE" == "x"; then
 		echo "Faltan los módulos a incluir. Estos son los módulos disponibles en $GONGMODULESDIR:"
 		find $GONGMODULESDIR -maxdepth 1 \( -type d -o -type l \) -printf "%f\n"| sort | grep -v "^\dbapp\$" | grep -v "^\rtk\$" |grep -v "^\mod\$" |grep -v "^\gonglib\$" | grep -v "^\qt[45]\$"
@@ -209,12 +209,11 @@ create_app)
 		echo "dnl >>>>>MODULE_INFO" >> configure.ac
 		echo "** Ejecutando: capel configure.ac"
 		if $CAPEL configure.ac; then
-			echo "        src/Makefile )" >> configure.ac
 			echo "        src" >> Makefile.am
 			cp $GONGDIR/m4/ax* m4
 			if $CAPEL src/${LOWER_PROYECTO}module.cpp; then
 				echo "El proyecto $PROYECTO ha sido creado."
-				echo "Ejecute $GONGDIR/gong.sh init_project en el directorio base del proyecto $PROYECTO."
+				echo "Ejecuta $GONGDIR/gong.sh init_project en el directorio base del proyecto $PROYECTO."
 			fi
 			
 		fi

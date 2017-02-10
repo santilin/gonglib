@@ -15,6 +15,7 @@ public:
 	virtual Controller *addRoutes() override;
 	Xtring getResource(const Xtring &table, dbRecordID id, int &result_code);
 	Xtring getResources(const Xtring &table, const Xtring &params, int &result_code);	
+	Xtring createResource(const Xtring &table, int &result_code);
 	Xtring updateResource (const Xtring &table, dbRecordID &id, 
 						const Xtring &params, int &result_code);
 private:

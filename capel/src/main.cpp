@@ -192,7 +192,7 @@ int main( int argc, char *argv[] )
 					} else if ( instruction == "TYPE" ) {
 						type = args.left( args.find_first_of( " \t" ) ).upper();
 						args = args.mid( args.find_first_of( " \t" ) + 1 );
-						if ( type == "PROJECT" ) {
+						if ( type.upper() == "PROJECT" ) {
 							genModuleConfigure_ac(configure_ac, members, args + " PROJECT");
 							configure_ac->writeIfModified();
 							genMakefileAm("Makefile.am", members, args + " PROJECT");
@@ -203,7 +203,7 @@ int main( int argc, char *argv[] )
 							if( !FileUtils::exists("src/Makefile.am") )
 								genSrc_MakefileAm(type, args);
 							genModuleCpp(args, members);
-						} else if ( type == "MODULE" ) {
+						} else if ( type.upper() == "MODULE" ) {
 							genModuleConfigure_ac(configure_ac, members, args + " MODULE");
 							configure_ac->writeIfModified();
 							genMakefileAm("Makefile.am", members, args + " MODULE");
@@ -211,8 +211,8 @@ int main( int argc, char *argv[] )
 								system("mkdir m4 src po; touch NEWS README AUTHORS ChangeLog");
 								genMakefileCvs();
 								genSrc_MakefileAm(type, args);
-								genModuleCpp(args, members);
 							}
+							genModuleCpp(args, members);
 						}
 
 					}

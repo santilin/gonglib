@@ -5,19 +5,22 @@ libgongcontactos_ladir = $(includedir)/gonglib
 
 libgongcontactos_la_SOURCES = contactosmodule.cpp \
 	contactosfldcif.cpp contactosfldnombrepropio.cpp \
-	contactosfrmeditcontacto.cpp contactosreccontacto.cpp \
-	contactosicontactablerecord.cpp contactosfrmeditcontactobehavior.cpp
+	contactosreccontacto.cpp contactosicontactablerecord.cpp 
 
 libgongcontactos_la_HEADERS = contactosmodule.h contactosmastertable.h \
 	contactosfldcif.h contactosfldnombrepropio.h \
-	contactosfrmeditcontacto.h contactosreccontacto.h \
-	contactosicontactablerecord.h contactosfrmeditcontactobehavior.h \
+	contactosreccontacto.h contactosicontactablerecord.h \
 	contactosreccontactoimagen.h
 
+if COMPILE_WITH_GONG_QT4
+libgongcontactos_la_SOURCES += contactosfrmeditcontacto.cpp \
+	contactosfrmeditcontactobehavior.cpp
+libgongcontactos_la_HEADERS += contactosfrmeditcontacto.h \
+	contactosfrmeditcontactobehavior.h 
 nodist_libgongcontactos_la_SOURCES = \
 	moc_contactosfrmeditcontacto.cpp moc_contactosmodule.cpp \
 	moc_contactosfrmeditcontactobehavior.cpp
-
+endif
 
 moc_%.cpp: %.h
 	moc $< -o $@
