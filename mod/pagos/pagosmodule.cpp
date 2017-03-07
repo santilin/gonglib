@@ -55,8 +55,8 @@ Xtring PagosModule::sLastCuentaPago("57.");
 Xtring PagosModule::sLastDocumentoPago;
 Xtring PagosModule::sLastMonedaCodigo;
 
-PagosModule::PagosModule()
-    : dbModule("pagos")
+PagosModule::PagosModule(int argc, char *argv[])
+    : dbModule("pagos", argc, argv)
 {
     ModuleInstance = this;
     pModuleSettings = _settings;

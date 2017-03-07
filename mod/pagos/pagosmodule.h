@@ -53,7 +53,7 @@ class PagosModule: public QObject, public dbModule
 {
 	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
-	PagosModule();
+	PagosModule(int argc, char *argv[]);
 	virtual ~PagosModule();
 	virtual bool initMainWindow(class MainWindow *win);
 	virtual bool initDatabase(dbDefinition *dbdef);

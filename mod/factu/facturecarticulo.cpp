@@ -85,7 +85,7 @@ void RecArticulo::actStocks( bool savingdetail, bool compra, double cantidad )
         if( cantidad != 0 )
             setValue( "STOCK", getValue( "STOCK" ).toDouble() + cantidad );
         if( getValue( "ARTICULOBASE_ID" ).toInt() != 0 ) {
-            RecArticulo *base = static_cast<RecArticulo *>(DBAPP->createRecord( this ));
+            RecArticulo *base = static_cast<RecArticulo *>(DBAPP->createRecord( this->getTableName() ));
             if( base->read( getValue( "ARTICULOBASE_ID" ).toInt() ) ) {
                 cantidadoriginal *= getValue( "MULTIPLOBASE" ).toDouble();
                 base->actStocks( savingdetail, compra, cantidadoriginal );

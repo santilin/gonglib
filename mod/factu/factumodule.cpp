@@ -130,8 +130,8 @@ static dbModuleSetting _settings[] = {
     {dbModuleSetting::None}
 };
 
-FactuModule::FactuModule()
-    : dbModule( "factu" ), mWorkingDate( Date::currentDate() )
+FactuModule::FactuModule(int argc, char *argv[])
+    : dbModule( "factu", argc, argv ), mWorkingDate( Date::currentDate() )
 {
     _GONG_DEBUG_TRACE( 1 );
     ModuleInstance = this;

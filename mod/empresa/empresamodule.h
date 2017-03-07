@@ -39,7 +39,7 @@ class EmpresaModule: public QObject, public dbModule
 {
 	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
-	EmpresaModule();
+	EmpresaModule(int argc, char *argv[]);
 	virtual ~EmpresaModule();
 	virtual bool initMainWindow(class MainWindow *win);
 	virtual bool initDatabase(dbDefinition *dbdef);

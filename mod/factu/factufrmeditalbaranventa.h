@@ -74,7 +74,7 @@ protected:
 	void scatterAgente();
 	void scatterProyecto();
 	void scatterCuentaPago();
-
+	
 private slots:
 	void pushTipoDocCodigo_clicked();
 	void pushClienteCodigo_clicked();

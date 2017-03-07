@@ -62,14 +62,14 @@ static dbModuleSetting _settings[] = {
     { dbModuleSetting::None }
 };
 
-EmpresaModule::EmpresaModule()
-    : dbModule( "empresa" ), pRecEmpresa( 0 ), mCodEmpresa( 0 ), mEjercicio( 0 )
+EmpresaModule::EmpresaModule(int argc, char *argv[])
+    : dbModule( "empresa", argc, argv ), pRecEmpresa( 0 ), mCodEmpresa( 0 ), mEjercicio( 0 )
 {
     ModuleInstance = this;
     pModuleSettings = _settings;
     _GONG_DEBUG_TRACE( 1 );
     mDescription = "Módulo de definición de la organización";
-    /*<<<<<EMPRESAMODULE_PUBLIC_INFO*/
+/*<<<<<EMPRESAMODULE_PUBLIC_INFO*/
 	mModuleRequires << "contactos";
 	mMasterTables << "EMPRESA" << "DEPARTAMENTO" << "MONEDA" << "TIPOIVA" << "PROYECTO";
 //	mDetailTables

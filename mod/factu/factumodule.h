@@ -62,7 +62,7 @@ class FactuModule: public QObject, public dbModule
 {
 	Q_OBJECT // Si da error de funciones virtuales no encontradas, elimina esto
 public:
-	FactuModule();
+	FactuModule(int argc, char *argv[]);
 	virtual ~FactuModule();
 	virtual bool initMainWindow(class MainWindow *win);
 	virtual bool initDatabase(dbDefinition *dbdef);

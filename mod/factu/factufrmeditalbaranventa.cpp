@@ -1088,7 +1088,7 @@ void FrmEditAlbaranVenta::numeraLineas()
 	dbRecordList *reclst = getRecAlbaranVenta()->getListAlbaranVentaDet();
 	for ( unsigned int i = 0; i < reclst->size(); i++ ) {
 		RecAlbaranVentaDet *detalle = static_cast<RecAlbaranVentaDet *>( reclst->at( i ) );
-		if( !detalle->isEmpty() ) // No numerar detalles vacíos
+		if( !detalle->isEmpty() ) // No numerar detalles vacíos 
 			detalle->setValue( "NLINEA", i+1 );
 	}
 /*>>>>>FRMEDITALBARANVENTA_CABECERA_NUMERALINEAS*/
