@@ -465,8 +465,11 @@ bool dbRecord::INSERT()
         Xtring fldname = flddef->getName();
         dbFieldValue &fldval = mFieldValues.seq_at(i);
         fields += "," + pConn->nameToSQL( fldname );
-        if ( (flddef->canBeNull() || flddef->isPrimaryKey() )
-                && ( fldval.isNull() || fldval.isEmpty() ) )
+       if( (flddef->getName() == "REC_FECHA_MODIF" || flddef->getName() == "REC
+_FECHA_CREA")  && fldval->toString().isEmpty() ) {
+               values += ",NOW()";
+        } else if ( (flddef->canBeNull() || flddef->isPrimaryKey() )
+                && ( fldval->isNull() || fldval->isEmpty() ) )
             values += ",NULL";
         else
             values += "," + flddef->toSQL ( pConn, fldval, true /*inserting*/ );

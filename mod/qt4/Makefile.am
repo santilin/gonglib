@@ -23,12 +23,6 @@ nodist_libgongqt4_la_SOURCES = \
 	moc_gongosdwidget.cpp moc_gongrichtextedit.cpp \
 	moc_gongtextedit.cpp moc_gongimagebox.cpp
 
-if COMPILE_EXPERIMENTAL
-libgongqt4_la_SOURCES += gongviewtable2.cpp
-libgongqt4_la_HEADERS += gongviewtable.h
-nodist_libgongqt4_la_SOURCES += moc_gongviewtable.cpp
-endif
-
 moc_%.cpp: %.h
 	moc $< -o $@
 

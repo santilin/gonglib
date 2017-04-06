@@ -251,6 +251,8 @@ public:	// Edit forms
     }
     static long version2Long( const Xtring &version );
 
+	FrmLogin *getFrmLogin() const  { return pFrmLogin; }
+
 protected:
     dbConnection *pConnection = 0;
     dbDefinition *pDatabase = 0;
