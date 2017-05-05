@@ -213,12 +213,17 @@ void capel::genModuleConfigure_ac(CapelModule *cpm, const XtringList &modules, c
 	Xtring ext_prefix = "GONGLIB_MODULE_";
 
 	Xtring boost_extra_modules, boost_extra_libs;
-	if( modules.contains("HttpServer") ) {
+	if( modules.contains("HttpServer") || modules.contains("rtk GONG_CHECK_RTK") ) {
 		boost_extra_modules =
 "\tAX_BOOST_FILESYSTEM\n"
-"\tAX_BOOST_SYSTEM\n"
+"\tAX_BOOST_SYSTEM\n";
+		boost_extra_libs = " $BOOST_FILESYSTEM_LIB $BOOST_SYSTEM_LIB";
+	}
+            
+	if( modules.contains("HttpServer") ) {
+		boost_extra_modules =
 "\tAX_BOOST_THREAD\n";
-		boost_extra_libs = " $BOOST_FILESYSTEM_LIB $BOOST_SYSTEM_LIB $BOOST_THREAD_LIB";
+		boost_extra_libs = " $BOOST_THREAD_LIB";
 	}
 
 	Xtring ac_init =
