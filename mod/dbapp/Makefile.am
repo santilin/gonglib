@@ -78,7 +78,7 @@ dist_opendocumentmeta_DATA = $(srcdir)/share/opendocument/calc/template/META-INF
 endif
 
 moc_%.cpp: %.h
-	moc $< -o $@
+	moc-qt4 $< -o $@
 
 dbapp_sharedir = $(datadir)/gestiong/dbapp
 dist_dbapp_share_DATA = $(srcdir)/share/logogestiong.jpg \

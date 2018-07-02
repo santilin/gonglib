@@ -88,7 +88,7 @@ libgongfactu_la_SOURCES += factufrmregenasientos.cpp
 libgongfactu_la_HEADERS += factufrmregenasientos.h
 
 moc_%.cpp: %.h
-	moc $< -o $@
+	moc-qt4 $< -o $@
 
 factu_sharedir = $(datadir)/gestiong/factu
 dist_factu_share_DATA = $(srcdir)/share/factu.ddd \

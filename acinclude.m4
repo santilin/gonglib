@@ -52,7 +52,7 @@ AC_MSG_CHECKING([QTDIR])
 AC_ARG_WITH([qtdir], [  --with-qtdir=DIR        Qt installation directory [default=$QTDIR]], QTDIR=$withval)
 # Check that QTDIR is defined or that --with-qtdir given
 if test x"$QTDIR" = x ; then
-	QTDIR=`qmake -query QT_INSTALL_PREFIX`
+	QTDIR=`$QMAKE -query QT_INSTALL_PREFIX`
 fi
 if test x"$QTDIR" = x ; then
 	# some usual Qt-locations
@@ -67,7 +67,7 @@ if test x"$QTDIR" = x ; then
 		done
 	done
 else
-	QT_INCLUDES=`qmake -query QT_INSTALL_HEADERS`
+	QT_INCLUDES=`QMAKE -query QT_INSTALL_HEADERS`
 fi
 if test x"$QTDIR" = x ; then
 	AC_MSG_ERROR([*** QTDIR must be defined, or --with-qtdir option given])
@@ -133,10 +133,10 @@ QT_CXXFLAGS="-DQT3_SUPPORT -I$QT_INCLUDES -I$QT_INCLUDES/Qt -I$QT_INCLUDES/QtGui
 # AC_MSG_CHECKING([if Qt is static])
 # AC_MSG_RESULT([$QT_IS_STATIC])
 
-QT_LIBS=`qmake -query QT_INSTALL_LIBS`
+QT_LIBS=`$QMAKE -query QT_INSTALL_LIBS`
 QT_LIBS="-L$QT_LIBS"
 
-QT_TRANSLATIONS=`qmake -query QT_INSTALL_TRANSLATIONS`
+QT_TRANSLATIONS=`$QMAKE -query QT_INSTALL_TRANSLATIONS`
 
 QT_CXXFLAGS="$QT_CXXFLAGS -D_REENTRANT -DQT_NO_DEBUG -DQT_THREAD_SUPPORT"
 
@@ -617,12 +617,17 @@ AC_REQUIRE([AC_PATH_X])
 AC_MSG_CHECKING([QTDIR])
 AC_ARG_WITH([qtdir], [  --with-qtdir=DIR        Qt installation directory [default=$QTDIR]], QTDIR=$withval)
 # Check that QTDIR is defined or that --with-qtdir given
+if command -v qmake-qt4 &> /dev/null; then
+  QMAKE=$(command -v qmake-qt4)
+else
+  QMAKE=$(command -v qmake)
+fi
 if test x"$QTDIR" = x ; then
-	QTDIR=`qmake -query QT_INSTALL_PREFIX`
+	QTDIR=`$QMAKE -query QT_INSTALL_PREFIX`
 fi
 if test x"$QTDIR" = x ; then
 	# some usual Qt-locations
-	QT_SEARCH="/usr /usr/lib/qt /usr/X11R6 /usr/local/Trolltech/Qt-4.0.0 /usr/local/Trolltech/Qt-4.0.1 /usr/local/Trolltech/Qt-4.1.0 /usr/local/Trolltech/Qt-4.2.0 /usr/local/Trolltech/Qt-4.2.1 /usr/local/Trolltech/Qt-4.2.2"
+	QT_SEARCH="/usr /usr/qt4 /usr/lib/qt /usr/X11R6 /usr/local/Trolltech/Qt-4.0.0 /usr/local/Trolltech/Qt-4.0.1 /usr/local/Trolltech/Qt-4.1.0 /usr/local/Trolltech/Qt-4.2.0 /usr/local/Trolltech/Qt-4.2.1 /usr/local/Trolltech/Qt-4.2.2"
 	for i in $QT_SEARCH ; do
 		QT_INCLUDE_SEARCH="include/qt4 include"
 		for j in $QT_INCLUDE_SEARCH ; do
@@ -633,7 +638,7 @@ if test x"$QTDIR" = x ; then
 		done
 	done
 else
-	QT_INCLUDES=`qmake -query QT_INSTALL_HEADERS`
+	QT_INCLUDES=`$QMAKE -query QT_INSTALL_HEADERS`
 fi
 if test x"$QTDIR" = x ; then
 	AC_MSG_ERROR([*** QTDIR must be defined, or --with-qtdir option given])

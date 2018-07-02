@@ -36,14 +36,12 @@ Object::~Object()
 }
 
 bool Object::isReport() const {
-    return dynamic_cast<const Report *>(this);
+    return dynamic_cast<const Report *>(this) == 0;
 }
 bool Object::isSection() const {
-    return dynamic_cast<const Section *>(this);
+    return dynamic_cast<const Section *>(this) == 0;
 }
-bool Object::isObject() const {
-    return dynamic_cast<const Object *>(this);
-}
+
 Report *Object::report() const {
     if( isReport() )
         return static_cast<Report *>(const_cast<Object *>(this));

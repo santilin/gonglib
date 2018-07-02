@@ -22,7 +22,7 @@ nodist_libgongpagos_la_SOURCES = moc_pagosmodule.cpp \
 	moc_pagosfrmeditremesacobro.cpp moc_pagosfrmeditformapago.cpp
 
 moc_%.cpp: %.h
-	moc $< -o \$@
+	moc-qt4 $< -o \$@
 
 pagos_sharedir = $(datadir)/gestiong/pagos
 dist_pagos_share_DATA = $(srcdir)/share/pagos.ddd

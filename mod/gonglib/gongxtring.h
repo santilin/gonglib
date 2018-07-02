@@ -33,6 +33,7 @@ public:
         : std::string(astr?astr:"", pos, asize) {}
     Xtring(const unsigned char *astr)
         : std::string(astr?(const char *)(astr):"") {} // for xmlChar
+    Xtring(Xtring::const_iterator& begin, Xtring::const_iterator& end) : std::string(begin,end) {}
     static Xtring null;
 
     Xtring &replace(const Xtring &search, const Xtring &repl);

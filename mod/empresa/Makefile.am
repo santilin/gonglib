@@ -28,7 +28,7 @@ nodist_libgongempresa_la_SOURCES = \
 	moc_empresamodule.cpp
 
 moc_%.cpp: %.h
-	moc $< -o $@
+	moc-qt4 $< -o $@
 
 empresa_sharedir = $(datadir)/gestiong/empresa
 dist_empresa_share_DATA = $(srcdir)/share/empresa.ddd

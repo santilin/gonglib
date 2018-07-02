@@ -23,7 +23,7 @@ nodist_libgongcontactos_la_SOURCES = \
 endif
 
 moc_%.cpp: %.h
-	moc $< -o $@
+	moc-qt4 $< -o $@
 
 contactos_sharedir = $(datadir)/gestiong/contactos
 dist_contactos_share_DATA = $(srcdir)/share/contactos.ddd \

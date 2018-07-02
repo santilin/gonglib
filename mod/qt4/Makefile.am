@@ -24,7 +24,7 @@ nodist_libgongqt4_la_SOURCES = \
 	moc_gongtextedit.cpp moc_gongimagebox.cpp
 
 moc_%.cpp: %.h
-	moc $< -o $@
+	moc-qt4 $< -o $@
 
 
 

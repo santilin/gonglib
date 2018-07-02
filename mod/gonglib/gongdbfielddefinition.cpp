@@ -173,10 +173,9 @@ bool dbFieldDefinition::isValid( dbRecord *r, dbFieldValue *value,
                 || (value->type() == Variant::tDateTime && value->isEmpty())
                 || (value->type() == Variant::tDate && value->isEmpty())
                 || (value->type() == Variant::tTime && value->isEmpty())
-                || (isCode() && value->isEmpty()
+                || (isCode() && value->isEmpty() )
 				|| (isReference() && value->toUInt() == 0 )
 				)
-            )
        ) {
         if( integres ) {
             if( Variant::isNumeric( value->type() ) ) {

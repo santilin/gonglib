@@ -22,7 +22,8 @@ libgonglib_la_SOURCES = gongcsvutils.cpp gongdate.cpp \
 	gongdbviewdefinition.cpp gongvariant.cpp \
 	gongxtring.cpp gongdbfieldemail.cpp  gongdbmastertable.cpp \
 	gongdbfieldimage.cpp gongdbresultsetdatamodel.cpp gongdbrecordbehavior.cpp \
-	gongdbrecordtimestampbehavior.cpp gongdbcalculator.cpp
+	gongdbrecordtimestampbehavior.cpp gongdbcalculator.cpp \
+	gongjson.cpp
 
 libgonglib_la_HEADERS = gongcsvutils.h gongdate.h \
 	gongdbconnection.h gongdbdefinition.h \
@@ -43,7 +44,8 @@ libgonglib_la_HEADERS = gongcsvutils.h gongdate.h \
 	gonggettext.h gongdbcalculator.h \
 	gongdbfieldemail.h gongdbmastertable.h \
 	gongdbfieldimage.h gongdbresultsetdatamodel.h \
-	gongdbrecordbehavior.h gongdbrecordtimestampbehavior.h
+	gongdbrecordbehavior.h gongdbrecordtimestampbehavior.h \
+	json.hpp gongjson.h
 
 if COMPILE_WITH_POCOLIB
 libgonglib_la_SOURCES += gongxmlparser.cpp

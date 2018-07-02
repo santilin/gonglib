@@ -372,7 +372,6 @@ dbTableDefinition *dbTableDefinition::fromSQLSchema( dbConnection *conn,
         // Esta es la original
         RegExp r("FOREIGN KEY\\s+\\(([^\\)]+)\\)\\s+REFERENCES\\s+([^\\(^\\s]+)\\s*\\(([^\\)]+)\\)");
         // Read primary keys to get the relations
-        Xtring::size_type pos = 0;
         RegExpMatchList matches;
         RegExpIterator res(createtablesql.begin(), createtablesql.end(), r), end;
         for (; res != end; ++res) {

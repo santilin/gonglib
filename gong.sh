@@ -52,7 +52,7 @@ do_cleanup()
 	_CURDIR=`basename $_PWD`
 	if test $PROYECTO == $_CURDIR; then
 		# Ficheros generados por make -f Makefile.csv y configure
-		rm Makefile.in aclocal.m4 compile config.guess config.h.in config.log config.sub configure depcomp install-sh ltmain.sh missing src/Makefile.in
+		rm Makefile.in aclocal.m4 compile config.guess config.h.in config.log config.sub configure depcomp install-sh ltmain.sh missing src/Makefile.in config.status
 		rm -rf autom4te.cache
 		rm m4/libtool.m4 m4/ltoptions.m4 m4/ltsugar.m4 m4/ltversion.m4 m4/lt~obsolete.m4
 		find . -iname "Makefile.in" -o -iname "Makefile" | xargs rm -fv

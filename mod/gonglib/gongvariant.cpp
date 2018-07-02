@@ -74,6 +74,8 @@ Variant::~Variant()
         if( mValue.stringptr )
             delete mValue.stringptr;
         break;
+	default:
+		break;
 	}
 }
 
