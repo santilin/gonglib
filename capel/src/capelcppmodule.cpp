@@ -1,5 +1,5 @@
 #include <gongfileutils.h>
-#include <capelcppmodule.h>
+#include "capelcppmodule.h"
 
 
 using namespace gong;
@@ -41,21 +41,6 @@ const char *shortlgpllicense =
 " * version 2 of the License, or (at your option) any later version.\n"
 " *\n"
 " * See accompanying file copyright or a copy at <http://www.gnu.org/licenses/>.\n";
-
-Xtring CppModule::plural(const Xtring &singular)
-{
-	Xtring slower = singular.lower();
-	switch( slower.last(1)[0] ) {
-	case 'a':
-	case 'e':
-	case 'i':
-	case 'o':
-	case 'u':
-		return singular + "s";
-	default:
-		return singular + "es";
-	}
-}
 
 Xtring CppModule::methodGetName(const Xtring &type, const Xtring &membername)
 {

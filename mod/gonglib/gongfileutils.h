@@ -37,6 +37,7 @@ public:
         return (c=='/');
     }
     static void addSeparator(Xtring &filespec);
+    static void removeLastSeparator(Xtring &filespec);
     static XtringList getDirEntries(const Xtring &filespec = ".");
     static Xtring findInPath(const Xtring &path, const Xtring &file, const Xtring &subpath = Xtring::null);
     static int execProcess(const Xtring &command,
@@ -48,6 +49,11 @@ public:
     static int linkHard(const Xtring &source, const Xtring &dest);
     static int linkSoft(const Xtring &source, const Xtring &dest);
     static int makePath(const Xtring &path );
+    static void removeExtension(Xtring &fullname);
+ 	static bool chmod(const Xtring &filename, mode_t mode);
+ 	static bool chmod(const Xtring &filename, const Xtring &mode);
+	static Xtring canonicalPath(const Xtring &path, const Xtring &cwd = Xtring::null);
+	static bool samePath(const Xtring &p1, const Xtring &p2);
 
 private:
     bool read(bool reread=false);

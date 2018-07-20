@@ -178,7 +178,7 @@ void RTKCppClass::addGetSet(const Xtring &filename, const Xtring &classname,
         if( array[i].hasGet() ) {
             if( array[i].sDoc.size() )
                 s+="\t/** Gets " + array[i].sDoc + " */\n";
-			s+="\t" + array[i].getReturnType() + " " + array[i].sName.unproper() + "() const";
+			s+="\t" + array[i].getReturnType() + " " + array[i].sName.unProper() + "() const";
             if( array[i].hasGetImpl() )  {
                 s += " { return m" + array[i].sName + "; }\n";
             } else {

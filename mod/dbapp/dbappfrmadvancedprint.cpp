@@ -64,7 +64,7 @@ FrmAdvancedPrint::FrmAdvancedPrint(FrmEditRecMaster *theform,
     pIncTotals = addCheckBox(0, _("Incluir totales"), true );
     pOneByOne = addCheckBox(0, _("Imprimir un informe por cada registro"), false );
     pIncFilterInHeader = addCheckBox(0, _("Incluir filtro en la cabecera"), false );
-    pIncLogo = addCheckBox(0, _("Incluir logo"), false );
+    pIncLogo = addCheckBox(0, _("Incluir logo"), true );
     pLandscape = addCheckBox(0, _("Apaisado"), DBAPP->getAppSetting("RTK.LANDSCAPE").toBool() );
     pShowTemplate = addCheckBox(0, _("Mostrar la plantilla antes de imprimir"), false );
     pShowTemplate->setEnabled( false );
@@ -140,8 +140,8 @@ void FrmAdvancedPrint::accept()
         defines += "RESUMIDO,";
 // 		properties.insert( "DETAILS.SUPRESSED", true );
     }
-    if( pIncLogo->isOn() )
-        defines += "INCLOGO,";
+    if( !pIncLogo->isOn() )
+        defines += "NOLOGO,";
     if( pIncFilterInHeader->isOn() )
         defines += "INCFILTER,";
     Xtring reportfilename;

@@ -65,7 +65,7 @@ Measure ReportQtOutput::startPage()
 #ifdef _GONG_DEBUG
         _GONG_DEBUG_PRINT(2, Xtring::printf("Page: %f x %f, margins: %f, %f, %f, %f",
                                             sizeX(), sizeY(), marginLeft(), marginTop(), marginRight(), marginBottom() ) );
-        if( __gong_debug::_gong_debug_level == 3 ) {
+        if( __gong_debug::_gong_debug_level >= 3 ) {
             std::cout << "DeviceMetrics:w:"
                       << aPicture->width() << ",h:" << aPicture->height() << ",wMM:" << aPicture->widthMM() << ",hMM:" << aPicture->heightMM()
                       << ",dpix:" << aPicture->logicalDpiX() << ",dpiy:" << aPicture->logicalDpiY() << std::endl;
@@ -225,8 +225,9 @@ void ReportQtOutput::drawGraphics( const Object &object, int x0, int y0, int wid
 Measure ReportQtOutput::printObject( const Object &object )
 {
     int x0, y0, width, height;
-    if( object.isSection() ) // If this is a section, do not print the value, which is the groupvalue
+    if( object.isSection() ) { // If this is a section, do not print the value, which is the groupvalue
         return y0;
+	}
 	if( Xtring(object.name()) == "VT_TIPODOC" ) {
 		Xtring s("hola");
 	}

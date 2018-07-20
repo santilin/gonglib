@@ -1,4 +1,5 @@
 #include <gongdebug.h>
+#include <ctype.h>
 #include "capelphpmodule.h"
 
 using namespace gong;
@@ -44,6 +45,37 @@ Xtring PhpModule::modelize(const Xtring& identifier)
 	}
 	return ret;
 }
-	
-	
+
+
+Xtring PhpModule::unModelize(const Xtring &identifier, const Xtring &separator)
+{
+	Xtring ret;
+	for( auto &ch: identifier) {
+ 		if( ::isupper(ch) ) {
+			if (ret.size()) {
+				ret += separator;
+			}
+			ret += ::tolower(ch);
+		} else {
+			ret += ch;
+		}
+	}
+	return ret;
+}
+
+Xtring PhpModule::toIdentifier(const Xtring& identifier)
+{
+	Xtring ret;
+	for( auto &ch: identifier) {
+ 		if( !isalnum(ch) ) {
+			ret += '_';
+		} else {
+			ret += ch;
+		}
+	}
+	return ret;
+}
+
+
+
 }

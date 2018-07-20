@@ -608,7 +608,7 @@ Xtring Formatter::formatLocaleCurrency( Xtring text, double value ) const
 
     text.replace(mRegConfig.getNegativeSign(), "" );
     text.replace(mRegConfig.getPositiveSign(), "" );
-    text.remove_white_space();
+    text.removeWhiteSpace();
     if ( value < 0.0 ) {
         switch ( lc_n_sign_posn ) {
             /* Positive and negative sign positions:

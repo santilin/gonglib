@@ -16,7 +16,7 @@
 
 namespace gong {
 
-// TODO: isReadable(), isWritable()
+/// @todo: isReadable(), isWritable()
 
 bool FileUtils::read(bool reread)
 {
@@ -181,7 +181,17 @@ Xtring FileUtils::findInPath(const Xtring &path, const Xtring &file, const Xtrin
 int FileUtils::execProcess(const Xtring& _command, Xtring& messages, Xtring& errors)
 {
     Xtring command = _command;
-    Xtring tmpfilename = Xtring("/tmp/") + GongLibraryInstance->getPackageName() + ".err";
+    Xtring tmpfilename = getenv("TMP");
+	if( tmpfilename.isEmpty()) {
+		tmpfilename = getenv("TEMP");
+	}
+	if( tmpfilename.isEmpty()) {
+		tmpfilename = "/tmp/gonglib";
+	}
+	if( GongLibraryInstance && GongLibraryInstance->getPackageName() != 0 ) {
+		tmpfilename += GongLibraryInstance->getPackageName();
+	}
+	tmpfilename += ".err";
     int ret = 0; // Normal exit
     if( &errors != &Xtring::null )
         command += Xtring(" 2>") + tmpfilename;
@@ -313,6 +323,45 @@ int FileUtils::makePath(const Xtring& path)
     return ret;
 }
 
+void FileUtils::removeExtension(Xtring &fullname)
+{
+    size_t lastindex = fullname.find_last_of("."); 
+    fullname = fullname.substr(0, lastindex); 
+}
+
+void FileUtils::removeLastSeparator(Xtring &fullname)
+{
+	if( fullname.size() > 0 )
+		fullname.pop_back();
+}
+
+bool FileUtils::chmod(const Xtring &filename, mode_t mode)
+{
+	int ret = ::chmod(filename.c_str(), mode);
+	if (!ret) {
+		return true;
+	} else {
+		_GONG_DEBUG_PERROR(filename.c_str());
+		return false;
+	}
+}
+
+bool FileUtils::chmod(const Xtring &filename, const Xtring &mode)
+{
+	return FileUtils::chmod(filename, mode_t(strtol(mode.c_str(), 0, 8)) );
+}
+
+Xtring FileUtils::canonicalPath(const Xtring& p, const Xtring& cwd)
+{
+	char real_path[FILENAME_MAX+1];
+	realpath(p.c_str(), real_path);
+	return Xtring(real_path);
+}
+
+bool FileUtils::samePath(const Xtring &p1, const Xtring &p2)
+{
+	return canonicalPath(p1) == canonicalPath(p2);
+}
 
 } // namespace gong
 

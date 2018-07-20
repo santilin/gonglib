@@ -11,7 +11,7 @@ namespace gong {
 
 typedef json JsonTree;
 
-JsonTree readJson(const Xtring &jsonfile);
+JsonTree readJson(const std::string &jsonfile);
 
 } // namespace gong
 

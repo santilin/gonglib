@@ -1281,8 +1281,9 @@ void dbApplication::setDDDFromConfig(dbDefinition *dbdef)
 
 void dbApplication::setStylesFromConfig(dbDefinition* pdb)
 {
-    if( !pdb )
+    if( !pdb ) {
         pdb = getDatabase();
+	}
 	SettingsDict styles;
     getSettingsValues("DBDEF.STYLE", styles);
     for( SettingsDict::const_iterator stit = styles.begin();

@@ -24,6 +24,7 @@ class Xtring: public std::string
 {
 public:
     Xtring(): std::string() {}
+	Xtring(Xtring::const_iterator& begin, Xtring::const_iterator& end) : std::string(begin,end) {}
     Xtring(int count, char ch): std::string( count, ch ) {}
     Xtring(const std::string &astr): std::string(astr) {}
     Xtring(const char *astr): std::string(astr?astr:"") {}
@@ -33,14 +34,13 @@ public:
         : std::string(astr?astr:"", pos, asize) {}
     Xtring(const unsigned char *astr)
         : std::string(astr?(const char *)(astr):"") {} // for xmlChar
-    Xtring(Xtring::const_iterator& begin, Xtring::const_iterator& end) : std::string(begin,end) {}
     static Xtring null;
 
-    Xtring &replace(const Xtring &search, const Xtring &repl);
+    Xtring &replace(const Xtring &search, const Xtring &repl, const Xtring &repl_if_empty = Xtring::null);
     bool endsWith(char ch) const;
     bool endsWith(const Xtring &search) const;
-    Xtring &remove_white_space();
-    Xtring &simplify_white_space(char usethis = ' ');
+    Xtring &removeWhiteSpace();
+    Xtring &simplifyWhiteSpace(char usethis = ' ');
     Xtring &trimLeft(const Xtring &whitespace = " \n\r\t");
     Xtring trimLeft(const Xtring &whitespace = " \n\r\t") const;
     Xtring &trimRight(const Xtring &whitespace = " \n\r\t");
@@ -50,7 +50,9 @@ public:
     Xtring upper() const;
     Xtring lower() const;
     Xtring proper() const;
-    Xtring unproper() const;
+    Xtring unProper() const;
+    Xtring ucFirst() const;
+    Xtring lcFirst() const;
     Xtring &appendWithSeparator(const Xtring &appendwhat, const Xtring& separator);
 
     bool toBool() const;
@@ -90,6 +92,7 @@ public:
     static Xtring number(long long l);
     static Xtring number(double d);
     static Xtring printf(const Xtring &format, ... );
+    static Xtring toHex( int i );
     static Xtring stringInc(const Xtring &str, int inc=1);
     static Xtring stringDec(const Xtring &str);
     Xtring toHex() const;
@@ -116,6 +119,7 @@ std::string List<Xtring>::join(const std::string &sep) const
 inline bool strempty(const char *str) {
     return (!str || !*str);
 }
+
 
 } // namespace gong
 

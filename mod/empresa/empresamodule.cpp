@@ -443,8 +443,9 @@ void EmpresaModule::slotMenuEmpresaProyecto()
 
 void EmpresaModule::afterLoad()
 {
-    if ( !pRecEmpresa )
+    if ( !pRecEmpresa ) {
         pRecEmpresa = static_cast<RecEmpresa *>( DBAPP->createRecord( "EMPRESA" ) );
+	}
 	rereadEmpresa();
 }
 

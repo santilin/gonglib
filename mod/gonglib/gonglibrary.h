@@ -38,13 +38,13 @@ public:
         return mGonglibDataDir;
     }
     const char *getPackageName() const {
-        return mPackageName;
+        return pPackageName;
     }
     const char *getPackageVersion() const {
-        return mPackageVersion;
+        return pPackageVersion;
     }
     Xtring getPackageString() const {
-        return Xtring(mPackageName) + " " + mPackageVersion;
+        return Xtring(pPackageName) + " " + pPackageVersion;
     }
     virtual dbRecord *createRecord(const Xtring &tablename, dbRecordID recid=0, class dbUser *user=0);
     Xtring getHostIP(const Xtring &host) const;
@@ -56,7 +56,7 @@ protected:
 	
 private:
     Xtring mLocalDataDir, mGlobalDataDir, mGonglibDataDir;
-    const char *mPackageName, *mPackageVersion;
+    const char *pPackageName = 0, *pPackageVersion = 0;
     RegConfig mRegConfig;
     Settings *pSettings;
 };

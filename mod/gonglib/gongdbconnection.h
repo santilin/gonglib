@@ -116,6 +116,7 @@ public:
     static SqlColumnType toSqlColumnType(Variant::Type coltype);
     static SqlColumnType extractSqlColumnType(const char *sqldef,
             unsigned short int *size, unsigned short int *decimals);
+	static const char *sqlColumnTypeToString(SqlColumnType sqltype);
     static XtringList extractSqlTables(const Xtring &select);
     bool createUser( const Xtring &databasename, const Xtring &username,
                      const Xtring &password, const Xtring &host, const Xtring &privileges,

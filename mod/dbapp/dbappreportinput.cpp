@@ -212,8 +212,9 @@ bool ReportInput::parseAttribute ( const char *token, const char *value )
         setOrigPreSQL ( value );
     else if ( strcaseequal ( token, "PostSQL" ) )
         setOrigPostSQL ( value );
-    else
+    else {
         return Input::parseAttribute(token, value);
+	}
 	return true;
 }
 

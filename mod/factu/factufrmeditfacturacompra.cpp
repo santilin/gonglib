@@ -323,7 +323,8 @@ if( ModuleInstance->getContabModule() ) {
 		// Si estamos duplicando o copiando desde cualquier otro documento y no tenemos contador, generarlo, pero si es una 
 		// inserción normal, no generarlo hasta que se meta el tipo de documento
 		if( isInserting() && editContador->toInt() == 0 && editTipoDocCodigo->toInt() != 0 && isFirstScatter() ) 
-			editContador->setText( empresa::ModuleInstance->getMaxContador() );		searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
+			editContador->setText( empresa::ModuleInstance->getMaxContador() );
+		searchProveedoraCodigo->setMustBeReadOnly( mHasPagos );
 		searchFormaPagoCodigo->setMustBeReadOnly( mHasPagos );
 		editFecha->setMustBeReadOnly( mHasPagos );
 		editDtoP100->setMustBeReadOnly( mHasPagos );

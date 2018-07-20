@@ -418,7 +418,7 @@ void GenRTKCode::addGetSet( const Xtring &filename, const Xtring &classname,
         if ( ((array[i].flags & PROPERTY_OBJECT_PARENT) == PROPERTY_OBJECT_PARENT)
                 || ((array[i].flags & PROPERTY_STYLE) == PROPERTY_STYLE) ) {
             scpp = array[i].getReturnType() + " " + classname + "::";
-            scpp += array[i].sName.unproper() + "() const\n"
+            scpp += array[i].sName.unProper() + "() const\n"
                     "{\n"
                     "\tif( mNull" + array[i].sName + ") {\n";
             if ( (array[i].flags & PROPERTY_STYLE) == PROPERTY_STYLE) {
@@ -432,7 +432,7 @@ void GenRTKCode::addGetSet( const Xtring &filename, const Xtring &classname,
             if ( (array[i].flags & PROPERTY_OBJECT_PARENT) == PROPERTY_OBJECT_PARENT) {
                 scpp += "\t\tif( parent() ) {\n"
                         "\t\t\tObject *obj = static_cast<Object *>(parent());\n"
-                        "\t\t\treturn obj->" + array[i].sName.unproper() + "();\n"
+                        "\t\t\treturn obj->" + array[i].sName.unProper() + "();\n"
                         "\t\t}\n";
             }
             //                scpp += "\t\treturn " + array[i].sDefValue + ";\n";
@@ -785,7 +785,7 @@ void GenRTKCode::addProperties(const Xtring &filename, const Xtring &classname,
     for( int i=0; i<nelem; i++) {
         // Property
         if( array[i].isProperty() ) {
-            spublic += "\t" + array[i].getReturnType() + " " + array[i].sName.unproper() + "() const";
+            spublic += "\t" + array[i].getReturnType() + " " + array[i].sName.unProper() + "() const";
             spubget =" { return prop" + cm->capitalize(array[i].sName) + ".get(); }\n";
             spubsetorig = "\tvoid setOrig" + cm->capitalize(array[i].sName) + "(const char * " + array[i].sName.lower() + " )"
                     " { prop" + cm->capitalize(array[i].sName) + ".setOrig(" + array[i].sName.lower() + "); }\n";
@@ -874,7 +874,7 @@ void GenRTKCode::addPropertiesGet( const Xtring &filename, const Xtring &classna
         if ( ((array[i].flags & PROPERTY_OBJECT_PARENT) == PROPERTY_OBJECT_PARENT)
                      || ((array[i].flags & PROPERTY_OBJECT_STYLE) == PROPERTY_OBJECT_STYLE) ) {
             scpp = array[i].getReturnType() + " " + classname + "::";
-            scpp += array[i].sName.unproper() + "() const\n"
+            scpp += array[i].sName.unProper() + "() const\n"
                     "{\n"
                     "\tif( prop" + array[i].sName + ".isNull() ) {\n";
             if ( (array[i].flags & PROPERTY_OBJECT_STYLE) == PROPERTY_OBJECT_STYLE) {
@@ -890,7 +890,7 @@ void GenRTKCode::addPropertiesGet( const Xtring &filename, const Xtring &classna
             if ( (array[i].flags & PROPERTY_OBJECT_PARENT) == PROPERTY_OBJECT_PARENT) {
                 scpp += "\t\tif( parent() ) {\n"
                         "\t\t\tObject *obj = static_cast<Object *>(parent());\n"
-                        "\t\t\treturn obj->" + array[i].sName.unproper() + "();\n"
+                        "\t\t\treturn obj->" + array[i].sName.unProper() + "();\n"
                         "\t\t}\n";
             }
             //                scpp += "\t\treturn " + array[i].sDefValue + ";\n";

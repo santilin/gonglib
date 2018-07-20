@@ -100,7 +100,7 @@ Xtring RecAlbaranVenta::toString(int format, const Xtring &includedFields) const
 }
 
 /*<<<<<ALBARANVENTA_SAVE*/
-bool RecAlbaranVenta::save(bool validate, bool saverelated = true) throw( dbError )
+bool RecAlbaranVenta::save(bool validate, bool saverelated = true)/* throw( dbError ) */
 {
 /*>>>>>ALBARANVENTA_SAVE*/
 	if( saverelated ) {
@@ -137,7 +137,7 @@ bool RecAlbaranVenta::save(bool validate, bool saverelated = true) throw( dbErro
 }
 
 /*<<<<<ALBARANVENTA_REMOVE*/
-bool RecAlbaranVenta::remove() throw( dbError )
+bool RecAlbaranVenta::remove()/* throw( dbError ) */
 {
 /*>>>>>ALBARANVENTA_REMOVE*/
     bool ret = dbRecord::remove();

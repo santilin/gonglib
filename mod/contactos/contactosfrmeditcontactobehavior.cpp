@@ -251,7 +251,9 @@ void FrmEditContactoBehavior::scatterFields( bool is_pre )
     }
     if( is_pre ) // Solo hacer scatterContacto si is_pre, porque cuando no, es para el resto de campos
         /*<<<<<FRMEDITCONTACTOBEHAVIOR_SCATTER*/
+		{
 	scatterContacto();
+		}
 	comboContacto_TratamientoContacto->setCurrentItemByValue( pTheForm->getRecord()->getValue("CONTACTO.TRATAMIENTOCONTACTO").toInt());
 	editContacto_Direccion->setText( pTheForm->getRecord()->getValue("CONTACTO.DIRECCION").toString());
 	editContacto_CP->setText( pTheForm->getRecord()->getValue("CONTACTO.CP").toString());

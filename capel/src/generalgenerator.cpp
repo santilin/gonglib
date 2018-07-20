@@ -39,7 +39,7 @@ int GeneralGenerator::generateAllRelations()
 				if( relationname.startsWith("id_") ) 
 					relationname = relationname.mid(3);
 				// Añade la relación para esta tabla
-				relationname = PhpModule::modelize( relationname ).unproper();
+				relationname = PhpModule::modelize( relationname ).unProper();
 				std::map<Xtring, Xtring> relationcodes = mAllRelations[ tbldef->getName() ];
 				relationcodes[relationname] = "array(self::BELONGS_TO, '" + refClassName + "', '" + reldef->getLeftField() + "')";
 //				_GONG_DEBUG_PRINT(0, relationname + " => " + relationcodes[ relationname ] );
@@ -51,7 +51,7 @@ int GeneralGenerator::generateAllRelations()
 				relationname = reldef->getLeftTable();
 				if( relationname.startsWith("id_") ) 
 					relationname = relationname.mid(3);
-				relationname = PhpModule::modelize( relationname ).unproper();
+				relationname = PhpModule::modelize( relationname ).unProper();
 				if( t == dbRelationDefinition::one2many )
 					relationname.append("s");
 				relationcodes = mAllRelations[reldef->getRightTable() ];
@@ -346,7 +346,7 @@ Xtring(
 	
 int GeneralGenerator::generateTablaTipoViews(const GeneralGenerator::ModuleDefinition& md)
 {
-	Xtring mv_path = Xtring(mProgramDefinition.pDestPath) + "/protected/views/" + Xtring(md.pModuleName).unproper();
+	Xtring mv_path = Xtring(mProgramDefinition.pDestPath) + "/protected/views/" + Xtring(md.pModuleName).unProper();
 	if( !FileUtils::isDir( mv_path.c_str() ) )
 		FileUtils::makePath( mv_path );
 	PhpModule *phpviewadmin = new PhpModule( mv_path + "/_admin.php");
@@ -366,7 +366,7 @@ int GeneralGenerator::generateTablaTipoViews(const GeneralGenerator::ModuleDefin
 
 "<?php\n"
 "/**\n"
-" * " + Xtring(md.pModuleName).unproper() + "/_admin.php vista de administración para el modelo " + md.pModuleName + "\n"
+" * " + Xtring(md.pModuleName).unProper() + "/_admin.php vista de administración para el modelo " + md.pModuleName + "\n"
 + mProgramDefinition.pPackageDocBlock +
 " */\n" 
 "\n" ); 
@@ -378,7 +378,7 @@ int GeneralGenerator::generateTablaTipoViews(const GeneralGenerator::ModuleDefin
 	   Xtring::null, 
 "<?php\n"
 "/**\n"
-" * " + Xtring(md.pModuleName).unproper() + "/_form_fields.php formulario para el modelo " + md.pModuleName + "\n"
+" * " + Xtring(md.pModuleName).unProper() + "/_form_fields.php formulario para el modelo " + md.pModuleName + "\n"
 + mProgramDefinition.pPackageDocBlock + 
 " */\n" 
 "\n" ); 		
@@ -448,7 +448,7 @@ int GeneralGenerator::generateInformedRecordViews(const GeneralGenerator::Module
 	}
 	
 	
-	Xtring mv_path = Xtring(mProgramDefinition.pDestPath) + "/protected/views/" + Xtring(md.pModuleName).unproper();
+	Xtring mv_path = Xtring(mProgramDefinition.pDestPath) + "/protected/views/" + Xtring(md.pModuleName).unProper();
 	if( !FileUtils::isDir( mv_path.c_str() ) )
 		FileUtils::makePath( mv_path );
 	PhpModule *phpviewadmin = new PhpModule( mv_path + "/_admin.php");
@@ -467,14 +467,14 @@ int GeneralGenerator::generateInformedRecordViews(const GeneralGenerator::Module
 
 "<?php\n"
 "/**\n"
-" * " + Xtring(md.pModuleName).unproper() + "/_admin.php vista de administración para el modelo " + md.pModuleName + "\n"
+" * " + Xtring(md.pModuleName).unProper() + "/_admin.php vista de administración para el modelo " + md.pModuleName + "\n"
 + mProgramDefinition.pPackageDocBlock +
 " */\n" 
 "\n" ); 
 	phpviewadmin->writeIfModified();
 
 	
-	mv_path = Xtring(mProgramDefinition.pDestPath) + "/protected/views/" + Xtring(md.pModuleName).unproper();
+	mv_path = Xtring(mProgramDefinition.pDestPath) + "/protected/views/" + Xtring(md.pModuleName).unProper();
 	if( !FileUtils::isDir( mv_path.c_str() ) )
 		FileUtils::makePath( mv_path );
 	PhpModule *phpviewformfields = new PhpModule( mv_path + "/_form_fields.php");

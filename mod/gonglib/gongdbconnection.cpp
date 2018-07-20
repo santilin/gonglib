@@ -1372,6 +1372,33 @@ dbConnection::SqlDriver dbConnection::stringToSqlDriver(const char *driver)
 	}
 }
 
-
+const char *dbConnection::sqlColumnTypeToString(SqlColumnType sqltype)
+{
+	switch( sqltype ) {
+		case SQLTEXT:
+			return "text";
+		case SQLINTEGER:
+			return "integer";
+		case SQLDECIMAL:
+			return "decimal";
+		case SQLDATE:
+			return "date";
+		case SQLDATETIME:
+			return "datetime";
+		case SQLTIME:
+			return "time";
+		case SQLTIMESTAMP:
+			return "timestamp";
+		case SQLBOOL:
+			return "bool";
+		case SQLFLOAT:
+			return "float";
+		case SQLBLOB:
+			return "blob";
+		case SQLSTRING:
+		default:
+			return "string";
+	};
+}
 
 } // Namespace

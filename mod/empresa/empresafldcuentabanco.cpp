@@ -101,7 +101,7 @@ int FldCuentaBanco::modulo97(const Xtring &ibanstring)
    //implements a stepwise check for mod 97 in chunks of 9 at the first time
    // , then in chunks of seven prepended by the last mod 97 operation converted
    //to a string
-   int segstart = 0 ;
+   Xtring::size_type segstart = 0 ;
    int step = 9 ;
    Xtring prepended ;
    long number = 0 ;
@@ -121,7 +121,7 @@ int FldCuentaBanco::modulo97(const Xtring &ibanstring)
 
 bool FldCuentaBanco::checkCodigoIBAN( const Xtring &cuenta, Xtring &dc, Xtring &error_message )
 {
-   typedef struct { const char *country; int length; } country_info;
+   typedef struct { const char *country; Xtring::size_type length; } country_info;
    static country_info ci[] =
 			{ {"AL" , 28} , {"AD" , 24} , {"AT" , 20} , {"AZ" , 28 } ,
 			   {"BE" , 16} , {"BH" , 22} , {"BA" , 20} , {"BR" , 29 } ,
@@ -140,7 +140,7 @@ bool FldCuentaBanco::checkCodigoIBAN( const Xtring &cuenta, Xtring &dc, Xtring &
 			   {"ES" , 24} , {"SE" , 24} , {"CH" , 21} , {"TN" , 24 } ,
 			   {"TR" , 26} , {"AE" , 23} , {"GB" , 22} , {"VG" , 24 } } ;
    Xtring teststring( cuenta.upper() ) ;
-   teststring.remove_white_space();
+   teststring.removeWhiteSpace();
    // buscar el país
    Xtring pais = teststring.substr(0,2);
    uint i;
@@ -162,7 +162,7 @@ bool FldCuentaBanco::checkCodigoIBAN( const Xtring &cuenta, Xtring &dc, Xtring &
    teststring = teststring.mid(4) + teststring.mid(0,2) + "00";
 
    Xtring numberstring ;//will contain the letter substitutions
-   for (int c=0; c<teststring.length(); ++c) {
+   for (Xtring::size_type c=0; c<teststring.length(); ++c) {
 	   char ch = teststring[c];
       if (std::isdigit(ch))
 		numberstring += ch;

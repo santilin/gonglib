@@ -272,7 +272,7 @@ int FugitImporter::hayqueActualizar(dbRecord *rec)
         switch( FrmBase::msgYesNoCancel(
                     Xtring::printf( _("Importando %s"), rec->getTableName().c_str()),
                     Xtring::printf( _("El registro:\n%s\n ya existe. Quieres actualizarlo?"),
-                                    mRecToString.c_str()), this ) )
+                                    mRecToString.c_str()), true, pWidgetMessages ) )
         {
         case FrmBase::Yes:
             return 1;

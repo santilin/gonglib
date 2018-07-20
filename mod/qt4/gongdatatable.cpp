@@ -697,10 +697,11 @@ void DataTable::findInColumn( int column, const QString &str, bool caseSensitive
         return;
     theGuiApp->waitCursor(true);
 
-    if( !caseSensitive )
+    if( !caseSensitive ) {
         tmp = str.lower();
-    else
+	} else {
         tmp = str;
+	}
 	const dbFieldDefinition *flddef = d->fldInfo[indexOf(column)];
 	_GONG_DEBUG_ASSERT(  flddef  );
 	dbFieldStyle *fldstyle = 0;
@@ -754,8 +755,9 @@ void DataTable::findInColumn( int column, const QString &str, bool caseSensitive
 
 void DataTable::contentsMouseDoubleClickEvent( QMouseEvent *e )
 {
-    if ( e->button() != Qt::LeftButton )
+    if ( e->button() != Qt::LeftButton ) {
         return;
+	}
 	if( d->searchString.size() )
 		theGuiApp->hideOSD();
     d->searchString.clear();

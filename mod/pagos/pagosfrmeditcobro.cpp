@@ -159,7 +159,6 @@ void FrmEditCobro::cambiaFields(const Xtring &fldfactcodigo, const Xtring &fldfa
 	Xtring tablafacturas = pRecord->getValue( "TABLAFACTURAS" ).toString();
 	Xtring tablaterceros = pRecord->getValue( "TABLATERCEROS" ).toString();
 	Xtring descsingular, descplural;
-	bool femenina = false;
 	
     if( !searchFacturaNumero || tablafacturas != searchFacturaNumero->getTableName()
             || !searchTerceroCodigo || tablaterceros != searchTerceroCodigo->getTableName() ) {
@@ -325,10 +324,12 @@ if( ModuleInstance->getContabModule() ) {
         editVencimiento->setMustBeReadOnly( true );
         editFechaValor->setMustBeReadOnly(true);
     }
-    if( editContador->toInt() == 0 )
+    if( editContador->toInt() == 0 ) {
         editContador->setText( empresa::ModuleInstance->getMaxContador() );
-	if( isInserting() ) 
+	}
+	if( isInserting() ) {
 		editResto->setMustBeReadOnly(true);
+	}
     if( ModuleInstance->getRecRemesaCobroPadre( this ) && !editRemesaCobroNumero->isReadOnly() )
         pFocusWidget = editRemesaCobroNumero;
     else if( editFacturaNumero->isEnabled() )

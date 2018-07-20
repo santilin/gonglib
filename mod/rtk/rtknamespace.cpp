@@ -416,7 +416,7 @@ int stringToFontSize(const char *origvalue, bool *isvalid, bool *isnull )
         isnull = &localnull;
     *isnull = false;
     Xtring realsfs(origvalue);
-    realsfs.remove_white_space();
+    realsfs.removeWhiteSpace();
     if( !realsfs.size() ) {
         *isnull = true;
         return 10;
@@ -443,7 +443,7 @@ template<> UnitsType stringTo(const char *origvalue, bool *isvalid, bool *isnull
         for( uint i=0; i<strlen(origvalue); i++ ) {
             if( !isdigit(origvalue[i]) && strchr("., +-e", origvalue[i]) == 0 ) {
                 units = Xtring(origvalue+i);
-                units.remove_white_space();
+                units.removeWhiteSpace();
                 units = units.substr(0,2);
                 units = units.lower();
                 if( units == "mm" )

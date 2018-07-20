@@ -272,7 +272,10 @@ bool IPagableRecord::pagarRecibo( FrmEditRecMaster *parent, dbRecordID reciboid,
     Xtring numeroagrupado = recibo->getValue( "NUMEROAGRUPADO" ).toString();
     if( numeroagrupado.isEmpty() )
         numeroagrupado = recibo->getValue( "NUMERO" ).toString();
-    dbRecordID asientoid = 0, cuentapago_id;
+    dbRecordID asientoid = 0;
+#if defined (HAVE_CONTABMODULE) || defined (HAVE_TESORERIAMODULE)
+	dbRecordID cuentapago_id;
+#endif	
 #ifdef HAVE_CONTABMODULE
     has_contab = contab::ModuleInstance->isContabActive()
                  && recibo->getTableDefinition()->findFieldDefinition( "CUENTAPAGO_ID" );

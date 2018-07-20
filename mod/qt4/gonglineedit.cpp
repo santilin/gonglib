@@ -533,7 +533,6 @@ void LineEdit::focusInEvent( QFocusEvent *e )
         return;
     mWasFocusIn = true;
     mOldText = fromGUI( text() );
-	int cp = cursorPosition();
 //     _GONG_DEBUG_PRINT(0, Xtring::printf("%s::value=%s,modified=%d, justModified=%d, cursorpos=%d",
 //                                          name(), mOldText.c_str(), isModified(), isJustEdited(), cp ) );
     QLineEdit::focusInEvent(e);

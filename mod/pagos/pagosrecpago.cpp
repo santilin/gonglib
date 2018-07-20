@@ -94,7 +94,7 @@ dbRecord *RecPago::getRecTercero()
 }
 
 /*<<<<<PAGO_SAVE*/
-bool RecPago::save(bool validate, bool saverelated = true) throw( dbError )
+bool RecPago::save(bool validate, bool saverelated = true)/* throw( dbError ) */
 {
 /*>>>>>PAGO_SAVE*/
 	if( getValue( "CONTADOR" ).toInt() == 0 )
@@ -112,7 +112,7 @@ bool RecPago::save(bool validate, bool saverelated = true) throw( dbError )
 }
 
 /*<<<<<PAGO_REMOVE*/
-bool RecPago::remove() throw( dbError )
+bool RecPago::remove()/* throw( dbError ) */
 {
 /*>>>>>PAGO_REMOVE*/
     bool ret = dbRecord::remove();

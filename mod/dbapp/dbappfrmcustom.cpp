@@ -236,6 +236,7 @@ QLabel* FrmCustom::addImage(QWidget* parent, QPixmap& pixmap, const char *name, 
         pControlsLayout->addLayout(layout);
     }
     layout->addWidget(label);
+	return label;
 }
 
 ComboBoxXtring *FrmCustom::addComboBoxXtring( bool byref, QWidget *parent, const Xtring &caption,

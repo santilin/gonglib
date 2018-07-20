@@ -100,7 +100,7 @@ Xtring RecAlbaranCompra::toString(int format, const Xtring &includedFields) cons
 }
 
 /*<<<<<ALBARANCOMPRA_SAVE*/
-bool RecAlbaranCompra::save(bool validate, bool saverelated = true) throw( dbError )
+bool RecAlbaranCompra::save(bool validate, bool saverelated = true)/* throw( dbError ) */
 {
 /*>>>>>ALBARANCOMPRA_SAVE*/
 	if( getValue( "CONTADOR" ).toInt() == 0 )
@@ -140,7 +140,7 @@ bool RecAlbaranCompra::save(bool validate, bool saverelated = true) throw( dbErr
 }
 
 /*<<<<<ALBARANCOMPRA_REMOVE*/
-bool RecAlbaranCompra::remove() throw( dbError )
+bool RecAlbaranCompra::remove()/* throw( dbError ) */
 {
 /*>>>>>ALBARANCOMPRA_REMOVE*/
     bool ret = dbRecord::remove();

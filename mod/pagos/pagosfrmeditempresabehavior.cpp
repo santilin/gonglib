@@ -15,8 +15,8 @@ namespace pagos {
 void FrmEditEmpresaBehavior::initGUI()
 {
 /*<<<<<FRMEDITEMPRESABEHAVIOR_INITGUI*/
-	QWidget *pControlsFrame = getControlsFrame();
-	QVBoxLayout* pControlsLayout = getControlsLayout();
+// 	QWidget *pControlsFrame = getControlsFrame();
+// 	QVBoxLayout* pControlsLayout = getControlsLayout();
 	QWidget *tabPagos = getOrCreateTab( "tabPagos" );
 	QVBoxLayout *tabPagosLayout = static_cast<QVBoxLayout *>( tabPagos->layout() );
 	QHBoxLayout *formatonumreciboLayout = new QHBoxLayout(0, 0, 6, "formatonumreciboLayout");

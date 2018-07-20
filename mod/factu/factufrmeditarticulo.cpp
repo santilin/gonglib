@@ -601,9 +601,10 @@ void FrmEditArticulo::validateFields( QWidget *sender, bool *isvalid, ValidResul
         if( !sender )
             *isvalid = false;
     } else {
-		if( (editCodigoInterno->isEnabled() && sender == editCodigoInterno && editCodigoInterno->isJustEdited())
-			|| (!editCodigoInterno->isEnabled() && sender == editNombre && editNombre->isJustEdited() ) 
-			&& editCodigo->toString().isEmpty() ) {
+		if( editCodigo->toString().isEmpty()
+			&& ((editCodigoInterno->isEnabled() && sender == editCodigoInterno && editCodigoInterno->isJustEdited())
+			|| (!editCodigoInterno->isEnabled() && sender == editNombre && editNombre->isJustEdited() ) ) 
+			 ) {
 			gather();
             editCodigo->setText( getRecArticulo()->genCodigoArticulo(
                                      getRecProveedora()->getValue( "GENCODARTICULO" ).toInt(),

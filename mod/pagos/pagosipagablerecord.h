@@ -53,7 +53,7 @@ public:
     }
     bool anularPagoRecibo( FrmEditRecMaster* parent, dbRecordID reciboid, dbRecord* recibo );
     bool anularCobroRecibo( FrmEditRecMaster* parent, dbRecordID reciboid, dbRecord* recibo ) {
-        anularPagoRecibo( parent, reciboid, recibo );
+        return anularPagoRecibo( parent, reciboid, recibo );
     }
     dbRecord *createRecibo();
     const Xtring &getPagosField() const {

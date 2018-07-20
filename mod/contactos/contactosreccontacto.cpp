@@ -111,7 +111,7 @@ bool RecContacto::findMatchingRecord(dbRecordID *matchingid) const
 }
 
 /*<<<<<CONTACTO_SAVE*/
-bool RecContacto::save(bool validate, bool saverelated = true) throw( dbError )
+bool RecContacto::save(bool validate, bool saverelated = true)/* throw( dbError ) */
 {
 /*>>>>>CONTACTO_SAVE*/
     switch( getValue( "TRATAMIENTOCONTACTO" ).toInt() ) {
@@ -348,7 +348,7 @@ Xtring RecContacto::normalizaNombreOEmpresa(int formato, const Xtring &nombre, b
     if( formato == 0 && !force )
         return nombre;
     Xtring normalizado = nombre;
-    normalizado.simplify_white_space();
+    normalizado.simplifyWhiteSpace();
     XtringList palabras;
     normalizado.tokenize( palabras, " " );
     Xtring ret;

@@ -1686,8 +1686,9 @@ void FrmEditRec::gather()
 void FrmEditRec::scatter()
 {
     QTabBar *tb = pTabWidget->findChild<QTabBar *>();
-    if( tb && tb->isVisible() )
+    if( tb && tb->isVisible() ) {
         tb->setCurrentIndex( 0 );
+	}
 	try {
 		for( FrmEditRecBehaviorsList::const_iterator bit = mBehaviors.begin();
 				bit != mBehaviors.end();

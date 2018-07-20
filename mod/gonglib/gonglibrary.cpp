@@ -45,7 +45,7 @@ GongLibrary *GongLibraryInstance = 0;
 
 GongLibrary::GongLibrary( const char *datadir, const char *packagename,
                           const char *packageversion, int argc, char *argv[] )
-    : mGlobalDataDir( datadir ), mPackageName( packagename ), mPackageVersion( packageversion )
+    : mGlobalDataDir( datadir ), pPackageName( packagename ), pPackageVersion( packageversion )
 {
     _GONG_DEBUG_TRACE( 1 );
     std::set_unexpected( unexpected_handler );
@@ -56,12 +56,12 @@ GongLibrary::GongLibrary( const char *datadir, const char *packagename,
     FileUtils::addSeparator( mGlobalDataDir );
     mGonglibDataDir = mGlobalDataDir + "gonglib/";
     mGlobalDataDir += Xtring(packagename).lower() + "/";
-    mLocalDataDir = Xtring( getenv( "HOME" ) ) + "/.gonglib/" + Xtring(mPackageName).lower() + "/";
-    Xtring packagename_save = mPackageName, localdadadir_save = mLocalDataDir;
+    mLocalDataDir = Xtring( getenv( "HOME" ) ) + "/.gonglib/" + Xtring(pPackageName).lower() + "/";
+    Xtring packagename_save(pPackageName), localdadadir_save = mLocalDataDir;
     parseArguments( argc, argv ); // Here datadir can have changed
-    if( packagename_save != mPackageName && localdadadir_save == mLocalDataDir ) {
+    if( packagename_save != pPackageName && localdadadir_save == mLocalDataDir ) {
         // If packagename has changed but localdatadir has not, rebuild localdatadir
-        mLocalDataDir = Xtring( getenv( "HOME" ) ) + "/.gonglib/" + Xtring(mPackageName).lower() + "/";
+        mLocalDataDir = Xtring( getenv( "HOME" ) ) + "/.gonglib/" + Xtring(pPackageName).lower() + "/";
     }
     FileUtils::addSeparator( mLocalDataDir);
     FileUtils::addSeparator( mGlobalDataDir);
@@ -203,7 +203,7 @@ int GongLibrary::parseArguments( int argc, char **argv )
             _GONG_DEBUG_PRINT( 1, Xtring::printf( "ArgGlobalDataDir=%s", optarg ) );
             break;
         case 'p':
-            mPackageName = optarg;
+            pPackageName = optarg;
             _GONG_DEBUG_PRINT( 1, Xtring::printf( "PackageName=%s", optarg ) );
             break;
         case 'd':

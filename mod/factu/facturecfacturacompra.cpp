@@ -100,7 +100,7 @@ Xtring RecFacturaCompra::toString(int format, const Xtring &includedFields) cons
 }
 
 /*<<<<<FACTURACOMPRA_SAVE*/
-bool RecFacturaCompra::save(bool validate, bool saverelated = true) throw( dbError )
+bool RecFacturaCompra::save(bool validate, bool saverelated = true)/* throw( dbError ) */
 {
 /*>>>>>FACTURACOMPRA_SAVE*/
 	if( getValue( "CONTADOR" ).toInt() == 0 )
@@ -140,7 +140,7 @@ bool RecFacturaCompra::save(bool validate, bool saverelated = true) throw( dbErr
 }
 
 /*<<<<<FACTURACOMPRA_REMOVE*/
-bool RecFacturaCompra::remove() throw( dbError )
+bool RecFacturaCompra::remove()/* throw( dbError ) */
 {
 /*>>>>>FACTURACOMPRA_REMOVE*/
     bool ret = dbRecord::remove();

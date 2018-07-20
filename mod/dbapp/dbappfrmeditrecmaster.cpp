@@ -97,8 +97,9 @@ bool FrmEditRecMaster::read(dbRecordID id)
         id = getTableRecordID();
     if( FrmEditRec::read(id) ) {
         mMustRead = false;
-    } else
+    } else {
         mMustRead = true;
+	}
 	mIsFirstScatter = true;
     return !mMustRead;
 }
@@ -675,7 +676,7 @@ bool FrmEditRecMaster::canClose()
             mMustRead = true;
             setEdited( false );
             willclose = true;
-            mEditFlags = static_cast<dbApplication::EditFlags>( mEditFlags & !dbApplication::editContinuous);
+            mEditFlags = static_cast<dbApplication::EditFlags>( mEditFlags & ~dbApplication::editContinuous);
         }
         if ( !( mEditFlags & dbApplication::simpleEdition ) && willclose ) {
             // If the form was cancelled after raising an existing record error, try to sync to the existing record

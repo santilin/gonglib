@@ -40,7 +40,7 @@ public:
 	RecMoneda *getRecMoneda() const;
 /*>>>>>EMPRESA_RELATIONS*/
 /*<<<<<EMPRESA_MEMBERS*/
-	virtual bool save(bool validate, bool saverelated) throw( dbError ); // from dbRecord
+	virtual bool save(bool validate, bool saverelated)/* throw( dbError ) */; // from dbRecord
 /*>>>>>EMPRESA_MEMBERS*/
 }; // class
 

@@ -142,8 +142,8 @@ void FrmEditPago::cambiaFields()
 	Xtring fldfactcodigo, fldfactdesc;
 	Xtring tablaterceros = pRecord->getValue( "TABLATERCEROS" ).toString();
 	Xtring fldterccodigo, fldtercdesc, descsingular, descplural;
-	bool femenina = false;
-    if( !searchFacturaNumero || tablafacturas != searchFacturaNumero->getTableName()
+
+	if( !searchFacturaNumero || tablafacturas != searchFacturaNumero->getTableName()
             || !searchTerceroCodigo || tablaterceros != searchTerceroCodigo->getTableName() ) {
 
 		if( tablafacturas != Xtring::null ) {
@@ -533,8 +533,9 @@ if( ModuleInstance->getContabModule() ) {
         editVencimiento->setMustBeReadOnly( true );
         editFechaValor->setMustBeReadOnly(true);
     }
-    if( editContador->toInt() == 0 )
+    if( editContador->toInt() == 0 ) {
         editContador->setText( empresa::ModuleInstance->getMaxContador() );
+	}
 	if( isInserting() ) 
 		editResto->setMustBeReadOnly(true);
 	if( editFacturaNumero->isEnabled() )
@@ -784,7 +785,6 @@ void FrmEditPago::pushPagar_clicked()
     if( mMustRead )
         read();
     if( IPagableRecord *pr = dynamic_cast<IPagableRecord *>(getRecFactura() ) ) {
-		bool realizado;
         if( getRecPago()->getValue( "ESTADORECIBO").toInt() == PagosModule::ReciboPendiente ) {
 #ifdef HAVE_CONTABMODULE
             bool supervisar = contab::ModuleInstance->getModuleSetting( "SUPERVISAR_ASIENTOS" ).toBool();

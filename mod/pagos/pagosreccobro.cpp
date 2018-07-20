@@ -102,7 +102,7 @@ dbRecord *RecCobro::getRecTercero()
 }
 
 /*<<<<<COBRO_SAVE*/
-bool RecCobro::save(bool validate, bool saverelated = true) throw( dbError )
+bool RecCobro::save(bool validate, bool saverelated = true)/* throw( dbError ) */
 {
 /*>>>>>COBRO_SAVE*/
 	if( getValue( "CONTADOR" ).toInt() == 0 )
@@ -120,7 +120,7 @@ bool RecCobro::save(bool validate, bool saverelated = true) throw( dbError )
 }
 
 /*<<<<<COBRO_REMOVE*/
-bool RecCobro::remove() throw( dbError )
+bool RecCobro::remove()/* throw( dbError ) */
 {
 /*>>>>>COBRO_REMOVE*/
     bool ret = dbRecord::remove();

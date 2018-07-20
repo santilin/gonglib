@@ -28,7 +28,7 @@ RecMoneda *RecEmpresa::getRecMoneda() const
 /*>>>>>EMPRESA_RELATIONS*/
 
 /*<<<<<EMPRESA_SAVE*/
-bool RecEmpresa::save(bool validate, bool saverelated = true) throw( dbError )
+bool RecEmpresa::save(bool validate, bool saverelated = true)/* throw( dbError ) */
 {
 /*>>>>>EMPRESA_SAVE*/
     // Si se modifica la empresa actual, actualizar la referencia en este módulo a la empresa actual

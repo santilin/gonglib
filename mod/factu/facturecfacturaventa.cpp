@@ -101,7 +101,7 @@ Xtring RecFacturaVenta::toString(int format, const Xtring &includedFields) const
 }
 
 /*<<<<<FACTURAVENTA_SAVE*/
-bool RecFacturaVenta::save(bool validate, bool saverelated = true) throw( dbError )
+bool RecFacturaVenta::save(bool validate, bool saverelated = true)/* throw( dbError ) */
 {
 /*>>>>>FACTURAVENTA_SAVE*/
 	if (saverelated) {
@@ -137,7 +137,7 @@ bool RecFacturaVenta::save(bool validate, bool saverelated = true) throw( dbErro
 }
 
 /*<<<<<FACTURAVENTA_REMOVE*/
-bool RecFacturaVenta::remove() throw( dbError )
+bool RecFacturaVenta::remove()/* throw( dbError ) */
 {
 /*>>>>>FACTURAVENTA_REMOVE*/
     bool ret = dbRecord::remove();

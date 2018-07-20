@@ -26,10 +26,10 @@ void CapelModule::init(const Xtring &lfilename, const Xtring &lbegin_keyword,
 	mFilename = lfilename;
 	std::ifstream pFile(mFilename.c_str());
     if( !pFile ) {
-		perror(mFilename.c_str());
+		_GONG_DEBUG_PRINT(1, strerror(errno) );
 		mBuffer.clear();
 	} else {
-		_GONG_DEBUG_PRINT(1, Xtring("capel: opening ") + mFilename );
+		_GONG_DEBUG_PRINT(3, Xtring("capel: opening ") + mFilename );
 		pFile.seekg(0, std::ios::end);
 		size_t filelen = pFile.tellg();
 		pFile.seekg(0, std::ios::beg);
@@ -49,14 +49,18 @@ size_t CapelModule::write()
 
 	std::ofstream pFile(mFilename.c_str());
     if( !pFile ) {
-		perror(mFilename.c_str());
+		_GONG_DEBUG_PRINT(1, strerror(errno) );
 	} else {
-		_GONG_DEBUG_PRINT(0, Xtring::printf( "capel: file: %s,  %d bytes",
+		_GONG_DEBUG_PRINT(2, Xtring::printf( "capel: %s,  %d bytes written",
 			mFilename.c_str(), mBuffer.length() ) );
         pFile.write(mBuffer.c_str(), mBuffer.length());
-		if( pFile.bad()  )
-			_GONG_DEBUG_WARNING(Xtring::printf( "capel: file: %s, error writing %d bytes",
-				mFilename.c_str(), mBuffer.length() ) );
+		if( pFile.bad()  ) {
+			_GONG_DEBUG_WARNING(Xtring::printf( "%s: %s",
+				mFilename.c_str(), strerror(errno)) );
+			ret = 0;
+		} else {
+			ret = pFile.tellp();
+		}
 		pFile.close();
 	}
     return ret;
@@ -72,7 +76,7 @@ size_t CapelModule::writeIfModified()
 		ret = write();
 	} else {
 		bool modified = true;
-		_GONG_DEBUG_PRINT(2, "reopening " + mFilename );
+		_GONG_DEBUG_PRINT(3, "reopening " + mFilename );
 		pFile.seekg(0, std::ios::end);
 		size_t filelen = pFile.tellg();
 		pFile.seekg(0, std::ios::beg);
@@ -91,29 +95,30 @@ size_t CapelModule::writeIfModified()
 		if( modified ) {
 			ret = write(); // Write reopens the file for writing
 		} else {
-			_GONG_DEBUG_PRINT(2, "capel: Not modified: " + mFilename );
+			_GONG_DEBUG_PRINT(3, "capel: Not modified: " + mFilename );
+			ret = 0;
 		}
     }
     return ret;
 }
 
 
-Xtring CapelModule::fill_begin_extrusion(const Xtring &extrusion_name)
+Xtring CapelModule::fill_begin_extrusion(const Xtring &extrusion_name) const
 {
     return mBeginComment + mBeginKeyword + extrusion_name;
 }
 
-Xtring CapelModule::fill_end_extrusion(const Xtring &extrusion_name)
+Xtring CapelModule::fill_end_extrusion(const Xtring &extrusion_name) const
 {
     return mBeginComment + mEndKeyword + extrusion_name;
 }
 
-Xtring CapelModule::fill_begin_extrusion_with_space(const Xtring &extrusion_name)
+Xtring CapelModule::fill_begin_extrusion_with_space(const Xtring &extrusion_name) const
 {
     return mBeginComment + " " + mBeginKeyword + extrusion_name;
 }
 
-Xtring CapelModule::fill_end_extrusion_with_space(const Xtring &extrusion_name)
+Xtring CapelModule::fill_end_extrusion_with_space(const Xtring &extrusion_name) const
 {
     return mBeginComment + " " + mEndKeyword + extrusion_name;
 }
@@ -126,7 +131,7 @@ Xtring CapelModule::fill_end_extrusion_with_space(const Xtring &extrusion_name)
    and
    {<<<<FORM_EDITED}
 */
-Xtring::size_type CapelModule::lookup_extrusion_begin(const Xtring &extrusion_name)
+Xtring::size_type CapelModule::lookup_extrusion_begin(const Xtring &extrusion_name) const
 {
 	Xtring fullname = fill_begin_extrusion(extrusion_name);
 	Xtring::size_type pos = mBuffer.find(fullname + mEndComment);
@@ -181,8 +186,36 @@ Xtring::size_type CapelModule::lookup_extrusion_end(const Xtring &extrusion_name
 	return pos;
 }
 
+Xtring::size_type CapelModule::lookup_extrusion_end(const Xtring &extrusion_name) const
+{
+	Xtring fullname = fill_end_extrusion(extrusion_name);
+	Xtring::size_type pos = mBuffer.find(fullname + mEndComment);
+	if( pos == Xtring::npos )
+		pos = mBuffer.find(fullname + " ");
+	if( pos == Xtring::npos )
+		pos = mBuffer.find(fullname + "\n");
+	if( pos == Xtring::npos ) {
+		fullname = fill_end_extrusion_with_space(extrusion_name);
+		pos = mBuffer.find(fullname + mEndComment);
+	}
+	if( pos == Xtring::npos ) {
+		pos = mBuffer.find(fullname + mEndComment);
+	}
+	if( pos == Xtring::npos ) {
+		pos = mBuffer.find(fullname + " " + mEndComment);
+	}
+	if( pos == Xtring::npos ) { // EOF?
+		pos = mBuffer.find(fullname);
+		if( pos != Xtring::npos ) {
+			if( pos + fullname.length() != mBuffer.length() )
+				pos = Xtring::npos;
+		}
+	}
+	return pos;
+}
 
-Xtring CapelModule::get_parameters(const Xtring &extrusion_name)
+
+Xtring CapelModule::get_parameters(const Xtring &extrusion_name) const
 {
 	Xtring fullname = fill_begin_extrusion(extrusion_name);
 	Xtring::size_type pos = mBuffer.find(fullname + mParameterDelimiterBegin );
@@ -201,9 +234,10 @@ Xtring CapelModule::get_parameters(const Xtring &extrusion_name)
 }
 
 
-Xtring::size_type CapelModule::lookup_extrusion_code(const Xtring &extrusion_name)
+Xtring::size_type CapelModule::lookup_extrusion_code(const Xtring &extrusion_name) const
 {
-	int begin;if( (begin=lookup_extrusion_begin(extrusion_name)) == -1 )
+	int begin;
+	if( (begin=lookup_extrusion_begin(extrusion_name)) == -1 )
 		return -1;
 	else {
 		while( begin<(int)mBuffer.length() && mBuffer[begin] != '\n' )
@@ -226,7 +260,7 @@ Xtring CapelModule::get_extrusion_text(const Xtring &extrusion_name)
 	return result;
 }
 
-int CapelModule::delete_extrusion(const Xtring &extrusion_name, Xtring &parameters)
+int CapelModule::remove_extrusion(const Xtring &extrusion_name, Xtring *parameters)
 {
 	int begin, end;
 	begin = lookup_extrusion_begin(extrusion_name);
@@ -243,7 +277,9 @@ int CapelModule::delete_extrusion(const Xtring &extrusion_name, Xtring &paramete
 	if( end < begin ) {
 		_GONG_DEBUG_WARNING( "Start of section " + extrusion_name + " is after end" );
 	}
-	parameters = get_parameters( extrusion_name );
+	if (parameters != 0) {
+		*parameters = get_parameters( extrusion_name );
+	}
 	while( end<(int)mBuffer.length() && mBuffer[end] != '\n' )
 		end++;
 	if( end != (int)mBuffer.length() )
@@ -274,7 +310,7 @@ int CapelModule::insert_extrusion_at(int begin,
     int begextr;
     mCurrentExtrusion=extrusion_name;
 	Xtring parameters;
-    begextr = delete_extrusion(extrusion_name, parameters);
+    begextr = remove_extrusion(extrusion_name, &parameters);
     // If the extrusion exists, ignore begin
     if( begextr != -1 )
         begin = begextr;
@@ -339,9 +375,7 @@ CapelModule &CapelModule::operator<<(int val)
     return *this;
 }
 
-
-
-int CapelModule::empty_extrusion(const Xtring &extrusion_name)
+int CapelModule::clear_extrusion(const Xtring &extrusion_name)
 {
 	int begin, end;
 
@@ -368,13 +402,31 @@ int CapelModule::position_before_extrusion(const Xtring &extrusion_name)
 
 int CapelModule::position_after_extrusion(const Xtring &extrusion_name)
 {
-	uint end = lookup_extrusion_end(extrusion_name);
+	size_t end = lookup_extrusion_end(extrusion_name);
 	if( end != Xtring::npos ) {
-		while( end<mBuffer.length() && mBuffer[end] != '\n' ) {
+		// Try to find two \n 
+		size_t first_newline = Xtring::npos;
+		while( end+1<mBuffer.length() ) {
+			if ( mBuffer[end] == '\n' ) {
+				if (first_newline == Xtring::npos) {
+					first_newline = end;
+				}
+				if (mBuffer[end+1] == '\n') {
+					break;
+				}
+			}
 			end++;
 		}
-		if( end < mBuffer.length() )
-			end++;
+		if( end == mBuffer.length() ) {
+			if( first_newline != Xtring::npos) {
+				end = first_newline;
+			}
+		} else if (end+1 == mBuffer.length() ) {
+			if( first_newline != Xtring::npos) {
+				end = first_newline;
+			}
+		}
+		++end;
 	}
 	return end;
 }
@@ -449,7 +501,7 @@ Xtring CapelModule::process_parameters(const Xtring& text, const Xtring& paramet
 }
 
 
-Xtring::size_type CapelModule::find_global(const Xtring &search)
+Xtring::size_type CapelModule::find_global(const Xtring &search) const
 {
 	return mBuffer.find(search);
 }
@@ -511,6 +563,34 @@ Xtring CapelModule::capitalize( const Xtring &str )
 	}
 	return ret;
 }
+
+
+int CapelModule::remove_empty_extrusions(const XtringList &extrusions)
+{
+	for( const Xtring &s: extrusions) {
+		if( is_empty_extrusion(s) ) {
+			remove_extrusion(s);
+		}
+	}
+}
+
+bool CapelModule::is_empty_extrusion(const gong::Xtring& extrusion_name) const 
+{
+	Xtring::size_type begin = lookup_extrusion_code(extrusion_name);
+	if( begin != Xtring::npos ) {
+		int end = lookup_extrusion_end(extrusion_name);
+		if( end != Xtring::npos ) {
+			--end;
+			while( begin < end ) {
+				if (!isspace(mBuffer[++begin]) ) {
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
 
 
 }

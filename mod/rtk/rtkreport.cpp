@@ -1329,6 +1329,10 @@ void Report::setDetailsValue(const Xtring &value)
  */
 bool Report::print( Input *in, Output *out )
 {
+	_GONG_DEBUG_TRACE(2);
+	_GONG_DEBUG_ASSERT(this);
+	_GONG_DEBUG_ASSERT(in);
+	_GONG_DEBUG_ASSERT(out);
     bool ret = false;
     try {
         if( !in )
@@ -1440,6 +1444,8 @@ bool Report::print( Input *in, Output *out )
 int Report::internalPrint( Passes whatpass, Input *in, Output *out, InputCached *cachedinput )
 {
     _GONG_DEBUG_TRACE(2);
+	_GONG_DEBUG_ASSERT(out);
+	_GONG_DEBUG_ASSERT(in);
     int ret = 0;
     mStarted = mFinished = false;
     fixAllProperties( out );

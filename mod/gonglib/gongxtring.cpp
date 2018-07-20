@@ -142,7 +142,66 @@ Xtring Xtring::proper() const
     return ret;
 }
 
-Xtring Xtring::unproper() const
+Xtring Xtring::ucFirst() const
+{
+    const char *pos = c_str();
+    Xtring ret;
+    // First letter, upper
+    if( *pos ) {
+        uint i;
+        for ( i = 0; i < sizeof ( upper_table ) /sizeof ( upper_table[0] ); i++ )
+        {
+            if( !strncmp( upper_table[i][1], pos, strlen( upper_table[i][1]  ) ) )
+            {
+                ret += upper_table[i][0];
+                pos += strlen( upper_table[i][1] );
+                break;
+            }
+        }
+        if ( i == sizeof ( upper_table ) /sizeof ( upper_table[0] ) ) {
+            ret += ::toupper ( *pos );
+            ++pos;
+        }
+    }
+    // Next letters, the same
+    while( *pos ) {
+		ret += *pos;
+		++pos;
+    }
+    return ret;
+}
+
+Xtring Xtring::lcFirst() const
+{
+    const char *pos = c_str();
+    Xtring ret;
+    // First letter, lower
+    if( *pos ) {
+        uint i;
+        for ( i = 0; i < sizeof ( upper_table ) /sizeof ( upper_table[0] ); i++ )
+        {
+            if( !strncmp( upper_table[i][1], pos, strlen( upper_table[i][1]  ) ) )
+            {
+                ret += upper_table[i][0];
+                pos += strlen( upper_table[i][1] );
+                break;
+            }
+        }
+        if ( i == sizeof ( upper_table ) /sizeof ( upper_table[0] ) ) {
+            ret += ::tolower ( *pos );
+            ++pos;
+        }
+    }
+    // Next letters, the same
+    while( *pos ) {
+		ret += *pos;
+		++pos;
+    }
+    return ret;
+}
+
+
+Xtring Xtring::unProper() const
 {
     const char *pos = c_str();
     Xtring ret;
@@ -177,8 +236,8 @@ Xtring &Xtring::trim(const Xtring &whitespace)
     if ( b )
         erase ( 0, b );
     size_type e = find_last_not_of ( whitespace );
-    if ( e != npos )
-        erase ( ++e, size() );
+    if ( e != npos && ++e != size() )
+        erase ( e, size() );
     return *this;
 }
 
@@ -220,7 +279,7 @@ Xtring Xtring::trimRight(const Xtring &whitespace) const
 
 
 
-Xtring &Xtring::simplify_white_space(char usethis)
+Xtring &Xtring::simplifyWhiteSpace(char usethis)
 {
     // points one past the end of the unremoved elements after remove()
     bool has_removed = false;
@@ -239,7 +298,7 @@ Xtring &Xtring::simplify_white_space(char usethis)
     return (*this = res);
 }
 
-Xtring &Xtring::remove_white_space()
+Xtring &Xtring::removeWhiteSpace()
 {
     // points one past the end of the unremoved elements after remove()
     Xtring::const_iterator st;
@@ -400,17 +459,26 @@ bool Xtring::startsWith ( char ch ) const
         return false;
 }
 
-Xtring &Xtring::replace ( const Xtring &search, const Xtring &repl )
+/**
+ * @brief Replaces all ocurrences of search by repl in this string
+ * 
+ * @param search p_search:...
+ * @param repl p_repl:...
+ * @return gong::Xtring&
+ */
+Xtring &Xtring::replace ( const Xtring &search, const Xtring &repl, const Xtring &repl_if_empty )
 {
     int searchlen = search.length();
-    if ( searchlen == 0 )
+    if ( searchlen == 0 ) {
         return *this;
-    int repllen = repl.length();
+	}
+	const Xtring &real_repl = (repl.isEmpty() ? repl_if_empty : repl );
+    int repllen = real_repl.length();
     size_type match = find ( search );
     while ( match != Xtring::npos )
     {
         erase ( match, searchlen );
-        insert ( match, repl );
+        insert ( match, real_repl );
         match = find ( search, match + repllen );
     }
     return *this;
@@ -740,6 +808,16 @@ Xtring &Xtring::appendWithSeparator(const Xtring &appendwhat, const Xtring& sepa
         append( separator );
     append( appendwhat );
     return *this;
+}
+
+
+Xtring Xtring::toHex( int i )
+{
+  std::stringstream stream;
+  stream << "0x" 
+         << std::setfill ('0') << std::setw(sizeof(int)*2) 
+         << std::hex << i;
+  return stream.str();
 }
 
 

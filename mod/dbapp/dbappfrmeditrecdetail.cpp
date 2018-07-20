@@ -150,12 +150,14 @@ void FrmEditRecDetail::clearRecord(bool duplicating)
 // El id es en realidad el número de columna. si es 0, es el de la línea seleccionada
 bool FrmEditRecDetail::read(dbRecordID id)
 {
-    if( id > pDetalles->size() )
+    if( id > pDetalles->size() ) {
         return false;
-	if( id == 0 )
+	}
+	if( id == 0 ) {
 		id = getDataTable()->currentRow();
-	else
+	} else {
 		--id;
+	}
 	pDetalles->getRecord( id )->readRelated( false );
 	getRecord()->copyRecord( pDetalles->getRecord( id ) );
 	_GONG_DEBUG_PRINT(0, getRecord()->toString(TOSTRING_DEBUG_COMPLETE));

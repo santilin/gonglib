@@ -82,8 +82,8 @@ public:
 
     /*<<<<<COBRO_MEMBERS*/
 	void init();
-	virtual bool save(bool validate, bool saverelated) throw( dbError ); // from dbRecord
-	virtual bool remove() throw( dbError ); // from dbRecord
+	virtual bool save(bool validate, bool saverelated)/* throw( dbError ) */; // from dbRecord
+	virtual bool remove()/* throw( dbError ) */; // from dbRecord
 /*>>>>>COBRO_MEMBERS*/
 protected:
     dbRecord *pRecFactura, *pRecTercero;

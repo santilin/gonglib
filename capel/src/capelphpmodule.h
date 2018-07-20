@@ -15,7 +15,8 @@ public:
 	                const Xtring &begin_comment = "/*", const Xtring &end_comment = "*/" )
 		: CapelModule(filename, begin_keyword, end_keyword, begin_comment, end_comment)
 		{ 
-			mParameterDelimiterBegin = mParameterDelimiterEnd = "#";
+			mParameterDelimiterBegin = "&";
+			mParameterDelimiterEnd = "&";
 		}
 #if 0		
 	virtual void addCopyLeft(const Xtring &project, const Xtring &file,
@@ -30,6 +31,8 @@ public:
 	
 	static Xtring getPHPTypeFromMysqlType( gong::SqlColumnType mysqltype );
 	static Xtring modelize(const Xtring &identifier);
+	static Xtring unModelize(const Xtring &identifier, const Xtring &separator = "-");
+	static Xtring toIdentifier(const Xtring &identifier);
 	static Xtring extractClassname(const Xtring &fullclassname);
 	static Xtring extractNamespace(const Xtring &fullclassname);
 protected:

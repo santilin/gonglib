@@ -3,7 +3,7 @@
 		value = "=input.DOCUMENTO_ID";
 		sizey = 11.5;
 		style = pageheader;
-
+#ifndef NOLOGO
 		OBJECT pageheader_EMPRESA_LOGO {
 			value = "= input.EMPRESA_LOGO;";
 			posy = 0.0;
@@ -12,6 +12,7 @@
 			sizex = 40;
 			imagestyle = "expanded";
 		}
+#endif		
 // 		OBJECT pageheader_EMPRESA_NOMBRE {
 // 			value = "=input.EMPRESA_CONTACTO_NOMBRE;";
 // 			posy = 2.0;
