@@ -461,7 +461,7 @@ bool Xtring::startsWith ( char ch ) const
 
 /**
  * @brief Replaces all ocurrences of search by repl in this string
- * 
+ *
  * @param search p_search:...
  * @param repl p_repl:...
  * @return gong::Xtring&
@@ -702,7 +702,7 @@ Xtring Xtring::toJSON() const
         case '\r': o << "\\r"; break;
         case '\t': o << "\\t"; break;
         default:
-            if ('\x00' <= c && c <= '\x1f') {
+            if (c <= '\x1f') {
                 o << "\\u"
                   << std::hex << std::setw(4) << std::setfill('0') << (int)c;
             } else {
@@ -781,7 +781,7 @@ int Xtring::splitIn2( Xtring &first, Xtring &second, const Xtring &sep) const
 }
 
 // @todo añadir a Xtring
-Xtring Xtring::randomName(const int len) 
+Xtring Xtring::randomName(const int len)
 {
 	Xtring ret;
     static const char alphanum[] =
@@ -814,8 +814,8 @@ Xtring &Xtring::appendWithSeparator(const Xtring &appendwhat, const Xtring& sepa
 Xtring Xtring::toHex( int i )
 {
   std::stringstream stream;
-  stream << "0x" 
-         << std::setfill ('0') << std::setw(sizeof(int)*2) 
+  stream << "0x"
+         << std::setfill ('0') << std::setw(sizeof(int)*2)
          << std::hex << i;
   return stream.str();
 }

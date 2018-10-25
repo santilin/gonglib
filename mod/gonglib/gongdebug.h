@@ -78,6 +78,8 @@ __replacement__gong_debug_assert_equals(const char* __file, int __line, const ch
 		++ it )  \
 		_GONG_DEBUG_PRINT(0, *it ); \
 	}
+#define _GONG_DEBUG_WARNING(message) \
+	{ if(::__gong_debug::_gong_debug_level>0) {std::cerr << "WARNING: " << message << " [" << __METHOD_NAME__ << "]" << std::endl;std::cout.flush();}}
 
 #else
 
@@ -87,12 +89,11 @@ __replacement__gong_debug_assert_equals(const char* __file, int __line, const ch
 #	define _GONG_DEBUG_TRACE(level) {}
 #	define _GONG_DEBUG_PRINT_LIST( list, type ) {}
 #   define _GONG_THROW(_e,_m) { throw _e(_m); }
+#   define _GONG_DEBUG_WARNING(message) {}
 
 #endif
 
 
-#define _GONG_DEBUG_WARNING(message) \
-	{ std::cerr << "WARNING: " << message << " [" << __METHOD_NAME__ << "]" << std::endl;std::cout.flush();}
 #define _GONG_DEBUG_ERROR(message) \
 	{ std::cerr << "ERROR: " << message << " [" << __METHOD_NAME__ << "]" << std::endl;std::cout.flush();}
 #define _GONG_DEBUG_PERROR(message) \

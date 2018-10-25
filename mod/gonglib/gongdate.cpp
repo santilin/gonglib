@@ -284,7 +284,7 @@ void Date::JulianToDMY(unsigned long Jul, Date::dateitem *day, Date::dateitem *m
         *year = Jc - 4715;
         if (*month > 2)
             --(*year);
-        if (year <= 0)
+        if (*year <= 0)
             --(*year);
     } else {
         *day = 0;

@@ -110,7 +110,7 @@ public:
     bool existsDatabase( const Xtring &databasename );
     bool dropDatabase( const Xtring &dbname, bool ignoreerrors = false );
     bool existsTable( const Xtring &tablename, const Xtring &dbname = Xtring::null );
-    static Variant::Type MySQLTypetoVariantType(unsigned mysqltype);
+    static Variant::Type MySQLTypetoVariantType(unsigned int mysqltype);
     static Variant::Type SQLiteTypetoVariantType(const char *sqlitetype);
     static Variant::Type toVariantType(SqlColumnType coltype);
     static SqlColumnType toSqlColumnType(Variant::Type coltype);

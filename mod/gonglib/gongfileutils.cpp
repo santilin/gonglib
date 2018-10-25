@@ -188,9 +188,11 @@ int FileUtils::execProcess(const Xtring& _command, Xtring& messages, Xtring& err
 	if( tmpfilename.isEmpty()) {
 		tmpfilename = "/tmp/gonglib";
 	}
+#ifndef GONG_NO_LIBRARY
 	if( GongLibraryInstance && GongLibraryInstance->getPackageName() != 0 ) {
 		tmpfilename += GongLibraryInstance->getPackageName();
 	}
+#endif
 	tmpfilename += ".err";
     int ret = 0; // Normal exit
     if( &errors != &Xtring::null )
@@ -325,8 +327,8 @@ int FileUtils::makePath(const Xtring& path)
 
 void FileUtils::removeExtension(Xtring &fullname)
 {
-    size_t lastindex = fullname.find_last_of("."); 
-    fullname = fullname.substr(0, lastindex); 
+    size_t lastindex = fullname.find_last_of(".");
+    fullname = fullname.substr(0, lastindex);
 }
 
 void FileUtils::removeLastSeparator(Xtring &fullname)

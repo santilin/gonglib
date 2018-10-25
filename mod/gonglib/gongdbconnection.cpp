@@ -208,7 +208,7 @@ bool dbConnection::connect( enum SqlDriver driver, const Xtring &user, const Xtr
             if( !dbname.isEmpty() )
                 setEncoding( selectString("show variables like 'character_set_database'", 1) );
 // 	#define MYSQL_VERSION_ID		50534
-#if MYSQL_VERSION_ID >= 50007
+#if MYSQL_VERSION_ID >= 40122
             // This is critical in order to have all the strings correctly saved on the server
             mysql_set_character_set( pMySql, "utf8");
 #else
@@ -1106,12 +1106,15 @@ Variant::Type dbConnection::SQLiteTypetoVariantType(const char *sqlitetype)
 }
 #endif
 
-Variant::Type dbConnection::MySQLTypetoVariantType( unsigned mysqltype )
+Variant::Type dbConnection::MySQLTypetoVariantType( unsigned int mysqltype )
 {
     // refman-5.1-en.a4.pdf, page 1239
+	// https://dev.mysql.com/doc/refman/8.0/en/c-api-prepared-statement-type-codes.html
     switch ( mysqltype ) {
     case MYSQL_TYPE_TINY:
+#if MYSQL_VERSION_ID >= 50000
     case MYSQL_TYPE_BIT:
+#endif
         return Variant::tBool;
     case MYSQL_TYPE_SHORT:
     case MYSQL_TYPE_LONG:
@@ -1121,7 +1124,9 @@ Variant::Type dbConnection::MySQLTypetoVariantType( unsigned mysqltype )
     case MYSQL_TYPE_LONGLONG:
         return Variant::tLong;
     case MYSQL_TYPE_DECIMAL:
-    case MYSQL_TYPE_NEWDECIMAL:
+#if MYSQL_VERSION_ID >= 50000
+	case MYSQL_TYPE_NEWDECIMAL:
+#endif
         return Variant::tMoney;
     case MYSQL_TYPE_FLOAT:
     case MYSQL_TYPE_DOUBLE:
@@ -1136,7 +1141,9 @@ Variant::Type dbConnection::MySQLTypetoVariantType( unsigned mysqltype )
         return Variant::tDateTime;
     case MYSQL_TYPE_STRING:
     case MYSQL_TYPE_VAR_STRING:
+#if MYSQL_VERSION_ID >= 50000
     case MYSQL_TYPE_VARCHAR:
+#endif
     case MYSQL_TYPE_SET:
     case MYSQL_TYPE_ENUM:
         return Variant::tString;
@@ -1150,8 +1157,9 @@ Variant::Type dbConnection::MySQLTypetoVariantType( unsigned mysqltype )
     case MYSQL_TYPE_NULL:
         return Variant::tInvalid;
     default:
-        _GONG_DEBUG_WARNING( Xtring::printf( "Type %d not recognized", mysqltype ) );
-        return Variant::tInvalid;
+// 		const char *stype = reinterpret_cast<const char *>(mysqltype);
+//         _GONG_DEBUG_WARNING( Xtring::printf( "Type %s not recognized", stype) );
+        return Variant::tString;
     }
 }
 

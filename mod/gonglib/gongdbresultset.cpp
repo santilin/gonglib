@@ -275,7 +275,7 @@ Variant dbResultSet::getValue(dbResultSet::size_type tup_num, unsigned int colnu
         if( !_data.mysql.mRow )
             return Variant();
         _data.mysql.pLengths = ::mysql_fetch_lengths( _data.mysql.pResult );
-        _data.mysql.pFieldDefs = ::mysql_fetch_fields( _data.mysql.pResult );
+//         _data.mysql.pFieldDefs = ::mysql_fetch_fields( _data.mysql.pResult );
         return getValue( colnum );
     }
 #ifdef HAVE_SQLITE3
@@ -307,7 +307,7 @@ bool dbResultSet::next()
         }
         mRowNumber++;
         _data.mysql.pLengths = ::mysql_fetch_lengths( _data.mysql.pResult );
-        _data.mysql.pFieldDefs = ::mysql_fetch_fields( _data.mysql.pResult );
+//         _data.mysql.pFieldDefs = ::mysql_fetch_fields( _data.mysql.pResult );
         return true;
     }
 #ifdef HAVE_SQLITE3
@@ -372,19 +372,26 @@ bool dbResultSet::next()
 }
 
 
-const char *dbResultSet::getColumnName(unsigned int colnum) const
+Xtring dbResultSet::getColumnName(unsigned int colnum) const
 {
     if ( colnum >= mColumnCount )
         return "";
     switch( pConnection->getSqlDriver() ) {
     case dbConnection::DRIVER_MYSQL:
-        return _data.mysql.pFieldDefs[colnum].name;
+	{
+		Xtring ret = _data.mysql.pFieldDefs[colnum].table;
+		if( !ret.isEmpty() ) {
+			ret += ".";
+		}
+        return ret + _data.mysql.pFieldDefs[colnum].name;
+	}
+		break;
 #ifdef HAVE_SQLITE3
     case dbConnection::DRIVER_SQLITE3:
         throw;
 #endif
     default:
-        return ""; /// TODO
+        return Xtring::null; /// TODO
     }
 }
 

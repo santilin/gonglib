@@ -73,7 +73,7 @@ public:
         return mColumnCount;
     }
     SqlColumnType getColumnType( unsigned int colnum ) const;
-    const char *getColumnName(unsigned int colnum) const;
+    Xtring getColumnName(unsigned int colnum) const;
     unsigned int getColumnWidth( unsigned int colnum ) const;
     unsigned int getColumnDecimals( unsigned int colnum ) const;
 	unsigned int getColumnPos(const Xtring &fldname) const
