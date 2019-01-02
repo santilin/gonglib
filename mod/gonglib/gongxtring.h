@@ -116,6 +116,23 @@ std::string List<Xtring>::join(const std::string &sep) const
     return result;
 }
 
+template<> inline
+std::string List<Xtring>::join(const std::string &sep, const std::string &pre, const std::string &post) const
+{
+    std::string result;
+    for( const_iterator it = begin(); it != end(); ++it ) {
+        if( result.size() )
+            result += sep;
+        result += *it;
+    }
+    if( result.size() == 0 ) {
+		return result;
+	} else {
+		return pre + result + post;
+	}
+}
+
+
 inline bool strempty(const char *str) {
     return (!str || !*str);
 }

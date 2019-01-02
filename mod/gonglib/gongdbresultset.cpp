@@ -395,6 +395,29 @@ Xtring dbResultSet::getColumnName(unsigned int colnum) const
     }
 }
 
+Xtring dbResultSet::getColumnNameWithoutTable(unsigned int colnum) const
+{
+    if ( colnum >= mColumnCount )
+        return "";
+    switch( pConnection->getSqlDriver() ) {
+    case dbConnection::DRIVER_MYSQL:
+	{
+        return _data.mysql.pFieldDefs[colnum].name;
+	}
+	break;
+#ifdef HAVE_SQLITE3
+    case dbConnection::DRIVER_SQLITE3:
+        throw;
+#endif
+    default:
+        return Xtring::null; /// TODO
+    }
+}
+
+
+
+
+
 SqlColumnType dbResultSet::getColumnType( unsigned int colnum ) const
 {
     if ( colnum >= mColumnCount )
@@ -478,6 +501,5 @@ unsigned int dbResultSet::getColumnPos(const char *fldname) const
     }
 
 }
-
 
 }

@@ -56,6 +56,7 @@ public:
         return std::vector<T>::size();
     }
     std::string join(const std::string &sep) const;
+    std::string join(const std::string &sep, const std::string &pre, const std::string &post = std::string()) const;
     bool remove(const T &element);
 #ifdef _GONG_DEBUG
     void debug_print(int debug_level = 0) const;
