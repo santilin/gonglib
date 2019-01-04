@@ -24,7 +24,7 @@ nodist_libgongpagos_la_SOURCES = moc_pagosmodule.cpp \
 moc_%.cpp: %.h
 	moc-qt4 $< -o \$@
 
-pagos_sharedir = $(datadir)/gestiong/pagos
+pagos_sharedir = $(datadir)/gonglib/pagos
 dist_pagos_share_DATA = $(srcdir)/share/pagos.ddd
-pagos_informesdir = $(datadir)/gestiong/pagos/informes
+pagos_informesdir = $(datadir)/gonglib/pagos/informes
 dist_pagos_informes_DATA = $(srcdir)/share/informes/COBRO.rtk

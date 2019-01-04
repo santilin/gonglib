@@ -30,10 +30,10 @@ nodist_libgongempresa_la_SOURCES = \
 moc_%.cpp: %.h
 	moc-qt4 $< -o $@
 
-empresa_sharedir = $(datadir)/gestiong/empresa
+empresa_sharedir = $(datadir)/gonglib/empresa
 dist_empresa_share_DATA = $(srcdir)/share/empresa.ddd
 
-empresa_datosdir = $(datadir)/gestiong/empresa/datos
+empresa_datosdir = $(datadir)/gonglib/empresa/datos
 dist_empresa_datos_DATA = $(srcdir)/share/datos/FormaPago.csv \
 	$(srcdir)/share/datos/TipoIva.csv
 

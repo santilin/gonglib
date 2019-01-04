@@ -90,12 +90,12 @@ libgongfactu_la_HEADERS += factufrmregenasientos.h
 moc_%.cpp: %.h
 	moc-qt4 $< -o $@
 
-factu_sharedir = $(datadir)/gestiong/factu
+factu_sharedir = $(datadir)/gonglib/factu
 dist_factu_share_DATA = $(srcdir)/share/factu.ddd \
 	$(srcdir)/share/stylesheet.css
 # act_stocks.sql
 
-factu_informesdir = $(datadir)/gestiong/factu/informes
+factu_informesdir = $(datadir)/gonglib/factu/informes
 dist_factu_informes_DATA = \
 	$(srcdir)/share/informes/ALBARANCOMPRA.rtk \
 	$(srcdir)/share/informes/ALBARANVENTA.rtk \

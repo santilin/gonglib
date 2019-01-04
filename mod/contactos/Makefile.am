@@ -25,13 +25,13 @@ endif
 moc_%.cpp: %.h
 	moc-qt4 $< -o $@
 
-contactos_sharedir = $(datadir)/gestiong/contactos
+contactos_sharedir = $(datadir)/gonglib/contactos
 dist_contactos_share_DATA = $(srcdir)/share/contactos.ddd \
 	$(srcdir)/share/stylesheet.css \
 	$(srcdir)/share/provincias.txt \
 	$(srcdir)/share/codigospostales.txt \
 	$(srcdir)/share/calles.txt
 
-contactos_informesdir = $(datadir)/gestiong/contactos/informes
+contactos_informesdir = $(datadir)/gonglib/contactos/informes
 dist_contactos_informes_DATA = $(srcdir)/share/informes/CONTACTO.rtk
 
