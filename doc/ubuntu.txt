@@ -1,0 +1,5 @@
+libtool autonconf mysql libmysqlclient-dev libqt4-dev libboost-all-dev libpng12-dev libjpeg-dev
+
+
+
+

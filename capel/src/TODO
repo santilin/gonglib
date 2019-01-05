@@ -1,0 +1,52 @@
+== Haciendo ==
+En _form, añadir if (isset($field_readonly) isset(field_enabled) isset(field_visible) isset(field_create) 
+
+
+== General ==
+Añadir a programdefinition modelspath, viewspath y controllerspath
+Etiqueta de los select2, toma la de la relación junction table
+formfielddefinition.getTitle() diferenciar si es una relación o un campo
+Crear un widget para activo/fecha de baja.
+
+
+== Errores raros ==
+Si una relación pasa de hasmany a manytomany, se quedan en _form lo de las related widgets
+Comprobar que el type de un campo en extended fields.json existe en fields.json
+
+== Base fields ==
+
+== Migrations ==
+
+== Models ==
+Modelos: Estudiar uuidbehavior, softdeletes y lock. Faltan los behaviors
+generar humanDesc en los modelos: {short_title}, {long_title}, {full}
+
+== Grid ==
+Investigar layouts de los grids
+
+== Menus ==
+
+== Forms ==
+Formulario de settings: file:///home/santilin/devel/yii2base/yii2-docs/guide-input-tabular-input.html
+Dropdowns: Descripción de las opciones (en el propio dropdown o en un link aparte?)
+
+seed-tables: campos con ``` fallan
+
+== Ember ==
+https://guides.emberjs.com/v2.16.0/models/
+
+== Parser ==
+Parser para subitems de NavDefinition: http://www.yiiframework.com/doc-2.0/yii-widgets-menu.html
+
+
+== Formulario generado de base_fields ==
+Validaciones del modelo: sólo una primary key
+Buscar el adjetivo de grammar
+Message: Are you sure youwant to delete this item? en el grid no se traduce
+
+		"santilin/yii2_sqlite3_full_support": "@dev"
+        {
+            "type": "vcs",
+            "url": "https://github.com/santilin/yii2_sqlite3_full_support"
+        },
+
