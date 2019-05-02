@@ -404,7 +404,7 @@ int CapelModule::position_after_extrusion(const Xtring &extrusion_name)
 {
 	size_t end = lookup_extrusion_end(extrusion_name);
 	if( end != Xtring::npos ) {
-		// Try to find two \n 
+		// Try to find two \n
 		size_t first_newline = Xtring::npos;
 		while( end+1<mBuffer.length() ) {
 			if ( mBuffer[end] == '\n' ) {
@@ -567,14 +567,17 @@ Xtring CapelModule::capitalize( const Xtring &str )
 
 int CapelModule::remove_empty_extrusions(const XtringList &extrusions)
 {
+	int ret = 0;
 	for( const Xtring &s: extrusions) {
 		if( is_empty_extrusion(s) ) {
+			ret++;
 			remove_extrusion(s);
 		}
 	}
+	return ret;
 }
 
-bool CapelModule::is_empty_extrusion(const gong::Xtring& extrusion_name) const 
+bool CapelModule::is_empty_extrusion(const gong::Xtring& extrusion_name) const
 {
 	Xtring::size_type begin = lookup_extrusion_code(extrusion_name);
 	if( begin != Xtring::npos ) {

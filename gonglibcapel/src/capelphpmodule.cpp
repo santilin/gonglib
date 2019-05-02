@@ -26,12 +26,14 @@ Xtring PhpModule::getPHPTypeFromMysqlType(SqlColumnType mysqltype)
 		case SQLDECIMAL:
 		case SQLFLOAT:
 			return "float";
+		default:
+			throw std::runtime_error("MysqlColumnType " + Xtring::number(mysqltype) + " no existe");
 	}
 }
-	
+
 /**
 	* @brief converts an identifer like identifier_word to a model name like IdentifierWord
-	* 
+	*
 	* @param identifier ...
 	* @return Xtring
 	*/

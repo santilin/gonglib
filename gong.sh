@@ -17,7 +17,7 @@ fi
 GONGDIR=$(cd $GONGDIR; pwd)
 echo "GONGDIR=$GONGDIR"
 GONGMODULESDIR=$GONGDIR/mod
-CAPEL="$GONGDIR/capel/Debug/src/capel"
+CAPEL="$GONGDIR/gonglibcapel/Debug/src/capel"
 
 COMANDO=$1
 shift
