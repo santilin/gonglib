@@ -11,13 +11,12 @@ ISLINK=`readlink $0`
 if test "x$ISLINK" == "x"; then
 	GONGDIR=$(dirname $0)
 else
-	SCRIPTDIR=$(dirname $(readlink $0) )
-	GONGDIR="$(dirname $0)/$SCRIPTDIR"
+	GONGDIR=$HOME/devel/gonglib
 fi
 GONGDIR=$(cd $GONGDIR; pwd)
 echo "GONGDIR=$GONGDIR"
 GONGMODULESDIR=$GONGDIR/mod
-CAPEL="$GONGDIR/gonglibcapel/Debug/src/capel"
+CAPEL=$GONGDIR/../capel/Debug/src/capel
 
 COMANDO=$1
 shift
@@ -141,7 +140,7 @@ create_links()
 				echo "Creating link $m as $GONGDIR/../gestiong-priv/mod/$m"
 				ln -s $GONGDIR/../gestiong-priv/mod/$m $m
 				;;
-		    *) 
+		    *)
 				echo "Creating link $m as $GONGDIR/mod/$m"
 				ln -s $GONGDIR/mod/$m $m
 				;;
@@ -215,7 +214,7 @@ create_app)
 				echo "El proyecto $PROYECTO ha sido creado."
 				echo "Ejecuta $GONGDIR/gong.sh init_project en el directorio base del proyecto $PROYECTO."
 			fi
-			
+
 		fi
 	fi
 ;;
