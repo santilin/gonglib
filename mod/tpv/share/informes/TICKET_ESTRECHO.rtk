@@ -1,0 +1,651 @@
+//<<<<<COPYLEFT
+// @file TICKET.rtk Ticket tpv IVA incluido
+// GongLib project. (L) Santiago Capel Torres, 2003-2011
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//>>>>>COPYLEFT
+
+
+REPORT Ticket_estrecho
+{
+	Title = "Ticket";
+	Units = chars;
+	SizeY = 60;
+	Tag = "Facturación";
+	SizeX = 100;
+	FontSize = "8";
+
+	INPUT default {
+		driver = mysql;
+		from = "ALBARANVENTA INNER SESIONTPV ON SESIONTPV.ID=ALBARANVENTA.SESIONTPV INNER JOIN EMPRESA ON ALBARANVENTA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN CLIENTE ON CLIENTE.ID = ALBARANVENTA.CLIENTE_ID INNER JOIN CONTACTO CLIENTE_CONTACTO ON CLIENTE_CONTACTO.ID = CLIENTE.CONTACTO_ID INNER JOIN ALBARANVENTADET ON ALBARANVENTA.ID = ALBARANVENTADET.ALBARANVENTA_ID INNER JOIN ARTICULO ON ARTICULO.ID = ALBARANVENTADET.ARTICULO_ID LEFT JOIN AGENTE ON ALBARANVENTA.AGENTE_ID=AGENTE.ID";
+		orderby = "ALBARANVENTADET.NLINEA";
+
+		INPUTFIELD EMPRESA_NOMBRE {
+			Source = EMPRESA.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_CUENTABANCO {
+			Source = EMPRESA.CUENTABANCO;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_CONTACTO_NOMBRE {
+			Source = EMPRESA_CONTACTO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_CONTACTO_CIF {
+			Source = EMPRESA_CONTACTO.CIF;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_CONTACTO_DIRECCION {
+			Source = EMPRESA_CONTACTO.DIRECCION;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_CONTACTO_CP {
+			Source = EMPRESA_CONTACTO.CP;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_CONTACTO_LOCALIDAD {
+			Source = EMPRESA_CONTACTO.LOCALIDAD;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_CONTACTO_PROVINCIA {
+			Source = EMPRESA_CONTACTO.PROVINCIA;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_CONTACTO_TELEFONO {
+			Source = EMPRESA_CONTACTO.TELEFONO;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_CONTACTO_EMAIL {
+			Source = EMPRESA_CONTACTO.EMAIL;
+			Type = string;
+		}
+		INPUTFIELD EMPRESA_LOGO {
+			Source = EMPRESA.LOGO;
+			Type = image;
+		}
+		INPUTFIELD CLIENTE_CONTACTO_NOMBRE {
+			Source = CLIENTE_CONTACTO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_CONTACTO_CIF {
+			Source = CLIENTE_CONTACTO.CIF;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_CONTACTO_DIRECCION {
+			Source = CLIENTE_CONTACTO.DIRECCION;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_CONTACTO_CP {
+			Source = CLIENTE_CONTACTO.CP;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_CONTACTO_LOCALIDAD {
+			Source = CLIENTE_CONTACTO.LOCALIDAD;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_CONTACTO_PROVINCIA {
+			Source = CLIENTE_CONTACTO.PROVINCIA;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_CONTACTO_TELEFONO {
+			Source = CLIENTE_CONTACTO.TELEFONO;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_CONTACTO_FAX {
+			Source = CLIENTE_CONTACTO.FAX;
+			Type = string;
+		}
+		INPUTFIELD CLIENTE_CONTACTO_EMAIL {
+			Source = CLIENTE_CONTACTO.EMAIL;
+			Type = string;
+		}
+		INPUTFIELD ALBARANVENTADET_CANTIDAD {
+			Source = ALBARANVENTADET.CANTIDAD;
+			Type = double;
+		}
+		INPUTFIELD ARTICULO_CODIGO {
+			Source = ARTICULO.CODIGO;
+			Type = string;
+		}
+		INPUTFIELD ARTICULO_NOMBRE {
+			Source = ARTICULO.NOMBRE;
+			Type = string;
+		}
+		INPUTFIELD ALBARANVENTADET_PVP {
+			Source = ALBARANVENTADET.PVP;
+			Type = Money;
+		}
+		INPUTFIELD ALBARANVENTADET_PVPSINIVA {
+			Source = ALBARANVENTADET.PVPSINIVA;
+			Type = Money;
+		}
+		INPUTFIELD ALBARANVENTADET_DTOP100 {
+			Source = ALBARANVENTADET.DTOP100;
+			Type = double;
+		}
+		INPUTFIELD ALBARANVENTADET_IMPORTE {
+			Source = ALBARANVENTADET.IMPORTE;
+			Type = Money;
+		}
+		INPUTFIELD ALBARANVENTADET_IMPORTECONIVA {
+			Source = ALBARANVENTADET.IMPORTECONIVA;
+			Type = Money;
+		}
+		INPUTFIELD ALBARANVENTA_FECHA {
+			Source = ALBARANVENTA.FECHA;
+			Type = date;
+		}
+		INPUTFIELD ALBARANVENTA_HORA {
+			Source = ALBARANVENTA.HORA;
+			Type = time;
+		}
+		INPUTFIELD ALBARANVENTA_MESA {
+			Source = ALBARANVENTA.MESA;
+			Type = string;
+		}
+		INPUTFIELD ALBARANVENTA_NUMERO {
+			Source = ALBARANVENTA.NUMERO;
+			Type = string;
+		}
+		INPUTFIELD ALBARANVENTA_NOTAS {
+			Source = ALBARANVENTA.NOTAS;
+			Type = string;
+		}
+		INPUTFIELD ALBARANVENTA_SUMAIMPORTES {
+			Source = ALBARANVENTA.SUMAIMPORTES;
+			Type = Money;
+		}
+		INPUTFIELD ALBARANVENTA_DESCUENTO {
+			Source = ALBARANVENTA.DESCUENTO;
+			Type = Money;
+		}
+		INPUTFIELD ALBARANVENTA_DTOP100 {
+			Source = ALBARANVENTA.DTOP100;
+			Type = double;
+		}
+		INPUTFIELD ALBARANVENTA_BASEIMPONIBLE {
+			Source = ALBARANVENTA.BASEIMPONIBLE;
+			Type = Money;
+		}
+		INPUTFIELD ALBARANVENTA_IVA {
+			Source = ALBARANVENTA.IVA;
+			Type = Money;
+		}
+		INPUTFIELD ALBARANVENTA_RECARGOEQUIVALENCIA {
+			Source = ALBARANVENTA.RECARGOEQUIVALENCIA;
+			Type = Money;
+		}
+		INPUTFIELD ALBARANVENTA_TOTAL {
+			Source = ALBARANVENTA.TOTAL;
+			Type = Money;
+		}
+		INPUTFIELD ARTICULO_DESCRIPCION {
+			Source = ALBARANVENTADET.DESCRIPCION;
+			Type = Text;
+		}
+		INPUTFIELD AGENTE_RAZONSOCIAL {
+			Source = AGENTE.RAZONSOCIAL;
+			Type = String;
+		}
+//>>>>>INPUT_DEFAULT
+		INPUTFIELD SESIONTPV_NUMEROTPV {
+			Source = SESIONTPV.NUMEROTPV;
+			Type = integer;
+		}
+	}
+
+	Include = "ticket_header_estrecho.inc";
+
+#ifdef INC_CLIENTE
+	PAGEHEADER page_header_cliente {
+		sizey = 7;
+		style = pageheader;
+
+		OBJECT pageheader_CLIENTE_CONTACTO_NOMBRE {
+			value = "=input.CLIENTE_CONTACTO_NOMBRE;";
+			posy = 0;
+			posx = 0.0;
+			adjustment = reducefont;
+			fontweight = bold;
+			fontsize = "16";
+		}
+		OBJECT pageheader_CLIENTE_CIF_CAPTION {
+			value = "= const @DDD.CONTACTO_CIF_CAPTION;";
+			posy = 2.0;
+			posx = 0.0;
+			sizex = 12.0;
+		}
+		OBJECT pageheader_CLIENTE_CIF {
+			value = "=input.CLIENTE_CONTACTO_CIF;";
+			posy = 2.0;
+			posx = 12.0;
+			fontweight = bold;
+		}
+		OBJECT pageheader_CLIENTE_DIRECCION_CAPTION {
+			value = "= const @DDD.CONTACTO_DIRECCION_CAPTION;";
+			posy = 3.0;
+			posx = 0.0;
+			sizex = 12.0;
+		}
+		OBJECT pageheader_CLIENTE_DIRECCION {
+			value = "=input.CLIENTE_CONTACTO_DIRECCION;";
+			posy = 3.0;
+			posx = 12.0;
+			fontweight = bold;
+		}
+		OBJECT pageheader_CLIENTE_LOCALIDAD_CAPTION {
+			value = "= const @DDD.CONTACTO_LOCALIDAD_CAPTION;";
+			posy = 4.0;
+			posx = 0;
+			sizex = 12.0;
+		}
+		OBJECT pageheader_CLIENTE_LOCALIDAD {
+			value = "=input.CLIENTE_CONTACTO_LOCALIDAD;";
+			posy = 4.0;
+			posx = 12.0;
+			fontweight = bold;
+		}
+		OBJECT pageheader_CLIENTE_CP_CAPTION {
+			value = "= const @DDD.CONTACTO_CP_CAPTION;";
+			posy = 5.0;
+			posx = 0;
+			sizex = 12.0;
+		}
+		OBJECT pageheader_CLIENTE_CP {
+			value = "=input.CLIENTE_CONTACTO_CP;";
+			posy = 5.0;
+			posx = 12.0;
+			sizex = 7;
+			fontweight = bold;
+		}
+		OBJECT pageheader_CLIENTE_PROVINCIA {
+			value = "=input.CLIENTE_CONTACTO_PROVINCIA;";
+			posy = 5.0;
+			posx = -1;
+			fontweight = bold;
+		}
+		OBJECT pageheader_CLIENTE_TELEFONO_CAPTION {
+			value = "= const @DDD.CONTACTO_TELEFONO_CAPTION;";
+			posy = 6.0;
+			posx = 0.0;
+			sizex = 12.0;
+		}
+		OBJECT pageheader_CLIENTE_TELEFONO {
+			value = "=input.CLIENTE_CONTACTO_TELEFONO;";
+			posy = 6.0;
+			posx = 12.0;
+			fontweight = bold;
+		}
+// 		OBJECT pageheader_CLIENTE_FAX_CAPTION {
+// 			value = "= const @DDD.CONTACTO_FAX_CAPTION;";
+// 			posy = 7.0;
+// 			posx = 50.0;
+// 			sizex = 12.0;
+// 		}
+// 		OBJECT pageheader_CLIENTE_FAX {
+// 			value = "=input.CLIENTE_CONTACTO_FAX;";
+// 			posy = 7.0;
+// 			posx = 65.0;
+// 			fontweight = bold;
+// 		}
+		OBJECT pageheader_CLIENTE_EMAIL_CAPTION {
+			value = "= const @DDD.CONTACTO_EMAIL_CAPTION;";
+			posy = 7.0;
+			posx = 0.0;
+			sizex = 12.0;
+		}
+		OBJECT pageheader_CLIENTE_EMAIL {
+			value = "=input.CLIENTE_CONTACTO_EMAIL;";
+			posy = 7.0;
+			posx = 12.0;
+			fontweight = bold;
+		}
+	}
+#endif
+#ifdef INC_MIEMBRO
+	PARAMETER NUMEROSOCIA {
+		Type = "Integer";
+	}
+	PAGEHEADER page_header_miembro {
+		sizey = 2;
+		style = pageheader;
+
+		OBJECT pageheader_MIEMBRO_NUMERO_SOCIA_CAPTION {
+			value = "= const @DDD.MIEMBRO_NUMEROSOCIA_DESCRIPTION;";
+			posy = 0;
+			posx = 0.0;
+			sizex = 25;
+			fontsize = "+4";
+		}
+		OBJECT pageheader_MIEMBRO_NUMERO_SOCIA {
+			value = "###NUMEROSOCIA###";
+			posy = 0;
+			posx = -1;
+			fontweight = bold;
+			fontsize = "+4";
+		}
+	}
+#endif
+
+	PAGEHEADER page_header_numero {
+		sizey = 1.2;
+		sizex = 40;
+		style = pageheader;
+		borderstyle = solid ;
+		bordercolor = black ;
+		borderwidth = 2;
+		padding = 0.3;
+		marginbottom = 0.5;
+
+		OBJECT pageheader_ALBARANVENTA_NUMERO_CAPTION {
+			fontsize = 9;
+			value = "FRA. SIMPL.";
+			posx = 0;
+			sizex = 12;
+			fontweight = bold;
+		}
+		OBJECT pageheader_ALBARANVENTA_NUMERO {
+			fontsize = 10.0;
+			value = "=input.ALBARANVENTA_NUMERO;";
+			sizex = 8.0;
+			posx = -1;
+			fontweight = bold;
+		}
+// 		OBJECT pageheader_ALBARANVENTA_FECHA_CAPTION {
+// 			fontsize = 12.0;
+// 			value = "=const @DDD.ALBARANVENTA_FECHA_CAPTION + \":\";";
+// 			sizex = 8.0;
+// 			posx = 20.0;
+// 			fontweight = bold;
+// 		}
+		OBJECT pageheader_ALBARANVENTA_FECHA {
+			fontsize = 10.0;
+			value = "=input.ALBARANVENTA_FECHA;";
+			posx = 23.0;
+			sizex = 8.8;
+			format = "%d/%m/%y";
+			fontweight = bold;
+		}
+		OBJECT pageheader_ALBARANVENTA_HORA {
+			fontsize = 10.0;
+			value = "=input.ALBARANVENTA_HORA;";
+			posx = -1;
+			sizex = 5.2;
+			mask = "%H:%M";
+			fontweight = bold;
+		}
+	}
+
+
+
+	DETAILS details_sin_cantidad {
+		formulabefore = "= if( @input.ALBARANVENTADET_CANTIDAD != 1.0 ) { @this.visible = false; } else { @this.visible = true; } return true;";
+		level = 0;
+		style = detail;
+		sizey = 0.8;
+		sizex = 40;
+		FontFamily = "Verdana";
+		FontSize = "7";
+
+#ifdef UPPERCASE
+		OBJECT ARTICULO_NOMBRE {
+			value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return toupper(@input.ARTICULO_NOMBRE); } else { return toupper(@input.ARTICULO_DESCRIPCION); };";
+			posx = 0.0;
+			sizex = 30.0;
+			adjustment = "grow";
+		}
+#else
+		OBJECT ARTICULO_NOMBRE {
+			value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
+			posx = 0.0;
+			sizex = 30.0;
+			adjustment = "grow";
+		}
+#endif
+		OBJECT ALBARANVENTADET_IMPORTECONIVA {
+			halignment = "right";
+			value = "=input.ALBARANVENTADET_IMPORTECONIVA;";
+			posx = 30;
+			sizex = 10.0;
+		}
+		posx = 0;
+	}
+
+	DETAILS details_con_cantidad {
+		formulabefore = "= if( @input.ALBARANVENTADET_CANTIDAD == 1.0 ) { @this.visible = false; } else { @this.visible = true; } return true;";
+		level = 0;
+		style = detail;
+		sizey = 0.8;
+		sizex = 40;
+		FontFamily = "Verdana";
+		FontSize = "7";
+
+#ifdef UPPERCASE
+		OBJECT ARTICULO_NOMBRE {
+			value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return toupper(@input.ARTICULO_NOMBRE); } else { return toupper(@input.ARTICULO_DESCRIPCION); };";
+			posx = 0.0;
+			sizex = 20.0;
+			adjustment = "grow";
+		}
+#else
+		OBJECT ARTICULO_NOMBRE {
+			value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
+			posx = 0.0;
+			sizex = 20.0;
+			adjustment = "grow";
+		}
+#endif
+		OBJECT ALBARANVENTADET_CANTIDAD {
+			halignment = "right";
+			value = "= return tostring(@input.ALBARANVENTADET_CANTIDAD) + \"x\" + tostring(@input.ALBARANVENTADET_PVP) + \"€\";";
+			posx = 21.0;
+			posy = 0.0;
+			sizex = 7.5;
+			adjustment = "reducefont";
+			minfontsize = "4";
+		}
+		OBJECT ALBARANVENTADET_IMPORTECONIVA {
+			halignment = "right";
+			value = "=input.ALBARANVENTADET_IMPORTECONIVA;";
+			posy = 0;
+			posx = 29;
+			sizex = 11.0;
+		}
+//>>>>>DETAILS_0
+		posx = 0;
+	}
+	PAGEFOOTER page_footer_notas {
+		sizey = 2;
+		style = pagefooter;
+		FontFamily = "Verdana";
+
+		OBJECT pagefooter_ALBARANVENTA_NOTAS {
+			value = "= input.ALBARANVENTA_NOTAS;";
+			posy = 0;
+			posx = 0.0;
+			sizey = 2;
+		}
+	}
+
+	REPORTFOOTER footer_total {
+		sizey = 2.2;
+		style = pagefooter;
+		paddingtop = 1;
+
+		OBJECT footer_ALBARANVENTA_TOTAL_caption {
+			fontsize = "16";
+			value = "= const @DDD.ALBARANVENTA_TOTAL_CAPTION;";
+			posx = 0.0;
+			sizex = 8.0;
+		}
+		OBJECT footer_ALBARANVENTA_iva_incluido_caption {
+			fontsize = "8";
+			value = "(IVA incluido)";
+			posx = -1;
+			posy = 0.45;
+			sizex = 15;
+		}
+		OBJECT footer_values_ALBARANVENTA_TOTAL {
+			fontsize = "16";
+			value = "= input.ALBARANVENTA_TOTAL;";
+			posx = 27.0;
+			sizex = 14.0;
+			halignment = "right";
+			fontweight = "bold";
+		}
+	}
+
+	REPORTFOOTER footer_IVA {
+		sizey = 1;
+		margintop = .4;
+		style = pagefooter;
+
+		OBJECT footer_ALBARANVENTA_BASEIMPONIBLE {
+			value = "= const @DDD.ALBARANVENTA_BASEIMPONIBLE_CAPTION;";
+			posx = 0;
+			sizex = 12.0;
+		}
+		OBJECT footer_values_ALBARANVENTA_BASEIMPONIBLE {
+			value = "= input.ALBARANVENTA_BASEIMPONIBLE;";
+			posx = -1;
+			sizex = 10.0;
+		}
+		OBJECT footer_ALBARANVENTA_IVA {
+			value = "= const @DDD.ALBARANVENTA_IVA_CAPTION;";
+			posx = 29;
+			sizex = 4.0;
+		}
+		OBJECT footer_values_ALBARANVENTA_IVA {
+			value = "= input.ALBARANVENTA_IVA;";
+			posx = -1;
+			sizex = 10.0;
+		}
+	}
+
+#ifdef INC_CAMBIO
+	PARAMETER CAMBIO {
+		Type = "Money";
+	}
+	PARAMETER ENTREGA {
+		Type = "Money";
+	}
+
+	REPORTFOOTER footer_cambio {
+		sizey = 1;
+		style = pagefooter;
+
+		OBJECT footer_engrega {
+			value = "= const @DDD.ALBARANVENTA_ENTREGA_CAPTION;";
+			posx = 0.0;
+			sizex = 9.0;
+		}
+		OBJECT footer_values_entrega {
+			value = "###ENTREGA###";
+			posx = 10.0;
+			sizex = 10.0;
+			halignment = "left";
+			fontweight = "bold";
+		}
+		OBJECT footer_cambio {
+			value = "Cambio";
+			posy = 0;
+			posx = 21;
+			sizex = 9;
+		}
+		OBJECT footer_values_cambio {
+			value = "###CAMBIO###";
+			posx = 30.0;
+			sizex = 10.0;
+			halignment = "left";
+			fontweight = "bold";
+		}
+	}
+#endif
+
+#ifdef INC_RESTO
+	PARAMETER RESTO {
+		Type = "Money";
+	}
+	PARAMETER ENTREGA {
+		Type = "Money";
+	}
+	PARAMETER FORMAPAGO {
+		Type = "String";
+	}
+
+	REPORTFOOTER footer_resto {
+		sizey = 2;
+		style = pagefooter;
+
+		OBJECT footer_engrega {
+			value = "= const @DDD.ALBARANVENTA_ENTREGA_CAPTION;";
+			posy = 0;
+			posx = 0.0;
+			sizex = 9.0;
+		}
+		OBJECT footer_values_entrega {
+			value = "###ENTREGA###";
+			posy = 0;
+			posx = 10.0;
+			sizex = 10.0;
+			halignment = "left";
+			fontweight = "bold";
+		}
+		OBJECT footer_resto_caption {
+			value = "= const @DDD.ALBARANVENTA_RESTO_CAPTION;";
+			posy = 0;
+			posx = 21;
+			sizex = 9;
+			fontweight = "bold";
+		}
+		OBJECT footer_values_resto {
+			value = "###RESTO###";
+			posy = 0;
+			posx = 30.0;
+			sizex = 10.0;
+			halignment = "left";
+			fontweight = "bold";
+		}
+		OBJECT footer_formapago {
+			value = "= const @DDD.FORMAPAGO_DESCSINGULAR;";
+			posy = 1;
+			posx = 0;
+			sizex = 19;
+			fontweight = "bold";
+		}
+		OBJECT footer_values_formapago {
+			value = "###FORMAPAGO###";
+			posy=1;
+			posx = 20.0;
+			sizex = 20.0;
+			halignment = "left";
+			fontweight = "bold";
+		}
+	}
+#endif
+
+	REPORTFOOTER footer_agente {
+		sizey = 1;
+		style = pagefooter;
+		margintop = .4;
+
+		OBJECT footer_values_AGENTE_RAZONSOCIAL {
+			value = "= return \"TPV:\" + tostring(@input.SESIONTPV_NUMEROTPV) + \"/\" + @input.AGENTE_RAZONSOCIAL + \"/\" + @input.ALBARANVENTA_MESA;";
+			sizey = 1;
+			posx = 0;
+			sizex = 40;
+		}
+	}
+
+	Include = "ticket_footer.inc";
+
+}

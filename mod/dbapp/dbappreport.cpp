@@ -243,7 +243,7 @@ int AppReport::print( RTK_Output_Type tiposalida, const Dictionary<Variant> &pro
 				if( title.isEmpty() )
 					title = _("Informe");
                 mViewer = new ReportViewer ( salida, true, DBAPP->getMainWindow() ? DBAPP->getMainWindow()->getViewport() : 0);
-                mViewer->setObjectName( Xtring::randomName(8).c_str() );
+                mViewer->setObjectName( Xtring::randomString(8).c_str() );
                 mViewer->setCaption ( toGUI( title.c_str() ) ) ;
                 mViewer->setPageDimensions ( ( int ) ( salida->sizeX() ), ( int ) ( salida->getFolioSizeY() ) );
                 mViewer->setPageCollection ( static_cast<ReportQtOutput *> ( salida )->getPageCollection() );

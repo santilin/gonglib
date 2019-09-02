@@ -1,0 +1,391 @@
+//<<<<<COPYLEFT
+// @file LIQUIDACIONCOMPRA.rtk Liquidación de compra
+// GongLib project. (L) Santiago Capel Torres, 2003-2011
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//>>>>>COPYLEFT
+
+
+REPORT LiquidacionCompra
+{
+	Title = "Liquidación de compra";
+	Units = chars;
+	SizeY = 60;
+	SizeX = 100;
+	Tag = "Facturación";
+
+
+	INPUT default {
+		driver = mysql;
+		from = "LIQUIDACIONCOMPRA INNER JOIN EMPRESA ON LIQUIDACIONCOMPRA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN PROVEEDORA ON PROVEEDORA.ID = LIQUIDACIONCOMPRA.PROVEEDORA_ID INNER JOIN CONTACTO PROVEEDORA_CONTACTO ON PROVEEDORA_CONTACTO.ID = PROVEEDORA.CONTACTO_ID INNER JOIN LIQUIDACIONCOMPRADET ON LIQUIDACIONCOMPRA.ID = LIQUIDACIONCOMPRADET.LIQUIDACIONCOMPRA_ID INNER JOIN ARTICULO ON ARTICULO.ID = LIQUIDACIONCOMPRADET.ARTICULO_ID";
+		orderby = "LIQUIDACIONCOMPRADET.NLINEA";
+
+        INPUTFIELD EMPRESA_NOMBRE {
+            Source = EMPRESA.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CUENTABANCO {
+            Source = EMPRESA.CUENTABANCO;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_NOMBRE {
+            Source = EMPRESA_CONTACTO.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_CIF {
+            Source = EMPRESA_CONTACTO.CIF;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_DIRECCION {
+            Source = EMPRESA_CONTACTO.DIRECCION;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_CP {
+            Source = EMPRESA_CONTACTO.CP;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_LOCALIDAD {
+            Source = EMPRESA_CONTACTO.LOCALIDAD;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_PROVINCIA {
+            Source = EMPRESA_CONTACTO.PROVINCIA;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_EMAIL {
+            Source = EMPRESA_CONTACTO.EMAIL;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_TELEFONO {
+            Source = EMPRESA_CONTACTO.TELEFONO;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_LOGO {
+            Source = EMPRESA.LOGO;
+            Type = image;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_NOMBRE {
+            Source = PROVEEDORA.RAZONSOCIAL;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_CIF {
+            Source = PROVEEDORA_CONTACTO.CIF;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_DIRECCION {
+            Source = PROVEEDORA_CONTACTO.DIRECCION;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_CP {
+            Source = PROVEEDORA_CONTACTO.CP;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_LOCALIDAD {
+            Source = PROVEEDORA_CONTACTO.LOCALIDAD;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_PROVINCIA {
+            Source = PROVEEDORA_CONTACTO.PROVINCIA;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_TELEFONO {
+            Source = PROVEEDORA_CONTACTO.TELEFONO;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_FAX {
+            Source = PROVEEDORA_CONTACTO.FAX;
+            Type = string;
+        }
+        INPUTFIELD PROVEEDORA_CONTACTO_EMAIL {
+            Source = PROVEEDORA_CONTACTO.EMAIL;
+            Type = string;
+        }
+        INPUTFIELD DOCUMENTODET_CANTIDAD {
+            Source = LIQUIDACIONCOMPRADET.CANTIDAD;
+            Type = double;
+        }
+        INPUTFIELD ARTICULO_CODIGO {
+            Source = ARTICULO.CODIGO;
+            Type = string;
+        }
+        INPUTFIELD ARTICULO_NOMBRE {
+            Source = ARTICULO.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD DOCUMENTODET_COSTESINIVA {
+            Source = LIQUIDACIONCOMPRADET.COSTESINIVA;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTODET_COSTE {
+            Source = LIQUIDACIONCOMPRADET.COSTE;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTODET_DTOP100 {
+            Source = LIQUIDACIONCOMPRADET.DTOP100;
+            Type = double;
+        }
+        INPUTFIELD DOCUMENTODET_IMPORTECONIVA {
+            Source = LIQUIDACIONCOMPRADET.IMPORTECONIVA;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTODET_IMPORTE {
+            Source = LIQUIDACIONCOMPRADET.IMPORTE;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTO_FECHA {
+            Source = LIQUIDACIONCOMPRA.FECHA;
+            Type = date;
+        }
+        INPUTFIELD DOCUMENTO_NUMERO {
+            Source = LIQUIDACIONCOMPRA.NUMERO;
+            Type = string;
+        }
+        INPUTFIELD DOCUMENTO_NOTAS {
+            Source = LIQUIDACIONCOMPRA.NOTAS;
+            Type = string;
+        }
+        INPUTFIELD DOCUMENTO_SUMAIMPORTES {
+            Source = LIQUIDACIONCOMPRA.SUMAIMPORTES;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTO_DESCUENTO {
+            Source = LIQUIDACIONCOMPRA.DESCUENTO;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTO_DTOP100 {
+            Source = LIQUIDACIONCOMPRA.DTOP100;
+            Type = double;
+        }
+        INPUTFIELD DOCUMENTO_BASEIMPONIBLE {
+            Source = LIQUIDACIONCOMPRA.BASEIMPONIBLE;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTO_IVA {
+            Source = LIQUIDACIONCOMPRA.IVA;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTO_RECARGOEQUIVALENCIA {
+            Source = LIQUIDACIONCOMPRA.RECARGOEQUIVALENCIA;
+            Type = Money;
+        }
+        INPUTFIELD DOCUMENTO_TOTAL {
+            Source = LIQUIDACIONCOMPRA.TOTAL;
+            Type = Money;
+        }
+        INPUTFIELD ARTICULO_DESCRIPCION {
+            Source = LIQUIDACIONCOMPRADET.DESCRIPCION;
+            Type = Text;
+        }
+        INPUTFIELD IVADETALLADO {
+            Source = LIQUIDACIONCOMPRA.IVADETALLADO;
+            Type = integer;
+        }
+        INPUTFIELD DESGLOSEIVA {
+            Source = LIQUIDACIONCOMPRA.DESGLOSEIVA;
+            Type = string;
+        }
+//>>>>>INPUT_DEFAULT
+        INPUTFIELD DOCUMENTO_ID {
+            Source = LIQUIDACIONCOMPRA.ID;
+			Type = Integer;
+        }
+    }
+
+	Include = "compras_header.inc";
+    
+    GROUPHEADER page_header_numero {
+		level = 1;
+		value = "=input.DOCUMENTO_ID";
+        sizey = 1.4;
+        style = pageheader;
+
+        OBJECT pageheader_DOCUMENTO_NUMERO_CAPTION {
+            fontsize = 14.0;
+            value = "=const @DDD.LIQUIDACIONCOMPRA_DESCSINGULAR;";
+            posx = 3;
+            sizex = 29;
+            fontweight = bold;
+			sizey = 1.4;
+        }
+        OBJECT pageheader_DOCUMENTO_NUMERO {
+            fontsize = 14.0;
+            value = "=input.DOCUMENTO_NUMERO;";
+            sizex = 20.0;
+            posx= -1;
+            fontweight = bold;
+			sizey = 1.4;
+        }
+        OBJECT pageheader_DOCUMENTO_FECHA_CAPTION {
+            fontsize = 14.0;
+            value = "=const @DDD.LIQUIDACIONCOMPRA_FECHA_CAPTION + \":\";";
+            sizex = 8.0;
+            posx = 50.0;
+            fontweight = bold;
+			sizey = 1.4;
+        }
+        OBJECT pageheader_DOCUMENTO_FECHA {
+            fontsize = 14.0;
+            value = "=input.DOCUMENTO_FECHA;";
+            posx = 60.0;
+            format = "%d de %B de %Y";
+            fontweight = bold;
+			sizey = 1.4;
+        }
+    }
+
+    GROUPHEADER details_header {
+        posx = 0;
+        level = 1;
+        style = detail;
+        sizey = 1.3;
+        fontweight = bold;
+        paddingtop = 0.3;
+		marginbottom = 0.3;
+        bordertopstyle = solid ;
+        bordertopcolor = black ;
+        bordertopwidth = 2;
+        borderbottomstyle = solid ;
+        borderbottomcolor = black ;
+        borderbottomwidth = 2;
+
+        OBJECT header_DOCUMENTODET_CANTIDAD {
+            halignment = "right";
+            value = "= const @DDD.LIQUIDACIONCOMPRADET_CANTIDAD_CAPTION;";
+            posx = 0.0;
+            sizex = 8.0;
+        }
+// 		OBJECT header_ARTICULO_CODIGO {
+// 			value = "= const @DDD.ARTICULO_CODIGO_CAPTION;";
+// 			posx = 9.0;
+// 			sizex = 15.0;
+// 		}
+        OBJECT header_ARTICULO_NOMBRE {
+            value = "= const @DDD.ARTICULO_NOMBRE_CAPTION;";
+            posx = 9.0;
+            sizex = 58.0;
+        }
+        OBJECT header_DOCUMENTODET_COSTESINIVA {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "= const @DDD.LIQUIDACIONCOMPRADET_COSTESINIVA_CAPTION;";
+            posx = 68.0;
+            sizex = 12.0;
+        }
+        OBJECT header_DOCUMENTODET_COSTE {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "= const @DDD.LIQUIDACIONCOMPRADET_COSTE_CAPTION;";
+            posx = 68.0;
+            sizex = 12.0;
+        }
+        OBJECT header_DOCUMENTODET_DTOP100 {
+            halignment = "right";
+            value = "= const @DDD.LIQUIDACIONCOMPRADET_DTOP100_CAPTION;";
+            posx = 82.0;
+            sizex = 6.0;
+        }
+        OBJECT header_DOCUMENTODET_IMPORTE {
+            formulabefore = "= if( @input.IVADETALLADO != 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "= const @DDD.LIQUIDACIONCOMPRADET_IMPORTE_CAPTION;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+        OBJECT header_DOCUMENTODET_IMPORTECONIVA {
+            formulabefore = "= if( @input.IVADETALLADO == 4 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            halignment = "right";
+            value = "= const @DDD.LIQUIDACIONCOMPRADET_IMPORTE_CAPTION;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+    }
+    
+    
+    Include = "compras_details.inc";
+	
+	GROUPFOOTER page_footer_captions {
+		level = 1;
+		posy = -4.5;
+        sizey = 1;
+        style = pagefooter;
+
+        OBJECT pagefooter_DOCUMENTO_SUMAIMPORTES {
+            value = "= const @DDD.LIQUIDACIONCOMPRA_SUMAIMPORTES_CAPTION;";
+            posx = 0.0;
+            sizex = 16.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_DOCUMENTO_DESCUENTO {
+            value = "= const @DDD.LIQUIDACIONCOMPRA_DESCUENTO_CAPTION;";
+            posx = 17.0;
+            sizex = 16.0;
+            halignment = "right";
+        }
+        // Sin recargo de equivalencia
+        OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.LIQUIDACIONCOMPRA_BASEIMPONIBLE_CAPTION;";
+            posx = 55.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_DOCUMENTO_IVA_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 2 && @input.IVADETALLADO != 4) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.LIQUIDACIONCOMPRA_IVA_CAPTION;";
+            posx = 70;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        // Con recargo de equivalencia
+        OBJECT pagefooter_DOCUMENTO_BASEIMPONIBLE_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.LIQUIDACIONCOMPRA_BASEIMPONIBLE_CAPTION;";
+            posx = 40.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_DOCUMENTO_IVA_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.LIQUIDACIONCOMPRA_IVA_CAPTION;";
+            posx = 55;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_DOCUMENTO_RECARGOEQUIVALENCIA {
+            formulabefore = "= if( @input.IVADETALLADO == 2 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.LIQUIDACIONCOMPRA_RECARGOEQUIVALENCIA_CAPTION;";
+            posx = 70.0;
+            sizex = 12.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_DOCUMENTO_TOTAL {
+            value = "= const @DDD.LIQUIDACIONCOMPRA_TOTAL_CAPTION;";
+            posx = 85.0;
+            sizex = 15.0;
+            halignment = "right";
+        }
+
+//>>>>>PAGE_FOOTER
+        bordertopstyle = solid ;
+        bordertopcolor = black ;
+        bordertopwidth = 2;
+        borderbottomstyle = solid ;
+        borderbottomcolor = black ;
+        borderbottomwidth = 2;
+        fontweight = bold;
+        marginbottom = 0.3;
+        sizey = 1.3;
+		paddingtop = 0.1;
+    }
+	Include = "compras_footer.inc";
+
+}
+

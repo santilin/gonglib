@@ -1,0 +1,512 @@
+//<<<<<COPYLEFT
+// @file OFERTAVENTA.rtk Oferta de venta
+// GongLib project. (L) Santiago Capel Torres, 2003-2011
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//>>>>>COPYLEFT
+
+
+REPORT OfertaVenta
+{
+    Title = "Oferta de venta";
+    Units = chars;
+    SizeY = 60;
+    Tag = "Facturación";
+    SizeX = 100;
+    marginleft = 2;
+    margintop = 4;
+    pagesperfolio = 2;
+
+INPUT default {
+        driver = mysql;
+        from = "OFERTAVENTA INNER JOIN EMPRESA ON OFERTAVENTA.EMPRESA_ID=EMPRESA.ID INNER JOIN CONTACTO EMPRESA_CONTACTO ON EMPRESA_CONTACTO.ID = EMPRESA.CONTACTO_ID INNER JOIN CLIENTE ON CLIENTE.ID = OFERTAVENTA.CLIENTE_ID INNER JOIN CONTACTO CLIENTE_CONTACTO ON CLIENTE_CONTACTO.ID = CLIENTE.CONTACTO_ID INNER JOIN OFERTAVENTADET ON OFERTAVENTA.ID = OFERTAVENTADET.OFERTAVENTA_ID INNER JOIN ARTICULO ON ARTICULO.ID = OFERTAVENTADET.ARTICULO_ID";
+        orderby = "OFERTAVENTADET.NLINEA";
+
+        INPUTFIELD EMPRESA_NOMBRE {
+            Source = EMPRESA.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CUENTABANCO {
+            Source = EMPRESA.CUENTABANCO;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_NOMBRE {
+            Source = EMPRESA_CONTACTO.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_CIF {
+            Source = EMPRESA_CONTACTO.CIF;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_DIRECCION {
+            Source = EMPRESA_CONTACTO.DIRECCION;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_CP {
+            Source = EMPRESA_CONTACTO.CP;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_LOCALIDAD {
+            Source = EMPRESA_CONTACTO.LOCALIDAD;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_PROVINCIA {
+            Source = EMPRESA_CONTACTO.PROVINCIA;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_EMAIL {
+            Source = EMPRESA_CONTACTO.EMAIL;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_CONTACTO_TELEFONO {
+            Source = EMPRESA_CONTACTO.TELEFONO;
+            Type = string;
+        }
+        INPUTFIELD EMPRESA_LOGO {
+            Source = EMPRESA.LOGO;
+            Type = image;
+        }
+        INPUTFIELD CLIENTE_CONTACTO_NOMBRE {
+            Source = CLIENTE_CONTACTO.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD CLIENTE_CONTACTO_CIF {
+            Source = CLIENTE_CONTACTO.CIF;
+            Type = string;
+        }
+        INPUTFIELD CLIENTE_CONTACTO_DIRECCION {
+            Source = CLIENTE_CONTACTO.DIRECCION;
+            Type = string;
+        }
+        INPUTFIELD CLIENTE_CONTACTO_CP {
+            Source = CLIENTE_CONTACTO.CP;
+            Type = string;
+        }
+        INPUTFIELD CLIENTE_CONTACTO_LOCALIDAD {
+            Source = CLIENTE_CONTACTO.LOCALIDAD;
+            Type = string;
+        }
+        INPUTFIELD CLIENTE_CONTACTO_PROVINCIA {
+            Source = CLIENTE_CONTACTO.PROVINCIA;
+            Type = string;
+        }
+        INPUTFIELD CLIENTE_CONTACTO_TELEFONO {
+            Source = CLIENTE_CONTACTO.TELEFONO;
+            Type = string;
+        }
+        INPUTFIELD CLIENTE_CONTACTO_FAX {
+            Source = CLIENTE_CONTACTO.FAX;
+            Type = string;
+        }
+        INPUTFIELD CLIENTE_CONTACTO_EMAIL {
+            Source = CLIENTE_CONTACTO.EMAIL;
+            Type = string;
+        }
+        INPUTFIELD OFERTAVENTADET_CANTIDAD {
+            Source = OFERTAVENTADET.CANTIDAD;
+            Type = double;
+        }
+        INPUTFIELD ARTICULO_CODIGO {
+            Source = ARTICULO.CODIGO;
+            Type = string;
+        }
+        INPUTFIELD ARTICULO_NOMBRE {
+            Source = ARTICULO.NOMBRE;
+            Type = string;
+        }
+        INPUTFIELD OFERTAVENTADET_PVPSINIVA {
+            Source = OFERTAVENTADET.PVPSINIVA;
+            Type = Money;
+        }
+        INPUTFIELD OFERTAVENTADET_DTOP100 {
+            Source = OFERTAVENTADET.DTOP100;
+            Type = double;
+        }
+        INPUTFIELD OFERTAVENTADET_IMPORTE {
+            Source = OFERTAVENTADET.IMPORTE;
+            Type = Money;
+        }
+        INPUTFIELD OFERTAVENTA_FECHA {
+            Source = OFERTAVENTA.FECHA;
+            Type = date;
+        }
+        INPUTFIELD OFERTAVENTA_NUMERO {
+            Source = OFERTAVENTA.NUMERO;
+            Type = string;
+        }
+        INPUTFIELD OFERTAVENTA_NOTAS {
+            Source = OFERTAVENTA.NOTAS;
+            Type = string;
+        }
+        INPUTFIELD OFERTAVENTA_SUMAIMPORTES {
+            Source = OFERTAVENTA.SUMAIMPORTES;
+            Type = Money;
+        }
+        INPUTFIELD OFERTAVENTA_DESCUENTO {
+            Source = OFERTAVENTA.DESCUENTO;
+            Type = Money;
+        }
+        INPUTFIELD OFERTAVENTA_DTOP100 {
+            Source = OFERTAVENTA.DTOP100;
+            Type = double;
+        }
+        INPUTFIELD OFERTAVENTA_BASEIMPONIBLE {
+            Source = OFERTAVENTA.BASEIMPONIBLE;
+            Type = Money;
+        }
+        INPUTFIELD OFERTAVENTA_IVA {
+            Source = OFERTAVENTA.IVA;
+            Type = Money;
+        }
+        INPUTFIELD OFERTAVENTA_RECARGOEQUIVALENCIA {
+            Source = OFERTAVENTA.RECARGOEQUIVALENCIA;
+            Type = Money;
+        }
+        INPUTFIELD OFERTAVENTA_TOTAL {
+            Source = OFERTAVENTA.TOTAL;
+            Type = Money;
+        }
+        INPUTFIELD ARTICULO_DESCRIPCION {
+            Source = OFERTAVENTADET.DESCRIPCION;
+            Type = Text;
+        }
+        INPUTFIELD IVADETALLADO {
+            Source = OFERTAVENTA.IVADETALLADO;
+            Type = integer;
+        }
+        INPUTFIELD DESGLOSEIVA {
+            Source = OFERTAVENTA.DESGLOSEIVA;
+            Type = string;
+        }
+//>>>>>INPUT_DEFAULT
+    }
+
+    Include = "ventas_header.inc";
+
+    PAGEHEADER page_header_numero {
+        sizey = 2;
+        style = pageheader;
+
+        OBJECT pageheader_OFERTAVENTA_NUMERO_CAPTION {
+            fontsize = 14.0;
+            value = "=const @DDD.OFERTAVENTA_DESCSINGULAR;";
+            posx = 3;
+            sizex = 20;
+            fontweight = bold;
+        }
+        OBJECT pageheader_OFERTAVENTA_NUMERO {
+            fontsize = 14.0;
+            halignment = right;
+            value = "=input.OFERTAVENTA_NUMERO;";
+            sizex = 16.0;
+            posx= 30;
+            fontweight = bold;
+        }
+        OBJECT pageheader_OFERTAVENTA_FECHA_CAPTION {
+            fontsize = 14.0;
+            value = "=const @DDD.OFERTAVENTA_FECHA_CAPTION + \":\";";
+            sizex = 8.0;
+            posx = 50.0;
+            fontweight = bold;
+        }
+        OBJECT pageheader_OFERTAVENTA_FECHA {
+            fontsize = 14.0;
+            value = "=input.OFERTAVENTA_FECHA;";
+            posx = 60.0;
+            format = "%d de %B de %Y";
+            fontweight = bold;
+        }
+        borderbottomwidth = 2;
+        borderbottomstyle = solid;
+    }
+
+    PAGEHEADER details_header {
+        posx = 0;
+        level = 0;
+        style = detail;
+        sizey = 1;
+        fontweight = bold;
+        margintop = 0.2;
+        marginbottom = 0.3;
+        borderbottomstyle = solid ;
+        borderbottomcolor = black ;
+        borderbottomwidth = 2;
+
+
+        OBJECT header_OFERTAVENTADET_CANTIDAD {
+            halignment = "right";
+            value = "= const @DDD.OFERTAVENTADET_CANTIDAD_CAPTION;";
+            posx = 0.0;
+            sizex = 8.0;
+        }
+// 		OBJECT header_ARTICULO_CODIGO {
+// 			value = "= const @DDD.ARTICULO_CODIGO_CAPTION;";
+// 			posx = 9.0;
+// 			sizex = 15.0;
+// 		}
+        OBJECT header_ARTICULO_NOMBRE {
+            value = "= const @DDD.ARTICULO_NOMBRE_CAPTION;";
+            posx = 9.0;
+            sizex = 57.0;
+        }
+        OBJECT header_OFERTAVENTADET_PVP {
+            halignment = "right";
+            value = "= const @DDD.OFERTAVENTADET_PVPSINIVA_CAPTION;";
+            posx = 69.0;
+            sizex = 12.0;
+        }
+        OBJECT header_OFERTAVENTADET_DTOP100 {
+            halignment = "right";
+            value = "= const @DDD.OFERTAVENTADET_DTOP100_CAPTION;";
+            posx = 82.0;
+            sizex = 6.0;
+        }
+        OBJECT header_OFERTAVENTADET_IMPORTE {
+            halignment = "right";
+            value = "= const @DDD.OFERTAVENTADET_IMPORTE_CAPTION;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+    }
+
+//<<<<<DETAILS_0
+    DETAILS details {
+        posx = 2;
+        level = 0;
+        style = detail;
+        sizey = 1;
+
+        OBJECT OFERTAVENTADET_CANTIDAD {
+            halignment = "right";
+            value = "=input.OFERTAVENTADET_CANTIDAD;";
+            posx = 0.0;
+            sizex = 8.0;
+        }
+// 		OBJECT ARTICULO_CODIGO {
+// 			value = "=input.ARTICULO_CODIGO;";
+// 			posx = 9.0;
+// 			sizex = 15.0;
+// 		}
+        OBJECT ARTICULO_NOMBRE {
+            value = "= if( @input.ARTICULO_DESCRIPCION == \"\" ) { return @input.ARTICULO_NOMBRE; } else { return @input.ARTICULO_DESCRIPCION; };";
+            posx = 9.0;
+            sizex = 57.0;
+            adjustment = "grow";
+        }
+        OBJECT OFERTAVENTADET_PVPSINIVA {
+            halignment = "right";
+            value = "=input.OFERTAVENTADET_PVPSINIVA;";
+            posx = 69.0;
+            sizex = 11.0;
+        }
+        OBJECT OFERTAVENTADET_DTOP100 {
+            halignment = "right";
+            value = "=input.OFERTAVENTADET_DTOP100;";
+            format = "%b";
+            mask = "999.99";
+            posx = 82.0;
+            sizex = 6.0;
+        }
+        OBJECT OFERTAVENTADET_IMPORTE {
+            halignment = "right";
+            value = "=input.OFERTAVENTADET_IMPORTE;";
+            posx = 88.0;
+            sizex = 12.0;
+        }
+//>>>>>DETAILS_0
+        posx = 0;
+    }
+
+    REPORTFOOTER page_footer_notas {
+        sizey = 2;
+        style = pagefooter;
+
+        OBJECT pagefooter_OFERTAVENTA_NOTAS {
+            value = "= input.OFERTAVENTA_NOTAS;";
+            posy = 0;
+            posx = 0.0;
+            sizey = 2;
+        }
+    }
+
+//<<<<<PAGE_FOOTER
+    REPORTFOOTER page_footer_captions {
+        sizey = 1;
+        style = pagefooter;
+
+        OBJECT pagefooter_OFERTAVENTA_SUMAIMPORTES {
+            value = "= const @DDD.OFERTAVENTA_SUMAIMPORTES_CAPTION;";
+            posx = 0.0;
+            sizex = 16.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_OFERTAVENTA_DESCUENTO {
+            value = "= const @DDD.OFERTAVENTA_DESCUENTO_CAPTION;";
+            posx = 17.0;
+            sizex = 16.0;
+            halignment = "right";
+        }
+        // Sin recargo de equivalencia
+        OBJECT pagefooter_OFERTAVENTA_BASEIMPONIBLE_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.OFERTAVENTA_BASEIMPONIBLE_CAPTION;";
+            posx = 55.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_OFERTAVENTA_IVA_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.OFERTAVENTA_IVA_CAPTION;";
+            posx = 70;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        // Con recargo de equivalencia
+        OBJECT pagefooter_OFERTAVENTA_BASEIMPONIBLE_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.OFERTAVENTA_BASEIMPONIBLE_CAPTION;";
+            posx = 40.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_OFERTAVENTA_IVA_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.OFERTAVENTA_IVA_CAPTION;";
+            posx = 55;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_OFERTAVENTA_RECARGOEQUIVALENCIA {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= const @DDD.OFERTAVENTA_RECARGOEQUIVALENCIA_CAPTION;";
+            posx = 70.0;
+            sizex = 12.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_OFERTAVENTA_TOTAL {
+            value = "= const @DDD.OFERTAVENTA_TOTAL_CAPTION;";
+            posx = 85.0;
+            sizex = 15.0;
+            halignment = "right";
+        }
+
+//>>>>>PAGE_FOOTER
+        bordertopstyle = solid ;
+        bordertopcolor = black ;
+        bordertopwidth = 2;
+        borderbottomstyle = solid ;
+        borderbottomcolor = black ;
+        borderbottomwidth = 2;
+        fontweight = bold;
+        marginbottom = 0.3;
+        sizey = 1.2;
+        posy = -0.2;
+    }
+
+    REPORTFOOTER page_footer_values {
+        sizey = 1.5;
+        style = pagefooter;
+
+        OBJECT pagefooter_values_OFERTAVENTA_SUMAIMPORTES {
+            value = "= input.OFERTAVENTA_SUMAIMPORTES;";
+            posx = 0.0;
+            sizex = 16.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_OFERTAVENTA_DTOP100_ABRE {
+            formulabefore = "= if( @input.OFERTAVENTA_DTOP100 == 0.0 ) {@this.visible = false;} else { @this.visible = true;} return true;";
+            value = "(";
+            posx = 19.0;
+            sizex = 2.0;
+        }
+        OBJECT pagefooter_values_OFERTAVENTA_DTOP100 {
+            value = "= input.OFERTAVENTA_DTOP100;";
+            format = "%b";
+            mask = "999.99";
+            posx = 20.0;
+            sizex = 5.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_OFERTAVENTA_DTOP100_CIERRA {
+            formulabefore = "= if( @input.OFERTAVENTA_DTOP100 == 0.0 ) {@this.visible = false;} else { @this.visible = true;} return true;";
+            value = "%)";
+            posx = 25.0;
+            sizex = 4.0;
+        }
+        OBJECT pagefooter_values_OFERTAVENTA_DESCUENTO {
+            value = "= input.OFERTAVENTA_DESCUENTO;";
+            format = "%b";
+            mask = "999.99";
+            posx = 28.0;
+            sizex = 10.0;
+            halignment = "left";
+        }
+        // Sin recargo de equivalencia
+        OBJECT pagefooter_values_OFERTAVENTA_BASEIMPONIBLE_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.OFERTAVENTA_BASEIMPONIBLE;";
+            posx = 55.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_OFERTAVENTA_IVA_SIN_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO != 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.OFERTAVENTA_IVA;";
+            posx = 70.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        // Con recargo de equivalencia
+        OBJECT pagefooter_values_OFERTAVENTA_BASEIMPONIBLE_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.OFERTAVENTA_BASEIMPONIBLE;";
+            posx = 40.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_OFERTAVENTA_IVA_CON_RECARGO {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.OFERTAVENTA_IVA;";
+            posx = 55.0;
+            sizex = 14.0;
+            halignment = "right";
+        }
+        OBJECT pagefooter_values_OFERTAVENTA_RECARGOEQUIVALENCIA {
+            formulabefore = "= if( @input.IVADETALLADO == 1 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+            value = "= input.OFERTAVENTA_RECARGOEQUIVALENCIA;";
+            posx = 70.0;
+            sizex = 12.0;
+            halignment = "right";
+        }
+
+        OBJECT pagefooter_values_OFERTAVENTA_TOTAL {
+            value = "= input.OFERTAVENTA_TOTAL;";
+            posx = 85.0;
+            sizex = 15.0;
+            halignment = "right";
+            fontweight = "bold";
+        }
+    }
+
+    REPORTFOOTER page_footer_desgloseiva {
+        sizey = 1;
+        style = pagefooter;
+        supifblank = true;
+        formulabefore = "= if( @input.IVADETALLADO == 0 ) { @this.visible = true; } else { @this.visible = false; } return true;";
+
+        OBJECT pagefooter_DESGLOSEIVA {
+            value = "= input.DESGLOSEIVA;";
+            posy = 0;
+            posx = 0.0;
+        }
+    }
+
+}

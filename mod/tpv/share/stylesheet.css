@@ -1,0 +1,11 @@
+#FrameTotals QLabel { font-size: 16pt; color:blue; }
+#FrmTicketCambio QLineEdit, #FrmTicketCambio QLabel {font-size:22pt; color: green; }
+#FrmTicketCambio QToolButton {font-size:22pt; width: 50px; height: 50px; }
+#FrmTicketCambio QPushButton {font-size:18pt; height: 50px; }
+#Calculator QToolButton { font-size: 12pt; height: 25px; }
+#FrmVariante #pushCancel { height: 35px; }
+#TPVScreen { margin: 0px; padding: -10px; border: 0px; }
+#TPVScreen QFrame#FrameEdit { margin-top: -5px; margin-left: -5px; border: 0px; padding: 0px; }
+#LabelMesa { font-size: 12pt; color: blue; font-weight: bold; }
+#FrmAddDescuentoRecargo QPushButton { height: 50px; font-size: 18pt; }
+#FrmElegirCuenta QPushButton { height: 50px; font-size: 18pt; }
